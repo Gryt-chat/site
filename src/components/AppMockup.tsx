@@ -4,7 +4,7 @@ export function AppMockup() {
   return (
     <div className={styles.visual}>
       <img
-        src="/gryt-preview.png"
+        src="/preview.png"
         alt="Gryt client preview"
         className={styles.screenshot}
         draggable={false}
