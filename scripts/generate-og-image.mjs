@@ -50,7 +50,7 @@ const ogSvg = `<svg width="${width}" height="${height}" xmlns="http://www.w3.org
   <text x="185" y="262" font-family="Arial, Helvetica, sans-serif" font-size="72" font-weight="800" fill="#ffffff" letter-spacing="-2">Gryt</text>
 
   <!-- Tagline -->
-  <text x="80" y="340" font-family="Arial, Helvetica, sans-serif" font-size="32" fill="#a5a5b0">Own Your Voice</text>
+  <text x="80" y="340" font-family="Arial, Helvetica, sans-serif" font-size="32" fill="#a5a5b0">Voice, Text & Video Chat</text>
 
   <!-- Description -->
   <text x="80" y="390" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#666666">Self-hosted, open-source voice, text, and video chat</text>

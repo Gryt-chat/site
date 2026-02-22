@@ -7,7 +7,7 @@ export function Download() {
       <div className={styles.box}>
         <div className={styles.glow} />
         <div className="section-label">Get Started</div>
-        <h2 className="section-title">Ready to own your voice?</h2>
+        <h2 className="section-title">Ready to get started?</h2>
         <p className={`section-desc ${styles.desc}`}>
           Download the desktop client for Windows, macOS, or Linux. Or
           self-host your own server in minutes.
