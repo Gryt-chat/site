@@ -10,32 +10,32 @@ import styles from "./Features.module.css";
 
 const features = [
   {
-    icon: <MicIcon />,
+    icon: <MicIcon size={20} />,
     title: "HD Voice Chat",
     desc: "WebRTC-powered voice with noise suppression, echo cancellation, and voice activity detection. Hear every word, not every keystroke.",
   },
   {
-    icon: <ChatIcon />,
+    icon: <ChatIcon size={20} />,
     title: "Text Channels",
     desc: "Persistent messaging with file uploads, image previews, and document sharing. Organized channels keep conversations focused.",
   },
   {
-    icon: <VideoIcon />,
+    icon: <VideoIcon size={20} />,
     title: "Video & Screen Sharing",
     desc: "Stream your camera or screen without artificial quality limits. The server admin decides the bitrate, not a paywall.",
   },
   {
-    icon: <MultiServerIcon />,
+    icon: <MultiServerIcon size={20} />,
     title: "Multi-Server",
     desc: "Connect to multiple self-hosted servers simultaneously and switch between them seamlessly. Your communities, your rules.",
   },
   {
-    icon: <GearIcon />,
+    icon: <GearIcon size={20} />,
     title: "Fully Customizable",
     desc: "Configure file upload limits, stream bitrates, channels, roles, and more. Every server setting is in your hands.",
   },
   {
-    icon: <PluginIcon />,
+    icon: <PluginIcon size={20} />,
     title: "Plugin & Client SDK",
     desc: "Build your own client from scratch or develop plugins for the existing one. Gryt's extensible architecture welcomes creativity.",
   },

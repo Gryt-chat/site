@@ -27,11 +27,11 @@ export function Hero() {
 
       <div className={styles.actions}>
         <a href="https://app.gryt.chat" target="_blank" rel="noreferrer" className="btn btn-primary">
-          <GlobeIcon />
+          <GlobeIcon size={16} />
           Try in Browser
         </a>
         <a href="https://github.com/Gryt-chat/gryt/releases" target="_blank" rel="noreferrer" className="btn btn-outline">
-          <DownloadIcon />
+          <DownloadIcon size={16} />
           Download Gryt
         </a>
         <a

@@ -51,7 +51,7 @@ export function Footer() {
         </ul>
 
         <div className={styles.copy}>
-          MIT License — Built by the Gryt community
+          AGPL-3.0 License — Built by the Gryt community
         </div>
       </div>
     </footer>

@@ -1,6 +1,6 @@
 import { useState, useCallback, type ComponentPropsWithoutRef } from 'react'
 import * as Dialog from '@radix-ui/react-dialog'
-import { X } from 'lucide-react'
+import { MdClose } from 'react-icons/md'
 import styles from './Lightbox.module.css'
 
 export function LightboxImage({
@@ -40,7 +40,7 @@ export function LightboxImage({
           <img src={src} alt={alt} className={styles.fullImage} />
           {alt && <p className={styles.caption}>{alt}</p>}
           <Dialog.Close className={styles.close} aria-label="Close">
-            <X size={24} />
+            <MdClose size={24} />
           </Dialog.Close>
         </Dialog.Content>
       </Dialog.Portal>

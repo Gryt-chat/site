@@ -1,6 +1,6 @@
 import { lazy, Suspense } from 'react'
 import { useParams, Link, Navigate } from 'react-router-dom'
-import { ChevronLeft } from 'lucide-react'
+import { MdChevronLeft } from 'react-icons/md'
 import { getPost } from '../lib/blog'
 import { LightboxImage } from '../components/Lightbox'
 import styles from './BlogPost.module.css'
@@ -42,7 +42,7 @@ export function BlogPost() {
   return (
     <main className={styles.page}>
       <Link to="/blog" className={styles.back}>
-        <ChevronLeft size={16} />
+        <MdChevronLeft size={16} />
         Back to blog
       </Link>
 

@@ -1,7 +1,7 @@
 import { useState, useCallback } from "react";
 import { Link, useLocation } from "react-router-dom";
 import * as Dialog from "@radix-ui/react-dialog";
-import { Menu, X } from "lucide-react";
+import { MdMenu, MdClose } from "react-icons/md";
 import { GrytLogo } from "./GrytLogo";
 import styles from "./Navbar.module.css";
 
@@ -58,7 +58,7 @@ export function Navbar() {
         <Dialog.Root open={open} onOpenChange={setOpen}>
           <Dialog.Trigger asChild>
             <button className={styles.hamburger} aria-label="Open menu">
-              <Menu size={22} />
+              <MdMenu size={22} />
             </button>
           </Dialog.Trigger>
 
@@ -72,7 +72,7 @@ export function Navbar() {
                 </Link>
                 <Dialog.Close asChild>
                   <button className={styles.closeBtn} aria-label="Close menu">
-                    <X size={22} />
+                    <MdClose size={22} />
                   </button>
                 </Dialog.Close>
               </div>

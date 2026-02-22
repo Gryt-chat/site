@@ -3,17 +3,17 @@ import styles from "./Philosophy.module.css";
 
 const cards = [
   {
-    icon: <LockIcon />,
+    icon: <LockIcon size={22} />,
     title: "Private by Default",
     desc: "Your conversations stay on your server. No data mining, no ads, no third-party access. You decide who sees what.",
   },
   {
-    icon: <OpenSourceIcon />,
+    icon: <OpenSourceIcon size={22} />,
     title: "Fully Open Source",
     desc: "Every line of code is open. Audit it, fork it, contribute to it. Build custom clients or server plugins to make Gryt truly yours.",
   },
   {
-    icon: <ServerIcon />,
+    icon: <ServerIcon size={22} />,
     title: "Self-Hosted",
     desc: "Run Gryt on your own hardware with Docker, Kubernetes, or a simple executable. No cloud dependency. Full control, always.",
   },
