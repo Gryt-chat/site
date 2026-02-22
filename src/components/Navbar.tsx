@@ -1,0 +1,152 @@
+import { useState, useCallback } from "react";
+import { Link, useLocation } from "react-router-dom";
+import * as Dialog from "@radix-ui/react-dialog";
+import { GrytLogo } from "./GrytLogo";
+import styles from "./Navbar.module.css";
+
+function MenuIcon() {
+  return (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+      <line x1="3" y1="6" x2="21" y2="6" />
+      <line x1="3" y1="12" x2="21" y2="12" />
+      <line x1="3" y1="18" x2="21" y2="18" />
+    </svg>
+  );
+}
+
+function CloseIcon() {
+  return (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+      <line x1="18" y1="6" x2="6" y2="18" />
+      <line x1="6" y1="6" x2="18" y2="18" />
+    </svg>
+  );
+}
+
+const navLinks = [
+  { href: "/#features", label: "Features", external: false },
+  { href: "/blog", label: "Blog", external: false, isRoute: true },
+  { href: "https://docs.gryt.chat", label: "Docs", external: true },
+  { href: "https://github.com/Gryt-chat", label: "GitHub", external: true },
+];
+
+export function Navbar() {
+  const [open, setOpen] = useState(false);
+  const location = useLocation();
+
+  const close = useCallback(() => setOpen(false), []);
+
+  return (
+    <nav className={styles.nav}>
+      <div className={styles.inner}>
+        <Link to="/" className={styles.brand}>
+          <GrytLogo size={32} />
+          Gryt
+        </Link>
+
+        {/* Desktop links */}
+        <ul className={styles.links}>
+          {navLinks.map((link) => (
+            <li key={link.href}>
+              {link.isRoute ? (
+                <Link to={link.href}>{link.label}</Link>
+              ) : link.external ? (
+                <a href={link.href} target="_blank" rel="noreferrer">
+                  {link.label}
+                </a>
+              ) : (
+                <a href={link.href}>{link.label}</a>
+              )}
+            </li>
+          ))}
+          <li>
+            <a
+              href="https://github.com/Gryt-chat/gryt/releases"
+              target="_blank"
+              rel="noreferrer"
+              className="btn btn-primary btn-sm"
+            >
+              Download
+            </a>
+          </li>
+        </ul>
+
+        {/* Mobile hamburger */}
+        <Dialog.Root open={open} onOpenChange={setOpen}>
+          <Dialog.Trigger asChild>
+            <button className={styles.hamburger} aria-label="Open menu">
+              <MenuIcon />
+            </button>
+          </Dialog.Trigger>
+
+          <Dialog.Portal>
+            <Dialog.Overlay className={styles.overlay} />
+            <Dialog.Content className={styles.sheet} aria-label="Navigation">
+              <div className={styles.sheetHeader}>
+                <Link to="/" className={styles.brand} onClick={close}>
+                  <GrytLogo size={28} />
+                  Gryt
+                </Link>
+                <Dialog.Close asChild>
+                  <button className={styles.closeBtn} aria-label="Close menu">
+                    <CloseIcon />
+                  </button>
+                </Dialog.Close>
+              </div>
+
+              <nav className={styles.sheetNav}>
+                {navLinks.map((link) => {
+                  const isActive =
+                    link.isRoute && location.pathname === link.href;
+                  return link.isRoute ? (
+                    <Link
+                      key={link.href}
+                      to={link.href}
+                      className={`${styles.sheetLink} ${isActive ? styles.active : ""}`}
+                      onClick={close}
+                    >
+                      {link.label}
+                    </Link>
+                  ) : link.external ? (
+                    <a
+                      key={link.href}
+                      href={link.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      className={styles.sheetLink}
+                      onClick={close}
+                    >
+                      {link.label}
+                    </a>
+                  ) : (
+                    <a
+                      key={link.href}
+                      href={link.href}
+                      className={styles.sheetLink}
+                      onClick={close}
+                    >
+                      {link.label}
+                    </a>
+                  );
+                })}
+              </nav>
+
+              <div className={styles.sheetFooter}>
+                <a
+                  href="https://github.com/Gryt-chat/gryt/releases"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="btn btn-primary"
+                  style={{ width: "100%", justifyContent: "center" }}
+                  onClick={close}
+                >
+                  Download
+                </a>
+              </div>
+            </Dialog.Content>
+          </Dialog.Portal>
+        </Dialog.Root>
+      </div>
+    </nav>
+  );
+}

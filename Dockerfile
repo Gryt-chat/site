@@ -1,0 +1,37 @@
+FROM node:20-alpine AS builder
+
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm ci
+
+COPY . .
+RUN npm run build
+
+FROM nginx:alpine
+
+RUN printf '%s\n' \
+  'events { worker_connections 1024; }' \
+  'http {' \
+  '  include /etc/nginx/mime.types;' \
+  '  default_type application/octet-stream;' \
+  '  sendfile on;' \
+  '  keepalive_timeout 65;' \
+  '  gzip on;' \
+  '  server {' \
+  '    listen 80;' \
+  '    root /usr/share/nginx/html;' \
+  '    index index.html;' \
+  '    location / { try_files $uri $uri/ /index.html; }' \
+  '    location /health { return 200 "healthy"; add_header Content-Type text/plain; }' \
+  '  }' \
+  '}' > /etc/nginx/nginx.conf
+
+COPY --from=builder /app/dist /usr/share/nginx/html
+
+EXPOSE 80
+
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+  CMD wget --no-verbose --tries=1 --spider http://localhost/ || exit 1
+
+CMD ["nginx", "-g", "daemon off;"]

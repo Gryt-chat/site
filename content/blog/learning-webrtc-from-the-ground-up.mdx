@@ -1,0 +1,111 @@
+---
+title: Learning WebRTC From the Ground Up
+description: What nearly two years of studying WebRTC internals taught me about real-time communication, security, and why understanding the protocol matters.
+author: Sivert
+date: 2026-02-21
+tags:
+  - webrtc
+  - learning
+  - technical
+---
+
+## Why I didn't just use a library
+
+When I started building Gryt, the pragmatic move would have been to grab a WebRTC-as-a-service SDK, wire it up, and call it done. Plenty of good ones exist. But I had a nagging feeling that if I was going to build a voice platform I could stand behind, I needed to understand what was actually happening on the wire.
+
+That decision turned what could have been a weekend integration into a nearly two-year deep dive. This post is about what I learned along the way.
+
+## The WebRTC stack is deeper than you think
+
+Most tutorials show you the "happy path": create an `RTCPeerConnection`, exchange SDP offers and answers through a signaling server, and audio starts flowing. It looks simple. It is not.
+
+Beneath that API sits a tower of protocols:
+
+- **ICE** (Interactive Connectivity Establishment) — figures out how two peers can actually reach each other through NATs and firewalls
+- **STUN** — helps peers discover their public-facing IP addresses
+- **TURN** — relays media when direct connections fail (more common than you'd hope)
+- **DTLS** (Datagram TLS) — establishes an encrypted channel over UDP
+- **SRTP** (Secure Real-time Transport Protocol) — the actual encrypted media packets
+- **SDP** (Session Description Protocol) — the text-based format describing what each peer supports
+
+Each of these has its own RFC, its own edge cases, and its own failure modes. Understanding them changed how I thought about the entire system.
+
+## ICE: the hardest "simple" problem
+
+ICE negotiation is where most WebRTC implementations silently break. The protocol gathers network candidates (host, server-reflexive, relay), prioritizes them, and runs connectivity checks to find the best path. Sounds straightforward until you encounter:
+
+- **Symmetric NATs** that defeat STUN and require TURN fallback
+- **Candidates trickling in** after the initial offer/answer exchange
+- **Network changes** mid-call (Wi-Fi to mobile data)
+- **Firewall rules** that block UDP entirely, forcing TCP or TURN-over-TLS
+
+I spent weeks debugging ICE failures that only happened on specific ISPs or corporate networks. The lesson: your local dev environment will always connect perfectly. The real world is a different story.
+
+## Security: DTLS-SRTP and why it matters
+
+One of the things that drew me deeper into WebRTC was the security model. Unlike most web protocols, WebRTC encrypts media end-to-end by default using DTLS-SRTP. This isn't optional — browsers won't transmit unencrypted media.
+
+The handshake works like this:
+
+1. During ICE connectivity checks, peers establish a UDP path
+2. DTLS runs over that UDP path to exchange keys
+3. Those keys derive SRTP encryption parameters
+4. All subsequent audio/video packets are SRTP-encrypted
+
+What makes this interesting from a security perspective is the **fingerprint verification**. Each peer includes a DTLS certificate fingerprint in their SDP. If you control the signaling server, you can verify these fingerprints match, creating a chain of trust from signaling to media.
+
+For Gryt, this was critical. I wanted users who self-host to have confidence that their voice data is encrypted in transit, even when passing through the SFU. The SFU can route packets without decrypting them (in forwarding mode), preserving the encryption guarantees.
+
+## From peer-to-peer to an SFU
+
+The first version of Gryt was pure peer-to-peer: every participant sent their audio to every other participant. This works fine for 2-3 people but falls apart quickly:
+
+- With **N** participants, each person uploads **N-1** audio streams
+- CPU and bandwidth scale quadratically
+- Any single weak link degrades everyone's experience
+
+The solution is a **Selective Forwarding Unit (SFU)**. Instead of sending to every peer, each participant sends one stream to the SFU, and the SFU forwards it to everyone else. Upload is constant regardless of room size.
+
+I chose to build the SFU in **Go** using the [Pion WebRTC](https://github.com/pion/webrtc) library. Pion is remarkable — it's a pure Go implementation of the WebRTC stack, no C dependencies, no CGo. This meant I could:
+
+- Read and step through the actual protocol implementation
+- Understand exactly how DTLS handshakes, SRTP encryption, and RTP packet routing work
+- Customize behavior at a level that wouldn't be possible with opaque SDKs
+
+Building on Pion was one of the best learning decisions I made. When something broke, I could trace it from the application layer all the way down to individual RTP packets.
+
+## What I'd tell someone starting today
+
+If you're thinking about building something with WebRTC, here's what I wish I'd known:
+
+### Start with the signaling server
+Get SDP exchange working reliably before worrying about anything else. Use WebSockets (Socket.IO is fine). Make sure you handle the offer/answer dance correctly, including ICE candidate trickling.
+
+### Set up TURN early
+Don't assume direct connections will work. Run a TURN server (coturn is the standard) from day one. You'll save yourself weeks of debugging "it works on my machine" issues.
+
+### Read the RFCs (selectively)
+You don't need to memorize RFC 8445 (ICE), but reading the overview sections of the key RFCs gives you a mental model that no tutorial provides. The [WebRTC for the Curious](https://webrtcforthecurious.com/) book is an excellent starting point.
+
+### Log everything
+WebRTC failures are notoriously hard to diagnose. Log ICE states, DTLS handshake progress, and connection state changes. Chrome's `chrome://webrtc-internals` is invaluable for client-side debugging.
+
+### Understand the security model
+Don't just trust that "it's encrypted." Understand _how_ DTLS-SRTP works, what the fingerprint in the SDP means, and what an SFU can and can't see. If you're building something people rely on for private communication, you owe them that understanding.
+
+## The payoff
+
+Two years is a long time to spend learning a protocol. But that investment shows up everywhere in Gryt today:
+
+- The SFU handles edge cases gracefully because I understand the underlying state machines
+- Security decisions are deliberate, not cargo-culted from examples
+- When something breaks in production, I can diagnose it from packet captures instead of guessing
+- I can explain to users exactly what happens to their audio data and why they should trust it
+
+![Gryt voice chat in action — three users connected with real-time latency displayed, text chat, and voice controls](/gryt-preview.png)
+
+WebRTC is one of those technologies where surface-level knowledge gets you a demo, but deep knowledge gets you a product. I'm glad I chose the longer path.
+
+---
+
+If you want to dig into the Gryt SFU implementation or have questions about WebRTC, come chat on [Discord](https://discord.gg/Q3JKUGsnHE) or open an issue on [GitHub](https://github.com/Gryt-chat/gryt).

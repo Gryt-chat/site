@@ -1,0 +1,87 @@
+---
+title: The Story of Gryt
+description: How frustration with paywalls, disconnections, and poor voice quality led to a four-year journey building an open-source communication platform from scratch.
+author: Sivert
+date: 2026-02-18
+tags:
+  - gryt
+  - open-source
+  - history
+---
+
+## It started with a problem
+
+In early 2022, my friends and I were spending most of our evenings online together — gaming, chatting, just hanging out. The platform we relied on was Discord, and it was failing us constantly. Random disconnections mid-conversation. Voice quality that made everyone sound like they were talking through a tin can. Streaming quality that was blurry and choppy unless you paid up. And behind every useful feature, a paywall.
+
+Not all of us had the money for subscriptions, and frankly, we shouldn't have needed them. The basic experience — talking to your friends online — was poor. Poor voice quality. Poor streaming quality. Poor performance. One word summed it up: **poor**.
+
+I kept thinking: _we deserve better than this_.
+
+I'm a web developer. I know how browsers work, how audio gets from one machine to another, how servers talk to clients. So instead of complaining, I decided to build something. Something that would never hide essential features behind a paywall. Something you could host yourself, on your own hardware, where your conversations stay yours. Something transparent, secure, and completely open source.
+
+That something became **Gryt**.
+
+## Where the name comes from
+
+The name Gryt comes from our friend group. We call ourselves "Gryta Krutt" — a silly joke from years ago that, in hindsight, isn't as funny as it once was. But the name stuck. We call our group "Gryta," and when I needed a name for this project, the choice was obvious.
+
+You could draw a line to Old Norse if you wanted — _gryt_ relates to an old word for rocks or gravel — but that's a stretch I'll leave to the etymologists. For me, the name belongs to the little owl mascot. His name is Gryt, and honestly, that's good enough.
+
+A quick note on pronunciation for non-Norwegians: it's not "grit" and it's not quite "greet." Think of the Norwegian word "gryte" (a cooking pot) but without the trailing "e." _Gryt_. Short, solid, easy to say. Just like the platform itself aspires to be.
+
+## Why an owl?
+
+When I needed a mascot for Gryt, the owl felt natural, and the more I thought about it, the more the symbolism aligned with what the project stands for.
+
+Owls are **silent hunters**. They fly without making a sound — their feathers are specially adapted to muffle the noise of their wings cutting through air. They move softly and professionally, with a stillness that belies how fast and precise they are. That's the kind of presence I want Gryt to have: reliable, efficient, and quiet. No bloat, no noise.
+
+Owls are **watchful but rarely seen**. You know they're out there, but you'll almost never spot one. I've personally never seen an owl in my life, which is kind of the point of Gryt too — to not be spotted. Not to avoid the law or anything like that, but to remain **private**. Your conversations, your data, your identity — they should be as elusive to outsiders as an owl in a dark forest.
+
+Owls are **calculated**. They don't waste energy. Every movement has purpose. Every dive is precise. That's how I approach the architecture of Gryt: deliberate choices, no unnecessary complexity, and a focus on getting the fundamentals right before adding features.
+
+Owls also have remarkable **vision in the dark** — they see what others can't. In a landscape of opaque, proprietary communication platforms, Gryt aims to bring transparency where there was none. Open source means anyone can look at the code and understand exactly what's happening with their data.
+
+## The first proof of concept
+
+With the idea taking shape in my head, I opened a terminal in the summer of 2022 and started writing code. The first version was about as minimal as you can imagine. No voice chat, no servers, no channels — just authentication and a friends list.
+
+Here's the very first screenshot I ever took of Gryt, from **August 2022**:
+
+![The first ever screenshot of Gryt — a simple friends list with placeholder usernames, August 2022](/first_ever_screenshot.png)
+
+That's it. A dark window with "Friends" at the top, a list of placeholder usernames, an "Add Friend" button, and a "Back" link. Running as an Electron app with "Gryt" in the title bar. It was laughably simple, but it proved the concept: authentication worked, the app could track who your friends were, and the foundation for direct messaging was there.
+
+The stack at this point was dead simple — React with Vite for the client, a basic Node.js server for auth, and Electron to wrap it all up in a desktop app.
+
+## The first login screen
+
+By **December 2022**, I had a proper login flow working. The first iteration of the login page leaned into a purple-and-blue gradient aesthetic that I was clearly inspired by at the time:
+
+![The first login screen — a simple email/password form with a glowing purple gradient background, December 2022](/first_ever_screenshot_2.png)
+
+Nothing groundbreaking, but it felt real. Type in your email, type in your password, hit login. The glow behind the form gave it a bit of personality, even if the design was rough around the edges.
+
+## A glimpse of the vision
+
+Around the same time in **December 2022**, I mocked up what a dashboard might look like — and this is where the ambition started to show:
+
+![The first dashboard concept — "Welcome back, Sivert!" with unread messages, best friends list, and user stats, December 2022](/first_ever_screenshot_3.png)
+
+"Welcome back, Sivert!" with unread messages from friends, a "Best Friends" list showing online status, and a stats panel tracking messages sent and hours in voice chat. It was a concept — the numbers were made up, the layout was ambitious — but it showed where I wanted Gryt to go. Not just a voice chat app, but a place where your community lives.
+
+The sidebar already had the navigation structure that would persist through every iteration: Home, Friends, Servers, Settings. Some ideas survive from the very first sketch.
+
+## Core principles from day one
+
+One thing has been constant since that first screenshot in August 2022, through every redesign, every rewrite, and every late night debugging session:
+
+- **No paywalls.** Every feature is available to every user. Period.
+- **100% self-hosted.** You run Gryt on your own hardware. Your data never touches a server you don't control.
+- **100% transparency.** The code is open source. You can read every line, audit every decision, and verify every claim.
+- **100% focus on security and privacy.** Encrypted voice, minimal data collection, and an architecture designed from the ground up to keep conversations private.
+
+These aren't marketing bullet points I added later. They were the reason the project exists in the first place. The frustration that started this wasn't just about bad voice quality — it was about being locked into a platform that didn't respect its users. Gryt was built to be the opposite.
+
+---
+
+This was just the beginning. What followed was a year of intense design work as Gryt started to develop its own visual identity. Read about that journey in [Designing Gryt's Identity](/blog/designing-gryts-identity).

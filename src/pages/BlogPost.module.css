@@ -1,0 +1,231 @@
+.page {
+  max-width: 740px;
+  margin: 0 auto;
+  padding: 120px 24px 80px;
+}
+
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: var(--text-dim) !important;
+  margin-bottom: 32px;
+  transition: color 0.2s;
+}
+
+.back:hover {
+  color: var(--text) !important;
+}
+
+.header {
+  margin-bottom: 48px;
+}
+
+.heroImage {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+  margin-bottom: 32px;
+}
+
+.title {
+  font-size: clamp(28px, 5vw, 40px);
+  font-weight: 800;
+  letter-spacing: -1px;
+  line-height: 1.2;
+  margin-bottom: 12px;
+}
+
+.description {
+  font-size: 18px;
+  color: var(--text-dim);
+  line-height: 1.7;
+  margin-bottom: 16px;
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--text-dim);
+}
+
+.author {
+  font-weight: 600;
+  color: var(--text);
+}
+
+.dot {
+  color: var(--border);
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.tag {
+  font-size: 12px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: rgba(150, 143, 248, 0.12);
+  color: var(--accent-light);
+  font-weight: 500;
+}
+
+/* ── Prose styles for MDX content ─────────────────────────── */
+
+.prose {
+  font-size: 16px;
+  line-height: 1.8;
+  color: var(--text);
+}
+
+.prose h2 {
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  margin: 48px 0 16px;
+}
+
+.prose h3 {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 36px 0 12px;
+}
+
+.prose p {
+  margin: 16px 0;
+}
+
+.prose a {
+  color: var(--accent-light);
+  text-decoration: underline;
+  text-decoration-color: rgba(180, 175, 255, 0.3);
+  text-underline-offset: 3px;
+  transition: text-decoration-color 0.2s;
+}
+
+.prose a:hover {
+  text-decoration-color: var(--accent-light);
+}
+
+.prose strong {
+  font-weight: 700;
+  color: var(--text);
+}
+
+.prose em {
+  font-style: italic;
+}
+
+.prose ul,
+.prose ol {
+  padding-left: 24px;
+  margin: 16px 0;
+  list-style: disc;
+}
+
+.prose ol {
+  list-style: decimal;
+}
+
+.prose li {
+  margin: 6px 0;
+}
+
+.prose li::marker {
+  color: var(--text-dimmer);
+}
+
+.prose code {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--accent-light);
+}
+
+.prose pre {
+  margin: 24px 0;
+  padding: 20px;
+  border-radius: var(--radius-sm);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  overflow-x: auto;
+}
+
+.prose pre code {
+  padding: 0;
+  border-radius: 0;
+  background: none;
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.prose blockquote {
+  margin: 24px 0;
+  padding: 16px 20px;
+  border-left: 3px solid var(--accent);
+  background: rgba(150, 143, 248, 0.06);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  color: var(--text-dim);
+}
+
+.prose blockquote p {
+  margin: 0;
+}
+
+.prose hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 48px 0;
+}
+
+.prose img {
+  border-radius: var(--radius-sm);
+  margin: 24px 0;
+}
+
+@media (max-width: 768px) {
+  .page {
+    padding: 100px 16px 60px;
+  }
+
+  .heroImage {
+    height: 180px;
+  }
+
+  .description {
+    font-size: 16px;
+  }
+
+  .prose {
+    font-size: 15px;
+  }
+
+  .prose h2 {
+    font-size: 22px;
+    margin: 36px 0 12px;
+  }
+
+  .prose h3 {
+    font-size: 18px;
+    margin: 28px 0 10px;
+  }
+
+  .prose pre {
+    padding: 16px;
+    margin: 20px -16px;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+  }
+}

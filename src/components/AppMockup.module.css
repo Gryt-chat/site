@@ -1,0 +1,15 @@
+.visual {
+  margin-top: 64px;
+  width: 100%;
+  max-width: 900px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.4);
+}
+
+.screenshot {
+  display: block;
+  width: 100%;
+  height: auto;
+}
