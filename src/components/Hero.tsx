@@ -26,7 +26,7 @@ export function Hero() {
       </p>
 
       <div className={styles.actions}>
-        <a href="#download" className="btn btn-primary">
+        <a href="https://github.com/Gryt-chat/gryt/releases" target="_blank" rel="noreferrer" className="btn btn-primary">
           <DownloadIcon />
           Download Gryt
         </a>
