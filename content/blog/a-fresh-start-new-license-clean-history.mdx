@@ -1,0 +1,54 @@
+---
+title: A Fresh Start — New License, Clean History
+description: Why Gryt moved from MIT to AGPL-3.0, and why we wiped the git history in the process.
+author: Sivert
+date: 2026-02-22
+tags:
+  - gryt
+  - open-source
+  - licensing
+---
+
+## Why there's only one commit
+
+If you look at any of Gryt's repositories right now, you'll notice something unusual: the git history starts today. One commit. No years of messy development logs, no trail of experimental branches, no record of the hundreds of iterations it took to get here.
+
+That's intentional. Here's why.
+
+## We changed the license
+
+Gryt was originally released under the MIT license — the "do whatever you want" license. At the time, it felt like the obvious choice. I wanted Gryt to be open, accessible, and easy for anyone to use.
+
+But as the project grew and I thought more carefully about the future, I realized MIT wasn't protecting the project the way I needed it to. MIT means anyone — including companies — can take the entire codebase, close it off, build a commercial product on top of it, and never contribute a single line back. That's not what I want for Gryt.
+
+So we moved to the **GNU Affero General Public License v3.0 (AGPL-3.0)**. It's still open source. You can still read the code, self-host it, modify it, and contribute. The difference is:
+
+- If you modify Gryt and distribute it, you have to share those modifications under the same license.
+- If you run a modified version as a public service, you have to make the source code available to your users.
+- If you want to use Gryt commercially without those obligations, you need a [commercial license](mailto:sivert@sivert.io).
+
+You can read the full details on our [licensing page](https://docs.gryt.chat/docs/guide/licensing).
+
+## Why wipe the history?
+
+When we switched licenses, every old commit still carried the MIT license. That's how git works — you can't retroactively change the license on past commits. Anyone checking out an old commit would get MIT-licensed code.
+
+Since the project is still in early development with no external contributors or forks, I decided to start fresh. A single initial commit, clean history, AGPL-3.0 from day one. No ambiguity, no confusion about which license applies to what.
+
+If Gryt had a large community of contributors and users, I wouldn't have done this — it would break too many workflows and violate too much trust. But at this stage, it was the right call.
+
+## Where did the old code go?
+
+Gryt has been in development since early 2022. Over those years, the project went through dozens of iterations, proof-of-concept repos, rewrites, and experiments. Most of that work lives in private, archived repositories in the Gryt organization — around 30 repos in total. They're not gone, they're just not public.
+
+The move to the current set of public repositories was already a consolidation effort. We merged scattered experiments into a clean monorepo structure. Squashing the history was a natural extension of that cleanup.
+
+## What this means for you
+
+Nothing changes about how you use Gryt. The code is the same. The features are the same. The only differences are:
+
+- The license is now AGPL-3.0 (better protection for the project and the community).
+- The git history starts fresh (cleaner, no license ambiguity).
+- The project's intent is clearer than ever.
+
+If you have any questions about the license change, check out the [licensing docs](https://docs.gryt.chat/docs/guide/licensing) or reach out on [Discord](https://discord.gg/Q3JKUGsnHE).
