@@ -56,6 +56,34 @@
   color: #111318;
 }
 
+/* ── Open App button ─────────────────────────────────── */
+
+.openApp {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 14px;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  color: var(--accent-light) !important;
+  border: 1px solid var(--accent);
+  border-radius: var(--radius-sm);
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.openApp:hover {
+  background: rgba(150, 143, 248, 0.12);
+  color: #fff !important;
+  border-color: var(--accent-light);
+}
+
+.openAppMobile {
+  width: 100%;
+  padding: 10px 14px;
+  font-size: 15px !important;
+  margin-bottom: 10px;
+}
+
 /* ── Hamburger button (mobile only) ─────────────────── */
 
 .hamburger {

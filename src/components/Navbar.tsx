@@ -9,7 +9,6 @@ const navLinks = [
   { href: "/#features", label: "Features", external: false },
   { href: "/blog", label: "Blog", external: false, isRoute: true },
   { href: "https://docs.gryt.chat", label: "Docs", external: true },
-  { href: "https://app.gryt.chat", label: "Open App", external: true },
   { href: "https://github.com/Gryt-chat", label: "GitHub", external: true },
 ];
 
@@ -19,10 +18,20 @@ export function Navbar() {
 
   const close = useCallback(() => setOpen(false), []);
 
+  const handleBrandClick = useCallback(
+    (e: React.MouseEvent) => {
+      if (location.pathname === "/") {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    },
+    [location.pathname],
+  );
+
   return (
     <nav className={styles.nav}>
       <div className={styles.inner}>
-        <Link to="/" className={styles.brand}>
+        <Link to="/" className={styles.brand} onClick={handleBrandClick}>
           <GrytLogo size={32} />
           Gryt
         </Link>
@@ -42,6 +51,16 @@ export function Navbar() {
               )}
             </li>
           ))}
+          <li>
+            <a
+              href="https://app.gryt.chat"
+              target="_blank"
+              rel="noreferrer"
+              className={styles.openApp}
+            >
+              Open App
+            </a>
+          </li>
           <li>
             <a
               href="https://github.com/Gryt-chat/gryt/releases"
@@ -66,7 +85,14 @@ export function Navbar() {
             <Dialog.Overlay className={styles.overlay} />
             <Dialog.Content className={styles.sheet} aria-label="Navigation">
               <div className={styles.sheetHeader}>
-                <Link to="/" className={styles.brand} onClick={close}>
+                <Link
+                  to="/"
+                  className={styles.brand}
+                  onClick={(e) => {
+                    handleBrandClick(e);
+                    close();
+                  }}
+                >
                   <GrytLogo size={28} />
                   Gryt
                 </Link>
@@ -115,6 +141,15 @@ export function Navbar() {
               </nav>
 
               <div className={styles.sheetFooter}>
+                <a
+                  href="https://app.gryt.chat"
+                  target="_blank"
+                  rel="noreferrer"
+                  className={`${styles.openApp} ${styles.openAppMobile}`}
+                  onClick={close}
+                >
+                  Open App
+                </a>
                 <a
                   href="https://github.com/Gryt-chat/gryt/releases"
                   target="_blank"
