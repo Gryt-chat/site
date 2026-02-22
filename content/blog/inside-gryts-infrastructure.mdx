@@ -88,7 +88,7 @@ The SFU communicates with the signaling server over an internal WebSocket for ro
 
 Gryt uses [Keycloak](https://www.keycloak.org/) as its identity provider, hosted at `auth.gryt.chat`. Keycloak is a battle-tested, open-source OIDC/OAuth 2.0 server used in enterprise environments by Red Hat, the German government, and thousands of other organizations.
 
-You are **not expected to host Keycloak yourself**. The [auth package](https://github.com/Gryt-chat/gryt/tree/main/packages/auth) — including the realm configuration, custom theme, and Docker setup — is published in the repo purely for transparency. You can see exactly how the instance is configured, what data it stores, and how the login theme works. It's open so you don't have to take my word for it.
+You are **not expected to host Keycloak yourself**. The [auth package](https://github.com/Gryt-chat/auth) — including the realm configuration, custom theme, and Docker setup — is published in the repo purely for transparency. You can see exactly how the instance is configured, what data it stores, and how the login theme works. It's open so you don't have to take my word for it.
 
 When you log in to Gryt, here's what actually happens:
 
@@ -137,7 +137,7 @@ What I can tell you:
 - **Server hosts never see your password.** The signaling server only receives a signed JWT and verifies the signature against Keycloak's public keys. It doesn't talk to Keycloak at auth time — it just needs the JWKS endpoint. Your password stays between you and the Keycloak instance.
 - **One identity, every server.** You sign up once and your identity works across every Gryt server. Server hosts validate your token cryptographically — they don't store or manage your credentials.
 - **You can use a throwaway email.** The only requirement is that your email address can receive a verification link. If you don't want to hand over your real one, use a one-time obfuscated address. Keycloak doesn't care, and neither does Gryt.
-- **The auth source is open.** The [auth package](https://github.com/Gryt-chat/gryt/tree/main/packages/auth) is open source for transparency — you can audit exactly what's running at `auth.gryt.chat`.
+- **The auth source is open.** The [auth package](https://github.com/Gryt-chat/auth) is open source for transparency — you can audit exactly what's running at `auth.gryt.chat`.
 - **No data sharing. No tracking. Period.** Gryt shares no data with third parties — not from Keycloak, not from the signaling server, not from anywhere. There is no analytics, no telemetry, no usage tracking of any kind. Nothing phones home. Your data exists in exactly one place: the infrastructure that runs it.
 
 If you want to go further, **self-hosting Keycloak is technically possible** — the code and theme are all in the repo. But it's not expected, and full self-hosted auth documentation is still planned. The default setup points every server at `auth.gryt.chat` because centralized identity is what makes "sign up once, join any server" work.
