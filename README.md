@@ -22,6 +22,10 @@ npm run build
 npm run preview
 ```
 
+## Issues
+
+Please report bugs and request features in the [main Gryt repository](https://github.com/Gryt-chat/gryt/issues).
+
 ## License
 
 [AGPL-3.0](https://github.com/Gryt-chat/gryt/blob/main/LICENSE) — Part of [Gryt](https://github.com/Gryt-chat/gryt)
