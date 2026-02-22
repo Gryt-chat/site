@@ -1,5 +1,5 @@
 import { GrytLogo } from "./GrytLogo";
-import { DownloadIcon } from "./icons";
+import { DownloadIcon, GlobeIcon } from "./icons";
 import { AppMockup } from "./AppMockup";
 import styles from "./Hero.module.css";
 
@@ -26,7 +26,11 @@ export function Hero() {
       </p>
 
       <div className={styles.actions}>
-        <a href="https://github.com/Gryt-chat/gryt/releases" target="_blank" rel="noreferrer" className="btn btn-primary">
+        <a href="https://app.gryt.chat" target="_blank" rel="noreferrer" className="btn btn-primary">
+          <GlobeIcon />
+          Try in Browser
+        </a>
+        <a href="https://github.com/Gryt-chat/gryt/releases" target="_blank" rel="noreferrer" className="btn btn-outline">
           <DownloadIcon />
           Download Gryt
         </a>

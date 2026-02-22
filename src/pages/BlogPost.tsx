@@ -1,5 +1,6 @@
 import { lazy, Suspense } from 'react'
 import { useParams, Link, Navigate } from 'react-router-dom'
+import { ChevronLeft } from 'lucide-react'
 import { getPost } from '../lib/blog'
 import { LightboxImage } from '../components/Lightbox'
 import styles from './BlogPost.module.css'
@@ -41,18 +42,7 @@ export function BlogPost() {
   return (
     <main className={styles.page}>
       <Link to="/blog" className={styles.back}>
-        <svg
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <path d="m15 18-6-6 6-6" />
-        </svg>
+        <ChevronLeft size={16} />
         Back to blog
       </Link>
 

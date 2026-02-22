@@ -27,6 +27,7 @@
   height: 40px;
   border-radius: 10px;
   background: var(--bg-card);
+  color: var(--accent);
   display: flex;
   align-items: center;
   justify-content: center;

@@ -1,4 +1,4 @@
-import { DownloadIcon, ServerRackIcon } from "./icons";
+import { DownloadIcon, GlobeIcon, ServerRackIcon } from "./icons";
 import styles from "./Download.module.css";
 
 export function Download() {
@@ -9,16 +9,25 @@ export function Download() {
         <div className="section-label">Get Started</div>
         <h2 className="section-title">Ready to get started?</h2>
         <p className={`section-desc ${styles.desc}`}>
-          Download the desktop client for Windows, macOS, or Linux. Or
+          Try Gryt right in your browser, download the desktop client, or
           self-host your own server in minutes.
         </p>
 
         <div className={styles.actions}>
           <a
-            href="https://github.com/Gryt-chat/gryt/releases"
+            href="https://app.gryt.chat"
             target="_blank"
             rel="noreferrer"
             className="btn btn-primary"
+          >
+            <GlobeIcon />
+            Try in Browser
+          </a>
+          <a
+            href="https://github.com/Gryt-chat/gryt/releases"
+            target="_blank"
+            rel="noreferrer"
+            className="btn btn-outline"
           >
             <DownloadIcon />
             Download Latest Release
@@ -33,6 +42,11 @@ export function Download() {
             Self-Host a Server
           </a>
         </div>
+
+        <p className={styles.note}>
+          No download required — works in Chrome, Firefox, Edge, and Safari.
+          Some features like global push-to-talk are desktop-only.
+        </p>
 
         <div className={styles.platforms}>
           <span className={styles.platform}>

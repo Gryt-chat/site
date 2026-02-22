@@ -1,32 +1,15 @@
 import { useState, useCallback } from "react";
 import { Link, useLocation } from "react-router-dom";
 import * as Dialog from "@radix-ui/react-dialog";
+import { Menu, X } from "lucide-react";
 import { GrytLogo } from "./GrytLogo";
 import styles from "./Navbar.module.css";
-
-function MenuIcon() {
-  return (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-      <line x1="3" y1="6" x2="21" y2="6" />
-      <line x1="3" y1="12" x2="21" y2="12" />
-      <line x1="3" y1="18" x2="21" y2="18" />
-    </svg>
-  );
-}
-
-function CloseIcon() {
-  return (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-      <line x1="18" y1="6" x2="6" y2="18" />
-      <line x1="6" y1="6" x2="18" y2="18" />
-    </svg>
-  );
-}
 
 const navLinks = [
   { href: "/#features", label: "Features", external: false },
   { href: "/blog", label: "Blog", external: false, isRoute: true },
   { href: "https://docs.gryt.chat", label: "Docs", external: true },
+  { href: "https://app.gryt.chat", label: "Open App", external: true },
   { href: "https://github.com/Gryt-chat", label: "GitHub", external: true },
 ];
 
@@ -75,7 +58,7 @@ export function Navbar() {
         <Dialog.Root open={open} onOpenChange={setOpen}>
           <Dialog.Trigger asChild>
             <button className={styles.hamburger} aria-label="Open menu">
-              <MenuIcon />
+              <Menu size={22} />
             </button>
           </Dialog.Trigger>
 
@@ -89,7 +72,7 @@ export function Navbar() {
                 </Link>
                 <Dialog.Close asChild>
                   <button className={styles.closeBtn} aria-label="Close menu">
-                    <CloseIcon />
+                    <X size={22} />
                   </button>
                 </Dialog.Close>
               </div>

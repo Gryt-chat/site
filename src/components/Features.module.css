@@ -31,6 +31,7 @@
   height: 36px;
   border-radius: 8px;
   background: var(--bg-card);
+  color: var(--accent);
   display: flex;
   align-items: center;
   justify-content: center;

@@ -29,6 +29,14 @@
   position: relative;
 }
 
+.note {
+  font-size: 13px;
+  color: var(--text-dimmer);
+  margin: 16px auto 0;
+  max-width: 480px;
+  position: relative;
+}
+
 .platforms {
   display: flex;
   align-items: center;
