@@ -9,6 +9,7 @@ export function Footer() {
         <div className={styles.brand}>
           <GrytLogo size={24} />
           Gryt
+          <span className={styles.est}>est. 2022</span>
         </div>
 
         <ul className={styles.links}>

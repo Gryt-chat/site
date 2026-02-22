@@ -22,6 +22,13 @@
   color: var(--text);
 }
 
+.est {
+  font-weight: 400;
+  font-size: 12px;
+  color: var(--text-dimmer);
+  margin-left: 2px;
+}
+
 .links {
   display: flex;
   flex-wrap: wrap;
