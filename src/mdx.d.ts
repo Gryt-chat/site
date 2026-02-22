@@ -11,6 +11,7 @@ declare module '*.mdx' {
   }
 
   const Component: ComponentType<{
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     components?: Record<string, ComponentType<any>>
   }>
   export default Component

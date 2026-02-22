@@ -10,6 +10,7 @@ export interface BlogFrontmatter {
 }
 
 type MdxComponent = ComponentType<{
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   components?: Record<string, ComponentType<any>>
 }>
 
