@@ -56,7 +56,7 @@ Every arrow in that diagram is deliberate. Let me walk through each component an
 
 The Gryt client is a React app that ships two ways: as a **web app** (served by Nginx in Docker) and as an **Electron desktop app** with auto-updates. The client handles the UI, audio capture, noise suppression (via RNNoise), and the WebRTC peer connection to the SFU.
 
-Critically, the client holds no secrets. Authentication uses **OIDC with PKCE** — a public client flow where no client secret is needed. The client redirects you to your Keycloak instance, you authenticate there, and the client receives a short-lived token. It never sees or stores your password.
+Critically, the client holds no secrets. Authentication uses **OIDC with PKCE** — a public client flow where no client secret is needed. The client redirects you to the Keycloak instance at `auth.gryt.chat`, you authenticate there, and the client receives a short-lived token. It never sees or stores your password.
 
 ### Server — signaling and coordination
 
@@ -86,7 +86,9 @@ The SFU communicates with the signaling server over an internal WebSocket for ro
 
 ### Auth — Keycloak
 
-Gryt uses [Keycloak](https://www.keycloak.org/) as its identity provider. Keycloak is a battle-tested, open-source OIDC/OAuth 2.0 server used in enterprise environments by Red Hat, the German government, and thousands of other organizations.
+Gryt uses [Keycloak](https://www.keycloak.org/) as its identity provider, hosted at `auth.gryt.chat`. Keycloak is a battle-tested, open-source OIDC/OAuth 2.0 server used in enterprise environments by Red Hat, the German government, and thousands of other organizations.
+
+You are **not expected to host Keycloak yourself**. The [auth package](https://github.com/Gryt-chat/gryt/tree/main/packages/auth) — including the realm configuration, custom theme, and Docker setup — is published in the repo purely for transparency. You can see exactly how the instance is configured, what data it stores, and how the login theme works. It's open so you don't have to take my word for it.
 
 When you log in to Gryt, here's what actually happens:
 
@@ -120,21 +122,27 @@ Each server instance operates in its own keyspace, meaning you can run multiple 
 
 File uploads (avatars, attachments, custom emoji) are stored in **MinIO**, an S3-compatible object storage server. This keeps binary data out of the database and makes it easy to swap in any S3-compatible backend — AWS S3, Backblaze B2, Cloudflare R2, or your own MinIO cluster.
 
-## Why self-hosting the auth matters
+## How auth works — and what you're trusting
 
 This is the part I care about most, because it's the part most platforms get wrong.
 
 With Discord, Slack, Teams, or any other centralized platform, your identity is owned by that company. Your username, your email, your profile, your social graph, your login history — all stored on their servers, governed by their policies, accessible to their employees, and deletable at their discretion.
 
-Gryt's architecture inverts this. When you self-host Keycloak:
+Gryt is different, but I want to be honest about what it is and isn't.
 
-- **Your credentials never leave your infrastructure.** Passwords are hashed and stored in your PostgreSQL database, on your hardware, in your jurisdiction.
-- **No phone-home.** The auth server doesn't talk to Gryt's infrastructure or any third party. It's a standalone service running in your environment.
-- **You control the policies.** Password requirements, MFA enforcement, session lifetimes, brute-force protection, email verification — all configured in your Keycloak admin console.
-- **You control user lifecycle.** Account creation, suspension, deletion — you're the admin, not us.
-- **No vendor lock-in.** Keycloak speaks standard OIDC. If you ever want to migrate to a different identity provider, the signaling server doesn't care — it just validates JWTs against whatever issuer you point it to.
+By default, Gryt uses a **hosted Keycloak instance** at `auth.gryt.chat` — run by me. When you sign up, your email and password go to that Keycloak instance. That means you're trusting me with those credentials. That's it. I don't want to oversell this.
 
-Even when using Gryt's hosted auth at `auth.gryt.chat`, the security model holds: the signaling server verifies tokens cryptographically and never receives or stores passwords. But the option to run your own Keycloak instance means you don't have to trust us with your identity. You only have to trust the math.
+What I can tell you:
+
+- **Server hosts never see your password.** The signaling server only receives a signed JWT and verifies the signature against Keycloak's public keys. It doesn't talk to Keycloak at auth time — it just needs the JWKS endpoint. Your password stays between you and the Keycloak instance.
+- **One identity, every server.** You sign up once and your identity works across every Gryt server. Server hosts validate your token cryptographically — they don't store or manage your credentials.
+- **You can use a throwaway email.** The only requirement is that your email address can receive a verification link. If you don't want to hand over your real one, use a one-time obfuscated address. Keycloak doesn't care, and neither does Gryt.
+- **The auth source is open.** The [auth package](https://github.com/Gryt-chat/gryt/tree/main/packages/auth) is open source for transparency — you can audit exactly what's running at `auth.gryt.chat`.
+- **No data sharing. No tracking. Period.** Gryt shares no data with third parties — not from Keycloak, not from the signaling server, not from anywhere. There is no analytics, no telemetry, no usage tracking of any kind. Nothing phones home. Your data exists in exactly one place: the infrastructure that runs it.
+
+If you want to go further, **self-hosting Keycloak is technically possible** — the code and theme are all in the repo. But it's not expected, and full self-hosted auth documentation is still planned. The default setup points every server at `auth.gryt.chat` because centralized identity is what makes "sign up once, join any server" work.
+
+The architecture still gives you meaningful separation: the people running the servers you join never see your credentials. They get a cryptographically verified identity — nothing more.
 
 ## How the security model works
 
@@ -198,17 +206,17 @@ The entire stack runs with a single `docker compose up -d`. No build step, no co
 
 ## What this means in practice
 
-When you self-host Gryt:
+When you host a Gryt server:
 
-- Your voice data is encrypted end-to-end between your browser and the SFU, and the SFU can't decrypt it
-- Your identity is managed by your own Keycloak instance, on your own hardware
+- Your voice data is encrypted between your browser and the SFU, and the SFU can't decrypt it
 - Your messages and files are stored in your own ScyllaDB and MinIO, on your own disks
-- No telemetry, no analytics, no data leaves your network
+- Your identity is verified cryptographically — server hosts never see your password or manage your credentials
+- No telemetry, no analytics, no data sharing — nothing leaves your server except auth token validation against `auth.gryt.chat`
 - The entire stack is open source under AGPL-3.0 — you can audit every line
 
-This isn't privacy by policy. It's privacy by architecture. The system literally cannot do the things we're telling you it doesn't do, because the components don't have the access or the keys.
+The trust you're placing is narrow and explicit: you trust the hosted Keycloak at `auth.gryt.chat` with your login credentials (and you can use a throwaway email if you prefer). Everything else — your voice, your messages, your files — lives on infrastructure you control.
 
-That's the whole point.
+That's the point. Not zero trust, but minimal trust — and honest about where the lines are.
 
 ---
 
