@@ -1,6 +1,6 @@
 ---
 title: The Projects That Paved the Way
-description: A love letter to the open source communication projects that inspired Gryt, and an honest look at where we all stand in the quest to build something better.
+description: A shoutout to the open source communication projects I came across while building Gryt — and why you should check them out.
 author: Sivert
 date: 2026-02-22
 tags:
@@ -10,135 +10,49 @@ tags:
   - voice
 ---
 
-## We didn't build this alone
+## A shoutout to the projects I admire
 
-Gryt wouldn't exist without the open source projects that came before it. Some of them have been around for over a decade. Some launched in the last year. All of them are trying, in their own way, to give people a communication platform that respects them — and that's something worth celebrating.
+While building Gryt I spent a lot of time looking at what other people have built in this space. I came away genuinely impressed. These are projects I like, projects I've learned from, and projects I want more people to know about.
 
-This post is about those projects. What they do well, what they've contributed to the ecosystem, and why you should check them out. It's also about where Gryt fits into this landscape — not because we think we're better, but because understanding where everyone stands helps the whole community move forward.
+This isn't a comparison or a ranking. Every one of these projects is great at something, and the open source communication space is better because all of them exist.
 
-## The veterans
+## Communication platforms
 
-### Mumble — the original open source voice
+**[Mumble](https://www.mumble.info/)** has been around since 2005 and is still one of the best low-latency voice clients ever made. Positional audio, tiny resource footprint, rock-solid reliability. It doesn't try to be a social platform — it just does voice, and it does it incredibly well. If all you need is voice chat for your group, honestly, Mumble is hard to beat.
 
-Before WebRTC, before Discord, before any of this — there was [Mumble](https://www.mumble.info/). First released in 2005, Mumble has been the gold standard for low-latency open source voice communication for over two decades. It uses its own protocol optimized for voice, delivers consistently excellent audio quality, and can be self-hosted with minimal resources.
+**[Jitsi Meet](https://meet.jit.si/)** proved that open source WebRTC conferencing could work at scale. Their video bridge is one of the most battle-tested SFUs out there, and they made self-hosted video calls a real option for everyone. It's a meeting tool rather than a community platform, but the groundwork Jitsi laid gave confidence to every WebRTC project that came after.
 
-Mumble doesn't try to be a social platform. It doesn't have text channels, servers with roles, or a modern web UI. It's a voice client, and it's one of the best ever made. Positional audio for gaming, fine-grained permission trees, and a community that has kept the project alive and relevant for twenty years. If all you need is reliable voice chat for your group, Mumble is still a genuinely great choice.
+**[Element](https://element.io/) & [Matrix](https://matrix.org/)** are building something ambitious — a federated, end-to-end encrypted communication protocol that no single company controls. Governments and enterprises already rely on it. The ecosystem is massive: hundreds of clients, bridges to other platforms, and a proper spec process. If federation and encryption are your top priorities, nothing else comes close. The UX has historically been a bit rough around the edges, but it's improving fast with Element X.
 
-What Mumble taught me: **focus matters.** Doing one thing exceptionally well is worth more than doing ten things poorly.
+**[Revolt](https://revolt.chat/)** is probably the most familiar experience for Discord users. Clean UI, servers, channels, roles, custom emoji — it just feels right. The community around it is passionate and growing. Voice is still being developed and self-hosted voice can be tricky to configure, but the overall polish and community feel are really impressive for an open source project.
 
-### Jitsi Meet — proving WebRTC works at scale
+**[Rocket.Chat](https://www.rocket.chat/)** is playing a different game — enterprise communication. Think Slack but self-hosted. Omnichannel support, audit logs, compliance tools, federation. It's not trying to be Discord, and that's fine. If you need communication infrastructure for an organization, especially in regulated industries, Rocket.Chat is one of the most capable options out there.
 
-[Jitsi Meet](https://meet.jit.si/) showed the world that open source WebRTC conferencing could actually work — and work well. With over 25,000 GitHub stars, Jitsi's video bridge is one of the most battle-tested SFUs in existence. It handles video conferencing with dozens of participants, supports recording and live streaming, and can be self-hosted with Docker or Debian packages.
+**[Spacebar](https://spacebar.chat/)** (formerly Fosscord) took the most direct approach: a reverse-engineered reimplementation of Discord's API. Existing Discord bots can work with it, which is a huge advantage. Voice support is still being refined, but the compatibility angle is genuinely clever.
 
-Jitsi isn't trying to replace Discord. It's a meeting platform, and a great one. But its real contribution is broader than that: Jitsi proved that you don't need a proprietary service to do real-time video and audio over WebRTC. That proof of concept gave confidence to every project that followed, including Gryt.
+**[CutTheCord](https://cutthecord.app/)** is newer and moving fast. Built on a modern stack with [LiveKit](https://livekit.io/) handling voice and video, it already has desktop clients and an Android app. Smart choice of building on a great SFU rather than rolling their own — means the audio experience is solid from day one.
 
-What Jitsi taught me: **WebRTC can be self-hosted, it can scale, and it can be open source.** That might sound obvious now, but someone had to prove it first.
-
-## The challengers
-
-These are the projects going head-to-head with Discord as community platforms. Each one takes a different approach, and each one brings something valuable to the table.
-
-### Element & Matrix — federation done right
-
-[Element](https://element.io/) and the [Matrix protocol](https://matrix.org/) represent the most ambitious vision in this space: a **federated, end-to-end encrypted communication protocol** that no single company controls. Matrix isn't just a chat app — it's an open standard. Anyone can run a homeserver, and users on different servers can communicate seamlessly, like email.
-
-Element is the flagship Matrix client, and it's impressive. End-to-end encryption by default, rich text messaging, spaces (their version of servers), and — as of 2025 — **Element Call**, which brings WebRTC group calling directly into the app using [LiveKit](https://livekit.io/) as the SFU backend. They've built a multi-SFU architecture under the MatrixRTC framework that supports encrypted voice, video, and even extensible real-time applications like virtual worlds and multiplayer games.
-
-If your priority is **federation and encryption** — meaning no single point of control and mathematically guaranteed privacy — Element is the most mature option out there. Governments and enterprises use it for exactly this reason. The German military, the French government, and thousands of organizations run Matrix for secure communication.
-
-The Matrix ecosystem is enormous: hundreds of clients, bridges to other platforms (IRC, Slack, Discord, Telegram), and a spec process that ensures interoperability. It's the closest thing to a truly decentralized communication standard we have.
-
-What Element taught me: **the protocol matters as much as the product.** Building on an open standard means your work outlives any single implementation.
-
-### Revolt — the community's Discord alternative
-
-[Revolt](https://revolt.chat/) is probably the most visually familiar alternative for Discord users. It nails the core experience: servers, channels, roles, a clean modern UI, custom emoji, and a community that genuinely cares about building something independent. If you've used Discord, you'll feel right at home in Revolt within minutes.
-
-Revolt is open source, self-hostable, and has been growing steadily. Their v0.0.13 release in October 2025 introduced improved voice features and a better messaging experience. The project has an active development team and a passionate user base that's been with them through years of iteration.
-
-Voice in Revolt uses WebRTC and is actively being developed. It works on the official instance, and the team continues to improve audio quality and reliability. Self-hosted voice has been trickier — some users have reported configuration challenges — but the team is actively working on making the experience smoother.
-
-Where Revolt really shines is in the **community feel**. The UI is polished, the onboarding is smooth, and the project has built a real following of people who just want a better chat platform without the corporate baggage. If you're looking for the most Discord-like open source experience today, Revolt is worth your time.
-
-What Revolt taught me: **user experience is not optional.** You can have the best technology in the world, but if the UI doesn't feel right, people won't stay.
-
-### Rocket.Chat — the enterprise workhorse
-
-[Rocket.Chat](https://www.rocket.chat/) occupies a different niche. While the rest of us are trying to replace Discord for friend groups and gaming communities, Rocket.Chat has been building a serious enterprise communication platform since 2015. Think Slack, but self-hosted and open source.
-
-With features like omnichannel customer service, federation, marketplace integrations, audit logs, and compliance tools, Rocket.Chat serves organizations that need communication infrastructure they can control and audit. Their v7.11 release introduced native peer-to-peer WebRTC voice calling, and they continue to develop their "Secure CommsOS" vision for 2026.
-
-Rocket.Chat isn't trying to be Discord, and that's fine. They're solving a different problem — and solving it well. If your needs are organizational rather than social, especially in regulated industries, Rocket.Chat is one of the most capable open source options available.
-
-What Rocket.Chat taught me: **knowing your audience is everything.** Not every communication platform needs to be a Discord killer. Sometimes the best thing you can do is serve your niche exceptionally well.
-
-### Spacebar — faithful to Discord's DNA
-
-[Spacebar](https://spacebar.chat/) (formerly Fosscord) takes the most literal approach to being a Discord alternative: it's a **reverse-engineered reimplementation of Discord's API**. This means existing Discord bots and even some clients can work with Spacebar with minimal changes. If you want a self-hosted platform that speaks Discord's language, Spacebar is the project to watch.
-
-Voice support exists through mediasoup and medooze implementations, though it's optional and still being refined. The project's real strength is the compatibility angle — leveraging the massive ecosystem of Discord tools, bots, and client modifications that already exist.
-
-What Spacebar taught me: **compatibility is a superpower.** Meeting users where they already are, rather than asking them to abandon everything they know, is a powerful strategy.
-
-## The newcomers
-
-### CutTheCord — modern stack, fast progress
-
-[CutTheCord](https://cutthecord.app/) is one of the newer entries, and it's moving fast. Built with React, Fastify, and PostgreSQL, it uses [LiveKit](https://livekit.io/) for WebRTC voice and video. That means noise suppression, per-user volume control, video calls in voice channels, and a noise gate — all powered by one of the best open source SFUs available.
-
-CutTheCord is MIT-licensed, fully self-hosted via Docker Compose, and already has desktop clients for Linux and Windows plus an Android app. For a young project, the feature set is impressive, and the choice of LiveKit as the voice backend means the audio experience is solid from day one.
-
-What CutTheCord taught me: **standing on the shoulders of great libraries is a perfectly valid strategy.** Not everyone needs to build their SFU from scratch (more on that below).
-
-### Sharkord — lightweight and scrappy
-
-[Sharkord](https://sharkord.com/) is in alpha (v0.0.3 as of February 2026), but it's already doing voice, video, and screen sharing using [Mediasoup](https://mediasoup.org/). It runs on minimal hardware — they claim a Raspberry Pi 4 is enough — and ships as a standalone binary. No Docker required if you don't want it.
-
-It's early days, but the emphasis on being lightweight and self-contained is refreshing. Not every community needs a Kubernetes cluster to chat.
-
-What Sharkord taught me: **simplicity is a feature.** If you can lower the barrier to self-hosting, more people will do it.
+**[Sharkord](https://sharkord.com/)** is early (alpha as of February 2026), but I love the philosophy: lightweight enough to run on a Raspberry Pi, ships as a standalone binary, no Docker required. Not every community needs a Kubernetes cluster to chat.
 
 ## The building blocks
 
-None of these projects would exist without the open source libraries and infrastructure that make WebRTC development possible. These deserve their own recognition.
+These are the libraries and tools that make all of the above possible.
 
-### Pion — WebRTC in pure Go
+**[Pion](https://github.com/pion/webrtc)** is a pure Go WebRTC implementation and what Gryt's SFU is built on. No C dependencies, fully readable and customizable. The community around it, led by [Sean DuBois](https://github.com/Sean-Der), is incredibly welcoming. I spent nearly two years learning WebRTC through Pion, and it's the foundation of everything Gryt does with voice.
 
-[Pion](https://github.com/pion/webrtc) is a pure Go implementation of the WebRTC stack with no C dependencies. It's what Gryt's SFU is built on, and it's one of the most important projects in this entire ecosystem. Pion gives you the ability to read, understand, and customize the entire WebRTC stack — from ICE negotiation to DTLS handshakes to SRTP encryption — without any opaque native code getting in the way.
+**[LiveKit](https://livekit.io/)** built a production-ready SFU platform on top of Pion. Horizontally scalable, MIT-licensed, SDKs for every platform. It's what CutTheCord and Element Call use, and for good reason — if you need voice and video to just work, LiveKit is probably the fastest way to get there.
 
-The Pion community, led by [Sean DuBois](https://github.com/Sean-Der), has been extraordinarily generous with their time and knowledge. The documentation, the examples, the willingness to help newcomers — it's open source at its best. I spent nearly two years learning WebRTC through Pion, and that investment is the foundation of everything Gryt does with voice today.
+**[Mediasoup](https://mediasoup.org/)** is a C++ SFU with Node.js bindings that powers voice in projects like Spacebar and Sharkord. Well-documented, highly configurable, and a go-to for the Node.js ecosystem.
 
-### LiveKit — making SFU accessible
+**[coturn](https://github.com/coturn/coturn)** is the TURN/STUN server that quietly makes WebRTC work in the real world. When peers can't connect directly, coturn relays the traffic. Nearly every self-hosted WebRTC deployment depends on it. It doesn't get enough credit.
 
-[LiveKit](https://livekit.io/) took Pion and built a production-ready SFU platform on top of it. Horizontally scalable, MIT-licensed, with SDKs for every major platform. LiveKit is what projects like CutTheCord and Element Call use for their voice infrastructure, and for good reason — it's excellent. If you're building a product and you need voice/video to just work, LiveKit is probably the fastest path to a great experience.
+## It's not a competition
 
-### Mediasoup — the Node.js SFU
+Every project on this list does something well that the others don't. That's the whole point. We're not fighting over the same users — we're all working toward the same goal: giving people communication tools that respect them. The more projects there are, the stronger that message gets.
 
-[Mediasoup](https://mediasoup.org/) is a C++ SFU with Node.js bindings, and it powers the voice in projects like Spacebar and Sharkord. It's highly configurable, well-documented, and has been a go-to choice for developers in the Node.js ecosystem who need WebRTC routing.
+I looked at all of these while building Gryt, and I wanted to put them here so others can discover and appreciate them the way I did. Open source works because we share what we know. These projects shared their code, their ideas, and their lessons with the world, and Gryt is better for it.
 
-### coturn — the unsung hero
-
-[coturn](https://github.com/coturn/coturn) is the open source TURN/STUN server that quietly makes WebRTC work in the real world. When two peers can't connect directly — because of NATs, firewalls, or corporate networks — coturn relays the traffic. Nearly every self-hosted WebRTC deployment depends on it. It doesn't get enough credit.
-
-## Where Gryt fits
-
-So where does Gryt sit in all of this?
-
-I built Gryt because I wanted a communication platform that treats voice as a **first-class feature**, not an afterthought. After four years of development — including nearly two years of [studying WebRTC from the ground up](/blog/learning-webrtc-from-the-ground-up) — Gryt has a working SFU written in Go on top of Pion, handling real-time voice routing with DTLS-SRTP encryption, noise suppression via RNNoise, echo cancellation, and voice activity detection. It's a full platform: servers, channels, roles, text chat, file sharing, and voice — all self-hosted, all open source under AGPL-3.0.
-
-I didn't use LiveKit or Mediasoup for the SFU. I built it directly on Pion. That was the slow path — it added a year or more to the development timeline — but it means I understand every layer of the stack. When something breaks, I can trace it from the application layer down to individual RTP packets. When users ask how their voice data is handled, I can give them a precise, honest answer. That understanding is baked into the [infrastructure](/blog/inside-gryts-infrastructure) and it's something I wouldn't trade.
-
-Is Gryt better than the projects listed above? That's the wrong question. Element does federation and encryption at a level Gryt doesn't attempt. Revolt has a more polished user experience. Rocket.Chat has enterprise features I haven't even thought about. Mumble has twenty years of rock-solid voice performance.
-
-What Gryt offers is a specific combination: **a Discord-style community platform where voice communication through a custom SFU is a core architectural feature, not a third-party integration or an optional add-on**. That niche is small, but it's the one I care about — because it's the experience I wanted for my friends back in 2022 when this whole thing started.
-
-## Support these projects
-
-If you've read this far, do me a favor: **go check out these projects**. Star their repos. Join their communities. Try self-hosting one of them. File a bug report. Write a plugin. Contribute a translation. Tell your friends.
-
-The open source communication ecosystem is healthier when more projects exist, not fewer. We're not competing for a fixed pie — we're all working to prove that people deserve better than what the proprietary platforms offer. Every project on this list makes that case stronger.
-
-Here are the links:
+If any of these caught your eye, go check them out. Star a repo, join a community, try self-hosting one. It all helps.
 
 - [Mumble](https://www.mumble.info/) — [GitHub](https://github.com/mumble-voip/mumble)
 - [Jitsi Meet](https://meet.jit.si/) — [GitHub](https://github.com/jitsi/jitsi-meet)
@@ -154,8 +68,4 @@ Here are the links:
 - [Mediasoup](https://mediasoup.org/) — [GitHub](https://github.com/versatica/mediasoup)
 - [coturn](https://github.com/coturn/coturn)
 
-And if you want to try Gryt itself — the project all of these inspired — check out the [GitHub repository](https://github.com/Gryt-chat/gryt) or come hang out on [Discord](https://discord.gg/Q3JKUGsnHE).
-
----
-
-We're all building toward the same thing: a world where talking to your friends doesn't require handing your data to a corporation. The more of us there are, the closer we get.
+And if you want to try Gryt — the project all of these inspired — check out the [GitHub repository](https://github.com/Gryt-chat/gryt) or come hang out on [Discord](https://discord.gg/Q3JKUGsnHE).
