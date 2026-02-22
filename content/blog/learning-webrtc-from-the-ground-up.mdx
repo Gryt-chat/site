@@ -9,11 +9,21 @@ tags:
   - technical
 ---
 
-## Why I didn't just use a library
+## I started with the hard part
 
-When I started building Gryt, the pragmatic move would have been to grab a WebRTC-as-a-service SDK, wire it up, and call it done. Plenty of good ones exist. But I had a nagging feeling that if I was going to build a voice platform I could stand behind, I needed to understand what was actually happening on the wire.
+Most people would tell you to build the easy stuff first — get the UI working, set up authentication, design the chat system — and bolt on voice later. I did the opposite. When I decided I wanted to build a communication platform, WebRTC was the **first** thing I tackled. Not the last piece of the puzzle. The first.
+
+The reasoning was simple: voice is what makes or breaks a platform like this. You can have the most beautiful UI in the world, the most polished text chat, the best role system — but if your voice doesn't work reliably, none of it matters. I'd seen enough open source projects build fantastic features around text and community, only to struggle when it came to real-time voice communication. I didn't want that to be Gryt's story. If I couldn't solve voice, there was no point building the rest.
+
+The pragmatic move would have been to grab a WebRTC-as-a-service SDK, wire it up, and call it done. Plenty of good ones exist. But I had a nagging feeling that if I was going to build a voice platform I could stand behind, I needed to understand what was actually happening on the wire.
 
 That decision turned what could have been a weekend integration into a nearly two-year deep dive. This post is about what I learned along the way.
+
+## Nobody around me could help
+
+One of the first things I did when I committed to learning WebRTC was ask around. I work as a developer, surrounded by experienced colleagues — surely someone had dealt with this before? I asked every single developer at my workplace. Not a single person had any real experience with WebRTC or could tell me how it worked. A few who had worked at NRK — Norway's public broadcaster — and had been involved in live streaming infrastructure had *heard* of it, but when I pressed for details, it was clear they had zero idea how the protocol actually worked under the hood.
+
+That was a sobering moment. WebRTC powers every video call on the modern web — Google Meet, Discord, Zoom in the browser — and yet among dozens of professional developers, nobody could explain how ICE negotiation works or what DTLS-SRTP actually does. It's one of the most widely *used* technologies and one of the least widely *understood*. There were no mentors to lean on, no colleagues to pair with. It was going to be me, the RFCs, and a lot of trial and error.
 
 ## The WebRTC stack is deeper than you think
 
@@ -66,13 +76,15 @@ The first version of Gryt was pure peer-to-peer: every participant sent their au
 
 The solution is a **Selective Forwarding Unit (SFU)**. Instead of sending to every peer, each participant sends one stream to the SFU, and the SFU forwards it to everyone else. Upload is constant regardless of room size.
 
-I chose to build the SFU in **Go** using the [Pion WebRTC](https://github.com/pion/webrtc) library. Pion is remarkable — it's a pure Go implementation of the WebRTC stack, no C dependencies, no CGo. This meant I could:
+My first attempt at building an SFU was with [Mediasoup](https://mediasoup.org/), a well-regarded C++ SFU with Node.js bindings. Mediasoup is a serious, production-grade library — projects like Spacebar and Sharkord use it for their voice systems, and for good reason. But for me, at the stage I was at, it was too much abstraction over concepts I didn't yet understand. The C++ core was opaque, the abstractions assumed knowledge I didn't have, and when things went wrong I couldn't trace *why*. I wasn't struggling with Mediasoup because it's a bad library — it's an excellent one. I was struggling because I didn't understand the protocols underneath it well enough to use it effectively.
+
+That realization is what led me to [Pion WebRTC](https://github.com/pion/webrtc). Pion is a pure Go implementation of the WebRTC stack — no C dependencies, no CGo, nothing hidden. Paradoxically, going lower-level made everything *easier* for me, because I could finally see what was actually happening:
 
 - Read and step through the actual protocol implementation
 - Understand exactly how DTLS handshakes, SRTP encryption, and RTP packet routing work
 - Customize behavior at a level that wouldn't be possible with opaque SDKs
 
-Building on Pion was one of the best learning decisions I made. When something broke, I could trace it from the application layer all the way down to individual RTP packets.
+Building on Pion was one of the best learning decisions I made. When something broke, I could trace it from the application layer all the way down to individual RTP packets. The detour through Mediasoup wasn't wasted time — it taught me what I didn't know, which pointed me toward what I needed to learn.
 
 ## What I'd tell someone starting today
 
@@ -95,12 +107,16 @@ Don't just trust that "it's encrypted." Understand _how_ DTLS-SRTP works, what t
 
 ## The payoff
 
-Two years is a long time to spend learning a protocol. But that investment shows up everywhere in Gryt today:
+Two years is a long time to spend learning a protocol. There were plenty of moments where I questioned whether it was worth it — whether I should have just used an off-the-shelf SFU and spent those years building features instead.
+
+But that investment shows up everywhere in Gryt today:
 
 - The SFU handles edge cases gracefully because I understand the underlying state machines
 - Security decisions are deliberate, not cargo-culted from examples
 - When something breaks in production, I can diagnose it from packet captures instead of guessing
 - I can explain to users exactly what happens to their audio data and why they should trust it
+
+Looking at the broader landscape of open source communication platforms, I'm especially grateful I made this choice. There are brilliant projects out there — [Revolt](https://revolt.chat/), [Spacebar](https://spacebar.chat/), [Element](https://element.io/) — doing incredible work on community features, UI polish, federation, and encryption. Some of them have been at it longer than I have, and they've built things I genuinely admire. But real-time voice communication remains one of the hardest problems in this space, and it's where many projects hit a wall. By starting with the hardest problem first, I made sure Gryt's foundation was solid before building everything else on top of it. If I'd done it the other way around — features first, voice later — I might have ended up with a polished platform that couldn't reliably carry a conversation.
 
 ![Gryt voice chat in action — three users connected with real-time latency displayed, text chat, and voice controls](/gryt-preview.png)
 
