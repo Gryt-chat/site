@@ -48,6 +48,9 @@ export function Footer() {
               Self-Host Guide
             </a>
           </li>
+          <li>
+            <a href="mailto:sivert@gryt.chat">Business Inquiries</a>
+          </li>
         </ul>
 
         <div className={styles.copy}>
