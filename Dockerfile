@@ -22,6 +22,9 @@ RUN printf '%s\n' \
   '    listen 80;' \
   '    root /usr/share/nginx/html;' \
   '    index index.html;' \
+  '    # Serve binaries as static files (no SPA fallback).' \
+  '    location ^~ /release/ { try_files $uri =404; }' \
+  '    location ^~ /downloads/ { try_files $uri =404; }' \
   '    location / { try_files $uri $uri/ /index.html; }' \
   '    location /health { return 200 "healthy"; add_header Content-Type text/plain; }' \
   '  }' \
