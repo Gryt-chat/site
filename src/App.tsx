@@ -7,6 +7,7 @@ import { BlogIndex } from "./pages/BlogIndex";
 import { BlogPost } from "./pages/BlogPost";
 import { PrivacyPolicy } from "./pages/PrivacyPolicy";
 import { CommunityGuidelines } from "./pages/CommunityGuidelines";
+import { InvitePage } from "./pages/InvitePage";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -29,6 +30,7 @@ export default function App() {
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/community-guidelines" element={<CommunityGuidelines />} />
         <Route path="/guidelines" element={<CommunityGuidelines />} />
+        <Route path="/invite" element={<InvitePage />} />
       </Routes>
       <Footer />
     </>
