@@ -5,6 +5,8 @@ import { Footer } from "./components/Footer";
 import { HomePage } from "./pages/HomePage";
 import { BlogIndex } from "./pages/BlogIndex";
 import { BlogPost } from "./pages/BlogPost";
+import { PrivacyPolicy } from "./pages/PrivacyPolicy";
+import { CommunityGuidelines } from "./pages/CommunityGuidelines";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -23,6 +25,10 @@ export default function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/blog" element={<BlogIndex />} />
         <Route path="/blog/:slug" element={<BlogPost />} />
+        <Route path="/privacy" element={<PrivacyPolicy />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/community-guidelines" element={<CommunityGuidelines />} />
+        <Route path="/guidelines" element={<CommunityGuidelines />} />
       </Routes>
       <Footer />
     </>

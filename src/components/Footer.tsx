@@ -17,6 +17,12 @@ export function Footer() {
             <Link to="/blog">Blog</Link>
           </li>
           <li>
+            <Link to="/privacy">Privacy</Link>
+          </li>
+          <li>
+            <Link to="/community-guidelines">Guidelines</Link>
+          </li>
+          <li>
             <a href="https://docs.gryt.chat" target="_blank" rel="noreferrer">
               Documentation
             </a>
