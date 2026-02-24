@@ -24,7 +24,8 @@ npm run preview
 
 ## Issues
 
-Please report bugs and request features in the [main Gryt repository](https://github.com/Gryt-chat/gryt/issues).
+- **Feature requests**: [feedback.gryt.chat](https://feedback.gryt.chat)
+- **Bug reports**: [GitHub Issues](https://github.com/Gryt-chat/gryt/issues)
 
 ## License
 
