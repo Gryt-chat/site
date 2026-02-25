@@ -6,7 +6,7 @@ import { GrytLogo } from "./GrytLogo";
 import styles from "./Navbar.module.css";
 
 const navLinks = [
-  { href: "/#features", label: "Features", external: false },
+  { href: "/why-gryt", label: "Why Gryt?", external: false, isRoute: true },
   { href: "/blog", label: "Blog", external: false, isRoute: true },
   { href: "https://docs.gryt.chat", label: "Docs", external: true },
   { href: "https://feedback.gryt.chat", label: "Feedback", external: true },
@@ -55,8 +55,6 @@ export function Navbar() {
           <li>
             <a
               href="https://app.gryt.chat"
-              target="_blank"
-              rel="noreferrer"
               className={styles.openApp}
             >
               Open App
@@ -144,8 +142,6 @@ export function Navbar() {
               <div className={styles.sheetFooter}>
                 <a
                   href="https://app.gryt.chat"
-                  target="_blank"
-                  rel="noreferrer"
                   className={`${styles.openApp} ${styles.openAppMobile}`}
                   onClick={close}
                 >

@@ -8,6 +8,7 @@ import { BlogPost } from "./pages/BlogPost";
 import { PrivacyPolicy } from "./pages/PrivacyPolicy";
 import { CommunityGuidelines } from "./pages/CommunityGuidelines";
 import { InvitePage } from "./pages/InvitePage";
+import { WhyGryt } from "./pages/WhyGryt";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -24,6 +25,7 @@ export default function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/why-gryt" element={<WhyGryt />} />
         <Route path="/blog" element={<BlogIndex />} />
         <Route path="/blog/:slug" element={<BlogPost />} />
         <Route path="/privacy" element={<PrivacyPolicy />} />

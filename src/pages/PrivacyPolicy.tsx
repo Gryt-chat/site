@@ -1,6 +1,6 @@
 import styles from "./PrivacyPolicy.module.css";
 
-const LAST_UPDATED = "February 23, 2026";
+const LAST_UPDATED = "February 25, 2026";
 
 export function PrivacyPolicy() {
   return (
@@ -12,197 +12,120 @@ export function PrivacyPolicy() {
 
       <div className={styles.prose}>
         <p>
-          This Privacy Policy explains how <strong>Gryt Chat</strong> (“we”,
-          “us”, “our”) processes information when you use the Gryt Chat client
-          application (the “App”) and related services we operate (together, the
-          “Services”), such as <code>app.gryt.chat</code> and our official
-          authentication service.
+          This Privacy Policy describes how <strong>Gryt Chat</strong> ("we",
+          "us", "our") handles data when you use the services we operate:
         </p>
+        <ul>
+          <li>
+            <strong>app.gryt.chat</strong> — the Gryt web client
+          </li>
+          <li>
+            <strong>auth.gryt.chat</strong> — our authentication service
+          </li>
+        </ul>
 
         <p>
-          <strong>Important:</strong> Gryt is designed to work with both our
-          hosted services and <em>self-hosted or third-party Gryt servers</em>.
-          If you connect to a server that we do not operate, that server’s
-          operator controls how your data is processed on that server. You
-          should review their privacy policy and terms.
+          <strong>Gryt servers:</strong> Gryt is designed for self-hosted and
+          third-party servers. We do not operate a Gryt server you can join.
+          When you connect to a server, that server is run by its own operator,
+          who controls how your data is processed and stored. Contact the server
+          operator for their privacy practices.
         </p>
 
-        <h2>Information we process</h2>
-        <h3>Information you provide</h3>
-        <ul>
-          <li>
-            <strong>Profile information</strong>: nickname, avatar, and other
-            profile fields you choose to set.
-          </li>
-          <li>
-            <strong>Content you send</strong>: chat messages, reactions, and
-            files you upload through the Services.
-          </li>
-          <li>
-            <strong>Voice/video/screen-share data</strong>: audio/video streams
-            and screen sharing that you choose to transmit in voice channels.
-          </li>
-        </ul>
+        <h2>What we collect</h2>
 
-        <h3>Information processed automatically</h3>
-        <ul>
-          <li>
-            <strong>Connection and device information</strong>: IP address,
-            basic device/app information, and timestamps needed to establish and
-            secure connections.
-          </li>
-          <li>
-            <strong>Operational and performance data</strong>: limited technical
-            data needed to run real-time voice (for example, latency/jitter and
-            bitrate information shared within a voice channel for UX and
-            diagnostics).
-          </li>
-          <li>
-            <strong>Local app storage</strong>: the App stores certain data on
-            your device to keep you signed in and preserve settings (for
-            example, access/refresh tokens and preferences in local or session
-            storage).
-          </li>
-        </ul>
-
-        <h3>Information from identity providers</h3>
+        <h3>Account data</h3>
         <p>
-          If you sign in using an identity provider (for example, OpenID Connect
-          / Keycloak), we process identifiers and claims needed to authenticate
-          you (such as a stable user identifier, and in some configurations an
-          email address or username).
+          When you create an account or sign in through{" "}
+          <strong>auth.gryt.chat</strong>, we process:
         </p>
-
-        <h2>How we use information</h2>
         <ul>
+          <li>Email address</li>
+          <li>Password (hashed — never stored in plain text)</li>
           <li>
-            <strong>Provide the Services</strong>: connect you to servers,
-            deliver voice and chat features, and show your profile to other
-            participants.
-          </li>
-          <li>
-            <strong>Security and abuse prevention</strong>: authenticate users,
-            prevent fraud, investigate reports, and protect the Services.
-          </li>
-          <li>
-            <strong>Improve reliability</strong>: troubleshoot issues and
-            understand performance (for example, connection quality).
-          </li>
-          <li>
-            <strong>Legal compliance</strong>: comply with applicable laws and
-            enforce our terms where necessary.
+            Account metadata needed for authentication (internal identifiers,
+            email verification status)
           </li>
         </ul>
 
-        <h2>How voice and chat work</h2>
+        <h3>Operational logs</h3>
         <p>
-          Gryt is a real-time communication product. When you join a voice
-          channel, your device transmits media streams to other participants.
-          Depending on the server configuration, media may be routed through a
-          Gryt SFU (Selective Forwarding Unit) to deliver audio/video to other
-          members. Chat messages and file uploads are sent to the server you are
-          connected to.
+          Like most web services, our servers may record minimal operational
+          data for security and reliability — for example, IP addresses,
+          user-agent strings, and request timestamps. We do not use analytics or
+          cross-site tracking.
         </p>
 
-        <h2>Sharing</h2>
+        <h2>What we do not collect</h2>
+        <p>
+          The web client at <strong>app.gryt.chat</strong> does not send your
+          messages, files, voice data, or server profiles to us. All chat
+          content flows directly between your device and the Gryt server you
+          connect to.
+        </p>
+
+        <h2>Data on your device</h2>
+        <p>
+          The Gryt client stores a small amount of data locally in your browser
+          to keep you signed in and remember your preferences (for example,
+          authentication tokens and UI settings). This data stays on your device
+          and is not sent to us.
+        </p>
+
+        <h2>Data on servers you connect to</h2>
+        <p>
+          When you use a Gryt server, the server operator — not Gryt Chat —
+          stores and controls the data you send, which typically includes:
+        </p>
         <ul>
-          <li>
-            <strong>With other users</strong>: your nickname, avatar, and the
-            content you choose to send (messages, voice/video, files) are shared
-            with other participants in the relevant server/channel.
-          </li>
-          <li>
-            <strong>With server operators</strong>: the server you connect to
-            processes your data. If it is a self-hosted or third-party server,
-            its operator may access and retain data according to their own
-            policies.
-          </li>
-          <li>
-            <strong>With service providers</strong>: if we operate the server
-            you use, we may rely on infrastructure providers (for example,
-            hosting and networking providers) that process data on our behalf to
-            run the Services.
-          </li>
-          <li>
-            <strong>No cross-app tracking</strong>: we do not use information
-            from the App to track you across other companies’ apps or websites,
-            and we do not serve targeted advertising.
-          </li>
-          <li>
-            <strong>App store platforms</strong>: if you download the App via
-            Apple or Microsoft, those platforms may process information
-            independently (for example, for billing, downloads, and fraud
-            prevention) under their own policies.
-          </li>
-          <li>
-            <strong>No sale of personal data</strong>: we do not sell your
-            personal data.
-          </li>
+          <li>Profile information (nickname, avatar)</li>
+          <li>Messages, reactions, and file uploads</li>
+          <li>Server membership and roles</li>
         </ul>
+        <p>
+          Voice and video streams may be routed through a media relay operated
+          by the server operator. The server operator's own policies govern how
+          this data is retained and used.
+        </p>
 
         <h2>Data retention</h2>
-        <p>
-          Retention depends on which server you use and how it is configured.
-          For servers we operate, we generally retain information only as long
-          as needed to provide the Services, comply with legal obligations, and
-          maintain security. For self-hosted or third-party servers, retention
-          is determined by that server’s operator.
-        </p>
-
-        <h2>Your choices and rights</h2>
         <ul>
           <li>
-            <strong>Permissions</strong>: you can control OS/app permissions for
-            microphone, camera, screen sharing, and notifications.
+            <strong>Account data</strong> is retained for as long as your
+            account exists.
           </li>
           <li>
-            <strong>Local data</strong>: you can sign out, disconnect servers,
-            and clear locally stored tokens/settings from within the App (or by
-            clearing app storage).
+            <strong>Operational logs</strong> are retained for a limited period
+            for security purposes.
           </li>
           <li>
-            <strong>Access / deletion</strong>: if you use a server we operate,
-            you may request access to or deletion of your data. If you use a
-            third-party server, contact that operator.
+            <strong>Server data</strong> is retained according to the policies
+            of each server operator.
           </li>
         </ul>
 
-        <h2>Security</h2>
-        <p>
-          We use reasonable technical measures to protect information. Media
-          transport uses standard WebRTC security mechanisms (including
-          encryption in transit). No method of transmission or storage is
-          100% secure, and we cannot guarantee absolute security.
-        </p>
-
-        <h2>Children</h2>
-        <p>
-          The Services are not directed to children under 13 (or the minimum
-          age required in your jurisdiction). If you believe a child has
-          provided personal data, contact us.
-        </p>
-
-        <h2>International transfers</h2>
-        <p>
-          If you use servers we operate, your information may be processed in
-          countries other than your own depending on where infrastructure and
-          servers are located. If you use a self-hosted or third-party server,
-          that operator determines where processing occurs.
-        </p>
-
-        <h2>Changes to this policy</h2>
-        <p>
-          We may update this policy from time to time. We will revise the “Last
-          updated” date above when changes are made.
-        </p>
+        <h2>Your rights and choices</h2>
+        <ul>
+          <li>
+            <strong>Local data:</strong> clear your browser storage at any time
+            to remove tokens and preferences.
+          </li>
+          <li>
+            <strong>Server data:</strong> contact the server operator to request
+            access to or deletion of data stored on their server.
+          </li>
+          <li>
+            <strong>Account data:</strong> contact us to request information
+            about or deletion of your authentication account.
+          </li>
+        </ul>
 
         <h2>Contact</h2>
         <p>
-          If you have questions or requests, contact us at{" "}
+          If you have questions or requests, reach out at{" "}
           <a href="mailto:sivert@gryt.chat">sivert@gryt.chat</a>.
         </p>
       </div>
     </main>
   );
 }
-

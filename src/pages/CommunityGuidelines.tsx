@@ -13,15 +13,16 @@ export function CommunityGuidelines() {
       <div className={styles.prose}>
         <p>
           Gryt Chat is built for friendly, real-time conversation. These
-          Community Guidelines apply when you use Gryt Chat services we operate
-          (for example, our official hosted servers and related infrastructure).
+          Community Guidelines apply to Gryt Chat community spaces and services
+          we operate (for example, our website and project communication
+          channels).
         </p>
 
         <p>
-          <strong>Self-hosted / third-party servers:</strong> Gryt can connect
-          to servers run by other people. Those server operators may set their
-          own rules and enforcement. If you’re using a server we don’t operate,
-          you should review the server’s rules and privacy policy.
+          <strong>Gryt servers:</strong> Gryt can connect to servers run by
+          other people (including your own self-hosted servers). Those server
+          operators set their own rules and enforcement. Gryt Chat does not run
+          an “official” server you can join under the Gryt Chat name.
         </p>
 
         <h2>Follow the law</h2>
@@ -81,7 +82,8 @@ export function CommunityGuidelines() {
         <h2>Reporting and moderation</h2>
         <ul>
           <li>
-            <strong>Report</strong>: you can report messages/content in-app.
+            <strong>Report</strong>: report issues in the relevant community
+            space (or to the server operator if it’s a server you joined).
           </li>
           <li>
             <strong>Moderation</strong>: server admins/moderators can remove
@@ -93,10 +95,10 @@ export function CommunityGuidelines() {
 
         <h2>Enforcement</h2>
         <p>
-          If you violate these guidelines on services we operate, we may take
-          action including warnings, removal of content, temporary restrictions,
-          or account/server bans. For self-hosted or third-party servers, the
-          server operator determines enforcement.
+          If you violate these guidelines in Gryt Chat community spaces we
+          operate, we may take action including warnings, removal of content, or
+          restrictions. For Gryt servers you join, the server operator
+          determines enforcement.
         </p>
 
         <h2>Contact</h2>
