@@ -5,20 +5,8 @@ import styles from "./Footer.module.css";
 
 const columns = [
   {
-    title: "Product",
-    links: [
-      {
-        href: "https://github.com/Gryt-chat/gryt/releases",
-        label: "Download",
-        external: true,
-      },
-      { href: "https://app.gryt.chat", label: "Open App", external: true },
-    ],
-  },
-  {
     title: "Resources",
     links: [
-      { href: "https://docs.gryt.chat", label: "Docs", external: true },
       { href: "/blog", label: "Blog", isRoute: true },
       {
         href: "https://docs.gryt.chat/docs/guide/roadmap",
@@ -31,26 +19,10 @@ const columns = [
         external: true,
       },
       {
-        href: "https://github.com/Gryt-chat/gryt/releases",
-        label: "Releases",
-        external: true,
-      },
-    ],
-  },
-  {
-    title: "Community",
-    links: [
-      {
         href: "https://github.com/Gryt-chat",
         label: "GitHub",
         external: true,
       },
-      {
-        href: "https://feedback.gryt.chat",
-        label: "Feedback",
-        external: true,
-      },
-      { href: "/why-gryt", label: "Why Gryt?", isRoute: true },
     ],
   },
   {
@@ -62,7 +34,7 @@ const columns = [
         label: "Guidelines",
         isRoute: true,
       },
-      { href: "mailto:sivert@gryt.chat", label: "Business Inquiries" },
+      { href: "mailto:business@gryt.chat", label: "Business Inquiries" },
     ],
   },
 ] as const;
