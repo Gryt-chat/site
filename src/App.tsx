@@ -10,10 +10,23 @@ import { CommunityGuidelines } from "./pages/CommunityGuidelines";
 import { InvitePage } from "./pages/InvitePage";
 import { WhyGryt } from "./pages/WhyGryt";
 
-function ScrollToTop() {
+const pageTitles: Record<string, string> = {
+  '/': 'Gryt — Voice, Text & Video Chat',
+  '/why-gryt': 'Why Gryt? | Gryt',
+  '/blog': 'Blog | Gryt',
+  '/privacy': 'Privacy Policy | Gryt',
+  '/privacy-policy': 'Privacy Policy | Gryt',
+  '/community-guidelines': 'Community Guidelines | Gryt',
+  '/guidelines': 'Community Guidelines | Gryt',
+  '/invite': 'Invite | Gryt',
+};
+
+function ScrollAndTitle() {
   const { pathname } = useLocation();
   useEffect(() => {
     window.scrollTo(0, 0);
+    const title = pageTitles[pathname];
+    if (title) document.title = title;
   }, [pathname]);
   return null;
 }
@@ -21,7 +34,7 @@ function ScrollToTop() {
 export default function App() {
   return (
     <>
-      <ScrollToTop />
+      <ScrollAndTitle />
       <Navbar />
       <Routes>
         <Route path="/" element={<HomePage />} />

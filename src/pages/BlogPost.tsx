@@ -1,4 +1,4 @@
-import { lazy, Suspense } from 'react'
+import { lazy, Suspense, useEffect } from 'react'
 import { useParams, Link, Navigate } from 'react-router-dom'
 import { MdChevronLeft } from 'react-icons/md'
 import { getPost } from '../lib/blog'
@@ -38,6 +38,10 @@ export function BlogPost() {
   if (!post) return <Navigate to="/blog" replace />
 
   const { frontmatter, Component } = post
+
+  useEffect(() => {
+    document.title = `${frontmatter.title} | Gryt Blog`
+  }, [frontmatter.title])
 
   return (
     <main className={styles.page}>

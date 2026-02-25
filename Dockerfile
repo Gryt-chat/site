@@ -1,5 +1,7 @@
 FROM node:20-alpine AS builder
 
+RUN apk add --no-cache fontconfig ttf-freefont
+
 WORKDIR /app
 
 COPY package*.json ./
@@ -25,7 +27,7 @@ RUN printf '%s\n' \
   '    # Serve binaries as static files (no SPA fallback).' \
   '    location ^~ /release/ { try_files $uri =404; }' \
   '    location ^~ /downloads/ { try_files $uri =404; }' \
-  '    location / { try_files $uri /index.html; }' \
+  '    location / { try_files $uri $uri/ /index.html; }' \
   '    location /health { return 200 "healthy"; add_header Content-Type text/plain; }' \
   '  }' \
   '}' > /etc/nginx/nginx.conf
