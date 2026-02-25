@@ -131,9 +131,67 @@ function buildBlogPostSvg(title, description, author, date) {
 </svg>`;
 }
 
+function buildPageSvg(title, description) {
+  const titleLines = wrapText(title, 32);
+  const titleY = 240;
+  const titleSvg = titleLines.map((line, i) =>
+    `<text x="80" y="${titleY + i * 64}" font-family="Arial, Helvetica, sans-serif" font-size="56" font-weight="800" fill="#ffffff" letter-spacing="-1">${escXml(line)}</text>`
+  ).join('\n  ');
+
+  const descY = titleY + titleLines.length * 64 + 28;
+  const descLines = description ? wrapText(description, 60).slice(0, 2) : [];
+  const descSvg = descLines.map((line, i) =>
+    `<text x="80" y="${descY + i * 30}" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#a5a5b0">${escXml(line)}</text>`
+  ).join('\n  ');
+
+  return `<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#13151a"/>
+      <stop offset="40%" stop-color="#1A1D24"/>
+      <stop offset="100%" stop-color="#2B303D"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#968FF8"/>
+      <stop offset="50%" stop-color="#6C63FF"/>
+      <stop offset="100%" stop-color="#968FF8"/>
+    </linearGradient>
+    <clipPath id="logo-clip"><rect width="512" height="512" rx="256"/></clipPath>
+    <clipPath id="wm-clip"><rect width="512" height="512" rx="256"/></clipPath>
+  </defs>
+  <rect width="${width}" height="${height}" fill="url(#bg)"/>
+
+  <g transform="translate(80, 60) scale(0.12)"><g clip-path="url(#logo-clip)">${logoInner}</g></g>
+  <text x="150" y="100" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700" fill="#968FF8">GRYT</text>
+
+  ${titleSvg}
+  ${descSvg}
+
+  <g transform="translate(760, 90) scale(0.88)" opacity="0.06"><g clip-path="url(#wm-clip)">${logoInner}</g></g>
+  <rect y="${height - 4}" width="${width}" height="4" fill="url(#accent)"/>
+</svg>`;
+}
+
+const staticPages = [
+  { path: 'why-gryt', title: 'Why Gryt?', description: 'Why we built an open-source, self-hosted voice chat platform.' },
+  { path: 'blog', title: 'Blog', description: 'Stories, updates, and technical deep-dives from the Gryt team.' },
+  { path: 'privacy', title: 'Privacy Policy', description: 'How Gryt handles your data — spoiler: we collect as little as possible.' },
+  { path: 'community-guidelines', title: 'Community Guidelines', description: 'Rules and expectations for the Gryt community.' },
+  { path: 'invite', title: 'Invite', description: 'Join a Gryt server with an invite link.' },
+];
+
 // --- Homepage OG image ---
 await sharp(Buffer.from(buildHomepageSvg())).png().toFile(join(publicDir, 'og-image.png'));
 console.log('  public/og-image.png');
+
+// --- Static page OG images ---
+for (const page of staticPages) {
+  const outDir = join(publicDir, page.path);
+  mkdirSync(outDir, { recursive: true });
+  const svg = buildPageSvg(page.title, page.description);
+  await sharp(Buffer.from(svg)).png().toFile(join(outDir, 'og.png'));
+  console.log(`  public/${page.path}/og.png`);
+}
 
 // --- Per-post OG images ---
 const mdxFiles = readdirSync(blogContentDir).filter(f => f.endsWith('.mdx'));
