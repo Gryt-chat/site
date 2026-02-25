@@ -3,7 +3,11 @@ import { useSearchParams } from "react-router-dom";
 import { GrytLogo } from "../components/GrytLogo";
 import styles from "./InvitePage.module.css";
 
-function buildAppUrl(host: string, code: string): string {
+function buildDeepLink(host: string, code: string): string {
+  return `gryt://invite?host=${encodeURIComponent(host)}&code=${encodeURIComponent(code)}`;
+}
+
+function buildWebAppUrl(host: string, code: string): string {
   return `https://app.gryt.chat/invite?host=${encodeURIComponent(host)}&code=${encodeURIComponent(code)}`;
 }
 
@@ -13,15 +17,16 @@ export function InvitePage() {
   const code = params.get("code") || "";
   const valid = host.length > 0 && code.length > 0;
 
-  const [showFallback, setShowFallback] = useState(false);
+  const [showChoices, setShowChoices] = useState(false);
 
   useEffect(() => {
     if (!valid) return;
 
-    const appUrl = buildAppUrl(host, code);
-    window.location.href = appUrl;
+    // Try opening the desktop app via the gryt:// protocol.
+    window.location.href = buildDeepLink(host, code);
 
-    const timer = setTimeout(() => setShowFallback(true), 1500);
+    // If nothing happened after a short delay, show manual choices.
+    const timer = setTimeout(() => setShowChoices(true), 1500);
     return () => clearTimeout(timer);
   }, [valid, host, code]);
 
@@ -44,7 +49,8 @@ export function InvitePage() {
     );
   }
 
-  const appUrl = buildAppUrl(host, code);
+  const deepLink = buildDeepLink(host, code);
+  const webAppUrl = buildWebAppUrl(host, code);
 
   return (
     <main className={styles.page}>
@@ -53,23 +59,22 @@ export function InvitePage() {
         <h1 className={styles.title}>Server Invite</h1>
         <p className={styles.host}>{host}</p>
 
-        {showFallback ? (
+        {showChoices ? (
           <>
             <p className={styles.desc}>
-              You&rsquo;ve been invited to join a Gryt server. Click below to
-              open the invite in the app.
+              You&rsquo;ve been invited to join a Gryt server.
             </p>
             <div className={styles.actions}>
-              <a href={appUrl} className="btn btn-primary">
-                Accept Invite
+              <a href={deepLink} className="btn btn-primary">
+                Open in Desktop App
               </a>
-              <a href="https://app.gryt.chat" className="btn btn-outline">
-                Open Gryt
+              <a href={webAppUrl} className="btn btn-outline">
+                Open in Browser
               </a>
             </div>
           </>
         ) : (
-          <p className={styles.desc}>Redirecting to the Gryt app&hellip;</p>
+          <p className={styles.desc}>Opening Gryt&hellip;</p>
         )}
       </div>
     </main>
