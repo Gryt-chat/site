@@ -35,13 +35,15 @@ export function BlogPost() {
   const { slug } = useParams<{ slug: string }>()
   const post = slug ? getPost(slug) : undefined
 
+  useEffect(() => {
+    if (post) {
+      document.title = post.frontmatter.title
+    }
+  }, [post])
+
   if (!post) return <Navigate to="/blog" replace />
 
   const { frontmatter, Component } = post
-
-  useEffect(() => {
-    document.title = frontmatter.title
-  }, [frontmatter.title])
 
   return (
     <main className={styles.page}>
