@@ -2,6 +2,7 @@
   margin-top: 64px;
   width: 100%;
   max-width: 900px;
+  aspect-ratio: 2000 / 1125;
   border-radius: var(--radius-md);
   border: 1px solid var(--border);
   overflow: hidden;
