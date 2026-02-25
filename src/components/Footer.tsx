@@ -7,7 +7,6 @@ const columns = [
   {
     title: "Resources",
     links: [
-      { href: "/blog", label: "Blog", isRoute: true },
       {
         href: "https://docs.gryt.chat/docs/guide/roadmap",
         label: "Roadmap",

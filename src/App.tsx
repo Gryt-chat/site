@@ -11,14 +11,14 @@ import { InvitePage } from "./pages/InvitePage";
 import { WhyGryt } from "./pages/WhyGryt";
 
 const pageTitles: Record<string, string> = {
-  '/': 'Gryt — Voice, Text & Video Chat',
-  '/why-gryt': 'Why Gryt? | Gryt',
-  '/blog': 'Blog | Gryt',
-  '/privacy': 'Privacy Policy | Gryt',
-  '/privacy-policy': 'Privacy Policy | Gryt',
-  '/community-guidelines': 'Community Guidelines | Gryt',
-  '/guidelines': 'Community Guidelines | Gryt',
-  '/invite': 'Invite | Gryt',
+  '/': 'Gryt',
+  '/why-gryt': 'Why Gryt?',
+  '/blog': 'Blog',
+  '/privacy': 'Privacy Policy',
+  '/privacy-policy': 'Privacy Policy',
+  '/community-guidelines': 'Community Guidelines',
+  '/guidelines': 'Community Guidelines',
+  '/invite': 'Invite',
 };
 
 function ScrollAndTitle() {

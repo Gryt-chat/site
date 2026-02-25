@@ -43,11 +43,11 @@ const template = readFileSync(join(distDir, 'index.html'), 'utf-8');
 
 // --- Static pages ---
 const staticPages = [
-  { path: 'why-gryt', title: 'Why Gryt? | Gryt', description: 'Why we built an open-source, self-hosted voice chat platform.' },
-  { path: 'blog', title: 'Blog | Gryt', description: 'Stories, updates, and technical deep-dives from the Gryt team.' },
-  { path: 'privacy', title: 'Privacy Policy | Gryt', description: 'How Gryt handles your data — spoiler: we collect as little as possible.' },
-  { path: 'community-guidelines', title: 'Community Guidelines | Gryt', description: 'Rules and expectations for the Gryt community.' },
-  { path: 'invite', title: 'Invite | Gryt', description: 'Join a Gryt server with an invite link.' },
+  { path: 'why-gryt', title: 'Why Gryt?', description: 'Why we built an open-source, self-hosted voice chat platform.' },
+  { path: 'blog', title: 'Blog', description: 'Stories, updates, and technical deep-dives from the Gryt team.' },
+  { path: 'privacy', title: 'Privacy Policy', description: 'How Gryt handles your data — spoiler: we collect as little as possible.' },
+  { path: 'community-guidelines', title: 'Community Guidelines', description: 'Rules and expectations for the Gryt community.' },
+  { path: 'invite', title: 'Invite', description: 'Join a Gryt server with an invite link.' },
 ];
 
 for (const page of staticPages) {
@@ -74,7 +74,7 @@ for (const file of mdxFiles) {
   const outDir = join(distDir, 'blog', slug);
   mkdirSync(outDir, { recursive: true });
   const html = renderPage(template, {
-    pageTitle: `${fm.title} | Gryt Blog`,
+    pageTitle: fm.title,
     description: fm.description || fm.title,
     url: `${siteUrl}/blog/${slug}`,
     ogImage: `${siteUrl}/blog/${slug}/og.png`,

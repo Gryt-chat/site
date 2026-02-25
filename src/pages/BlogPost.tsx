@@ -40,7 +40,7 @@ export function BlogPost() {
   const { frontmatter, Component } = post
 
   useEffect(() => {
-    document.title = `${frontmatter.title} | Gryt Blog`
+    document.title = frontmatter.title
   }, [frontmatter.title])
 
   return (
