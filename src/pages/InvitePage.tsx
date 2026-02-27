@@ -103,6 +103,9 @@ export function InvitePage() {
           <p className={styles.description}>{preview.description}</p>
         )}
         <p className={styles.host}>{host}</p>
+        {preview?.members && (
+          <p className={styles.members}>{preview.members} members</p>
+        )}
 
         {showChoices ? (
           <>

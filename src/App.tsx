@@ -2,6 +2,7 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import { Navbar } from "./components/Navbar";
 import { Footer } from "./components/Footer";
+import { AuthCallbackPage } from "./pages/AuthCallbackPage";
 import { HomePage } from "./pages/HomePage";
 import { BlogIndex } from "./pages/BlogIndex";
 import { BlogPost } from "./pages/BlogPost";
@@ -22,6 +23,7 @@ const pageTitles: Record<string, string> = {
   '/community-guidelines': 'Community Guidelines',
   '/guidelines': 'Community Guidelines',
   '/invite': 'Invite',
+  '/auth/callback': 'Gryt',
 };
 
 function ScrollAndTitle() {
@@ -34,11 +36,16 @@ function ScrollAndTitle() {
   return null;
 }
 
+const chromeHiddenRoutes = new Set(["/auth/callback"]);
+
 export default function App() {
+  const { pathname } = useLocation();
+  const hideChrome = chromeHiddenRoutes.has(pathname);
+
   return (
     <>
       <ScrollAndTitle />
-      <Navbar />
+      {!hideChrome && <Navbar />}
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/why-gryt" element={<WhyGryt />} />
@@ -51,8 +58,9 @@ export default function App() {
         <Route path="/community-guidelines" element={<CommunityGuidelines />} />
         <Route path="/guidelines" element={<CommunityGuidelines />} />
         <Route path="/invite" element={<InvitePage />} />
+        <Route path="/auth/callback" element={<AuthCallbackPage />} />
       </Routes>
-      <Footer />
+      {!hideChrome && <Footer />}
     </>
   );
 }

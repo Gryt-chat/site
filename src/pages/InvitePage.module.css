@@ -64,6 +64,13 @@
   margin-bottom: 24px;
 }
 
+.members {
+  font-size: 13px;
+  color: var(--text-dim);
+  margin-top: -20px;
+  margin-bottom: 24px;
+}
+
 .desc {
   font-size: 14px;
   color: var(--text-dim);
