@@ -8,6 +8,7 @@ import { BlogPost } from "./pages/BlogPost";
 import { PrivacyPolicy } from "./pages/PrivacyPolicy";
 import { CommunityGuidelines } from "./pages/CommunityGuidelines";
 import { InvitePage } from "./pages/InvitePage";
+import { TermsOfUse } from "./pages/TermsOfUse";
 import { WhyGryt } from "./pages/WhyGryt";
 
 const pageTitles: Record<string, string> = {
@@ -16,6 +17,8 @@ const pageTitles: Record<string, string> = {
   '/blog': 'Blog',
   '/privacy': 'Privacy Policy',
   '/privacy-policy': 'Privacy Policy',
+  '/terms': 'Terms of Use',
+  '/terms-of-use': 'Terms of Use',
   '/community-guidelines': 'Community Guidelines',
   '/guidelines': 'Community Guidelines',
   '/invite': 'Invite',
@@ -43,6 +46,8 @@ export default function App() {
         <Route path="/blog/:slug" element={<BlogPost />} />
         <Route path="/privacy" element={<PrivacyPolicy />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/terms" element={<TermsOfUse />} />
+        <Route path="/terms-of-use" element={<TermsOfUse />} />
         <Route path="/community-guidelines" element={<CommunityGuidelines />} />
         <Route path="/guidelines" element={<CommunityGuidelines />} />
         <Route path="/invite" element={<InvitePage />} />
