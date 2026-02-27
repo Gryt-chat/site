@@ -5,7 +5,7 @@
 .github
 node_modules
 dist
-scripts/
+scripts/release.sh
 *.log
 *.md
 LICENSE
