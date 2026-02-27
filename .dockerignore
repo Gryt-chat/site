@@ -1,0 +1,13 @@
+.env
+.env.*
+.git
+.gitignore
+.github
+node_modules
+dist
+scripts/
+*.log
+*.md
+LICENSE
+.vscode/
+.idea/
