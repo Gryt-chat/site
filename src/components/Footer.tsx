@@ -25,6 +25,27 @@ const columns = [
     ],
   },
   {
+    title: "Community",
+    links: [
+      {
+        href: "https://mastodon.social/@gryt",
+        label: "Mastodon",
+        external: true,
+        relMe: true,
+      },
+      {
+        href: "https://www.reddit.com/r/Gryt/",
+        label: "Reddit",
+        external: true,
+      },
+      {
+        href: "https://feedback.gryt.chat",
+        label: "Feedback",
+        external: true,
+      },
+    ],
+  },
+  {
     title: "Legal",
     links: [
       { href: "/terms", label: "Terms of Use", isRoute: true },
@@ -46,8 +67,10 @@ function FooterLink({ link }: { link: FooterLink }) {
     return <Link to={link.href}>{link.label}</Link>;
   }
   if ("external" in link && link.external) {
+    const rel =
+      "relMe" in link && link.relMe ? "me noreferrer" : "noreferrer";
     return (
-      <a href={link.href} target="_blank" rel="noreferrer">
+      <a href={link.href} target="_blank" rel={rel}>
         {link.label}
       </a>
     );
