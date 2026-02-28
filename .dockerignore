@@ -3,7 +3,6 @@
 .git
 .gitignore
 .github
-node_modules
 dist
 scripts/release.sh
 *.log
