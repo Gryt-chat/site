@@ -1,6 +1,6 @@
 import styles from "./PrivacyPolicy.module.css";
 
-const LAST_UPDATED = "February 25, 2026";
+const LAST_UPDATED = "February 28, 2026";
 
 export function PrivacyPolicy() {
   return (
@@ -21,6 +21,9 @@ export function PrivacyPolicy() {
           </li>
           <li>
             <strong>auth.gryt.chat</strong> — our authentication service
+          </li>
+          <li>
+            <strong>id.gryt.chat</strong> — our identity certificate service
           </li>
         </ul>
 
@@ -48,6 +51,17 @@ export function PrivacyPolicy() {
           </li>
         </ul>
 
+        <h3>Identity certificates</h3>
+        <p>
+          When you sign in, the Gryt client generates a cryptographic keypair on
+          your device and sends the <strong>public key</strong> to{" "}
+          <strong>id.gryt.chat</strong> along with your authentication token.
+          The identity service verifies your token, issues a short-lived
+          certificate binding your identity to that key, and returns it. No user
+          data is stored by this service — it processes your public key and
+          identity claims only for the duration of the request.
+        </p>
+
         <h3>Operational logs</h3>
         <p>
           Like most web services, our servers may record minimal operational
@@ -66,10 +80,11 @@ export function PrivacyPolicy() {
 
         <h2>Data on your device</h2>
         <p>
-          The Gryt client stores a small amount of data locally in your browser
-          to keep you signed in and remember your preferences (for example,
-          authentication tokens and UI settings). This data stays on your device
-          and is not sent to us.
+          The Gryt client stores data locally in your browser to keep you
+          signed in and remember your preferences — for example, authentication
+          tokens, a cryptographic identity keypair used for server verification,
+          identity certificates, and UI settings. Your private key never leaves
+          your device. This data stays on your device and is not sent to us.
         </p>
 
         <h2>Data on servers you connect to</h2>
