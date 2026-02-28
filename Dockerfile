@@ -1,13 +1,13 @@
-FROM --platform=$BUILDPLATFORM oven/bun:1-alpine AS builder
+FROM --platform=$BUILDPLATFORM node:22-alpine AS builder
 
 WORKDIR /app
 
-COPY package.json bun.lockb* ./
+COPY package.json yarn.lock ./
 COPY node_modules ./node_modules
-RUN bun install --frozen-lockfile
+RUN yarn install --frozen-lockfile --ignore-engines
 
 COPY . .
-RUN bun run build
+RUN yarn build
 
 FROM nginx:alpine
 
