@@ -44,6 +44,11 @@ const columns = [
         external: true,
       },
       {
+        href: "https://discord.gg/Q3JKUGsnHE",
+        label: "Discord",
+        external: true,
+      },
+      {
         href: "https://feedback.gryt.chat",
         label: "Feedback",
         external: true,
