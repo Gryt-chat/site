@@ -10,6 +10,12 @@ tags:
   - technical
 ---
 
+<div style={{ marginBottom: '2rem', padding: '16px 20px', borderRadius: 'var(--radius-sm)', background: 'var(--bg-card)', border: '1px solid var(--border)' }}>
+
+**Update (Feb 28, 2026):** Since this post was published, Gryt has moved from ScyllaDB to **SQLite** as its database. The architecture diagrams and database sections below reflect the original stack. Read [From ScyllaDB to SQLite](/blog/from-scylladb-to-sqlite) for the full story on why the change was made and what it means for self-hosting.
+
+</div>
+
 ## The big picture
 
 Gryt isn't a monolith. It's a set of independent services that each handle one concern — signaling, media, identity, storage, persistence — and communicate over well-defined boundaries. Every service runs in its own container, every connection is authenticated, and every piece of the stack can be self-hosted.

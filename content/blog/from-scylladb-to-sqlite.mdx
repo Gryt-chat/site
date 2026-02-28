@@ -1,0 +1,102 @@
+---
+title: From ScyllaDB to SQLite
+description: Why I dropped a distributed NoSQL database in favor of a single file, and what that means for self-hosting Gryt on any platform.
+author: Sivert
+date: 2026-02-28
+tags:
+  - infrastructure
+  - self-hosting
+  - technical
+  - database
+---
+
+## The original choice
+
+When I first designed Gryt's server stack, I picked **ScyllaDB** — a high-performance NoSQL database compatible with Apache Cassandra's query language. On paper, it was a strong choice. ScyllaDB is fast, horizontally scalable, and built for workloads with high write throughput. Chat messages, presence updates, audit logs — all write-heavy patterns that ScyllaDB handles well.
+
+If you read [Inside Gryt's Infrastructure](/blog/inside-gryts-infrastructure), you'll see ScyllaDB right there in the architecture diagram. Each server instance got its own keyspace, data was isolated, and the whole setup felt properly engineered.
+
+So why did I rip it out?
+
+## The Windows problem
+
+Gryt is self-hosted software. The whole point is that you run it on your own hardware, on your own terms. And the reality is that a lot of people who want to host a small community server for their friend group are running **Windows**.
+
+ScyllaDB doesn't run on Windows. Not natively, not in WSL (reliably), and not without Docker — which brings its own set of problems. Docker Desktop on Windows is a second-class experience for a lot of users. Network bridging behaves differently, filesystem mounts are slow, and asking someone to install Docker just to run a database that's overkill for a 20-person friend group felt wrong.
+
+I kept hearing variations of the same question: _"Can I just run this on my Windows PC?"_ And honestly, the answer was always some version of "kind of, but you need Docker, and you need to configure this, and you need to make sure WSL is set up correctly, and..."
+
+That's not good enough. If someone downloads the Gryt server and wants to host a server for their friends, they shouldn't need to become a sysadmin first.
+
+## Why SQLite
+
+SQLite is the most deployed database in the world. It runs everywhere — Windows, Linux, macOS, ARM, x86 — without installing anything. There's no separate service to manage, no port to configure, no credentials to set up. The entire database is a single file.
+
+For Gryt's use case, that's exactly right:
+
+- **Zero configuration.** Start the server, it creates a `gryt.db` file, done. No connection strings, no cluster setup, no keyspace provisioning.
+- **Runs on Windows natively.** No Docker required. No WSL. Just run the binary.
+- **Trivially backable up.** Copy one file. That's your backup. Want to migrate to a new machine? Move the file.
+- **No extra services.** The old stack needed a ScyllaDB container running alongside the Gryt server. Now the database lives inside the server process itself. One fewer thing to break, one fewer thing to monitor.
+
+The server uses [better-sqlite3](https://github.com/WiseLibs/better-sqlite3), which is a synchronous C binding — no async overhead, no connection pool management. Queries run on the calling thread and return immediately. For the kind of workload Gryt generates (dozens to hundreds of concurrent users, not millions), this is more than enough.
+
+## Performance isn't a concern
+
+People hear "SQLite" and assume "slow" or "toy database." It's neither.
+
+SQLite with **WAL mode** (Write-Ahead Logging) handles concurrent reads and writes gracefully. Readers don't block writers, writers don't block readers. The Gryt server enables WAL mode on startup along with a 5-second busy timeout, so even if multiple operations hit the database simultaneously, they queue up and resolve without errors.
+
+The schema uses targeted indexes on the columns that matter — message timestamps, user IDs, conversation lookups, job queues. Prepared statements are reused across requests. For a server hosting a few hundred people, query times are measured in microseconds, not milliseconds.
+
+To put it bluntly: ScyllaDB is designed to handle millions of operations per second across distributed clusters. Gryt, at its current scale, doesn't need that. Not even close. Using ScyllaDB for a 30-person friend group is like hiring a freight train to deliver a pizza.
+
+## The trade-offs I'm accepting
+
+I won't pretend this is a perfect decision with no downsides. There are real trade-offs:
+
+**SQLite doesn't scale horizontally.** If a single Gryt server ever needed to handle tens of thousands of concurrent users with millions of messages, SQLite would become a bottleneck. Write contention would increase, and there's no way to shard across machines.
+
+**No built-in replication.** With ScyllaDB, you got automatic replication across nodes. With SQLite, if the disk dies, you need a backup. There's no replica sitting on another machine ready to take over.
+
+**Single-writer at a time.** WAL mode allows concurrent reads, but writes are still serialized. For Gryt's current traffic patterns this is fine — writes are fast enough that the serialization is invisible. But it's a ceiling that exists.
+
+These are real limitations. I'm not dismissing them. But they're limitations that matter at a scale Gryt hasn't reached, and may not reach for a long time.
+
+## The door is open for Postgres
+
+Here's the honest forward-looking statement: if Gryt grows to the point where SQLite becomes a bottleneck, the most likely next step is **PostgreSQL** — not going back to ScyllaDB.
+
+Postgres gives you:
+- Horizontal read scaling with replicas
+- True concurrent writes without serialization
+- A massive ecosystem of tools, hosting providers, and managed services
+- SQL compatibility, meaning the migration from SQLite would be relatively straightforward
+
+I haven't built a database abstraction layer yet, and I'm intentionally not building one prematurely. Right now, the code talks directly to `better-sqlite3`. If and when Postgres support becomes necessary, I'll add it as a second backend. But I'm not going to over-engineer the architecture for a problem that doesn't exist today.
+
+The principle is simple: **solve today's problems today.** If the community grows to the point where people are hosting servers with thousands of users and SQLite is genuinely struggling, that's a great problem to have — and it's one I'll address when it arrives.
+
+## What changed in the stack
+
+The migration was straightforward. The schema stayed conceptually the same — the same tables, the same relationships, the same data. What changed was the implementation:
+
+- **ScyllaDB (CQL)** was replaced by **SQLite** via `better-sqlite3`
+- Docker Compose no longer needs a ScyllaDB container
+- The server binary is fully self-contained — no external database dependency
+- Data lives in a single `gryt.db` file in the configured data directory
+- Foreign key constraints are now enforced (something CQL didn't support natively)
+
+For existing self-hosters running the old ScyllaDB setup: the migration path is documented in the deployment guide. For new users: you don't need to think about any of this. The database just works.
+
+## Simpler is better
+
+If I've learned anything building Gryt over the past four years, it's that complexity is a tax you pay on every future decision. Every additional service in the stack is another thing that can fail, another thing that needs updating, another thing a new contributor has to understand.
+
+Removing ScyllaDB didn't just make the Windows story better. It made the **entire self-hosting experience** better. Fewer containers, fewer ports, fewer environment variables, fewer things to debug when something goes wrong.
+
+Gryt is a small project with a small community. The infrastructure should reflect that. When the community outgrows SQLite, I'll be happy to add more powerful options. Until then, a single file on disk does the job perfectly well.
+
+---
+
+Questions about the migration or want to host your own server? Check the [deployment guide](https://docs.gryt.chat/docs/deployment/docker-compose) or come chat on [Discord](https://discord.gg/Q3JKUGsnHE).
