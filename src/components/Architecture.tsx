@@ -8,7 +8,7 @@ const stack = [
   },
   {
     label: "Server",
-    title: "Bun + Socket.IO",
+    title: "Node.js + Socket.IO",
     desc: "Real-time signaling, messaging, and API",
   },
   {

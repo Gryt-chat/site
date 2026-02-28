@@ -38,7 +38,7 @@ export function WhyGryt() {
               build your own fork, and contribute improvements.
             </li>
             <li>
-              <strong>It is not a “growth platform.”</strong> Gryt is not built
+              <strong>It is not a “growth platform”.</strong> Gryt is not built
               around ads, tracking, or engagement mechanics.
             </li>
           </ul>
