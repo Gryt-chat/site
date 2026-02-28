@@ -34,6 +34,11 @@ const columns = [
         relMe: true,
       },
       {
+        href: "https://bsky.app/profile/gryt.chat",
+        label: "Bluesky",
+        external: true,
+      },
+      {
         href: "https://www.reddit.com/r/Gryt/",
         label: "Reddit",
         external: true,
