@@ -89,8 +89,9 @@ export function WhyGryt() {
             </li>
             <li>
               <strong>Hosted identity (default):</strong> by default, login
-              happens via the Gryt identity service at <code>auth.gryt.chat</code>.
-              It issues signed tokens that servers can verify cryptographically.
+              happens via the hosted auth provider at <code>auth.gryt.chat</code>.
+              A separate Identity Service at <code>id.gryt.chat</code> issues
+              signed certificates that servers can verify cryptographically (JWKS).
             </li>
           </ul>
 
@@ -104,7 +105,8 @@ graph TB
   server --> db[Database]
   server --> s3[Object_storage]
   client -->|OIDC_login| auth[Identity_provider]
-  server -->|JWKS_verify| auth
+  client -->|Certificate| identity[Identity_service]
+  server -->|JWKS_verify| identity
 `}
           />
           <p>
