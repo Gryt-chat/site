@@ -1,6 +1,6 @@
 import { GrytLogo } from "./GrytLogo";
 import { DownloadIcon, GlobeIcon } from "./icons";
-import { AppMockup } from "./AppMockup";
+import { AppMockup } from "./app-mockup";
 import styles from "./Hero.module.css";
 
 export function Hero() {

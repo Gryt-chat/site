@@ -1,0 +1,69 @@
+.wrapper {
+  margin-top: 64px;
+  width: 100%;
+  max-width: 900px;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.4);
+}
+
+.theme {
+  --default-font-family: "Atkinson Hyperlegible Next", sans-serif;
+  --code-font-family: "Atkinson Hyperlegible Mono", monospace;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  text-align: left;
+}
+
+.titlebar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 28px;
+  flex-shrink: 0;
+  background: var(--color-background);
+  border-bottom: 1px solid var(--gray-5);
+  position: relative;
+  user-select: none;
+}
+
+.titlebarText {
+  font-size: 11px;
+  color: var(--gray-9);
+  letter-spacing: 0.3px;
+}
+
+.windowControls {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  gap: 6px;
+}
+
+.windowBtn {
+  width: 14px;
+  height: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gray-9);
+  font-size: 12px;
+  line-height: 1;
+}
+
+.layout {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+  padding: 10px;
+  gap: 10px;
+  overflow: hidden;
+}
