@@ -16,6 +16,12 @@
   }
 }
 
+@media (min-width: 2560px) {
+  .scaler {
+    width: clamp(320px, 45vw, 1300px);
+  }
+}
+
 .wrapper {
   width: 900px;
   height: 506.25px;
@@ -38,38 +44,44 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 28px;
+  height: 36px;
   flex-shrink: 0;
   background: var(--color-background);
-  border-bottom: 1px solid var(--gray-5);
+  border-bottom: 1px solid var(--gray-a3);
   position: relative;
   user-select: none;
 }
 
-.titlebarText {
-  font-size: 11px;
-  color: var(--gray-9);
-  letter-spacing: 0.3px;
-}
-
-.windowControls {
+.navButtons {
   position: absolute;
-  right: 10px;
+  left: 10px;
   top: 50%;
   transform: translateY(-50%);
   display: flex;
-  gap: 6px;
+  align-items: center;
+  gap: 2px;
 }
 
-.windowBtn {
-  width: 14px;
-  height: 14px;
+.navBtn {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--gray-9);
+  width: 22px;
+  height: 20px;
+  border: none;
+  border-radius: var(--radius-2);
+  background: transparent;
+  color: var(--gray-a5);
+  cursor: default;
+  opacity: 0.4;
+}
+
+.titlebarText {
+  font-family: var(--code-font-family);
   font-size: 12px;
-  line-height: 1;
+  font-weight: 600;
+  color: var(--gray-a9);
+  letter-spacing: 0.5px;
 }
 
 .layout {
@@ -77,7 +89,35 @@
   flex: 1;
   min-height: 0;
   min-width: 0;
-  padding: 10px;
-  gap: 10px;
+  padding: 16px;
+  gap: 16px;
   overflow: hidden;
+}
+
+/* Custom scrollbar – matches the real client */
+.theme ::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.theme ::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.theme ::-webkit-scrollbar-thumb {
+  background: var(--gray-a5, rgba(255, 255, 255, 0.1));
+  border-radius: 3px;
+}
+
+.theme ::-webkit-scrollbar-thumb:hover {
+  background: var(--gray-a7, rgba(255, 255, 255, 0.2));
+}
+
+.theme ::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+.theme {
+  scrollbar-width: thin;
+  scrollbar-color: var(--gray-a5) transparent;
 }

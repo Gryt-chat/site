@@ -1,6 +1,4 @@
 export const SERVER_NAME = "My Server";
-export const ACTIVE_CHANNEL = "general";
-export const ONLINE_BADGE = 7;
 
 export interface MockChannel {
   id: string;

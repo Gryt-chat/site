@@ -1,22 +1,31 @@
-import { Avatar, Badge, Box, Button, Card, Flex, Text } from "@radix-ui/themes";
-import { MdChat, MdVolumeUp } from "react-icons/md";
-
 import {
-  ACTIVE_CHANNEL,
-  channels,
-  ONLINE_BADGE,
-  SERVER_NAME,
-  sidebarItems,
-  voiceUsers,
-} from "./data";
+  Avatar,
+  Box,
+  Button,
+  Card,
+  ContextMenu,
+  DropdownMenu,
+  Flex,
+  IconButton,
+  Text,
+  Tooltip,
+} from "@radix-ui/themes";
+import { MdChat, MdPushPin, MdVolumeUp } from "react-icons/md";
+
+import { channels, SERVER_NAME, sidebarItems, voiceUsers } from "./data";
 
 const channelMap = new Map(channels.map((c) => [c.id, c]));
 
 function SeparatorRow({ label }: { label?: string }) {
   return (
-    <Flex width="100%" align="center" gap="2">
+    <Flex width="100%" position="relative" align="center" gap="2">
       <Box
-        style={{ height: 1, background: "var(--gray-6)", flex: 1, opacity: 0.7 }}
+        style={{
+          height: 1,
+          background: "var(--gray-6)",
+          flex: 1,
+          opacity: 0.7,
+        }}
       />
       {label && (
         <Text size="1" color="gray">
@@ -24,121 +33,184 @@ function SeparatorRow({ label }: { label?: string }) {
         </Text>
       )}
       <Box
-        style={{ height: 1, background: "var(--gray-6)", flex: 1, opacity: 0.7 }}
+        style={{
+          height: 1,
+          background: "var(--gray-6)",
+          flex: 1,
+          opacity: 0.7,
+        }}
       />
     </Flex>
   );
 }
 
-function ChannelRow({ channelId }: { channelId: string }) {
+function ChannelRow({
+  channelId,
+  isSelected,
+  onClick,
+}: {
+  channelId: string;
+  isSelected: boolean;
+  onClick: () => void;
+}) {
   const ch = channelMap.get(channelId);
   if (!ch) return null;
 
-  const isActive = ch.name === ACTIVE_CHANNEL;
   const usersInChannel = voiceUsers.filter((u) => u.channelId === channelId);
 
   return (
-    <Flex direction="column" width="100%">
-      <Button
-        variant={isActive ? "solid" : "soft"}
-        radius="large"
-        size="1"
-        style={{
-          width: "100%",
-          justifyContent: "start",
-          overflow: "hidden",
-        }}
-      >
-        <Flex align="center" style={{ flexShrink: 0 }}>
-          {ch.type === "voice" ? (
-            <MdVolumeUp size={14} />
-          ) : (
-            <MdChat size={14} />
+    <ContextMenu.Root>
+      <ContextMenu.Trigger>
+        <Flex direction="column" align="start" width="100%">
+          <Button
+            variant={isSelected ? "solid" : "soft"}
+            radius="large"
+            style={{
+              width: "100%",
+              justifyContent: "start",
+              overflow: "hidden",
+            }}
+            onClick={onClick}
+          >
+            <Flex align="center" style={{ flexShrink: 0 }}>
+              {ch.type === "voice" ? (
+                <MdVolumeUp size={16} />
+              ) : (
+                <MdChat size={16} />
+              )}
+            </Flex>
+            <Text
+              truncate
+              style={{
+                flex: 1,
+                minWidth: 0,
+                textAlign: "left",
+                display: "block",
+              }}
+            >
+              {ch.name}
+            </Text>
+          </Button>
+
+          {usersInChannel.length > 0 && (
+            <Flex
+              width="100%"
+              pt="2"
+              direction="column"
+              style={{
+                background: "var(--gray-3)",
+                borderRadius: "0 0 var(--radius-5) var(--radius-5)",
+              }}
+            >
+              {usersInChannel.map((u) => (
+                <Flex
+                  key={u.nickname}
+                  gap="2"
+                  align="center"
+                  px="3"
+                  py="2"
+                  width="100%"
+                >
+                  <Avatar
+                    radius="full"
+                    size="1"
+                    fallback={u.nickname[0]}
+                    style={{ flexShrink: 0, backgroundColor: u.color }}
+                  />
+                  <Text size="2" truncate style={{ whiteSpace: "nowrap" }}>
+                    {u.nickname}
+                  </Text>
+                </Flex>
+              ))}
+            </Flex>
           )}
         </Flex>
-        <Text
-          truncate
-          size="1"
-          style={{ flex: 1, minWidth: 0, textAlign: "left", display: "block" }}
-        >
+      </ContextMenu.Trigger>
+      <ContextMenu.Content>
+        <ContextMenu.Label style={{ fontWeight: "bold" }}>
           {ch.name}
-        </Text>
-      </Button>
-
-      {usersInChannel.length > 0 && (
-        <Flex
-          width="100%"
-          pt="1"
-          direction="column"
-          style={{
-            background: "var(--gray-3)",
-            borderRadius: "0 0 var(--radius-5) var(--radius-5)",
-          }}
-        >
-          {usersInChannel.map((u) => (
-            <Flex
-              key={u.nickname}
-              gap="2"
-              align="center"
-              px="3"
-              py="1"
-              width="100%"
-            >
-              <Avatar
-                radius="full"
-                size="1"
-                fallback={u.nickname[0]}
-                style={{
-                  flexShrink: 0,
-                  backgroundColor: u.color,
-                }}
-              />
-              <Text size="1" truncate>
-                {u.nickname}
-              </Text>
-            </Flex>
-          ))}
-        </Flex>
-      )}
-    </Flex>
+        </ContextMenu.Label>
+        <ContextMenu.Item>Edit</ContextMenu.Item>
+        <ContextMenu.Separator />
+        <ContextMenu.Item>Move up</ContextMenu.Item>
+        <ContextMenu.Item>Move down</ContextMenu.Item>
+        <ContextMenu.Separator />
+        <ContextMenu.Item color="red">Delete</ContextMenu.Item>
+      </ContextMenu.Content>
+    </ContextMenu.Root>
   );
 }
 
-export function MockChannelSidebar() {
+interface MockChannelSidebarProps {
+  selectedChannelId: string;
+  onChannelClick: (channelId: string) => void;
+}
+
+export function MockChannelSidebar({
+  selectedChannelId,
+  onChannelClick,
+}: MockChannelSidebarProps) {
   return (
     <Flex
       direction="column"
-      gap="2"
+      height="100%"
+      width="100%"
+      align="center"
+      gap="4"
       style={{ width: 170, flexShrink: 0, overflow: "hidden" }}
     >
       <Card style={{ width: "100%", flexShrink: 0 }}>
         <Flex justify="between" align="center">
-          <Text size="2">{SERVER_NAME}</Text>
-          <Flex align="center" gap="1">
-            <Badge color="green" variant="solid" size="1" radius="full">
-              {ONLINE_BADGE}
-            </Badge>
-            <Text size="1" color="gray">
-              ▾
-            </Text>
+          <Text>{SERVER_NAME}</Text>
+          <Flex align="center" gap="2">
+            <Tooltip content="Pin sidebar" delayDuration={200}>
+              <IconButton size="1" variant="solid" color="gray">
+                <MdPushPin size={14} />
+              </IconButton>
+            </Tooltip>
+            <DropdownMenu.Root>
+              <DropdownMenu.Trigger>
+                <Button variant="soft" size="1" color="gray">
+                  <DropdownMenu.TriggerIcon />
+                </Button>
+              </DropdownMenu.Trigger>
+              <DropdownMenu.Content>
+                <DropdownMenu.Item>Server settings</DropdownMenu.Item>
+                <DropdownMenu.Separator />
+                <DropdownMenu.Item color="red">Leave</DropdownMenu.Item>
+              </DropdownMenu.Content>
+            </DropdownMenu.Root>
           </Flex>
         </Flex>
       </Card>
 
-      <Flex
-        direction="column"
-        gap="2"
-        px="2"
-        style={{ flex: 1, overflow: "hidden" }}
+      <Box
+        style={{
+          flex: 1,
+          width: "100%",
+          minHeight: 0,
+          display: "flex",
+          flexDirection: "column",
+          overflowY: "auto",
+        }}
       >
-        {sidebarItems.map((item) =>
-          item.kind === "separator" ? (
-            <SeparatorRow key={item.id} label={item.label} />
-          ) : (
-            <ChannelRow key={item.id} channelId={item.channelId ?? item.id} />
-          ),
-        )}
-      </Flex>
+        <Flex direction="column" gap="3" align="center" width="100%">
+          {sidebarItems.map((item) =>
+            item.kind === "separator" ? (
+              <SeparatorRow key={item.id} label={item.label} />
+            ) : (
+              <ChannelRow
+                key={item.id}
+                channelId={item.channelId ?? item.id}
+                isSelected={
+                  (item.channelId ?? item.id) === selectedChannelId
+                }
+                onClick={() => onChannelClick(item.channelId ?? item.id)}
+              />
+            ),
+          )}
+        </Flex>
+      </Box>
     </Flex>
   );
 }

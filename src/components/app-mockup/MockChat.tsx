@@ -1,72 +1,60 @@
+import { useCallback, useEffect, useRef, useState } from "react";
+
 import { Avatar, Box, Flex, Text } from "@radix-ui/themes";
-import {
-  MdAttachFile,
-  MdChat,
-  MdInsertEmoticon,
-  MdSend,
-} from "react-icons/md";
+import { AnimatePresence, motion } from "motion/react";
+import { MdChat, MdVolumeUp } from "react-icons/md";
 
-import { ACTIVE_CHANNEL, type MockMessage, messages } from "./data";
+import { type MockMessage, messages } from "./data";
 
-function ReactionBadge({ emoji, count }: { emoji: string; count: number }) {
-  return (
-    <span
-      style={{
-        display: "inline-flex",
-        alignItems: "center",
-        gap: 4,
-        padding: "2px 6px",
-        fontSize: 12,
-        background: "var(--gray-3)",
-        border: "1px solid var(--gray-5)",
-        borderRadius: "var(--radius-2)",
-        lineHeight: 1,
-        whiteSpace: "nowrap",
-      }}
-    >
-      {emoji}
-      <span style={{ fontWeight: 500, fontSize: 11 }}>{count}</span>
-    </span>
-  );
+const SPRING = { type: "spring" as const, stiffness: 170, damping: 26 };
+const MIN_DELAY = 4000;
+const MAX_DELAY = 8000;
+
+function randomDelay() {
+  return MIN_DELAY + Math.random() * (MAX_DELAY - MIN_DELAY);
 }
 
-function MessageRow({ m }: { m: MockMessage }) {
-  if (m.firstInGroup) {
-    return (
-      <Flex gap="2" style={{ width: "100%", marginTop: 10 }} align="start">
-        <Avatar
-          radius="full"
-          fallback={m.sender[0]}
-          size="2"
-          style={{
-            flexShrink: 0,
-            marginTop: 2,
-            backgroundColor: m.color,
-          }}
-        />
-        <Flex direction="column" style={{ flex: 1, minWidth: 0 }}>
-          <Flex align="baseline" gap="2" style={{ marginBottom: 1 }}>
-            <Text size="2" weight="bold">
-              {m.sender}
+function MessageRow({ m, isNew }: { m: MockMessage; isNew: boolean }) {
+  const ref = useRef<HTMLDivElement>(null);
+
+  const content = m.firstInGroup ? (
+    <Flex gap="3" style={{ width: "100%", marginTop: 12 }} align="start">
+      <Avatar
+        radius="full"
+        fallback={m.sender[0]}
+        style={{
+          flexShrink: 0,
+          marginTop: 2,
+          width: 36,
+          height: 36,
+          backgroundColor: m.color,
+        }}
+      />
+      <Flex direction="column" style={{ flex: 1, minWidth: 0 }}>
+        <Flex align="baseline" gap="2" style={{ marginBottom: 2 }}>
+          <Text size="2" weight="bold">
+            {m.sender}
+          </Text>
+          {m.time && (
+            <Text
+              style={{
+                fontSize: 10,
+                whiteSpace: "nowrap",
+                userSelect: "none",
+                color: "var(--gray-9)",
+              }}
+            >
+              {m.time}
             </Text>
-            {m.time && (
-              <Text size="1" style={{ color: "var(--gray-8)" }}>
-                {m.time}
-              </Text>
-            )}
-          </Flex>
-          {m.text && (
-            <div style={{ wordBreak: "break-word", fontSize: 13 }}>
-              {m.text}
-            </div>
           )}
         </Flex>
+        {m.text && (
+          <div style={{ wordBreak: "break-word", fontSize: 13 }}>{m.text}</div>
+        )}
       </Flex>
-    );
-  }
-
-  return (
-    <Flex style={{ width: "100%", paddingLeft: 40 }}>
+    </Flex>
+  ) : (
+    <Flex style={{ width: "100%", paddingLeft: 48 }}>
       <Flex direction="column" style={{ flex: 1, minWidth: 0 }}>
         {m.text && (
           <div style={{ wordBreak: "break-word", fontSize: 13 }}>{m.text}</div>
@@ -74,92 +62,143 @@ function MessageRow({ m }: { m: MockMessage }) {
       </Flex>
     </Flex>
   );
-}
 
-export function MockChat() {
   return (
-    <Flex
-      direction="column"
-      style={{
-        flex: 1,
-        minWidth: 0,
-        background: "var(--gray-3)",
-        borderRadius: "var(--radius-5)",
-        overflow: "hidden",
+    <motion.div
+      ref={ref}
+      layout="position"
+      style={{ width: "100%", overflow: isNew ? "hidden" : undefined }}
+      initial={isNew ? { opacity: 0, height: 0 } : false}
+      animate={{ opacity: 1, height: "auto" }}
+      transition={{
+        layout: SPRING,
+        opacity: { duration: 0.2, ease: "easeOut" },
+        height: SPRING,
+      }}
+      onAnimationComplete={() => {
+        if (ref.current) ref.current.style.overflow = "";
       }}
     >
-      <Flex
-        align="center"
-        gap="2"
-        px="3"
-        py="2"
-        style={{ flexShrink: 0, borderBottom: "1px solid var(--gray-5)" }}
-      >
-        <MdChat size={14} style={{ color: "var(--gray-9)" }} />
-        <Text size="2" weight="bold">
-          {ACTIVE_CHANNEL}
-        </Text>
-      </Flex>
+      {content}
+    </motion.div>
+  );
+}
 
-      <Box style={{ flex: 1, overflow: "hidden", padding: "0 10px" }}>
-        <Flex gap="1" mt="2">
-          <ReactionBadge emoji="🔥" count={3} />
-          <ReactionBadge emoji="👍" count={2} />
-          <span
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              justifyContent: "center",
-              width: 22,
-              height: 22,
-              background: "var(--gray-3)",
-              border: "1px solid var(--gray-5)",
-              borderRadius: "var(--radius-2)",
-              color: "var(--gray-10)",
-              fontSize: 12,
-              cursor: "default",
-            }}
-          >
-            +
-          </span>
-        </Flex>
+interface MockChatProps {
+  channelName: string;
+  channelType: "text" | "voice";
+}
 
-        {messages.map((m) => (
-          <MessageRow key={m.id} m={m} />
-        ))}
-      </Box>
+export function MockChat({ channelName, channelType }: MockChatProps) {
+  const [visibleCount, setVisibleCount] = useState(0);
+  const [prevCount, setPrevCount] = useState(0);
+  const scrollRef = useRef<HTMLDivElement>(null);
 
-      <Box px="2" pb="2" style={{ flexShrink: 0 }}>
+  useEffect(() => {
+    if (messages.length === 0) return;
+
+    let timeout: ReturnType<typeof setTimeout>;
+
+    function scheduleNext(count: number) {
+      if (count >= messages.length) return;
+      timeout = setTimeout(() => {
+        setPrevCount(count);
+        setVisibleCount(count + 1);
+        scheduleNext(count + 1);
+      }, randomDelay());
+    }
+
+    scheduleNext(0);
+    return () => clearTimeout(timeout);
+  }, []);
+
+  const scrollToBottom = useCallback(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    requestAnimationFrame(() => {
+      el.scrollTo({ top: el.scrollHeight, behavior: "smooth" });
+    });
+  }, []);
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [visibleCount, scrollToBottom]);
+
+  const visible = messages.slice(0, visibleCount);
+
+  return (
+    <Box
+      overflow="hidden"
+      flexGrow="1"
+      minWidth="0"
+      style={{
+        background: "var(--gray-3)",
+        borderRadius: "var(--radius-5)",
+      }}
+    >
+      <Flex height="100%" width="100%" direction="column" p="3">
         <Flex
           align="center"
           gap="2"
           style={{
-            background: "var(--gray-4)",
-            borderRadius: "var(--radius-4)",
-            padding: "6px 10px",
-            border: "1px solid var(--gray-5)",
+            marginBottom: 16,
+            paddingBottom: 12,
+            borderBottom: "1px solid var(--gray-6)",
           }}
         >
-          <MdAttachFile
-            size={14}
-            style={{ color: "var(--gray-9)", flexShrink: 0 }}
-          />
-          <MdInsertEmoticon
-            size={14}
-            style={{ color: "var(--gray-9)", flexShrink: 0 }}
-          />
-          <Text
-            size="1"
-            style={{ flex: 1, color: "var(--gray-8)", userSelect: "none" }}
-          >
-            Message #{ACTIVE_CHANNEL}
+          {channelType === "voice" ? (
+            <MdVolumeUp
+              size={18}
+              style={{ color: "var(--gray-11)", flexShrink: 0 }}
+            />
+          ) : (
+            <MdChat
+              size={18}
+              style={{ color: "var(--gray-11)", flexShrink: 0 }}
+            />
+          )}
+          <Text size="4" weight="bold" style={{ color: "var(--gray-12)" }}>
+            {channelName}
           </Text>
-          <MdSend
-            size={14}
-            style={{ color: "var(--accent-9)", flexShrink: 0 }}
-          />
         </Flex>
-      </Box>
-    </Flex>
+
+        <div
+          ref={scrollRef}
+          style={{
+            flex: 1,
+            minWidth: 0,
+            overflowY: "auto",
+            overflowX: "hidden",
+            marginBottom: 12,
+          }}
+        >
+          <AnimatePresence mode="popLayout" initial={false}>
+            {visible.map((m, i) => (
+              <MessageRow key={m.id} m={m} isNew={i >= prevCount} />
+            ))}
+          </AnimatePresence>
+        </div>
+
+        <Box style={{ flexShrink: 0 }}>
+          <Flex
+            align="center"
+            gap="2"
+            style={{
+              background: "var(--gray-4)",
+              borderRadius: "var(--radius-4)",
+              padding: "8px 12px",
+              border: "1px solid var(--gray-5)",
+            }}
+          >
+            <Text
+              size="2"
+              style={{ flex: 1, color: "var(--gray-8)", userSelect: "none" }}
+            >
+              Message #{channelName}
+            </Text>
+          </Flex>
+        </Box>
+      </Flex>
+    </Box>
   );
 }
