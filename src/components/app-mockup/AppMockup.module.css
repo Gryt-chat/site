@@ -1,12 +1,26 @@
-.wrapper {
+.scaler {
   margin-top: 64px;
-  width: 100%;
-  max-width: 900px;
+  width: clamp(320px, 64vw, 1800px);
   aspect-ratio: 16 / 9;
+  overflow: hidden;
   border-radius: var(--radius-md);
   border: 1px solid var(--border);
-  overflow: hidden;
   box-shadow: 0 24px 80px rgba(0, 0, 0, 0.4);
+  container-type: inline-size;
+}
+
+@media (max-width: 768px) {
+  .scaler {
+    width: 100%;
+    margin-top: 48px;
+  }
+}
+
+.wrapper {
+  width: 900px;
+  height: 506.25px;
+  transform-origin: top left;
+  transform: scale(tan(atan2(100cqi, 900px)));
 }
 
 .theme {
