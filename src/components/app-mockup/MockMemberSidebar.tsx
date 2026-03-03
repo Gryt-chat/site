@@ -10,7 +10,8 @@ import {
 } from "@radix-ui/themes";
 import { MdAlternateEmail, MdContentCopy, MdPushPin } from "react-icons/md";
 
-import { type MockMember, members } from "./data";
+import type { MockMember } from "./data";
+import { members as defaultMembers } from "./data";
 
 const statusConfig = {
   in_voice: { label: "In Voice", color: "var(--accent-9)" },
@@ -110,7 +111,11 @@ function MemberItem({ member }: { member: MockMember }) {
   );
 }
 
-export function MockMemberSidebar() {
+interface MockMemberSidebarProps {
+  members?: MockMember[];
+}
+
+export function MockMemberSidebar({ members = defaultMembers }: MockMemberSidebarProps) {
   return (
     <Box
       style={{

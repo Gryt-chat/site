@@ -28,6 +28,35 @@ export interface MockMember {
   color: string;
 }
 
+export interface MockVoiceUser {
+  nickname: string;
+  color: string;
+  channelId: string;
+}
+
+export interface MockServer {
+  name: string;
+  fallback: string;
+  isActive: boolean;
+  isConnected: boolean;
+}
+
+export interface MockAppState {
+  servers?: MockServer[];
+  channels?: MockChannel[];
+  sidebarItems?: MockSidebarItem[];
+  voiceUsers?: MockVoiceUser[];
+  messages?: MockMessage[];
+  members?: MockMember[];
+  selectedChannelId?: string;
+  visibleMessageCount?: number;
+}
+
+export const defaultServers: MockServer[] = [
+  { name: "Gryt Server", fallback: "G", isActive: true, isConnected: true },
+  { name: "Dev Team", fallback: "D", isActive: false, isConnected: false },
+];
+
 export const channels: MockChannel[] = [
   { id: "1", name: "general", type: "text" },
   { id: "2", name: "links", type: "text" },
@@ -52,7 +81,7 @@ export const sidebarItems: MockSidebarItem[] = [
   { id: "s10", kind: "channel", channelId: "8" },
 ];
 
-export const voiceUsers = [
+export const voiceUsers: MockVoiceUser[] = [
   { nickname: "Alex", color: "#6c63ff", channelId: "5" },
   { nickname: "Jordan", color: "#e06c75", channelId: "5" },
   { nickname: "Quinn", color: "#e5c07b", channelId: "5" },

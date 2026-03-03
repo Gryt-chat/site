@@ -20,6 +20,9 @@ import {
   MdVolumeUp,
 } from "react-icons/md";
 
+import type { MockServer } from "./data";
+import { defaultServers } from "./data";
+
 function ServerAvatar({
   name,
   fallback,
@@ -96,7 +99,11 @@ function ServerAvatar({
   );
 }
 
-export function MockServerRail() {
+interface MockServerRailProps {
+  servers?: MockServer[];
+}
+
+export function MockServerRail({ servers = defaultServers }: MockServerRailProps) {
   return (
     <Flex
       direction="column"
@@ -106,18 +113,15 @@ export function MockServerRail() {
       justify="between"
     >
       <Flex direction="column" gap="4" pt="2">
-        <ServerAvatar
-          name="Gryt Server"
-          fallback="G"
-          isActive
-          isConnected
-        />
-        <ServerAvatar
-          name="Dev Team"
-          fallback="D"
-          isActive={false}
-          isConnected={false}
-        />
+        {servers.map((s) => (
+          <ServerAvatar
+            key={s.name}
+            name={s.name}
+            fallback={s.fallback}
+            isActive={s.isActive}
+            isConnected={s.isConnected}
+          />
+        ))}
 
         <Tooltip content="Add new server" delayDuration={100} side="right">
           <IconButton variant="soft" color="gray">

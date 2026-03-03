@@ -1,25 +1,24 @@
 import "@radix-ui/themes/styles.css";
 
-import { useCallback, useState } from "react";
-
 import { Theme } from "@radix-ui/themes";
+import { useState } from "react";
 import { MdChevronLeft, MdChevronRight } from "react-icons/md";
 
 import styles from "./AppMockup.module.css";
-import { channels } from "./data";
+import type { MockAppState } from "./data";
+import { channels as defaultChannels } from "./data";
 import { MockChannelSidebar } from "./MockChannelSidebar";
 import { MockChat } from "./MockChat";
 import { MockMemberSidebar } from "./MockMemberSidebar";
 import { MockServerRail } from "./MockServerRail";
 
-export function AppMockup() {
-  const [selectedChannelId, setSelectedChannelId] = useState("1");
+export function AppMockup(props: MockAppState) {
+  const chs = props.channels ?? defaultChannels;
+  const defaultId = chs[0]?.id ?? "1";
+  const [internalChannelId, setInternalChannelId] = useState(defaultId);
 
-  const selectedChannel = channels.find((c) => c.id === selectedChannelId);
-
-  const handleChannelClick = useCallback((channelId: string) => {
-    setSelectedChannelId(channelId);
-  }, []);
+  const selectedChannelId = props.selectedChannelId ?? internalChannelId;
+  const selectedChannel = chs.find((c) => c.id === selectedChannelId) ?? chs[0];
 
   return (
     <div className={styles.scaler}>
@@ -36,26 +35,35 @@ export function AppMockup() {
         >
           <div className={styles.titlebar}>
             <div className={styles.navButtons}>
-              <span className={styles.navBtn}>
+              <button className={styles.navBtn} tabIndex={-1}>
                 <MdChevronLeft size={14} />
-              </span>
-              <span className={styles.navBtn}>
+              </button>
+              <button className={styles.navBtn} tabIndex={-1}>
                 <MdChevronRight size={14} />
-              </span>
+              </button>
             </div>
-            <span className={styles.titlebarText}>gryt.chat</span>
+            <span className={styles.titlebarText}>gryt</span>
           </div>
+
           <div className={styles.layout}>
-            <MockServerRail />
+            <MockServerRail servers={props.servers} />
+
             <MockChannelSidebar
               selectedChannelId={selectedChannelId}
-              onChannelClick={handleChannelClick}
+              onChannelClick={setInternalChannelId}
+              channels={props.channels}
+              sidebarItems={props.sidebarItems}
+              voiceUsers={props.voiceUsers}
             />
+
             <MockChat
               channelName={selectedChannel?.name ?? "general"}
               channelType={selectedChannel?.type ?? "text"}
+              messages={props.messages}
+              visibleMessageCount={props.visibleMessageCount}
             />
-            <MockMemberSidebar />
+
+            <MockMemberSidebar members={props.members} />
           </div>
         </Theme>
       </div>

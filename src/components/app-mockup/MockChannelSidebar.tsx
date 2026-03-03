@@ -12,9 +12,13 @@ import {
 } from "@radix-ui/themes";
 import { MdChat, MdPushPin, MdVolumeUp } from "react-icons/md";
 
-import { channels, SERVER_NAME, sidebarItems, voiceUsers } from "./data";
-
-const channelMap = new Map(channels.map((c) => [c.id, c]));
+import type { MockChannel, MockSidebarItem, MockVoiceUser } from "./data";
+import {
+  channels as defaultChannels,
+  SERVER_NAME,
+  sidebarItems as defaultSidebarItems,
+  voiceUsers as defaultVoiceUsers,
+} from "./data";
 
 function SeparatorRow({ label }: { label?: string }) {
   return (
@@ -48,10 +52,14 @@ function ChannelRow({
   channelId,
   isSelected,
   onClick,
+  channelMap,
+  voiceUsers,
 }: {
   channelId: string;
   isSelected: boolean;
   onClick: () => void;
+  channelMap: Map<string, MockChannel>;
+  voiceUsers: MockVoiceUser[];
 }) {
   const ch = channelMap.get(channelId);
   if (!ch) return null;
@@ -144,12 +152,22 @@ function ChannelRow({
 interface MockChannelSidebarProps {
   selectedChannelId: string;
   onChannelClick: (channelId: string) => void;
+  channels?: MockChannel[];
+  sidebarItems?: MockSidebarItem[];
+  voiceUsers?: MockVoiceUser[];
+  serverName?: string;
 }
 
 export function MockChannelSidebar({
   selectedChannelId,
   onChannelClick,
+  channels = defaultChannels,
+  sidebarItems = defaultSidebarItems,
+  voiceUsers = defaultVoiceUsers,
+  serverName = SERVER_NAME,
 }: MockChannelSidebarProps) {
+  const channelMap = new Map(channels.map((c) => [c.id, c]));
+
   return (
     <Flex
       direction="column"
@@ -161,7 +179,7 @@ export function MockChannelSidebar({
     >
       <Card style={{ width: "100%", flexShrink: 0 }}>
         <Flex justify="between" align="center">
-          <Text>{SERVER_NAME}</Text>
+          <Text>{serverName}</Text>
           <Flex align="center" gap="2">
             <Tooltip content="Pin sidebar" delayDuration={200}>
               <IconButton size="1" variant="solid" color="gray">
@@ -206,6 +224,8 @@ export function MockChannelSidebar({
                   (item.channelId ?? item.id) === selectedChannelId
                 }
                 onClick={() => onChannelClick(item.channelId ?? item.id)}
+                channelMap={channelMap}
+                voiceUsers={voiceUsers}
               />
             ),
           )}

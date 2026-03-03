@@ -1,14 +1,15 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { Avatar, Box, Flex, Text } from "@radix-ui/themes";
 import { AnimatePresence, motion } from "motion/react";
 import { MdChat, MdVolumeUp } from "react-icons/md";
 
-import { type MockMessage, messages } from "./data";
+import type { MockMessage } from "./data";
+import { messages as defaultMessages } from "./data";
 
 const SPRING = { type: "spring" as const, stiffness: 170, damping: 26 };
-const MIN_DELAY = 4000;
-const MAX_DELAY = 8000;
+const MIN_DELAY = 500;
+const MAX_DELAY = 2000;
 
 function randomDelay() {
   return MIN_DELAY + Math.random() * (MAX_DELAY - MIN_DELAY);
@@ -87,15 +88,23 @@ function MessageRow({ m, isNew }: { m: MockMessage; isNew: boolean }) {
 interface MockChatProps {
   channelName: string;
   channelType: "text" | "voice";
+  messages?: MockMessage[];
+  visibleMessageCount?: number;
 }
 
-export function MockChat({ channelName, channelType }: MockChatProps) {
-  const [visibleCount, setVisibleCount] = useState(0);
+export function MockChat({
+  channelName,
+  channelType,
+  messages = defaultMessages,
+  visibleMessageCount,
+}: MockChatProps) {
+  const controlled = visibleMessageCount !== undefined;
+  const [autoCount, setAutoCount] = useState(0);
   const [prevCount, setPrevCount] = useState(0);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (messages.length === 0) return;
+    if (controlled || messages.length === 0) return;
 
     let timeout: ReturnType<typeof setTimeout>;
 
@@ -103,28 +112,37 @@ export function MockChat({ channelName, channelType }: MockChatProps) {
       if (count >= messages.length) return;
       timeout = setTimeout(() => {
         setPrevCount(count);
-        setVisibleCount(count + 1);
+        setAutoCount(count + 1);
         scheduleNext(count + 1);
       }, randomDelay());
     }
 
     scheduleNext(0);
     return () => clearTimeout(timeout);
-  }, []);
+  }, [controlled, messages.length]);
 
-  const scrollToBottom = useCallback(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-    requestAnimationFrame(() => {
-      el.scrollTo({ top: el.scrollHeight, behavior: "smooth" });
-    });
-  }, []);
+  const currentCount = controlled ? visibleMessageCount : autoCount;
 
   useEffect(() => {
-    scrollToBottom();
-  }, [visibleCount, scrollToBottom]);
+    if (controlled) setPrevCount((p) => Math.min(p, currentCount));
+  }, [controlled, currentCount]);
 
-  const visible = messages.slice(0, visibleCount);
+  const contentRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const content = contentRef.current;
+    const scroll = scrollRef.current;
+    if (!content || !scroll) return;
+
+    const observer = new ResizeObserver(() => {
+      scroll.scrollTop = scroll.scrollHeight;
+    });
+
+    observer.observe(content);
+    return () => observer.disconnect();
+  }, []);
+
+  const visible = messages.slice(0, currentCount);
 
   return (
     <Box
@@ -172,11 +190,13 @@ export function MockChat({ channelName, channelType }: MockChatProps) {
             marginBottom: 12,
           }}
         >
-          <AnimatePresence mode="popLayout" initial={false}>
-            {visible.map((m, i) => (
-              <MessageRow key={m.id} m={m} isNew={i >= prevCount} />
-            ))}
-          </AnimatePresence>
+          <div ref={contentRef}>
+            <AnimatePresence mode="popLayout" initial={false}>
+              {visible.map((m, i) => (
+                <MessageRow key={m.id} m={m} isNew={i >= prevCount} />
+              ))}
+            </AnimatePresence>
+          </div>
         </div>
 
         <Box style={{ flexShrink: 0 }}>
