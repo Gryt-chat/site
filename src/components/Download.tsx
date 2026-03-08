@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { FaApple, FaLinux, FaWindows } from "react-icons/fa";
+import { FaAndroid, FaApple, FaLinux, FaWindows } from "react-icons/fa";
 
 import { DownloadIcon, GlobeIcon, ServerRackIcon } from "./icons";
 import styles from "./Download.module.css";
@@ -15,7 +15,7 @@ interface Release {
   assets: ReleaseAsset[];
 }
 
-type OS = "windows" | "macos" | "linux";
+type OS = "windows" | "macos" | "linux" | "ios" | "android";
 
 interface DownloadOption {
   label: string;
@@ -25,10 +25,12 @@ interface DownloadOption {
   fileName: string;
 }
 
-const OS_LABELS: Record<OS, { label: string; icon: typeof FaWindows }> = {
+const OS_LABELS: Record<OS, { label: string; icon: typeof FaWindows; comingSoon?: boolean }> = {
   windows: { label: "Windows", icon: FaWindows },
   macos: { label: "macOS", icon: FaApple },
   linux: { label: "Linux", icon: FaLinux },
+  ios: { label: "iOS", icon: FaApple, comingSoon: true },
+  android: { label: "Android", icon: FaAndroid, comingSoon: true },
 };
 
 function detectOS(): OS {
@@ -48,6 +50,8 @@ function categorizeAssets(assets: ReleaseAsset[]): Record<OS, DownloadOption[]> 
     windows: [],
     macos: [],
     linux: [],
+    ios: [],
+    android: [],
   };
 
   for (const asset of assets) {
@@ -126,7 +130,7 @@ function categorizeAssets(assets: ReleaseAsset[]): Record<OS, DownloadOption[]> 
 }
 
 function OSTab({ os, active, onClick }: { os: OS; active: boolean; onClick: () => void }) {
-  const { label, icon: Icon } = OS_LABELS[os];
+  const { label, icon: Icon, comingSoon } = OS_LABELS[os];
   return (
     <button
       className={`${styles.osTab} ${active ? styles.osTabActive : ""}`}
@@ -135,6 +139,7 @@ function OSTab({ os, active, onClick }: { os: OS; active: boolean; onClick: () =
     >
       <Icon size={16} />
       {label}
+      {comingSoon && <span className={styles.comingSoon}>Soon</span>}
     </button>
   );
 }
@@ -192,7 +197,7 @@ export function Download() {
         </p>
 
         <div className={styles.osTabs}>
-          {(["windows", "macos", "linux"] as const).map((os) => (
+          {(["windows", "macos", "linux", "ios", "android"] as const).map((os) => (
             <OSTab
               key={os}
               os={os}
@@ -202,7 +207,22 @@ export function Download() {
           ))}
         </div>
 
-        {error && (
+        {OS_LABELS[selectedOS].comingSoon && (
+          <div className={styles.comingSoonPanel}>
+            <p className={styles.comingSoonTitle}>
+              {OS_LABELS[selectedOS].label} app is coming soon
+            </p>
+            <p className={styles.comingSoonDesc}>
+              We're working on native mobile apps. In the meantime, you can use
+              Gryt in your mobile browser at{" "}
+              <a href="https://app.gryt.chat" target="_blank" rel="noreferrer">
+                app.gryt.chat
+              </a>
+            </p>
+          </div>
+        )}
+
+        {!OS_LABELS[selectedOS].comingSoon && error && (
           <div className={styles.fallback}>
             <p>Could not load releases.</p>
             <a
@@ -217,11 +237,11 @@ export function Download() {
           </div>
         )}
 
-        {!error && !release && (
+        {!OS_LABELS[selectedOS].comingSoon && !error && !release && (
           <div className={styles.loading}>Loading releases…</div>
         )}
 
-        {!error && release && options.length > 0 && (
+        {!OS_LABELS[selectedOS].comingSoon && !error && release && options.length > 0 && (
           <div className={styles.downloadList}>
             {options.map((opt) => (
               <DownloadCard key={opt.fileName} option={opt} />
@@ -229,7 +249,7 @@ export function Download() {
           </div>
         )}
 
-        {!error && release && options.length === 0 && (
+        {!OS_LABELS[selectedOS].comingSoon && !error && release && options.length === 0 && (
           <div className={styles.fallback}>
             <p>No downloads available for {OS_LABELS[selectedOS].label} yet.</p>
             <a
@@ -244,7 +264,7 @@ export function Download() {
           </div>
         )}
 
-        {version && (
+        {!OS_LABELS[selectedOS].comingSoon && version && (
           <p className={styles.versionNote}>
             Latest: v{version} ·{" "}
             <a

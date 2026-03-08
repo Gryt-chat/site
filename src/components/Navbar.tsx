@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import * as Dialog from "@radix-ui/react-dialog";
 import { MdMenu, MdClose } from "react-icons/md";
 import { GrytLogo } from "./GrytLogo";
@@ -15,8 +15,21 @@ const navLinks = [
 export function Navbar() {
   const [open, setOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
   const close = useCallback(() => setOpen(false), []);
+
+  const scrollToDownload = useCallback(
+    (e: React.MouseEvent) => {
+      e.preventDefault();
+      if (location.pathname !== "/") {
+        navigate("/#download");
+        return;
+      }
+      document.getElementById("download")?.scrollIntoView({ behavior: "smooth" });
+    },
+    [location.pathname, navigate],
+  );
 
   const handleBrandClick = useCallback(
     (e: React.MouseEvent) => {
@@ -61,10 +74,9 @@ export function Navbar() {
           </li>
           <li>
             <a
-              href="https://github.com/Gryt-chat/gryt/releases"
-              target="_blank"
-              rel="noreferrer"
+              href="#download"
               className="btn btn-primary btn-sm"
+              onClick={scrollToDownload}
             >
               Download
             </a>
@@ -147,12 +159,13 @@ export function Navbar() {
                   Open App
                 </a>
                 <a
-                  href="https://github.com/Gryt-chat/gryt/releases"
-                  target="_blank"
-                  rel="noreferrer"
+                  href="#download"
                   className="btn btn-primary"
                   style={{ width: "100%", justifyContent: "center" }}
-                  onClick={close}
+                  onClick={(e) => {
+                    scrollToDownload(e);
+                    close();
+                  }}
                 >
                   Download
                 </a>

@@ -67,6 +67,52 @@
   color: #fff;
 }
 
+/* ── Coming soon badge ──────────────────────────────────── */
+
+.comingSoon {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: rgba(150, 143, 248, 0.15);
+  color: var(--accent-light, #b4afff);
+  line-height: 1;
+}
+
+.comingSoonPanel {
+  max-width: 420px;
+  margin: 0 auto 20px;
+  padding: 32px 24px;
+  border-radius: 10px;
+  border: 1px dashed var(--border);
+  background: rgba(150, 143, 248, 0.03);
+  position: relative;
+}
+
+.comingSoonTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+.comingSoonDesc {
+  font-size: 14px;
+  color: var(--text-dim);
+  line-height: 1.6;
+}
+
+.comingSoonDesc a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.comingSoonDesc a:hover {
+  text-decoration: underline;
+}
+
 /* ── Download cards ─────────────────────────────────────── */
 
 .downloadList {
