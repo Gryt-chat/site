@@ -1,0 +1,97 @@
+---
+title: 131 Users and a LAN Party
+description: How Gryt went from 40 users to 131 in a single weekend, battle-tested at a 140-person workplace LAN party with hotfixes shipped from a phone.
+author: Sivert
+date: 2026-03-07
+tags:
+  - gryt
+  - community
+  - self-hosting
+  - infrastructure
+---
+
+## We passed 100 users
+
+This one feels good to write. Gryt officially crossed the 100 registered users mark this weekend. Not through a launch campaign, not through social media, but through the most honest stress test I could have asked for — a workplace LAN party with 140 participants.
+
+Before the event, Gryt had around 40 registered users. By Sunday evening we were at 131. That's not a vanity metric — those are real people who signed up, joined a server, and used Gryt to talk to each other during a real event. Some of them will never open it again. Some of them already have.
+
+## The LAN party
+
+My workplace hosts two LAN parties a year. This was the first one of 2026, and we decided to use Gryt as the primary voice communication platform. The reason was simple: Discord is blocked on the company network. We needed an alternative, and Gryt is currently the only one that fulfills all of our needs — self-hosted, no external dependencies, and runs entirely on our own infrastructure.
+
+We set up around 20 voice channels to give people spaces to sit in, and pointed 140 people at a single Gryt server.
+
+It had both ups and downs.
+
+## The startup fiasco
+
+I wasn't at the LAN party when things kicked off. I was celebrating a birthday, which meant every issue that popped up had to be triaged and fixed from my phone.
+
+### Cloudflare DNS couldn't reach the SFU
+
+The first problem was connectivity. Cloudflare's DNS was unable to route to our SFU server, which meant nobody could join voice. The fix was to bypass the public DNS entirely and provide a local IP address for the SFU environment variable. Since everyone was on the same network, this worked fine — the clients connected directly to the SFU over the LAN.
+
+### We ran out of emails
+
+This one caught me off guard. When 140 people try to sign up at the same time, they all need verification emails. I hadn't anticipated that kind of volume, and my email service quota ran dry almost immediately. Users were stuck on the sign-up screen with no verification email arriving.
+
+The fix was fast but not free — I purchased a 10,000 emails per month plan on the spot, from my phone, to get things moving again. Once the quota was restored, the backlog cleared and we saw 76 new registrations come through all at once.
+
+### LAN discovery didn't work
+
+Gryt has mDNS-based LAN discovery that's supposed to automatically show nearby servers in the sidebar. It didn't work. The server was running inside Docker with bridge networking, and mDNS multicast packets from inside a Docker container don't reach the physical LAN. The server was happily advertising itself, but only to other containers on the same Docker bridge — not to anyone's actual machine.
+
+The workaround was low-tech: we put the server address and invite code up on a large screen so people could type it in manually. Not elegant, but it got the job done.
+
+### People don't know how to use GitHub
+
+This one is on me. Gryt launched two weeks ago, and the only way to download the desktop app was through GitHub releases. I assumed people would figure it out — go to the releases page, find the right asset, download it. Turns out most people have never used GitHub in their life. They'd land on the repository page and have no idea where to click or what to download.
+
+At a LAN party where you're telling 140 people to install an app they've never heard of, "go to GitHub" is not an instruction that works. I've since added a direct download button on the website itself so people can grab the installer without ever touching GitHub. Lesson learned: not everyone lives on GitHub, and if you want normal people to use your software, you need to meet them where they are.
+
+### "Waiting for sign in"
+
+Some users got stuck on a "Waiting for sign in" screen after creating their account. We were testing brand new Ubiquiti routers that weekend, and the network was not cooperating. Between DNS hiccups and routing inconsistencies, some auth callbacks weren't completing. Reloading the page or retrying usually worked, but it was a rough first impression for people trying Gryt for the first time.
+
+## Once everyone got in
+
+Once the setup issues were resolved and people were actually connected, Gryt held up. Voice quality was solid, latency was low, and the server handled the load without breaking a sweat. We had 20+ voice channels active simultaneously with people gaming, chatting, and streaming.
+
+![The NTLAN server in Gryt showing 65 members online, active voice channels, and chat messages about raising the member cap](/blog/ntlan-screenshot.png)
+
+65 members online, multiple voice channels active, and someone asking me to raise the member cap on the server. That's a good problem to have.
+
+## The CPU wall
+
+After about 24 hours of continuous use, voice activity started lagging. Everyone in voice was experiencing choppy audio, delayed transmissions, and degraded quality. The SFU was pegged at 100% CPU.
+
+The root cause was a CPU limit in the old Docker Compose configuration. The SFU container was capped at a fixed number of cores, which was fine for a handful of users but completely insufficient for a sustained 80+ person load. Once I removed the CPU limit and let the SFU use all available cores, everything went back to being smooth immediately.
+
+## The voice delay mystery
+
+There's one issue we haven't solved yet. After a few hours of being continuously connected to a voice channel, users start experiencing a noticeable delay — around half a second of latency that wasn't there when they first joined. It builds up gradually, and there's no obvious explanation from the client side. Reconnecting to the voice channel resets it.
+
+This is something I need to dig into. It could be a buffer accumulation issue in the SFU's RTP forwarding, a client-side audio pipeline problem, or something in the WebRTC peer connection that degrades over long sessions. If you've seen similar behavior in WebRTC applications, I'd love to hear about it.
+
+## Hotfixes shipped during the weekend
+
+Between birthday celebrations, phone-based debugging, and arriving at the LAN party myself, several fixes and improvements were shipped during the event:
+
+**Login cancellation** — Added the ability to cancel a pending login and retry, with a countdown timer in the sign-up modal. This directly addressed the "Waiting for sign in" issue. If the auth callback didn't complete, users could cancel and try again instead of being stuck.
+
+**Noise gate release control** — A new audio setting that controls how smoothly the noise gate closes. At a LAN party with 140 people in one room, background noise is constant. The noise gate needs to cut cleanly without chopping off the ends of words. This setting gives users control over that transition.
+
+**Screen share FPS improvements** — Better support for high framerate screen sharing (60+ FPS) with improved logging for diagnosing encoding issues. People were streaming tournament matches and the previous frame rate handling wasn't cutting it.
+
+**Storage logging** — Enhanced logging for the persistent storage system to help diagnose the data disappearance issues discussed in the [previous post](/blog/hardware-codecs-svc-and-persistent-storage). With 100+ new users, having visibility into storage operations became a lot more important.
+
+## From 40 to 131
+
+Not everyone at the LAN party signed up for Gryt, and not everyone who signed up got it working smoothly. But 91 new users in a single weekend is more than I expected. More importantly, it gave Gryt massive exposure. People who didn't sign up still saw it running, heard the voice quality, and watched their friends use it. That kind of visibility is worth more than any marketing.
+
+Before this weekend, Gryt was something I built and a handful of people used. Now it's something that 131 people have tried, and a growing number of them are sticking around.
+
+---
+
+Want to host your own Gryt server? Check the [quick start guide](https://docs.gryt.chat/docs/guide/quick-start) to get up and running. Questions or feedback? Come hang out on [Discord](https://discord.gg/Q3JKUGsnHE).
