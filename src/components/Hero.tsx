@@ -30,7 +30,14 @@ export function Hero() {
           <GlobeIcon size={16} />
           Try in Browser
         </a>
-        <a href="https://github.com/Gryt-chat/gryt/releases" target="_blank" rel="noreferrer" className="btn btn-outline">
+        <a
+          href="#download"
+          className="btn btn-outline"
+          onClick={(e) => {
+            e.preventDefault();
+            document.getElementById("download")?.scrollIntoView({ behavior: "smooth" });
+          }}
+        >
           <DownloadIcon size={16} />
           Download Gryt
         </a>

@@ -21,7 +21,178 @@
 
 .desc { margin: 0 auto 32px; }
 
-.actions {
+/* ── OS Tabs ────────────────────────────────────────────── */
+
+.osTabs {
+  display: flex;
+  gap: 4px;
+  justify-content: center;
+  margin-bottom: 24px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 4px;
+  display: inline-flex;
+  position: relative;
+}
+
+.osTab {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  color: var(--text-dim);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-family: inherit;
+}
+
+.osTab:hover {
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.osTabActive {
+  background: var(--accent);
+  color: #fff;
+}
+
+.osTabActive:hover {
+  background: var(--accent);
+  color: #fff;
+}
+
+/* ── Download cards ─────────────────────────────────────── */
+
+.downloadList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 520px;
+  margin: 0 auto 20px;
+  position: relative;
+}
+
+.downloadCard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 20px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  text-decoration: none;
+  color: var(--text);
+  transition: all 0.15s ease;
+}
+
+.downloadCard:hover {
+  border-color: var(--accent);
+  background: rgba(150, 143, 248, 0.04);
+}
+
+.cardInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+}
+
+.cardLabel {
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.cardDesc {
+  font-size: 12px;
+  color: var(--text-dimmer);
+}
+
+.cardAction {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.cardSize {
+  font-size: 12px;
+  color: var(--text-dimmer);
+  white-space: nowrap;
+}
+
+.cardBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: opacity 0.15s ease;
+}
+
+.downloadCard:hover .cardBtn {
+  opacity: 0.9;
+}
+
+/* ── Loading / fallback ─────────────────────────────────── */
+
+.loading {
+  color: var(--text-dimmer);
+  font-size: 14px;
+  padding: 32px 0;
+  position: relative;
+}
+
+.fallback {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 24px 0;
+  color: var(--text-dim);
+  font-size: 14px;
+  position: relative;
+}
+
+/* ── Version / divider / alt actions ────────────────────── */
+
+.versionNote {
+  font-size: 12px;
+  color: var(--text-dimmer);
+  margin: 8px auto 0;
+  position: relative;
+}
+
+.versionNote a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.versionNote a:hover {
+  text-decoration: underline;
+}
+
+.divider {
+  width: 100%;
+  max-width: 400px;
+  height: 1px;
+  background: var(--border);
+  margin: 32px auto;
+  position: relative;
+}
+
+.altActions {
   display: flex;
   gap: 12px;
   justify-content: center;
@@ -37,33 +208,35 @@
   position: relative;
 }
 
-.platforms {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 24px;
-  margin-top: 24px;
-  position: relative;
-}
-
-.platform {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 13px;
-  color: var(--text-dimmer);
-}
-
 @media (max-width: 768px) {
   .box { padding: 40px 16px; }
-
-  .platforms {
-    flex-direction: column;
-    gap: 12px;
-  }
 }
 
 @media (max-width: 480px) {
-  .actions { flex-direction: column; align-items: center; }
-  .actions :global(.btn) { width: 100%; max-width: 280px; justify-content: center; }
+  .osTabs {
+    flex-direction: row;
+    width: 100%;
+    justify-content: stretch;
+  }
+
+  .osTab {
+    flex: 1;
+    justify-content: center;
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+
+  .downloadCard {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: left;
+  }
+
+  .cardAction {
+    justify-content: space-between;
+    margin-top: 8px;
+  }
+
+  .altActions { flex-direction: column; align-items: center; }
+  .altActions :global(.btn) { width: 100%; max-width: 280px; justify-content: center; }
 }
