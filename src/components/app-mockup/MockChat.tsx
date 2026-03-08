@@ -1,23 +1,10 @@
-import { useEffect, useRef, useState } from "react";
-
 import { Avatar, Box, Flex, Text } from "@radix-ui/themes";
-import { AnimatePresence, motion } from "motion/react";
 import { MdChat, MdVolumeUp } from "react-icons/md";
 
 import type { MockMessage } from "./data";
 import { messages as defaultMessages } from "./data";
 
-const SPRING = { type: "spring" as const, stiffness: 170, damping: 26 };
-const MIN_DELAY = 500;
-const MAX_DELAY = 2000;
-
-function randomDelay() {
-  return MIN_DELAY + Math.random() * (MAX_DELAY - MIN_DELAY);
-}
-
-function MessageRow({ m, isNew }: { m: MockMessage; isNew: boolean }) {
-  const ref = useRef<HTMLDivElement>(null);
-
+function MessageRow({ m }: { m: MockMessage }) {
   const content = m.firstInGroup ? (
     <Flex gap="3" style={{ width: "100%", marginTop: 12 }} align="start">
       <Avatar
@@ -64,25 +51,7 @@ function MessageRow({ m, isNew }: { m: MockMessage; isNew: boolean }) {
     </Flex>
   );
 
-  return (
-    <motion.div
-      ref={ref}
-      layout="position"
-      style={{ width: "100%", overflow: isNew ? "hidden" : undefined }}
-      initial={isNew ? { opacity: 0, height: 0 } : false}
-      animate={{ opacity: 1, height: "auto" }}
-      transition={{
-        layout: SPRING,
-        opacity: { duration: 0.2, ease: "easeOut" },
-        height: SPRING,
-      }}
-      onAnimationComplete={() => {
-        if (ref.current) ref.current.style.overflow = "";
-      }}
-    >
-      {content}
-    </motion.div>
-  );
+  return <div style={{ width: "100%" }}>{content}</div>;
 }
 
 interface MockChatProps {
@@ -98,37 +67,9 @@ export function MockChat({
   messages = defaultMessages,
   visibleMessageCount,
 }: MockChatProps) {
-  const controlled = visibleMessageCount !== undefined;
-  const [autoCount, setAutoCount] = useState(0);
-  const [prevCount, setPrevCount] = useState(0);
-
-  useEffect(() => {
-    if (controlled || messages.length === 0) return;
-
-    let timeout: ReturnType<typeof setTimeout>;
-
-    function scheduleNext(count: number) {
-      if (count >= messages.length) return;
-      timeout = setTimeout(() => {
-        setPrevCount(count);
-        setAutoCount(count + 1);
-        scheduleNext(count + 1);
-      }, randomDelay());
-    }
-
-    scheduleNext(0);
-    return () => clearTimeout(timeout);
-  }, [controlled, messages.length]);
-
-  const currentCount = controlled ? visibleMessageCount : autoCount;
-
-  useEffect(() => {
-    if (controlled) setPrevCount((p) => Math.min(p, currentCount));
-  }, [controlled, currentCount]);
-
-  const contentRef = useRef<HTMLDivElement>(null);
-
-  const visible = messages.slice(0, currentCount);
+  const visible = visibleMessageCount !== undefined
+    ? messages.slice(0, visibleMessageCount)
+    : messages;
 
   return (
     <Box
@@ -138,6 +79,7 @@ export function MockChat({
       style={{
         background: "var(--gray-3)",
         borderRadius: "var(--radius-5)",
+        contain: "strict",
       }}
     >
       <Flex height="100%" width="100%" direction="column" p="3">
@@ -175,12 +117,10 @@ export function MockChat({
             marginBottom: 12,
           }}
         >
-          <div ref={contentRef}>
-            <AnimatePresence mode="popLayout" initial={false}>
-              {visible.map((m, i) => (
-                <MessageRow key={m.id} m={m} isNew={i >= prevCount} />
-              ))}
-            </AnimatePresence>
+          <div>
+            {visible.map((m) => (
+              <MessageRow key={m.id} m={m} />
+            ))}
           </div>
         </div>
 
