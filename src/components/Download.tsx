@@ -193,7 +193,7 @@ export function Download() {
         <h2 className="section-title">Download Gryt</h2>
         <p className={`section-desc ${styles.desc}`}>
           Grab the desktop client for the full experience, or try Gryt right in
-          your browser — no account required.
+          your browser.
         </p>
 
         <div className={styles.osTabs}>
