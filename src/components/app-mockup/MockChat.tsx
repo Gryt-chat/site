@@ -101,7 +101,6 @@ export function MockChat({
   const controlled = visibleMessageCount !== undefined;
   const [autoCount, setAutoCount] = useState(0);
   const [prevCount, setPrevCount] = useState(0);
-  const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (controlled || messages.length === 0) return;
@@ -128,19 +127,6 @@ export function MockChat({
   }, [controlled, currentCount]);
 
   const contentRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const content = contentRef.current;
-    const scroll = scrollRef.current;
-    if (!content || !scroll) return;
-
-    const observer = new ResizeObserver(() => {
-      scroll.scrollTop = scroll.scrollHeight;
-    });
-
-    observer.observe(content);
-    return () => observer.disconnect();
-  }, []);
 
   const visible = messages.slice(0, currentCount);
 
@@ -181,11 +167,10 @@ export function MockChat({
         </Flex>
 
         <div
-          ref={scrollRef}
           style={{
             flex: 1,
             minWidth: 0,
-            overflowY: "auto",
+            overflowY: "hidden",
             overflowX: "hidden",
             marginBottom: 12,
           }}
