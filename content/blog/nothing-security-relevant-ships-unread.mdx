@@ -1,0 +1,76 @@
+---
+title: Nothing Security-Relevant Ships Unread
+description: How AI is used in Gryt, where it gets reviewed line by line, and why I changed the rule I published.
+author: Sivert
+date: 2026-08-04
+tags:
+  - gryt
+  - ai
+  - open-source
+---
+
+## I'm not really pro-AI
+
+I want to be upfront about that before the rest of this post, because what follows might read like a defence of using AI, and that isn't really where I stand.
+
+I don't think AI-generated code is particularly good. It tends to produce things that look right and read right but are wrong in ways that take longer to find than writing it properly would have taken in the first place. In most software that's annoying. In software that handles people's private conversations, I think it's a genuinely bad idea to let that go unchecked.
+
+So this isn't a post about AI being great. It's about where I let it near Gryt, and what has to happen before any of it reaches you.
+
+## But I'm one person
+
+Here's the part I can't really argue my way around.
+
+Gryt is a desktop client, a web client, a signalling server, a Go SFU, an authentication service, an identity certificate authority, an image worker, a documentation site, and a marketing site. That's what it takes to build voice chat that doesn't depend on anyone else's infrastructure. And I maintain all of it on my own.
+
+If I hand-wrote every line of that, Gryt wouldn't exist. I'd still be somewhere in 2023 working on the settings panel.
+
+So I do use AI. But I've thought about the conditions, because "it was late and this was faster" isn't a good enough reason when it comes to security.
+
+## The rule I published first, and why I changed it
+
+A few hours before writing this, I published a version of this policy that said the important parts of Gryt were hand-written, full stop. No AI anywhere near the SFU, the auth code, the identity service, the image worker or the data layer.
+
+It broke almost immediately, and the way it broke was useful.
+
+I wanted to add a small CI workflow to a few repositories — a YAML file that marks a task as done when a pull request merges. The rule forbade adding it to the SFU repo, because the rule covered the whole repository rather than the code that actually matters. A config file that pings a task tracker is not a threat to anyone's security, but the rule couldn't tell the difference.
+
+That made me realise I'd written down the wrong promise. "No model touched this" is easy to state and easy to check, but it isn't the thing you actually care about. What you care about is that nobody ships code to you that could compromise your account or your conversations without a human having read it properly first.
+
+So that's the rule now.
+
+## What it says
+
+AI can be used anywhere in Gryt. But the areas where a mistake hurts you — the SFU, authentication and identity, the client's key handling, the image worker, the data layer — can only change through a pull request that I read line by line before merging. No direct commits, no exceptions for small changes.
+
+Everything else — docs, this site, the interface, tooling — is reviewed like any normal change.
+
+The image worker stays on that list even though it looks out of place. It compresses avatars and makes thumbnails, which isn't exactly high-stakes work. But it takes a file a stranger uploaded and runs it through an image decoder, and image parsing has been a reliable source of memory-safety bugs for decades. It handles untrusted input, so it gets the closer read.
+
+## What that's actually worth
+
+I should be straight about the limits, because a policy like this is easy to oversell.
+
+I'm the only maintainer. Those repositories now require an approving review before anything merges, but I'm also the administrator, which means I can override that rule. There is no second person checking my work. If I get sloppy at midnight, nothing catches it.
+
+So this isn't an independent gate, and I'd rather say that than let you assume otherwise. What it is: a rule I've written down in public, applied to a specific list of paths, with a trail you can inspect.
+
+## You can check it yourself
+
+Every commit that had AI assistance carries a `Co-Authored-By` trailer naming the model. I could have stripped those out and nobody would have known.
+
+```bash
+git log --format='%H %s%n%(trailers:key=Co-Authored-By)'
+```
+
+For the review-required areas there's a second trail. Every change there arrives as a pull request, so you can read the diff and the review on GitHub rather than just seeing a commit appear. If you find a direct commit to one of those paths that never went through a PR, I've broken my own rule — open an issue and tell me.
+
+That's also how you can hold me to the honest version of this. The claim isn't "trust me." It's "here's the record."
+
+## What this means for you
+
+The security model hasn't changed. Your identity is still verified cryptographically, servers still can't impersonate you, and the code that guarantees that is still read by someone who understands why every line is there.
+
+What changed is that I stopped promising something slightly beside the point, and started promising the thing I actually do.
+
+The full policy, with the exact paths and the rules for contributors, is in the [AI policy](https://docs.gryt.chat/docs/guide/ai) docs. If you think I've drawn the line in the wrong place — or that I've just talked myself into something more convenient — I'd genuinely like to hear it. Come tell me on [Discord](https://discord.gg/Q3JKUGsnHE).
