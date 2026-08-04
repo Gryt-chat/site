@@ -1,0 +1,72 @@
+---
+title: Gryt's Foundation Is Hand-Written
+description: Why Gryt's core will always be written by hand, and where AI is allowed nowhere near it.
+author: Sivert
+date: 2026-08-04
+tags:
+  - gryt
+  - ai
+  - open-source
+---
+
+## I'm not really pro-AI
+
+I want to be upfront about that before the rest of this post, because what follows might read like a defence of using AI, and that isn't really where I stand.
+
+I don't think AI-generated code is particularly good. It tends to produce things that look right and read right but are wrong in ways that take longer to find than writing it properly would have taken in the first place. In most software that's annoying. In software that handles people's private conversations, I think it's a genuinely bad idea.
+
+So this isn't a post about AI being great. It's about where I let it near Gryt, and where I don't.
+
+## But I'm one person
+
+Here's the part I can't really argue my way around.
+
+Gryt is a desktop client, a web client, a signalling server, a Go SFU, an authentication service, an identity certificate authority, an image worker, a documentation site, and a marketing site. That's what it takes to build voice chat that doesn't depend on anyone else's infrastructure. And I maintain all of it on my own.
+
+If I hand-wrote every line of that, Gryt wouldn't exist. I'd still be somewhere in 2023 working on the settings panel.
+
+So I do use AI, on some things. But I've thought about which things, because "it was late and this was faster" isn't a good enough reason when it comes to security.
+
+## Where the line is
+
+The line is between the foundation and the things built on top of it.
+
+The foundation is the code where being wrong actually hurts you. The code that moves your voice across the internet, proves you're who you say you are, holds your private key, or opens a file that someone else uploaded. I write all of that by hand, and I'm going to keep doing that.
+
+Everything else is code where being wrong means an ugly page or a broken build. Documentation, this website, most of the interface, the scripts that start my dev environment. That can be AI-assisted, and a fair bit of it is.
+
+## What I always write by hand
+
+**The SFU.** The whole Go media plane — RTP forwarding, ICE, SVC layer selection. I spent a long time learning WebRTC properly so I could write this, and it's the thing everything else depends on.
+
+**Authentication and identity.** The challenge-response handshake, JWT validation, and the certificate authority that ties your public key to your Gryt account. Gryt's whole security model is that a server operator can't impersonate you, and that property lives in this code.
+
+**The client's key handling.** I said most of the interface can be AI-assisted, and that's true, but not the files where your keypair gets generated and stored. Those are hand-written as well.
+
+**The image worker.** This one probably looks out of place. It compresses avatars and generates thumbnails, which isn't exactly high-stakes work. But it takes a file a stranger uploaded and runs it through an image decoder, and image parsing has been a reliable source of memory-safety bugs for decades. It handles untrusted input, so I treat it as core.
+
+**The data layer.** Persistence and object storage. Less interesting than the rest, but it's where your messages live.
+
+## What is AI-assisted
+
+Documentation, including the policy page itself. This website. Interface and presentation code, minus the auth files above. Dev tooling, build scripts, CI config. Tests and refactors that don't change behaviour.
+
+There isn't anything principled about the split, really. It comes down to how much damage a mistake can do. A bad paragraph in the docs means someone gets confused and opens an issue. A subtly broken certificate check means someone gets impersonated and probably never finds out.
+
+And whichever side something falls on, anything that touches security gets read properly by me before it goes out.
+
+## You can check this yourself
+
+Every commit that had AI assistance carries a `Co-Authored-By` trailer naming the model. I could have stripped those out and nobody would have known, but leaving them in is what makes this something you can verify rather than just take my word for.
+
+```bash
+git log --format='%H %s%n%(trailers:key=Co-Authored-By)'
+```
+
+Run that on any Gryt repo. If you find that trailer on a commit touching the SFU, the auth code, the identity service, the image worker or the data layer, then I've broken my own rule. Open an issue and tell me.
+
+## What this means for you
+
+Honestly, nothing changes. The security model is the same as it has always been, and the code behind it was written by someone who understands why it's there. I've just written the rule down so you can check it instead of assuming it.
+
+The full policy, including the exact paths and the disclosure rules for contributors, is in the [AI policy](https://docs.gryt.chat/docs/guide/ai) docs. If you think I've drawn the line in the wrong place, I'd like to hear it — come tell me on [Discord](https://discord.gg/Q3JKUGsnHE).
