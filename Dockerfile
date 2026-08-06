@@ -35,7 +35,12 @@ COPY --from=builder /app/dist /usr/share/nginx/html
 
 EXPOSE 80
 
+# 127.0.0.1, not localhost: localhost resolves to ::1 first here and nginx is
+# listening on IPv4, so the probe was refused every time —
+#   Connecting to localhost ([::1]:80)
+#   wget: can't connect to remote host: Connection refused
+# while the site itself served fine through the published port.
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-  CMD wget --no-verbose --tries=1 --spider http://localhost/ || exit 1
+  CMD wget --no-verbose --tries=1 --spider http://127.0.0.1/ || exit 1
 
 CMD ["nginx", "-g", "daemon off;"]
