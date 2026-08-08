@@ -33,7 +33,7 @@ A few hours before writing this, I published a version of this policy that said 
 
 It broke almost immediately, and the way it broke was useful.
 
-I wanted to add a small CI workflow to a few repositories — a YAML file that marks a task as done when a pull request merges. The rule forbade adding it to the SFU repo, because the rule covered the whole repository rather than the code that actually matters. A config file that pings a task tracker is not a threat to anyone's security, but the rule couldn't tell the difference.
+I wanted to add a small CI workflow to a few repositories, a YAML file that marks a task as done when a pull request merges. The rule forbade adding it to the SFU repo, because the rule covered the whole repository rather than the code that actually matters. A config file that pings a task tracker is not a threat to anyone's security, but the rule couldn't tell the difference.
 
 That made me realise I'd written down the wrong promise. "No model touched this" is easy to state and easy to check, but it isn't the thing you actually care about. What you care about is that nobody ships code to you that could compromise your account or your conversations without a human having read it properly first.
 
@@ -41,9 +41,9 @@ So that's the rule now.
 
 ## What it says
 
-AI can be used anywhere in Gryt. But the areas where a mistake hurts you — the SFU, authentication and identity, the client's key handling, the image worker, the data layer — can only change through a pull request that I read line by line before merging. No direct commits, no exceptions for small changes.
+AI can be used anywhere in Gryt. But the areas where a mistake hurts you, meaning the SFU, authentication and identity, the client's key handling, the image worker and the data layer, can only change through a pull request that I read line by line before merging. No direct commits, no exceptions for small changes.
 
-Everything else — docs, this site, the interface, tooling — is reviewed like any normal change.
+Everything else, including docs, this site, the interface and tooling, is reviewed like any normal change.
 
 The image worker stays on that list even though it looks out of place. It compresses avatars and makes thumbnails, which isn't exactly high-stakes work. But it takes a file a stranger uploaded and runs it through an image decoder, and image parsing has been a reliable source of memory-safety bugs for decades. It handles untrusted input, so it gets the closer read.
 
@@ -63,7 +63,7 @@ Every commit that had AI assistance carries a `Co-Authored-By` trailer naming th
 git log --format='%H %s%n%(trailers:key=Co-Authored-By)'
 ```
 
-For the review-required areas there's a second trail. Every change there arrives as a pull request, so you can read the diff and the review on GitHub rather than just seeing a commit appear. If you find a direct commit to one of those paths that never went through a PR, I've broken my own rule — open an issue and tell me.
+For the review-required areas there's a second trail. Every change there arrives as a pull request, so you can read the diff and the review on GitHub rather than just seeing a commit appear. If you find a direct commit to one of those paths that never went through a PR, I've broken my own rule. Open an issue and tell me.
 
 That's also how you can hold me to the honest version of this. The claim isn't "trust me." It's "here's the record."
 
@@ -73,4 +73,4 @@ The security model hasn't changed. Your identity is still verified cryptographic
 
 What changed is that I stopped promising something slightly beside the point, and started promising the thing I actually do.
 
-The full policy, with the exact paths and the rules for contributors, is in the [AI policy](https://docs.gryt.chat/docs/guide/ai) docs. If you think I've drawn the line in the wrong place — or that I've just talked myself into something more convenient — I'd genuinely like to hear it. Come tell me on [Discord](https://discord.gg/Q3JKUGsnHE).
+The full policy, with the exact paths and the rules for contributors, is in the [AI policy](https://docs.gryt.chat/docs/guide/ai) docs. If you think I've drawn the line in the wrong place, or that I've just talked myself into something more convenient, I'd genuinely like to hear it. Come tell me on [Discord](https://discord.gg/Q3JKUGsnHE).

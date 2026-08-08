@@ -1,6 +1,6 @@
 ---
 title: The Projects That Paved the Way
-description: A shoutout to the open source communication projects I came across while building Gryt — and why you should check them out.
+description: A shoutout to the open source communication projects I came across while building Gryt, and why you should check them out.
 author: Sivert
 date: 2026-02-22
 tags:
@@ -18,19 +18,19 @@ This isn't a comparison or a ranking. Every one of these projects is great at so
 
 ## Communication platforms
 
-**[Mumble](https://www.mumble.info/)** has been around since 2005 and is still one of the best low-latency voice clients ever made. Positional audio, tiny resource footprint, rock-solid reliability. It doesn't try to be a social platform — it just does voice, and it does it incredibly well. If all you need is voice chat for your group, honestly, Mumble is hard to beat.
+**[Mumble](https://www.mumble.info/)** has been around since 2005 and is still one of the best low-latency voice clients ever made. Positional audio, tiny resource footprint, rock-solid reliability. It doesn't try to be a social platform. It does voice, and it does it incredibly well. If all you need is voice chat for your group, honestly, Mumble is hard to beat.
 
 **[Jitsi Meet](https://meet.jit.si/)** proved that open source WebRTC conferencing could work at scale. Their video bridge is one of the most battle-tested SFUs out there, and they made self-hosted video calls a real option for everyone. It's a meeting tool rather than a community platform, but the groundwork Jitsi laid gave confidence to every WebRTC project that came after.
 
-**[Element](https://element.io/) & [Matrix](https://matrix.org/)** are building something ambitious — a federated, end-to-end encrypted communication protocol that no single company controls. Governments and enterprises already rely on it. The ecosystem is massive: hundreds of clients, bridges to other platforms, and a proper spec process. If federation and encryption are your top priorities, nothing else comes close. The UX has historically been a bit rough around the edges, but it's improving fast with Element X.
+**[Element](https://element.io/) & [Matrix](https://matrix.org/)** are building something ambitious: a federated, end-to-end encrypted communication protocol that no single company controls. Governments and enterprises already rely on it. The ecosystem is massive, with hundreds of clients, bridges to other platforms, and a proper spec process. If federation and encryption are your top priorities, nothing else comes close. The UX has historically been a bit rough around the edges, but it's improving fast with Element X.
 
-**[Revolt](https://revolt.chat/)** is probably the most familiar experience for Discord users. Clean UI, servers, channels, roles, custom emoji — it just feels right. The community around it is passionate and growing. Voice is still being developed and self-hosted voice can be tricky to configure, but the overall polish and community feel are really impressive for an open source project.
+**[Revolt](https://revolt.chat/)** is probably the most familiar experience for Discord users. Clean UI, servers, channels, roles, custom emoji. It just feels right. The community around it is passionate and growing. Voice is still being developed and self-hosted voice can be tricky to configure, but the overall polish and community feel are really impressive for an open source project.
 
-**[Rocket.Chat](https://www.rocket.chat/)** is playing a different game — enterprise communication. Think Slack but self-hosted. Omnichannel support, audit logs, compliance tools, federation. It's not trying to be Discord, and that's fine. If you need communication infrastructure for an organization, especially in regulated industries, Rocket.Chat is one of the most capable options out there.
+**[Rocket.Chat](https://www.rocket.chat/)** is playing a different game: enterprise communication. Think Slack but self-hosted. Omnichannel support, audit logs, compliance tools, federation. It's not trying to be Discord, and that's fine. If you need communication infrastructure for an organization, especially in regulated industries, Rocket.Chat is one of the most capable options out there.
 
 **[Spacebar](https://spacebar.chat/)** (formerly Fosscord) took the most direct approach: a reverse-engineered reimplementation of Discord's API. Existing Discord bots can work with it, which is a huge advantage. Voice support is still being refined, but the compatibility angle is genuinely clever.
 
-**[CutTheCord](https://cutthecord.app/)** is newer and moving fast. Built on a modern stack with [LiveKit](https://livekit.io/) handling voice and video, it already has desktop clients and an Android app. Smart choice of building on a great SFU rather than rolling their own — means the audio experience is solid from day one.
+**[CutTheCord](https://cutthecord.app/)** is newer and moving fast. Built on a modern stack with [LiveKit](https://livekit.io/) handling voice and video, it already has desktop clients and an Android app. Building on a good SFU rather than rolling their own was a smart call, and it means the audio experience is solid from day one.
 
 **[Sharkord](https://sharkord.com/)** is early (alpha as of February 2026), but I love the philosophy: lightweight enough to run on a Raspberry Pi, ships as a standalone binary, no Docker required. Not every community needs a Kubernetes cluster to chat.
 
@@ -40,7 +40,7 @@ These are the libraries and tools that make all of the above possible.
 
 **[Pion](https://github.com/pion/webrtc)** is a pure Go WebRTC implementation and what Gryt's SFU is built on. No C dependencies, fully readable and customizable. The community around it, led by [Sean DuBois](https://github.com/Sean-Der), is incredibly welcoming. I spent nearly two years learning WebRTC through Pion, and it's the foundation of everything Gryt does with voice.
 
-**[LiveKit](https://livekit.io/)** built a production-ready SFU platform on top of Pion. Horizontally scalable, MIT-licensed, SDKs for every platform. It's what CutTheCord and Element Call use, and for good reason — if you need voice and video to just work, LiveKit is probably the fastest way to get there.
+**[LiveKit](https://livekit.io/)** built a production-ready SFU platform on top of Pion. Horizontally scalable, MIT-licensed, SDKs for every platform. It's what CutTheCord and Element Call use, and for good reason. If you need voice and video to just work, LiveKit is probably the fastest way to get there.
 
 **[Mediasoup](https://mediasoup.org/)** is a C++ SFU with Node.js bindings that powers voice in projects like Spacebar and Sharkord. Well-documented, highly configurable, and a go-to for the Node.js ecosystem.
 
@@ -48,24 +48,24 @@ These are the libraries and tools that make all of the above possible.
 
 ## It's not a competition
 
-Every project on this list does something well that the others don't. That's the whole point. We're not fighting over the same users — we're all working toward the same goal: giving people communication tools that respect them. The more projects there are, the stronger that message gets.
+Every project on this list does something well that the others don't. That's the whole point. We are all working toward the same thing, which is giving people communication tools that respect them. The more projects there are, the stronger that message gets.
 
 I looked at all of these while building Gryt, and I wanted to put them here so others can discover and appreciate them the way I did. Open source works because we share what we know. These projects shared their code, their ideas, and their lessons with the world, and Gryt is better for it.
 
 If any of these caught your eye, go check them out. Star a repo, join a community, try self-hosting one. It all helps.
 
-- [Mumble](https://www.mumble.info/) — [GitHub](https://github.com/mumble-voip/mumble)
-- [Jitsi Meet](https://meet.jit.si/) — [GitHub](https://github.com/jitsi/jitsi-meet)
-- [Element](https://element.io/) — [GitHub](https://github.com/element-hq)
-- [Matrix](https://matrix.org/) — [Spec](https://spec.matrix.org/)
-- [Revolt](https://revolt.chat/) — [GitHub](https://github.com/revoltchat)
-- [Rocket.Chat](https://www.rocket.chat/) — [GitHub](https://github.com/RocketChat/Rocket.Chat)
-- [Spacebar](https://spacebar.chat/) — [GitHub](https://github.com/spacebarchat)
-- [CutTheCord](https://cutthecord.app/) — [GitHub](https://github.com/areoseek/CutTheCord)
-- [Sharkord](https://sharkord.com/) — [GitHub](https://github.com/Sharkord/sharkord)
-- [Pion WebRTC](https://pion.ly/) — [GitHub](https://github.com/pion/webrtc)
-- [LiveKit](https://livekit.io/) — [GitHub](https://github.com/livekit/livekit)
-- [Mediasoup](https://mediasoup.org/) — [GitHub](https://github.com/versatica/mediasoup)
+- [Mumble](https://www.mumble.info/) · [GitHub](https://github.com/mumble-voip/mumble)
+- [Jitsi Meet](https://meet.jit.si/) · [GitHub](https://github.com/jitsi/jitsi-meet)
+- [Element](https://element.io/) · [GitHub](https://github.com/element-hq)
+- [Matrix](https://matrix.org/) · [Spec](https://spec.matrix.org/)
+- [Revolt](https://revolt.chat/) · [GitHub](https://github.com/revoltchat)
+- [Rocket.Chat](https://www.rocket.chat/) · [GitHub](https://github.com/RocketChat/Rocket.Chat)
+- [Spacebar](https://spacebar.chat/) · [GitHub](https://github.com/spacebarchat)
+- [CutTheCord](https://cutthecord.app/) · [GitHub](https://github.com/areoseek/CutTheCord)
+- [Sharkord](https://sharkord.com/) · [GitHub](https://github.com/Sharkord/sharkord)
+- [Pion WebRTC](https://pion.ly/) · [GitHub](https://github.com/pion/webrtc)
+- [LiveKit](https://livekit.io/) · [GitHub](https://github.com/livekit/livekit)
+- [Mediasoup](https://mediasoup.org/) · [GitHub](https://github.com/versatica/mediasoup)
 - [coturn](https://github.com/coturn/coturn)
 
-And if you want to try Gryt — the project all of these inspired — check out the [GitHub repository](https://github.com/Gryt-chat/gryt) or come hang out on [Discord](https://discord.gg/Q3JKUGsnHE).
+And if you want to try Gryt, the project all of these inspired, check out the [GitHub repository](https://github.com/Gryt-chat/gryt) or come hang out on [Discord](https://discord.gg/Q3JKUGsnHE).

@@ -1,6 +1,6 @@
 ---
 title: Windows Server Is Here
-description: You can now run a Gryt server on any Windows PC — no Docker, no WSL, no sysadmin degree. Just a zip file and Node.js.
+description: You can now run a Gryt server on any Windows PC. No Docker, no WSL, no sysadmin degree. Just a zip file and Node.js.
 author: Sivert
 date: 2026-03-01
 tags:
@@ -19,7 +19,7 @@ Today, the answer is simple: **download a zip, edit one file, double-click `star
 
 ## SQLite made this possible
 
-This wouldn't have happened without the [move from ScyllaDB to SQLite](/blog/from-scylladb-to-sqlite). Dropping the external database dependency was the single biggest blocker. With ScyllaDB, you needed a running database container — and ScyllaDB doesn't run on Windows natively. SQLite is just a file. No container, no service, no configuration.
+This wouldn't have happened without the [move from ScyllaDB to SQLite](/blog/from-scylladb-to-sqlite). Dropping the external database dependency was the single biggest blocker. With ScyllaDB, you needed a running database container, and ScyllaDB doesn't run on Windows natively. SQLite is just a file. No container, no service, no configuration.
 
 With the database out of the way, the remaining pieces fell into place: the signaling server runs on Node.js (cross-platform), the SFU compiles to a standalone `.exe` (Go cross-compilation), and the image worker is another Node.js process. Everything the server needs fits in a single folder.
 
@@ -27,11 +27,11 @@ With the database out of the way, the remaining pieces fell into place: the sign
 
 The Windows self-hosted bundle is a single zip file containing:
 
-- **Signaling server** — the main Gryt backend (Node.js). Handles authentication, channels, messages, file uploads, and WebSocket connections.
-- **SFU** — the media server (`gryt_sfu.exe`). Handles all WebRTC voice and video traffic. Compiled from Go, runs as a standalone binary.
-- **Image worker** — processes uploaded images (thumbnails, resizing). Runs as a separate Node.js process so a crash in image processing never takes down the main server.
-- **`config.env`** — one file with every setting. Server name, ports, storage backend — all in one place.
-- **`start.bat`** — launches everything with one double-click.
+- **Signaling server.** The main Gryt backend (Node.js). Handles authentication, channels, messages, file uploads, and WebSocket connections.
+- **SFU.** The media server (`gryt_sfu.exe`). Handles all WebRTC voice and video traffic. Compiled from Go, runs as a standalone binary.
+- **Image worker.** Processes uploaded images (thumbnails, resizing). Runs as a separate Node.js process so a crash in image processing never takes down the main server.
+- **`config.env`.** One file with every setting. Server name, ports, storage backend, all in one place.
+- **`start.bat`.** Launches everything with one double-click.
 
 The only thing you need to install is [Node.js](https://nodejs.org/) (version 20 or later). That's the sole external dependency.
 
@@ -41,9 +41,9 @@ When you run `start.bat` for the first time, it does a quick one-time setup: reb
 
 After that, it starts three processes:
 
-1. The **image worker** connects to the SQLite database and starts polling for image processing jobs
-2. The **SFU** starts listening for WebRTC connections on port 5005
-3. The **signaling server** starts on port 5000, connects to the SFU, and opens the WebSocket for clients
+1. The image worker connects to the SQLite database and starts polling for image processing jobs
+2. The SFU starts listening for WebRTC connections on port 5005
+3. The signaling server starts on port 5000, connects to the SFU, and opens the WebSocket for clients
 
 All three services read their configuration from `config.env`. No environment variable gymnastics, no Docker networking, no separate `.env` files to manage.
 
@@ -55,15 +55,15 @@ I'll be honest: getting this working smoothly took more iteration than I expecte
 
 The solution was pragmatic: the build bundles what it can, and `start.bat` rebuilds the rest on first launch using whatever Node.js version is actually installed on the target machine. It adds a few seconds to the first startup, but it means the bundle works regardless of whether you're running Node 20, 22, or 25.
 
-There were other rough edges too — SFU port conflicts, environment variable loading differences between Linux and Windows batch scripts, WebSocket path routing that worked behind a reverse proxy but not when running bare. Each one got caught and fixed through real testing on an actual Windows machine.
+There were other rough edges too, including SFU port conflicts, environment variable loading differences between Linux and Windows batch scripts, and WebSocket path routing that worked behind a reverse proxy but not when running bare. Each one got caught and fixed through real testing on an actual Windows machine.
 
 ## Who this is for
 
-This is designed for **casual and small-group use cases**:
+This is designed for casual and small-group use cases:
 
-- **LAN parties** — spin up a voice server in seconds, no internet required
-- **Friend groups** — host a persistent server on a spare PC or your daily driver
-- **Remote friends** — STUN is enabled by default, so the SFU automatically discovers your public IP and punches through most home NATs. In many cases voice just works for remote users without touching your router at all.
+- **LAN parties.** Spin up a voice server in seconds, no internet required
+- **Friend groups.** Host a persistent server on a spare PC or your daily driver
+- **Remote friends.** STUN is enabled by default, so the SFU automatically discovers your public IP and punches through most home NATs. In many cases voice just works for remote users without touching your router at all.
 
 For production deployments on a VPS or cloud server, [Docker Compose](https://docs.gryt.chat/docs/deployment/docker-compose) is still the recommended path. It gives you automatic restarts, easier TLS setup, and a more standard ops workflow.
 
