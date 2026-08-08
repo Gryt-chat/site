@@ -8,6 +8,7 @@ import styles from "./Navbar.module.css";
 const navLinks = [
   { href: "/why-gryt", label: "Why Gryt?", external: false, isRoute: true },
   { href: "/blog", label: "Blog", external: false, isRoute: true },
+  { href: "/changelog", label: "Changelog", external: false, isRoute: true },
   { href: "https://docs.gryt.chat", label: "Docs", external: true },
   { href: "https://feedback.gryt.chat", label: "Feedback", external: true },
   { href: "https://github.com/Gryt-chat/gryt", label: "Github", external: true },

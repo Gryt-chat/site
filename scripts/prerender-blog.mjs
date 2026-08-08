@@ -1,10 +1,11 @@
-import { readFileSync, writeFileSync, readdirSync, mkdirSync } from 'fs';
+import { readFileSync, writeFileSync, readdirSync, mkdirSync, existsSync } from 'fs';
 import { join, dirname, basename } from 'path';
 import { fileURLToPath } from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const distDir = join(__dirname, '..', 'dist');
 const blogContentDir = join(__dirname, '..', 'content', 'blog');
+const changelogContentDir = join(__dirname, '..', 'content', 'changelog');
 const siteUrl = 'https://gryt.chat';
 
 function parseFrontmatter(filePath) {
@@ -45,6 +46,7 @@ const template = readFileSync(join(distDir, 'index.html'), 'utf-8');
 const staticPages = [
   { path: 'why-gryt', title: 'Why Gryt?', description: 'Why we built an open-source, self-hosted voice chat platform.' },
   { path: 'blog', title: 'Blog', description: 'Stories, updates, and technical deep-dives from the Gryt team.' },
+  { path: 'changelog', title: 'Changelog', description: 'What changed in each release of Gryt.' },
   { path: 'privacy', title: 'Privacy Policy', description: 'How Gryt handles your data — spoiler: we collect as little as possible.' },
   { path: 'community-guidelines', title: 'Community Guidelines', description: 'Rules and expectations for the Gryt community.' },
   { path: 'invite', title: 'Invite', description: 'Join a Gryt server with an invite link.' },
@@ -82,6 +84,32 @@ for (const file of mdxFiles) {
   });
   writeFileSync(join(outDir, 'index.html'), html);
   console.log(`  dist/blog/${slug}/index.html`);
+}
+
+// --- Changelog entries ---
+// These get shared into chat far more than blog posts do — a release goes out,
+// the link is posted, and a link with no card looks like nothing happened. The
+// headline is written to be exactly this preview, so use it as the description.
+const changelogFiles = existsSync(changelogContentDir)
+  ? readdirSync(changelogContentDir).filter(f => f.endsWith('.mdx'))
+  : [];
+
+for (const file of changelogFiles) {
+  const fm = parseFrontmatter(join(changelogContentDir, file));
+  if (!fm?.version) continue;
+
+  const slug = basename(file, '.mdx');
+  const outDir = join(distDir, 'changelog', slug);
+  mkdirSync(outDir, { recursive: true });
+  const html = renderPage(template, {
+    pageTitle: `Gryt ${fm.version}`,
+    description: fm.headline || `What changed in Gryt ${fm.version}.`,
+    url: `${siteUrl}/changelog/${slug}`,
+    ogImage: `${siteUrl}/changelog/${slug}/og.png`,
+    ogType: 'article',
+  });
+  writeFileSync(join(outDir, 'index.html'), html);
+  console.log(`  dist/changelog/${slug}/index.html`);
 }
 
 console.log('Done prerendering meta tags.');
