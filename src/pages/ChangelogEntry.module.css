@@ -176,12 +176,10 @@
 .prose img,
 .prose video {
   border-radius: var(--radius-sm);
-  /* Capped well under the column and centred. These are wide screenshots of a
-     whole app window, and at full width they dominate the paragraph that just
-     explained them — the text is the release note, the picture is the evidence.
-     Click one to see it properly. */
+  /* Full column width. These are screenshots of a whole app window, and at half
+     the column the detail being described cannot be made out — which defeats
+     the point of showing it. Click for full size. */
   display: block;
-  max-width: 440px;
   width: 100%;
   height: auto;
   margin: 28px auto;
@@ -191,11 +189,11 @@
   cursor: zoom-in;
 }
 
-/* A clip is never drawn larger than it was recorded. Upscaling a screen capture
-   is the one thing guaranteed to make it look worse than the interface it is
-   showing. */
+/* A clip is never drawn larger than it was recorded, even though the pictures
+   around it now fill the column. Upscaling a screen capture is the one thing
+   guaranteed to make it look worse than the interface it is showing. */
 .prose video {
-  max-width: min(440px, 100%);
+  max-width: min(528px, 100%);
 }
 
 @media (max-width: 768px) {

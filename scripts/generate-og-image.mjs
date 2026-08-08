@@ -1,11 +1,12 @@
 import sharp from 'sharp';
 import { join, dirname, basename } from 'path';
 import { fileURLToPath } from 'url';
-import { readFileSync, readdirSync, mkdirSync } from 'fs';
+import { existsSync, readFileSync, readdirSync, mkdirSync } from 'fs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const publicDir = join(__dirname, '..', 'public');
 const blogContentDir = join(__dirname, '..', 'content', 'blog');
+const changelogContentDir = join(__dirname, '..', 'content', 'changelog');
 
 const width = 1200;
 const height = 630;
@@ -131,6 +132,61 @@ function buildBlogPostSvg(title, description, author, date) {
 </svg>`;
 }
 
+/**
+ * A release note's card leads with the version, because that is what someone
+ * scanning a link in chat is looking for — "is this the one I am on?" — and the
+ * headline answers "is it worth reading". The prerenderer has always pointed
+ * og:image at /changelog/<version>/og.png; nothing was generating the file, so
+ * every shared release link fell back to whatever the platform does with a 404.
+ */
+function buildChangelogSvg(version, headline, channel, date) {
+  const versionText = `Gryt ${version}`;
+  const headlineLines = headline ? wrapText(headline, 42).slice(0, 3) : [];
+  const headlineY = 300;
+  const headlineSvg = headlineLines.map((line, i) =>
+    `<text x="80" y="${headlineY + i * 40}" font-family="Arial, Helvetica, sans-serif" font-size="30" fill="#c9c9d4">${escXml(line)}</text>`
+  ).join('\n  ');
+
+  const formattedDate = date
+    ? new Date(date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+    : '';
+
+  const channelBadge = channel === 'beta'
+    ? `<g transform="translate(80, 120)">
+    <rect width="74" height="30" rx="15" fill="#f0a02a" opacity="0.16"/>
+    <text x="37" y="21" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#f0a02a">BETA</text>
+  </g>`
+    : '';
+
+  return `<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#13151a"/>
+      <stop offset="40%" stop-color="#1A1D24"/>
+      <stop offset="100%" stop-color="#2B303D"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#968FF8"/>
+      <stop offset="50%" stop-color="#6C63FF"/>
+      <stop offset="100%" stop-color="#968FF8"/>
+    </linearGradient>
+    <clipPath id="wm-clip"><rect width="512" height="512" rx="256"/></clipPath>
+  </defs>
+  <rect width="${width}" height="${height}" fill="url(#bg)"/>
+
+  <text x="80" y="80" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="600" fill="#968FF8">GRYT CHANGELOG</text>
+  ${channelBadge}
+
+  <text x="80" y="240" font-family="Arial, Helvetica, sans-serif" font-size="86" font-weight="800" fill="#ffffff" letter-spacing="-2">${escXml(versionText)}</text>
+  ${headlineSvg}
+
+  <text x="80" y="${height - 32}" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#666666">${escXml(formattedDate)}</text>
+
+  <g transform="translate(760, 90) scale(0.88)" opacity="0.06"><g clip-path="url(#wm-clip)">${logoInner}</g></g>
+  <rect y="${height - 4}" width="${width}" height="4" fill="url(#accent)"/>
+</svg>`;
+}
+
 function buildPageSvg(title, description) {
   const titleLines = wrapText(title, 32);
   const titleY = 240;
@@ -207,6 +263,24 @@ for (const file of mdxFiles) {
   const svg = buildBlogPostSvg(fm.title, fm.description, fm.author || 'Gryt', fm.date || '');
   await sharp(Buffer.from(svg)).png().toFile(join(outDir, 'og.png'));
   console.log(`  public/blog/${slug}/og.png`);
+}
+
+// --- Per-release OG images ---
+const changelogFiles = existsSync(changelogContentDir)
+  ? readdirSync(changelogContentDir).filter(f => f.endsWith('.mdx'))
+  : [];
+
+for (const file of changelogFiles) {
+  const fm = parseFrontmatter(join(changelogContentDir, file));
+  if (!fm?.version) continue;
+
+  const slug = basename(file, '.mdx');
+  const outDir = join(publicDir, 'changelog', slug);
+  mkdirSync(outDir, { recursive: true });
+
+  const svg = buildChangelogSvg(fm.version, fm.headline, fm.channel, fm.date);
+  await sharp(Buffer.from(svg)).png().toFile(join(outDir, 'og.png'));
+  console.log(`  public/changelog/${slug}/og.png`);
 }
 
 console.log('Done generating OG images.');
