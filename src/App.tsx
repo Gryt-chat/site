@@ -6,6 +6,8 @@ import { AuthCallbackPage } from "./pages/AuthCallbackPage";
 import { HomePage } from "./pages/HomePage";
 import { BlogIndex } from "./pages/BlogIndex";
 import { BlogPost } from "./pages/BlogPost";
+import { ChangelogIndex } from "./pages/ChangelogIndex";
+import { ChangelogEntry } from "./pages/ChangelogEntry";
 import { PrivacyPolicy } from "./pages/PrivacyPolicy";
 import { CommunityGuidelines } from "./pages/CommunityGuidelines";
 import { InvitePage } from "./pages/InvitePage";
@@ -51,6 +53,8 @@ export default function App() {
         <Route path="/why-gryt" element={<WhyGryt />} />
         <Route path="/blog" element={<BlogIndex />} />
         <Route path="/blog/:slug" element={<BlogPost />} />
+        <Route path="/changelog" element={<ChangelogIndex />} />
+        <Route path="/changelog/:version" element={<ChangelogEntry />} />
         <Route path="/privacy" element={<PrivacyPolicy />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms" element={<TermsOfUse />} />

@@ -1,0 +1,59 @@
+---
+version: 1.4.0
+date: 2026-08-07
+channel: beta
+headline: Voice got a proper design pass, and hosting from the app finally processes your images.
+---
+
+Hey everyone!
+
+This one is mostly about voice looking like someone designed it, and about the
+desktop app finally doing the image work it was only pretending to do. There is
+also a fair bit of security work in here — servers now have to prove who they
+are, which is worth reading about below.
+
+## Voice
+
+- Tiles are tinted from the colour of your avatar, so you can tell who's who without reading
+- Whoever is sharing their screen becomes the main view, with everyone else in a strip
+- Muted people wear a badge instead of you inferring it from a missing halo
+- Joining voice with no microphone says so, instead of looking like it worked
+
+## Avatars and images
+
+- Avatars are stored at twice the size and no longer go blurry
+- Uploaded images get a colour picked out of them, which is what tints the voice tiles
+- Hosting a server from the app now processes images at all — thumbnails, colours and compression were doing nothing before
+
+## Updates
+
+- Updates install when you close Gryt, instead of trying to replace it while you're using it
+- Turning beta off now works. It never did
+- The splash screen shows what it's doing instead of giving up after 15 seconds
+
+## Hosting
+
+- "Discoverable on LAN" does something. The checkbox was decorative
+- The voice seat limit is a real setting, not a number inferred from a port range
+- Port conflicts explain themselves, and the Dismiss button dismisses
+- Your nickname stops flip-flopping — you saw one name, everyone else saw "Unknown"
+
+## Security
+
+- Servers now prove who they are. Your client remembers a server's key on first connect and checks it every time after
+- A new screen under server settings shows pinned identities, so you can see a change and undo a block
+- Servers can rotate a key deliberately and clients follow it, rather than treating a planned rotation as an attack
+- Your client refuses to sign for a server it didn't dial — a server could previously get a credential for somewhere else
+- SVG uploads are refused. An SVG can carry scripts, and Gryt was serving them from its own address
+
+## Accessibility
+
+- Fixed two colour combinations that failed contrast requirements
+- The main panels announce themselves properly to screen readers
+
+## Under the hood
+
+- Replaced the compiled SQLite library with the one built into Node, taking ~43 MB out of the desktop app
+- The image worker ships with the app now, instead of only existing for Docker-hosted servers
+- Upload limits apply to everything. Images and animated avatars used to skip them entirely
+- Self-hosting the server now needs Node 22.13 or later, and says so instead of failing with a module error
