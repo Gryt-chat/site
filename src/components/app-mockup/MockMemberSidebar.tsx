@@ -11,7 +11,7 @@ import {
 import { MdAlternateEmail, MdContentCopy, MdPushPin } from "react-icons/md";
 
 import type { MockMember } from "./data";
-import { members as defaultMembers } from "./data";
+import { members as defaultMembers, mockAvatarSrc } from "./data";
 
 const statusConfig = {
   in_voice: { label: "In Voice", color: "var(--accent-9)" },
@@ -37,6 +37,7 @@ function MemberItem({ member }: { member: MockMember }) {
             <Avatar
               size="2"
               fallback={member.nickname[0]}
+              src={mockAvatarSrc(member.nickname)}
               style={{
                 backgroundColor: member.color,
                 opacity: isOffline ? 0.4 : 1,

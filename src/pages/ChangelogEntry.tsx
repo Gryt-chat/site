@@ -35,9 +35,8 @@ function MdxImage(props: ComponentPropsWithoutRef<'img'>) {
 function Clip({
   src,
   av1,
-  children: _children,
   ...props
-}: ComponentPropsWithoutRef<'video'> & { av1?: string }) {
+}: Omit<ComponentPropsWithoutRef<'video'>, 'children'> & { av1?: string }) {
   return (
     <video
       {...props}
