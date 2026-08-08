@@ -32,7 +32,12 @@ function MdxImage(props: ComponentPropsWithoutRef<'img'>) {
  * autoplay work at all: iOS refuses fullscreen-by-default inline video, and
  * every browser refuses to autoplay anything audible.
  */
-function Clip({ children: _children, ...props }: ComponentPropsWithoutRef<'video'>) {
+function Clip({
+  src,
+  av1,
+  children: _children,
+  ...props
+}: ComponentPropsWithoutRef<'video'> & { av1?: string }) {
   return (
     <video
       {...props}
@@ -42,7 +47,15 @@ function Clip({ children: _children, ...props }: ComponentPropsWithoutRef<'video
       playsInline
       controls={false}
       preload="metadata"
-    />
+    >
+      {/* AV1 first: it holds far more detail per byte, which matters for a
+          screen recording where the interesting part is a thin ring. Browsers
+          that cannot decode it — Safari without hardware AV1, mostly — fall
+          through to the H.264 copy, which is encoded well past the point of
+          visible loss rather than merely small. */}
+      {av1 && <source src={av1} type="video/mp4; codecs=av01.0.05M.08" />}
+      <source src={src} type="video/mp4" />
+    </video>
   )
 }
 

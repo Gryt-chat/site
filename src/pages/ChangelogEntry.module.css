@@ -176,19 +176,26 @@
 .prose img,
 .prose video {
   border-radius: var(--radius-sm);
-  margin: 24px 0;
+  /* Capped well under the column and centred. These are wide screenshots of a
+     whole app window, and at full width they dominate the paragraph that just
+     explained them — the text is the release note, the picture is the evidence.
+     Click one to see it properly. */
+  display: block;
+  max-width: 440px;
+  width: 100%;
+  height: auto;
+  margin: 28px auto;
 }
 
-/* Clips are recordings of the interface. Sized to their own pixels rather than
-   stretched to the column: these are small captures of one control, and blowing
-   a 528px recording up to a 740px column just makes it soft. Centred, so a
-   narrow clip does not sit oddly against the left edge of the text. */
+.prose img {
+  cursor: zoom-in;
+}
+
+/* A clip is never drawn larger than it was recorded. Upscaling a screen capture
+   is the one thing guaranteed to make it look worse than the interface it is
+   showing. */
 .prose video {
-  max-width: 100%;
-  max-height: 70vh;
-  display: block;
-  margin: 24px auto;
-  border-radius: var(--radius-sm);
+  max-width: min(440px, 100%);
 }
 
 @media (max-width: 768px) {
