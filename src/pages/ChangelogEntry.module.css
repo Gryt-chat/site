@@ -173,9 +173,22 @@
   margin: 48px 0;
 }
 
-.prose img {
+.prose img,
+.prose video {
   border-radius: var(--radius-sm);
   margin: 24px 0;
+}
+
+/* Clips are recordings of the interface. Sized to their own pixels rather than
+   stretched to the column: these are small captures of one control, and blowing
+   a 528px recording up to a 740px column just makes it soft. Centred, so a
+   narrow clip does not sit oddly against the left edge of the text. */
+.prose video {
+  max-width: 100%;
+  max-height: 70vh;
+  display: block;
+  margin: 24px auto;
+  border-radius: var(--radius-sm);
 }
 
 @media (max-width: 768px) {

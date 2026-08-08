@@ -19,7 +19,38 @@ function MdxImage(props: ComponentPropsWithoutRef<'img'>) {
   return <LightboxImage {...props} />
 }
 
-const components = { a: MdxLink, img: MdxImage }
+/**
+ * A clip in release notes plays itself, silently, forever.
+ *
+ * These are screen recordings of an interface — a speaking ring pulsing, a
+ * layout rearranging — so they are closer to an animated image than to video.
+ * Nobody wants to press play on a four second loop, and nobody wants sound
+ * from a page they are reading.
+ *
+ * The attributes are set here rather than per post so a note cannot ship a clip
+ * that autoplays with sound. `muted` and `playsInline` are also what make
+ * autoplay work at all: iOS refuses fullscreen-by-default inline video, and
+ * every browser refuses to autoplay anything audible.
+ */
+function Clip({ children: _children, ...props }: ComponentPropsWithoutRef<'video'>) {
+  return (
+    <video
+      {...props}
+      autoPlay
+      muted
+      loop
+      playsInline
+      controls={false}
+      preload="metadata"
+    />
+  )
+}
+
+// Clip is a named component rather than a `video` override because MDX only
+// routes markdown-generated elements through this map — a literal <video> tag
+// in a note would render with none of these attributes, which is exactly the
+// failure this exists to prevent.
+const components = { a: MdxLink, img: MdxImage, Clip }
 
 export function ChangelogEntry() {
   const { version } = useParams<{ version: string }>()
