@@ -21,7 +21,7 @@ import {
 } from "react-icons/md";
 
 import type { MockServer } from "./data";
-import { defaultServers } from "./data";
+import { defaultServers, mockServerIconSrc } from "./data";
 
 function ServerAvatar({
   name,
@@ -44,6 +44,7 @@ function ServerAvatar({
                 size="2"
                 color="gray"
                 fallback={fallback}
+                src={mockServerIconSrc(name)}
                 style={{
                   opacity: isActive ? 1 : 0.5,
                   cursor: "pointer",

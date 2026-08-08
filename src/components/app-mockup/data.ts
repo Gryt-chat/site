@@ -1,3 +1,19 @@
+/**
+ * The face the app would draw for this nickname.
+ *
+ * Pre-rendered by scripts/generate-mockup-avatars.mjs, because the mockup is a
+ * copy of the app and the app stopped using letter tiles. Falls back to the
+ * initial for any name the script has not been run for.
+ */
+export function mockAvatarSrc(nickname: string): string {
+  return `/mockup/${nickname.toLowerCase().replace(/[^a-z0-9]+/g, "-")}.svg`;
+}
+
+/** The same, for a server without an icon. */
+export function mockServerIconSrc(name: string): string {
+  return `/mockup/server-${name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}.svg`;
+}
+
 export const SERVER_NAME = "My Server";
 
 export interface MockChannel {

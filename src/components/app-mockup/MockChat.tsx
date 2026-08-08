@@ -2,7 +2,7 @@ import { Avatar, Box, Flex, Text } from "@radix-ui/themes";
 import { MdChat, MdVolumeUp } from "react-icons/md";
 
 import type { MockMessage } from "./data";
-import { messages as defaultMessages } from "./data";
+import { messages as defaultMessages, mockAvatarSrc } from "./data";
 
 function MessageRow({ m }: { m: MockMessage }) {
   const content = m.firstInGroup ? (
@@ -10,6 +10,7 @@ function MessageRow({ m }: { m: MockMessage }) {
       <Avatar
         radius="full"
         fallback={m.sender[0]}
+        src={mockAvatarSrc(m.sender)}
         style={{
           flexShrink: 0,
           marginTop: 2,

@@ -15,6 +15,7 @@ import { MdChat, MdPushPin, MdVolumeUp } from "react-icons/md";
 import type { MockChannel, MockSidebarItem, MockVoiceUser } from "./data";
 import {
   channels as defaultChannels,
+  mockAvatarSrc,
   SERVER_NAME,
   sidebarItems as defaultSidebarItems,
   voiceUsers as defaultVoiceUsers,
@@ -123,6 +124,7 @@ function ChannelRow({
                     radius="full"
                     size="1"
                     fallback={u.nickname[0]}
+                    src={mockAvatarSrc(u.nickname)}
                     style={{ flexShrink: 0, backgroundColor: u.color }}
                   />
                   <Text size="2" truncate style={{ whiteSpace: "nowrap" }}>
