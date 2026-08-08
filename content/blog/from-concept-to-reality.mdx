@@ -18,29 +18,27 @@ WebRTC is not something you can duct-tape together. Peer-to-peer audio needs ICE
 
 So I stepped back. I spent the better part of a year studying WebRTC internals, reading RFCs, experimenting with the [Pion](https://github.com/pion/webrtc) library in Go, and building small prototypes that taught me one concept at a time. I wrote about that learning journey in [Learning WebRTC From the Ground Up](/blog/learning-webrtc-from-the-ground-up).
 
-All the earlier work — the 2022 proof of concept, the 2023 design iterations — was trial and error. Important trial and error, because every failed attempt taught me what _not_ to do. But it wasn't until late 2024 that everything converged: the design knowledge, the WebRTC understanding, the architecture decisions, and enough free time to actually commit to building it professionally.
+All the earlier work, the 2022 proof of concept and the 2023 design iterations, was trial and error. Important trial and error, because every failed attempt taught me what _not_ to do. But it wasn't until late 2024 that everything converged: the design knowledge, the WebRTC understanding, the architecture decisions, and enough free time to actually commit to building it professionally.
 
-## November 15, 2024 — the first real prototype
+## November 15, 2024, the first real prototype
 
 On **November 15, 2024**, I took this screenshot:
 
-![The first prototype layout — running on a local network at 192.168.10.155:8010, showing a minimal server/channel/chat layout, November 15, 2024](/blog/first_ever_new_layout_prototype.webp)
+![The first prototype layout, running on a local network at 192.168.10.155:8010, showing a minimal server/channel/chat layout, November 15, 2024](/blog/first_ever_new_layout_prototype.webp)
 
 It doesn't look like much. A dark layout with "S1", "S2", "S3", "S4" server icons on the far left, a "Channels" panel, a "Chat" area, and "User" and "Home" buttons at the bottom. Running on a local IP address (`192.168.10.155:8010`), clearly a development build.
 
-But this screenshot represents something critical: **it was the first time the actual application architecture was running end-to-end**. Not a mockup in Figma, not a proof of concept with hardcoded data, but a real React client talking to a real signaling server with a real authentication flow. The server list wasn't placeholders — those were actual server objects stored in a database, rendered through proper state management.
+But this screenshot represents something critical: **it was the first time the actual application architecture was running end-to-end**. Not a mockup in Figma, not a proof of concept with hardcoded data, but a real React client talking to a real signaling server with a real authentication flow. Those server icons were actual server objects stored in a database, rendered through proper state management.
 
-This was the moment Gryt stopped being a concept and started being software.
-
-## Two days later — November 17, 2024
+## Two days later, November 17, 2024
 
 Just two days later, things were already evolving:
 
-![First UI update — running at webrtc.sivert.io, showing "Server Name" with "Channel #1", a connected user, voice controls, and a chat input, November 17, 2024](/blog/first_update_of_ui.webp)
+![First UI update, running at webrtc.sivert.io, showing "Server Name" with "Channel #1", a connected user, voice controls, and a chat input, November 17, 2024](/blog/first_update_of_ui.webp)
 
-Now it was running at `webrtc.sivert.io`. The layout had been fleshed out: a server name dropdown, a channel list showing "Channel #1" highlighted in salmon/red, a connected user ("Unknown" — auth was still being wired up), voice controls at the bottom (microphone, volume, settings, disconnect), and a chat input with "Chat with your friends!" as placeholder text.
+Now it was running at `webrtc.sivert.io`. The layout had been fleshed out: a server name dropdown, a channel list showing "Channel #1" highlighted in salmon/red, a connected user (named "Unknown", since auth was still being wired up), voice controls at the bottom (microphone, volume, settings, disconnect), and a chat input with "Chat with your friends!" as placeholder text.
 
-The voice controls at the bottom are the key detail here. Those buttons weren't decorative — they were wired up to actual WebRTC functionality. The microphone button controlled a real audio stream. The disconnect button tore down a real peer connection.
+The voice controls at the bottom are the key detail here. Those buttons were wired up to actual WebRTC functionality. The microphone button controlled a real audio stream. The disconnect button tore down a real peer connection.
 
 In two days, the app went from a skeleton layout to something that looked and acted like a communication platform.
 
@@ -57,9 +55,9 @@ And then came the moment I'd been working toward for over two years.
   Your browser does not support the video tag.
 </video>
 
-This video captures the **first working demo of Gryt's voice channel system**. What you're seeing is multiple users connecting to a voice channel, with the UI updating in real-time — user presence appearing, connection states changing, the whole signaling flow working end-to-end. It's not a recording of actual voice audio, but it represents the proof of concept finally coming together.
+This video captures the first working demo of Gryt's voice channel system. What you're seeing is multiple users connecting to a voice channel, with the UI updating in real-time: user presence appearing, connection states changing, the whole signaling flow working end-to-end. It's not a recording of actual voice audio, but it represents the proof of concept finally coming together.
 
-The moment I'll never forget, though, isn't in this video. It was sitting at my desk with my laptop open next to my gaming PC, joining the same voice channel from both devices, and hearing my own voice come through the other machine — routed through a Go server I'd written myself. I don't have a recording of that moment, but I remember it vividly. That was when I knew this project was going to ship.
+The moment I'll never forget, though, isn't in this video. It was sitting at my desk with my laptop open next to my gaming PC, joining the same voice channel from both devices, and hearing my own voice come through the other machine, routed through a Go server I'd written myself. I don't have a recording of that moment, but I remember it vividly. That was when I knew this project was going to ship.
 
 What this video _does_ show is the real-time coordination layer that makes voice possible. To understand why even the channel connection demo was a milestone, you need to know what's happening under the hood:
 
@@ -72,33 +70,33 @@ What this video _does_ show is the real-time coordination layer that makes voice
 
 No peer-to-peer mesh. No direct connections between clients. Everything routes through the SFU, which means:
 
-- **Upload bandwidth is constant** — each client sends one audio stream regardless of how many people are in the channel
-- **The SFU never decrypts the media** in forwarding mode — it routes encrypted packets without seeing the content
-- **Privacy is architectural**, not just a policy
+- Upload bandwidth is constant. Each client sends one audio stream regardless of how many people are in the channel
+- The SFU never decrypts the media in forwarding mode. It routes encrypted packets without seeing the content
+- Privacy comes from the architecture rather than from a policy
 
-Getting this working was months of debugging ICE failures, DTLS handshake timeouts, SDP format mismatches, and audio pipeline issues. There were days where I'd spend hours tracing a single RTP packet through the system to figure out why audio cut out after exactly 30 seconds (it was an RTCP timeout — the SFU wasn't sending receiver reports).
+Getting this working was months of debugging ICE failures, DTLS handshake timeouts, SDP format mismatches, and audio pipeline issues. There were days where I'd spend hours tracing a single RTP packet through the system to figure out why audio cut out after exactly 30 seconds. It was an RTCP timeout; the SFU wasn't sending receiver reports.
 
 ## Everything that came before made this possible
 
 Looking back at the four-year timeline, it's tempting to think the early work was wasted time. The 2022 proof of concept that never went anywhere. The 2023 designs that were too ambitious for the codebase. The months spent reading WebRTC RFCs instead of writing code.
 
-But none of that was wasted. The 2022 proof of concept taught me how authentication flows work in a desktop-web hybrid. The 2023 designs gave me a visual target to build toward, and many of those design decisions — the channel layout, the profile cards, the role system — survived into the final product. The RFC reading gave me the deep understanding I needed to build an SFU that handles real-world network conditions, not just localhost demos.
+But none of that was wasted. The 2022 proof of concept taught me how authentication flows work in a desktop-web hybrid. The 2023 designs gave me a visual target to build toward, and many of those design decisions, including the channel layout, the profile cards and the role system, survived into the final product. The RFC reading gave me the deep understanding I needed to build an SFU that handles real-world network conditions rather than only localhost demos.
 
-Every iteration shaped the direction. Every failure narrowed the search space. And when November 2024 arrived and I finally had the knowledge, the architecture, and the time to build it properly, the pieces fell into place fast because the groundwork had been laid years earlier.
+Every iteration shaped the direction. When November 2024 arrived and I finally had the knowledge, the architecture, and the time to build it properly, the pieces fell into place fast because the groundwork had been laid years earlier.
 
 ## What Gryt is today
 
 Since that first working demo, Gryt has grown into a real platform:
 
-- **React client** with real-time noise suppression powered by RNNoise
-- **Go-based SFU** built on Pion, handling WebRTC media routing
-- **Node.js signaling server** with Socket.IO for real-time coordination
-- **Keycloak** for authentication and identity management
-- **Docker Compose** deployment for self-hosting
+- A React client with real-time noise suppression powered by RNNoise
+- A Go-based SFU built on Pion, handling WebRTC media routing
+- A Node.js signaling server with Socket.IO for real-time coordination
+- Keycloak for authentication and identity management
+- Docker Compose deployment for self-hosting
 
-The core principles haven't changed since day one: no paywalls, fully self-hosted, fully transparent, fully focused on security and privacy. But now they're not just principles written in a README — they're architectural decisions baked into every layer of the stack.
+The core principles haven't changed since day one: no paywalls, fully self-hosted, fully transparent, fully focused on security and privacy. They started as lines in a README and they are now decisions baked into every layer of the stack.
 
-This project has been a steady effort since early 2022. Four years of iterations, redesigns, late-night debugging sessions, and slow-but-relentless progress. It's not done — not even close. But it's real, it works, and it's open for anyone who wants to use it, contribute to it, or learn from it.
+This project has been a steady effort since early 2022. Four years of iterations, redesigns, late-night debugging sessions, and slow but relentless progress. It is nowhere near done. It does work, though, and it's open for anyone who wants to use it, contribute to it, or learn from it.
 
 ---
 

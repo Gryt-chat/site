@@ -1,6 +1,6 @@
 ---
 title: Why Gryt Has Been a Bit Quiet Lately
-description: A personal update on why Gryt development has slowed down recently, what I’ve been working on instead, and what’s new in the latest beta.
+description: A personal update on why Gryt development has slowed down recently, what I've been working on instead, and what's new in the latest beta.
 author: Sivert
 date: 2026-03-27
 tags:
@@ -12,33 +12,33 @@ tags:
 
 ## A quick honest update
 
-I wanted to write this so it’s clear why progress on Gryt has been a bit slower lately.
+I wanted to write this so it's clear why progress on Gryt has been a bit slower lately.
 
-The biggest reason is simple: I’m currently in the process of switching jobs, and that takes a surprising amount of time and energy. Applications, interviews, preparation, all of it adds up quickly. On top of that, I’ve also been working on some of my other projects, and a few of them need attention right now.
+The biggest reason is simple: I'm currently in the process of switching jobs, and that takes a surprising amount of time and energy. Applications, interviews, preparation, all of it adds up quickly. On top of that, I've also been working on some of my other projects, and a few of them need attention right now.
 
-If you want to see what else I’ve been building, I’ve put everything into one docs hub here: [docs.sivert.io](https://docs.sivert.io/). That includes projects like **MAT** and **ME**, both of which currently have some bugs I need to investigate and fix.
+If you want to see what else I've been building, I've put everything into one docs hub here: [docs.sivert.io](https://docs.sivert.io/). That includes projects like MAT and ME, both of which currently have some bugs I need to investigate and fix.
 
-Outside of software, I’m also in the middle of a pretty major car project. I’m doing a complete engine overhaul on my GTI, and I’m documenting the process over on [Edition 35](https://edition35.com/). That job will probably take me around **2–3 weeks**, and I want to give it my full attention while I’m doing it so I don’t make stupid mistakes.
+Outside of software, I'm also in the middle of a pretty major car project. I'm doing a complete engine overhaul on my GTI, and I'm documenting the process over on [Edition 35](https://edition35.com/). That job will probably take me around 2 to 3 weeks, and I want to give it my full attention while I'm doing it so I don't make stupid mistakes.
 
-So life is just a bit busy right now, and I’d rather be transparent about that than pretend otherwise.
+So life is just a bit busy right now, and I'd rather be transparent about that than pretend otherwise.
 
 ## Gryt is still moving forward
 
-Even though I haven’t been pushing out stable releases as often as I’d like, Gryt has still been moving forward in the beta channel.
+Even though I haven't been pushing out stable releases as often as I'd like, Gryt has still been moving forward in the beta channel.
 
-The latest beta includes a bunch of work I’m really happy with:
+The latest beta includes a bunch of work I'm really happy with:
 
-- new **screen sharing tech** that you can already test
-- fixes for **sign-in getting stuck**
-- **addons and themes**
-- an **embedded server**, which means you can start a server directly from your client
+- new screen sharing tech that you can already test
+- fixes for sign-in getting stuck
+- addons and themes
+- an embedded server, which means you can start a server directly from your client
 - and a bunch of smaller fixes and improvements
 
-I’ll be releasing another update soon, but I’m being more careful than usual.
+I'll be releasing another update soon, but I'm being more careful than usual.
 
-Gryt has grown a lot over the past few weeks. We’re now at **170+ users**, which is honestly a lot more than I expected this early. That’s great, but it also changes how I think about releases. When the user base is small, it’s easier to push things out quickly and fix them as you go. When more people rely on the app, unstable releases become much more expensive.
+Gryt has grown a lot over the past few weeks. We're now at 170+ users, which is honestly a lot more than I expected this early. That's great, but it also changes how I think about releases. When the user base is small, it's easier to push things out quickly and fix them as you go. When more people rely on the app, unstable releases become much more expensive.
 
-So for now, I’d rather keep new work in **beta** until I’m confident it’s stable.
+So for now, I'd rather keep new work in beta until I'm confident it's stable.
 
 ## I need beta testers
 
@@ -50,11 +50,11 @@ If you want to help shape Gryt, please enable the beta channel and test things p
 
 There may still be some rough edges when switching over, but in general it should be pretty smooth.
 
-If you self-host, I’d also strongly recommend upgrading your server to the beta channel as well so the client and server are aligned.
+If you self-host, I'd also strongly recommend upgrading your server to the beta channel as well so the client and server are aligned.
 
-## What’s new lately
+## What's new lately
 
-I don’t want to turn this into a giant changelog, but here’s the short version of what has been happening recently.
+I don't want to turn this into a giant changelog, but here's the short version of what has been happening recently.
 
 ### Client
 
@@ -86,7 +86,7 @@ Recent work includes:
 - Docker and build reliability improvements
 - ongoing work related to screen sharing and forwarding stability
 
-In other words: the project is still very much alive. A lot of the recent work has just gone into the kind of things that are less flashy from the outside but make the platform feel more reliable and easier to run.
+The project is still very much alive. A lot of the recent work has just gone into the kind of things that are less flashy from the outside but make the platform feel more reliable and easier to run.
 
 <details>
   <summary><strong>How to switch your server to the beta branch</strong></summary>
@@ -113,7 +113,7 @@ In other words: the project is still very much alive. A lot of the recent work h
 
   client:
     image: ghcr.io/gryt-chat/client:${CLIENT_VERSION:-latest}
-````
+  ```
 
 Change them to this:
 
@@ -175,16 +175,16 @@ Not required, but nice if you're running both a stable and beta instance.
 
 ## What happens next
 
-For the next couple of weeks, my main priority outside work will probably be the engine overhaul and cleaning up some issues in other projects. After that, I’ll be back in a better position to push Gryt forward more aggressively again.
+For the next couple of weeks, my main priority outside work will probably be the engine overhaul and cleaning up some issues in other projects. After that, I'll be back in a better position to push Gryt forward more aggressively again.
 
 Until then, the best thing you can do is:
 
-* test the **beta channel**
+* test the beta channel
 * report bugs
 * tell me what breaks
 * tell me what feels weird
 * help me make sure the next public release is actually stable
 
-I’d much rather ship a release a little later and know it won’t wreck the experience for a growing user base.
+I'd much rather ship a release a little later and know it won't wreck the experience for a growing user base.
 
 Thanks to everyone who has been trying Gryt, reporting issues, and sticking around while I build this. It genuinely means a lot.

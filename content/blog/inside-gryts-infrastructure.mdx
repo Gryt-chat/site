@@ -1,6 +1,6 @@
 ---
 title: Inside Gryt's Infrastructure
-description: A detailed look at how Gryt's services fit together, why every component is self-hostable, and what makes the architecture secure by design.
+description: How Gryt's services fit together, why every component is self-hostable, and where the trust boundaries actually sit.
 author: Sivert
 date: 2026-02-22
 tags:
@@ -12,13 +12,13 @@ tags:
 
 <div style={{ marginBottom: '2rem', padding: '16px 20px', borderRadius: 'var(--radius-sm)', background: 'var(--bg-card)', border: '1px solid var(--border)' }}>
 
-**Update (Feb 28, 2026):** Since this post was published, Gryt has moved from ScyllaDB to **SQLite** as its database. The architecture diagrams and database sections below reflect the original stack. Read [From ScyllaDB to SQLite](/blog/from-scylladb-to-sqlite) for the full story on why the change was made and what it means for self-hosting.
+**Update (Feb 28, 2026):** Since this post was published, Gryt has moved from ScyllaDB to SQLite as its database. The architecture diagrams and database sections below reflect the original stack. Read [From ScyllaDB to SQLite](/blog/from-scylladb-to-sqlite) for the full story on why the change was made and what it means for self-hosting.
 
 </div>
 
 ## The big picture
 
-Gryt isn't a monolith. It's a set of independent services that each handle one concern — signaling, media, identity, storage, persistence — and communicate over well-defined boundaries. Every service runs in its own container, every connection is authenticated, and every piece of the stack can be self-hosted.
+Gryt isn't a monolith. It's a set of independent services that each handle one concern (signaling, media, identity, storage, persistence) and communicate over well-defined boundaries. Every service runs in its own container, every connection is authenticated, and every piece of the stack can be self-hosted.
 
 Here's the full picture:
 
@@ -35,8 +35,8 @@ graph TB
   subgraph Gryt Stack
     Client["Web Client<br/>(React / Nginx)"]
     Server["Signaling Server<br/>(Node.js / Socket.IO)"]
-    SFU["SFU — Media Server<br/>(Go / Pion WebRTC)"]
-    Auth["Auth — Keycloak<br/>(OIDC / PKCE)"]
+    SFU["SFU: Media Server<br/>(Go / Pion WebRTC)"]
+    Auth["Auth: Keycloak<br/>(OIDC / PKCE)"]
     DB["ScyllaDB<br/>(NoSQL)"]
     S3["MinIO<br/>(S3-compatible)"]
   end
@@ -45,7 +45,7 @@ graph TB
   RP --> Client
   RP --> Server
   RP --> SFU
-  Browser -.->|UDP — DTLS-SRTP| SFU
+  Browser -.->|UDP / DTLS-SRTP| SFU
 
   Server <-->|WebSocket| SFU
   Server --> DB
@@ -58,23 +58,23 @@ Every arrow in that diagram is deliberate. Let me walk through each component an
 
 ## Services and what they do
 
-### Client — the user-facing layer
+### Client, the user-facing layer
 
-The Gryt client is a React app that ships two ways: as a **web app** (served by Nginx in Docker) and as an **Electron desktop app** with auto-updates. The client handles the UI, audio capture, noise suppression (via RNNoise), and the WebRTC peer connection to the SFU.
+The Gryt client is a React app that ships two ways: as a web app served by Nginx in Docker, and as an Electron desktop app with auto-updates. The client handles the UI, audio capture, noise suppression (via RNNoise), and the WebRTC peer connection to the SFU.
 
-Critically, the client holds no secrets. Authentication uses **OIDC with PKCE** — a public client flow where no client secret is needed. The client redirects you to the Keycloak instance at `auth.gryt.chat`, you authenticate there, and the client receives a short-lived token. It never sees or stores your password.
+Critically, the client holds no secrets. Authentication uses OIDC with PKCE, a public client flow where no client secret is needed. The client redirects you to the Keycloak instance at `auth.gryt.chat`, you authenticate there, and the client receives a short-lived token. It never sees or stores your password.
 
-### Server — signaling and coordination
+### Server, signaling and coordination
 
-The signaling server is a Node.js app using **Socket.IO** for real-time WebSocket communication and **Express** for REST endpoints. It's the brain of a Gryt server — it manages rooms, user presence, chat messages, file uploads, and coordinates the WebRTC handshake between clients and the SFU.
+The signaling server is a Node.js app using Socket.IO for real-time WebSocket communication and Express for REST endpoints. It's the brain of a Gryt server: it manages rooms, user presence, chat messages, file uploads, and coordinates the WebRTC handshake between clients and the SFU.
 
-Each server instance gets its own **ScyllaDB keyspace**, providing full data isolation when you run multiple servers. The server also connects to **MinIO** for S3-compatible file storage (avatars, attachments, custom emoji).
+Each server instance gets its own ScyllaDB keyspace, providing full data isolation when you run multiple servers. The server also connects to MinIO for S3-compatible file storage (avatars, attachments, custom emoji).
 
 When auth is enabled, the server validates identity tokens against the Keycloak JWKS endpoint on every connection. It also issues its own short-lived JWTs (signed with `JWT_SECRET`) for subsequent API requests, and those tokens are scoped to a specific server host and carry a version number that can be invalidated server-wide.
 
-### SFU — media routing
+### SFU, media routing
 
-The SFU (Selective Forwarding Unit) is written in **Go** using the [Pion WebRTC](https://github.com/pion/webrtc) library. Its job is simple: receive one audio stream from each participant and forward it to everyone else in the room. No mixing, no transcoding, no decryption.
+The SFU (Selective Forwarding Unit) is written in Go using the [Pion WebRTC](https://github.com/pion/webrtc) library. Its job is simple: receive one audio stream from each participant and forward it to everyone else in the room. No mixing, no transcoding, no decryption.
 
 <Mermaid chart={`
 graph LR
@@ -86,15 +86,15 @@ graph LR
   SFU -->|"B + C streams"| A
 `} />
 
-Each client uploads a single audio stream regardless of room size. The SFU does the fan-out. This keeps bandwidth constant for every participant — whether there are 2 people or 20.
+Each client uploads a single audio stream regardless of room size. The SFU does the fan-out. This keeps bandwidth constant for every participant, whether there are 2 people or 20.
 
 The SFU communicates with the signaling server over an internal WebSocket for room management and credential validation. It exposes a UDP port range for WebRTC media, which is the only thing that needs to be publicly accessible.
 
-### Auth — Keycloak
+### Auth, Keycloak
 
 Gryt uses [Keycloak](https://www.keycloak.org/) as its identity provider, hosted at `auth.gryt.chat`. Keycloak is a battle-tested, open-source OIDC/OAuth 2.0 server used in enterprise environments by Red Hat, the German government, and thousands of other organizations.
 
-You are **not expected to host Keycloak yourself**. The [auth package](https://github.com/Gryt-chat/auth) — including the realm configuration, custom theme, and Docker setup — is published in the repo purely for transparency. You can see exactly how the instance is configured, what data it stores, and how the login theme works. It's open so you don't have to take my word for it.
+You are **not expected to host Keycloak yourself**. The [auth package](https://github.com/Gryt-chat/auth), including the realm configuration, custom theme, and Docker setup, is published in the repo purely for transparency. You can see exactly how the instance is configured, what data it stores, and how the login theme works. It's open so you don't have to take my word for it.
 
 When you log in to Gryt, here's what actually happens:
 
@@ -116,60 +116,60 @@ sequenceDiagram
   S-->>C: Authenticated session
 `} />
 
-The important thing to notice: **the signaling server never sees your password**. It only receives a signed JWT from Keycloak and verifies the signature against Keycloak's public keys (the JWKS endpoint). The server doesn't even need to talk to Keycloak at auth time — it just needs access to the public key set, which it caches.
+The important thing to notice: **the signaling server never sees your password**. It only receives a signed JWT from Keycloak and verifies the signature against Keycloak's public keys (the JWKS endpoint). The server doesn't even need to talk to Keycloak at auth time. It just needs access to the public key set, which it caches.
 
-### Database — ScyllaDB
+### Database, ScyllaDB
 
-Gryt uses **ScyllaDB**, a high-performance NoSQL database compatible with the Cassandra query language (CQL). It stores server configuration, user profiles, chat messages, roles, and member data.
+Gryt uses ScyllaDB, a high-performance NoSQL database compatible with the Cassandra query language (CQL). It stores server configuration, user profiles, chat messages, roles, and member data.
 
 Each server instance operates in its own keyspace, meaning you can run multiple independent Gryt servers from a single ScyllaDB cluster with full data isolation.
 
-### Object storage — MinIO
+### Object storage, MinIO
 
-File uploads (avatars, attachments, custom emoji) are stored in **MinIO**, an S3-compatible object storage server. This keeps binary data out of the database and makes it easy to swap in any S3-compatible backend — AWS S3, Backblaze B2, Cloudflare R2, or your own MinIO cluster.
+File uploads (avatars, attachments, custom emoji) are stored in MinIO, an S3-compatible object storage server. This keeps binary data out of the database and makes it easy to swap in any S3-compatible backend: AWS S3, Backblaze B2, Cloudflare R2, or your own MinIO cluster.
 
-## How auth works — and what you're trusting
+## How auth works, and what you're trusting
 
 This is the part I care about most, because it's the part most platforms get wrong.
 
-With Discord, Slack, Teams, or any other centralized platform, your identity is owned by that company. Your username, your email, your profile, your social graph, your login history — all stored on their servers, governed by their policies, accessible to their employees, and deletable at their discretion.
+With Discord, Slack, Teams, or any other centralized platform, your identity is owned by that company. Your username, your email, your profile, your social graph, your login history: all stored on their servers, governed by their policies, accessible to their employees, and deletable at their discretion.
 
 Gryt is different, but I want to be honest about what it is and isn't.
 
-By default, Gryt uses a **hosted Keycloak instance** at `auth.gryt.chat` — run by me. When you sign up, your email and password go to that Keycloak instance. That means you're trusting me with those credentials. That's it. I don't want to oversell this.
+By default, Gryt uses a hosted Keycloak instance at `auth.gryt.chat`, run by me. When you sign up, your email and password go to that Keycloak instance. That means you're trusting me with those credentials. That's it. I don't want to oversell this.
 
 What I can tell you:
 
-- **Server hosts never see your password.** The signaling server only receives a signed JWT and verifies the signature against Keycloak's public keys. It doesn't talk to Keycloak at auth time — it just needs the JWKS endpoint. Your password stays between you and the Keycloak instance.
-- **One identity, every server.** You sign up once and your identity works across every Gryt server. Server hosts validate your token cryptographically — they don't store or manage your credentials.
+- **Server hosts never see your password.** The signaling server only receives a signed JWT and verifies the signature against Keycloak's public keys. It doesn't talk to Keycloak at auth time; it just needs the JWKS endpoint. Your password stays between you and the Keycloak instance.
+- **One identity, every server.** You sign up once and your identity works across every Gryt server. Server hosts validate your token cryptographically. They don't store or manage your credentials.
 - **You can use a throwaway email.** The only requirement is that your email address can receive a verification link. If you don't want to hand over your real one, use a one-time obfuscated address. Keycloak doesn't care, and neither does Gryt.
-- **The auth source is open.** The [auth package](https://github.com/Gryt-chat/auth) is open source for transparency — you can audit exactly what's running at `auth.gryt.chat`.
-- **No data sharing. No tracking. Period.** Gryt shares no data with third parties — not from Keycloak, not from the signaling server, not from anywhere. There is no analytics, no telemetry, no usage tracking of any kind. Nothing phones home. Your data exists in exactly one place: the infrastructure that runs it.
+- **The auth source is open.** The [auth package](https://github.com/Gryt-chat/auth) is open source for transparency, so you can audit exactly what's running at `auth.gryt.chat`.
+- **No data sharing. No tracking. Period.** Gryt shares no data with third parties, not from Keycloak, not from the signaling server, not from anywhere. There is no analytics, no telemetry, no usage tracking of any kind. Nothing phones home. Your data exists in exactly one place: the infrastructure that runs it.
 
-If you want to go further, **self-hosting Keycloak is technically possible** — the code and theme are all in the repo. But it's not expected, and full self-hosted auth documentation is still planned. The default setup points every server at `auth.gryt.chat` because centralized identity is what makes "sign up once, join any server" work.
+If you want to go further, self-hosting Keycloak is technically possible. The code and theme are all in the repo. But it's not expected, and full self-hosted auth documentation is still planned. The default setup points every server at `auth.gryt.chat` because centralized identity is what makes "sign up once, join any server" work.
 
-The architecture still gives you meaningful separation: the people running the servers you join never see your credentials. They get a cryptographically verified identity — nothing more.
+The architecture still gives you meaningful separation: the people running the servers you join never see your credentials. They get a cryptographically verified identity and nothing else.
 
 ## How the security model works
 
-Security in Gryt isn't a feature bolted on at the end — it's a consequence of how the services are structured. Here's a summary of the layers:
+Security in Gryt follows from how the services are structured, rather than being bolted on at the end. Here's a summary of the layers:
 
 ### Media encryption (DTLS-SRTP)
 
-All voice data is encrypted using **DTLS-SRTP**, which is mandatory in WebRTC. The encryption is negotiated directly between the client and the SFU:
+All voice data is encrypted using DTLS-SRTP, which is mandatory in WebRTC. The encryption is negotiated directly between the client and the SFU:
 
 1. The client and SFU establish a UDP path via ICE
 2. A DTLS handshake runs over that path to exchange encryption keys
 3. All subsequent audio packets are SRTP-encrypted
 
-The SFU forwards encrypted packets without decrypting them. It can route audio but can't listen to it. **Privacy is architectural**, not a policy promise.
+The SFU forwards encrypted packets without decrypting them. It can route audio but can't listen to it. That is a property of the architecture, not a policy I am asking you to believe.
 
 ### Token-based authentication
 
 When auth is enabled, every connection goes through two layers of token verification:
 
-1. **Identity verification** — the client presents a Keycloak-issued JWT. The server verifies the signature against the JWKS public keys, checks the issuer, audience, and expiry.
-2. **Session tokens** — after identity verification, the server issues its own short-lived JWT, scoped to the specific server host. These carry a `tokenVersion` that can be invalidated server-wide if needed (e.g., after a security incident).
+1. **Identity verification.** The client presents a Keycloak-issued JWT. The server verifies the signature against the JWKS public keys, checks the issuer, audience, and expiry.
+2. **Session tokens.** After identity verification, the server issues its own short-lived JWT, scoped to the specific server host. These carry a `tokenVersion` that can be invalidated server-wide if needed (for example, after a security incident).
 
 ```
 Authorization: Bearer <server-issued JWT>
@@ -193,7 +193,7 @@ In the default Docker Compose deployment, services communicate over an internal 
 
 ScyllaDB and MinIO are **never exposed** to the public network. They only accept connections from within the Docker network. The SFU's internal WebSocket (used by the signaling server for room management) also stays internal.
 
-For Cloudflare Tunnel deployments, HTTP services bind to `127.0.0.1` — they're not reachable from the network at all, only through the tunnel. The UDP ports for WebRTC are the only exception, since Cloudflare Tunnel doesn't support UDP.
+For Cloudflare Tunnel deployments, HTTP services bind to `127.0.0.1`, so they're not reachable from the network at all, only through the tunnel. The UDP ports for WebRTC are the only exception, since Cloudflare Tunnel doesn't support UDP.
 
 ### No implicit trust between services
 
@@ -203,10 +203,10 @@ The SFU doesn't blindly accept connections. When a server registers a room with 
 
 One of the design goals is that you should be able to run Gryt anywhere, with whatever infrastructure you're comfortable with. The stack supports:
 
-- **Docker Compose** — single command, runs everything on one machine
-- **Cloudflare Tunnel** — zero-config TLS, no open ports (except SFU UDP)
-- **Reverse proxy** — Caddy, Nginx, or Traefik with automatic TLS
-- **Kubernetes** — Helm chart with ingress, security contexts, and resource limits
+- Docker Compose: one command, runs everything on one machine
+- Cloudflare Tunnel: zero-config TLS, no open ports (except SFU UDP)
+- A reverse proxy: Caddy, Nginx, or Traefik with automatic TLS
+- Kubernetes: Helm chart with ingress, security contexts, and resource limits
 
 The entire stack runs with a single `docker compose up -d`. No build step, no compilation, no dependency installation. Pre-built images are published to GHCR on every release.
 
@@ -216,13 +216,13 @@ When you host a Gryt server:
 
 - Your voice data is encrypted between your browser and the SFU, and the SFU can't decrypt it
 - Your messages and files are stored in your own ScyllaDB and MinIO, on your own disks
-- Your identity is verified cryptographically — server hosts never see your password or manage your credentials
-- No telemetry, no analytics, no data sharing — nothing leaves your server except auth token validation against `auth.gryt.chat`
-- The entire stack is open source under AGPL-3.0 — you can audit every line
+- Your identity is verified cryptographically, so server hosts never see your password or manage your credentials
+- No telemetry, no analytics, no data sharing. Nothing leaves your server except auth token validation against `auth.gryt.chat`
+- The entire stack is open source under AGPL-3.0, so you can audit every line
 
-The trust you're placing is narrow and explicit: you trust the hosted Keycloak at `auth.gryt.chat` with your login credentials (and you can use a throwaway email if you prefer). Everything else — your voice, your messages, your files — lives on infrastructure you control.
+The trust you're placing is narrow and explicit: you trust the hosted Keycloak at `auth.gryt.chat` with your login credentials, and you can use a throwaway email if you prefer. Your voice, your messages and your files live on infrastructure you control.
 
-That's the point. Not zero trust, but minimal trust — and honest about where the lines are.
+That's the goal. Minimal trust, with the lines drawn where you can see them.
 
 ---
 
