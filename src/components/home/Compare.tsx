@@ -23,14 +23,14 @@ import styles from "./Compare.module.css";
  * either, because published sources disagree on which level unlocks what.
  */
 const paidElsewhere = [
-  { label: "Animated avatar", gryt: "Included", discord: "Subscription", discordPaid: true, teamspeak: "\u2014" },
-  { label: "Animated server icon", gryt: "Included", discord: "Paid boosts", discordPaid: true, teamspeak: "\u2014" },
-  { label: "Animated custom emoji", gryt: "Included", discord: "Subscription", discordPaid: true, teamspeak: "\u2014" },
-  { label: "Custom invite link", gryt: "Included", discord: "Paid boosts", discordPaid: true, teamspeak: "\u2014" },
+  { label: "Animated avatar", gryt: "Included", discord: "Nitro Basic", cost: "$2.99/mo", teamspeak: "\u2014" },
+  { label: "Animated custom emoji", gryt: "Included", discord: "Nitro Basic", cost: "$2.99/mo", teamspeak: "\u2014" },
+  { label: "Screen share at 1080p60", gryt: "Up to 240 fps, free", discord: "Nitro", cost: "$9.99/mo", teamspeak: "\u2014" },
+  { label: "File uploads", gryt: "100 MB, you set it", discord: "500 MB on Nitro", cost: "$9.99/mo", teamspeak: "\u2014" },
+  { label: "Animated server icon", gryt: "Included", discord: "2 boosts", cost: "$9.98/mo", teamspeak: "\u2014" },
+  { label: "Voice bitrate", gryt: "Up to 510 kbps", discord: "384 kbps at 14 boosts", cost: "$69.86/mo", teamspeak: "128 kbps" },
+  { label: "Custom invite link", gryt: "Included", discord: "14 boosts", cost: "$69.86/mo", teamspeak: "\u2014" },
   { label: "Your own domain", gryt: "Included", discord: "Not possible", teamspeak: "Included" },
-  { label: "File uploads", gryt: "100 MB, you set it", discord: "500 MB", discordPaid: true, teamspeak: "\u2014" },
-  { label: "Voice bitrate", gryt: "Up to 510 kbps", discord: "Up to 384 kbps", discordPaid: true, teamspeak: "You set it" },
-  { label: "Screen share framerate", gryt: "Up to 240 fps", discord: "1080p at 60 fps", discordPaid: true, teamspeak: "\u2014" },
   { label: "Addons and plugins", gryt: "Included", discord: "Not possible", teamspeak: "Included" },
 ];
 
@@ -92,7 +92,7 @@ const openSource = [
   },
 ];
 
-function Mark({ value, paid }: { value: boolean | string; paid?: boolean }) {
+function Mark({ value, cost }: { value: boolean | string; cost?: string }) {
   if (value === true) return <span className={styles.yes} aria-label="Yes">●</span>;
   if (value === false || value === "\u2014")
     return <span className={styles.no} aria-label="Not available">–</span>;
@@ -100,16 +100,18 @@ function Mark({ value, paid }: { value: boolean | string; paid?: boolean }) {
     return <span className={styles.no}>Not possible</span>;
   if (value === "Included") return <span className={styles.free}>Included</span>;
 
-  return (
-    <span className={paid ? styles.paidValue : styles.plain}>
-      {value}
-      {paid && (
-        <abbr className={styles.cost} title="Requires a paid plan or paid server boosts">
-          ($)
-        </abbr>
-      )}
-    </span>
-  );
+  /* The price sits under the mechanism rather than beside it, so the column
+     scans as a list of monthly costs. That is the comparison. */
+  if (cost) {
+    return (
+      <span className={styles.paidValue}>
+        <span>{value}</span>
+        <b className={styles.cost}>{cost}</b>
+      </span>
+    );
+  }
+
+  return <span className={styles.plain}>{value}</span>;
 }
 
 function Table({
@@ -121,7 +123,7 @@ function Table({
     gryt: boolean | string;
     discord: boolean | string;
     teamspeak: boolean | string;
-    discordPaid?: boolean;
+    cost?: string;
   }[];
   caption: string;
 }) {
@@ -147,7 +149,7 @@ function Table({
               <th scope="row" className={styles.rowHead}>{r.label}</th>
               {cols.map((c) => (
                 <td key={c.key} className={c.key === "gryt" ? styles.own : undefined}>
-                  <Mark value={r[c.key]} paid={c.key === "discord" && r.discordPaid} />
+                  <Mark value={r[c.key]} cost={c.key === "discord" ? r.cost : undefined} />
                 </td>
               ))}
             </tr>
@@ -168,11 +170,12 @@ export function Compare() {
           Against the alternatives
         </motion.p>
         <motion.h2 className={styles.heading} variants={rise(reduced)}>
-          Things you pay for elsewhere.
+          What the same things cost on Discord.
         </motion.h2>
         <motion.p className={styles.lede} variants={rise(reduced)}>
-          None of these are a plan, a tier, or a boost level. They are the
-          defaults, and a server owner can raise every limit on this list.
+          Everything in the Gryt column ships in the stable build at no cost,
+          and a server owner can raise the limits. The right-hand column is
+          what the equivalent runs to per month.
         </motion.p>
 
         <motion.div variants={rise(reduced)}>
@@ -193,16 +196,16 @@ export function Compare() {
         </motion.div>
 
         <motion.p className={styles.note} variants={rise(reduced)}>
-          Gryt's figures are read out of its own source: 100 MB uploads and 5 MB
-          avatars are the shipped defaults, voice tops out at 510 kbps, and
-          screen sharing runs 30 to 120 fps with 144, 165 and 240 as
-          experimental options. Every one of them is stable, and a server owner
-          can raise the limits. TeamSpeak is scored on its stable client, which
-          has no screen sharing or webcam; the TeamSpeak 6 beta adds both.
-          Discord's own words for these are "Nitro" and "Boost level"; both
-          mean money, so the table says so. No boost level is named because
-          published sources disagree on which one unlocks what. If anything here is out of
-          date,{" "}
+          Gryt's figures are read out of its own source and all of them are
+          stable: 100 MB uploads and 5 MB avatars are the shipped defaults,
+          voice tops out at 510 kbps, screen sharing runs 30 to 120 fps with
+          144, 165 and 240 as experimental options, and a server owner can
+          raise every limit. Discord prices are US list, checked August 2026,
+          at $2.99 for Nitro Basic, $9.99 for Nitro and $4.99 per server boost;
+          a boost level is the boost count times that, and Nitro subscribers
+          get two boosts included and 30% off the rest. TeamSpeak is scored on
+          its stable client, which has no screen sharing or webcam — the
+          TeamSpeak 6 beta adds both. If anything here is out of date,{" "}
           <a href="https://github.com/Gryt-chat/gryt/issues" target="_blank" rel="noreferrer">
             tell us and we will fix it
           </a>
