@@ -24,9 +24,24 @@ function escHtml(s) {
   return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
-function renderPage(template, { pageTitle, description, url, ogImage, ogType }) {
+const siteName = 'Gryt';
+
+/**
+ * The tab and the search result read `<name> | Gryt`. The share card does not:
+ * a title under an image that already says Gryt does not need to say it again,
+ * and Discord truncates the line. So `<title>` gets the suffix and `og:title`
+ * stays bare.
+ *
+ * `src/lib/title.ts` carries the same rule for the client-side router, which is
+ * what you get on an in-app navigation. Change one, change the other.
+ */
+function docTitle(name) {
+  return `${name} | ${siteName}`;
+}
+
+function renderPage(template, { pageTitle, docTitleName, description, url, ogImage, ogType }) {
   let html = template;
-  html = html.replace(/<title>[^<]*<\/title>/, `<title>${escHtml(pageTitle)}</title>`);
+  html = html.replace(/<title>[^<]*<\/title>/, `<title>${escHtml(docTitle(docTitleName || pageTitle))}</title>`);
   html = html.replace(/<link rel="canonical"[^>]*>/, `<link rel="canonical" href="${url}" />`);
   html = html.replace(/<meta name="description"[^>]*>/, `<meta name="description" content="${escHtml(description)}" />`);
   html = html.replace(/<meta property="og:type"[^>]*>/, `<meta property="og:type" content="${ogType || 'website'}" />`);
@@ -47,7 +62,7 @@ const staticPages = [
   { path: 'why-gryt', title: 'Why Gryt?', description: 'Why we built an open-source, self-hosted voice chat platform.' },
   { path: 'blog', title: 'Blog', description: 'Stories, updates, and technical deep-dives from the Gryt team.' },
   { path: 'changelog', title: 'Changelog', description: 'What changed in each release of Gryt.' },
-  { path: 'privacy', title: 'Privacy Policy', description: 'How Gryt handles your data — spoiler: we collect as little as possible.' },
+  { path: 'privacy', title: 'Privacy Policy', description: 'How Gryt handles your data. We collect as little as we can get away with.' },
   { path: 'community-guidelines', title: 'Community Guidelines', description: 'Rules and expectations for the Gryt community.' },
   { path: 'invite', title: 'Invite', description: 'Join a Gryt server with an invite link.' },
 ];
@@ -103,6 +118,7 @@ for (const file of changelogFiles) {
   mkdirSync(outDir, { recursive: true });
   const html = renderPage(template, {
     pageTitle: `Gryt ${fm.version}`,
+    docTitleName: `${fm.version} | Changelog`,
     description: fm.headline || `What changed in Gryt ${fm.version}.`,
     url: `${siteUrl}/changelog/${slug}`,
     ogImage: `${siteUrl}/changelog/${slug}/og.png`,

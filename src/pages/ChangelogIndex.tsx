@@ -1,11 +1,12 @@
 import { Link } from 'react-router-dom'
 import { useEffect } from 'react'
 import { releases } from '../lib/changelog'
+import { pageTitle } from '../lib/title'
 import styles from './ChangelogIndex.module.css'
 
 export function ChangelogIndex() {
   useEffect(() => {
-    document.title = 'Changelog · Gryt'
+    document.title = pageTitle('Changelog')
   }, [])
 
   return (
