@@ -1,0 +1,251 @@
+.section {
+  padding: 100px 24px;
+  border-top: 1px solid var(--border);
+}
+
+.inner { max-width: var(--max-w); margin: 0 auto; }
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 14px;
+}
+
+.heading {
+  font-size: clamp(28px, 3.6vw, 44px);
+  font-weight: 800;
+  letter-spacing: -0.028em;
+  line-height: 1.1;
+  max-width: 24ch;
+  text-wrap: balance;
+}
+
+.lede {
+  margin-top: 14px;
+  margin-bottom: 34px;
+  font-size: 17px;
+  line-height: 1.65;
+  color: var(--text-dim);
+  max-width: 58ch;
+}
+
+/* Value cells. "Free" is the one that should catch the eye going down the
+   column, so it is the only one that gets the accent. */
+.free {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--green);
+}
+
+.cost {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  letter-spacing: 0.04em;
+  color: var(--yellow);
+}
+
+.plain {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+.wrap {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--bg-raised);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+  min-width: 640px;
+}
+
+.table th,
+.table td {
+  padding: 15px 18px;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+}
+
+.table tbody tr:last-child th,
+.table tbody tr:last-child td { border-bottom: 0; }
+
+.table thead th {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.rowHead {
+  text-align: left !important;
+  font-weight: 500;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+/* Gryt's column is tinted for its whole height so the eye reads down it. */
+.own {
+  background: color-mix(in srgb, var(--accent) 9%, transparent);
+  color: var(--text) !important;
+}
+
+.table thead .own {
+  color: var(--accent-light) !important;
+  font-weight: 700;
+}
+
+.yes { color: var(--green); font-size: 15px; }
+.no { color: var(--text-dimmer); font-size: 19px; }
+.partial { color: var(--yellow); font-size: 15px; }
+.na { color: var(--text-dimmer); font-family: var(--font-mono); font-size: 12px; }
+
+.note {
+  margin-top: 20px;
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--text-dimmer);
+  max-width: 62ch;
+}
+
+@media (max-width: 900px) {
+  .section { padding: 68px 16px; }
+  .heading { margin-bottom: 28px; }
+}
+
+/* ── The open source comparison ───────────────────────── */
+
+.subheading {
+  margin-top: 68px;
+  font-size: clamp(23px, 2.6vw, 32px);
+  font-weight: 800;
+  letter-spacing: -0.024em;
+  line-height: 1.14;
+  max-width: 26ch;
+  text-wrap: balance;
+}
+
+.subnote {
+  margin-top: 12px;
+  margin-bottom: 32px;
+  font-size: 15px;
+  line-height: 1.68;
+  color: var(--text-dim);
+  max-width: 62ch;
+}
+
+.subnote a { color: var(--accent-light); }
+.subnote a:hover { color: #d0cdff; }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg-raised);
+  padding: 22px 22px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: border-color 0.2s ease-out, transform 0.2s ease-out;
+}
+
+.card:hover { border-color: var(--accent); transform: translateY(-3px); }
+
+.card h4 { font-size: 16.5px; font-weight: 800; letter-spacing: -0.012em; }
+.card h4 a { color: var(--text); }
+.card h4 a:hover { color: var(--accent-light); }
+
+.best {
+  font-size: 14px;
+  line-height: 1.62;
+  color: var(--text-dim);
+  flex: 1;
+}
+
+/* The differentiator is set apart, because the sentence above it is a
+   compliment and the two should not read as one paragraph. */
+.diff {
+  font-size: 14px;
+  line-height: 1.62;
+  color: var(--text);
+  border-top: 1px solid var(--border);
+  padding-top: 12px;
+}
+
+.diff span {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-right: 9px;
+  vertical-align: 1px;
+}
+
+@media (max-width: 980px) {
+  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 640px) {
+  .grid { grid-template-columns: minmax(0, 1fr); }
+  .subheading { margin-top: 52px; }
+}
+
+/* A value that costs money keeps its number — knowing Discord tops out at 384
+   kbps is more use than knowing it is paid — and carries the marker after it. */
+.paidValue {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: var(--text-dim);
+  white-space: nowrap;
+}
+
+.cost {
+  margin-left: 6px;
+  color: var(--yellow);
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 1px dotted color-mix(in srgb, var(--yellow) 50%, transparent);
+  cursor: help;
+}
+
+/* Mechanism above, price below. The price is the point, so it gets the weight
+   and the whole column scans as a list of monthly costs. */
+.paidValue {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 3px;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-dimmer);
+  line-height: 1.35;
+}
+
+.cost {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--yellow);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}

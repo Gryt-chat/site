@@ -65,7 +65,7 @@ function categorizeAssets(assets: ReleaseAsset[]): Record<OS, DownloadOption[]> 
       if (name.includes("portable")) {
         result.windows.push({
           label: "Portable",
-          description: "No installation needed — run from anywhere",
+          description: "Runs from anywhere, nothing to install",
           url: asset.browser_download_url,
           size: asset.size,
           fileName: asset.name,
@@ -101,7 +101,7 @@ function categorizeAssets(assets: ReleaseAsset[]): Record<OS, DownloadOption[]> 
       if (name.endsWith(".appimage")) {
         result.linux.push({
           label: "AppImage",
-          description: "Portable — works on most distros",
+          description: "Portable, works on most distros",
           url: asset.browser_download_url,
           size: asset.size,
           fileName: asset.name,
@@ -186,14 +186,12 @@ export function Download() {
   const version = release?.tag_name?.replace(/^v/, "");
 
   return (
-    <section className="section border-top" id="download">
+    <section className={styles.section} id="download">
       <div className={styles.box}>
-        <div className={styles.glow} />
-        <div className="section-label">Get Started</div>
-        <h2 className="section-title">Download Gryt</h2>
-        <p className={`section-desc ${styles.desc}`}>
-          Grab the desktop client for the full experience, or try Gryt right in
-          your browser.
+        <h2 className={styles.title}>Get it and go.</h2>
+        <p className={styles.desc}>
+          The desktop app gives you global push-to-talk and the rest of it. The
+          browser gives you a call in about ten seconds.
         </p>
 
         <div className={styles.osTabs}>
@@ -301,7 +299,7 @@ export function Download() {
         </div>
 
         <p className={styles.note}>
-          No download required — works in Chrome, Firefox, Edge, and Safari.
+          No download required. Works in Chrome, Firefox, Edge, and Safari.
           Some features like global push-to-talk are desktop-only.
         </p>
       </div>

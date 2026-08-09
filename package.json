@@ -8,7 +8,8 @@
     "build": "tsc -b && node scripts/optimize-images.mjs && vite build && node scripts/prerender-blog.mjs",
     "lint": "eslint .",
     "preview": "vite preview",
-    "generate:og": "node scripts/generate-og-image.mjs"
+    "generate:og": "node scripts/generate-og-image.mjs",
+    "generate:crops": "node scripts/generate-feature-crops.mjs"
   },
   "dependencies": {
     "@mdx-js/rollup": "^3.1.1",
@@ -28,8 +29,6 @@
     "remark-mdx-frontmatter": "^5.2.0"
   },
   "devDependencies": {
-    "@dicebear/core": "^10",
-    "@dicebear/styles": "^10",
     "@eslint/js": "^9.39.1",
     "@types/node": "^24.10.1",
     "@types/react": "^19.2.7",

@@ -205,16 +205,6 @@
   resolved "https://registry.npmjs.org/@chevrotain/utils/-/utils-11.1.2.tgz"
   integrity sha512-4mudFAQ6H+MqBTfqLmU7G1ZwRzCLfJEooL/fsF6rCX5eePMbGhoy5n4g+G4vlh2muDcsCTJtL+uKbOzWxs5LHA==
 
-"@dicebear/core@^10":
-  version "10.4.0"
-  resolved "https://registry.yarnpkg.com/@dicebear/core/-/core-10.4.0.tgz#f37cef5e40d1a1db2b67af4b4caaef043330610b"
-  integrity sha512-IeMZboyput2XB2Lypf650AZ7YDdqzsp3HIaHWEYe+M9AX9/mylDgHLNdSA0OquUy1clFtGNYWnzibb1ZMJzLFw==
-
-"@dicebear/styles@^10":
-  version "10.3.0"
-  resolved "https://registry.yarnpkg.com/@dicebear/styles/-/styles-10.3.0.tgz#421e1631d99c39403d70d9cf8f740597fcd37dcd"
-  integrity sha512-cgQXYLQpefkhCIhMMTX9CXOF6yGxjj55W8kV8d/LRUNk4XhZ8iHZfyLRS8Y6Qss0qNnL8CLV7PnzLbWvQ00coA==
-
 "@emnapi/runtime@^1.7.0":
   version "1.11.3"
   resolved "https://registry.yarnpkg.com/@emnapi/runtime/-/runtime-1.11.3.tgz#84257ae3b0531eb2aec1ffa23d70700da007ba95"

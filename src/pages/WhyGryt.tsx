@@ -23,22 +23,21 @@ export function WhyGryt() {
         <div className={styles.prose}>
           <p>
             Gryt is a self-hosted voice chat platform with text chat and file
-            sharing. It is built to be usable day-to-day, but also easy to
-            understand and verify.
+            sharing. You can use it day-to-day, and you can check how it works.
           </p>
 
           <h2>What Gryt is (and is not)</h2>
           <ul>
             <li>
               <strong>It is self-hostable.</strong> You can run the server and
-              keep your community’s data on infrastructure you control.
+              keep your community's data on infrastructure you control.
             </li>
             <li>
               <strong>It is open source.</strong> You can audit how it works,
               build your own fork, and contribute improvements.
             </li>
             <li>
-              <strong>It is not a “growth platform”.</strong> Gryt is not built
+              <strong>It is not a "growth platform".</strong> Gryt is not built
               around ads, tracking, or engagement mechanics.
             </li>
           </ul>
@@ -51,7 +50,7 @@ export function WhyGryt() {
           </p>
           <ul>
             <li>
-              <strong>Servers don’t store your password.</strong> When auth is
+              <strong>Servers don't store your password.</strong> When auth is
               enabled, servers verify signed login tokens. They never need to
               handle your credentials.
             </li>
@@ -72,13 +71,13 @@ export function WhyGryt() {
             <Link to="/privacy">Privacy Policy</Link>.
           </p>
 
-          <h2>Trust boundaries (what you’re trusting)</h2>
+          <h2>Trust boundaries (what you're trusting)</h2>
           <p>
             Skepticism is healthy. Here are the boundaries in plain terms:
           </p>
           <ul>
             <li>
-              <strong>Server operators:</strong> if you join someone else’s
+              <strong>Server operators:</strong> if you join someone else's
               server, they can access the data their server stores (messages,
               uploads, and logs). If you self-host, that operator is you.
             </li>
@@ -120,15 +119,15 @@ graph TB
           <h3>Can a server admin read my messages?</h3>
           <p>
             If the server stores the messages, the server operator can access
-            them. That’s true for Gryt and any self-hosted chat system. The
+            them. That's true for Gryt and any self-hosted chat system. The
             point is that you can choose who operates the server.
           </p>
 
           <h3>Can I run this for a private group?</h3>
           <p>
             Yes. Most people run a single Gryt server for a community, team, or
-            friend group. Deployment is designed to be straightforward, and the
-            architecture is documented.
+            friend group. Deployment is one command on Linux, and the architecture
+            is documented.
           </p>
 
           <h3>Where should I go for the detailed version?</h3>

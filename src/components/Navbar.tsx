@@ -1,25 +1,49 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import * as Dialog from "@radix-ui/react-dialog";
 import { MdMenu, MdClose } from "react-icons/md";
 import { GrytLogo } from "./GrytLogo";
 import styles from "./Navbar.module.css";
 
+/**
+ * The bar carries three links. Blog, Feedback and GitHub moved to the footer,
+ * which already listed all three — six links plus two buttons was a directory,
+ * and the two things a visitor is actually here to do were competing with it.
+ *
+ * The mobile sheet keeps the full set, because a sheet has the room and
+ * somebody who opened it is looking for something specific.
+ */
 const navLinks = [
   { href: "/why-gryt", label: "Why Gryt?", external: false, isRoute: true },
-  { href: "/blog", label: "Blog", external: false, isRoute: true },
   { href: "/changelog", label: "Changelog", external: false, isRoute: true },
   { href: "https://docs.gryt.chat", label: "Docs", external: true },
+];
+
+const sheetLinks = [
+  ...navLinks,
+  { href: "/blog", label: "Blog", external: false, isRoute: true },
   { href: "https://feedback.gryt.chat", label: "Feedback", external: true },
-  { href: "https://github.com/Gryt-chat/gryt", label: "Github", external: true },
+  { href: "https://github.com/Gryt-chat/gryt", label: "GitHub", external: true },
 ];
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
 
   const close = useCallback(() => setOpen(false), []);
+
+  /**
+   * The pill is transparent over the hero and picks up its surface once you
+   * leave the fold, so nothing sits on top of the artwork until it has to.
+   */
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   const scrollToDownload = useCallback(
     (e: React.MouseEvent) => {
@@ -44,7 +68,7 @@ export function Navbar() {
   );
 
   return (
-    <nav className={styles.nav}>
+    <nav className={`${styles.nav} ${scrolled ? styles.scrolled : ""}`}>
       <div className={styles.inner}>
         <Link to="/" className={styles.brand} onClick={handleBrandClick}>
           <GrytLogo size={32} />
@@ -116,7 +140,7 @@ export function Navbar() {
               </div>
 
               <nav className={styles.sheetNav}>
-                {navLinks.map((link) => {
+                {sheetLinks.map((link) => {
                   const isActive =
                     link.isRoute && location.pathname === link.href;
                   return link.isRoute ? (

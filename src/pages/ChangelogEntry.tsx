@@ -70,7 +70,7 @@ export function ChangelogEntry() {
 
   useEffect(() => {
     if (release) {
-      document.title = `Gryt ${release.frontmatter.version} — Changelog`
+      document.title = `Gryt ${release.frontmatter.version} · Changelog`
     }
   }, [release])
 
