@@ -1,5 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { useEffect } from "react";
+import { pageTitle } from "../lib/title";
 import styles from "./NotFound.module.css";
 
 /**
@@ -23,9 +24,7 @@ export function NotFound() {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    // Matches the "<name> | Gryt" convention the title PR establishes, so this
-    // does not need touching again when that lands.
-    document.title = "Page not found | Gryt";
+    document.title = pageTitle("Page not found");
   }, []);
 
   return (
