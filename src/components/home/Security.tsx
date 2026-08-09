@@ -20,6 +20,10 @@ const claims = [
     q: "Can a server admin read my messages?",
     a: "If the server stores them, yes, and that is true of every self-hosted chat system. The difference is you can be the operator, or pick one you trust.",
   },
+  {
+    q: "Do I have to use Gryt's auth service?",
+    a: "No. Keycloak and the identity certificate authority are both in the repo and both self-hostable, so you can run identity yourself and depend on nothing of ours. The catch is real and worth stating: your users can then only join servers that use your auth service, because a server verifies identities against the authority it trusts. Run your own and you have your own island.",
+  },
 ];
 
 export function Security() {

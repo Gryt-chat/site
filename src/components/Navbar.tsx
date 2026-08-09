@@ -5,13 +5,25 @@ import { MdMenu, MdClose } from "react-icons/md";
 import { GrytLogo } from "./GrytLogo";
 import styles from "./Navbar.module.css";
 
+/**
+ * The bar carries three links. Blog, Feedback and GitHub moved to the footer,
+ * which already listed all three — six links plus two buttons was a directory,
+ * and the two things a visitor is actually here to do were competing with it.
+ *
+ * The mobile sheet keeps the full set, because a sheet has the room and
+ * somebody who opened it is looking for something specific.
+ */
 const navLinks = [
   { href: "/why-gryt", label: "Why Gryt?", external: false, isRoute: true },
-  { href: "/blog", label: "Blog", external: false, isRoute: true },
   { href: "/changelog", label: "Changelog", external: false, isRoute: true },
   { href: "https://docs.gryt.chat", label: "Docs", external: true },
+];
+
+const sheetLinks = [
+  ...navLinks,
+  { href: "/blog", label: "Blog", external: false, isRoute: true },
   { href: "https://feedback.gryt.chat", label: "Feedback", external: true },
-  { href: "https://github.com/Gryt-chat/gryt", label: "Github", external: true },
+  { href: "https://github.com/Gryt-chat/gryt", label: "GitHub", external: true },
 ];
 
 export function Navbar() {
@@ -128,7 +140,7 @@ export function Navbar() {
               </div>
 
               <nav className={styles.sheetNav}>
-                {navLinks.map((link) => {
+                {sheetLinks.map((link) => {
                   const isActive =
                     link.isRoute && location.pathname === link.href;
                   return link.isRoute ? (
