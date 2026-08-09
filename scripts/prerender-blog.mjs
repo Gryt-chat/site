@@ -39,10 +39,20 @@ function docTitle(name) {
   return `${name} | ${siteName}`;
 }
 
-function renderPage(template, { pageTitle, docTitleName, description, url, ogImage, ogType }) {
+function renderPage(template, { pageTitle, docTitleName, description, url, ogImage, ogType, noindex }) {
   let html = template;
+  // Pages that exist so nginx can find them, but that nobody should reach from
+  // a search result: the auth callback and the 404 itself.
+  if (noindex) {
+    html = html.replace(
+      /<link rel="canonical"[^>]*>/,
+      '<meta name="robots" content="noindex" />',
+    );
+  }
   html = html.replace(/<title>[^<]*<\/title>/, `<title>${escHtml(docTitle(docTitleName || pageTitle))}</title>`);
-  html = html.replace(/<link rel="canonical"[^>]*>/, `<link rel="canonical" href="${url}" />`);
+  if (!noindex) {
+    html = html.replace(/<link rel="canonical"[^>]*>/, `<link rel="canonical" href="${url}" />`);
+  }
   html = html.replace(/<meta name="description"[^>]*>/, `<meta name="description" content="${escHtml(description)}" />`);
   html = html.replace(/<meta property="og:type"[^>]*>/, `<meta property="og:type" content="${ogType || 'website'}" />`);
   html = html.replace(/<meta property="og:title"[^>]*>/, `<meta property="og:title" content="${escHtml(pageTitle)}" />`);
@@ -68,6 +78,19 @@ const staticPages = [
   { path: 'invite', title: 'Invite', description: 'Join a Gryt server with an invite link.' },
 ];
 
+/**
+ * Routes that render an existing page under a second URL. They get a directory
+ * of their own so nginx can serve them without an SPA catch-all, but their
+ * canonical points at the primary — the point of dropping the catch-all is to
+ * stop shipping duplicates of the front page, and shipping duplicates of the
+ * privacy page instead would be no better.
+ */
+const aliasPages = [
+  { path: 'privacy-policy', of: 'privacy' },
+  { path: 'terms-of-use', of: 'terms' },
+  { path: 'guidelines', of: 'community-guidelines' },
+];
+
 for (const page of staticPages) {
   const outDir = join(distDir, page.path);
   mkdirSync(outDir, { recursive: true });
@@ -79,6 +102,54 @@ for (const page of staticPages) {
   });
   writeFileSync(join(outDir, 'index.html'), html);
   console.log(`  dist/${page.path}/index.html`);
+}
+
+for (const alias of aliasPages) {
+  const target = staticPages.find((p) => p.path === alias.of);
+  if (!target) throw new Error(`alias ${alias.path} points at unknown page ${alias.of}`);
+  const outDir = join(distDir, alias.path);
+  mkdirSync(outDir, { recursive: true });
+  const html = renderPage(template, {
+    pageTitle: target.title,
+    description: target.description,
+    url: `${siteUrl}/${target.path}`,
+    ogImage: `${siteUrl}/${target.path}/og.png`,
+  });
+  writeFileSync(join(outDir, 'index.html'), html);
+  console.log(`  dist/${alias.path}/index.html -> canonical /${target.path}`);
+}
+
+// --- The auth callback ---
+// Nothing links to it and nobody should land on it from a search, but it has to
+// exist on disk now that unmatched paths 404 instead of falling back to the SPA.
+{
+  const outDir = join(distDir, 'auth', 'callback');
+  mkdirSync(outDir, { recursive: true });
+  const html = renderPage(template, {
+    pageTitle: 'Signing you in',
+    description: 'Completing sign-in and handing you back to the Gryt app.',
+    url: `${siteUrl}/auth/callback`,
+    ogImage: `${siteUrl}/og-image.png`,
+    noindex: true,
+  });
+  writeFileSync(join(outDir, 'index.html'), html);
+  console.log('  dist/auth/callback/index.html');
+}
+
+// --- 404 ---
+// nginx serves this for anything that does not resolve, with a 404 status. The
+// SPA boots from it exactly as it does from any other entry point and the
+// catch-all route renders NotFound.
+{
+  const html = renderPage(template, {
+    pageTitle: 'Page not found',
+    description: 'There is nothing at this address.',
+    url: `${siteUrl}/404`,
+    ogImage: `${siteUrl}/og-image.png`,
+    noindex: true,
+  });
+  writeFileSync(join(distDir, '404.html'), html);
+  console.log('  dist/404.html');
 }
 
 // --- Blog posts ---

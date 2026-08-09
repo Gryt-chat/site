@@ -23,10 +23,28 @@ RUN printf '%s\n' \
   '    listen 80;' \
   '    root /usr/share/nginx/html;' \
   '    index index.html;' \
+  '    # Relative 301s. Without this nginx builds the Location header from its' \
+  '    # own listen directive, so the redirect that adds a trailing slash came' \
+  '    # back as http://gryt.chat/... on an https site.' \
+  '    absolute_redirect off;' \
   '    # Serve binaries as static files (no SPA fallback).' \
   '    location ^~ /release/ { try_files $uri =404; }' \
   '    location ^~ /downloads/ { try_files $uri =404; }' \
-  '    location / { try_files $uri $uri/ /index.html; }' \
+  '    # Every real route is prerendered into a directory by' \
+  '    # scripts/prerender-blog.mjs, so a path that does not resolve is a path' \
+  '    # that does not exist. Falling back to /index.html instead meant any' \
+  '    # typo answered 200 with the front page metadata: a soft 404, indexed by' \
+  '    # crawlers as a duplicate of the home page.' \
+  '    location / { try_files $uri $uri/ =404; }' \
+  '    # Served directly rather than 301d to /auth/callback/. Before the' \
+  '    # fallback changed, this path had no directory and fell through to the' \
+  '    # SPA with no redirect at all; now that it has one, try_files would add' \
+  '    # a hop to the middle of a sign-in. The query string survives the' \
+  '    # redirect either way, but an auth callback is the last place to' \
+  '    # introduce a behaviour change for tidiness.' \
+  '    location = /auth/callback { try_files /auth/callback/index.html =404; }' \
+  '    error_page 404 /404.html;' \
+  '    location = /404.html { internal; }' \
   '    location /health { return 200 "healthy"; add_header Content-Type text/plain; }' \
   '  }' \
   '}' > /etc/nginx/nginx.conf
