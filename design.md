@@ -1,8 +1,14 @@
 # Design — gryt.chat
 
-The front page was rebuilt first and everything else has to catch up to it. This
-file is the system that rebuild established, written down so the content pages
-can be brought in line without re-deciding it per page.
+The front page was rebuilt first and this file records the parts of it that
+everything else shares.
+
+It is deliberately narrower than a full design system. The content pages do
+**not** copy the front page's section rhythm — each one is built on its own
+Hallmark macrostructure, chosen for what that page actually is. What they share
+is the material: tokens, the one type family, the motion module. A page is free
+to look different; it is not free to introduce a second accent or a second
+font.
 
 It is **descriptive, not aspirational**. Every value here is read out of
 `src/styles/tokens.css`, `src/index.css` and `src/components/home/*`. If a page
@@ -50,7 +56,12 @@ sentence. There is no second display face and there should not be one.
 Display sizes all carry negative tracking and `text-wrap: balance`. Body copy
 does not.
 
-## The section rhythm
+## The section rhythm (front page only)
+
+This is how the front page builds a section. Content pages are **not** required
+to follow it, and mostly do not. It is recorded because when a content page
+does want a section head, this is the one to copy rather than inventing a
+second.
 
 Every front-page section is the same three parts, stacked in one column:
 
@@ -81,22 +92,40 @@ Only `transform` and `opacity` animate. `prefers-reduced-motion` collapses every
 spatial move to a `150ms` fade, and `src/index.css` additionally kills the
 ambient keyframe washes that the motion components cannot reach.
 
+## Per-page macrostructures
+
+Each content page is built on the Hallmark shape that fits its content, not on
+the front page's rhythm. Recorded here so the next run does not re-pick blind:
+
+| Page | Macrostructure | Why |
+|---|---|---|
+| `/blog` | Index-First | the page is a list of links |
+| `/blog/:slug` | Long Document | continuous prose, inline section heads |
+| `/changelog` | Narrative Workflow | releases are a real sequence |
+| `/changelog/:version` | Workbench | the notes are mostly app captures |
+| `/why-gryt` | Conversational FAQ | it is questions and trust boundaries |
+| `/privacy`, `/terms`, `/community-guidelines` | Long Document | they are documents |
+| `/invite` | none, component-scope | an app screen with states, not a page |
+
+`/changelog` is worth a note: Narrative Workflow needs a real sequence, and
+there is currently one release in `content/changelog`. A timeline with one dot
+is thin. It was kept deliberately, because it comes good as releases land.
+
 ## What the content pages must share
 
-- The token set, verbatim. No page-local colours.
-- The one type family and the scale above.
-- The eyebrow / heading / sub rhythm for anything that is a section.
-- The motion module, including `once: true`.
-- Hairline rules as the default separator.
+- The token set, verbatim. No page-local colours, no second accent.
+- The one type family. Mono is for values, never for running text.
+- Negative tracking in **em**, never px: px tracking on a `clamp()` size
+  loosens as the viewport grows, which is a bug several of these pages had.
+- A reading measure on running prose. 68ch is what the long pages use.
+- The motion module if the page animates at all. No page defines its own.
 
 ## What they may differ on
 
-- Whether a section is a grid, a list, or running prose. The front page already
-  varies this deliberately: `Edge` is rules and type with no cards precisely
-  because `Compare` and the feature cards below it carry the card weight.
-- Column counts and spans.
+- The whole page shape. See the table above.
 - Whether a page animates at all. A privacy policy that fades in section by
-  section is worse than one that is simply there.
+  section is worse than one that is simply there, and a list that animates in
+  is a list you cannot scan.
 
 ## Standing rules taken from the front-page rebuild
 
@@ -111,18 +140,11 @@ These were decided during that rebuild and are worth not re-litigating:
   large areas outside the share cards.
 - **Status colour means status.** Green is not "good vibes".
 
-## Per-page state, and what this redesign changes
+## Deleted in this pass
 
-| Page | Now | After |
-|---|---|---|
-| `/why-gryt` | prose, then the old `Philosophy` and `Architecture` card grids bolted on the end | one page in the front-page rhythm; the two old components stop being rendered here |
-| `/blog` | card index, pre-rebuild | index in the system's rhythm |
-| `/blog/:slug` | prose page, pre-rebuild | same, with the system's type scale |
-| `/changelog` | list, pre-rebuild | list in the system's rhythm |
-| `/changelog/:version` | entry page, pre-rebuild | same |
-| `/privacy`, `/terms`, `/community-guidelines` | long documents, pre-rebuild | shared document treatment, typography only, no motion |
-| `/invite` | pre-rebuild | brought in line |
+`Philosophy.tsx`, `Architecture.tsx` and their CSS modules. Only `/why-gryt`
+rendered them, bolted onto the end of its prose, and it no longer does.
 
-`Philosophy.tsx` and `Architecture.tsx` are only rendered by `/why-gryt`. This
-redesign stops rendering them there. **It does not delete them** — that is a
-separate call, and a deletion needs to be asked for rather than assumed.
+`PrivacyPolicy.module.css` and `CommunityGuidelines.module.css` were
+byte-identical, with `TermsOfUse` already importing the first. Both are gone;
+the three pages share `src/styles/document.module.css`.
