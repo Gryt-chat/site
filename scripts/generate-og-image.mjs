@@ -22,6 +22,7 @@ import wawoff2 from 'wawoff2';
 import { join, dirname, basename } from 'path';
 import { fileURLToPath } from 'url';
 import { existsSync, readFileSync, readdirSync, mkdirSync } from 'fs';
+import { STATIC_PAGES } from '../src/lib/pages.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const publicDir = join(__dirname, '..', 'public');
@@ -308,14 +309,7 @@ function formatDate(date) {
   return new Date(date).toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' });
 }
 
-const staticPages = [
-  { path: 'why-gryt', title: 'Why Gryt?', description: 'Why we built an open-source, self-hosted voice chat platform.' },
-  { path: 'blog', title: 'Blog', description: 'Stories, updates, and technical deep-dives from the Gryt team.' },
-  { path: 'terms', title: 'Terms of Use', description: 'The terms covering the services we operate. Community servers set their own on top of these.' },
-  { path: 'privacy', title: 'Privacy Policy', description: 'How Gryt handles your data. We collect as little as we can get away with.' },
-  { path: 'community-guidelines', title: 'Community Guidelines', description: 'Rules and expectations for the Gryt community.' },
-  { path: 'invite', title: 'Invite', description: 'Join a Gryt server with an invite link.' },
-];
+
 
 /**
  * Quantised to 64 colours. The grain defeats PNG's row filters, so a truecolour
@@ -340,7 +334,7 @@ await write(buildCard({
 }), join(publicDir, 'og-image.png'));
 
 // Standing pages
-for (const page of staticPages) {
+for (const page of STATIC_PAGES) {
   const outDir = join(publicDir, page.path);
   mkdirSync(outDir, { recursive: true });
   await write(buildCard({
