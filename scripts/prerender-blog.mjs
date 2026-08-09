@@ -1,6 +1,7 @@
 import { readFileSync, writeFileSync, readdirSync, mkdirSync, existsSync } from 'fs';
 import { join, dirname, basename } from 'path';
 import { fileURLToPath } from 'url';
+import { STATIC_PAGES, ALIAS_PAGES } from '../src/lib/pages.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const distDir = join(__dirname, '..', 'dist');
@@ -68,30 +69,10 @@ function renderPage(template, { pageTitle, docTitleName, description, url, ogIma
 const template = readFileSync(join(distDir, 'index.html'), 'utf-8');
 
 // --- Static pages ---
-const staticPages = [
-  { path: 'why-gryt', title: 'Why Gryt?', description: 'Why we built an open-source, self-hosted voice chat platform.' },
-  { path: 'blog', title: 'Blog', description: 'Stories, updates, and technical deep-dives from the Gryt team.' },
-  { path: 'changelog', title: 'Changelog', description: 'What changed in each release of Gryt.' },
-  { path: 'terms', title: 'Terms of Use', description: 'The terms covering the services we operate. Community servers set their own on top of these.' },
-  { path: 'privacy', title: 'Privacy Policy', description: 'How Gryt handles your data. We collect as little as we can get away with.' },
-  { path: 'community-guidelines', title: 'Community Guidelines', description: 'Rules and expectations for the Gryt community.' },
-  { path: 'invite', title: 'Invite', description: 'Join a Gryt server with an invite link.' },
-];
 
-/**
- * Routes that render an existing page under a second URL. They get a directory
- * of their own so nginx can serve them without an SPA catch-all, but their
- * canonical points at the primary — the point of dropping the catch-all is to
- * stop shipping duplicates of the front page, and shipping duplicates of the
- * privacy page instead would be no better.
- */
-const aliasPages = [
-  { path: 'privacy-policy', of: 'privacy' },
-  { path: 'terms-of-use', of: 'terms' },
-  { path: 'guidelines', of: 'community-guidelines' },
-];
 
-for (const page of staticPages) {
+
+for (const page of STATIC_PAGES) {
   const outDir = join(distDir, page.path);
   mkdirSync(outDir, { recursive: true });
   const html = renderPage(template, {
@@ -104,8 +85,8 @@ for (const page of staticPages) {
   console.log(`  dist/${page.path}/index.html`);
 }
 
-for (const alias of aliasPages) {
-  const target = staticPages.find((p) => p.path === alias.of);
+for (const alias of ALIAS_PAGES) {
+  const target = STATIC_PAGES.find((p) => p.path === alias.of);
   if (!target) throw new Error(`alias ${alias.path} points at unknown page ${alias.of}`);
   const outDir = join(distDir, alias.path);
   mkdirSync(outDir, { recursive: true });

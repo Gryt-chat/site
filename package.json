@@ -5,11 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && node scripts/optimize-images.mjs && vite build && node scripts/prerender-blog.mjs",
+    "build": "tsc -b && node scripts/optimize-images.mjs && vite build && node scripts/prerender-blog.mjs && node scripts/check-meta.mjs",
     "lint": "eslint .",
     "preview": "vite preview",
     "generate:og": "node scripts/generate-og-image.mjs",
-    "generate:crops": "node scripts/generate-feature-crops.mjs"
+    "generate:crops": "node scripts/generate-feature-crops.mjs",
+    "check:meta": "node scripts/check-meta.mjs"
   },
   "dependencies": {
     "@mdx-js/rollup": "^3.1.1",

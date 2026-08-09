@@ -15,19 +15,26 @@ import { TermsOfUse } from "./pages/TermsOfUse";
 import { WhyGryt } from "./pages/WhyGryt";
 import { NotFound } from "./pages/NotFound";
 import { HOME_TITLE, pageTitle } from "./lib/title";
+import { STATIC_PAGES, ALIAS_PAGES } from "./lib/pages.mjs";
 
+/**
+ * Derived from the same list the build scripts read, so a page cannot have a
+ * prerendered title and a different client-side one — or, as happened with
+ * /changelog, exist in one list and not another.
+ */
 const pageTitles: Record<string, string> = {
   '/': HOME_TITLE,
-  '/why-gryt': pageTitle('Why Gryt?'),
-  '/blog': pageTitle('Blog'),
-  '/privacy': pageTitle('Privacy Policy'),
-  '/privacy-policy': pageTitle('Privacy Policy'),
-  '/terms': pageTitle('Terms of Use'),
-  '/terms-of-use': pageTitle('Terms of Use'),
-  '/community-guidelines': pageTitle('Community Guidelines'),
-  '/guidelines': pageTitle('Community Guidelines'),
-  '/invite': pageTitle('Invite'),
   '/auth/callback': HOME_TITLE,
+  ...Object.fromEntries(
+    STATIC_PAGES.map((p) => [`/${p.path}`, pageTitle(p.title)]),
+  ),
+  ...Object.fromEntries(
+    ALIAS_PAGES.map((a) => {
+      const target = STATIC_PAGES.find((p) => p.path === a.of);
+      if (!target) throw new Error(`alias /${a.path} points at unknown page ${a.of}`);
+      return [`/${a.path}`, pageTitle(target.title)];
+    }),
+  ),
 };
 
 function ScrollAndTitle() {
