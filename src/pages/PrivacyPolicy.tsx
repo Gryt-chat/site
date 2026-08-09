@@ -1,14 +1,17 @@
-import styles from "./PrivacyPolicy.module.css";
+import { PageHeader } from "../components/PageHeader";
+import styles from "../styles/document.module.css";
 
 const LAST_UPDATED = "February 28, 2026";
 
 export function PrivacyPolicy() {
   return (
     <main className={styles.page}>
-      <header className={styles.header}>
-        <h1 className={styles.title}>Privacy Policy</h1>
-        <p className={styles.subtitle}>Last updated: {LAST_UPDATED}</p>
-      </header>
+      <PageHeader
+        eyebrow="Legal"
+        title="Privacy Policy"
+        lede="How Gryt handles your data on the services we run, and what stays on a server we have nothing to do with."
+        meta={`Last updated ${LAST_UPDATED}`}
+      />
 
       <div className={styles.prose}>
         <p>

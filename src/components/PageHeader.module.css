@@ -1,0 +1,58 @@
+/* Hallmark · genre: atmospheric-technical · design-system: design.md · designed-as-app */
+
+.header {
+  padding-bottom: 28px;
+  margin-bottom: 40px;
+  border-bottom: 1px solid var(--border);
+}
+
+.eyebrow {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--accent);
+  margin-bottom: 12px;
+}
+
+/* Tracking in em, not px. The front page sets it in px on a clamped size, which
+   means the tracking is -0.031em at the small end and -0.021em at the large one
+   — the letterfit visibly loosens as the window grows. em holds it steady. */
+.title {
+  font-size: clamp(32px, 5vw, 48px);
+  font-weight: 800;
+  letter-spacing: -0.028em;
+  line-height: 1.06;
+  text-wrap: balance;
+  /* Long single words in a title (a URL, a version) must break rather than push
+     the page sideways. */
+  overflow-wrap: anywhere;
+  min-width: 0;
+}
+
+.lede {
+  margin-top: 16px;
+  max-width: 62ch;
+  font-size: 17px;
+  line-height: 1.65;
+  color: var(--text-dim);
+  text-wrap: pretty;
+}
+
+.meta {
+  margin-top: 14px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--text-dimmer);
+}
+
+@media (max-width: 768px) {
+  .header {
+    padding-bottom: 22px;
+    margin-bottom: 32px;
+  }
+
+  .lede {
+    font-size: 16px;
+  }
+}

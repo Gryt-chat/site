@@ -1,0 +1,140 @@
+/* Hallmark · genre: atmospheric-technical · design-system: design.md · designed-as-app
+ *
+ * The long-document treatment: privacy, terms, community guidelines.
+ *
+ * These three pages had two byte-identical CSS modules between them, with Terms
+ * already importing Privacy's. This is that file, named for what it is, so the
+ * next document page does not produce a third copy.
+ *
+ * Typography only. No reveals. A policy that fades in section by section is
+ * worse than one that is simply there — someone reading it is usually looking
+ * for one clause and does not want to scroll it into existence first.
+ */
+
+.page {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 120px 24px 96px;
+}
+
+.prose {
+  font-size: 16.5px;
+  line-height: 1.75;
+  color: var(--text);
+}
+
+/* A rule above each section rather than space alone. The front page separates
+   its sections the same way, and in a document this long, space stops reading
+   as a boundary by about the fourth heading. */
+.prose h2 {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  text-wrap: balance;
+  margin: 56px 0 16px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+}
+
+.prose h2:first-child {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
+}
+
+.prose h3 {
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: -0.012em;
+  margin: 32px 0 8px;
+  color: var(--text);
+}
+
+.prose p {
+  margin: 14px 0;
+  max-width: 68ch;
+  text-wrap: pretty;
+}
+
+.prose a {
+  color: var(--accent-light);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--accent-light) 32%, transparent);
+  text-underline-offset: 3px;
+  transition: text-decoration-color 0.2s;
+}
+
+.prose a:hover {
+  text-decoration-color: var(--accent-light);
+}
+
+.prose a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.prose ul,
+.prose ol {
+  padding-left: 22px;
+  margin: 14px 0;
+  max-width: 68ch;
+  list-style: disc;
+}
+
+.prose ol {
+  list-style: decimal;
+}
+
+.prose li {
+  margin: 6px 0;
+}
+
+.prose li::marker {
+  color: var(--accent);
+}
+
+.prose strong {
+  font-weight: 800;
+  color: var(--text);
+}
+
+.prose code {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  color: var(--accent-light);
+}
+
+/* The <hr> in these documents separates whole parts, so it is not the same
+   weight as the rule an h2 carries. */
+.prose hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 56px 0;
+}
+
+@media (max-width: 768px) {
+  .page {
+    padding: 96px 16px 64px;
+  }
+
+  .prose {
+    font-size: 16px;
+  }
+
+  .prose h2 {
+    font-size: 20px;
+    margin: 44px 0 14px;
+    padding-top: 20px;
+  }
+
+  .prose h3 {
+    font-size: 16.5px;
+    margin: 26px 0 8px;
+  }
+}

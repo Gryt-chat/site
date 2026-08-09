@@ -1,111 +1,229 @@
+/* Hallmark · genre: atmospheric-technical · design-system: design.md · designed-as-app
+ *
+ * Rules are a budget, the same way cards are.
+ *
+ * The first pass at this page put a rule above every item in every group — five
+ * sections of them — on the theory that it matched the front page's Edge strip.
+ * It did not. Edge is one strip, once, and that is what makes it read as a
+ * device. Twelve of them read as scaffolding.
+ *
+ * So: three rules on the page that mean anything. Under the header, because a
+ * page head is a real boundary. Around the trust list, because that is the one
+ * section a sceptic came for and a continuous ruled stack is how the front
+ * page's Security Q&A already draws exactly this shape. Above the tail. The
+ * definition groups carry no rules at all — a heading in 800 weight over dim
+ * body copy is already a boundary, and drawing it twice is what made this ugly.
+ */
+
 .page {
   max-width: 860px;
   margin: 0 auto;
-  padding: 120px 24px 60px;
+  padding: 120px 24px 96px;
 }
 
-.header {
-  margin-bottom: 32px;
+.section {
+  margin-bottom: 64px;
 }
 
-.title {
-  font-size: clamp(32px, 5vw, 48px);
+.heading {
+  font-size: clamp(22px, 2.4vw, 28px);
   font-weight: 800;
-  letter-spacing: -1px;
-  margin-bottom: 8px;
+  letter-spacing: -0.024em;
+  line-height: 1.2;
+  text-wrap: balance;
+  margin-bottom: 18px;
 }
 
-.subtitle {
-  font-size: 14px;
-  color: var(--text-dim);
+.lede {
+  max-width: 66ch;
+  font-size: 16.5px;
   line-height: 1.7;
+  color: var(--text-dim);
+  text-wrap: pretty;
+  margin-bottom: 30px;
 }
 
-.prose {
-  font-size: 16px;
-  line-height: 1.8;
-  color: var(--text);
+.note {
+  max-width: 66ch;
+  margin-top: 26px;
+  font-size: 15.5px;
+  line-height: 1.7;
+  color: var(--text-dim);
+  text-wrap: pretty;
 }
 
-.prose h2 {
-  font-size: 24px;
-  font-weight: 750;
-  letter-spacing: -0.3px;
-  margin: 40px 0 14px;
+.note code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  color: var(--accent-light);
 }
 
-.prose h3 {
-  font-size: 18px;
-  font-weight: 750;
-  margin: 28px 0 10px;
-}
-
-.prose p {
-  margin: 14px 0;
-}
-
-.prose a {
+.note a {
   color: var(--accent-light);
   text-decoration: underline;
-  text-decoration-color: rgba(180, 175, 255, 0.3);
+  text-decoration-color: color-mix(in srgb, var(--accent-light) 32%, transparent);
   text-underline-offset: 3px;
-  transition: text-decoration-color 0.2s;
 }
 
-.prose a:hover {
+.note a:hover {
   text-decoration-color: var(--accent-light);
 }
 
-.prose ul,
-.prose ol {
-  padding-left: 24px;
-  margin: 14px 0;
-  list-style: disc;
+/* No rules, no borders, no fills. minmax(0, 1fr) rather than a bare 1fr so a
+   long unbroken token can never force the track wider than the grid. */
+.claims {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 30px 34px;
 }
 
-.prose ol {
-  list-style: decimal;
+.claim h3 {
+  font-size: 16.5px;
+  font-weight: 800;
+  letter-spacing: -0.014em;
+  line-height: 1.3;
+  text-wrap: balance;
+  margin-bottom: 8px;
+  overflow-wrap: anywhere;
 }
 
-.prose li {
-  margin: 6px 0;
+.claim p {
+  font-size: 15.5px;
+  line-height: 1.65;
+  color: var(--text-dim);
+  text-wrap: pretty;
 }
 
-.prose li::marker {
-  color: var(--text-dimmer);
+/* The one ruled block on the page. Same construction as the front page's
+   Security Q&A: a single column, hairline between rows, closed at the bottom,
+   so it reads as one table rather than as three floating headings. */
+.trust {
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid var(--border);
 }
 
-.prose strong {
-  font-weight: 750;
+.trustItem {
+  padding: 20px 0;
+  border-top: 1px solid var(--border);
+}
+
+.trustItem h3 {
+  font-size: 16.5px;
+  font-weight: 800;
+  letter-spacing: -0.012em;
+  margin-bottom: 8px;
   color: var(--text);
 }
 
-.prose code {
-  font-family: var(--font-mono);
-  font-size: 0.875em;
-  padding: 2px 6px;
-  border-radius: 4px;
-  background: rgba(255, 255, 255, 0.06);
+.trustItem p {
+  max-width: 68ch;
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--text-dim);
+  text-wrap: pretty;
+}
+
+.questions {
+  display: grid;
+  gap: 28px 34px;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+}
+
+.question h3 {
+  font-size: 16.5px;
+  font-weight: 800;
+  letter-spacing: -0.012em;
+  line-height: 1.3;
+  text-wrap: balance;
+  margin-bottom: 8px;
+}
+
+.question p {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--text-dim);
+  text-wrap: pretty;
+}
+
+/* Scroll container only. Mermaid.tsx draws its own bordered, padded, filled box
+   inline, so giving this wrapper a border and a fill too produced a card inside
+   a card. */
+.diagram {
+  overflow-x: auto;
+}
+
+.tail {
+  padding-top: 34px;
+  border-top: 1px solid var(--border);
+}
+
+.tailHeading {
+  font-size: 19px;
+  font-weight: 800;
+  letter-spacing: -0.018em;
+  margin-bottom: 14px;
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* Was two anchors separated by <br>, which gave a screen reader no list and
+   left each link a text-height target wedged between two lines of prose. */
+.links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 15px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-card);
+  color: var(--text);
+  font-size: 14.5px;
+  font-weight: 700;
+  /* Nowrap so a link never breaks across two lines: a two-line tap target is
+     the most common way a mobile link becomes unhittable. */
+  white-space: nowrap;
+  transition: border-color 0.18s ease-out;
+}
+
+.links a span {
   color: var(--accent-light);
+  transition: transform 0.18s ease-out;
+}
+
+.links a:hover {
+  border-color: var(--accent);
+}
+
+.links a:hover span {
+  transform: translateX(3px);
+}
+
+.links a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Three across, or one. Never two — auto-fit dropped these to two columns and
+   stranded the third claim alone on a second row, which reads as an
+   afterthought rather than as the third of three. */
+@media (max-width: 760px) {
+  .claims {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 26px;
+  }
 }
 
 @media (max-width: 768px) {
   .page {
-    padding: 100px 16px 60px;
+    padding: 96px 16px 64px;
   }
 
-  .prose {
-    font-size: 15px;
-  }
-
-  .prose h2 {
-    font-size: 20px;
-    margin: 32px 0 12px;
-  }
-
-  .prose h3 {
-    font-size: 17px;
-    margin: 24px 0 10px;
+  .section {
+    margin-bottom: 48px;
   }
 }
-
