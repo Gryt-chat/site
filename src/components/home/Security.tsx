@@ -2,7 +2,18 @@ import { motion, useReducedMotion } from "motion/react";
 import { inView, rise, stagger } from "./motion";
 import styles from "./Security.module.css";
 
-/** Source: docs/guide/security.mdx and docs/guide/why-gryt.mdx § Skeptic FAQ. */
+/**
+ * Source: docs/guide/security.mdx and docs/guide/why-gryt.mdx § Skeptic FAQ.
+ *
+ * The IP answer is not from the docs. It is read off the code: the client builds
+ * exactly one RTCPeerConnection and it terminates at the SFU
+ * (webRTC/src/hooks/sfuConnectFlow.ts), and there is no peer-to-peer path in the
+ * SFU at all. A mesh would need a connection per participant, and the client
+ * keeps a single ref. The competitor sentence is checked too — Jitsi Meet ships
+ * `p2p.enabled: true` and uses it for two-participant calls, and Matrix's legacy
+ * one-to-one calls are direct WebRTC. Recheck both before repeating the claim;
+ * this is the kind of line that quietly goes stale.
+ */
 const claims = [
   {
     q: "Can a malicious server steal my login?",
@@ -11,6 +22,10 @@ const claims = [
   {
     q: "Can the SFU listen to my voice?",
     a: "No. It forwards encrypted RTP without decrypting it. Routing audio and hearing audio are different jobs, and it only does the first.",
+  },
+  {
+    q: "Can the people I talk to see my IP address?",
+    a: "No. Your client connects to the server and to nothing else, so the only address anyone in the call learns is the server's. Worth saying because it is not universal: Jitsi Meet connects two people directly when a call has only two people in it, and Matrix's one-to-one calls do the same. Discord routes through its own servers as well, so this is table stakes rather than something we do and they do not. The server operator does see your address, and if you did not set that server up, that is someone you are trusting.",
   },
   {
     q: "What if a server changes its identity key?",
@@ -41,7 +56,7 @@ export function Security() {
           </motion.h2>
           <motion.p className={styles.sub} variants={rise(reduced)}>
             A security page that only lists the good parts is marketing. These
-            are the four things people actually ask, including the one where the
+            are the things people actually ask, including the ones where the
             answer is not flattering.
           </motion.p>
         </div>
