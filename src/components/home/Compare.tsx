@@ -202,7 +202,7 @@ export function Compare() {
           at $2.99 for Nitro Basic, $9.99 for Nitro and $4.99 per server boost;
           a boost level is the boost count times that, and Nitro subscribers
           get two boosts included and 30% off the rest. TeamSpeak is scored on
-          its stable client, which has no screen sharing or webcam — the
+          its stable client, which has no screen sharing or webcam. The
           TeamSpeak 6 beta adds both. If anything here is out of date,{" "}
           <a href="https://github.com/Gryt-chat/gryt/issues" target="_blank" rel="noreferrer">
             tell us and we will fix it

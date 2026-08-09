@@ -17,13 +17,13 @@ export function PrivacyPolicy() {
         </p>
         <ul>
           <li>
-            <strong>app.gryt.chat</strong> — the Gryt web client
+            <strong>app.gryt.chat</strong>, the Gryt web client
           </li>
           <li>
-            <strong>auth.gryt.chat</strong> — our authentication service
+            <strong>auth.gryt.chat</strong>, our authentication service
           </li>
           <li>
-            <strong>id.gryt.chat</strong> — our identity certificate service
+            <strong>id.gryt.chat</strong>, our identity certificate service
           </li>
         </ul>
 
@@ -44,7 +44,7 @@ export function PrivacyPolicy() {
         </p>
         <ul>
           <li>Email address</li>
-          <li>Password (hashed — never stored in plain text)</li>
+          <li>Password (hashed, never stored in plain text)</li>
           <li>
             Account metadata needed for authentication (internal identifiers,
             email verification status)
@@ -58,14 +58,14 @@ export function PrivacyPolicy() {
           <strong>id.gryt.chat</strong> along with your authentication token.
           The identity service verifies your token, issues a short-lived
           certificate binding your identity to that key, and returns it. No user
-          data is stored by this service — it processes your public key and
+          data is stored by this service. It processes your public key and
           identity claims only for the duration of the request.
         </p>
 
         <h3>Operational logs</h3>
         <p>
           Like most web services, our servers may record minimal operational
-          data for security and reliability — for example, IP addresses,
+          data for security and reliability, for example IP addresses,
           user-agent strings, and request timestamps. We do not use analytics or
           cross-site tracking.
         </p>
@@ -81,7 +81,7 @@ export function PrivacyPolicy() {
         <h2>Data on your device</h2>
         <p>
           The Gryt client stores data locally in your browser to keep you
-          signed in and remember your preferences — for example, authentication
+          signed in and remember your preferences, for example authentication
           tokens, a cryptographic identity keypair used for server verification,
           identity certificates, and UI settings. Your private key never leaves
           your device. This data stays on your device and is not sent to us.
@@ -89,7 +89,7 @@ export function PrivacyPolicy() {
 
         <h2>Data on servers you connect to</h2>
         <p>
-          When you use a Gryt server, the server operator — not Gryt Chat —
+          When you use a Gryt server, the server operator, not Gryt Chat,
           stores and controls the data you send, which typically includes:
         </p>
         <ul>

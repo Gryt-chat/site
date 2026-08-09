@@ -22,7 +22,7 @@ export function CommunityGuidelines() {
           <strong>Gryt servers:</strong> Gryt can connect to servers run by
           other people (including your own self-hosted servers). Those server
           operators set their own rules and enforcement. Gryt Chat does not run
-          an “official” server you can join under the Gryt Chat name.
+          an "official" server you can join under the Gryt Chat name.
         </p>
 
         <h2>Follow the law</h2>
@@ -31,7 +31,7 @@ export function CommunityGuidelines() {
           regulations. Do not use Gryt to engage in illegal activity.
         </p>
 
-        <h2>What’s not allowed</h2>
+        <h2>What's not allowed</h2>
         <p>
           The following content and behavior are not permitted on services we
           operate:
@@ -68,7 +68,7 @@ export function CommunityGuidelines() {
           </li>
           <li>
             <strong>Unauthorized sharing of personal data</strong>: doxxing or
-            sharing someone’s private information without permission.
+            sharing someone's private information without permission.
           </li>
         </ul>
 
@@ -83,7 +83,7 @@ export function CommunityGuidelines() {
         <ul>
           <li>
             <strong>Report</strong>: report issues in the relevant community
-            space (or to the server operator if it’s a server you joined).
+            space (or to the server operator if it's a server you joined).
           </li>
           <li>
             <strong>Moderation</strong>: server admins/moderators can remove

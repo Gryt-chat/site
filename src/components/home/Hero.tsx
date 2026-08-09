@@ -1,5 +1,5 @@
 import { motion, useReducedMotion } from "motion/react";
-import { GrytLogo } from "../GrytLogo";
+import { FaGithub } from "react-icons/fa";
 import { DownloadIcon, GlobeIcon } from "../icons";
 import { rise, stagger } from "./motion";
 import styles from "./Hero.module.css";
@@ -36,7 +36,7 @@ export function Hero() {
           target="_blank"
           rel="noreferrer"
         >
-          <GrytLogo size={18} />
+          <FaGithub size={16} aria-hidden="true" />
           Open source under AGPL-3.0
           <span className={styles.badgeArrow} aria-hidden="true">
             →

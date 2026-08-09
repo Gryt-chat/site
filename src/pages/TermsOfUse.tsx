@@ -17,10 +17,10 @@ export function TermsOfUse() {
         </p>
         <ul>
           <li>
-            <strong>app.gryt.chat</strong> — the Gryt web client
+            <strong>app.gryt.chat</strong>, the Gryt web client
           </li>
           <li>
-            <strong>auth.gryt.chat</strong> — our authentication service
+            <strong>auth.gryt.chat</strong>, our authentication service
           </li>
         </ul>
         <p>

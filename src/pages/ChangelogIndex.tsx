@@ -5,7 +5,7 @@ import styles from './ChangelogIndex.module.css'
 
 export function ChangelogIndex() {
   useEffect(() => {
-    document.title = 'Changelog — Gryt'
+    document.title = 'Changelog · Gryt'
   }, [])
 
   return (
