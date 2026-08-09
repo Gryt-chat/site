@@ -10,7 +10,8 @@ import styles from "./Compare.module.css";
  * is already settled and the honest answer is that they are good.
  *
  * Every Gryt figure below was read out of the source, not remembered:
- *   uploads 100 MB, avatars and emoji 5 MB   server/src/db/interfaces.ts:76-82
+ *   uploads, avatars, emoji all 100 MB      server/src/db/interfaces.ts:84-88
+ *   upload ceiling: operator's, 0 = none    socket/handlers/admin.ts:157
  *   voice bitrate default 96, ceiling 510    interfaces.ts:83, channels.ts:65
  *   screen share fps ladder                  client useScreenShare.ts:15
  *   custom invite codes                      server/src/db/sqlite/invites.ts:31
@@ -28,6 +29,16 @@ const paidElsewhere = [
   { label: "Screen sharing", gryt: "Up to 240 fps, native", discord: "1080p60 on Nitro", cost: "$9.99/mo", teamspeak: "\u2014" },
   { label: "Animated server icon", gryt: "Included", discord: "2 boosts", cost: "$9.98/mo", teamspeak: "\u2014" },
   { label: "Voice bitrate", gryt: "Up to 510 kbps", discord: "384 kbps at 14 boosts", cost: "$69.86/mo", teamspeak: "128 kbps" },
+  // Discord's 500 MB is off their own Nitro page, which states 50MB and 500MB
+  // uploads for the two tiers. Their free-tier figure is deliberately absent:
+  // the only sources for it are SEO blogs and one forum post, and a number we
+  // cannot cite from Discord is not going in a table arguing they overcharge.
+  //
+  // "Whatever the host allows" rather than "Unlimited", because unlimited is
+  // what the software permits and not what any given server will accept. The
+  // operator sets the number, 0 means no limit, and a server behind Cloudflare
+  // is capped at 100 MB at the edge whatever it says.
+  { label: "File upload size", gryt: "Whatever the host allows", discord: "500 MB on Nitro", cost: "$9.99/mo", teamspeak: "Your disk" },
   { label: "Custom invite link", gryt: "Included", discord: "14 boosts", cost: "$69.86/mo", teamspeak: "\u2014" },
   { label: "Your own domain", gryt: "Included", discord: "\u2014", teamspeak: "Included" },
   { label: "Addons and plugins", gryt: "Included", discord: "\u2014", teamspeak: "Included" },
