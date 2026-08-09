@@ -1,89 +1,193 @@
+/* Hallmark · macrostructure: Narrative Workflow · tone: technical · anchor hue: periwinkle
+ *
+ * Releases are a real sequence, which is the one thing Narrative Workflow
+ * requires — it explicitly does not work for things that happen in a single
+ * moment. The version number is the stage label, set large in mono, and the
+ * rail down the left is the thing that makes it read as a timeline rather than
+ * as a list of cards. The previous version was cards, which gave 1.4.0 and a
+ * patch release identical visual weight.
+ *
+ * The rail is drawn with a pseudo-element rather than a border on the <li> so
+ * it can stop short at the last stage: a timeline whose line runs past its last
+ * entry looks like the page failed to load the rest.
+ */
+
 .page {
-  max-width: 860px;
+  max-width: 800px;
   margin: 0 auto;
-  padding: 120px 24px 80px;
+  padding: 120px 24px 96px;
 }
 
-.header {
-  margin-bottom: 48px;
+.head {
+  margin-bottom: 56px;
 }
 
 .title {
-  font-size: clamp(32px, 5vw, 48px);
+  font-size: clamp(32px, 5vw, 44px);
   font-weight: 800;
-  letter-spacing: -1px;
-  margin-bottom: 8px;
+  letter-spacing: -0.028em;
+  line-height: 1.06;
+  margin-bottom: 12px;
 }
 
-.subtitle {
-  font-size: 16px;
+.sub {
+  font-size: 16.5px;
   color: var(--text-dim);
-  line-height: 1.7;
+  max-width: 56ch;
 }
 
-.grid {
+.stages {
+  list-style: none;
+}
+
+.stage {
+  position: relative;
+}
+
+.link {
+  display: grid;
+  grid-template-columns: 14px minmax(0, 1fr);
+  gap: 22px;
+  padding: 0 0 40px;
+  color: var(--text);
+}
+
+.link:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+/* The rail: a dot at the stage, a line running down to the next one. The line
+   is on the rail element and the last stage's is removed below, so it ends
+   where the sequence does. */
+.rail {
+  position: relative;
+  display: block;
+}
+
+.rail::before {
+  content: '';
+  position: absolute;
+  top: 6px;
+  left: 3px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  transition: box-shadow 0.18s ease-out;
+}
+
+.rail::after {
+  content: '';
+  position: absolute;
+  top: 20px;
+  bottom: -6px;
+  left: 6.5px;
+  width: 1px;
+  background: var(--border);
+}
+
+.stage:last-child .rail::after {
+  display: none;
+}
+
+.link:hover .rail::before {
+  box-shadow: 0 0 0 4px var(--accent-glow);
+}
+
+.body {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-}
-
-.card {
-  display: block;
-  padding: 20px 24px;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  text-decoration: none;
-  color: inherit;
-  transition: border-color 0.15s ease, transform 0.15s ease;
-}
-
-.card:hover {
-  border-color: var(--accent);
-  transform: translateY(-1px);
-}
-
-.meta {
-  display: flex;
-  align-items: center;
   gap: 8px;
-  font-size: 13px;
-  color: var(--text-dim);
-  margin-bottom: 6px;
+  min-width: 0;
 }
 
+.versionRow {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* The stage label. Mono because a version is a value, not a word. */
 .version {
-  font-weight: 700;
-  font-size: 16px;
-  color: var(--text);
-  letter-spacing: -0.3px;
+  font-family: var(--font-mono);
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  transition: color 0.18s ease-out;
 }
 
-/* Amber rather than the brand violet, matching how a beta build marks itself in
-   the desktop app — the point is to tell them apart at a glance. */
+.link:hover .version {
+  color: var(--accent-light);
+}
+
 .beta {
+  padding: 2px 8px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--bg-card);
+  font-family: var(--font-mono);
   font-size: 11px;
   font-weight: 700;
-  text-transform: uppercase;
   letter-spacing: 0.5px;
-  padding: 2px 6px;
-  border-radius: 4px;
-  background: rgba(242, 163, 60, 0.15);
-  color: #f2a33c;
+  color: var(--yellow);
 }
 
-.dot {
-  opacity: 0.5;
+.date {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: var(--text-dimmer);
 }
 
 .headline {
-  font-size: 15px;
-  line-height: 1.6;
+  font-size: 16px;
+  line-height: 1.65;
   color: var(--text-dim);
-  margin: 0;
+  max-width: 60ch;
+  text-wrap: pretty;
 }
 
-@media (max-width: 640px) {
+.more {
+  margin-top: 2px;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--accent-light);
+  opacity: 0;
+  transition: opacity 0.18s ease-out;
+}
+
+.link:hover .more,
+.link:focus-visible .more {
+  opacity: 1;
+}
+
+/* The hover-revealed affordance is decoration on a device that has no hover.
+   On touch it is always visible, because there is no other cue that the whole
+   stage is a link. */
+@media (hover: none) {
+  .more {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 768px) {
   .page {
-    padding: 100px 20px 60px;
+    padding: 96px 16px 64px;
+  }
+
+  .head {
+    margin-bottom: 40px;
+  }
+
+  .link {
+    gap: 16px;
+    padding-bottom: 32px;
+  }
+
+  .version {
+    font-size: 19px;
   }
 }

@@ -4,6 +4,12 @@ import { releases } from '../lib/changelog'
 import { pageTitle } from '../lib/title'
 import styles from './ChangelogIndex.module.css'
 
+const DATE = new Intl.DateTimeFormat('en-GB', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+})
+
 export function ChangelogIndex() {
   useEffect(() => {
     document.title = pageTitle('Changelog')
@@ -11,40 +17,46 @@ export function ChangelogIndex() {
 
   return (
     <main className={styles.page}>
-      <div className={styles.header}>
+      <header className={styles.head}>
         <h1 className={styles.title}>Changelog</h1>
-        <p className={styles.subtitle}>
+        <p className={styles.sub}>
           What changed in each release of Gryt, newest first.
         </p>
-      </div>
+      </header>
 
-      <div className={styles.grid}>
+      <ol className={styles.stages}>
         {releases.map((release) => (
-          <Link
-            key={release.slug}
-            to={`/changelog/${release.slug}`}
-            className={styles.card}
-          >
-            <div className={styles.meta}>
-              <span className={styles.version}>v{release.frontmatter.version}</span>
-              {release.frontmatter.channel === 'beta' && (
-                <span className={styles.beta}>Beta</span>
-              )}
-              <span className={styles.dot}>·</span>
-              <time dateTime={new Date(release.frontmatter.date).toISOString()}>
-                {new Date(release.frontmatter.date).toLocaleDateString('en-US', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric',
-                })}
-              </time>
-            </div>
-            {release.frontmatter.headline && (
-              <p className={styles.headline}>{release.frontmatter.headline}</p>
-            )}
-          </Link>
+          <li key={release.slug} className={styles.stage}>
+            <Link to={`/changelog/${release.slug}`} className={styles.link}>
+              <span className={styles.rail} aria-hidden="true" />
+              <span className={styles.body}>
+                <span className={styles.versionRow}>
+                  <span className={styles.version}>
+                    {release.frontmatter.version}
+                  </span>
+                  {release.frontmatter.channel === 'beta' && (
+                    <span className={styles.beta}>Beta</span>
+                  )}
+                  <time
+                    className={styles.date}
+                    dateTime={new Date(release.frontmatter.date).toISOString()}
+                  >
+                    {DATE.format(new Date(release.frontmatter.date))}
+                  </time>
+                </span>
+                {release.frontmatter.headline && (
+                  <span className={styles.headline}>
+                    {release.frontmatter.headline}
+                  </span>
+                )}
+                <span className={styles.more} aria-hidden="true">
+                  Read the notes →
+                </span>
+              </span>
+            </Link>
+          </li>
         ))}
-      </div>
+      </ol>
     </main>
   )
 }
