@@ -93,6 +93,12 @@
   min-height: 92px;
   display: grid;
   align-content: start;
+  gap: 12px;
+}
+
+.hint {
+  font-size: 13px;
+  color: var(--text-dimmer);
 }
 
 .waiting {

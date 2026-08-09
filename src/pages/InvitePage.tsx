@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { GrytLogo } from "../components/GrytLogo";
-import styles from "./InvitePage.module.css";
+import styles from "../styles/handoff.module.css";
 
 type ServerPreview = {
   name: string;
