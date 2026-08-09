@@ -1,0 +1,183 @@
+/* Hallmark · component-scope: invite screen · no macrostructure · anchor hue: periwinkle
+ *
+ * An app screen rather than a page, so the work here is states, not shape.
+ * The one panel is centred in the viewport because there is exactly one
+ * decision to make and nothing to scroll to.
+ */
+
+.page {
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: 120px 24px 64px;
+}
+
+.panel {
+  width: 100%;
+  max-width: 420px;
+  text-align: center;
+}
+
+.logo {
+  margin: 0 auto 20px;
+}
+
+.icon,
+.iconFallback {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 22px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+}
+
+.icon {
+  object-fit: cover;
+  background: var(--bg-card);
+}
+
+.iconFallback {
+  display: grid;
+  place-items: center;
+  background: var(--bg-card);
+  font-size: 30px;
+  font-weight: 800;
+  color: var(--accent-light);
+}
+
+.kicker {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--accent);
+  margin-bottom: 10px;
+}
+
+.title {
+  font-size: clamp(24px, 4vw, 30px);
+  font-weight: 800;
+  letter-spacing: -0.024em;
+  line-height: 1.15;
+  text-wrap: balance;
+  /* A server name can be one long unbroken token. Break it rather than let it
+     push the panel wider than the screen. */
+  overflow-wrap: anywhere;
+  min-width: 0;
+}
+
+.body {
+  margin-top: 12px;
+  font-size: 15.5px;
+  line-height: 1.65;
+  color: var(--text-dim);
+  text-wrap: pretty;
+}
+
+.host {
+  margin-top: 12px;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: var(--text-dimmer);
+  overflow-wrap: anywhere;
+}
+
+.hostName {
+  color: var(--text-dim);
+}
+
+/* Reserves the taller of the two states so the panel does not jump when the
+   deep link times out and the buttons replace the waiting line. */
+.state {
+  margin-top: 28px;
+  min-height: 92px;
+  display: grid;
+  align-content: start;
+  gap: 12px;
+}
+
+.hint {
+  font-size: 13px;
+  color: var(--text-dimmer);
+}
+
+.waiting {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  font-size: 14.5px;
+  color: var(--text-dim);
+}
+
+.pulse {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: pulse 1.4s var(--ease-out, cubic-bezier(0.16, 1, 0.3, 1)) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.25; transform: scale(0.82); }
+  50%      { opacity: 1;    transform: scale(1); }
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.primary,
+.secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 18px;
+  border-radius: var(--radius-sm);
+  font-size: 15px;
+  font-weight: 700;
+  border: 1px solid transparent;
+  transition: background-color 0.18s ease-out, border-color 0.18s ease-out;
+}
+
+.primary {
+  background: var(--accent);
+  color: #16131f;
+}
+
+.primary:hover {
+  background: var(--accent-light);
+  color: #16131f;
+}
+
+.secondary {
+  border-color: var(--border);
+  background: var(--bg-card);
+  color: var(--text);
+}
+
+.secondary:hover {
+  border-color: var(--accent);
+  color: var(--text);
+}
+
+.primary:focus-visible,
+.secondary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pulse {
+    animation: none;
+    opacity: 0.7;
+  }
+}
+
+@media (max-width: 768px) {
+  .page {
+    padding: 100px 16px 48px;
+  }
+}

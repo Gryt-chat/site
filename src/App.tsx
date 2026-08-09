@@ -13,6 +13,7 @@ import { CommunityGuidelines } from "./pages/CommunityGuidelines";
 import { InvitePage } from "./pages/InvitePage";
 import { TermsOfUse } from "./pages/TermsOfUse";
 import { WhyGryt } from "./pages/WhyGryt";
+import { NotFound } from "./pages/NotFound";
 import { HOME_TITLE, pageTitle } from "./lib/title";
 
 const pageTitles: Record<string, string> = {
@@ -64,6 +65,10 @@ export default function App() {
         <Route path="/guidelines" element={<CommunityGuidelines />} />
         <Route path="/invite" element={<InvitePage />} />
         <Route path="/auth/callback" element={<AuthCallbackPage />} />
+        {/* Without this, an unmatched URL rendered an empty <Routes>: the footer
+            sat directly under the navbar with no content and the page kept the
+            template title, so it read as a page that had loaded. */}
+        <Route path="*" element={<NotFound />} />
       </Routes>
       {!hideChrome && <Footer />}
     </>

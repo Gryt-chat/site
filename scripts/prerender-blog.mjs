@@ -62,6 +62,7 @@ const staticPages = [
   { path: 'why-gryt', title: 'Why Gryt?', description: 'Why we built an open-source, self-hosted voice chat platform.' },
   { path: 'blog', title: 'Blog', description: 'Stories, updates, and technical deep-dives from the Gryt team.' },
   { path: 'changelog', title: 'Changelog', description: 'What changed in each release of Gryt.' },
+  { path: 'terms', title: 'Terms of Use', description: 'The terms covering the services we operate. Community servers set their own on top of these.' },
   { path: 'privacy', title: 'Privacy Policy', description: 'How Gryt handles your data. We collect as little as we can get away with.' },
   { path: 'community-guidelines', title: 'Community Guidelines', description: 'Rules and expectations for the Gryt community.' },
   { path: 'invite', title: 'Invite', description: 'Join a Gryt server with an invite link.' },

@@ -1,14 +1,17 @@
-import styles from "./PrivacyPolicy.module.css";
+import { PageHeader } from "../components/PageHeader";
+import styles from "../styles/document.module.css";
 
 const LAST_UPDATED = "February 27, 2026";
 
 export function TermsOfUse() {
   return (
     <main className={styles.page}>
-      <header className={styles.header}>
-        <h1 className={styles.title}>Terms of Use</h1>
-        <p className={styles.subtitle}>Last updated: {LAST_UPDATED}</p>
-      </header>
+      <PageHeader
+        eyebrow="Legal"
+        title="Terms of Use"
+        lede="The terms covering the services we operate. Community servers set their own on top of these."
+        meta={`Last updated ${LAST_UPDATED}`}
+      />
 
       <div className={styles.prose}>
         <p>

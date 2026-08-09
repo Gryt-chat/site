@@ -1,14 +1,17 @@
-import styles from "./CommunityGuidelines.module.css";
+import { PageHeader } from "../components/PageHeader";
+import styles from "../styles/document.module.css";
 
 const LAST_UPDATED = "February 23, 2026";
 
 export function CommunityGuidelines() {
   return (
     <main className={styles.page}>
-      <header className={styles.header}>
-        <h1 className={styles.title}>Community Guidelines</h1>
-        <p className={styles.subtitle}>Last updated: {LAST_UPDATED}</p>
-      </header>
+      <PageHeader
+        eyebrow="Community"
+        title="Community Guidelines"
+        lede="What we expect in Gryt Chat community spaces, and what happens when someone ignores it."
+        meta={`Last updated ${LAST_UPDATED}`}
+      />
 
       <div className={styles.prose}>
         <p>
