@@ -2,6 +2,7 @@ import { lazy, Suspense, useEffect } from 'react'
 import { useParams, Link, Navigate } from 'react-router-dom'
 import { MdChevronLeft } from 'react-icons/md'
 import { getPost } from '../lib/blog'
+import { pageTitle } from '../lib/title'
 import { LightboxImage } from '../components/Lightbox'
 import styles from './BlogPost.module.css'
 import type { ComponentPropsWithoutRef } from 'react'
@@ -37,7 +38,7 @@ export function BlogPost() {
 
   useEffect(() => {
     if (post) {
-      document.title = post.frontmatter.title
+      document.title = pageTitle(post.frontmatter.title)
     }
   }, [post])
 

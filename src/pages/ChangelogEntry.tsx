@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { useParams, Link, Navigate } from 'react-router-dom'
 import { MdChevronLeft } from 'react-icons/md'
 import { getRelease } from '../lib/changelog'
+import { pageTitle } from '../lib/title'
 import { LightboxImage } from '../components/Lightbox'
 import styles from './ChangelogEntry.module.css'
 import type { ComponentPropsWithoutRef } from 'react'
@@ -70,7 +71,7 @@ export function ChangelogEntry() {
 
   useEffect(() => {
     if (release) {
-      document.title = `Gryt ${release.frontmatter.version} · Changelog`
+      document.title = pageTitle(`${release.frontmatter.version} | Changelog`)
     }
   }, [release])
 

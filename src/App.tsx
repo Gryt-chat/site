@@ -13,19 +13,20 @@ import { CommunityGuidelines } from "./pages/CommunityGuidelines";
 import { InvitePage } from "./pages/InvitePage";
 import { TermsOfUse } from "./pages/TermsOfUse";
 import { WhyGryt } from "./pages/WhyGryt";
+import { HOME_TITLE, pageTitle } from "./lib/title";
 
 const pageTitles: Record<string, string> = {
-  '/': 'Gryt',
-  '/why-gryt': 'Why Gryt?',
-  '/blog': 'Blog',
-  '/privacy': 'Privacy Policy',
-  '/privacy-policy': 'Privacy Policy',
-  '/terms': 'Terms of Use',
-  '/terms-of-use': 'Terms of Use',
-  '/community-guidelines': 'Community Guidelines',
-  '/guidelines': 'Community Guidelines',
-  '/invite': 'Invite',
-  '/auth/callback': 'Gryt',
+  '/': HOME_TITLE,
+  '/why-gryt': pageTitle('Why Gryt?'),
+  '/blog': pageTitle('Blog'),
+  '/privacy': pageTitle('Privacy Policy'),
+  '/privacy-policy': pageTitle('Privacy Policy'),
+  '/terms': pageTitle('Terms of Use'),
+  '/terms-of-use': pageTitle('Terms of Use'),
+  '/community-guidelines': pageTitle('Community Guidelines'),
+  '/guidelines': pageTitle('Community Guidelines'),
+  '/invite': pageTitle('Invite'),
+  '/auth/callback': HOME_TITLE,
 };
 
 function ScrollAndTitle() {
