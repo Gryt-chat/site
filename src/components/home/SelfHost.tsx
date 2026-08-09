@@ -15,7 +15,9 @@ const INSTALL = `mkdir gryt && cd gryt
 curl -Lo docker-compose.yml https://raw.githubusercontent.com/Gryt-chat/gryt/main/ops/deploy/compose/prod.yml
 curl -Lo .env https://raw.githubusercontent.com/Gryt-chat/gryt/main/ops/deploy/compose/.env.example
 
-# set SERVER_NAME, SFU_PUBLIC_HOST, and a real secret
+# change these two, leave the third alone
+echo 'SERVER_NAME=My Gryt Server'            >> .env
+echo 'SFU_PUBLIC_HOST=wss://sfu.example.com' >> .env
 echo "JWT_SECRET=$(openssl rand -base64 48)" >> .env
 
 docker compose up -d`;
@@ -83,8 +85,10 @@ export function SelfHost() {
         </motion.figure>
 
         <motion.p className={styles.docs} variants={rise(reduced)}>
-          Open <code>.env</code> and set your server name and the SFU's public
-          host before the last line.{" "}
+          The two <code>echo</code> lines append over the defaults already in{" "}
+          <code>.env</code>, so the last value wins and you never open an
+          editor. <code>SFU_PUBLIC_HOST</code> is the address browsers reach
+          your media server on.{" "}
           <a
             href="https://docs.gryt.chat/docs/guide/quick-start"
             target="_blank"

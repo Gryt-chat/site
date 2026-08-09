@@ -13,7 +13,7 @@ const figures = [
   { value: 4, suffix: "+", label: "years, since May 2022" },
   { value: 2, suffix: "", label: "of them spent learning WebRTC first" },
   { value: 170, suffix: "+", label: "people using it" },
-  { value: 1, suffix: "", label: "maintainer, which is the honest number" },
+  { value: 1, suffix: "", label: "maintainer, and no second reviewer" },
 ];
 
 function Counter({ value, suffix }: { value: number; suffix: string }) {
