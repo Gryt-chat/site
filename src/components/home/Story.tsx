@@ -61,21 +61,17 @@ export function Story() {
 
         <motion.div className={styles.prose} variants={rise(reduced)}>
           <p>
-            Gryt has been in development since May 2022. Roughly two of those
-            years went into WebRTC before the media server was written at all.
-            I asked every developer at my workplace how ICE negotiation and
-            DTLS-SRTP actually work and not one of them could tell me, so it was
-            me, the RFCs and a lot of trial and error.
-          </p>
-          <p>
-            The SFU is written in Go on{" "}
+            Gryt has been in development since May 2022, and roughly two of
+            those years went into WebRTC before the media server was written at
+            all. I asked every developer at my workplace how ICE negotiation and
+            DTLS-SRTP actually work, and not one of them could tell me. So it
+            was me, the RFCs and a lot of trial and error. The SFU is written in
+            Go on{" "}
             <a href="https://github.com/pion/webrtc" target="_blank" rel="noreferrer">
               Pion
             </a>{" "}
             rather than an off-the-shelf SDK, because when something breaks in
-            production I want to trace it from the application layer down to an
-            individual RTP packet. That decision cost years and it is the reason
-            voice holds up.
+            production I want to trace it down to an individual RTP packet.
           </p>
           <p>
             AI helps with parts of this project, and where it does the commits

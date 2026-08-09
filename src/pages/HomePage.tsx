@@ -1,6 +1,5 @@
 import { Hero } from '../components/home/Hero'
 import { Edge } from '../components/home/Edge'
-import { Pillars } from '../components/home/Pillars'
 import { FeatureGrid } from '../components/home/FeatureGrid'
 import { Compare } from '../components/home/Compare'
 import { Security } from '../components/home/Security'
@@ -13,11 +12,10 @@ export function HomePage() {
     <>
       <Hero />
       <Edge />
-      <Pillars />
       <FeatureGrid />
       <Compare />
-      <Security />
       <Story />
+      <Security />
       <SelfHost />
       <Download />
     </>
