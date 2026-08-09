@@ -10,7 +10,7 @@ import styles from "./Pillars.module.css";
 const pillars = [
   {
     title: "Open source, all of it",
-    body: "Not just the client. The signalling server, the Go media server, the image worker, the docs, this site, and the authentication stack — Keycloak realm, custom theme, and the identity certificate authority — are all AGPL-3.0 and all readable. Run the whole thing yourself and you depend on nothing of ours.",
+    body: "The client is only the part you can see. The signalling server, the Go media server, the image worker, the docs, this site and the whole authentication stack, including the Keycloak realm and the identity certificate authority, are AGPL-3.0 and readable. Run all of it yourself and you depend on nothing of ours.",
   },
   {
     title: "No paywalls, no tiers",
