@@ -1,23 +1,45 @@
+/* A floating pill rather than a full-width slab.
+ *
+ * The old shape — wordmark hard-left, six inline links right-grouped, a filled
+ * CTA hard-right, edge to edge, fixed, hairline border along the bottom — is
+ * the most-copied nav on the web, and the hairline cut straight across the
+ * hero's ambient wash. The pill detaches from the edges, so the hero reads as
+ * one field with the nav sitting on it.
+ */
 .nav {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   z-index: 100;
-  background: rgba(17, 19, 24, 0.85);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid var(--border);
+  padding: 14px 16px;
+  pointer-events: none;
 }
 
 .inner {
-  max-width: var(--max-w);
+  max-width: 1120px;
   margin: 0 auto;
-  padding: 0 24px;
-  height: 64px;
+  padding: 0 10px 0 18px;
+  height: 56px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 26px;
+  pointer-events: auto;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  transition: background 0.28s ease-out, border-color 0.28s ease-out,
+    box-shadow 0.28s ease-out, max-width 0.28s ease-out;
+}
+
+/* Past the fold the pill earns its background. Over the hero it stays
+   transparent so nothing is layered on top of the artwork. */
+.scrolled .inner {
+  max-width: 980px;
+  background: rgba(22, 24, 32, 0.82);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-color: var(--border);
+  box-shadow: 0 18px 44px -24px rgba(0, 0, 0, 0.9);
 }
 
 .brand {
@@ -34,14 +56,16 @@
 .links {
   display: flex;
   align-items: center;
-  gap: 28px;
+  gap: 24px;
+  margin-left: auto;
 }
 
 .links a {
   color: var(--text-dim);
   font-size: 14px;
   font-weight: 500;
-  transition: color 0.2s;
+  white-space: nowrap;
+  transition: color 0.16s ease-out;
 }
 
 .links a:hover {
@@ -56,33 +80,31 @@
   color: #111318;
 }
 
-/* ── Open App button ─────────────────────────────────── */
+/* ── Open App ────────────────────────────────────────
+   Demoted from an outlined button to a plain link. Two buttons side by side
+   made the visitor pick between "Open App" and "Download" in the nav, when the
+   hero already offers both and Download is the one we want. */
 
 .openApp {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 6px 14px;
-  font-size: 14px !important;
-  font-weight: 600 !important;
   color: var(--accent-light) !important;
-  border: 1px solid var(--accent);
-  border-radius: var(--radius-sm);
-  transition: background 0.2s, color 0.2s, border-color 0.2s;
+  font-weight: 600 !important;
 }
 
-.openApp:hover {
-  background: rgba(150, 143, 248, 0.12);
-  color: #fff !important;
-  border-color: var(--accent-light);
-}
+.openApp:hover { color: #d0cdff !important; }
 
 .openAppMobile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
-  padding: 10px 14px;
+  padding: 11px 14px;
   font-size: 15px !important;
   margin-bottom: 10px;
+  border: 1px solid var(--accent);
+  border-radius: var(--radius-sm);
 }
+
+.openAppMobile:hover { background: rgba(150, 143, 248, 0.12); }
 
 /* ── Hamburger button (mobile only) ─────────────────── */
 
@@ -202,16 +224,24 @@
 
 /* ── Responsive ─────────────────────────────────────── */
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
+  .nav { padding: 10px 12px; }
+
   .inner {
-    padding: 0 16px;
+    padding: 0 8px 0 14px;
+    height: 52px;
   }
 
-  .links {
-    display: none;
-  }
+  .links { display: none; }
 
+  /* With the bar transparent over the hero, the hamburger needs its own
+     surface or it floats on the artwork with nothing behind it. */
   .hamburger {
     display: flex;
+    margin-left: auto;
+    background: rgba(30, 32, 42, 0.72);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--border);
   }
 }

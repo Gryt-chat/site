@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import * as Dialog from "@radix-ui/react-dialog";
 import { MdMenu, MdClose } from "react-icons/md";
@@ -16,10 +16,22 @@ const navLinks = [
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
 
   const close = useCallback(() => setOpen(false), []);
+
+  /**
+   * The pill is transparent over the hero and picks up its surface once you
+   * leave the fold, so nothing sits on top of the artwork until it has to.
+   */
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   const scrollToDownload = useCallback(
     (e: React.MouseEvent) => {
@@ -44,7 +56,7 @@ export function Navbar() {
   );
 
   return (
-    <nav className={styles.nav}>
+    <nav className={`${styles.nav} ${scrolled ? styles.scrolled : ""}`}>
       <div className={styles.inner}>
         <Link to="/" className={styles.brand} onClick={handleBrandClick}>
           <GrytLogo size={32} />
