@@ -4,60 +4,39 @@ import { inView, rise, stagger } from "./motion";
 import styles from "./FeatureGrid.module.css";
 
 /**
- * Real screenshots of the client, cropped panel by panel by
- * scripts/generate-feature-crops.mjs. These are the actual app, not a redrawn
- * copy, so they cannot quietly drift out of date the way a hand-built mockup
- * does — when the client changes, the crop is visibly wrong.
+ * Three alternating rows, one screenshot each.
+ *
+ * This was a six-card bento with a stat block, a floating clip and a paragraph
+ * per card, and it was doing two jobs at once: showing the app and listing
+ * features. The comparison tables list the features now, in nineteen rows, so
+ * this only has to prove the app is real. One image, one line, one row at a
+ * time.
+ *
+ * The crops come from scripts/generate-feature-crops.mjs, cut out of a genuine
+ * screenshot, so they cannot quietly drift out of date the way a redrawn
+ * mockup does.
  */
-const cards = [
+const rows = [
   {
     key: "voice",
-    span: "wide",
     title: "Voice that tells you who is talking",
-    body: "Every tile takes its colour from that person's avatar, so a call you are half-watching still tells you who is where. The ring follows the syllables, and muted people wear a badge instead of you inferring it from a halo that never appears.",
+    body: "Every tile takes its colour from that person's avatar, and the ring follows the syllables rather than blinking on and off.",
     img: "/features/voice.webp",
     alt: "Four voice tiles, each tinted from the avatar of the person in it, one with a speaking ring and two showing mute badges",
-    clip: true,
   },
   {
     key: "chat",
-    span: "narrow",
-    title: "Text that keeps up",
-    body: "Mentions, replies, link previews, code, custom emoji imported from BetterTTV or emoji.gg, and file uploads with image previews.",
+    title: "Text, with everything you expect in it",
+    body: "Mentions, replies, link previews, code, custom emoji and file uploads with previews.",
     img: "/features/chat.webp",
     alt: "A Gryt text channel showing a link preview, mentions, formatted text and emoji reactions",
   },
   {
-    key: "channels",
-    span: "narrow",
-    title: "Servers and channels",
-    body: "Text and voice channels, and you can see who is sitting in voice without joining first. Connect to several self-hosted servers at once and switch between them.",
-    img: "/features/channels.webp",
-    alt: "The Gryt server rail and channel list, with a voice channel showing the eight people currently in it",
-  },
-  {
     key: "members",
-    span: "narrow",
-    title: "Who is around",
-    body: "Presence that means something: in voice, online, away, offline. Roles and colours come from the server, not from a subscription.",
+    title: "Who is around, and where",
+    body: "In voice, online, away, offline. Roles and colours come from the server rather than a subscription.",
     img: "/features/members.webp",
     alt: "The member list showing eighteen people grouped by whether they are in voice, online or away",
-  },
-  {
-    key: "screen",
-    span: "narrow",
-    title: "Screen sharing at 120 fps",
-    body: "30, 60, 90 or 120 fps, with 144, 165 and 240 there as experimental options. AV1 or H.264 encoded on your GPU, and a gaming mode that drops resolution before framerate so fast motion stays readable. Webcam too.",
-    stat: "120",
-    statLabel: "fps, no upgrade prompt",
-  },
-  {
-    key: "audio",
-    span: "full",
-    title: "Audio worth the bandwidth",
-    body: "RNNoise suppression at roughly 20 ms of latency, RMS-based auto gain, a compressor and a noise gate you can actually tune. Echo cancellation, loopback monitoring, and device hot-swapping without dropping the call.",
-    stat: "20 ms",
-    statLabel: "noise suppression latency",
   },
 ];
 
@@ -67,57 +46,21 @@ export function FeatureGrid() {
   return (
     <section className={styles.section} id="features">
       <motion.div className={styles.inner} variants={stagger(reduced)} {...inView}>
-        <motion.p className={styles.eyebrow} variants={rise(reduced)}>
-          The client
-        </motion.p>
         <motion.h2 className={styles.heading} variants={rise(reduced)}>
-          This is the actual app. Not a mockup of it.
+          Screenshots of the real thing, not a drawing of it.
         </motion.h2>
-        <motion.p className={styles.sub} variants={rise(reduced)}>
-          Every image below is cropped straight out of a screenshot of Gryt
-          running. Click any of them to see it full size.
-        </motion.p>
 
-        <div className={styles.grid}>
-          {cards.map((c) => (
-            <motion.article
-              key={c.key}
-              className={`${styles.card} ${styles[c.span]}`}
-              variants={rise(reduced)}
-            >
-              <div className={styles.copy}>
-                <h3>{c.title}</h3>
-                <p>{c.body}</p>
-                {c.stat && (
-                  <p className={styles.stat}>
-                    <b>{c.stat}</b>
-                    <span>{c.statLabel}</span>
-                  </p>
-                )}
-              </div>
-
-              {c.img && (
-                <div className={styles.shot}>
-                  <LightboxImage src={c.img} alt={c.alt} />
-                </div>
-              )}
-
-              {c.clip && (
-                <video
-                  className={styles.clip}
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  aria-label="A speaking indicator growing and shrinking with how loud someone is talking"
-                >
-                  <source src="/changelog/speaking-indicator.av1.mp4" type="video/mp4; codecs=av01.0.05M.08" />
-                  <source src="/changelog/speaking-indicator.mp4" type="video/mp4" />
-                </video>
-              )}
-            </motion.article>
-          ))}
-        </div>
+        {rows.map((r) => (
+          <motion.article key={r.key} className={styles.row} variants={rise(reduced)}>
+            <div className={styles.copy}>
+              <h3>{r.title}</h3>
+              <p>{r.body}</p>
+            </div>
+            <div className={styles.shot}>
+              <LightboxImage src={r.img} alt={r.alt} />
+            </div>
+          </motion.article>
+        ))}
       </motion.div>
     </section>
   );

@@ -17,20 +17,21 @@ import styles from "./Compare.module.css";
  *   animated avatars                         image-worker/src/index.ts:264
  *   addons                                   client addonsSettings.tsx
  *
- * The Discord column says "Paid" or "Boosts" rather than naming a tier level,
- * because published sources disagree on which boost level unlocks what and a
- * wrong number on our own comparison table is worse than a vaguer true one.
+ * The Discord column says "Subscription" and "Paid boosts" rather than "Nitro"
+ * and "Boost level". Those are Discord's words for money, and repeating them in
+ * our own comparison does their softening for them. No boost level is named
+ * either, because published sources disagree on which level unlocks what.
  */
 const paidElsewhere = [
-  { label: "Animated avatar", gryt: "Free", discord: "Paid", teamspeak: "—" },
-  { label: "Animated server icon", gryt: "Free", discord: "Boosts", teamspeak: "—" },
-  { label: "Animated custom emoji", gryt: "Free", discord: "Paid", teamspeak: "—" },
-  { label: "Custom invite link", gryt: "Free", discord: "Boosts", teamspeak: "—" },
-  { label: "Your own domain", gryt: "Free", discord: "No", teamspeak: "Free" },
-  { label: "File uploads", gryt: "100 MB, you set it", discord: "Paid", teamspeak: "—" },
-  { label: "Voice bitrate", gryt: "Up to 510 kbps", discord: "Boosts", teamspeak: "You set it" },
-  { label: "Screen share framerate", gryt: "Up to 240 fps", discord: "Paid", teamspeak: "—" },
-  { label: "Addons and plugins", gryt: "Free", discord: "No", teamspeak: "Free" },
+  { label: "Animated avatar", gryt: "Included", discord: "Subscription", discordPaid: true, teamspeak: "\u2014" },
+  { label: "Animated server icon", gryt: "Included", discord: "Paid boosts", discordPaid: true, teamspeak: "\u2014" },
+  { label: "Animated custom emoji", gryt: "Included", discord: "Subscription", discordPaid: true, teamspeak: "\u2014" },
+  { label: "Custom invite link", gryt: "Included", discord: "Paid boosts", discordPaid: true, teamspeak: "\u2014" },
+  { label: "Your own domain", gryt: "Included", discord: "Not possible", teamspeak: "Included" },
+  { label: "File uploads", gryt: "100 MB, you set it", discord: "500 MB", discordPaid: true, teamspeak: "\u2014" },
+  { label: "Voice bitrate", gryt: "Up to 510 kbps", discord: "Up to 384 kbps", discordPaid: true, teamspeak: "You set it" },
+  { label: "Screen share framerate", gryt: "Up to 240 fps", discord: "1080p at 60 fps", discordPaid: true, teamspeak: "\u2014" },
+  { label: "Addons and plugins", gryt: "Included", discord: "Not possible", teamspeak: "Included" },
 ];
 
 const everyone = [
@@ -38,11 +39,11 @@ const everyone = [
   { label: "Text chat and history", gryt: true, discord: true, teamspeak: "Limited" },
   { label: "Roles and permissions", gryt: true, discord: true, teamspeak: true },
   { label: "File sharing", gryt: true, discord: true, teamspeak: true },
-  { label: "Screen sharing", gryt: true, discord: true, teamspeak: true },
-  { label: "Video and webcam", gryt: true, discord: true, teamspeak: true },
   { label: "Push to talk", gryt: true, discord: true, teamspeak: true },
   { label: "Noise suppression", gryt: true, discord: true, teamspeak: true },
   { label: "Desktop app", gryt: true, discord: true, teamspeak: true },
+  { label: "Screen sharing", gryt: true, discord: true, teamspeak: false },
+  { label: "Video and webcam", gryt: true, discord: true, teamspeak: false },
   { label: "Runs in a browser", gryt: true, discord: true, teamspeak: false },
 ];
 
@@ -91,22 +92,37 @@ const openSource = [
   },
 ];
 
-function Mark({ value }: { value: boolean | string }) {
+function Mark({ value, paid }: { value: boolean | string; paid?: boolean }) {
   if (value === true) return <span className={styles.yes} aria-label="Yes">●</span>;
-  if (value === false) return <span className={styles.no} aria-label="No">–</span>;
-  if (value === "Free") return <span className={styles.free}>Free</span>;
-  if (value === "Paid" || value === "Boosts")
-    return <span className={styles.cost}>{value}</span>;
-  if (value === "No" || value === "—")
-    return <span className={styles.no} aria-label="Not available">{value === "No" ? "No" : "–"}</span>;
-  return <span className={styles.plain}>{value}</span>;
+  if (value === false || value === "\u2014")
+    return <span className={styles.no} aria-label="Not available">–</span>;
+  if (value === "Not possible")
+    return <span className={styles.no}>Not possible</span>;
+  if (value === "Included") return <span className={styles.free}>Included</span>;
+
+  return (
+    <span className={paid ? styles.paidValue : styles.plain}>
+      {value}
+      {paid && (
+        <abbr className={styles.cost} title="Requires a paid plan or paid server boosts">
+          ($)
+        </abbr>
+      )}
+    </span>
+  );
 }
 
 function Table({
   rows,
   caption,
 }: {
-  rows: { label: string; gryt: boolean | string; discord: boolean | string; teamspeak: boolean | string }[];
+  rows: {
+    label: string;
+    gryt: boolean | string;
+    discord: boolean | string;
+    teamspeak: boolean | string;
+    discordPaid?: boolean;
+  }[];
   caption: string;
 }) {
   return (
@@ -131,7 +147,7 @@ function Table({
               <th scope="row" className={styles.rowHead}>{r.label}</th>
               {cols.map((c) => (
                 <td key={c.key} className={c.key === "gryt" ? styles.own : undefined}>
-                  <Mark value={r[c.key]} />
+                  <Mark value={r[c.key]} paid={c.key === "discord" && r.discordPaid} />
                 </td>
               ))}
             </tr>
@@ -177,12 +193,16 @@ export function Compare() {
         </motion.div>
 
         <motion.p className={styles.note} variants={rise(reduced)}>
-          Gryt's figures come from its own source: 100 MB uploads and 5 MB
+          Gryt's figures are read out of its own source: 100 MB uploads and 5 MB
           avatars are the shipped defaults, voice tops out at 510 kbps, and
-          screen sharing offers 30 to 120 fps with 144, 165 and 240 as
-          experimental options. The Discord column says "Paid" or "Boosts"
-          rather than naming a tier, because published sources disagree on which
-          boost level unlocks what. If anything here is out of date,{" "}
+          screen sharing runs 30 to 120 fps with 144, 165 and 240 as
+          experimental options. Every one of them is stable, and a server owner
+          can raise the limits. TeamSpeak is scored on its stable client, which
+          has no screen sharing or webcam; the TeamSpeak 6 beta adds both.
+          Discord's own words for these are "Nitro" and "Boost level"; both
+          mean money, so the table says so. No boost level is named because
+          published sources disagree on which one unlocks what. If anything here is out of
+          date,{" "}
           <a href="https://github.com/Gryt-chat/gryt/issues" target="_blank" rel="noreferrer">
             tell us and we will fix it
           </a>
