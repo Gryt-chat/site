@@ -50,9 +50,9 @@ const openSource = [
     diff: "If federation and E2EE are your priorities, use it. Gryt trades federation for a simpler stack and voice built in-house.",
   },
   {
-    name: "Revolt",
-    href: "https://revolt.chat/",
-    best: "The most familiar experience for anyone leaving Discord. Clean UI, servers, channels, roles, custom emoji, a real community.",
+    name: "Stoat",
+    href: "https://stoat.chat/",
+    best: "Formerly Revolt, renamed in October 2025. The most familiar experience for anyone leaving Discord, and the largest open source alternative by some distance. Clean UI, servers, channels, roles, custom emoji, a real community.",
     diff: "Voice is still being developed there and self-hosted voice is fiddly. Voice is the part Gryt started with.",
   },
   {
