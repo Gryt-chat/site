@@ -8,7 +8,8 @@
     "build": "tsc -b && node scripts/optimize-images.mjs && vite build && node scripts/prerender-blog.mjs",
     "lint": "eslint .",
     "preview": "vite preview",
-    "generate:og": "node scripts/generate-og-image.mjs"
+    "generate:og": "node scripts/generate-og-image.mjs",
+    "generate:crops": "node scripts/generate-feature-crops.mjs"
   },
   "dependencies": {
     "@mdx-js/rollup": "^3.1.1",
