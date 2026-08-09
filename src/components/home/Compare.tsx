@@ -26,7 +26,6 @@ const paidElsewhere = [
   { label: "Animated avatar", gryt: "Included", discord: "Nitro Basic", cost: "$2.99/mo", teamspeak: "\u2014" },
   { label: "Animated custom emoji", gryt: "Included", discord: "Nitro Basic", cost: "$2.99/mo", teamspeak: "\u2014" },
   { label: "Screen sharing", gryt: "Up to 240 fps, native", discord: "1080p60 on Nitro", cost: "$9.99/mo", teamspeak: "\u2014" },
-  { label: "File uploads", gryt: "Up to 200 MB, you set it", discord: "500 MB on Nitro", cost: "$9.99/mo", teamspeak: "\u2014" },
   { label: "Animated server icon", gryt: "Included", discord: "2 boosts", cost: "$9.98/mo", teamspeak: "\u2014" },
   { label: "Voice bitrate", gryt: "Up to 510 kbps", discord: "384 kbps at 14 boosts", cost: "$69.86/mo", teamspeak: "128 kbps" },
   { label: "Custom invite link", gryt: "Included", discord: "14 boosts", cost: "$69.86/mo", teamspeak: "\u2014" },
@@ -195,7 +194,7 @@ export function Compare() {
 
         <motion.p className={styles.note} variants={rise(reduced)}>
           Gryt's figures are read out of its own source and all of them are
-          stable: 100 MB uploads and 5 MB avatars are the shipped defaults, a server owner can take uploads to 200 MB,
+          stable: 5 MB avatars are the shipped default,
           voice tops out at 510 kbps, screen sharing runs 30 to 120 fps with
           144, 165 and 240 as experimental options, and a server owner can
           raise every limit. Discord prices are US list, checked August 2026,
