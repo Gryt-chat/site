@@ -5,23 +5,45 @@ import styles from "./Compare.module.css";
 /**
  * Two comparisons, because they are two different arguments.
  *
- * The table is against the closed platforms, where the case is about what you
- * are allowed to do with the software. The cards are against the open ones,
- * where that argument is already settled and the honest answer is that they
- * are good — so each card says what the project is best at before it says what
- * Gryt does differently.
+ * The tables are against the closed platforms, where the case is about what a
+ * feature costs you. The cards are against the open ones, where that argument
+ * is already settled and the honest answer is that they are good.
  *
- * Every characterisation below is Sivert's own, published in
- * /blog/the-projects-that-paved-the-way. Nothing here grades software on
- * anything he has not already said in public.
+ * Every Gryt figure below was read out of the source, not remembered:
+ *   uploads 100 MB, avatars and emoji 5 MB   server/src/db/interfaces.ts:76-82
+ *   voice bitrate default 96, ceiling 510    interfaces.ts:83, channels.ts:65
+ *   screen share fps ladder                  client useScreenShare.ts:15
+ *   custom invite codes                      server/src/db/sqlite/invites.ts:31
+ *   animated avatars                         image-worker/src/index.ts:264
+ *   addons                                   client addonsSettings.tsx
+ *
+ * The Discord column says "Paid" or "Boosts" rather than naming a tier level,
+ * because published sources disagree on which boost level unlocks what and a
+ * wrong number on our own comparison table is worse than a vaguer true one.
  */
-const rows = [
-  { label: "Self-hostable", gryt: true, discord: false, teamspeak: true },
-  { label: "Source you can read", gryt: true, discord: false, teamspeak: false },
-  { label: "Fork and redistribute", gryt: true, discord: false, teamspeak: false },
+const paidElsewhere = [
+  { label: "Animated avatar", gryt: "Free", discord: "Paid", teamspeak: "—" },
+  { label: "Animated server icon", gryt: "Free", discord: "Boosts", teamspeak: "—" },
+  { label: "Animated custom emoji", gryt: "Free", discord: "Paid", teamspeak: "—" },
+  { label: "Custom invite link", gryt: "Free", discord: "Boosts", teamspeak: "—" },
+  { label: "Your own domain", gryt: "Free", discord: "No", teamspeak: "Free" },
+  { label: "File uploads", gryt: "100 MB, you set it", discord: "Paid", teamspeak: "—" },
+  { label: "Voice bitrate", gryt: "Up to 510 kbps", discord: "Boosts", teamspeak: "You set it" },
+  { label: "Screen share framerate", gryt: "Up to 240 fps", discord: "Paid", teamspeak: "—" },
+  { label: "Addons and plugins", gryt: "Free", discord: "No", teamspeak: "Free" },
+];
+
+const everyone = [
+  { label: "Voice channels", gryt: true, discord: true, teamspeak: true },
+  { label: "Text chat and history", gryt: true, discord: true, teamspeak: "Limited" },
+  { label: "Roles and permissions", gryt: true, discord: true, teamspeak: true },
+  { label: "File sharing", gryt: true, discord: true, teamspeak: true },
+  { label: "Screen sharing", gryt: true, discord: true, teamspeak: true },
+  { label: "Video and webcam", gryt: true, discord: true, teamspeak: true },
+  { label: "Push to talk", gryt: true, discord: true, teamspeak: true },
+  { label: "Noise suppression", gryt: true, discord: true, teamspeak: true },
+  { label: "Desktop app", gryt: true, discord: true, teamspeak: true },
   { label: "Runs in a browser", gryt: true, discord: true, teamspeak: false },
-  { label: "Every feature without paying", gryt: true, discord: false, teamspeak: "partial" },
-  { label: "Server cannot impersonate you", gryt: true, discord: "n/a", teamspeak: false },
 ];
 
 const cols = [
@@ -52,7 +74,7 @@ const openSource = [
   {
     name: "Stoat",
     href: "https://stoat.chat/",
-    best: "Formerly Revolt, renamed in October 2025. The most familiar experience for anyone leaving Discord, and the largest open source alternative by some distance. Clean UI, servers, channels, roles, custom emoji, a real community.",
+    best: "Formerly Revolt. The most familiar experience for anyone leaving Discord, and the largest open source alternative by some distance.",
     diff: "Voice is still being developed there and self-hosted voice is fiddly. Voice is the part Gryt started with.",
   },
   {
@@ -69,12 +91,55 @@ const openSource = [
   },
 ];
 
-function Cell({ value }: { value: boolean | string }) {
+function Mark({ value }: { value: boolean | string }) {
   if (value === true) return <span className={styles.yes} aria-label="Yes">●</span>;
   if (value === false) return <span className={styles.no} aria-label="No">–</span>;
-  if (value === "partial")
-    return <span className={styles.partial} aria-label="Partly">◐</span>;
-  return <span className={styles.na} aria-label="Not applicable">n/a</span>;
+  if (value === "Free") return <span className={styles.free}>Free</span>;
+  if (value === "Paid" || value === "Boosts")
+    return <span className={styles.cost}>{value}</span>;
+  if (value === "No" || value === "—")
+    return <span className={styles.no} aria-label="Not available">{value === "No" ? "No" : "–"}</span>;
+  return <span className={styles.plain}>{value}</span>;
+}
+
+function Table({
+  rows,
+  caption,
+}: {
+  rows: { label: string; gryt: boolean | string; discord: boolean | string; teamspeak: boolean | string }[];
+  caption: string;
+}) {
+  return (
+    <div className={styles.wrap}>
+      <table className={styles.table}>
+        <caption className="sr-only">{caption}</caption>
+        <thead>
+          <tr>
+            <th scope="col" className={styles.rowHead}>
+              <span className="sr-only">Capability</span>
+            </th>
+            {cols.map((c) => (
+              <th key={c.key} scope="col" className={c.key === "gryt" ? styles.own : undefined}>
+                {c.name}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((r) => (
+            <tr key={r.label}>
+              <th scope="row" className={styles.rowHead}>{r.label}</th>
+              {cols.map((c) => (
+                <td key={c.key} className={c.key === "gryt" ? styles.own : undefined}>
+                  <Mark value={r[c.key]} />
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
 }
 
 export function Compare() {
@@ -87,49 +152,42 @@ export function Compare() {
           Against the alternatives
         </motion.p>
         <motion.h2 className={styles.heading} variants={rise(reduced)}>
-          What you can do with it, and what you cannot.
+          Things you pay for elsewhere.
         </motion.h2>
+        <motion.p className={styles.lede} variants={rise(reduced)}>
+          None of these are a plan, a tier, or a boost level. They are the
+          defaults, and a server owner can raise every limit on this list.
+        </motion.p>
 
-        <motion.div className={styles.wrap} variants={rise(reduced)}>
-          <table className={styles.table}>
-            <thead>
-              <tr>
-                <th scope="col" className={styles.rowHead}>
-                  <span className="sr-only">Capability</span>
-                </th>
-                {cols.map((c) => (
-                  <th
-                    key={c.key}
-                    scope="col"
-                    className={c.key === "gryt" ? styles.own : undefined}
-                  >
-                    {c.name}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {rows.map((r) => (
-                <tr key={r.label}>
-                  <th scope="row" className={styles.rowHead}>{r.label}</th>
-                  {cols.map((c) => (
-                    <td key={c.key} className={c.key === "gryt" ? styles.own : undefined}>
-                      <Cell value={r[c.key]} />
-                    </td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <motion.div variants={rise(reduced)}>
+          <Table rows={paidElsewhere} caption="Features that cost money on other platforms" />
+        </motion.div>
+
+        <motion.h3 className={styles.subheading} variants={rise(reduced)}>
+          And the ordinary things, which all of us have.
+        </motion.h3>
+        <motion.p className={styles.subnote} variants={rise(reduced)}>
+          A comparison that only lists what we win at is a sales page. This is
+          the rest of it, including the row where TeamSpeak has no browser
+          client and the one where its text history is thinner than ours.
+        </motion.p>
+
+        <motion.div variants={rise(reduced)}>
+          <Table rows={everyone} caption="Features common to all three platforms" />
         </motion.div>
 
         <motion.p className={styles.note} variants={rise(reduced)}>
-          Discord's identity row is marked not applicable because there is only
-          one server and it belongs to Discord. On Gryt you join servers other
-          people run, so the question has an answer worth giving.
+          Gryt's figures come from its own source: 100 MB uploads and 5 MB
+          avatars are the shipped defaults, voice tops out at 510 kbps, and
+          screen sharing offers 30 to 120 fps with 144, 165 and 240 as
+          experimental options. The Discord column says "Paid" or "Boosts"
+          rather than naming a tier, because published sources disagree on which
+          boost level unlocks what. If anything here is out of date,{" "}
+          <a href="https://github.com/Gryt-chat/gryt/issues" target="_blank" rel="noreferrer">
+            tell us and we will fix it
+          </a>
+          .
         </motion.p>
-
-        {/* ── The open source ones ── */}
 
         <motion.h3 className={styles.subheading} variants={rise(reduced)}>
           The open source ones are good. Here is where we differ.

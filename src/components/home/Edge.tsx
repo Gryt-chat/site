@@ -33,10 +33,6 @@ const lead = [
 
 const ground = [
   {
-    claim: "Open source down to the certificate authority",
-    body: "The client is only the part you can see. The signalling server, the Go media server, the image worker, the docs, this site and the whole authentication stack are AGPL-3.0 and readable. Run all of it yourself and you depend on nothing of ours.",
-  },
-  {
     claim: "Nothing phones home",
     body: "No analytics, no telemetry, no usage tracking of any kind. Your messages and uploads sit in your own database, on your own disk, and every feature is available to every user.",
   },

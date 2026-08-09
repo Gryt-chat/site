@@ -22,7 +22,39 @@
   line-height: 1.1;
   max-width: 24ch;
   text-wrap: balance;
-  margin-bottom: 40px;
+}
+
+.lede {
+  margin-top: 14px;
+  margin-bottom: 34px;
+  font-size: 17px;
+  line-height: 1.65;
+  color: var(--text-dim);
+  max-width: 58ch;
+}
+
+/* Value cells. "Free" is the one that should catch the eye going down the
+   column, so it is the only one that gets the accent. */
+.free {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--green);
+}
+
+.cost {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  letter-spacing: 0.04em;
+  color: var(--yellow);
+}
+
+.plain {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: var(--text);
+  white-space: nowrap;
 }
 
 .wrap {
@@ -97,7 +129,7 @@
 /* ── The open source comparison ───────────────────────── */
 
 .subheading {
-  margin-top: 76px;
+  margin-top: 68px;
   font-size: clamp(23px, 2.6vw, 32px);
   font-weight: 800;
   letter-spacing: -0.024em;
