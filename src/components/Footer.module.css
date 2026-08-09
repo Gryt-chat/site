@@ -1,108 +1,114 @@
 .footer {
   border-top: 1px solid var(--border);
-  padding: 56px 24px 40px;
+  padding: 56px 24px 36px;
+  max-width: var(--max-w);
+  margin: 0 auto;
 }
 
 .inner {
-  max-width: var(--max-w);
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 48px;
-}
-
-/* ── Column grid ──────────────────────────────────────── */
-
-.columns {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 40px;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr);
+  gap: 56px;
+  align-items: start;
 }
 
-.column {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
+/* ── Lead ─────────────────────────────────────────────── */
 
-.columnTitle {
-  font-size: 13px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--text);
-  margin: 0;
-}
-
-.columnLinks {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.columnLinks a {
-  font-size: 14px;
-  color: var(--text-dim);
-  transition: color 0.15s;
-}
-
-.columnLinks a:hover {
-  color: var(--text);
-}
-
-/* ── Bottom bar ───────────────────────────────────────── */
-
-.bottom {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-top: 32px;
-  border-top: 1px solid var(--border);
-}
+.lead { display: flex; flex-direction: column; gap: 16px; align-items: flex-start; }
 
 .brand {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-weight: 700;
-  font-size: 15px;
+  gap: 11px;
+  font-weight: 800;
+  font-size: 20px;
+  letter-spacing: -0.01em;
   color: var(--text);
 }
 
-.est {
-  font-weight: 400;
+.pitch {
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: var(--text-dim);
+  max-width: 42ch;
+}
+
+/* Every repository, as chips. This is the claim the footer is making, so it
+   gets the weight rather than sitting as one link called "GitHub". */
+.repos { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.repos a {
+  font-family: var(--font-mono);
   font-size: 12px;
+  color: var(--text-dim);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 5px 12px;
+  white-space: nowrap;
+  transition: border-color 0.16s ease-out, color 0.16s ease-out;
+}
+
+.repos a:hover { border-color: var(--accent); color: var(--accent-light); }
+
+/* ── Link groups ──────────────────────────────────────── */
+
+.groups {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 32px;
+}
+
+.groups h2 {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
   color: var(--text-dimmer);
-  margin-left: 2px;
+  margin-bottom: 14px;
 }
 
-.copy {
-  font-size: 12px;
+.groups ul { display: flex; flex-direction: column; gap: 9px; }
+
+.groups a {
+  font-size: 14px;
+  color: var(--text-dim);
+  transition: color 0.16s ease-out;
+}
+
+.groups a:hover { color: var(--text); }
+
+/* ── Colophon ─────────────────────────────────────────── */
+
+.colophon {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 0;
+  margin-top: 48px;
+  padding-top: 22px;
+  border-top: 1px solid var(--border);
+  font-family: var(--font-mono);
+  font-size: 12.5px;
   color: var(--text-dimmer);
 }
 
-/* ── Responsive ───────────────────────────────────────── */
-
-@media (max-width: 768px) {
-  .footer {
-    padding: 40px 16px 32px;
-  }
-
-  .columns {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 32px;
-  }
-
-  .bottom {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
-  }
+.colophon span:not(:last-child)::after {
+  content: "";
+  display: inline-block;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: currentColor;
+  margin: 0 14px;
+  vertical-align: 0.25em;
 }
 
-@media (max-width: 480px) {
-  .columns {
-    grid-template-columns: 1fr;
-    gap: 28px;
-  }
+@media (max-width: 900px) {
+  .footer { padding: 44px 16px 32px; }
+  .inner { grid-template-columns: minmax(0, 1fr); gap: 40px; }
+}
+
+@media (max-width: 560px) {
+  .groups { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 20px; }
+  .colophon span:not(:last-child)::after { margin: 0 10px; }
 }

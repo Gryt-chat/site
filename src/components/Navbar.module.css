@@ -72,6 +72,13 @@
   color: var(--text);
 }
 
+/* The pill is fully rounded, so a square-cornered button sitting inside it
+   reads as two different objects. Match the geometry. */
+.links :global(.btn) {
+  border-radius: 999px;
+  padding: 9px 20px;
+}
+
 .links :global(.btn-primary) {
   color: #111318;
 }
@@ -243,5 +250,7 @@
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 10px;
   }
 }

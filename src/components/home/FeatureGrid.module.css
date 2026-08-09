@@ -69,6 +69,11 @@
    until the text inside is unreadable. */
 .wide { grid-column: span 2; }
 .narrow { grid-column: span 1; }
+.full { grid-column: 1 / -1; }
+
+/* Six cards on three columns: 2+1 / 1+1+1 / 3. Nine cells, three full rows,
+   no orphan sitting alone at the bottom. */
+.full .copy p { max-width: 74ch; }
 
 /* The text-only card has no screenshot, so it gets breathing room instead. */
 .card:not(:has(.shot)) { padding-bottom: 28px; justify-content: flex-start; }
@@ -90,6 +95,31 @@
 
 /* Keep the copy clear of the clip in the corner. */
 .wide .copy { padding-right: 176px; }
+
+/* Cards with no screenshot carry their headline number instead. */
+.stat {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+
+.stat b {
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--accent-light);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.stat span {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-dimmer);
+}
 
 /* The screenshot sits flush against the bottom edge and is allowed to run off
    it, so the card reads as a window onto the app rather than a framed picture
@@ -137,7 +167,7 @@
 
 @media (max-width: 1000px) {
   .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .wide { grid-column: span 2; }
+  .wide, .full { grid-column: span 2; }
   .wide .copy { padding-right: 0; }
   .clip { display: none; }
 }
@@ -145,7 +175,7 @@
 @media (max-width: 700px) {
   .section { padding: 68px 16px; }
   .grid { grid-template-columns: minmax(0, 1fr); }
-  .wide, .narrow { grid-column: span 1; }
+  .wide, .narrow, .full { grid-column: span 1; }
   .card { padding: 22px 20px 0; }
   .sub { margin-bottom: 30px; }
 }

@@ -44,10 +44,20 @@ const cards = [
     alt: "The member list showing eighteen people grouped by whether they are in voice, online or away",
   },
   {
-    key: "audio",
+    key: "screen",
     span: "narrow",
+    title: "Screen sharing at 120 fps",
+    body: "30, 60, 90 or 120 fps, with 144, 165 and 240 there as experimental options. AV1 or H.264 encoded on your GPU, and a gaming mode that drops resolution before framerate so fast motion stays readable. Webcam too.",
+    stat: "120",
+    statLabel: "fps, no upgrade prompt",
+  },
+  {
+    key: "audio",
+    span: "full",
     title: "Audio worth the bandwidth",
-    body: "RNNoise suppression at roughly 20 ms of latency, RMS auto gain, a compressor and a noise gate you can tune. Screen sharing does AV1 and H.264 on your GPU, with a gaming mode that holds framerate over sharpness.",
+    body: "RNNoise suppression at roughly 20 ms of latency, RMS-based auto gain, a compressor and a noise gate you can actually tune. Echo cancellation, loopback monitoring, and device hot-swapping without dropping the call.",
+    stat: "20 ms",
+    statLabel: "noise suppression latency",
   },
 ];
 
@@ -78,6 +88,12 @@ export function FeatureGrid() {
               <div className={styles.copy}>
                 <h3>{c.title}</h3>
                 <p>{c.body}</p>
+                {c.stat && (
+                  <p className={styles.stat}>
+                    <b>{c.stat}</b>
+                    <span>{c.statLabel}</span>
+                  </p>
+                )}
               </div>
 
               {c.img && (
