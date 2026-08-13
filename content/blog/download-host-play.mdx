@@ -1,0 +1,113 @@
+---
+title: Download, Host, Play
+description: Gryt no longer asks you to make an account, and the app you download is also a server. Both of those come from the same memory.
+author: Sivert
+date: 2026-08-13
+tags:
+  - gryt
+  - self-hosting
+  - identity
+---
+
+## Hamachi
+
+When I was a kid, playing Minecraft with friends meant one of us hosting. You
+opened the game, clicked a button, and it was a server. Then came the part that
+never worked: getting anyone else in. Port forwarding meant a router page none
+of us understood on a connection none of us controlled, so we used Hamachi — a
+virtual LAN that pretended we were all in the same room. It broke constantly. We
+did it anyway, because the alternative was not playing together.
+
+The bit I still think about is not the tunnelling. It is that hosting was
+*normal*. You didn't sign up for a service or rent anything. The game you
+downloaded was also the server, and whoever had the best computer ran it that
+evening.
+
+Almost nothing works like that now. You make an account, you join somebody
+else's infrastructure, and the machine under your desk does nothing.
+
+## Two changes
+
+This release does two things, and they are the same thing.
+
+**Gryt no longer asks you to make an account.** You download it and you have an
+identity — a keypair on your own machine that signs for you. No sign-up, no
+email address, no way for us to connect it to a person. It is not a trial mode:
+a guest identity signs the same challenge as an account, gets the same roles,
+and can own a server. The only difference is who vouches for the key. An account
+is vouched for by our identity service. A guest identity vouches for itself.
+
+**The app you downloaded is a server.** Not a demo of one — the same signalling
+server, media server and image worker a Docker deployment runs, bundled into the
+client. Name it, take the port it offers, press Create. It starts and you are in
+it. Anyone else on your network sees it appear on its own.
+
+Download, host, play.
+
+## Why an account is still worth having
+
+I want to be careful here, because "no account required" is the kind of claim
+that quietly means "and everything is worse now."
+
+An account does three things a guest identity cannot. It is the same you on
+every Gryt server, so people recognise you when you turn up somewhere new. It
+survives losing your laptop — sign in and you are yourself again. And it is
+something a ban can hold on to.
+
+That last one is the real trade, and server admins should know it before they
+switch guests on. A guest can make a new keypair in about two seconds, so a ban
+on a guest identity lasts until they bother to. Servers that accept guests lean
+on the door instead — invites, approval, LAN-only — rather than on bans. That
+is a legitimate way to run a server. It is not the *only* way, which is why the
+setting exists.
+
+So: guest for a LAN party, a game night, a weekend server, anything you would
+rather not attach your name to. An account for the servers you mean to stay on,
+or when you use more than one machine. And if you start as a guest and make an
+account later, the membership you already had comes with you — your roles and
+history are not stranded on the old identity.
+
+## More than one
+
+You can host several servers from one client, which is the part I did not expect
+to be interesting until I had it.
+
+They share a media server. Voice rooms are namespaced per server, so one SFU
+process serves all of them — the same arrangement gryt.chat itself runs, where
+three servers sit behind one. What a second server actually costs you is a
+server process and an image worker. Not another stack.
+
+So one machine can host the one that stays up, plus a throwaway for tonight,
+plus the one you are testing something on. They are genuinely separate: own
+messages, own members, own invites, own database.
+
+There is a delete button, and it asks you to type the server's name first,
+because it removes the only copy of that server's database and the key it
+identifies itself with. Everyone who joined pinned that key. A replacement with
+the same name and port is a different server to them.
+
+## What has not changed
+
+Your machine still has to be reachable. Gryt does not run a relay you fall back
+on, because that would mean your conversations going through hardware you do not
+own, which is the thing this project exists to avoid.
+
+On a LAN that is free — this is the Hamachi part, solved properly. Servers
+announce themselves and turn up in a Discovery list without anyone typing an
+address.
+
+From outside, you need a route in. A
+[Cloudflare Tunnel](https://docs.gryt.chat/docs/deployment/cloudflare-tunnel)
+does it without opening a port, which is the closest thing to what we were
+reaching for with Hamachi, minus the part where it broke every other evening.
+
+And if a server should stay up when the laptop closes, run it with
+[Docker Compose](https://docs.gryt.chat/docs/deployment/docker-compose) instead.
+Same server, pointed at a disk that is not your laptop.
+
+---
+
+The full list of what changed is in the
+[1.5.0 release notes](/changelog/1.5.0). If you want the reasoning about
+identity rather than the summary, that is in the
+[docs](https://docs.gryt.chat/docs/guide/accounts).
