@@ -96,10 +96,15 @@ On a LAN that is free — this is the Hamachi part, solved properly. Servers
 announce themselves and turn up in a Discovery list without anyone typing an
 address.
 
-From outside, you need a route in. A
+From outside, you need a route in, and this is the part I cannot pretend is
+solved. A
 [Cloudflare Tunnel](https://docs.gryt.chat/docs/deployment/cloudflare-tunnel)
-does it without opening a port, which is the closest thing to what we were
-reaching for with Hamachi, minus the part where it broke every other evening.
+handles the HTTPS and WebSocket side without exposing anything, which is most of
+the setup. It cannot carry the voice. WebRTC media is UDP, tunnels are not, so
+the SFU still needs a UDP range reachable from outside.
+
+So the Hamachi-shaped problem is smaller than it was, not gone. You open one
+range instead of understanding a router page.
 
 And if a server should stay up when the laptop closes, run it with
 [Docker Compose](https://docs.gryt.chat/docs/deployment/docker-compose) instead.

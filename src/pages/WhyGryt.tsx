@@ -8,6 +8,8 @@ const DOCS_WHY_GRYT_URL = "https://docs.gryt.chat/docs/guide/why-gryt";
 const DOCS_ARCH_URL = "https://docs.gryt.chat/docs/guide/architecture";
 const DOCS_ACCOUNTS_URL = "https://docs.gryt.chat/docs/guide/accounts";
 const DOCS_EMBEDDED_URL = "https://docs.gryt.chat/docs/deployment/embedded";
+const DOCS_TUNNEL_URL =
+  "https://docs.gryt.chat/docs/deployment/cloudflare-tunnel";
 
 /**
  * Identity hangs off the side because it is optional.
@@ -133,9 +135,18 @@ export function WhyGryt() {
         </p>
         <p>
           On a machine that should stay up when your laptop closes, the same
-          server runs under Docker Compose, Helm, or behind a Cloudflare Tunnel
-          if you would rather not open a port. On a LAN, servers announce
+          server runs under Docker Compose or Helm. On a LAN, servers announce
           themselves and turn up in the client without anyone typing an address.
+        </p>
+        <p>
+          Reaching it from outside your network means opening a port either way.
+          A{" "}
+          <a href={DOCS_TUNNEL_URL} target="_blank" rel="noreferrer">
+            Cloudflare Tunnel
+          </a>{" "}
+          takes care of the HTTPS and WebSocket side without exposing those, but
+          voice is WebRTC over UDP and a tunnel cannot carry it. The SFU&rsquo;s
+          UDP range has to be reachable directly.
         </p>
         <p>
           <a href={DOCS_EMBEDDED_URL} target="_blank" rel="noreferrer">
