@@ -1,6 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 import mermaid from 'mermaid'
 
+/** Shared by the theme and by the font preload, so they cannot disagree. */
+const FONT_SIZE = '14px'
+
 mermaid.initialize({
   startOnLoad: false,
   theme: 'dark',
@@ -15,7 +18,7 @@ mermaid.initialize({
     tertiaryColor: '#1a1d24',
     fontFamily:
       'Atkinson Hyperlegible Next, ui-sans-serif, system-ui, sans-serif',
-    fontSize: '14px',
+    fontSize: FONT_SIZE,
     nodeBorder: '#968ff8',
     nodeTextColor: '#e0e0e6',
     mainBkg: '#1e2028',
@@ -36,13 +39,28 @@ export function Mermaid({ chart }: { chart: string }) {
   const [svg, setSvg] = useState('')
 
   useEffect(() => {
+    let cancelled = false
     const id = `mermaid-${++idCounter}`
-    mermaid.render(id, chart.trim()).then(({ svg }) => setSvg(svg))
+
+    mermaid
+      .render(id, chart.trim())
+      .then(({ svg }) => {
+        if (!cancelled) setSvg(svg)
+      })
+      .catch(() => {
+        // A diagram that will not parse should leave a gap, not take the page
+        // down with it.
+      })
+
+    return () => {
+      cancelled = true
+    }
   }, [chart])
 
   return (
     <div
       ref={containerRef}
+      className="mermaidDiagram"
       dangerouslySetInnerHTML={{ __html: svg }}
       style={{
         margin: '24px 0',
