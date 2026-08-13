@@ -67,21 +67,26 @@ export function WhyGryt() {
       <Answer q="Do I need an account?">
         <p>
           No. Download Gryt and you already have an identity: a keypair your
-          device generates and never sends anywhere. There is no sign-up, no
-          email address, and no way for us to connect it to a person.
+          device generates and never sends anywhere. You do not sign up for
+          anything, and there is nothing in it we could tie to a person.
         </p>
         <p>
           That is not a limited mode. A guest identity signs the same challenge
-          an account does, gets the same roles, and can own a server. Your
-          client makes a separate key for each server you join, so two servers
-          cannot work out that they are talking to the same person.
+          an account does and can own a server, with the same roles. Your client
+          makes a separate key for each server you join, so two servers cannot
+          work out that they are talking to the same person.
         </p>
         <p>
-          An account is worth having for three things a guest identity cannot
-          do: it is the same you on every Gryt server, it survives losing the
-          device, and it is something a ban can hold on to. Server admins should
-          know that last one before they accept guests, because a guest can make
-          a new keypair in seconds. The full trade is in the{" "}
+          An account buys you things a guest identity cannot. It is the same you
+          on every Gryt server, so people recognise you somewhere new, and it
+          survives losing the device.
+        </p>
+        <p>
+          It also makes a ban mean more. Guests can be banned, but a guest who
+          wants back in generates a new keypair in about two seconds, so servers
+          accepting them lean on the door instead: invites, approval, LAN only.
+          That is a real trade, and it is the one to understand before turning
+          guests on. The rest of it is in the{" "}
           <a href={DOCS_ACCOUNTS_URL} target="_blank" rel="noreferrer">
             docs
           </a>
