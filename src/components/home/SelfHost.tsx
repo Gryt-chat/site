@@ -37,7 +37,7 @@ const paths = [
   },
   {
     name: "From the desktop app",
-    detail: "Host a server straight out of the client, image processing included. No terminal at all.",
+    detail: "The client you download is also a server, and it will run several. They share one media server, so the second costs a process rather than a stack. No terminal at all.",
     href: "https://docs.gryt.chat/docs/deployment/embedded",
     linkLabel: "Embedded guide",
   },

@@ -19,9 +19,12 @@
   text-wrap: balance;
 }
 
-/* Six columns underneath: three at span 2, then two at span 3. Five items on
-   an equal grid would either strand one on its own row or force a five-up that
-   reads as a feature wall. */
+/* Six columns underneath: four leads at span 3, two per row, then the ground
+   full width. It was three at span 2 in one row, which stopped working when the
+   fourth differentiator arrived — a fourth at span 2 sits alone on the second
+   row at a third of the width, which is the stranding this layout was picked to
+   avoid. Two-by-two keeps every lead the same size and still refuses the
+   five-up feature wall. */
 .grid {
   display: grid;
   grid-template-columns: repeat(6, minmax(0, 1fr));
@@ -35,10 +38,10 @@
   padding-top: 16px;
 }
 
-/* The three differentiators carry the accent rule. The two underneath are the
-   ground the project stands on, so they sit quieter. */
+/* The differentiators carry the accent rule. The one underneath is the ground
+   the project stands on, so it sits quieter. */
 .lead {
-  grid-column: span 2;
+  grid-column: span 3;
   border-top: 2px solid var(--accent);
 }
 
