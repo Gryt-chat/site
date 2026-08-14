@@ -1,0 +1,118 @@
+---
+version: 1.6.0
+date: 2026-08-14
+channel: beta
+headline: Your identity comes with you to a second device now, even without an account, and it stops disappearing when a server moves.
+---
+
+Using Gryt without an account has always had one sharp edge: whatever you were on
+a server lived in one browser on one machine. Clear your site data and it was
+gone, along with any roles you had and any server you owned. This release takes
+that apart. There is one backup now, it is short enough to keep in a password
+manager, and it covers every server — including ones you have not joined yet.
+
+## Your identity fits in a password manager
+
+**Settings → You → Security → Show my identity backup** gives you 24 words.
+
+That is the whole thing. Every server you join without an account works its key
+out from those words, so you save them once and you are covered for servers you
+join next month as well. Nothing to re-export.
+
+Getting onto a second device is three steps: copy the words on the machine you
+already use, open **I already have one** on the new one, paste. You arrive as the
+same member on every server, with the same roles and the same history. The field
+you paste into is an ordinary password field, so a password manager will offer to
+save the words the first time and fill them in after that.
+
+The words are checked as you type them back. A mistyped or swapped word is
+rejected rather than quietly turning you into somebody else, and you never have to
+get them right from memory.
+
+If your password manager would rather have a file than a note, **Save a backup
+file** writes the same thing out, password-protected. That file is also what
+**Authorise this device** reads, which is still the right choice on a machine you
+do not fully control — it lends your identity to that device for 30 days instead
+of moving it there.
+
+## A server that moves no longer forgets you
+
+Your identity used to be filed under the address a server answered on. So a server
+that picked a different port, or got a new address from a home router, handed you
+a fresh identity — new member, no roles, no history, and nothing on screen saying
+why. The client could see it was the same server and gave you a different identity
+anyway.
+
+Identities now belong to the server itself. It can move, and it can rotate its
+identity key, and you are still you.
+
+One thing follows from that: a server you can reach two ways, on its LAN address
+and through a tunnel, is now one identity on both. It used to be two.
+
+## Secrets stop sitting in the open on desktop
+
+On the desktop app your identity backup is now encrypted with the operating
+system's keychain — Keychain on macOS, DPAPI on Windows, the keyring on Linux.
+There is no extra password to type, because it is tied to the login you already
+did.
+
+The tokens behind a Gryt account got the same treatment. They were stored as plain
+text in the app's data folder, which mattered more than it looks: the refresh
+token renews a session rather than being one, so it outlives the login it came
+with.
+
+Neither has an equivalent in a browser, so the web client is unchanged here.
+
+## What this does not do
+
+Making a new identity is still free. That was true before and it is still true, so
+if you host a server and accept people without accounts, a ban still holds only
+until somebody decides to come back as somebody else. Nothing in this release
+changes that, and nothing at this layer can.
+
+If bans that stick matter to you, the answer is the same as it was: require
+accounts, or lean on invites and the lobby.
+
+## For people running servers
+
+Almost nothing. If you accept accounts only, you will not notice this release.
+
+There is one change underneath: a server now records *which* certificate authority
+vouched for an account alongside the account itself. That does nothing on a normal
+server, which trusts exactly one. It matters if you ever trust a second, because
+two authorities can hand out the same underlying account id without those being
+the same person — and now they are not treated as one.
+
+If you do run more than one, add new issuers to the **end** of
+`GRYT_TRUSTED_CERT_ISSUERS`. The first entry in that list has a special meaning,
+and reordering it would silently turn every account on your server into a
+different user. This is written up on the configuration page.
+
+---
+
+## The short version
+
+**Identity**
+
+- Your guest identity is 24 words you can save in a password manager
+- One backup covers every server, including ones you join later
+- Getting onto a second device is paste-the-words, not export-and-import
+- A mistyped or swapped word is rejected instead of silently becoming a different identity
+- The backup file still exists, and is password-protected now
+- Authorise this device is unchanged, and still the right choice on a machine that is not yours
+
+**Servers**
+
+- A server that changes port or address no longer hands you a new identity
+- A server that rotates its identity key no longer does either
+- The same server reached at two addresses is now one identity rather than two
+
+**Security**
+
+- On desktop, your identity backup is encrypted at rest with the OS keychain
+- Gryt account tokens are too. They were stored as plain text
+- Servers record which certificate authority vouched for an account, so two authorities cannot name the same user
+
+**Hosting**
+
+- `GRYT_TRUSTED_CERT_ISSUERS` is order-sensitive. Add to the end, never the front
