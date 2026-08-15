@@ -31,8 +31,9 @@ Locked. From `src/styles/tokens.css`.
 | `--bg-card` | `#1e2028` | the only card fill |
 | `--text` | `#e0e0e6` | body |
 | `--text-dim` | `#888` | secondary, captions, meta |
-| `--text-dimmer` | `#555` | disabled, timestamps |
+| `--text-dimmer` | `#858790` | tertiary text and timestamps; passes AA on page and card surfaces |
 | `--accent` | `#968FF8` | eyebrows, rules, focus |
+| `--accent-ink` | `#14161d` | text on accent-filled controls |
 | `--accent-light` | `#b4afff` | links |
 | `--border` | `#2b303d` | every hairline |
 | `--green` `--red` `--yellow` | `#4ade80` `#f87171` `#fbbf24` | status only, never decoration |

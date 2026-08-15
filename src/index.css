@@ -40,6 +40,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Keep the footer below the viewport while a code-split route loads. Without
+   this reserve, the empty fallback collapses and then shifts the whole page. */
+.routePending {
+  min-height: 100vh;
+}
+
 /* Visible to screen readers, not to eyes. Used for table headers whose meaning
    is obvious visually but needs a name in the accessibility tree. */
 .sr-only {
@@ -59,7 +65,7 @@ a:hover { color: #d0cdff; }
 
 ul { list-style: none; }
 
-img { display: block; max-width: 100%; }
+img { display: block; max-width: 100%; height: auto; }
 
 .section {
   max-width: var(--max-w);

@@ -30,7 +30,7 @@ function MdxImage(props: ComponentPropsWithoutRef<'img'>) {
   return <LightboxImage {...props} />
 }
 
-const components = { a: MdxLink, img: MdxImage, Mermaid: MermaidWrapper }
+const components = { a: MdxLink, img: MdxImage, Image: MdxImage, Mermaid: MermaidWrapper }
 
 export function BlogPost() {
   const { slug } = useParams<{ slug: string }>()
@@ -88,7 +88,9 @@ export function BlogPost() {
       </header>
 
       <div className={styles.prose}>
-        <Component components={components} />
+        <Suspense fallback={<p>Loading post…</p>}>
+          <Component components={components} />
+        </Suspense>
       </div>
     </main>
   )

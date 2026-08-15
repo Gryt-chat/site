@@ -69,12 +69,12 @@
 
 .osTabActive {
   background: var(--accent);
-  color: #fff;
+  color: var(--accent-ink);
 }
 
 .osTabActive:hover {
   background: var(--accent);
-  color: #fff;
+  color: var(--accent-ink);
 }
 
 /* ── Coming soon badge ──────────────────────────────────── */
@@ -190,7 +190,7 @@
   padding: 8px 14px;
   border-radius: var(--radius-sm);
   background: var(--accent);
-  color: #fff;
+  color: var(--accent-ink);
   font-size: 13px;
   font-weight: 600;
   white-space: nowrap;
@@ -232,7 +232,8 @@
 
 .versionNote a {
   color: var(--accent);
-  text-decoration: none;
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
 .versionNote a:hover {

@@ -8,7 +8,7 @@ import { Download } from '../components/Download'
 
 export function HomePage() {
   return (
-    <>
+    <main>
       <Hero />
       <Edge />
       <Compare />
@@ -16,6 +16,6 @@ export function HomePage() {
       <Security />
       <SelfHost />
       <Download />
-    </>
+    </main>
   )
 }

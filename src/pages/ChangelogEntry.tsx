@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { Suspense, useEffect } from 'react'
 import { useParams, Link, Navigate } from 'react-router-dom'
 import { MdChevronLeft } from 'react-icons/md'
 import { getRelease } from '../lib/changelog'
@@ -108,7 +108,9 @@ export function ChangelogEntry() {
       </header>
 
       <div className={styles.prose}>
-        <Component components={components} />
+        <Suspense fallback={<p>Loading release notes…</p>}>
+          <Component components={components} />
+        </Suspense>
       </div>
     </main>
   )
