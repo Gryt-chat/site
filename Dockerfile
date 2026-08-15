@@ -30,6 +30,16 @@ RUN printf '%s\n' \
   '    # Serve binaries as static files (no SPA fallback).' \
   '    location ^~ /release/ { try_files $uri =404; }' \
   '    location ^~ /downloads/ { try_files $uri =404; }' \
+  '    # Vite fingerprints bundled assets. Fonts and editorial media are' \
+  '    # immutable in practice: replacements use a new filename.' \
+  '    location ^~ /assets/ {' \
+  '      add_header Cache-Control "public, max-age=31536000, immutable";' \
+  '      try_files $uri =404;' \
+  '    }' \
+  '    location ~* \\.(?:woff2|webp|png|svg|mp4|mp3)$ {' \
+  '      add_header Cache-Control "public, max-age=31536000, immutable";' \
+  '      try_files $uri =404;' \
+  '    }' \
   '    # Every real route is prerendered into a directory by' \
   '    # scripts/prerender-blog.mjs, so a path that does not resolve is a path' \
   '    # that does not exist. Falling back to /index.html instead meant any' \

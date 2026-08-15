@@ -1,4 +1,4 @@
-import type { ComponentType } from 'react'
+import { lazy, type ComponentType, type LazyExoticComponent } from 'react'
 
 export interface BlogFrontmatter {
   title: string
@@ -17,19 +17,26 @@ type MdxComponent = ComponentType<{
 export interface BlogPost {
   slug: string
   frontmatter: BlogFrontmatter
-  Component: MdxComponent
+  Component: LazyExoticComponent<MdxComponent>
 }
 
-const modules = import.meta.glob<{
+type BlogModule = {
   default: MdxComponent
   frontmatter: BlogFrontmatter
-}>('../../content/blog/*.mdx', { eager: true })
+}
 
-export const posts: BlogPost[] = Object.entries(modules)
-  .map(([path, mod]) => ({
+const modules = import.meta.glob<BlogModule>('../../content/blog/*.mdx')
+const frontmatter = import.meta.glob<BlogFrontmatter>('../../content/blog/*.mdx', {
+  eager: true,
+  import: 'frontmatter',
+  query: '?frontmatter',
+})
+
+export const posts: BlogPost[] = Object.entries(frontmatter)
+  .map(([path, metadata]) => ({
     slug: path.split('/').pop()!.replace(/\.mdx$/, ''),
-    frontmatter: mod.frontmatter,
-    Component: mod.default,
+    frontmatter: metadata,
+    Component: lazy(() => modules[path]().then((mod) => ({ default: mod.default }))),
   }))
   .sort(
     (a, b) =>

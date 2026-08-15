@@ -41,7 +41,9 @@ function docTitle(name) {
 }
 
 function renderPage(template, { pageTitle, docTitleName, description, url, ogImage, ogType, noindex }) {
-  let html = template;
+  // The responsive hero preload belongs only to the homepage. This template is
+  // copied for every static route, where preloading it would waste bandwidth.
+  let html = template.replace(/\s*<link[^>]*data-home-preload[^>]*>/, '');
   // Pages that exist so nginx can find them, but that nobody should reach from
   // a search result: the auth callback and the 404 itself.
   if (noindex) {

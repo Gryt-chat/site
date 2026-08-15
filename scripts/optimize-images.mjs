@@ -6,6 +6,15 @@ import { readdir, stat } from "fs/promises";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const publicDir = join(__dirname, "..", "public");
 
+const heroSrc = join(publicDir, "changelog", "voice-split.webp");
+const heroSm = await sharp(heroSrc)
+  .resize({ width: 720, withoutEnlargement: true })
+  .webp({ quality: 80 })
+  .toFile(join(publicDir, "changelog", "voice-split-sm.webp"));
+console.log(
+  `  changelog/voice-split-sm.webp  ${heroSm.width}x${heroSm.height}  ${(heroSm.size / 1024).toFixed(1)} KB`,
+);
+
 const previewSrc = join(publicDir, "preview.png");
 const full = await sharp(previewSrc)
   .webp({ quality: 82 })

@@ -1,4 +1,4 @@
-import type { ComponentType } from 'react'
+import { lazy, type ComponentType, type LazyExoticComponent } from 'react'
 
 export interface ChangelogFrontmatter {
   /** Product version these notes describe, e.g. "1.4.0". */
@@ -19,13 +19,20 @@ export interface ChangelogEntry {
   /** The version, which is also the URL. */
   slug: string
   frontmatter: ChangelogFrontmatter
-  Component: MdxComponent
+  Component: LazyExoticComponent<MdxComponent>
 }
 
-const modules = import.meta.glob<{
+type ChangelogModule = {
   default: MdxComponent
   frontmatter: ChangelogFrontmatter
-}>('../../content/changelog/*.mdx', { eager: true })
+}
+
+const modules = import.meta.glob<ChangelogModule>('../../content/changelog/*.mdx')
+const frontmatter = import.meta.glob<ChangelogFrontmatter>('../../content/changelog/*.mdx', {
+  eager: true,
+  import: 'frontmatter',
+  query: '?frontmatter',
+})
 
 /**
  * Newest first, by version rather than date.
@@ -51,11 +58,11 @@ function compareVersions(a: string, b: string): number {
   return 0
 }
 
-export const releases: ChangelogEntry[] = Object.entries(modules)
-  .map(([path, mod]) => ({
+export const releases: ChangelogEntry[] = Object.entries(frontmatter)
+  .map(([path, metadata]) => ({
     slug: path.split('/').pop()!.replace(/\.mdx$/, ''),
-    frontmatter: mod.frontmatter,
-    Component: mod.default,
+    frontmatter: metadata,
+    Component: lazy(() => modules[path]().then((mod) => ({ default: mod.default }))),
   }))
   .sort((a, b) => compareVersions(a.frontmatter.version, b.frontmatter.version))
 

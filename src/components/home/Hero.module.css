@@ -1,3 +1,6 @@
+/* Hallmark · macrostructure: retained homepage · genre: atmospheric-technical
+   · tone: direct · anchor hue: periwinkle · pre-emit critique: P5 H5 E5 S5 R5 V5 */
+
 .hero {
   position: relative;
   overflow: hidden;
@@ -174,13 +177,6 @@
 }
 
 .secondary:hover { border-color: var(--accent); transform: translateY(-1px); }
-
-.meta {
-  font-family: var(--font-mono);
-  font-size: 12.5px;
-  color: var(--text-dimmer);
-  margin: 2px 0 0;
-}
 
 /* ── Screenshot ───────────────────────────────────────── */
 

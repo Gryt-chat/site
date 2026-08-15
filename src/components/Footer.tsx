@@ -108,7 +108,6 @@ export function Footer() {
       <p className={styles.colophon}>
         <span>AGPL-3.0</span>
         <span>Built in the open since 2022</span>
-        <span>Nothing on this site phones home</span>
       </p>
     </footer>
   );
