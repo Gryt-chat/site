@@ -1,0 +1,122 @@
+.section {
+  padding: 100px 24px;
+  border-top: 1px solid var(--border);
+}
+
+.inner { max-width: var(--max-w); margin: 0 auto; }
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 14px;
+}
+
+.heading {
+  font-size: clamp(28px, 3.6vw, 44px);
+  font-weight: 800;
+  letter-spacing: -0.028em;
+  line-height: 1.1;
+  max-width: 20ch;
+  text-wrap: balance;
+}
+
+.sub {
+  margin-top: 14px;
+  font-size: 17px;
+  line-height: 1.65;
+  color: var(--text-dim);
+  max-width: 56ch;
+}
+
+/* ── Logo tier ────────────────────────────────────────── */
+
+.logos {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 18px;
+  margin: 36px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.logos li {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg-raised);
+  padding: 20px 26px;
+  display: flex;
+  align-items: center;
+  transition: border-color 0.2s ease-out;
+}
+
+.logos li:hover { border-color: var(--accent); }
+
+/* Height rather than width, so logos of different proportions sit on one
+   optical line instead of a wide wordmark dwarfing a square badge. */
+.logos img {
+  display: block;
+  height: 34px;
+  width: auto;
+  max-width: 220px;
+}
+
+.featured img { height: 46px; max-width: 300px; }
+
+/* ── Name tier ────────────────────────────────────────── */
+
+.names {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 22px;
+  margin: 28px 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 16px;
+  color: var(--text);
+}
+
+.names a { color: var(--text); }
+.names a:hover { color: var(--accent-light); }
+
+/* ── Call to action ───────────────────────────────────── */
+
+.cta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px 20px;
+  margin-top: 36px;
+}
+
+.button {
+  display: inline-block;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 11px 24px;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--accent-light);
+  transition: border-color 0.16s ease-out, color 0.16s ease-out;
+}
+
+.button:hover { border-color: var(--accent); color: #d0cdff; }
+
+.note {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-dimmer);
+  max-width: 46ch;
+}
+
+@media (max-width: 820px) {
+  .section { padding: 68px 16px; }
+  .logos { gap: 12px; margin-top: 28px; }
+  .logos li { padding: 16px 20px; }
+  .logos img { height: 28px; }
+  .featured img { height: 36px; }
+}
