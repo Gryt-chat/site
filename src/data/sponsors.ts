@@ -39,7 +39,13 @@ export interface Sponsor {
   featured?: boolean;
 }
 
-export const sponsors: Sponsor[] = [];
+export const sponsors: Sponsor[] = [
+  // The first person to sponsor Gryt, around the release in March 2026. Listed
+  // by first name and no link, which is what he asked for. There is no amount
+  // field on purpose: being listed is the thing the tiers promise, and what
+  // somebody paid is nobody else's business.
+  { name: "Carlo", kind: "once", since: "2026-03" },
+];
 
 const MONTHS = [
   "January", "February", "March", "April", "May", "June",
