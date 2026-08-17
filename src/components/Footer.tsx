@@ -45,6 +45,7 @@ const groups = [
       { href: "/why-gryt", label: "Why Gryt?", isRoute: true },
       { href: "/blog", label: "Blog", isRoute: true },
       { href: "/changelog", label: "Changelog", isRoute: true },
+      { href: "/sponsors", label: "Sponsors", isRoute: true },
       { href: "/privacy", label: "Privacy", isRoute: true },
       { href: "/terms", label: "Terms of use", isRoute: true },
       { href: "/community-guidelines", label: "Guidelines", isRoute: true },

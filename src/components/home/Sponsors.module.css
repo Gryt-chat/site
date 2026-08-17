@@ -81,51 +81,6 @@
 .names a { color: var(--text); }
 .names a:hover { color: var(--accent-light); }
 
-/* ── One-off payments ─────────────────────────────────────
-   Separate from the recurring list, and dated. Somebody who gave once has not
-   lapsed, so they do not belong under the same heading. */
-
-.once { margin-top: 34px; }
-
-.onceHeading {
-  font-size: 17.5px;
-  font-weight: 800;
-  letter-spacing: -0.014em;
-  margin: 0 0 14px;
-}
-
-.onceList {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  max-width: 46ch;
-}
-
-.onceList li {
-  display: flex;
-  align-items: baseline;
-  gap: 12px;
-  padding: 9px 0;
-  border-top: 1px solid var(--border);
-}
-
-.onceList li:last-child { border-bottom: 1px solid var(--border); }
-
-.onceName { font-size: 16px; color: var(--text); }
-.onceName a { color: var(--text); }
-.onceName a:hover { color: var(--accent-light); }
-
-.onceDate {
-  margin-left: auto;
-  font-family: var(--font-mono);
-  font-size: 13px;
-  color: var(--text-dimmer);
-  white-space: nowrap;
-}
-
 /* ── Call to action ───────────────────────────────────── */
 
 .cta {
@@ -151,13 +106,15 @@
 
 /* Never animated, so it appears the instant focus lands. */
 .button:focus-visible,
+.note a:focus-visible,
 .logos a:focus-visible,
-.names a:focus-visible,
-.onceName a:focus-visible {
+.names a:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
   border-radius: var(--radius-sm);
 }
+
+.note a { color: var(--accent-light); }
 
 .note {
   font-size: 14px;
@@ -171,5 +128,4 @@
   .logos { gap: 12px 28px; margin-top: 28px; padding-bottom: 24px; }
   .logos img { height: 26px; max-width: 150px; }
   .featured img { height: 34px; max-width: 200px; }
-  .once { margin-top: 28px; }
 }

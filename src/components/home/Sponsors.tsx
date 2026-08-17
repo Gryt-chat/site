@@ -1,6 +1,7 @@
+import { Link } from "react-router-dom";
 import { motion, useReducedMotion } from "motion/react";
 import { inView, rise, stagger } from "./motion";
-import { formatSince, sponsors } from "../../data/sponsors";
+import { sponsors } from "../../data/sponsors";
 import styles from "./Sponsors.module.css";
 
 const SPONSOR_URL = "https://github.com/sponsors/Gryt-chat";
@@ -13,10 +14,9 @@ const SPONSOR_URL = "https://github.com/sponsors/Gryt-chat";
  * to be built later, which is how the placement came to be promised and never
  * built the first time.
  *
- * Recurring sponsors and one-off payments are separate lists. Somebody who
- * gave once two years ago has not stopped sponsoring; there was never anything
- * to stop, and putting them under a heading that implies otherwise reads as a
- * lapsed subscription.
+ * Current sponsors only. The full history, including one-off payments and when
+ * each arrived, is at /sponsors: a payment from a year ago is not current, and
+ * showing it here would either imply it is or need a caveat beside it.
  */
 export function Sponsors() {
   const reduced = useReducedMotion() ?? false;
@@ -30,12 +30,6 @@ export function Sponsors() {
 
   const logos = recurring.filter((s) => s.logo);
   const names = recurring.filter((s) => !s.logo);
-  // Newest first. A list that grows downward buries whoever arrived most
-  // recently under everybody who came before them.
-  const once = sponsors
-    .filter((s) => s.kind === "once")
-    .sort((a, b) => b.since.localeCompare(a.since));
-
   return (
     <section className={styles.section} id="sponsors">
       <motion.div className={styles.inner} variants={stagger(reduced)} {...inView}>
@@ -84,35 +78,14 @@ export function Sponsors() {
           </motion.ul>
         )}
 
-        {once.length > 0 && (
-          <motion.div className={styles.once} variants={rise(reduced)}>
-            <h3 className={styles.onceHeading}>Sponsored Gryt once</h3>
-            <ul className={styles.onceList}>
-              {once.map((s) => (
-                <li key={`${s.name}-${s.since}`}>
-                  <span className={styles.onceName}>
-                    {s.href ? (
-                      <a href={s.href} target="_blank" rel="noreferrer">
-                        {s.name}
-                      </a>
-                    ) : (
-                      s.name
-                    )}
-                  </span>
-                  <span className={styles.onceDate}>{formatSince(s.since)}</span>
-                </li>
-              ))}
-            </ul>
-          </motion.div>
-        )}
-
         <motion.p className={styles.cta} variants={rise(reduced)}>
           <a className={styles.button} href={SPONSOR_URL} target="_blank" rel="noreferrer">
             Sponsor Gryt
           </a>
           <span className={styles.note}>
-            Names are listed from $25 a month, logos from $100. Nothing is
-            published without asking you first.
+            Names are listed from $25 a month, logos from $100.{" "}
+            <Link to="/sponsors">Everyone who has sponsored</Link>, including
+            one-off payments, is on its own page.
           </span>
         </motion.p>
       </motion.div>

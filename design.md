@@ -83,14 +83,18 @@ both predate this file and neither is worth chasing.
 
 ## Sponsors
 
-The front page carries one list that grows: `src/data/sponsors.ts`, rendered by
-`src/components/home/Sponsors.tsx`. Recurring sponsors and one-off payments are
-separate lists, because somebody who gave once has not lapsed and should not sit
-under a heading implying they did.
+Two surfaces reading one file, `src/data/sponsors.ts`.
 
-It has no card fill. `SelfHost` immediately above it ends on a three-card grid,
-and the standing rule below says two adjacent card sections means one of them is
-wrong. Logos sit on the page ground with a rule under them.
+`src/components/home/Sponsors.tsx` on the front page shows who is sponsoring
+**now**, because that is what the $100 tier promises and the front page is where
+it was promised. It has no card fill: `SelfHost` immediately above it ends on a
+three-card grid, and the standing rule below says two adjacent card sections
+means one of them is wrong. Logos sit on the page ground with a rule under them.
+
+`/sponsors` carries the history, including one-off payments and the month each
+arrived. A payment from a year ago is not current, and putting it on the front
+page either implies it is or needs a caveat beside it. The page does not animate;
+a list that arrives row by row is one you cannot scan.
 
 ## Motion
 
@@ -117,6 +121,7 @@ the front page's rhythm. Recorded here so the next run does not re-pick blind:
 | `/changelog` | Narrative Workflow | releases are a real sequence |
 | `/changelog/:version` | Workbench | the notes are mostly app captures |
 | `/why-gryt` | Conversational FAQ | it is questions and trust boundaries |
+| `/sponsors` | Index-First | the page is a list of people |
 | `/privacy`, `/terms`, `/community-guidelines` | Long Document | they are documents |
 | `/invite` | none, component-scope | an app screen with states, not a page |
 

@@ -1,0 +1,152 @@
+/* Index-First. The page is a list of people, so the list is the page and the
+   prose stays out of its way. No cards: a name and a date is a row, and a row
+   in a box is a box. */
+
+.page {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 120px 24px 96px;
+}
+
+.empty {
+  margin: 8px 0 0;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--text-dim);
+}
+
+.block { margin-top: 56px; }
+
+.blockHeading {
+  font-size: clamp(22px, 2.4vw, 30px);
+  font-weight: 800;
+  letter-spacing: -0.024em;
+  margin: 0;
+}
+
+.blockNote {
+  margin: 10px 0 0;
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--text-dim);
+  max-width: 60ch;
+}
+
+/* ── The list ─────────────────────────────────────────── */
+
+.list {
+  margin: 22px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.list li {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 0;
+  border-top: 1px solid var(--border);
+}
+
+.list li:last-child { border-bottom: 1px solid var(--border); }
+
+.logo {
+  height: 26px;
+  width: auto;
+  max-width: 120px;
+  flex-shrink: 0;
+}
+
+.name {
+  font-size: 16.5px;
+  color: var(--text);
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.name a { color: var(--text); }
+.name a:hover { color: #d0cdff; }
+
+.date {
+  margin-left: auto;
+  padding-left: 12px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--text-dimmer);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ── Tiers ────────────────────────────────────────────── */
+
+.tiers {
+  margin: 22px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tiers li {
+  display: flex;
+  gap: 8px 20px;
+  padding: 12px 0;
+  border-top: 1px solid var(--border);
+}
+
+.tiers li:last-child { border-bottom: 1px solid var(--border); }
+
+.amount {
+  font-family: var(--font-mono);
+  font-size: 13.5px;
+  color: var(--accent-light);
+  flex: 0 0 8.5rem;
+  padding-top: 2px;
+}
+
+.gets {
+  font-size: 15.5px;
+  line-height: 1.6;
+  color: var(--text-dim);
+  min-width: 0;
+}
+
+.footnote {
+  margin: 20px 0 0;
+  font-size: 14.5px;
+  line-height: 1.7;
+  color: var(--text-dimmer);
+  max-width: 64ch;
+}
+
+/* ── Call to action ───────────────────────────────────── */
+
+.button {
+  display: inline-block;
+  margin-top: 26px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 11px 24px;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--accent-light);
+  transition: border-color 0.16s ease-out, color 0.16s ease-out;
+}
+
+.button:hover { border-color: var(--accent); color: #d0cdff; }
+
+.button:focus-visible,
+.name a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+@media (max-width: 680px) {
+  .page { padding: 96px 16px 72px; }
+  .block { margin-top: 40px; }
+
+  /* The amount stops being a column and becomes a label above the line it
+     describes. At 8.5rem the two columns leave about 12 characters for the
+     description, which wraps to four lines. */
+  .tiers li { flex-direction: column; gap: 4px; }
+  .amount { flex: none; padding-top: 0; }
+}
