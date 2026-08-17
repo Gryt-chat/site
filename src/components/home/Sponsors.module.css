@@ -1,0 +1,131 @@
+.section {
+  padding: 100px 24px;
+  border-top: 1px solid var(--border);
+}
+
+.inner { max-width: var(--max-w); margin: 0 auto; }
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 14px;
+}
+
+.heading {
+  font-size: clamp(28px, 3.6vw, 44px);
+  font-weight: 800;
+  letter-spacing: -0.028em;
+  line-height: 1.1;
+  max-width: 20ch;
+  text-wrap: balance;
+}
+
+.sub {
+  margin-top: 14px;
+  font-size: 17px;
+  line-height: 1.65;
+  color: var(--text-dim);
+  max-width: 56ch;
+}
+
+/* ── Logo tier ────────────────────────────────────────────
+   No card fill or border. This section follows SelfHost, which ends on a
+   three-card grid, and design.md is explicit that two adjacent card sections
+   means one of them is wrong. Space and a baseline rule carry the grouping
+   instead. */
+
+.logos {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px 40px;
+  margin: 36px 0 0;
+  padding: 0 0 30px;
+  border-bottom: 1px solid var(--border);
+  list-style: none;
+}
+
+/* Height rather than width, so a wide wordmark and a square badge sit on one
+   optical line instead of the wordmark dominating. */
+.logos img {
+  display: block;
+  height: 32px;
+  width: auto;
+  max-width: 200px;
+  opacity: 0.86;
+  transition: opacity 0.16s ease-out;
+}
+
+.logos a:hover img,
+.logos a:focus-visible img { opacity: 1; }
+
+.featured img { height: 44px; max-width: 280px; opacity: 1; }
+
+/* ── Name tier ────────────────────────────────────────── */
+
+.names {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 22px;
+  margin: 26px 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 16px;
+  color: var(--text);
+}
+
+.names a { color: var(--text); }
+.names a:hover { color: var(--accent-light); }
+
+/* ── Call to action ───────────────────────────────────── */
+
+.cta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px 20px;
+  margin-top: 36px;
+}
+
+.button {
+  display: inline-block;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 11px 24px;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--accent-light);
+  transition: border-color 0.16s ease-out, color 0.16s ease-out;
+}
+
+.button:hover { border-color: var(--accent); color: #d0cdff; }
+
+/* Never animated, so it appears the instant focus lands. */
+.button:focus-visible,
+.note a:focus-visible,
+.logos a:focus-visible,
+.names a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+.note a { color: var(--accent-light); }
+
+.note {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-dimmer);
+  max-width: 46ch;
+}
+
+@media (max-width: 820px) {
+  .section { padding: 68px 16px; }
+  .logos { gap: 12px 28px; margin-top: 28px; padding-bottom: 24px; }
+  .logos img { height: 26px; max-width: 150px; }
+  .featured img { height: 34px; max-width: 200px; }
+}

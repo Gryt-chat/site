@@ -34,6 +34,12 @@ export const STATIC_PAGES = [
     description: "What changed in each release of Gryt.",
   },
   {
+    path: "sponsors",
+    title: "Sponsors",
+    description:
+      "Everyone who has sponsored Gryt, and what sponsoring pays for.",
+  },
+  {
     path: "terms",
     title: "Terms of Use",
     description:
