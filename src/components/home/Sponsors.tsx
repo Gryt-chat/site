@@ -1,31 +1,40 @@
 import { motion, useReducedMotion } from "motion/react";
 import { inView, rise, stagger } from "./motion";
-import { sponsors } from "../../data/sponsors";
+import { formatSince, sponsors } from "../../data/sponsors";
 import styles from "./Sponsors.module.css";
 
 const SPONSOR_URL = "https://github.com/sponsors/Gryt-chat";
 
 /**
- * The placement the $100 tier promises, and where the $25 names go (GRYT-271).
+ * Where a sponsor's name and logo go (GRYT-271).
  *
- * Written to read the same with nobody in it, because for now that is the case
- * and a section that only makes sense once it is full would have to be added
- * later — which is exactly how the placement came to be promised and not built.
- * Empty, it is a paragraph about what Gryt costs to run and a link.
+ * Written to read the same with nobody in it, because for now that is the
+ * case. A section that only made sense once it had somebody in it would have
+ * to be built later, which is how the placement came to be promised and never
+ * built the first time.
  *
- * Logos sort in front of names, and a featured sponsor in front of both.
+ * Recurring sponsors and one-off payments are separate lists. Somebody who
+ * gave once two years ago has not stopped sponsoring; there was never anything
+ * to stop, and putting them under a heading that implies otherwise reads as a
+ * lapsed subscription.
  */
 export function Sponsors() {
   const reduced = useReducedMotion() ?? false;
 
-  const ordered = [...sponsors].sort((a, b) => {
-    if (!!a.featured !== !!b.featured) return a.featured ? -1 : 1;
-    if (!!a.logo !== !!b.logo) return a.logo ? -1 : 1;
-    return 0;
-  });
+  const recurring = sponsors
+    .filter((s) => s.kind === "recurring")
+    .sort((a, b) => {
+      if (!!a.featured !== !!b.featured) return a.featured ? -1 : 1;
+      return !!b.logo === !!a.logo ? 0 : a.logo ? -1 : 1;
+    });
 
-  const logos = ordered.filter((s) => s.logo);
-  const names = ordered.filter((s) => !s.logo);
+  const logos = recurring.filter((s) => s.logo);
+  const names = recurring.filter((s) => !s.logo);
+  // Newest first. A list that grows downward buries whoever arrived most
+  // recently under everybody who came before them.
+  const once = sponsors
+    .filter((s) => s.kind === "once")
+    .sort((a, b) => b.since.localeCompare(a.since));
 
   return (
     <section className={styles.section} id="sponsors">
@@ -34,13 +43,13 @@ export function Sponsors() {
           Sponsors
         </motion.p>
         <motion.h2 className={styles.heading} variants={rise(reduced)}>
-          One person, and some bills that are not optional.
+          What sponsoring actually pays for
         </motion.h2>
         <motion.p className={styles.sub} variants={rise(reduced)}>
-          A domain, a box to run the auth stack on, and the Apple and Windows
+          A domain, the box the auth stack runs on, and the Apple and Windows
           signing certificates that stop the installer warning people off their
-          own download. Sponsoring covers those, and it is the only money Gryt
-          takes — there is nothing to buy in the app and nothing to unlock.
+          own download. That is the whole list. There is nothing to buy inside
+          Gryt.
         </motion.p>
 
         {logos.length > 0 && (
@@ -73,6 +82,28 @@ export function Sponsors() {
               </li>
             ))}
           </motion.ul>
+        )}
+
+        {once.length > 0 && (
+          <motion.div className={styles.once} variants={rise(reduced)}>
+            <h3 className={styles.onceHeading}>Sponsored Gryt once</h3>
+            <ul className={styles.onceList}>
+              {once.map((s) => (
+                <li key={`${s.name}-${s.since}`}>
+                  <span className={styles.onceName}>
+                    {s.href ? (
+                      <a href={s.href} target="_blank" rel="noreferrer">
+                        {s.name}
+                      </a>
+                    ) : (
+                      s.name
+                    )}
+                  </span>
+                  <span className={styles.onceDate}>{formatSince(s.since)}</span>
+                </li>
+              ))}
+            </ul>
+          </motion.div>
         )}
 
         <motion.p className={styles.cta} variants={rise(reduced)}>

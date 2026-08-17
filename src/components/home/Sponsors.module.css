@@ -32,40 +32,38 @@
   max-width: 56ch;
 }
 
-/* ── Logo tier ────────────────────────────────────────── */
+/* ── Logo tier ────────────────────────────────────────────
+   No card fill or border. This section follows SelfHost, which ends on a
+   three-card grid, and design.md is explicit that two adjacent card sections
+   means one of them is wrong. Space and a baseline rule carry the grouping
+   instead. */
 
 .logos {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 18px;
+  gap: 14px 40px;
   margin: 36px 0 0;
-  padding: 0;
+  padding: 0 0 30px;
+  border-bottom: 1px solid var(--border);
   list-style: none;
 }
 
-.logos li {
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  background: var(--bg-raised);
-  padding: 20px 26px;
-  display: flex;
-  align-items: center;
-  transition: border-color 0.2s ease-out;
-}
-
-.logos li:hover { border-color: var(--accent); }
-
-/* Height rather than width, so logos of different proportions sit on one
-   optical line instead of a wide wordmark dwarfing a square badge. */
+/* Height rather than width, so a wide wordmark and a square badge sit on one
+   optical line instead of the wordmark dominating. */
 .logos img {
   display: block;
-  height: 34px;
+  height: 32px;
   width: auto;
-  max-width: 220px;
+  max-width: 200px;
+  opacity: 0.86;
+  transition: opacity 0.16s ease-out;
 }
 
-.featured img { height: 46px; max-width: 300px; }
+.logos a:hover img,
+.logos a:focus-visible img { opacity: 1; }
+
+.featured img { height: 44px; max-width: 280px; opacity: 1; }
 
 /* ── Name tier ────────────────────────────────────────── */
 
@@ -73,7 +71,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 10px 22px;
-  margin: 28px 0 0;
+  margin: 26px 0 0;
   padding: 0;
   list-style: none;
   font-size: 16px;
@@ -82,6 +80,51 @@
 
 .names a { color: var(--text); }
 .names a:hover { color: var(--accent-light); }
+
+/* ── One-off payments ─────────────────────────────────────
+   Separate from the recurring list, and dated. Somebody who gave once has not
+   lapsed, so they do not belong under the same heading. */
+
+.once { margin-top: 34px; }
+
+.onceHeading {
+  font-size: 17.5px;
+  font-weight: 800;
+  letter-spacing: -0.014em;
+  margin: 0 0 14px;
+}
+
+.onceList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  max-width: 46ch;
+}
+
+.onceList li {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: 9px 0;
+  border-top: 1px solid var(--border);
+}
+
+.onceList li:last-child { border-bottom: 1px solid var(--border); }
+
+.onceName { font-size: 16px; color: var(--text); }
+.onceName a { color: var(--text); }
+.onceName a:hover { color: var(--accent-light); }
+
+.onceDate {
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--text-dimmer);
+  white-space: nowrap;
+}
 
 /* ── Call to action ───────────────────────────────────── */
 
@@ -106,6 +149,16 @@
 
 .button:hover { border-color: var(--accent); color: #d0cdff; }
 
+/* Never animated, so it appears the instant focus lands. */
+.button:focus-visible,
+.logos a:focus-visible,
+.names a:focus-visible,
+.onceName a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
 .note {
   font-size: 14px;
   line-height: 1.6;
@@ -115,8 +168,8 @@
 
 @media (max-width: 820px) {
   .section { padding: 68px 16px; }
-  .logos { gap: 12px; margin-top: 28px; }
-  .logos li { padding: 16px 20px; }
-  .logos img { height: 28px; }
-  .featured img { height: 36px; }
+  .logos { gap: 12px 28px; margin-top: 28px; padding-bottom: 24px; }
+  .logos img { height: 26px; max-width: 150px; }
+  .featured img { height: 34px; max-width: 200px; }
+  .once { margin-top: 28px; }
 }

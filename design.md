@@ -47,7 +47,7 @@ One family, two cuts. Atkinson Hyperlegible Next as a variable font at
 `200–900`, Atkinson Hyperlegible Mono for anything that is a value rather than a
 sentence. There is no second display face and there should not be one.
 
-- Section heading: `clamp(28px, 4vw, 42px)`, weight `800`, letter-spacing `-1px`
+- Section heading: `clamp(28px, 3.6vw, 44px)`, weight `800`, letter-spacing `-0.028em`
 - Sub-heading inside a section: `clamp(22px, 2.4vw, 30px)`, weight `800`,
   letter-spacing `-0.024em`
 - Card or item heading: `17.5px`, weight `800`, letter-spacing `-0.014em`
@@ -78,7 +78,19 @@ on a content page.
 
 Sections are separated by `border-top: 1px solid var(--border)`, sometimes with a
 5 % accent wash fading out by 70 %. Padding is `100px 24px`, dropping to
-`64px 16px` under 768px.
+`68px 16px` under 820px. Story breaks at 800px and Edge sets its own padding;
+both predate this file and neither is worth chasing.
+
+## Sponsors
+
+The front page carries one list that grows: `src/data/sponsors.ts`, rendered by
+`src/components/home/Sponsors.tsx`. Recurring sponsors and one-off payments are
+separate lists, because somebody who gave once has not lapsed and should not sit
+under a heading implying they did.
+
+It has no card fill. `SelfHost` immediately above it ends on a three-card grid,
+and the standing rule below says two adjacent card sections means one of them is
+wrong. Logos sit on the page ground with a rule under them.
 
 ## Motion
 
