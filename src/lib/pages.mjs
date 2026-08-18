@@ -21,7 +21,7 @@ export const STATIC_PAGES = [
   {
     path: "why-gryt",
     title: "Why Gryt?",
-    description: "Why we built an open-source, self-hosted voice chat platform.",
+    description: "Why we built an open-source, self-hosted voice, video and text chat platform.",
   },
   {
     path: "blog",

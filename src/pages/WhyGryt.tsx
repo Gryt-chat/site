@@ -53,7 +53,8 @@ export function WhyGryt() {
 
       <Answer q="What is Gryt, and what is it not?">
         <p>
-          A self-hosted voice chat platform with text chat and file sharing.
+          A self-hosted platform for voice, video and text chat, with screen
+          sharing and file sharing.
           Running the server yourself is the normal way to use it, not a
           fallback for people who distrust the hosted one. Your
           community&rsquo;s data sits on infrastructure you control, and you can
