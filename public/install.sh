@@ -30,11 +30,23 @@ main() {
 
 	say "Platform: ${os}/${arch}"
 
-	tag="${GRYT_VERSION:-$(latest_tag)}"
+	# Labelled, because GRYT_VERSION is easy to set and have ignored:
+	# `GRYT_VERSION=v1.2.3 curl … | sh` sets it for curl rather than for the
+	# shell running this, so the pin is dropped and the newest release is
+	# installed instead. Nothing here can tell the two cases apart, since an
+	# unset variable looks the same either way. Saying which one this is at
+	# least makes the mismatch visible to somebody who meant to pin.
+	if [ -n "${GRYT_VERSION:-}" ]; then
+		tag="$GRYT_VERSION"
+		label=" (requested)"
+	else
+		tag="$(latest_tag)"
+		label=" (newest release)"
+	fi
 	if [ -z "$tag" ]; then
 		die "Could not work out the latest release. Set GRYT_VERSION to a tag like v1.0.0 and try again."
 	fi
-	say "Version:  ${tag}"
+	say "Version:  ${tag}${label}"
 
 	# Asset names come from goreleaser's template, which is not something this
 	# script should have to track. Matching os and arch inside the release's
