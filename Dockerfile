@@ -20,7 +20,7 @@ RUN printf '%s\n' \
   '  keepalive_timeout 65;' \
   '  gzip on;' \
   '  server {' \
-  '    listen 80;' \
+  '    listen 80 default_server;' \
   '    root /usr/share/nginx/html;' \
   '    index index.html;' \
   '    # Relative 301s. Without this nginx builds the Location header from its' \
@@ -56,6 +56,38 @@ RUN printf '%s\n' \
   '    error_page 404 /404.html;' \
   '    location = /404.html { internal; }' \
   '    location /health { return 200 "healthy"; add_header Content-Type text/plain; }' \
+  '    # Readable in a browser rather than downloaded. .sh is not in' \
+  '    # mime.types, so without this it falls to default_type and arrives as' \
+  '    # an attachment — which is the wrong default for a script whose whole' \
+  '    # pitch is that you can read it before you run it.' \
+  '    location = /install.sh {' \
+  '      default_type text/plain;' \
+  '      add_header Cache-Control "no-cache";' \
+  '      try_files $uri =404;' \
+  '    }' \
+  '  }' \
+  '  # get.gryt.chat serves one file: the CLI installer, at the root, so that' \
+  '  # curl -fsSL https://get.gryt.chat | sh works with nothing after the host.' \
+  '  # It is the same file the main site serves at /install.sh, shipped in the' \
+  '  # same image, so the two can never drift.' \
+  '  server {' \
+  '    listen 80;' \
+  '    server_name get.gryt.chat;' \
+  '    root /usr/share/nginx/html;' \
+  '    absolute_redirect off;' \
+  '    location = / {' \
+  '      default_type text/plain;' \
+  '      add_header Cache-Control "no-cache";' \
+  '      try_files /install.sh =404;' \
+  '    }' \
+  '    location = /install.sh {' \
+  '      default_type text/plain;' \
+  '      add_header Cache-Control "no-cache";' \
+  '      try_files $uri =404;' \
+  '    }' \
+  '    location = /health { return 200 "healthy"; add_header Content-Type text/plain; }' \
+  '    # Nothing else lives on this host.' \
+  '    location / { return 302 https://gryt.chat$request_uri; }' \
   '  }' \
   '}' > /etc/nginx/nginx.conf
 
