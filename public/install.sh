@@ -18,6 +18,7 @@ set -eu
 
 REPO="Gryt-chat/cli"
 BINARY="gryt"
+MARKER="# added by the gryt installer (https://get.gryt.chat)"
 
 main() {
 	need curl
@@ -67,13 +68,13 @@ main() {
 	say "Installed ${BINARY} to ${dir}/${BINARY}"
 
 	case ":${PATH}:" in
-	*":${dir}:"*) say "Run 'gryt' to get started." ;;
-	*)
-		say ""
-		say "${dir} is not on your PATH. Add it:"
-		say "  export PATH=\"${dir}:\$PATH\""
+	*":${dir}:"*)
+		say "Run 'gryt' to get started."
+		return
 		;;
 	esac
+
+	ensure_path "$dir"
 }
 
 say() { printf '%s\n' "$1" >&2; }
@@ -205,6 +206,86 @@ verify() {
 	fi
 
 	say "Checksum OK"
+}
+
+# Written in the syntax of the shell the user actually uses, which is not the
+# shell running this script.
+path_line() {
+	case "$(basename "${SHELL:-sh}")" in
+	fish) printf 'fish_add_path "%s"\n' "$1" ;;
+	*) printf 'export PATH="%s:$PATH"\n' "$1" ;;
+	esac
+}
+
+shell_rc() {
+	case "$(basename "${SHELL:-sh}")" in
+	zsh) echo "${ZDOTDIR:-$HOME}/.zshrc" ;;
+	bash)
+		# macOS Terminal opens login shells, which read .bash_profile and never
+		# .bashrc. Linux interactive shells are the other way round.
+		if [ "$(uname -s)" = "Darwin" ]; then
+			echo "${HOME}/.bash_profile"
+		else
+			echo "${HOME}/.bashrc"
+		fi
+		;;
+	fish) echo "${XDG_CONFIG_HOME:-$HOME/.config}/fish/config.fish" ;;
+	*) echo "" ;;
+	esac
+}
+
+print_path_line() {
+	say ""
+	say "$1 is not on your PATH. Add it:"
+	say "  $(path_line "$1")"
+}
+
+# On a stock macOS /usr/local/bin is root-owned, so the ~/.local/bin fallback is
+# the normal outcome rather than the exception, and nothing on a default macOS
+# puts that directory on PATH. Printing a line and hoping produced exactly what
+# you would expect: a successful install followed by "command not found".
+#
+# There is no way to ask first. Under `curl | sh` this script owns stdin, and
+# reading /dev/tty instead breaks every non-interactive use. So it is opt-out,
+# and it says precisely which file it touched.
+ensure_path() {
+	dir="$1"
+
+	if [ -n "${GRYT_NO_MODIFY_PATH:-}" ] || [ -n "${GRYT_INSTALL_DIR:-}" ]; then
+		# Somebody who picked the location, or asked to be left alone, manages
+		# their own PATH.
+		print_path_line "$dir"
+		return
+	fi
+
+	rc="$(shell_rc)"
+	if [ -z "$rc" ]; then
+		print_path_line "$dir"
+		return
+	fi
+
+	# Matching the directory rather than the marker, so a line somebody added
+	# by hand also counts and this never appends a second one.
+	if [ -f "$rc" ] && grep -qF "$dir" "$rc"; then
+		say ""
+		say "${rc} already puts ${dir} on your PATH, but this shell predates it."
+		say "Open a new shell, or run:"
+		say "  $(path_line "$dir")"
+		return
+	fi
+
+	if ! mkdir -p "$(dirname "$rc")" 2>/dev/null ||
+		! printf '\n%s\n%s\n' "$MARKER" "$(path_line "$dir")" >>"$rc" 2>/dev/null; then
+		print_path_line "$dir"
+		return
+	fi
+
+	say ""
+	say "Added ${dir} to your PATH in ${rc}."
+	say "That applies to new shells. For this one:"
+	say "  $(path_line "$dir")"
+	say ""
+	say "Set GRYT_NO_MODIFY_PATH=1 to skip this next time."
 }
 
 install_binary() {
