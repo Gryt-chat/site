@@ -27,6 +27,15 @@ npm run preview
 - **Feature requests**: [feedback.gryt.chat](https://feedback.gryt.chat)
 - **Bug reports**: [GitHub Issues](https://github.com/Gryt-chat/gryt/issues)
 
+## Sponsors
+
+What sponsoring pays for, the tiers, and everyone who has sponsored:
+[gryt.chat/sponsors](https://gryt.chat/sponsors). To sponsor:
+[GitHub Sponsors](https://github.com/sponsors/Gryt-chat).
+
+The list itself lives in the [Gryt README](https://github.com/Gryt-chat/gryt#sponsors),
+in one place rather than ten, so it cannot fall out of step across repositories.
+
 ## License
 
 [AGPL-3.0](https://github.com/Gryt-chat/gryt/blob/main/LICENSE) — Part of [Gryt](https://github.com/Gryt-chat/gryt)
