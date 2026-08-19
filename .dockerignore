@@ -4,6 +4,7 @@
 .gitignore
 .github
 dist
+node_modules
 *.log
 *.md
 LICENSE
