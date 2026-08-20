@@ -17,6 +17,25 @@ function buildWebAppUrl(host: string, code: string): string {
   return `https://app.gryt.chat/invite?host=${encodeURIComponent(host)}&code=${encodeURIComponent(code)}`;
 }
 
+/**
+ * Whether this is a phone, which changes what the page may do rather than only
+ * how it reads.
+ *
+ * A desktop browser handles an unknown `gryt://` quietly — nothing happens and
+ * the page carries on. iOS puts up "Safari cannot open the page because the
+ * address is invalid", from a page the visitor did not ask to do anything yet,
+ * and it also blocks a scheme navigation that no tap started. So on a phone the
+ * link is never fired on load; it is behind a button.
+ *
+ * User-agent sniffing, which is usually the wrong tool. There is no feature to
+ * detect here: the question is what the OS does with an unhandled scheme, and
+ * nothing exposes that.
+ */
+function isPhone(): boolean {
+  if (typeof navigator === "undefined") return false;
+  return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+}
+
 function ServerIcon({ host, name }: { host: string; name: string }) {
   const [failed, setFailed] = useState(false);
   const letter = (name[0] || "S").toUpperCase();
@@ -51,6 +70,11 @@ function ServerIcon({ host, name }: { host: string; name: string }) {
  *   choosing     it did not answer within 1.5s, so ask
  *   invalid      the link is missing host or code
  *   (degraded)   /info did not answer, so the hostname stands in for the name
+ *
+ * A phone skips straight to choosing, and the button says "Join in the Gryt
+ * app" rather than "the desktop app", because the phone app registers the same
+ * `gryt://` scheme and is the thing somebody holding a link on a phone wants.
+ * The reason it does not hand off automatically is in `isPhone`.
  */
 export function InvitePage() {
   const [params] = useSearchParams();
@@ -58,7 +82,13 @@ export function InvitePage() {
   const code = params.get("code") || "";
   const valid = host.length > 0 && code.length > 0;
 
-  const [showChoices, setShowChoices] = useState(false);
+  // Read once. It cannot change while the page is open, and re-reading it in
+  // render would make the first paint differ from the second.
+  const [phone] = useState(isPhone);
+  // A phone starts in the choosing state rather than being put into it by an
+  // effect, which is both the honest description — there is no hand-off to wait
+  // for — and what keeps the first paint the same as the second.
+  const [showChoices, setShowChoices] = useState(phone);
   const [preview, setPreview] = useState<ServerPreview | null>(null);
 
   useEffect(() => {
@@ -76,13 +106,17 @@ export function InvitePage() {
   useEffect(() => {
     if (!valid) return;
 
+    // Nothing is fired on load on a phone — see `isPhone` for why. The page is
+    // already showing the choices.
+    if (phone) return;
+
     // Try opening the desktop app via the gryt:// protocol.
     window.location.href = buildDeepLink(host, code);
 
     // If nothing happened after a short delay, show manual choices.
     const timer = setTimeout(() => setShowChoices(true), 1500);
     return () => clearTimeout(timer);
-  }, [valid, host, code]);
+  }, [valid, host, code, phone]);
 
   if (!valid) {
     return (
@@ -141,7 +175,7 @@ export function InvitePage() {
                 href={buildDeepLink(host, code)}
                 className={styles.primary}
               >
-                Open in the desktop app
+                {phone ? "Join in the Gryt app" : "Open in the desktop app"}
               </a>
               <a href={buildWebAppUrl(host, code)} className={styles.secondary}>
                 Open in the browser
