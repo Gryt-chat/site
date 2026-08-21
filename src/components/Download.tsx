@@ -139,7 +139,7 @@ function OSTab({ os, active, onClick }: { os: OS; active: boolean; onClick: () =
     >
       <Icon size={16} />
       {label}
-      {comingSoon && <span className={styles.comingSoon}>Soon</span>}
+      {comingSoon && <span className={styles.comingSoon}>In dev</span>}
     </button>
   );
 }
@@ -208,11 +208,11 @@ export function Download() {
         {OS_LABELS[selectedOS].comingSoon && (
           <div className={styles.comingSoonPanel}>
             <p className={styles.comingSoonTitle}>
-              {OS_LABELS[selectedOS].label} app is coming soon
+              The {OS_LABELS[selectedOS].label} app is in development
             </p>
             <p className={styles.comingSoonDesc}>
-              We're working on native mobile apps. In the meantime, you can use
-              Gryt in your mobile browser at{" "}
+              It is being built and made stable right now, so there is nothing to
+              download yet. Until there is, Gryt runs in your mobile browser at{" "}
               <a href="https://app.gryt.chat" target="_blank" rel="noreferrer">
                 app.gryt.chat
               </a>
