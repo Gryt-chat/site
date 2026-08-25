@@ -29,22 +29,47 @@ RUN printf '%s\n' \
   '    # Serve binaries as static files (no SPA fallback).' \
   '    location ^~ /release/ { try_files $uri =404; }' \
   '    location ^~ /downloads/ { try_files $uri =404; }' \
-  '    # Vite fingerprints bundled assets. Fonts and editorial media are' \
-  '    # immutable in practice: replacements use a new filename.' \
+  '    # Immutable by path, not by extension.' \
+  '    #' \
+  '    # Vite fingerprints everything under /assets/, so the claim is true' \
+  '    # there: a changed file arrives under a new name and the old one is' \
+  '    # never asked for again. /fonts/ is the same by hand — a replacement' \
+  '    # face gets its own filename.' \
+  '    #' \
+  '    # This used to be an extension match on woff2|webp|png|svg|mp4|mp3,' \
+  '    # which caught every one of those AND everything in public/ — which is' \
+  '    # exactly the set of files with stable names whose contents change.' \
+  '    # logo.svg moved twice in one day, og-image.png and the 33 per-page' \
+  '    # share cards were regenerated, and every edge that had already fetched' \
+  '    # one was told to keep it for a year. The site showed the old mark and' \
+  '    # the old favicon with a correct build sitting behind it, and no way to' \
+  '    # tell from the outside except a cache-busting query string.' \
+  '    #' \
+  '    # An extension cannot tell a fingerprinted file from an unfingerprinted' \
+  '    # one. Only the path can.' \
   '    location ^~ /assets/ {' \
   '      add_header Cache-Control "public, max-age=31536000, immutable";' \
   '      try_files $uri =404;' \
   '    }' \
-  '    location ~* \\.(?:woff2|webp|png|svg|mp4|mp3)$ {' \
+  '    location ^~ /fonts/ {' \
   '      add_header Cache-Control "public, max-age=31536000, immutable";' \
   '      try_files $uri =404;' \
   '    }' \
+  '    # Everything else: prerendered pages, the mark, the share cards, the' \
+  '    # screenshots. Ten minutes and then revalidate, which matches the deploy' \
+  '    # timer, so a change is visible about as fast as it can ship. The' \
+  '    # revalidation after that is a 304 against the ETag nginx already sends' \
+  '    # rather than a re-download.' \
+  '    #' \
   '    # Every real route is prerendered into a directory by' \
   '    # scripts/prerender-blog.mjs, so a path that does not resolve is a path' \
   '    # that does not exist. Falling back to /index.html instead meant any' \
   '    # typo answered 200 with the front page metadata: a soft 404, indexed by' \
   '    # crawlers as a duplicate of the home page.' \
-  '    location / { try_files $uri $uri/ =404; }' \
+  '    location / {' \
+  '      add_header Cache-Control "public, max-age=600, must-revalidate";' \
+  '      try_files $uri $uri/ =404;' \
+  '    }' \
   '    # Served directly rather than 301d to /auth/callback/. Before the' \
   '    # fallback changed, this path had no directory and fell through to the' \
   '    # SPA with no redirect at all; now that it has one, try_files would add' \
