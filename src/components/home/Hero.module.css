@@ -35,7 +35,7 @@
   height: 620px;
   left: 8%;
   top: 6%;
-  background: radial-gradient(circle, rgba(150, 143, 248, 0.5), transparent 68%);
+  background: radial-gradient(circle, color-mix(in oklab, var(--accent) 50%, transparent), transparent 68%);
   animation: driftA 26s ease-in-out infinite alternate;
 }
 
@@ -94,7 +94,7 @@
   padding: 7px 16px 7px 9px;
   border-radius: 999px;
   border: 1px solid var(--border);
-  background: rgba(30, 32, 42, 0.7);
+  background: color-mix(in oklab, var(--bg-card) 70%, transparent);
   backdrop-filter: blur(10px);
   font-size: 13.5px;
   color: var(--text-dim) !important;
@@ -162,7 +162,7 @@
 
 .secondary {
   border: 1px solid var(--border);
-  background: rgba(30, 32, 42, 0.55);
+  background: color-mix(in oklab, var(--bg-card) 55%, transparent);
   backdrop-filter: blur(10px);
   color: var(--text);
   transition: border-color 0.18s ease-out;

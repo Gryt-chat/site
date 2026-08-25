@@ -91,7 +91,7 @@
   font-weight: 600 !important;
 }
 
-.openApp:hover { color: #d0cdff !important; }
+.openApp:hover { color: var(--accent-hover) !important; }
 
 .openAppMobile {
   display: flex;
@@ -105,7 +105,7 @@
   border-radius: var(--radius-sm);
 }
 
-.openAppMobile:hover { background: rgba(150, 143, 248, 0.12); }
+.openAppMobile:hover { background: var(--accent-wash); }
 
 /* ── Hamburger button (mobile only) ─────────────────── */
 
@@ -215,7 +215,7 @@
 
 .sheetLink.active {
   color: var(--accent-light) !important;
-  background: rgba(150, 143, 248, 0.08);
+  background: color-mix(in oklab, var(--accent) 8%, transparent);
 }
 
 .sheetFooter {
@@ -240,7 +240,7 @@
   .hamburger {
     display: flex;
     margin-left: auto;
-    background: rgba(30, 32, 42, 0.72);
+    background: var(--bg-card-translucent);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border: 1px solid var(--border);

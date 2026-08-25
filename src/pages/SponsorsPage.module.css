@@ -65,7 +65,7 @@
 }
 
 .name a { color: var(--text); }
-.name a:hover { color: #d0cdff; }
+.name a:hover { color: var(--accent-hover); }
 
 .date {
   margin-left: auto;

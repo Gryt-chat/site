@@ -1,6 +1,7 @@
 import { lazy, Suspense, useEffect } from 'react'
 import { useParams, Link, Navigate } from 'react-router-dom'
 import { MdChevronLeft } from 'react-icons/md'
+import { Chip } from '@gryt/ui'
 import { getPost } from '../lib/blog'
 import { pageTitle } from '../lib/title'
 import { LightboxImage } from '../components/Lightbox'
@@ -79,9 +80,9 @@ export function BlogPost() {
         {frontmatter.tags && frontmatter.tags.length > 0 && (
           <div className={styles.tags}>
             {frontmatter.tags.map((tag) => (
-              <span key={tag} className={styles.tag}>
+              <Chip key={tag} tone="primary">
                 {tag}
-              </span>
+              </Chip>
             ))}
           </div>
         )}

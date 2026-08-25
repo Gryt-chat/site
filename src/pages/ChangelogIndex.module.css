@@ -124,16 +124,14 @@
   color: var(--accent-light);
 }
 
+/* A Gryt UI Chip on `warning`, which is where the theme keeps the amber. What
+   is left is the typography: the version beside it is set in mono, and a
+   proportional label next to it reads as a different kind of thing. */
 .beta {
-  padding: 2px 8px;
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  background: var(--bg-card);
   font-family: var(--font-mono);
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.5px;
-  color: var(--yellow);
 }
 
 .date {

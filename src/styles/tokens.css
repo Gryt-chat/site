@@ -57,9 +57,40 @@
   --red: var(--gryt-danger, #f87171);
   --yellow: var(--gryt-warning, #fbbf24);
 
-  /* Not in the theme: a glow is a site device, and the theme has no token for
-     one. Derived from the accent so it follows it. */
+  /* Derived, because the theme has no token for any of these and the site
+     needs them. All four are mixed off a token rather than written out, so a
+     themed site gets themed devices.
+
+     This is the part that was quietly still on the old palette. Nineteen CSS
+     modules read `var(--bg)` and friends and followed a theme change, and then
+     twenty-odd rules painted `rgba(150, 143, 248, 0.12)` and `#d0cdff`
+     straight into a glow, a wash or a link hover. Pick a different theme and
+     those stayed violet while everything around them moved — the same failure
+     as the copied palette, one layer down and harder to see, because the
+     values were right for the theme that shipped. */
   --accent-glow: color-mix(in oklab, var(--accent) 25%, transparent);
+
+  /* A link's hover. A step past --accent-light rather than a sixth hex: the
+     five rules that used to write #d0cdff were writing a lighter violet, and
+     what they meant was "lighter than the link". */
+  --accent-hover: color-mix(in oklab, var(--accent-light) 78%, white);
+
+  /* Washes: the accent at a few percent, for a tinted panel or a hover. The
+     percentages are the alphas the rgba() values carried. */
+  --accent-wash-strong: color-mix(in oklab, var(--accent) 15%, transparent);
+  --accent-wash: color-mix(in oklab, var(--accent) 12%, transparent);
+  --accent-wash-soft: color-mix(in oklab, var(--accent) 6%, transparent);
+  --accent-wash-faint: color-mix(in oklab, var(--accent) 3%, transparent);
+
+  /* A card with something behind it showing through — the navbar pill, the
+     hero's second action, the mobile sheet. */
+  --bg-card-translucent: color-mix(in oklab, var(--bg-card) 72%, transparent);
+
+  /* The beta amber, and it is deliberately not a theme colour. A beta build
+     wears the same amber whatever palette the reader picked, because the point
+     of it is to be recognisable across builds rather than to fit in. Kept in
+     step by hand with BETA_ACCENT in the client. */
+  --beta: #f2a33c;
 
   /* The type is not under the `--gryt-` prefix either: @gryt/ui sets Tailwind's
      own `--font-sans` and `--font-mono`, same two families the site already

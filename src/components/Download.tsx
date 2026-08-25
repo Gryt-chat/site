@@ -280,7 +280,7 @@ export function Download() {
           </p>
         )}
 
-        <Divider />
+        <Divider className={styles.divider} />
 
         <div className={styles.altActions}>
           <Button

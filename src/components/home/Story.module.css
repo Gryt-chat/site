@@ -40,7 +40,7 @@
   box-shadow: 0 1px 0 color-mix(in srgb, var(--accent) 45%, transparent);
 }
 
-.prose a:hover { color: #d0cdff; box-shadow: 0 1px 0 var(--accent); }
+.prose a:hover { color: var(--accent-hover); box-shadow: 0 1px 0 var(--accent); }
 
 .figures {
   display: grid;

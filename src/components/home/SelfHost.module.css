@@ -98,7 +98,7 @@
 }
 
 .docs a { color: var(--accent-light); }
-.docs a:hover { color: #d0cdff; }
+.docs a:hover { color: var(--accent-hover); }
 
 /* ── The other three routes ───────────────────────────── */
 

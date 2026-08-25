@@ -56,7 +56,7 @@
   padding: 3px 8px;
   border-radius: 4px;
   background: rgba(242, 163, 60, 0.15);
-  color: #f2a33c;
+  color: var(--beta);
 }
 
 .headline {
@@ -113,7 +113,7 @@
 .prose a {
   color: var(--accent-light);
   text-decoration: underline;
-  text-decoration-color: rgba(180, 175, 255, 0.3);
+  text-decoration-color: color-mix(in oklab, var(--accent-light) 30%, transparent);
   text-underline-offset: 3px;
   transition: text-decoration-color 0.2s;
 }
@@ -181,7 +181,7 @@
   margin: 24px 0;
   padding: 16px 20px;
   border-left: 3px solid var(--accent);
-  background: rgba(150, 143, 248, 0.06);
+  background: var(--accent-wash-soft);
   border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
   color: var(--text-dim);
 }

@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { useEffect } from 'react'
 import { releases } from '../lib/changelog'
 import { pageTitle } from '../lib/title'
+import { Chip } from "@gryt/ui";
 import styles from './ChangelogIndex.module.css'
 
 const DATE = new Intl.DateTimeFormat('en-GB', {
@@ -35,7 +36,9 @@ export function ChangelogIndex() {
                     {release.frontmatter.version}
                   </span>
                   {release.frontmatter.channel === 'beta' && (
-                    <span className={styles.beta}>Beta</span>
+                    <Chip className={styles.beta} tone="warning">
+                      Beta
+                    </Chip>
                   )}
                   <time
                     className={styles.date}
