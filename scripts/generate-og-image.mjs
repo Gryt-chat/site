@@ -185,9 +185,11 @@ function fitTitle(text, { maxWidth, sizes, font, weight, tracking, maxLines }) {
  * went on showing the old bird beside a site, a client and a docs build that
  * had all moved on, and the only way to notice was to look at one.
  *
- * `logo.svg` is the square artboard and `logo-round.svg` the same drawing under
- * a circular clip. The label row takes the round one, matching the favicon; the
- * big background glyph takes the square one with its ground dropped.
+ * `logo.svg` is the mark, under a circular clip, and `logo-square.svg` the same
+ * drawing on its full artboard. The label row takes the mark, matching the
+ * favicon; the big background glyph takes the square one with its ground
+ * dropped, because it crops the bird itself and a circular clip would cut the
+ * bleed the composition is built on.
  */
 
 function readMark(name, ns) {
@@ -212,7 +214,7 @@ function readMark(name, ns) {
 }
 
 /** The mark at label size, in its own colours, under its circular clip. */
-const OWL_MARK = readMark('logo-round.svg', 'mark');
+const OWL_MARK = readMark('logo.svg', 'mark');
 
 /**
  * The mark without its ground, recoloured into the field.
@@ -224,11 +226,11 @@ const OWL_MARK = readMark('logo-round.svg', 'mark');
  * a human do not agree on which case to write it in.
  */
 const OWL_GLYPH = (() => {
-  let svg = readMark('logo.svg', 'glyph');
+  let svg = readMark('logo-square.svg', 'glyph');
 
   // The ground. It is the card's field that shows through instead.
   const ground = /<rect[^>]*fill="#2E2D5F"[^>]*\/>/i;
-  if (!ground.test(svg)) throw new Error('logo.svg: no ground rect to drop');
+  if (!ground.test(svg)) throw new Error('logo-square.svg: no ground rect to drop');
   svg = svg.replace(ground, '');
 
   for (const [from, to] of Object.entries(OWL_TONES)) {
@@ -236,7 +238,7 @@ const OWL_GLYPH = (() => {
     // reusing one across the check and the replace is the kind of thing that
     // works until it doesn't.
     if (!new RegExp(`fill="${from}"`, 'i').test(svg)) {
-      throw new Error(`logo.svg: nothing painted ${from} — the mark's palette moved, retune OWL_TONES`);
+      throw new Error(`logo-square.svg: nothing painted ${from} — the mark's palette moved, retune OWL_TONES`);
     }
     svg = svg.replace(new RegExp(`fill="${from}"`, 'gi'), `fill="${to}"`);
   }
