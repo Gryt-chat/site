@@ -1,4 +1,5 @@
 import { motion, useReducedMotion } from "motion/react";
+import { Button } from "@gryt/ui";
 import { FaGithub } from "react-icons/fa";
 import { DownloadIcon, GlobeIcon } from "../icons";
 import { rise, stagger } from "./motion";
@@ -54,19 +55,34 @@ export function Hero() {
         </motion.p>
 
         <motion.div className={styles.actions} variants={rise(reduced)}>
-          <a href="#download" className={styles.primary} onClick={scrollToDownload}>
+          <Button
+            className={styles.primary}
+            onClick={scrollToDownload}
+            render={<a href="#download" />}
+            size="large"
+          >
             <DownloadIcon size={17} />
             Download Gryt
-          </a>
-          <a
-            href="https://app.gryt.chat"
-            target="_blank"
-            rel="noreferrer"
+          </Button>
+          {/* tone="neutral" would be a flat surface fill. The hero sits on a
+              blob field, and the second action reads as glass over it — so the
+              tone is ghost, carrying no fill of its own, and the class adds
+              only the translucency and the hairline. */}
+          <Button
             className={styles.secondary}
+            render={
+              <a
+                href="https://app.gryt.chat"
+                target="_blank"
+                rel="noreferrer"
+              />
+            }
+            size="large"
+            tone="ghost"
           >
             <GlobeIcon size={17} />
             Try it in the browser
-          </a>
+          </Button>
         </motion.div>
 
       </motion.div>

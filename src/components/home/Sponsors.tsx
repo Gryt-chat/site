@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { motion, useReducedMotion } from "motion/react";
+import { Button } from "@gryt/ui";
 import { inView, rise, stagger } from "./motion";
 import { sponsors } from "../../data/sponsors";
 import styles from "./Sponsors.module.css";
@@ -79,9 +80,13 @@ export function Sponsors() {
         )}
 
         <motion.p className={styles.cta} variants={rise(reduced)}>
-          <a className={styles.button} href={SPONSOR_URL} target="_blank" rel="noreferrer">
+          <Button
+            className={styles.button}
+            render={<a href={SPONSOR_URL} target="_blank" rel="noreferrer" />}
+            tone="ghost"
+          >
             Sponsor Gryt
-          </a>
+          </Button>
           <span className={styles.note}>
             Names are listed from $25 a month, logos from $100.{" "}
             <Link to="/sponsors">Everyone who has sponsored</Link>, including

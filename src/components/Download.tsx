@@ -133,15 +133,16 @@ function categorizeAssets(assets: ReleaseAsset[]): Record<OS, DownloadOption[]> 
 function OSTab({ os, active, onClick }: { os: OS; active: boolean; onClick: () => void }) {
   const { label, icon: Icon, comingSoon } = OS_LABELS[os];
   return (
-    <button
-      className={`${styles.osTab} ${active ? styles.osTabActive : ""}`}
+    <Button
+      aria-pressed={active}
+      className={styles.osTab}
       onClick={onClick}
-      type="button"
+      tone={active ? "primary" : "ghost"}
     >
       <Icon size={16} />
       {label}
       {comingSoon && <span className={styles.comingSoon}>In dev</span>}
-    </button>
+    </Button>
   );
 }
 
@@ -154,10 +155,17 @@ function DownloadCard({ option }: { option: DownloadOption }) {
       </div>
       <div className={styles.cardAction}>
         <span className={styles.cardSize}>{formatSize(option.size)}</span>
-        <span className={styles.cardBtn}>
+        {/* A Button rendered as a span, not a button. The whole card is the
+            link — that is the bigger target and the one a keyboard reaches —
+            so this is the affordance inside it, and a real button nested in an
+            anchor is invalid markup as well as a second tab stop. What it is
+            here for is the look: the six other actions on this page are Gryt
+            UI Buttons, and this one used to be drawn by hand with its own
+            corner. */}
+        <Button className={styles.cardBtn} render={<span />} size="small" tabIndex={-1}>
           <DownloadIcon size={14} />
           Download
-        </span>
+        </Button>
       </div>
     </a>
   );

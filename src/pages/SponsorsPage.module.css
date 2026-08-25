@@ -119,19 +119,17 @@
 
 /* ── Call to action ───────────────────────────────────── */
 
+/* An outlined pill: `tone="ghost"` so Gryt UI's Button brings no fill of its
+   own, and what is left here is the hairline and the accent text. The pill,
+   the padding and the press come from the component. */
 .button {
-  display: inline-block;
   margin-top: 26px;
   border: 1px solid var(--border);
-  border-radius: 999px;
-  padding: 11px 24px;
-  font-size: 14.5px;
-  font-weight: 600;
   color: var(--accent-light);
   transition: border-color 0.16s ease-out, color 0.16s ease-out;
 }
 
-.button:hover { border-color: var(--accent); color: #d0cdff; }
+.button:hover { border-color: var(--accent); color: var(--accent-light); }
 
 .button:focus-visible,
 .name a:focus-visible {

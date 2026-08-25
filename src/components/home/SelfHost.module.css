@@ -56,19 +56,18 @@
   letter-spacing: 0.04em;
 }
 
+/* An outlined pill on the terminal's caption bar: `tone="ghost"` so the Button
+   brings no fill, and what is left is the hairline and the monospace — the
+   caption is set in mono, and a proportional label on it reads as a different
+   object. */
 .copy {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  color: var(--accent-light);
-  background: none;
   border: 1px solid var(--border);
-  border-radius: 999px;
-  padding: 6px 14px;
-  cursor: pointer;
-  transition: border-color 0.16s ease-out, color 0.16s ease-out;
+  color: var(--accent-light);
+  font-family: var(--font-mono);
+  transition: border-color 0.16s ease-out;
 }
 
-.copy:hover { border-color: var(--accent); color: #d0cdff; }
+.copy:hover { border-color: var(--accent); color: var(--accent-light); }
 
 .terminal pre {
   margin: 0;
