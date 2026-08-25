@@ -1,5 +1,6 @@
 import { motion, useReducedMotion } from "motion/react";
 import { inView, rise, stagger } from "./motion";
+import { Card } from "@gryt/ui";
 import styles from "./Compare.module.css";
 
 /**
@@ -136,7 +137,7 @@ function Table({
   caption: string;
 }) {
   return (
-    <div className={styles.wrap}>
+    <Card className={styles.wrap}>
       <table className={styles.table}>
         <caption className="sr-only">{caption}</caption>
         <thead>
@@ -164,7 +165,7 @@ function Table({
           ))}
         </tbody>
       </table>
-    </div>
+    </Card>
   );
 }
 

@@ -37,18 +37,25 @@
    gets the weight rather than sitting as one link called "GitHub". */
 .repos { display: flex; flex-wrap: wrap; gap: 6px; }
 
-.repos a {
+/* The chip is a Gryt UI Chip and the link wraps it, because Chip renders a
+   span and has no `render` prop — an anchor around it is the honest shape
+   anyway, since the whole pill is the target.
+
+   What is left here is the mono, which the component does not carry and which
+   is the point: these are repository names. */
+.repos a { text-decoration: none; }
+
+.repos :global(.gryt-chip) {
   font-family: var(--font-mono);
-  font-size: 12px;
   color: var(--text-dim);
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  padding: 5px 12px;
   white-space: nowrap;
   transition: border-color 0.16s ease-out, color 0.16s ease-out;
 }
 
-.repos a:hover { border-color: var(--accent); color: var(--accent-light); }
+.repos a:hover :global(.gryt-chip) {
+  border-color: var(--accent);
+  color: var(--accent-light);
+}
 
 /* ── Link groups ──────────────────────────────────────── */
 

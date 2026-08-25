@@ -46,35 +46,16 @@
   position: relative;
 }
 
+/* The tabs are Gryt UI Buttons — `primary` for the selected one, `ghost` for
+   the rest — so the fill, the ink, the hover and the focus ring are the
+   component's, and the selected tab is the same accent-on-ink pair as every
+   other primary action on the site.
+
+   What is left is the corner. Gryt UI's Button is a full pill; a pill inside
+   the tab strip's own rounded rectangle leaves four crescents of card showing
+   at the ends. `--radius-sm` sits it back inside the track. */
 .osTab {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 20px;
   border-radius: var(--radius-sm);
-  border: none;
-  background: transparent;
-  color: var(--text-dim);
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.16s ease-out, color 0.16s ease-out;
-  font-family: inherit;
-}
-
-.osTab:hover {
-  color: var(--text);
-  background: rgba(255, 255, 255, 0.04);
-}
-
-.osTabActive {
-  background: var(--accent);
-  color: var(--accent-ink);
-}
-
-.osTabActive:hover {
-  background: var(--accent);
-  color: var(--accent-ink);
 }
 
 /* ── Coming soon badge ──────────────────────────────────── */
@@ -86,8 +67,8 @@
   letter-spacing: 0.5px;
   padding: 2px 6px;
   border-radius: 4px;
-  background: rgba(150, 143, 248, 0.15);
-  color: var(--accent-light, #b4afff);
+  background: var(--accent-wash-strong);
+  color: var(--accent-light);
   line-height: 1;
 }
 
@@ -97,7 +78,7 @@
   padding: 32px 24px;
   border-radius: var(--radius-md);
   border: 1px dashed var(--border);
-  background: rgba(150, 143, 248, 0.03);
+  background: var(--accent-wash-faint);
   position: relative;
 }
 
@@ -150,7 +131,7 @@
 
 .downloadCard:hover {
   border-color: var(--accent);
-  background: rgba(150, 143, 248, 0.04);
+  background: color-mix(in oklab, var(--accent) 4%, transparent);
 }
 
 .cardInfo {
@@ -183,17 +164,10 @@
   white-space: nowrap;
 }
 
+/* The Button paints itself; the hover belongs to the card, because the card is
+   what you click. */
 .cardBtn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 14px;
-  border-radius: var(--radius-sm);
-  background: var(--accent);
-  color: var(--accent-ink);
-  font-size: 13px;
-  font-weight: 600;
-  white-space: nowrap;
+  cursor: inherit;
   transition: opacity 0.16s ease-out;
 }
 
@@ -240,13 +214,13 @@
   text-decoration: underline;
 }
 
+/* The rule is a Gryt UI Divider now, so the hairline and its colour come from
+   the component. What is left is the site's measure — it is a rule under a
+   column of downloads, not across the page. Dropping this class entirely let
+   it run the full width of the section, which is a different design. */
 .divider {
-  width: 100%;
   max-width: 560px;
-  height: 1px;
-  background: var(--border);
   margin: 30px 0;
-  position: relative;
 }
 
 .altActions {
@@ -295,5 +269,10 @@
   }
 
   .altActions { flex-direction: column; align-items: center; }
-  .altActions :global(.btn) { width: 100%; max-width: 280px; justify-content: center; }
+  /* `.gryt-button`, not `.btn`. Gryt UI stamps that class on every Button, and
+     it is the only stable hook a CSS module has on a component whose other
+     classes are Tailwind utilities. The `.btn` this used to name went out with
+     the site's own button, and the rule went on matching nothing — stacked
+     buttons kept their content width on a phone and nothing said so. */
+  .altActions :global(.gryt-button) { width: 100%; max-width: 280px; }
 }

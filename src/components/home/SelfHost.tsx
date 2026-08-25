@@ -1,5 +1,6 @@
 import { useCallback, useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
+import { Button } from "@gryt/ui";
 import { inView, rise, stagger } from "./motion";
 import styles from "./SelfHost.module.css";
 
@@ -75,9 +76,14 @@ export function SelfHost() {
         <motion.figure className={styles.terminal} variants={rise(reduced)}>
           <figcaption>
             <span>Docker Compose, any Linux box</span>
-            <button type="button" onClick={copy} className={styles.copy}>
+            <Button
+              className={styles.copy}
+              onClick={copy}
+              size="xsmall"
+              tone="ghost"
+            >
               {copied ? "Copied" : "Copy"}
-            </button>
+            </Button>
           </figcaption>
           <pre>
             <code>{INSTALL}</code>

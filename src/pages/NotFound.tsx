@@ -1,5 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { useEffect } from "react";
+import { Button } from "@gryt/ui";
 import { pageTitle } from "../lib/title";
 import styles from "./NotFound.module.css";
 
@@ -39,10 +40,15 @@ export function NotFound() {
 
         <nav className={styles.links} aria-label="Go to">
           {DESTINATIONS.map((d) => (
-            <Link key={d.to} to={d.to} className={styles.link}>
+            <Button
+              className={styles.link}
+              key={d.to}
+              render={<Link to={d.to} />}
+              tone="neutral"
+            >
               {d.label}
               <span aria-hidden="true">→</span>
-            </Link>
+            </Button>
           ))}
         </nav>
       </div>

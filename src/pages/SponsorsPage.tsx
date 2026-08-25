@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { Button } from "@gryt/ui";
 import { PageHeader } from "../components/PageHeader";
 import { formatSince, sponsors } from "../data/sponsors";
 import { pageTitle } from "../lib/title";
@@ -125,9 +126,13 @@ export function SponsorsPage() {
           not cover. Anyone who has sent something is listed here on the same
           terms, and nothing is published without asking first.
         </p>
-        <a className={styles.button} href={SPONSOR_URL} target="_blank" rel="noreferrer">
+        <Button
+          className={styles.button}
+          render={<a href={SPONSOR_URL} target="_blank" rel="noreferrer" />}
+          tone="ghost"
+        >
           Sponsor Gryt
-        </a>
+        </Button>
       </section>
     </main>
   );

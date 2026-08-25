@@ -1,3 +1,19 @@
+/*
+ * The site's colours, from @gryt/theme.
+ *
+ * These names were the same seven hex values as the app, typed out a second
+ * time. Right, because somebody copied them carefully — and nothing kept them
+ * right. A change to Gryt's palette landed in the client and left the site on
+ * the old one, silently, because there was no link between them to break.
+ *
+ * So the names stay and the values do not. Nineteen CSS modules go on saying
+ * `var(--bg)`, and `--bg` is now whatever @gryt/ui says it is, including when
+ * somebody picks one of the shipped themes.
+ *
+ * @gryt/ui/styles.css has to be imported before this file for the fallbacks to
+ * be dead code rather than load-bearing; index.css does that.
+ */
+
 @font-face {
   font-family: "Atkinson Hyperlegible Next";
   src: url("/fonts/AtkinsonHyperlegibleNextVF-Variable.woff2") format("woff2");
@@ -15,24 +31,83 @@
 }
 
 :root {
-  --bg: #111318;
-  --bg-raised: #1a1d24;
-  --bg-card: #1e2028;
-  --text: #e0e0e6;
-  --text-dim: #888;
-  --text-dimmer: #858790;
-  --accent: #968FF8;
-  --accent-ink: #14161d;
-  --accent-light: #b4afff;
-  --accent-glow: rgba(150, 143, 248, 0.25);
-  --green: #4ade80;
-  --red: #f87171;
-  --yellow: #fbbf24;
-  --border: #2b303d;
-  --font: "Atkinson Hyperlegible Next", sans-serif;
-  --font-mono: "Atkinson Hyperlegible Mono", monospace;
+  /* The fallbacks are the values this file used to hard-code. They apply only
+     if @gryt/ui's stylesheet has not loaded, which would be a broken build —
+     but a broken build that renders is easier to diagnose than a black page. */
+  --bg: var(--gryt-bg, #111318);
+  --bg-raised: var(--gryt-surface, #1a1d24);
+  --bg-card: var(--gryt-surface-raised, #1e2028);
+  --text: var(--gryt-text, #e0e0e6);
+  --text-dim: var(--gryt-muted, #888);
+  --text-dimmer: var(--gryt-muted, #858790);
+  --accent: var(--gryt-accent-9, #968ff8);
+  /* `--color-gryt-on-accent`, not `--gryt-on-accent`. The ink that goes on an
+     accent fill is the one token @gryt/ui exposes only under the Tailwind
+     colour prefix, because it exists to back the `text-gryt-on-accent`
+     utility. The un-prefixed name resolves to nothing and the fallback below
+     takes over without complaint — which is what happened here, and it cost
+     the site a shade the app does not use. */
+  --accent-ink: var(--color-gryt-on-accent, #14161d);
+  --accent-light: var(--gryt-accent-light, #b4afff);
+  --border: var(--gryt-border, #2b303d);
+
+  /* Semantic, and taken from the theme so a themed site gets themed states
+     rather than three colours that belong to the old palette. */
+  --green: var(--gryt-success, #4ade80);
+  --red: var(--gryt-danger, #f87171);
+  --yellow: var(--gryt-warning, #fbbf24);
+
+  /* Derived, because the theme has no token for any of these and the site
+     needs them. All four are mixed off a token rather than written out, so a
+     themed site gets themed devices.
+
+     This is the part that was quietly still on the old palette. Nineteen CSS
+     modules read `var(--bg)` and friends and followed a theme change, and then
+     twenty-odd rules painted `rgba(150, 143, 248, 0.12)` and `#d0cdff`
+     straight into a glow, a wash or a link hover. Pick a different theme and
+     those stayed violet while everything around them moved — the same failure
+     as the copied palette, one layer down and harder to see, because the
+     values were right for the theme that shipped. */
+  --accent-glow: color-mix(in oklab, var(--accent) 25%, transparent);
+
+  /* A link's hover. A step past --accent-light rather than a sixth hex: the
+     five rules that used to write #d0cdff were writing a lighter violet, and
+     what they meant was "lighter than the link". */
+  --accent-hover: color-mix(in oklab, var(--accent-light) 78%, white);
+
+  /* Washes: the accent at a few percent, for a tinted panel or a hover. The
+     percentages are the alphas the rgba() values carried. */
+  --accent-wash-strong: color-mix(in oklab, var(--accent) 15%, transparent);
+  --accent-wash: color-mix(in oklab, var(--accent) 12%, transparent);
+  --accent-wash-soft: color-mix(in oklab, var(--accent) 6%, transparent);
+  --accent-wash-faint: color-mix(in oklab, var(--accent) 3%, transparent);
+
+  /* A card with something behind it showing through — the navbar pill, the
+     hero's second action, the mobile sheet. */
+  --bg-card-translucent: color-mix(in oklab, var(--bg-card) 72%, transparent);
+
+  /* The beta amber, and it is deliberately not a theme colour. A beta build
+     wears the same amber whatever palette the reader picked, because the point
+     of it is to be recognisable across builds rather than to fit in. Kept in
+     step by hand with BETA_ACCENT in the client. */
+  --beta: #f2a33c;
+
+  /* The type is not under the `--gryt-` prefix either: @gryt/ui sets Tailwind's
+     own `--font-sans` and `--font-mono`, same two families the site already
+     loaded, with deeper fallback stacks behind them.
+
+     `--font-mono` is missing on purpose. The site's name for it collides with
+     @gryt/ui's, so an alias here would be `--font-mono: var(--font-mono, …)` —
+     a cycle, and a cycle does not fall back, it computes to nothing. Leaving
+     the declaration out lets @gryt/ui's own reach the nineteen CSS modules
+     that ask for `var(--font-mono)` untouched. */
+  --font: var(--font-sans, "Atkinson Hyperlegible Next", sans-serif);
+
+  --radius-sm: var(--gryt-radius-sm, 8px);
+  --radius-md: var(--gryt-radius-md, 12px);
+  --radius-lg: var(--gryt-radius-lg, 16px);
+
+  /* The one measurement that is genuinely the site's own — how wide a page of
+     marketing copy is has nothing to do with the app's component library. */
   --max-w: 1100px;
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
 }

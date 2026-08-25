@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 
 import { GrytLogo } from "./GrytLogo";
+import { Chip } from "@gryt/ui";
 import styles from "./Footer.module.css";
 
 /**
@@ -86,7 +87,7 @@ export function Footer() {
           <nav className={styles.repos} aria-label="Repositories">
             {repos.map((r) => (
               <a key={r.href} href={r.href} target="_blank" rel="noreferrer">
-                {r.label}
+                <Chip>{r.label}</Chip>
               </a>
             ))}
           </nav>

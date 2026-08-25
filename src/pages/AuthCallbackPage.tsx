@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { Button } from "@gryt/ui";
 import { GrytLogo } from "../components/GrytLogo";
 import styles from "../styles/handoff.module.css";
 
@@ -69,9 +70,9 @@ export function AuthCallbackPage() {
                 The app did not open on its own. This button will do it.
               </p>
               <div className={styles.actions}>
-                <a href={buildDeepLink(params)} className={styles.primary}>
+                <Button render={<a href={buildDeepLink(params)} />} size="large">
                   Open Gryt
-                </a>
+                </Button>
               </div>
               <p className={styles.hint}>You can close this tab afterwards.</p>
             </>

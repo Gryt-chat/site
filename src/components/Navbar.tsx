@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import * as Dialog from "@radix-ui/react-dialog";
+import { Button, Dialog } from "@gryt/ui";
 import { MdMenu, MdClose } from "react-icons/md";
 import { GrytLogo } from "./GrytLogo";
 import styles from "./Navbar.module.css";
@@ -80,13 +80,18 @@ export function Navbar() {
           {navLinks.map((link) => (
             <li key={link.href}>
               {link.isRoute ? (
-                <Link to={link.href}>{link.label}</Link>
+                <Link className={styles.navLink} to={link.href}>{link.label}</Link>
               ) : link.external ? (
-                <a href={link.href} target="_blank" rel="noreferrer">
+                <a
+                  className={styles.navLink}
+                  href={link.href}
+                  rel="noreferrer"
+                  target="_blank"
+                >
                   {link.label}
                 </a>
               ) : (
-                <a href={link.href}>{link.label}</a>
+                <a className={styles.navLink} href={link.href}>{link.label}</a>
               )}
             </li>
           ))}
@@ -98,28 +103,35 @@ export function Navbar() {
               Open App
             </a>
           </li>
-          <li>
-            <a
-              href="#download"
-              className="btn btn-primary btn-sm"
+          {/* shrink-0 on the li, not the button: the li is the flex item, and a
+              flex item squeezed below its content takes its children with it.
+              Gryt UI's small button is a shade wider than the hand-rolled one
+              it replaced, which was enough to tip the row over and clip the
+              label to "Downloa". */}
+          <li className="shrink-0">
+            <Button
               onClick={scrollToDownload}
+              render={<a href="#download" />}
+              size="small"
             >
               Download
-            </a>
+            </Button>
           </li>
         </ul>
 
         {/* Mobile hamburger */}
         <Dialog.Root open={open} onOpenChange={setOpen}>
-          <Dialog.Trigger asChild>
-            <button className={styles.hamburger} aria-label="Open menu">
-              <MdMenu size={22} />
-            </button>
+          <Dialog.Trigger
+            aria-label="Open menu"
+            className={styles.hamburger}
+            render={<button type="button" />}
+          >
+            <MdMenu size={22} />
           </Dialog.Trigger>
 
           <Dialog.Portal>
-            <Dialog.Overlay className={styles.overlay} />
-            <Dialog.Content className={styles.sheet} aria-label="Navigation">
+            <Dialog.Backdrop className={styles.overlay} />
+            <Dialog.Popup className={styles.sheet} aria-label="Navigation">
               <div className={styles.sheetHeader}>
                 <Link
                   to="/"
@@ -132,10 +144,12 @@ export function Navbar() {
                   <GrytLogo size={28} />
                   Gryt
                 </Link>
-                <Dialog.Close asChild>
-                  <button className={styles.closeBtn} aria-label="Close menu">
-                    <MdClose size={22} />
-                  </button>
+                <Dialog.Close
+                  aria-label="Close menu"
+                  className={styles.closeBtn}
+                  render={<button type="button" />}
+                >
+                  <MdClose size={22} />
                 </Dialog.Close>
               </div>
 
@@ -184,19 +198,18 @@ export function Navbar() {
                 >
                   Open App
                 </a>
-                <a
-                  href="#download"
-                  className="btn btn-primary"
-                  style={{ width: "100%", justifyContent: "center" }}
+                <Button
+                  className="w-full"
                   onClick={(e) => {
                     scrollToDownload(e);
                     close();
                   }}
+                  render={<a href="#download" />}
                 >
                   Download
-                </a>
+                </Button>
               </div>
-            </Dialog.Content>
+            </Dialog.Popup>
           </Dialog.Portal>
         </Dialog.Root>
       </div>

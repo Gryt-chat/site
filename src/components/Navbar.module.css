@@ -60,7 +60,16 @@
   margin-left: auto;
 }
 
-.links a {
+/* Named rather than `.links a`, and that is not tidiness.
+
+   The Download CTA is a Gryt UI Button rendered as an anchor, so a blanket
+   `.links a` rule caught it too — and because this file is unlayered while
+   Tailwind's utilities sit in `@layer utilities`, it beat `text-gryt-on-accent`
+   whatever the specificity. The button came out muted on its own accent fill.
+
+   The `.btn` overrides that used to live here are gone with the class they
+   targeted; Gryt UI's Button brings its own pill and padding. */
+.links .navLink {
   color: var(--text-dim);
   font-size: 14px;
   font-weight: 500;
@@ -68,23 +77,8 @@
   transition: color 0.16s ease-out;
 }
 
-.links a:hover {
+.links .navLink:hover {
   color: var(--text);
-}
-
-/* The pill is fully rounded, so a square-cornered button sitting inside it
-   reads as two different objects. Match the geometry. */
-.links :global(.btn) {
-  border-radius: 999px;
-  padding: 9px 20px;
-}
-
-.links :global(.btn-primary) {
-  color: #111318;
-}
-
-.links :global(.btn-primary):hover {
-  color: #111318;
 }
 
 /* ── Open App ────────────────────────────────────────
@@ -97,7 +91,7 @@
   font-weight: 600 !important;
 }
 
-.openApp:hover { color: #d0cdff !important; }
+.openApp:hover { color: var(--accent-hover) !important; }
 
 .openAppMobile {
   display: flex;
@@ -111,7 +105,7 @@
   border-radius: var(--radius-sm);
 }
 
-.openAppMobile:hover { background: rgba(150, 143, 248, 0.12); }
+.openAppMobile:hover { background: var(--accent-wash); }
 
 /* ── Hamburger button (mobile only) ─────────────────── */
 
@@ -221,7 +215,7 @@
 
 .sheetLink.active {
   color: var(--accent-light) !important;
-  background: rgba(150, 143, 248, 0.08);
+  background: color-mix(in oklab, var(--accent) 8%, transparent);
 }
 
 .sheetFooter {
@@ -246,7 +240,7 @@
   .hamburger {
     display: flex;
     margin-left: auto;
-    background: rgba(30, 32, 42, 0.72);
+    background: var(--bg-card-translucent);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border: 1px solid var(--border);

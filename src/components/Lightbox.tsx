@@ -1,5 +1,5 @@
 import { useState, useCallback, type ComponentPropsWithoutRef } from 'react'
-import * as Dialog from '@radix-ui/react-dialog'
+import { Dialog } from '@gryt/ui'
 import { MdClose } from 'react-icons/md'
 import styles from './Lightbox.module.css'
 
@@ -22,27 +22,25 @@ export function LightboxImage({
 
   return (
     <Dialog.Root open={open} onOpenChange={setOpen}>
-      <Dialog.Trigger asChild>
-        <img
-          src={src}
-          alt={alt}
-          role="button"
-          tabIndex={0}
-          onKeyDown={handleKeyDown}
-          className={styles.thumbnail}
-          {...rest}
-        />
-      </Dialog.Trigger>
+      <Dialog.Trigger
+        className={styles.thumbnail}
+        onKeyDown={handleKeyDown}
+        render={<img alt={alt} src={src} {...rest} />}
+      />
 
       <Dialog.Portal>
-        <Dialog.Overlay className={styles.overlay} />
-        <Dialog.Content className={styles.content} aria-label={alt || 'Image'}>
+        <Dialog.Backdrop className={styles.overlay} />
+        <Dialog.Popup className={styles.content} aria-label={alt || 'Image'}>
           <img src={src} alt={alt} className={styles.fullImage} />
           {alt && <p className={styles.caption}>{alt}</p>}
-          <Dialog.Close className={styles.close} aria-label="Close">
+          <Dialog.Close
+            aria-label="Close"
+            className={styles.close}
+            render={<button type="button" />}
+          >
             <MdClose size={24} />
           </Dialog.Close>
-        </Dialog.Content>
+        </Dialog.Popup>
       </Dialog.Portal>
     </Dialog.Root>
   )

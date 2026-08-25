@@ -129,44 +129,16 @@
   gap: 10px;
 }
 
-.primary,
-.secondary {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 12px 18px;
-  border-radius: var(--radius-sm);
-  font-size: 15px;
-  font-weight: 700;
-  border: 1px solid transparent;
-  transition: background-color 0.18s ease-out, border-color 0.18s ease-out;
-}
+/* Both actions are Gryt UI Buttons — `primary` and `neutral` — and the fill,
+   the ink, the pill and the focus ring come with them. The `#16131f` these
+   rules used to paint on the primary was a third hand-written copy of the ink
+   that goes on an accent fill, and it did not match either of the other two.
 
-.primary {
-  background: var(--accent);
-  color: #16131f;
-}
+   These pages stack their actions full width, which the component does not
+   assume, so that is what is left. */
 
-.primary:hover {
-  background: var(--accent-light);
-  color: #16131f;
-}
-
-.secondary {
-  border-color: var(--border);
-  background: var(--bg-card);
-  color: var(--text);
-}
-
-.secondary:hover {
-  border-color: var(--accent);
-  color: var(--text);
-}
-
-.primary:focus-visible,
-.secondary:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 3px;
+.actions :global(.gryt-button) {
+  width: 100%;
 }
 
 @media (prefers-reduced-motion: reduce) {

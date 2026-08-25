@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { Button } from "@gryt/ui";
 import { GrytLogo } from "../components/GrytLogo";
 import styles from "../styles/handoff.module.css";
 
@@ -129,9 +130,13 @@ export function InvitePage() {
             Ask whoever sent it for the full link.
           </p>
           <div className={styles.actions}>
-            <a href="https://app.gryt.chat" className={styles.secondary}>
+            <Button
+              render={<a href="https://app.gryt.chat" />}
+              size="large"
+              tone="neutral"
+            >
               Open Gryt
-            </a>
+            </Button>
           </div>
         </div>
       </main>
@@ -171,15 +176,19 @@ export function InvitePage() {
         <div className={styles.state} aria-live="polite">
           {showChoices ? (
             <div className={styles.actions}>
-              <a
-                href={buildDeepLink(host, code)}
-                className={styles.primary}
+              <Button
+                render={<a href={buildDeepLink(host, code)} />}
+                size="large"
               >
                 {phone ? "Join in the Gryt app" : "Open in the desktop app"}
-              </a>
-              <a href={buildWebAppUrl(host, code)} className={styles.secondary}>
+              </Button>
+              <Button
+                render={<a href={buildWebAppUrl(host, code)} />}
+                size="large"
+                tone="neutral"
+              >
                 Open in the browser
-              </a>
+              </Button>
             </div>
           ) : (
             <p className={styles.waiting}>

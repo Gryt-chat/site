@@ -3,6 +3,7 @@ import { FaAndroid, FaApple, FaLinux, FaWindows } from "react-icons/fa";
 
 import { DownloadIcon, GlobeIcon, ServerRackIcon } from "./icons";
 import styles from "./Download.module.css";
+import { Button, Divider } from "@gryt/ui";
 
 interface ReleaseAsset {
   name: string;
@@ -132,15 +133,16 @@ function categorizeAssets(assets: ReleaseAsset[]): Record<OS, DownloadOption[]> 
 function OSTab({ os, active, onClick }: { os: OS; active: boolean; onClick: () => void }) {
   const { label, icon: Icon, comingSoon } = OS_LABELS[os];
   return (
-    <button
-      className={`${styles.osTab} ${active ? styles.osTabActive : ""}`}
+    <Button
+      aria-pressed={active}
+      className={styles.osTab}
       onClick={onClick}
-      type="button"
+      tone={active ? "primary" : "ghost"}
     >
       <Icon size={16} />
       {label}
       {comingSoon && <span className={styles.comingSoon}>In dev</span>}
-    </button>
+    </Button>
   );
 }
 
@@ -153,10 +155,17 @@ function DownloadCard({ option }: { option: DownloadOption }) {
       </div>
       <div className={styles.cardAction}>
         <span className={styles.cardSize}>{formatSize(option.size)}</span>
-        <span className={styles.cardBtn}>
+        {/* A Button rendered as a span, not a button. The whole card is the
+            link — that is the bigger target and the one a keyboard reaches —
+            so this is the affordance inside it, and a real button nested in an
+            anchor is invalid markup as well as a second tab stop. What it is
+            here for is the look: the six other actions on this page are Gryt
+            UI Buttons, and this one used to be drawn by hand with its own
+            corner. */}
+        <Button className={styles.cardBtn} render={<span />} size="small" tabIndex={-1}>
           <DownloadIcon size={14} />
           Download
-        </span>
+        </Button>
       </div>
     </a>
   );
@@ -223,15 +232,13 @@ export function Download() {
         {!OS_LABELS[selectedOS].comingSoon && error && (
           <div className={styles.fallback}>
             <p>Could not load releases.</p>
-            <a
-              href="https://github.com/Gryt-chat/gryt/releases"
-              target="_blank"
-              rel="noreferrer"
-              className="btn btn-outline"
+            <Button
+              render={<a href="https://github.com/Gryt-chat/gryt/releases" target="_blank" rel="noreferrer" />}
+              tone="neutral"
             >
               <DownloadIcon size={16} />
               View on GitHub
-            </a>
+            </Button>
           </div>
         )}
 
@@ -250,15 +257,13 @@ export function Download() {
         {!OS_LABELS[selectedOS].comingSoon && !error && release && options.length === 0 && (
           <div className={styles.fallback}>
             <p>No downloads available for {OS_LABELS[selectedOS].label} yet.</p>
-            <a
-              href="https://github.com/Gryt-chat/gryt/releases"
-              target="_blank"
-              rel="noreferrer"
-              className="btn btn-outline"
+            <Button
+              render={<a href="https://github.com/Gryt-chat/gryt/releases" target="_blank" rel="noreferrer" />}
+              tone="neutral"
             >
               <DownloadIcon size={16} />
               View all releases on GitHub
-            </a>
+            </Button>
           </div>
         )}
 
@@ -275,27 +280,23 @@ export function Download() {
           </p>
         )}
 
-        <div className={styles.divider} />
+        <Divider className={styles.divider} />
 
         <div className={styles.altActions}>
-          <a
-            href="https://app.gryt.chat"
-            target="_blank"
-            rel="noreferrer"
-            className="btn btn-primary"
+          <Button
+            render={<a href="https://app.gryt.chat" target="_blank" rel="noreferrer" />}
+            tone="primary"
           >
             <GlobeIcon size={16} />
             Try in Browser
-          </a>
-          <a
-            href="https://docs.gryt.chat/docs/guide/quick-start"
-            target="_blank"
-            rel="noreferrer"
-            className="btn btn-outline"
+          </Button>
+          <Button
+            render={<a href="https://docs.gryt.chat/docs/guide/quick-start" target="_blank" rel="noreferrer" />}
+            tone="neutral"
           >
             <ServerRackIcon size={16} />
             Self-Host a Server
-          </a>
+          </Button>
         </div>
 
         <p className={styles.note}>
