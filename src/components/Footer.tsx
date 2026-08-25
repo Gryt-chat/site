@@ -32,7 +32,9 @@ const groups = [
   {
     title: "Community",
     links: [
-      { href: "https://discord.gg/Q3JKUGsnHE", label: "Discord", external: true },
+      // The invite itself lives in one place, the redirect in this repo's
+      // Dockerfile. See the note there for why it is not written out here.
+      { href: "https://gryt.chat/discord", label: "Discord", external: true },
       { href: "https://mastodon.social/@gryt", label: "Mastodon", external: true, relMe: true },
       { href: "https://bsky.app/profile/gryt.chat", label: "Bluesky", external: true },
       { href: "https://www.reddit.com/r/Gryt/", label: "Reddit", external: true },
