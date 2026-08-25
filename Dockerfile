@@ -55,6 +55,21 @@ RUN printf '%s\n' \
   '    error_page 404 /404.html;' \
   '    location = /404.html { internal; }' \
   '    location /health { return 200 "healthy"; add_header Content-Type text/plain; }' \
+  '    # One place the Discord invite is written down.' \
+  '    #' \
+  '    # It used to be written into fourteen files across this repository and' \
+  '    # docs, so changing it meant fourteen edits in two PRs — and every invite' \
+  '    # already posted somewhere else stayed dead regardless. An invite can' \
+  '    # expire or be revoked, so that was a matter of time rather than a risk.' \
+  '    #' \
+  '    # 302 rather than 301, deliberately. A 301 is cached by every browser' \
+  '    # that has followed it, which would make the next invite change reach' \
+  '    # everybody except the people who had already used the link.' \
+  '    #' \
+  '    # /dc is the same target rather than a redirect to /discord: a second hop' \
+  '    # buys nothing and is one more thing that can be wrong.' \
+  '    location = /discord { return 302 https://discord.gg/Q3JKUGsnHE; }' \
+  '    location = /dc { return 302 https://discord.gg/Q3JKUGsnHE; }' \
   '    # Readable in a browser rather than downloaded. .sh is not in' \
   '    # mime.types, so without this it falls to default_type and arrives as' \
   '    # an attachment — which is the wrong default for a script whose whole' \
