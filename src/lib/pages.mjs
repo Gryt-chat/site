@@ -60,6 +60,11 @@ export const STATIC_PAGES = [
     title: "Invite",
     description: "Join a Gryt server with an invite link.",
   },
+  {
+    path: "download",
+    title: "Download",
+    description: "Download Gryt for Windows, macOS or Linux.",
+  },
 ];
 
 /**

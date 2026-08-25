@@ -14,6 +14,7 @@ const ChangelogEntry = lazy(() => import("./pages/ChangelogEntry").then((m) => (
 const SponsorsPage = lazy(() => import("./pages/SponsorsPage").then((m) => ({ default: m.SponsorsPage })));
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy").then((m) => ({ default: m.PrivacyPolicy })));
 const CommunityGuidelines = lazy(() => import("./pages/CommunityGuidelines").then((m) => ({ default: m.CommunityGuidelines })));
+const DownloadPage = lazy(() => import("./pages/DownloadPage").then((m) => ({ default: m.DownloadPage })));
 const InvitePage = lazy(() => import("./pages/InvitePage").then((m) => ({ default: m.InvitePage })));
 const TermsOfUse = lazy(() => import("./pages/TermsOfUse").then((m) => ({ default: m.TermsOfUse })));
 const WhyGryt = lazy(() => import("./pages/WhyGryt").then((m) => ({ default: m.WhyGryt })));
@@ -74,6 +75,7 @@ export default function App() {
           <Route path="/terms-of-use" element={<TermsOfUse />} />
           <Route path="/community-guidelines" element={<CommunityGuidelines />} />
           <Route path="/guidelines" element={<CommunityGuidelines />} />
+          <Route path="/download" element={<DownloadPage />} />
           <Route path="/invite" element={<InvitePage />} />
           <Route path="/auth/callback" element={<AuthCallbackPage />} />
           {/* Without this, an unmatched URL rendered an empty <Routes>: the footer

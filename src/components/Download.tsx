@@ -3,28 +3,16 @@ import { FaAndroid, FaApple, FaLinux, FaWindows } from "react-icons/fa";
 
 import { DownloadIcon, GlobeIcon, ServerRackIcon } from "./icons";
 import styles from "./Download.module.css";
+import {
+  categorizeAssets,
+  detectOS,
+  fetchLatestRelease,
+  formatSize,
+  type DownloadOption,
+  type OS,
+  type Release,
+} from "../lib/releases";
 import { Button, Divider } from "@gryt/ui";
-
-interface ReleaseAsset {
-  name: string;
-  browser_download_url: string;
-  size: number;
-}
-
-interface Release {
-  tag_name: string;
-  assets: ReleaseAsset[];
-}
-
-type OS = "windows" | "macos" | "linux" | "ios" | "android";
-
-interface DownloadOption {
-  label: string;
-  description: string;
-  url: string;
-  size: number;
-  fileName: string;
-}
 
 const OS_LABELS: Record<OS, { label: string; icon: typeof FaWindows; comingSoon?: boolean }> = {
   windows: { label: "Windows", icon: FaWindows },
@@ -33,102 +21,6 @@ const OS_LABELS: Record<OS, { label: string; icon: typeof FaWindows; comingSoon?
   ios: { label: "iOS", icon: FaApple, comingSoon: true },
   android: { label: "Android", icon: FaAndroid, comingSoon: true },
 };
-
-function detectOS(): OS {
-  const ua = navigator.userAgent.toLowerCase();
-  if (ua.includes("win")) return "windows";
-  if (ua.includes("mac")) return "macos";
-  return "linux";
-}
-
-function formatSize(bytes: number): string {
-  const mb = bytes / (1024 * 1024);
-  return `${mb.toFixed(1)} MB`;
-}
-
-function categorizeAssets(assets: ReleaseAsset[]): Record<OS, DownloadOption[]> {
-  const result: Record<OS, DownloadOption[]> = {
-    windows: [],
-    macos: [],
-    linux: [],
-    ios: [],
-    android: [],
-  };
-
-  for (const asset of assets) {
-    const name = asset.name.toLowerCase();
-
-    if (name.endsWith(".blockmap") || name.endsWith(".yml") || name.endsWith(".yaml")) {
-      continue;
-    }
-
-    if (name.includes("-win-") || name.includes("-win32-")) {
-      if (name.includes("portable")) {
-        result.windows.push({
-          label: "Portable",
-          description: "Runs from anywhere, nothing to install",
-          url: asset.browser_download_url,
-          size: asset.size,
-          fileName: asset.name,
-        });
-      } else if (name.endsWith(".exe")) {
-        result.windows.push({
-          label: "Installer",
-          description: "Standard Windows installer (NSIS)",
-          url: asset.browser_download_url,
-          size: asset.size,
-          fileName: asset.name,
-        });
-      }
-    } else if (name.includes("-mac-")) {
-      if (name.endsWith(".dmg")) {
-        result.macos.push({
-          label: "DMG",
-          description: "Standard macOS disk image",
-          url: asset.browser_download_url,
-          size: asset.size,
-          fileName: asset.name,
-        });
-      } else if (name.endsWith(".zip")) {
-        result.macos.push({
-          label: "ZIP",
-          description: "Compressed app bundle",
-          url: asset.browser_download_url,
-          size: asset.size,
-          fileName: asset.name,
-        });
-      }
-    } else if (name.includes("-linux-")) {
-      if (name.endsWith(".appimage")) {
-        result.linux.push({
-          label: "AppImage",
-          description: "Portable, works on most distros",
-          url: asset.browser_download_url,
-          size: asset.size,
-          fileName: asset.name,
-        });
-      } else if (name.endsWith(".deb")) {
-        result.linux.push({
-          label: "Debian / Ubuntu",
-          description: ".deb package for apt-based distros",
-          url: asset.browser_download_url,
-          size: asset.size,
-          fileName: asset.name,
-        });
-      } else if (name.endsWith(".snap")) {
-        result.linux.push({
-          label: "Snap",
-          description: "Snap package (also on snapcraft.io)",
-          url: asset.browser_download_url,
-          size: asset.size,
-          fileName: asset.name,
-        });
-      }
-    }
-  }
-
-  return result;
-}
 
 function OSTab({ os, active, onClick }: { os: OS; active: boolean; onClick: () => void }) {
   const { label, icon: Icon, comingSoon } = OS_LABELS[os];
@@ -177,11 +69,7 @@ export function Download() {
   const [selectedOS, setSelectedOS] = useState<OS>(detectOS);
 
   useEffect(() => {
-    fetch("https://api.github.com/repos/Gryt-chat/gryt/releases/latest")
-      .then((res) => {
-        if (!res.ok) throw new Error("Failed to fetch");
-        return res.json() as Promise<Release>;
-      })
+    fetchLatestRelease()
       .then(setRelease)
       .catch(() => setError(true));
   }, []);
