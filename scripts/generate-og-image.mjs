@@ -44,14 +44,32 @@ const H = 630;
  */
 const C = {
   field: '#6157d8',
-  owl: '#4c43b8',
-  owlEar: '#554cc6',
-  owlEye: '#8f88ea',
   title: '#fbfaff',
   sub: '#dedaff',
   label: '#eeecff',
   meta: '#e2dfff',
   rule: '#8079e4',
+};
+
+/**
+ * The big owl behind the type is the mark's own drawing, recoloured to sit in
+ * the field as tone rather than as a second logo.
+ *
+ * Every value here is below the field, so the glyph can only add contrast under
+ * the white type, never take it away. That is the property to keep if these are
+ * ever retuned: the card's whole contrast budget is white-on-#6157d8, and a
+ * tone lighter than the field spends it.
+ *
+ * The order is the mark's own — face lightest, then body, then the wings, with
+ * the eyes and beak darkest. In the mark those three are painted the ground
+ * colour, so they are holes rather than shapes; there is no ground here, so
+ * they get a value of their own and keep their place at the dark end.
+ */
+const OWL_TONES = {
+  '#B5A8E6': '#5850cc', // face
+  '#A495E3': '#4f47c0', // body
+  '#7C6EC3': '#4038a4', // wings
+  '#2E2D5F': '#332c86', // eyes and beak
 };
 
 const PAD_X = 60;
@@ -159,28 +177,71 @@ function fitTitle(text, { maxWidth, sizes, font, weight, tracking, maxLines }) {
 // ------------------------------------------------------------------- the owl
 
 /**
- * The mark without its disc, so it can sit in the field as tone rather than as
- * a second logo. Bleeding off the right edge is deliberate — the version that
- * fitted the whole bird on the card read as clip art.
+ * Both owls on the card are read out of public/, not copied into this file.
+ *
+ * They used to be inlined here — the glyph once and the whole mark again — and
+ * when the mark was redrawn in GRYT-600 the three files in public/ were swapped
+ * and these two were not. Nothing failed. Every share card for all 32 pages
+ * went on showing the old bird beside a site, a client and a docs build that
+ * had all moved on, and the only way to notice was to look at one.
+ *
+ * `logo.svg` is the square artboard and `logo-round.svg` the same drawing under
+ * a circular clip. The label row takes the round one, matching the favicon; the
+ * big background glyph takes the square one with its ground dropped.
  */
-const OWL_GLYPH = (fill, ear, eye) => `
-  <ellipse cx="144.56" cy="321.963" rx="74.5603" ry="125.871" fill="${ear}"/>
-  <ellipse cx="368.56" cy="321.963" rx="74.5603" ry="125.871" fill="${ear}"/>
-  <ellipse cx="254.397" cy="368.463" rx="157.138" ry="186.802" fill="${fill}"/>
-  <path d="M167.009 115.118C140.552 133.557 110.621 186.471 104.474 216.135C104.474 216.135 146.164 282.678 256 282.678C365.836 282.678 409 221.266 409 216.135C409 209.721 393.897 140.773 365.836 121.532C337.776 102.29 311.319 91.8677 259.207 91.066C207.095 90.2643 193.465 96.6781 167.009 115.118Z" fill="${fill}"/>
-  <path d="M258.736 232.014C258.214 234.003 255.389 234.003 254.867 232.014L247.045 202.207C246.712 200.939 247.669 199.7 248.98 199.7L264.624 199.7C265.935 199.7 266.891 200.939 266.558 202.207L258.736 232.014Z" fill="${eye}"/>
-  <path d="M203.08 162C216.959 162 221.986 169.702 222.773 173.951C223.299 177.67 223.246 186.062 218.835 189.887C213.321 194.667 195.473 200.325 190.476 185.106C186.814 173.951 188.375 169.171 188.113 169.171C190.476 163.631 195.256 162 203.08 162Z" fill="${eye}"/>
-  <path d="M308.124 160.851C294.151 160.851 289.09 168.637 288.297 172.932C287.768 176.691 287.821 185.174 292.262 189.04C297.814 193.873 315.782 199.592 320.813 184.208C324.5 172.932 322.928 168.1 323.192 168.1C320.813 162.5 316 160.851 308.124 160.851Z" fill="${eye}"/>`;
 
-const OWL_MARK = `
-  <rect width="512" height="512" rx="256" fill="#968FF8"/>
-  <ellipse cx="144.56" cy="321.963" rx="74.5603" ry="125.871" fill="#2B303D"/>
-  <ellipse cx="368.56" cy="321.963" rx="74.5603" ry="125.871" fill="#2B303D"/>
-  <ellipse cx="254.397" cy="368.463" rx="157.138" ry="186.802" fill="#1A1D24"/>
-  <path d="M167.009 115.118C140.552 133.557 110.621 186.471 104.474 216.135C104.474 216.135 146.164 282.678 256 282.678C365.836 282.678 409 221.266 409 216.135C409 209.721 393.897 140.773 365.836 121.532C337.776 102.29 311.319 91.8677 259.207 91.066C207.095 90.2643 193.465 96.6781 167.009 115.118Z" fill="#1A1D24"/>
-  <path d="M258.736 232.014C258.214 234.003 255.389 234.003 254.867 232.014L247.045 202.207C246.712 200.939 247.669 199.7 248.98 199.7L264.624 199.7C265.935 199.7 266.891 200.939 266.558 202.207L258.736 232.014Z" fill="#CBCBCE"/>
-  <path d="M203.08 162C216.959 162 221.986 169.702 222.773 173.951C223.299 177.67 223.246 186.062 218.835 189.887C213.321 194.667 195.473 200.325 190.476 185.106C186.814 173.951 188.375 169.171 188.113 169.171C190.476 163.631 195.256 162 203.08 162Z" fill="#CBCBCE"/>
-  <path d="M308.124 160.851C294.151 160.851 289.09 168.637 288.297 172.932C287.768 176.691 287.821 185.174 292.262 189.04C297.814 193.873 315.782 199.592 320.813 184.208C324.5 172.932 322.928 168.1 323.192 168.1C320.813 162.5 316 160.851 308.124 160.851Z" fill="#CBCBCE"/>`;
+function readMark(name, ns) {
+  const raw = readFileSync(join(publicDir, name), 'utf8');
+  const inner = raw.replace(/^[\s\S]*?<svg[^>]*>/, '').replace(/<\/svg>\s*$/, '');
+  if (!inner.trim()) throw new Error(`${name}: no drawing found`);
+
+  /*
+   * Both files came out of the same Figma frame, so both carry the same
+   * clipPath id. Two of them on one card is a duplicate id, the first
+   * definition wins, and the round mark quietly got the square one's clip —
+   * a square logo in the label row, no warning, and the run exits 0.
+   */
+  const ids = [...inner.matchAll(/id="([^"]+)"/g)].map((m) => m[1]);
+  if (!ids.length) return inner;
+  let out = inner;
+  for (const id of ids) {
+    out = out.split(`id="${id}"`).join(`id="${ns}-${id}"`);
+    out = out.split(`url(#${id})`).join(`url(#${ns}-${id})`);
+  }
+  return out;
+}
+
+/** The mark at label size, in its own colours, under its circular clip. */
+const OWL_MARK = readMark('logo-round.svg', 'mark');
+
+/**
+ * The mark without its ground, recoloured into the field.
+ *
+ * Substituting on the hex values means a redrawn mark that keeps the palette
+ * needs no edit here, and one that changes it stops the run rather than
+ * quietly drawing something else — which is the failure this whole comment is
+ * about. The match is case-insensitive because a hex is a string and Figma and
+ * a human do not agree on which case to write it in.
+ */
+const OWL_GLYPH = (() => {
+  let svg = readMark('logo.svg', 'glyph');
+
+  // The ground. It is the card's field that shows through instead.
+  const ground = /<rect[^>]*fill="#2E2D5F"[^>]*\/>/i;
+  if (!ground.test(svg)) throw new Error('logo.svg: no ground rect to drop');
+  svg = svg.replace(ground, '');
+
+  for (const [from, to] of Object.entries(OWL_TONES)) {
+    // A fresh regex per pass. `test` on a /g regex advances lastIndex, so
+    // reusing one across the check and the replace is the kind of thing that
+    // works until it doesn't.
+    if (!new RegExp(`fill="${from}"`, 'i').test(svg)) {
+      throw new Error(`logo.svg: nothing painted ${from} — the mark's palette moved, retune OWL_TONES`);
+    }
+    svg = svg.replace(new RegExp(`fill="${from}"`, 'gi'), `fill="${to}"`);
+  }
+  return svg;
+})();
 
 // ------------------------------------------------------------------ the card
 
@@ -202,15 +263,27 @@ function buildCard({ label, title, sub, metaLeft, metaRight, stat = false }) {
 
   // The field, the mark bleeding off the right, and a film of grain over both.
   out.push(`<rect width="${W}" height="${H}" fill="${C.field}"/>`);
-  // 880px across, hung 180px off the right edge and 300px below the bottom.
-  out.push(`<g transform="translate(500, 50) scale(${880 / 512})">${OWL_GLYPH(C.owl, C.owlEar, C.owlEye)}</g>`);
+  /*
+   * 635px across, hung off the right edge and the bottom.
+   *
+   * Placed on the beak rather than on the artboard. The new drawing fills far
+   * more of its 1024 box than the old one filled its 512, so keeping the old
+   * 880px width cropped the head to a wall of tone and dropped the beak right
+   * on the meta line — legible, because every owl tone is darker than the
+   * field, but the URL sat in the middle of a face.
+   *
+   * These two numbers put the beak just above the rule and the crown just
+   * below the title, which is where the old card had them. Retuning them is a
+   * matter of looking at a card, not of arithmetic on the artboard.
+   */
+  out.push(`<g transform="translate(620, 30) scale(${635 / 1024})">${OWL_GLYPH}</g>`);
   out.push(`<rect width="${W}" height="${H}" filter="url(#grain)" opacity="0.085"/>`);
 
   // Label row — the mark at 38px, the label set beside it on the same centre.
   const markSize = 38;
   const labelSize = 19;
   const labelTracking = 2.8;
-  out.push(`<g transform="translate(${PAD_X}, ${PAD_TOP}) scale(${markSize / 512})">${OWL_MARK}</g>`);
+  out.push(`<g transform="translate(${PAD_X}, ${PAD_TOP}) scale(${markSize / 1024})">${OWL_MARK}</g>`);
   out.push(glyphs(label, {
     font: fonts.mono, weight: 500, size: labelSize, tracking: labelTracking,
     x: PAD_X + markSize + 14,
