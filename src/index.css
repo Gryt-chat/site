@@ -1,6 +1,24 @@
+/* Tailwind first, so utilities are available to compose with; then Gryt UI's
+   stylesheet, then the site's token aliases which point at it.
+   `@source` has to name the files Tailwind should scan — the site keeps its
+   components outside the default content globs. */
+@import "tailwindcss";
+@source "./**/*.{ts,tsx}";
+@import "@gryt/ui/styles.css";
 @import "./styles/tokens.css";
 
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+/* The blanket reset this file used to carry is gone, and its absence is
+   load-bearing.
+
+   Tailwind puts its utilities in `@layer utilities`, and unlayered CSS beats
+   layered CSS whatever the specificity — so `* { padding: 0 }` sitting outside
+   any layer silently beat every `px-4` Gryt UI's components ask for. Buttons
+   came out with no horizontal padding and the nav CTA clipped its own label to
+   "Downloa", with nothing in the console and both stylesheets present.
+
+   Tailwind's own preflight does the same job from inside a layer, so nothing
+   is lost by dropping it. Anything added here later has the same problem: put
+   a global reset in `@layer base`, never outside a layer. */
 
 /* `clip` rather than `hidden`: `overflow-x: hidden` turns the element into a
    scroll container, which silently breaks `position: sticky` on descendants. */
@@ -60,12 +78,23 @@ body {
   border: 0;
 }
 
-a { color: var(--accent-light); text-decoration: none; transition: color 0.2s; }
-a:hover { color: #d0cdff; }
+/* In `@layer base`, and that is the whole point of the layer.
+ *
+ * Unlayered CSS beats layered CSS whatever the specificity, so a bare `a` rule
+ * out here beat `text-gryt-on-accent` on every Gryt UI button rendered as a
+ * link — the nav CTA came out in link violet on its own accent fill. Inside a
+ * layer these still style ordinary prose links and lose to a utility that has
+ * been asked for explicitly, which is the correct order.
+ *
+ * Any element selector added here belongs in this layer for the same reason. */
+@layer base {
+  a { color: var(--accent-light); text-decoration: none; transition: color 0.2s; }
+  a:hover { color: var(--accent-light); filter: brightness(1.15); }
 
-ul { list-style: none; }
+  ul { list-style: none; }
 
-img { display: block; max-width: 100%; height: auto; }
+  img { display: block; max-width: 100%; height: auto; }
+}
 
 .section {
   max-width: var(--max-w);
@@ -101,48 +130,6 @@ img { display: block; max-width: 100%; height: auto; }
   max-width: 560px;
   line-height: 1.7;
 }
-
-.btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 22px;
-  border-radius: var(--radius-sm);
-  font-size: 14px;
-  font-weight: 600;
-  font-family: var(--font);
-  cursor: pointer;
-  border: none;
-  transition: transform 0.15s, box-shadow 0.2s, background 0.2s;
-  text-decoration: none;
-}
-
-.btn:active { transform: scale(0.97); }
-
-.btn-primary {
-  background: linear-gradient(135deg, var(--accent), var(--accent-light));
-  color: #111318;
-  box-shadow: 0 4px 24px var(--accent-glow);
-}
-
-.btn-primary:hover {
-  box-shadow: 0 6px 32px rgba(150, 143, 248, 0.4);
-  color: #111318;
-}
-
-.btn-outline {
-  background: transparent;
-  color: var(--text);
-  border: 1px solid var(--border);
-}
-
-.btn-outline:hover {
-  border-color: var(--accent);
-  color: var(--accent-light);
-}
-
-.btn-sm { padding: 8px 16px; font-size: 13px; }
-
 .border-top { border-top: 1px solid var(--border); }
 
 /**

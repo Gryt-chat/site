@@ -3,6 +3,7 @@ import { FaAndroid, FaApple, FaLinux, FaWindows } from "react-icons/fa";
 
 import { DownloadIcon, GlobeIcon, ServerRackIcon } from "./icons";
 import styles from "./Download.module.css";
+import { Button, Divider } from "@gryt/ui";
 
 interface ReleaseAsset {
   name: string;
@@ -223,15 +224,13 @@ export function Download() {
         {!OS_LABELS[selectedOS].comingSoon && error && (
           <div className={styles.fallback}>
             <p>Could not load releases.</p>
-            <a
-              href="https://github.com/Gryt-chat/gryt/releases"
-              target="_blank"
-              rel="noreferrer"
-              className="btn btn-outline"
+            <Button
+              render={<a href="https://github.com/Gryt-chat/gryt/releases" target="_blank" rel="noreferrer" />}
+              tone="neutral"
             >
               <DownloadIcon size={16} />
               View on GitHub
-            </a>
+            </Button>
           </div>
         )}
 
@@ -250,15 +249,13 @@ export function Download() {
         {!OS_LABELS[selectedOS].comingSoon && !error && release && options.length === 0 && (
           <div className={styles.fallback}>
             <p>No downloads available for {OS_LABELS[selectedOS].label} yet.</p>
-            <a
-              href="https://github.com/Gryt-chat/gryt/releases"
-              target="_blank"
-              rel="noreferrer"
-              className="btn btn-outline"
+            <Button
+              render={<a href="https://github.com/Gryt-chat/gryt/releases" target="_blank" rel="noreferrer" />}
+              tone="neutral"
             >
               <DownloadIcon size={16} />
               View all releases on GitHub
-            </a>
+            </Button>
           </div>
         )}
 
@@ -275,27 +272,23 @@ export function Download() {
           </p>
         )}
 
-        <div className={styles.divider} />
+        <Divider />
 
         <div className={styles.altActions}>
-          <a
-            href="https://app.gryt.chat"
-            target="_blank"
-            rel="noreferrer"
-            className="btn btn-primary"
+          <Button
+            render={<a href="https://app.gryt.chat" target="_blank" rel="noreferrer" />}
+            tone="primary"
           >
             <GlobeIcon size={16} />
             Try in Browser
-          </a>
-          <a
-            href="https://docs.gryt.chat/docs/guide/quick-start"
-            target="_blank"
-            rel="noreferrer"
-            className="btn btn-outline"
+          </Button>
+          <Button
+            render={<a href="https://docs.gryt.chat/docs/guide/quick-start" target="_blank" rel="noreferrer" />}
+            tone="neutral"
           >
             <ServerRackIcon size={16} />
             Self-Host a Server
-          </a>
+          </Button>
         </div>
 
         <p className={styles.note}>
