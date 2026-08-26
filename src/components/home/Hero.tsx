@@ -97,11 +97,19 @@ export function Hero() {
           ease: [0.16, 1, 0.3, 1],
         }}
       >
+        {/* Its own asset rather than the 1.4.0 release-notes capture this used
+            to borrow. That image is still what 1.4.0 looked like and has to
+            stay that way; the front page has to be what the client looks like
+            now, and the two stopped being the same picture.
+
+            Three widths because the capture is 3456 wide and a 2x display
+            asking for a 1180px slot wants every one of those pixels. The
+            1728 entry is what a 1x display gets. */}
         <img
-          src="/changelog/voice-split.webp"
-          srcSet="/changelog/voice-split-sm.webp 720w, /changelog/voice-split.webp 1728w"
+          src="/home/client-md.webp"
+          srcSet="/home/client-sm.webp 720w, /home/client-md.webp 1728w, /home/client.webp 3456w"
           sizes="(max-width: 768px) calc(100vw - 32px), min(1180px, calc(100vw - 48px))"
-          alt="The Gryt desktop client: a voice channel with eight people, chat alongside it, and an eighteen-person member list"
+          alt="The Gryt desktop client: a voice channel with eight people and a shared screen, chat alongside it, and a twenty-one-person member list"
           width={1728}
           height={1084}
           fetchPriority="high"

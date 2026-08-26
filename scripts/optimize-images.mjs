@@ -6,14 +6,23 @@ import { readdir, stat } from "fs/promises";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const publicDir = join(__dirname, "..", "public");
 
-const heroSrc = join(publicDir, "changelog", "voice-split.webp");
-const heroSm = await sharp(heroSrc)
-  .resize({ width: 720, withoutEnlargement: true })
-  .webp({ quality: 80 })
-  .toFile(join(publicDir, "changelog", "voice-split-sm.webp"));
-console.log(
-  `  changelog/voice-split-sm.webp  ${heroSm.width}x${heroSm.height}  ${(heroSm.size / 1024).toFixed(1)} KB`,
-);
+// The front page hero. Committed at 3456 wide, which is what the capture is,
+// so a 2x display gets real pixels rather than an upscale. The two smaller
+// widths are derived here.
+const heroSrc = join(publicDir, "home", "client.webp");
+
+for (const [width, quality, name] of [
+  [1728, 90, "client-md.webp"],
+  [720, 90, "client-sm.webp"],
+]) {
+  const out = await sharp(heroSrc)
+    .resize({ width, withoutEnlargement: true })
+    .webp({ quality })
+    .toFile(join(publicDir, "home", name));
+  console.log(
+    `  home/${name}  ${out.width}x${out.height}  ${(out.size / 1024).toFixed(1)} KB`,
+  );
+}
 
 const previewSrc = join(publicDir, "preview.png");
 const full = await sharp(previewSrc)
