@@ -1,0 +1,160 @@
+---
+title: The Gryt Owls
+description: Everyone on a Gryt server has an owl. It is drawn from their name, it is the same owl on every client, and anyone can draw a new hat for it.
+author: Sivert
+date: 2026-08-26
+image: /blog/thumb-owls.webp
+tags:
+  - gryt
+  - design
+  - open-source
+---
+
+Gryt has had an owl since 2023. It was the logo, it sat in the corner of the
+login page, and for a while it was a tiny astronaut in some promo art. It was
+never anybody in particular.
+
+It is now. Everyone on a Gryt server who has not uploaded a picture is drawn as
+an owl, worked out from their nickname, and the whole thing is a package called
+[`@gryt/owl`](https://www.npmjs.com/package/@gryt/owl): give it a name, get an
+SVG. No renderer, no DOM, no dependencies.
+
+<Image src="/blog/gryt-owls-sheet.webp" alt="Seventy-two Gryt owls in a grid, each on its own coloured circle — different palettes, expressions, glasses, hats, scarves and jackets" width="2784" height="1440" />
+
+## Why it is not DiceBear
+
+The obvious way to build this is DiceBear. It is good, it is free, and it has a
+dozen styles that would have taken an afternoon to wire up.
+
+I tried it and took it out again, because DiceBear's model is a style definition
+made of interchangeable sprite layers, and that is not what I wanted. What I
+wanted was one drawn character with variations. The difference shows up in a
+member list: layered sprites read as a sticker sheet, and a single character with
+different colours and hats reads as one product.
+
+So the bird never varies. The body, the wings, the face plate and the beak are
+fixed numbers on a 1024 artboard, and they are the same numbers for everyone.
+What the seed picks is the palette, whether there are ear tufts, and what the
+bird is wearing.
+
+<Image src="/blog/gryt-owls-layers.webp" alt="The same teal owl five times, each adding one thing: bare, then a wink, then round glasses, then a knitted hat, then a scarf" width="2952" height="648" />
+
+Fixed geometry is also what makes the accessories work at all. A pair of glasses
+is pinned to absolute coordinates, and it lands on the eyes because that is where
+the eyes are — on every owl, forever.
+
+## The same seed draws the same owl
+
+That has to hold on every client and across every upgrade. A person is
+recognised by their avatar, so an owl that shifts when the library is bumped has
+failed at the one job it has.
+
+Two consequences that look like fussiness and are not. Every random draw is keyed
+on a name rather than a position, so adding a new hat does not reshuffle the
+hats that were already there. And nothing depends on the platform: no
+`Math.random`, no `Date`, no `Intl`, no DOM. The tsconfig drops the DOM library
+on purpose, so reaching for `document` is a compile error instead of a crash on
+somebody's phone.
+
+Three seeds are pinned in the tests against their exact output. When one of those
+fails, the question is not "what is the new value" but "is every existing user
+about to look different."
+
+## Thirty palettes
+
+Ten hues in three schemes — night, day and dusk. The hues are not picked by eye;
+they come from `TILE_HUES`, the list a voice tile's tint snaps to. So the colour
+of your avatar and the colour of your tile in a call are the same colour rather
+than two shades that nearly match.
+
+<Image src="/blog/gryt-owls-palettes.webp" alt="One seed drawn in all thirty palettes: ten hues across three rows labelled night, day and dusk" width="2532" height="1028" />
+
+An accessory names a colour *role* rather than carrying a hex value, which is why
+a teal owl and a pink owl can wear the same hat in their own colours.
+
+## Fifty drawings, and none of them are path data
+
+There are five slots — expression, glasses, head, neck and clothes — rolled
+independently, so a hat and glasses and a scarf can all turn up at once. A slot
+can also come up empty; empty is the most common outcome in every one of them.
+Right now there are fifty drawings across the five.
+
+<Image src="/blog/gryt-owls-wardrobe.webp" alt="Every Gryt owl accessory grouped by slot on the same teal bird: 19 expressions, 8 pairs of glasses, 18 hats, 3 neck pieces and 2 items of clothing" width="2992" height="2560" />
+
+Adding one does not involve writing SVG path data or editing a manifest. You
+export the bare bird, draw on top of it, and save the file with a name that says
+what it is. `Winter_Hat.svg` is a hat because "hat" is in the filename.
+`Heart_Glasses.rare.svg` is eyewear that turns up less often than the rest. The
+filename is the configuration.
+
+<Image src="/blog/gryt-owls-drawing.webp" alt="The 'Drawing a cosmetic' walkthrough on ui.gryt.chat, showing the bare bird, the same bird with a puffer jacket drawn over it, and the finished jacket recoloured onto a gold palette" width="2880" height="1900" />
+
+Two things travel with the drawing without being written down anywhere. Which of
+the bird's own layers you *hid* is which parts the accessory replaces, so a wink
+is one hidden eye and a coat is two hidden arms. And where you put the drawing
+relative to the bird's group says whether it is worn in front or behind, which is
+how a headset gets its band behind the head.
+
+Colours are not configuration either. One table maps the colours accessories are
+drawn in to palette roles, so a drawing that reuses colours already in use needs
+nothing at all. A colour nothing knows about stops the build and prints the line
+to add.
+
+If you want to check a drawing before opening a pull request, there is a
+command that needs nothing but Node:
+
+```sh
+npx @gryt/owl check my-hat.svg
+```
+
+It tells you whether the filename gives it a slot, whether it is on the 1024
+frame, whether the transforms are flattened, how much of the bird it found, and
+what is left once the bird is subtracted back out. It exits non-zero when the
+drawing would not build, so it can hang off a commit hook.
+
+## Draw one
+
+This is the bird you start from.
+
+<Image src="/blog/gryt-owls-figma-base.webp" alt="The bare Gryt owl with no accessories and no background, the base drawing an accessory is made on top of" width="1000" height="1000" />
+
+Most of the fifty were drawn in Figma against **[Build A Gryt](https://www.figma.com/community/file/1674379263156144233/build-a-gryt)**,
+a community file that carries that bird as a component, with a layer per part
+and a walkthrough. Open it, duplicate it, draw a hat on the bird, export, and
+the filename does the rest.
+
+If you are not in Figma, one command writes the same bird out as an SVG with the
+same layers — `Left Eye`, `Right Arm`, `Nose` — and you can draw on that
+instead.
+
+The full walkthrough, with the bird to download and a worked example, is at
+[ui.gryt.chat/avatars/drawing](https://ui.gryt.chat/avatars/drawing). The
+avatars page next to it draws every owl on it live, and counts how often each
+accessory turns up out of three thousand seeds, so the numbers on the page cannot
+drift from the weights in the code.
+
+<Image src="/blog/gryt-owls-avatars-page.webp" alt="The Avatars page on ui.gryt.chat: part of its contact sheet above a Colour section showing the same seed in all thirty palettes" width="2880" height="1900" />
+
+## Where they turn up
+
+The web client, the desktop app and the phone app all draw people from this same
+file, so your owl is the same owl in all three. Voice tiles take their tint from
+it. `@gryt/ui`'s `Avatar` generates one when it has a seed and no image, and
+`@gryt/ui-native`'s does the same through `react-native-svg`.
+
+<Image src="/blog/gryt-owls-in-the-client.webp" alt="A Gryt channel in the desktop client, dark theme, with two members drawn as owls in the message list and the member rail" width="2880" height="1800" />
+
+Server icons are still DiceBear Planets. A server is not a person and should not
+be drawn as one.
+
+A bare owl is about 2.1 kB of markup, and about 4.1 kB with accessories on.
+
+## You can pick
+
+Everything above describes the owl your name happens to produce. As of this
+week you can also choose it — colours, expression, glasses, hat, the lot — from
+inside the client. That has [its own post](/blog/designing-your-own-owl).
+
+The package is MIT, like the rest of the UI packages and unlike the AGPL-3.0
+apps that use them. `bun add @gryt/owl` and it will draw owls for something that
+is not Gryt.

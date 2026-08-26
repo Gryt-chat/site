@@ -1,0 +1,16 @@
+[
+  {
+    "date": "2026-08-26",
+    "macrostructure": "Catalogue",
+    "theme": "Gryt tokens (project-locked, not rotated)",
+    "enrichment": "none",
+    "brief": "Blog index — list to card grid, banners on posts"
+  },
+  {
+    "date": "2026-08-26",
+    "macrostructure": "Index-First",
+    "theme": "Gryt tokens (project-locked)",
+    "enrichment": "none",
+    "brief": "Blog index — inferred from the stamp this run replaced"
+  }
+]
