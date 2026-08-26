@@ -1,0 +1,93 @@
+---
+title: Gryt on a Phone
+description: A progress report on the Gryt mobile app, six days into building it — what works, what it looks like, and what is nowhere near finished.
+author: Sivert
+date: 2026-08-26
+tags:
+  - gryt
+  - mobile
+  - development
+---
+
+## Six days
+
+The mobile repository's first commit is dated 20 August. It is 26 August as I
+write this, and there are 156 commits in it and nineteen builds. I am putting
+that up front because the app is a week old, and the screenshots below are a
+progress report rather than a launch.
+
+It is React Native on Expo, and it draws its interface from the same
+`@gryt/ui-native` package the [component library
+post](/blog/the-component-library-behind-gryt) covers, which is most of why it
+came together this quickly. Sheets, drawers, buttons, sliders and the owl
+avatars were already written and already tested on a phone.
+
+<Image src="/blog/gryt-mobile-trio.webp" alt="Three iPhone screens side by side: a server's channel list with a live voice room at the top, a channel with three messages and owl avatars, and a members drawer grouping people by whether they are in voice" width="2442" height="1620" />
+
+## What works
+
+Enough to use, which surprised me.
+
+You add a server by pasting its address or opening an invite link, and you can
+join without an account — the same guest identity the desktop client uses, the
+same keypair signing the same challenge. Servers you already belong to come with
+you if you sign in.
+
+Text is most of the way there. Markdown, emoji, mentions, attachments, a typing
+indicator, and a long-press menu on any message with six quick reactions, reply,
+copy, edit and delete. Before that landed there was no `onLongPress` anywhere in
+the chat file, so a message could not be touched at all.
+
+Voice works and sounds like voice. Mute and deafen show to the room, there is an
+audio-route picker that exists on Android as well as iOS, and joining a channel
+makes a sound so you know it took. Video is in too: your camera, and somebody
+else's screen. You can also share your own screen from the phone, which took two
+attempts because the first one crashed on the wrong thread.
+
+The server tab is built around who is actually talking. Rooms with people in
+them float to the top under a **LIVE NOW** heading with their faces on them, and
+the strip is not drawn at all when nobody is in a call. That occupancy has always
+been in the payload the server sends; nothing had ever read it.
+
+## It is set in Atkinson Hyperlegible
+
+The same face as the rest of Gryt, which took a bit of doing — the font has to
+reach the text the component library draws, not only the text the app writes
+itself, so `@gryt/ui-native`'s theme learned to carry a font family and both
+sides read it from there.
+
+The chat view ships as a setting rather than a decision. **Cozy** keeps avatars
+and groups runs of messages from the same person; **Compact** drops the avatar
+column and gives the 52 points back to the words. It is stored as an enum rather
+than a boolean, so a third layout can be added later without migrating anybody.
+
+<Image src="/blog/gryt-mobile-pair.webp" alt="Two iPhone screens: a profile screen showing an owl avatar, identity and settings rows, and a search tab reading 'Search is not built yet'" width="1648" height="1620" />
+
+## What does not work
+
+Search is not built. The tab exists and says so, which I would rather do than
+hide the tab and have people wonder where search went.
+
+There is no App Store listing. Builds go to TestFlight, and getting one requires
+me to add you. Android builds exist and LAN discovery works there, but Android
+is behind iOS on polish and has had far less time on real hardware.
+
+The whole thing is version 0.1.0. Things will move.
+
+## Why bother
+
+Gryt's argument has always been that the machine under your desk can host the
+thing you talk on. That argument is easier to make when you are not asking
+people to be at a desk to answer.
+
+A phone is also the honest test of whether the design system was worth building.
+If the same theme, the same owls and the same components can render on a
+completely different renderer and still look like the same product, the split
+paid for itself. Looking at the screenshots above next to the desktop client, I
+think it did.
+
+If you want to try it, ask on [Discord](https://gryt.chat/discord) or through
+[feedback.gryt.chat](https://feedback.gryt.chat) and I will add you to
+TestFlight. Bug reports sent from inside the app land in my tracker with the
+build number attached, which is the one piece of infrastructure I set up before
+writing any features.
