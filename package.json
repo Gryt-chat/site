@@ -9,7 +9,6 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "generate:og": "node scripts/generate-og-image.mjs",
-    "generate:crops": "node scripts/generate-feature-crops.mjs",
     "check:meta": "node scripts/check-meta.mjs"
   },
   "dependencies": {
