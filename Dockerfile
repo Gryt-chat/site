@@ -29,6 +29,38 @@ RUN printf '%s\n' \
   '    # Serve binaries as static files (no SPA fallback).' \
   '    location ^~ /release/ { try_files $uri =404; }' \
   '    location ^~ /downloads/ { try_files $uri =404; }' \
+  '    # The update feed (GRYT-624), which is two kinds of file with opposite' \
+  '    # caching needs sitting in one directory.' \
+  '    #' \
+  '    # The installers and blockmaps carry the version in the filename, so a' \
+  '    # new release arrives under a new name and the old name is never asked' \
+  '    # for again. Immutable is true of them in the way it is true of' \
+  '    # /assets/.' \
+  '    #' \
+  '    # latest*.yml is the opposite: a fixed name whose contents change on' \
+  '    # every release, and it is the file that tells a client a release' \
+  '    # exists. Cached, it hides the release it is meant to announce, for as' \
+  '    # long as the cache holds. gryt.chat already served a stale logo for a' \
+  '    # month for exactly this reason (GRYT-610), and that one was only' \
+  '    # embarrassing.' \
+  '    #' \
+  '    # Cloudflare will not cache a no-cache response at the edge. What it' \
+  '    # tells browsers is a dashboard setting, so Browser Cache TTL has to be' \
+  '    # "Respect Existing Headers" for this to mean anything from the outside' \
+  '    # — see ops/internal/README.md in the superproject.' \
+  '    #' \
+  '    # The yml block is nested rather than a sibling. A ^~ prefix match that' \
+  '    # wins stops nginx looking at regex locations at all, so a top-level' \
+  '    # regex for the yml would never be reached and every file here would be' \
+  '    # immutable — the one outcome this block exists to prevent.' \
+  '    location ^~ /downloads/updates/ {' \
+  '      add_header Cache-Control "public, max-age=31536000, immutable";' \
+  '      location ~ \.yml$ {' \
+  '        add_header Cache-Control "no-cache";' \
+  '        try_files $uri =404;' \
+  '      }' \
+  '      try_files $uri =404;' \
+  '    }' \
   '    # Immutable by path, not by extension.' \
   '    #' \
   '    # Vite fingerprints everything under /assets/, so the claim is true' \
