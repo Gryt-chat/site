@@ -1,4 +1,5 @@
-import { lazy, type ComponentType, type LazyExoticComponent } from 'react'
+import { lazy, useMemo, type ComponentType, type LazyExoticComponent } from 'react'
+import { useGenerated, type GeneratedRelease } from './generated'
 
 export interface ChangelogFrontmatter {
   /** Product version these notes describe, e.g. "1.4.0". */
@@ -84,4 +85,57 @@ export function releasesSince(since: string | null | undefined): ChangelogEntry[
   return releases.filter(
     (r) => compareVersions(r.frontmatter.version, since) < 0,
   )
+}
+
+
+/* ── One list, two sources ─────────────────────────────────────────────
+   The notes written by hand live in content/changelog and are compiled in.
+   The rest are drafted on the box after a release and fetched at runtime.
+   A page wants both, in one order, and mostly does not care which is which. */
+
+export type AnyRelease =
+  | ({ kind: 'written'; slug: string } & ChangelogFrontmatter & { Component: ChangelogEntry['Component'] })
+  | ({ kind: 'drafted'; slug: string } & GeneratedRelease)
+
+export function useAllReleases(): { all: AnyRelease[]; loading: boolean } {
+  const { generated, loading } = useGenerated()
+
+  return useMemo(() => {
+    const written: AnyRelease[] = releases.map((r) => ({
+      kind: 'written',
+      slug: r.slug,
+      ...r.frontmatter,
+      Component: r.Component,
+    }))
+    /* A hand-written note wins. Somebody sat down and wrote it, and the three
+       that exist are the examples the drafter is shown. */
+    const have = new Set(written.map((r) => r.version))
+    const drafted: AnyRelease[] = generated
+      .filter((g) => !have.has(g.version))
+      .map((g) => ({ kind: 'drafted', slug: g.version, ...g }))
+
+    const all = [...written, ...drafted].sort((a, b) =>
+      compareVersions(a.version, b.version),
+    )
+    return { all, loading }
+  }, [generated, loading])
+}
+
+/**
+ * Stable only, unless the reader asked to see the pre-releases too.
+ *
+ * The toggle governs the *drafted* betas and nothing else. All three
+ * hand-written notes carry `channel: beta`, because each was written while its
+ * line was still in beta and covers the whole line — filtering on the field
+ * alone hid every curated note and left the page showing one entry. A note
+ * somebody sat down and wrote is not the noise this toggle exists to hide;
+ * forty machine-drafted pre-release entries are.
+ */
+export function visible(all: AnyRelease[], showBeta: boolean): AnyRelease[] {
+  if (showBeta) return all
+  return all.filter((r) => r.kind === 'written' || r.channel !== 'beta')
+}
+
+export function findRelease(all: AnyRelease[], version: string): AnyRelease | undefined {
+  return all.find((r) => r.slug === version)
 }

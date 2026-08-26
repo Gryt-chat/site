@@ -189,3 +189,42 @@
     font-size: 19px;
   }
 }
+
+/* The beta toggle sits with the page title rather than above the list, because
+   it changes what the list is rather than how it is sorted. Hidden entirely
+   when there are no pre-releases to reveal — a switch that does nothing is
+   worse than no switch. */
+.headRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.betaToggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: var(--text-dim);
+  cursor: pointer;
+  user-select: none;
+  padding-top: 4px;
+}
+
+.betaToggle:hover {
+  color: var(--text);
+}
+
+.loading {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--text-dimmer);
+}
+
+@media (max-width: 640px) {
+  .headRow {
+    gap: 16px;
+  }
+}
