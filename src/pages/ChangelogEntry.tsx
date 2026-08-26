@@ -76,6 +76,9 @@ const components = { a: MdxLink, img: MdxImage, Clip }
 function Drafted({ release }: { release: Extract<AnyRelease, { kind: 'drafted' }> }) {
   return (
     <div className={styles.prose}>
+      {release.intro.map((paragraph, i) => (
+        <p key={`intro-${i}`}>{paragraph}</p>
+      ))}
       {release.sections.map((section) => (
         <section key={section.heading}>
           <h2>{section.heading}</h2>

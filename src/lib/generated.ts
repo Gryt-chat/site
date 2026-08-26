@@ -36,6 +36,8 @@ export interface GeneratedRelease {
   date: string
   channel: 'beta' | 'latest'
   headline: string
+  /** The untitled paragraphs before the first heading, as the written notes have. */
+  intro: string[]
   sections: GeneratedSection[]
   recap: GeneratedRecapGroup[]
   /** Which release this one is measured against, and what drafted it. */
@@ -52,6 +54,9 @@ function asRelease(raw: unknown): GeneratedRelease | null {
   if (typeof r.date !== 'string') return null
   if (r.channel !== 'beta' && r.channel !== 'latest') return null
   if (typeof r.headline !== 'string') return null
+
+  /* Older files predate the intro, so a missing one is empty rather than fatal. */
+  const intro = isStringArray(r.intro) ? r.intro : []
 
   const sections: GeneratedSection[] = []
   if (!Array.isArray(r.sections)) return null
@@ -78,6 +83,7 @@ function asRelease(raw: unknown): GeneratedRelease | null {
     date: r.date,
     channel: r.channel,
     headline: r.headline,
+    intro,
     sections,
     recap,
     source: (r.source as GeneratedRelease['source']) ?? undefined,
