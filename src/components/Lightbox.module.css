@@ -20,7 +20,26 @@
   animation: fadeIn 0.2s ease;
 }
 
-.content {
+/*
+ * The lightbox owns the whole viewport, not a dialog-shaped piece of it.
+ *
+ * Dialog.Popup arrives dressed as a dialog: 32rem wide, centred with top and
+ * left at 50% and pulled back by a translate, on a surface background with a
+ * border and a radius. A lightbox is none of those things.
+ *
+ * The class is doubled so this wins outright. Both this rule and the library's
+ * utilities are single classes, so which one applied came down to the order
+ * Vite happened to emit them in — and the answer differed per property. This
+ * file won `inset: 0` and the padding; the library won the width, the
+ * background, the border and the radius. What that left on the blog was a
+ * 512x900 card in the top-left corner with a 1152px image hanging out of it.
+ *
+ * Dialog.Popup merges className with tailwind-merge and its own comment says
+ * overrides still win, which is true of a Tailwind app. The site is not one —
+ * it gets only the utilities @gryt/ui's compiled stylesheet happens to carry,
+ * so that escape hatch is not something this file can rely on.
+ */
+.content.content {
   position: fixed;
   inset: 0;
   z-index: 1001;
@@ -30,6 +49,23 @@
   justify-content: center;
   padding: 48px;
   outline: none;
+
+  /* Undoing the card. Each of these is a property Dialog.Popup sets and a
+     full-bleed image viewer must not have. */
+  width: auto;
+  max-width: none;
+  gap: 0;
+  background: none;
+  border: 0;
+  border-radius: 0;
+
+  /* `translate`, not `transform`. Tailwind v4 compiles -translate-x-1/2 to the
+     standalone translate property, so `transform: none` undoes nothing and the
+     popup stays pulled half its own size up and to the left — which on a
+     full-viewport box is the entire bug, one layer along from where it looked
+     fixed. `scale` for the same reason: the open animation sets that one. */
+  translate: none;
+  scale: none;
 }
 
 .fullImage {

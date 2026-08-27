@@ -2,9 +2,10 @@ import { lazy, Suspense, useEffect } from 'react'
 import { useParams, Link, Navigate } from 'react-router-dom'
 import { MdChevronLeft } from 'react-icons/md'
 import { Chip } from '@gryt/ui'
-import { getPost } from '../lib/blog'
+import { getNeighbours, getPost } from '../lib/blog'
 import { pageTitle } from '../lib/title'
 import { LightboxImage } from '../components/Lightbox'
+import { PostNav } from '../components/PostNav'
 import styles from './BlogPost.module.css'
 import type { ComponentPropsWithoutRef } from 'react'
 
@@ -46,6 +47,7 @@ export function BlogPost() {
   if (!post) return <Navigate to="/blog" replace />
 
   const { frontmatter, Component } = post
+  const { older, newer } = getNeighbours(post.slug)
 
   return (
     <main className={styles.page}>
@@ -93,6 +95,8 @@ export function BlogPost() {
           <Component components={components} />
         </Suspense>
       </div>
+
+      <PostNav older={older} newer={newer} />
     </main>
   )
 }
