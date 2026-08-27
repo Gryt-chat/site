@@ -99,6 +99,13 @@ export function ChangelogIndex() {
                 {release.headline && (
                   <span className={styles.headline}>{release.headline}</span>
                 )}
+                {/* So somebody scanning for "when did the server last change"
+                    can see it without opening every note. */}
+                {release.kind === 'drafted' && release.source?.components?.length ? (
+                  <span className={styles.parts}>
+                    {release.source.components.join(' · ')}
+                  </span>
+                ) : null}
                 <span className={styles.more} aria-hidden="true">
                   Read the notes →
                 </span>
