@@ -2,6 +2,8 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import { lazy, Suspense, useEffect } from "react";
 import { Navbar } from "./components/Navbar";
 import { Footer } from "./components/Footer";
+/* Throwaway: three candidate nav+footer pairings, deleted once one is picked. */
+import { ChromePreview } from "./pages/ChromePreview";
 import { HomePage } from "./pages/HomePage";
 import { HOME_TITLE, pageTitle } from "./lib/title";
 import { STATIC_PAGES, ALIAS_PAGES } from "./lib/pages.mjs";
@@ -50,7 +52,10 @@ function ScrollAndTitle() {
   return null;
 }
 
-const chromeHiddenRoutes = new Set(["/auth/callback"]);
+/* The chrome preview brings its own nav and footer, so the real ones must
+   not also render — otherwise every candidate is judged with the current bar
+   sitting on top of it. */
+const chromeHiddenRoutes = new Set(["/auth/callback", "/preview/chrome"]);
 
 export default function App() {
   const { pathname } = useLocation();
@@ -63,6 +68,7 @@ export default function App() {
       <Suspense fallback={<main className="routePending" aria-busy="true" aria-label="Loading page" />}>
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/preview/chrome" element={<ChromePreview />} />
           <Route path="/why-gryt" element={<WhyGryt />} />
           <Route path="/blog" element={<BlogIndex />} />
           <Route path="/blog/:slug" element={<BlogPost />} />
