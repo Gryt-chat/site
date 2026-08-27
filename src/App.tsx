@@ -2,8 +2,9 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import { lazy, Suspense, useEffect } from "react";
 import { Navbar } from "./components/Navbar";
 import { Footer } from "./components/Footer";
-/* Throwaway: three candidate nav+footer pairings, deleted once one is picked. */
-import { ChromePreview } from "./pages/ChromePreview";
+/* Throwaway: candidate chrome, tried on the real pages. Goes when one is picked. */
+import { ChromeSwitcher } from "./components/chrome/ChromeSwitcher";
+import { useChromePreview } from "./components/chrome/useChromePreview";
 import { HomePage } from "./pages/HomePage";
 import { HOME_TITLE, pageTitle } from "./lib/title";
 import { STATIC_PAGES, ALIAS_PAGES } from "./lib/pages.mjs";
@@ -52,23 +53,24 @@ function ScrollAndTitle() {
   return null;
 }
 
-/* The chrome preview brings its own nav and footer, so the real ones must
-   not also render — otherwise every candidate is judged with the current bar
-   sitting on top of it. */
-const chromeHiddenRoutes = new Set(["/auth/callback", "/preview/chrome"]);
+const chromeHiddenRoutes = new Set(["/auth/callback"]);
 
 export default function App() {
   const { pathname } = useLocation();
   const hideChrome = chromeHiddenRoutes.has(pathname);
 
+  /* Candidate nav and footer, swapped in across the whole site so they can be
+     judged over a real hero, a long post and the changelog rather than over an
+     empty page. Off unless ?chrome=1 has been visited. Goes when one is picked. */
+  const preview = useChromePreview();
+
   return (
     <>
       <ScrollAndTitle />
-      {!hideChrome && <Navbar />}
+      {!hideChrome && (preview.on ? <preview.Nav /> : <Navbar />)}
       <Suspense fallback={<main className="routePending" aria-busy="true" aria-label="Loading page" />}>
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/preview/chrome" element={<ChromePreview />} />
           <Route path="/why-gryt" element={<WhyGryt />} />
           <Route path="/blog" element={<BlogIndex />} />
           <Route path="/blog/:slug" element={<BlogPost />} />
@@ -90,7 +92,16 @@ export default function App() {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
-      {!hideChrome && <Footer />}
+      {!hideChrome && (preview.on ? <preview.Footer /> : <Footer />)}
+      {preview.on && (
+        <ChromeSwitcher
+          nav={preview.nav}
+          footer={preview.footer}
+          pickNav={preview.pickNav}
+          pickFooter={preview.pickFooter}
+          off={preview.off}
+        />
+      )}
     </>
   );
 }

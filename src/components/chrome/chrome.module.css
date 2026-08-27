@@ -244,6 +244,72 @@
   color: var(--text-dimmer);
 }
 
+/* Search as an icon rather than a field. Quieter, and less inviting — the
+   trade the Icon variant is making. */
+.iconButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  background: none;
+  border: 0;
+  border-radius: 8px;
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: color 160ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.iconButton:hover {
+  color: var(--text);
+  background: var(--bg-raised);
+}
+
+.iconButton:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* The Centred variant's pill, given room to read as the point of the bar. */
+.searchWide {
+  min-width: min(420px, 38vw);
+}
+
+/* The field inside the spotlight, which is a real input rather than a button
+   that looks like one. */
+.searchInput {
+  width: 100%;
+  padding: 10px 14px;
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--text);
+  font: inherit;
+  font-size: 15px;
+}
+
+.searchInput:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Two-tier: each row is shallower than a single bar would be, so the pair is
+   not simply twice as tall. */
+.barTight {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.secondTier {
+  border-top: 1px solid var(--border);
+}
+
+/* Statement-led footer: groups sit under the sentence rather than beside it,
+   so they read as a row rather than a sidebar. */
+.groupsRow {
+  margin-top: 8px;
+}
+
 /* ── Footers ────────────────────────────────────────────────────────────── */
 
 .footer {
