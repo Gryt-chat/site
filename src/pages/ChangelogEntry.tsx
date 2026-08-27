@@ -1,7 +1,7 @@
 import { Suspense, useEffect } from 'react'
 import { useParams, Link, Navigate } from 'react-router-dom'
 import { MdChevronLeft } from 'react-icons/md'
-import { getRelease } from '../lib/changelog'
+import { useAllReleases, findRelease, type AnyRelease } from '../lib/changelog'
 import { pageTitle } from '../lib/title'
 import { LightboxImage } from '../components/Lightbox'
 import styles from './ChangelogEntry.module.css'
@@ -65,19 +65,68 @@ function Clip({
 // failure this exists to prevent.
 const components = { a: MdxLink, img: MdxImage, Clip }
 
+/**
+ * A drafted note, rendered from its shape.
+ *
+ * The prose classes are the same ones the compiled MDX lands in, so a drafted
+ * note and a written one are the same page in the same type. What a drafted
+ * note cannot have is a picture or a clip: the drafter works from a commit
+ * range and has nothing to photograph.
+ */
+function Drafted({ release }: { release: Extract<AnyRelease, { kind: 'drafted' }> }) {
+  return (
+    <div className={styles.prose}>
+      {release.intro.map((paragraph, i) => (
+        <p key={`intro-${i}`}>{paragraph}</p>
+      ))}
+      {release.sections.map((section) => (
+        <section key={section.heading}>
+          <h2>{section.heading}</h2>
+          {section.body.map((paragraph, i) => (
+            <p key={i}>{paragraph}</p>
+          ))}
+        </section>
+      ))}
+
+      {release.recap.length > 0 && (
+        <>
+          <hr />
+          {release.recap.map((group) => (
+            <section key={group.group}>
+              <h3>{group.group}</h3>
+              <ul>
+                {group.items.map((item, i) => (
+                  <li key={i}>{item}</li>
+                ))}
+              </ul>
+            </section>
+          ))}
+        </>
+      )}
+    </div>
+  )
+}
+
 export function ChangelogEntry() {
   const { version } = useParams<{ version: string }>()
-  const release = version ? getRelease(version) : undefined
+  const { all, loading } = useAllReleases()
+  const release = version ? findRelease(all, version) : undefined
 
   useEffect(() => {
     if (release) {
-      document.title = pageTitle(`${release.frontmatter.version} | Changelog`)
+      document.title = pageTitle(`${release.version} | Changelog`)
     }
   }, [release])
 
-  if (!release) return <Navigate to="/changelog" replace />
+  /* The drafted notes arrive over the network, so "not found" is only true
+     once they have. Redirecting before then sends anyone following a link to
+     a drafted note back to the index. */
+  if (!release) {
+    if (loading) return <main className={styles.page}><p>Loading release notes…</p></main>
+    return <Navigate to="/changelog" replace />
+  }
 
-  const { frontmatter, Component } = release
+  const frontmatter = release
 
   return (
     <main className={styles.page}>
@@ -85,6 +134,16 @@ export function ChangelogEntry() {
         <MdChevronLeft size={16} />
         All releases
       </Link>
+
+      {/* Only reachable under ?drafts=1, and the point of being able to reach
+          it at all is to read the note on the page it would go on. Saying so
+          here means nobody mistakes this URL for the published one. */}
+      {release.kind === 'drafted' && release.status !== 'published' && (
+        <p className={styles.draftNotice}>
+          Nobody has read this yet. A model drafted it from the commits in the
+          release, and it is not on the changelog for anybody else.
+        </p>
+      )}
 
       <header className={styles.header}>
         <div className={styles.versionRow}>
@@ -107,11 +166,15 @@ export function ChangelogEntry() {
         </div>
       </header>
 
-      <div className={styles.prose}>
-        <Suspense fallback={<p>Loading release notes…</p>}>
-          <Component components={components} />
-        </Suspense>
-      </div>
+      {release.kind === 'written' ? (
+        <div className={styles.prose}>
+          <Suspense fallback={<p>Loading release notes…</p>}>
+            <release.Component components={components} />
+          </Suspense>
+        </div>
+      ) : (
+        <Drafted release={release} />
+      )}
     </main>
   )
 }
