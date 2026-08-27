@@ -1,0 +1,111 @@
+/* Hallmark · component: post navigation · genre: atmospheric-leaning technical
+ * theme: Gryt tokens (project-locked, design.md)
+ * states: default · hover · focus-visible · active · absent (no neighbour)
+ * pre-emit critique: P5 H5 E4 S5 R5 V4
+ */
+
+/*
+ * Rules and type, not two cards.
+ *
+ * design.md: "Cards are a budget, not a default. If two adjacent sections are
+ * both card grids, one of them is wrong." A blog post ends in prose, and
+ * putting two filled cards under it would spend the budget on navigation —
+ * the least important thing on the page. A hairline and the two titles carry
+ * it, which is also what the rest of the site does when it needs a boundary.
+ */
+.nav {
+  border-top: 1px solid var(--border);
+  margin-top: 64px;
+  padding-top: 32px;
+  display: grid;
+  /* minmax(0, 1fr), not 1fr: a bare 1fr track has an auto minimum, so a long
+     unbroken word in a title would push the column wider than half and take
+     the page into horizontal scroll. */
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 24px 32px;
+}
+
+/* Placed explicitly rather than flowed, so a post with only one neighbour —
+   the newest and the oldest each have one — keeps its link on its own side
+   instead of sliding into the empty column. */
+.previous {
+  grid-column: 1;
+}
+
+.next {
+  grid-column: 2;
+  align-items: flex-end;
+  text-align: right;
+}
+
+.side {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+  text-decoration: none;
+  color: inherit;
+  border-radius: 8px;
+}
+
+/* The eyebrow from design.md, unchanged: 12px, 700, uppercase, 1.5px, accent.
+   px tracking is right here — the rule against it applies to negative tracking
+   on a clamp() size, which loosens as the viewport grows. This is neither. */
+.direction {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--accent);
+}
+
+/* Item heading from design.md. */
+.title {
+  font-size: 17.5px;
+  font-weight: 800;
+  letter-spacing: -0.014em;
+  line-height: 1.35;
+  color: var(--text);
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+  transition: color 160ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.side:hover .title {
+  color: var(--accent-light);
+}
+
+.side:active .title {
+  color: var(--accent);
+}
+
+/* Instant, never animated — it has to be there the moment focus lands. */
+.side:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 6px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .title {
+    transition: none;
+  }
+}
+
+/* One column, both sides reading left. Keeping "next" right-aligned here would
+   leave a lone ragged line under a left-aligned one for no reason. */
+@media (max-width: 640px) {
+  .nav {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 28px;
+  }
+
+  .previous,
+  .next {
+    grid-column: 1;
+    align-items: flex-start;
+    text-align: left;
+  }
+}
