@@ -228,3 +228,11 @@
     gap: 16px;
   }
 }
+
+/* Which parts of Gryt a release moved. Quiet on purpose — it answers a
+   question rather than announcing one, and only a self-hoster is asking it. */
+.parts {
+  color: var(--text-dim);
+  font-size: 13px;
+  letter-spacing: 0.01em;
+}

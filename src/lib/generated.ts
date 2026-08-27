@@ -61,7 +61,22 @@ export interface GeneratedRelease {
   sections: GeneratedSection[]
   recap: GeneratedRecapGroup[]
   /** Which release this one is measured against, and what drafted it. */
-  source?: { since?: string; commits?: number; model?: string }
+  source?: {
+    since?: string
+    commits?: number
+    model?: string
+    /**
+     * Which parts of Gryt moved, already worded for a reader.
+     *
+     * Taken off the manifest diff by the drafter rather than written by it —
+     * the prompt forbids the model saying "SFU" or "server" in a sentence at
+     * all, because a sentence needing one is aimed at the wrong reader. This is
+     * the same fact as data, which is the only way the page can answer "do I
+     * need to update my server, or is this just the app?" without the prose
+     * having to carry it.
+     */
+    components?: string[]
+  }
 }
 
 const isStringArray = (v: unknown): v is string[] =>
@@ -111,7 +126,18 @@ function asRelease(raw: unknown): GeneratedRelease | null {
     intro,
     sections,
     recap,
-    source: (r.source as GeneratedRelease['source']) ?? undefined,
+    source: asSource(r.source),
+  }
+}
+
+function asSource(raw: unknown): GeneratedRelease['source'] {
+  if (typeof raw !== 'object' || raw === null) return undefined
+  const r = raw as Record<string, unknown>
+  return {
+    since: typeof r.since === 'string' ? r.since : undefined,
+    commits: typeof r.commits === 'number' ? r.commits : undefined,
+    model: typeof r.model === 'string' ? r.model : undefined,
+    components: isStringArray(r.components) ? r.components : undefined,
   }
 }
 

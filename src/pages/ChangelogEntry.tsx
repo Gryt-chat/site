@@ -163,6 +163,15 @@ export function ChangelogEntry() {
               day: 'numeric',
             })}
           </time>
+          {/* Which parts of Gryt this release moved. Not in the prose on
+              purpose — a note that says "the SFU" is aimed at the wrong reader,
+              and somebody running their own server still needs to know whether
+              the server changed or whether this is only the app. */}
+          {release.kind === 'drafted' && release.source?.components?.length ? (
+            <span className={styles.parts}>
+              {release.source.components.join(' · ')}
+            </span>
+          ) : null}
         </div>
       </header>
 
