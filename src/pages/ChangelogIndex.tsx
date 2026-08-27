@@ -1,6 +1,6 @@
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import { useAllReleases, visible } from '../lib/changelog'
+import { useAllReleases, showingDrafts, visible } from '../lib/changelog'
 import { pageTitle } from '../lib/title'
 import { Chip, Switch } from "@gryt/ui";
 import styles from './ChangelogIndex.module.css'
@@ -27,6 +27,8 @@ function readBetaPreference(): boolean {
 
 export function ChangelogIndex() {
   const { all, loading } = useAllReleases()
+  const { search } = useLocation()
+  const drafts = showingDrafts(search)
   const [showBeta, setShowBeta] = useState(readBetaPreference)
 
   useEffect(() => {
@@ -49,7 +51,9 @@ export function ChangelogIndex() {
           <div>
             <h1 className={styles.title}>Changelog</h1>
             <p className={styles.sub}>
-              What changed in each release of Gryt, newest first.
+              {drafts
+                ? 'Including the notes nobody has read yet. They are not on this page for anybody else.'
+                : 'What changed in each release of Gryt, newest first.'}
             </p>
           </div>
           {betaCount > 0 && (
@@ -67,7 +71,10 @@ export function ChangelogIndex() {
       <ol className={styles.stages}>
         {shown.map((release) => (
           <li key={release.slug} className={styles.stage}>
-            <Link to={`/changelog/${release.slug}`} className={styles.link}>
+            <Link
+              to={{ pathname: `/changelog/${release.slug}`, search }}
+              className={styles.link}
+            >
               <span className={styles.rail} aria-hidden="true" />
               <span className={styles.body}>
                 <span className={styles.versionRow}>
@@ -75,6 +82,11 @@ export function ChangelogIndex() {
                   {release.channel === 'beta' && (
                     <Chip className={styles.beta} tone="warning">
                       Beta
+                    </Chip>
+                  )}
+                  {release.kind === 'drafted' && release.status !== 'published' && (
+                    <Chip className={styles.beta} tone="warning">
+                      Draft
                     </Chip>
                   )}
                   <time

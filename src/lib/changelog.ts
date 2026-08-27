@@ -1,4 +1,5 @@
 import { lazy, useMemo, type ComponentType, type LazyExoticComponent } from 'react'
+import { useLocation } from 'react-router-dom'
 import { useGenerated, type GeneratedRelease } from './generated'
 
 export interface ChangelogFrontmatter {
@@ -97,8 +98,26 @@ export type AnyRelease =
   | ({ kind: 'written'; slug: string } & ChangelogFrontmatter & { Component: ChangelogEntry['Component'] })
   | ({ kind: 'drafted'; slug: string } & GeneratedRelease)
 
+/**
+ * Whether unpublished notes are being shown.
+ *
+ * A drafted note is one a model wrote and nobody has read yet. It is in the
+ * file the page fetches, carrying `status: "draft"`, so that it can be read on
+ * the page it would go on rather than in a text field somewhere — which is the
+ * cheapest way to judge whether it is any good. It is not on the page for
+ * everybody else, and `?drafts=1` is what asks for it.
+ *
+ * Deliberately not behind a sign-in. An unpublished note is not a secret; it is
+ * prose about a release that already shipped, and the only person who would go
+ * looking is the one deciding whether to publish it.
+ */
+export function showingDrafts(search: string): boolean {
+  return new URLSearchParams(search).get('drafts') === '1'
+}
+
 export function useAllReleases(): { all: AnyRelease[]; loading: boolean } {
   const { generated, loading } = useGenerated()
+  const drafts = useLocation().search
 
   return useMemo(() => {
     const written: AnyRelease[] = releases.map((r) => ({
@@ -110,15 +129,17 @@ export function useAllReleases(): { all: AnyRelease[]; loading: boolean } {
     /* A hand-written note wins. Somebody sat down and wrote it, and the three
        that exist are the examples the drafter is shown. */
     const have = new Set(written.map((r) => r.version))
-    const drafted: AnyRelease[] = generated
+    const withDrafts = showingDrafts(drafts)
+    const generatedVisible: AnyRelease[] = generated
       .filter((g) => !have.has(g.version))
+      .filter((g) => withDrafts || g.status === 'published')
       .map((g) => ({ kind: 'drafted', slug: g.version, ...g }))
 
-    const all = [...written, ...drafted].sort((a, b) =>
+    const all = [...written, ...generatedVisible].sort((a, b) =>
       compareVersions(a.version, b.version),
     )
     return { all, loading }
-  }, [generated, loading])
+  }, [generated, loading, drafts])
 }
 
 /**

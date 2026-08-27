@@ -1,12 +1,17 @@
 /**
  * Release notes drafted on the box and served beside the site.
  *
- * `ops/internal/changelog-notes.mjs` writes `changelog.json` when a release
- * goes out; nginx serves it from the same origin as the site, under
- * /release-notes/. Fetching it at
- * runtime rather than building it in is the whole point — a new release is on
- * the changelog page as soon as the job finishes, with no rebuild and no pull
- * request in the way.
+ * `ops/internal/changelog-notes.mjs` drafts a note when a release goes out and
+ * posts it to the reports service, which holds it until somebody has read it
+ * and writes `changelog.json`. nginx serves that from the same origin as the
+ * site, under /release-notes/. Fetching it at runtime rather than building it
+ * in is the whole point — publishing a note takes seconds, with no rebuild and
+ * no pull request in the way.
+ *
+ * An entry carries the status it is in. A draft is in the file too, because it
+ * is unpublished rather than secret and reading one on this page is the best
+ * way to judge it — but this page renders published entries only unless the URL
+ * says `?drafts=1`.
  *
  * The hand-written notes in `content/changelog` stay where they are and win
  * where both exist. A version somebody sat down and wrote about is better than
@@ -31,10 +36,25 @@ export interface GeneratedRecapGroup {
   items: string[]
 }
 
+/**
+ * Whether anybody has read this yet.
+ *
+ * The drafter used to write this file itself, so a note nobody had read was on
+ * the page the moment a model finished writing it. Two fabricated drafts were
+ * caught by reading them while that was being built. Now reports holds a note
+ * until somebody publishes it, and `published` is what says so.
+ *
+ * A file written before this existed has no status at all, which is treated as
+ * a draft: the safe direction is that a note nobody vouched for is not on the
+ * page by default.
+ */
+export type GeneratedStatus = 'draft' | 'published'
+
 export interface GeneratedRelease {
   version: string
   date: string
   channel: 'beta' | 'latest'
+  status: GeneratedStatus
   headline: string
   /** The untitled paragraphs before the first heading, as the written notes have. */
   intro: string[]
@@ -57,6 +77,10 @@ function asRelease(raw: unknown): GeneratedRelease | null {
 
   /* Older files predate the intro, so a missing one is empty rather than fatal. */
   const intro = isStringArray(r.intro) ? r.intro : []
+
+  /* Anything that is not the word "published" is a draft, including a missing
+     field and a status this build has never heard of. */
+  const status: GeneratedStatus = r.status === 'published' ? 'published' : 'draft'
 
   const sections: GeneratedSection[] = []
   if (!Array.isArray(r.sections)) return null
@@ -82,6 +106,7 @@ function asRelease(raw: unknown): GeneratedRelease | null {
     version: r.version,
     date: r.date,
     channel: r.channel,
+    status,
     headline: r.headline,
     intro,
     sections,

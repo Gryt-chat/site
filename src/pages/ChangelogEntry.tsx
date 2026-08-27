@@ -135,6 +135,16 @@ export function ChangelogEntry() {
         All releases
       </Link>
 
+      {/* Only reachable under ?drafts=1, and the point of being able to reach
+          it at all is to read the note on the page it would go on. Saying so
+          here means nobody mistakes this URL for the published one. */}
+      {release.kind === 'drafted' && release.status !== 'published' && (
+        <p className={styles.draftNotice}>
+          Nobody has read this yet. A model drafted it from the commits in the
+          release, and it is not on the changelog for anybody else.
+        </p>
+      )}
+
       <header className={styles.header}>
         <div className={styles.versionRow}>
           <h1 className={styles.title}>Gryt {frontmatter.version}</h1>

@@ -59,6 +59,20 @@
   color: var(--beta);
 }
 
+/* Not decoration. Somebody arriving on this URL has to be able to tell at a
+   glance that the note is unpublished, so it sits above the heading rather
+   than beside it. */
+.draftNotice {
+  border: 1px solid rgba(242, 163, 60, 0.4);
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-bottom: 20px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--beta);
+  background: rgba(242, 163, 60, 0.08);
+}
+
 .headline {
   font-size: 18px;
   line-height: 1.6;
