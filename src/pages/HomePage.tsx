@@ -14,10 +14,23 @@ import { Voice } from "../components/home/Voice";
 /**
  * One claim per section, and each one shown rather than argued.
  *
- * The middle of the page is four features, alternating left and right through
- * `Showcase`. The side each one sits on is written down rather than derived
- * from `:nth-child`, so inserting a section here does not silently flip
- * everything below it.
+ * The middle of the page alternates left and right through `Showcase`. The side
+ * each one sits on is a prop rather than a `:nth-child` rule, so inserting a
+ * section here does not silently flip everything below it.
+ *
+ * The cost of that is that nothing enforces the alternation, and it drifted the
+ * first time: `Identity`, `Emoji` and `Themes` were each given `side="right"`
+ * in isolation and the page ran right, right, right, left. **The sequence lives
+ * here.** Anything with media on a side takes the next value:
+ *
+ *     Identity  right
+ *     Emoji     left
+ *     Themes    right
+ *     Lan       left
+ *
+ * `Hero`, `Bird`, `Voice`, `Addons`, `Motivation`, `SelfHost`, `Download` and
+ * `Sponsors` are full-width and sit outside the sequence — they do not take a
+ * turn and they do not reset it.
  *
  * There were nine features to fit and asking for a short page. Four of the nine
  * are facts about voice quality, so they are inside `Voice` as a fact strip

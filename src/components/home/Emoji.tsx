@@ -47,7 +47,7 @@ export function Emoji() {
   return (
     <Showcase
       id="emoji"
-      side="right"
+      side="left"
       size="regular"
       eyebrow="Emoji"
       title="Bring the emoji you already have."

@@ -296,6 +296,10 @@ to look at on the other.
 - `side` is a prop, not `:nth-child`. Alternation by child index flips every
   block below any section somebody inserts in the middle, and the diff is one
   line.
+- **The sequence lives in `HomePage.tsx`, and it has to.** A prop nothing
+  enforces is a prop that drifts: the first version set `Identity`, `Emoji` and
+  `Themes` to `right` in isolation and the page ran right, right, right, left.
+  Full-width sections do not take a turn and do not reset it.
 - The visual swap is a grid placement, not `row-reverse`, so the copy stays
   first in the DOM and reading order matches the order the words are written in.
 - `media` may be omitted, and a section without it renders as a plain column
