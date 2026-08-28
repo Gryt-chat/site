@@ -1,9 +1,41 @@
 import { motion, useReducedMotion } from "motion/react";
 
+import { Clip, type ClipSet } from "../Clip";
 import { inView, rise, stagger } from "./motion";
 import styles from "./SelfHost.module.css";
 
 const DOCS = "https://docs.gryt.chat/docs";
+
+/**
+ * Hosting from the app, start to finish, with nothing cut out.
+ *
+ * Sivert's own capture, 2026-08-28. Eleven and a half seconds from an empty
+ * client to a server with a channel open and somebody talking in it: Add a
+ * server, name it, take the port it picked, press create. There is no terminal
+ * in the recording because there is no terminal in the flow, which is the whole
+ * claim of the first card below and was a sentence until now.
+ *
+ * `--poster-at 2.9` rather than the first frame. The clip opens on an empty
+ * client, and an empty client is what `prefers-reduced-motion` would have been
+ * handed as the still for a section about starting a server.
+ *
+ *   node scripts/encode-clips.mjs create-server-preview.mp4 create-server \
+ *     --width 2200 --fps 30 --duration 11.5 --poster-at 2.9
+ *
+ * 30fps and the script's default CRFs, unlike the two clips in Hero and Voice.
+ * This is flat UI at a walking pace — a dialog, a field, a cursor — and frame
+ * rate is not the claim it is making.
+ */
+const CREATE: ClipSet = {
+  src: "/home/create-server.mp4",
+  av1: "/home/create-server.av1.mp4",
+  poster: "/home/create-server.poster.webp",
+};
+
+const CREATE_SHOWS =
+  "An empty Gryt client, then Add a server, a name typed into Create your " +
+  "server with the port already filled in, and a running server with its " +
+  "General channel open";
 
 /**
  * Four ways in, and none of them is a wall of shell.
@@ -72,6 +104,15 @@ export function SelfHost() {
           server that should still be there when your laptop closes, put it
           somewhere that does not. Pick whichever of these sounds like you.
         </motion.p>
+
+        <motion.figure className={styles.capture} variants={rise(reduced)}>
+          <Clip {...CREATE} alt={CREATE_SHOWS} width={2200} height={1212} />
+          <figcaption>
+            Hosting from the app, in full: name it, take the port it picked,
+            press create. It stops when you close the app, which is what the
+            four below are for.
+          </figcaption>
+        </motion.figure>
 
         <div className={styles.grid}>
           {WAYS.map((w) => (

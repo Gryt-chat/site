@@ -2,6 +2,7 @@ import { avatarSeed, owlAvatarDataUri } from "@gryt/owl";
 import { motion, useReducedMotion } from "motion/react";
 import { useMemo, useState } from "react";
 
+import { Clip, type ClipSet } from "../Clip";
 import { OwlDesigner } from "../owl/owlDesigner";
 import { DEMO_NAMES } from "../../data/demoNames";
 import { useRotatingName } from "./useRotatingName";
@@ -28,6 +29,34 @@ import styles from "./Bird.module.css";
  * made the second one read as filler.
  */
 const AVATAR_DOCS = "https://docs.gryt.chat/docs/guide/accounts";
+
+/**
+ * The designer in the app, doing the three things the one above it cannot.
+ *
+ * Sivert's own capture, 2026-08-28. The component on this page is the client's,
+ * but a marketing page has no account to save to and no member list to save
+ * into — so the parts of the feature that only exist inside the app were a
+ * claim until now: the wardrobe counts down the left, Surprise me rolling a
+ * whole owl at once, Use this owl, and the new bird arriving on the profile and
+ * on every message the moment it uploads.
+ *
+ *   node scripts/encode-clips.mjs avatar-editor-preview.mp4 avatar-editor \
+ *     --width 2200 --fps 30 --start 2.4 --duration 11.2
+ *
+ * It starts at 2.4s rather than 0. The first two seconds are a settings panel
+ * sliding open, and a frame of that is both a poor still and a poor first
+ * second — the clip opens on the wardrobe instead, which is what it is about.
+ */
+const EDITOR: ClipSet = {
+  src: "/home/avatar-editor.mp4",
+  av1: "/home/avatar-editor.av1.mp4",
+  poster: "/home/avatar-editor.poster.webp",
+};
+
+const EDITOR_SHOWS =
+  "The owl designer open in the Gryt desktop app: rows of expressions, " +
+  "glasses, heads and colours being picked, Surprise me rolling a new bird, " +
+  "and the chosen owl appearing on the profile once it is saved";
 
 /** Four names, four owls, drawn here rather than saved as images. */
 const GALLERY = ["kasper", "nora", "tobias", "ida"];
@@ -99,6 +128,15 @@ export function Bird() {
             />
           </div>
         </motion.div>
+
+        <motion.figure className={styles.capture} variants={rise(reduced)}>
+          <Clip {...EDITOR} alt={EDITOR_SHOWS} width={2200} height={1212} />
+          <figcaption>
+            The same designer in the app, with the parts this page has nowhere
+            to put: a wardrobe you have worn before, Surprise me, and the bird
+            landing on your profile and your messages as soon as you keep it.
+          </figcaption>
+        </motion.figure>
 
         <motion.h3 className={styles.subTitle} variants={rise(reduced)}>
           Or use a picture you already have.

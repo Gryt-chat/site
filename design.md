@@ -246,21 +246,41 @@ nobody sees.
 committed; only the outputs are, and the script is run by hand rather than in
 `yarn build`, since on CI there would be nothing to encode.
 
-Two clips are on the page, both from Sivert's own captures at 3840x2160 / 60fps:
+Five clips are on the page, all from Sivert's own captures at 60fps — 3840x2160
+for the first three, 3840x2116 for the two added on 2026-08-28:
 
 | Clip | Where | Encode |
 |---|---|---|
 | `client-live` | the hero, 12s of the 20s take | `--width 2200 --fps 60 --av1-crf 30 --h264-crf 21 --duration 12` |
 | `screen-share` | `Voice`, 10s | `--width 2200 --fps 60 --av1-crf 30 --h264-crf 21` |
 | `emoji-import` | `Emoji`, all 15s, **1:1** | `--width 1080 --fps 60 --av1-crf 30 --h264-crf 21` |
+| `create-server` | `SelfHost`, 11.5s | `--width 2200 --fps 30 --duration 11.5 --poster-at 2.9` |
+| `avatar-editor` | `Bird`, 11.2s | `--width 2200 --fps 30 --start 2.4 --duration 11.2` |
 
-**2200 wide** because the widest slot either sits in is 1180 CSS px, and a 2x
-display asking for that wants roughly this many real pixels. **60fps is kept**:
-the source is 60, and screen sharing is the one claim on this page where frame
-rate *is* the claim. **CRF 30 / 21** rather than the script's 34 / 20 defaults,
-which are tuned for flat UI at 30fps — a game inside a screen share is real
-motion, and a 60fps frame gets half the time on screen to hide its own
-artefacts.
+**2200 wide** because the widest slot any of them sits in is 1180 CSS px, and a
+2x display asking for that wants roughly this many real pixels.
+
+**60fps is kept on the first three**: the source is 60, and screen sharing is
+the one claim on this page where frame rate *is* the claim. Those three also
+take **CRF 30 / 21** rather than the script's 34 / 20 defaults, which are tuned
+for flat UI at 30fps — a game inside a screen share is real motion, and a 60fps
+frame gets half the time on screen to hide its own artefacts.
+
+**The last two are 30fps at the default CRFs**, and they are a tenth of the
+size for it: `create-server` is 468 kB of AV1 for eleven and a half seconds.
+They are flat UI at a walking pace — a dialog, a field, a cursor crossing a
+grid of owls — and nothing in either of them is a claim about frame rate. Going
+to 60 would have doubled the bytes to say nothing.
+
+**`--poster-at` exists because of `create-server`.** The poster is what
+`prefers-reduced-motion` gets *instead of* the video, and that clip opens on an
+empty client — "Nothing here yet" is an honest first frame and a poor still for
+a section about starting a server. The flag takes the still from 2.9s, where
+the Create your server dialog is open with the port already filled in, and
+leaves the clip starting where it started. `avatar-editor` needed the opposite
+fix and got it by moving the in-point: its first two seconds are a settings
+panel sliding open, so both the still and the first second were a half-drawn
+UI, and `--start 2.4` opens on the wardrobe instead.
 
 The hero take is cut to 12 seconds. It loops silently, nobody watches a hero for
 twenty, and the trim takes it from 3.5 MB to 1.6 MB of AV1 before anything else
@@ -289,10 +309,24 @@ at 522 CSS px — and it is not trimmed, being a sequence rather than an ambient
 loop. `EmojiSketch` was deleted with it: the drawing existed to stand in for
 this clip and had no second consumer.
 
-`Lan` still holds `null` and shows a drawing instead. That is the
+`Lan` still holds `null` and shows the live discovery pane instead. That is the
 resolution of the older rule about video-shaped holes: the hole is the problem,
 not the absence of footage, so each of those sections has something finished in
 it that a clip will later replace.
+
+Footage for it exists. The `create-server` take runs on past its in-point and
+ends on the Servers on your network page with the server that was just made
+turning up in it, which is exactly `Lan`'s claim. It is not on the page because
+that page lists real machines by name — a `.local` mDNS hostname and three
+truncated MacBook names — and putting those in a public repository is not
+undoable afterwards. Sivert's call.
+
+**`SelfHost` and `Bird` are the two sections that gained a capture.** Neither
+had one. `SelfHost` had four cards and no picture of the thing the first card
+describes; `Bird` runs the client's own designer live, which is the stronger
+demonstration, but a marketing page has no account to save to and no member
+list to save into — so the wardrobe, Surprise me, and the bird arriving on your
+messages were a claim. The clip is the part the live component cannot be.
 
 The hero's decorative blob field is gone. The standing rule above had made it the
 one exception left in the file, and the hero earns its way without it.
