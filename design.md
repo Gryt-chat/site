@@ -186,6 +186,22 @@ These were decided during that rebuild and are worth not re-litigating:
 
 - **Cards are a budget, not a default.** If two adjacent sections are both card
   grids, one of them is wrong. Rules and type first.
+
+  The seven voice facts are a deliberate spend against this, made on
+  2026-08-28. As a full-width strip the labels sat in a 200px gutter and each
+  one-sentence value ran on a 1500px measure with empty page to the right of
+  it, which is a long way for the eye to travel seven times over. Three columns
+  put each fact on about six words a line. The budget was there: `Emoji` and
+  `Themes` either side of that section are showcases, and `SelfHost`'s card
+  grid is four sections further down.
+
+  The first fact takes the whole row. It frames the other six rather than being
+  one of them, and seven equal boxes in a three-column grid leave one sitting
+  on its own looking like the row ran out. They are still a `<dl>` — each one
+  is a term and what it means, and a card is a way of drawing that rather than
+  a reason to stop saying it — and they do not lift on hover, because
+  `SelfHost`'s cards move to say the whole card is a link and these go
+  nowhere.
 - **No card inside a card.**
 - **No decorative gradient blobs, glow divs, or fake window chrome.** The hero
   uses a real screenshot.
@@ -305,7 +321,7 @@ to look at on the other.
 - `media` may be omitted, and a section without it renders as a plain column
   rather than as an empty half. Four sections are in that state now, waiting on
   captures — the call `Hero.tsx` made until its own clip arrived.
-- `below` is full width under both columns. The voice fact strip is why.
+- `below` is full width under both columns. The voice fact cards are why.
 
 `src/styles/audience.module.css` and `src/components/LinkRows.tsx` are the
 matching pair for /developers and /self-hosting: a heading, a note, and rows of
@@ -437,7 +453,7 @@ download; and then sponsoring, which is the one thing on the page that asks
 rather than offers and is last for that reason.
 
 Nine features were picked and four of them are facts about voice quality, so
-`Voice` carries them as a fact strip rather than as four blocks down the page.
+`Voice` carries them as a set of cards rather than as four blocks down the page.
 Grouping rather than cutting: everything picked is on the page and the page is
 still readable in one sitting.
 

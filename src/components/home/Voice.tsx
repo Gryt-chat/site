@@ -72,6 +72,13 @@ const SHARE_SHOWS =
 /**
  * Seven facts, and three of them are the ones Sivert picked out.
  *
+ * Cards rather than rows since 2026-08-28. As a full-width strip the labels sat
+ * in a 200px gutter and each one-sentence value ran on a 1500px measure with
+ * empty page to the right of it, which is a lot of eye travel for seven short
+ * sentences. The first is split out because it frames the other six rather than
+ * being one of them, and because seven equal boxes in a three-column grid leave
+ * one sitting on its own.
+ *
  * Read from source rather than from the docs:
  *   RNNoise, on this machine   client settings/hooks/useAudioSettings.ts
  *   restart survival           sfu sync_request, docs/sfu/index.mdx
@@ -81,8 +88,12 @@ const SHARE_SHOWS =
  * The last one is a single muxed port, 3478 unless it is changed — not a
  * range. /why-gryt said range until this pass, and was wrong.
  */
+const LEAD: [string, string] = [
+  "The voice server",
+  "Ours, written from scratch in Go instead of rented from somebody else",
+];
+
 const FACTS = [
-  ["The voice server", "Ours, written from scratch in Go instead of rented from somebody else"],
   ["Sound", "Opus at 48 kHz in stereo, with recovery for dropped packets"],
   ["Quality", "Nothing is re-encoded on the way through, so nothing is lost"],
   ["Noise", "RNNoise, running on your machine rather than on a server"],
@@ -94,7 +105,7 @@ const FACTS = [
     "eSports mode",
     "128 kbps, Opus in 10 ms frames, push-to-talk forced on and every filter off",
   ],
-  ["Network", "One UDP port to open, not a range"],
+  ["Network", "One UDP port to open, not a range. 3478, unless you change it"],
 ];
 
 /** Smooth pseudo-levels. A ring that jumps reads as a blink, not as a voice. */
@@ -223,7 +234,14 @@ export function Voice() {
           </p>
         </motion.div>
 
+        {/* Still a description list: every one of these is a term and what it
+            means, and a card is a way of drawing that rather than a reason to
+            stop saying it. */}
         <motion.dl className={styles.facts} variants={rise(reduced)}>
+          <div className={`${styles.fact} ${styles.factLead}`}>
+            <dt>{LEAD[0]}</dt>
+            <dd>{LEAD[1]}</dd>
+          </div>
           {FACTS.map(([k, v]) => (
             <div className={styles.fact} key={k}>
               <dt>{k}</dt>
