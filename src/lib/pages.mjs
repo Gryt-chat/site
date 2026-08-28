@@ -21,24 +21,24 @@ export const STATIC_PAGES = [
   {
     path: "why-gryt",
     title: "Why Gryt?",
-    description: "Why we built an open-source, self-hosted voice, video and text chat platform.",
+    description: "The questions people ask before they trust a chat app, answered straight.",
   },
   {
     path: "developers",
     title: "For developers",
     description:
-      "Gryt's published packages, the bot SDK, the APIs, the voice engine and the design system.",
+      "Gryt's packages on npm, the bot SDK, the APIs, the voice engine and the design system.",
   },
   {
     path: "self-hosting",
     title: "Self-hosting",
     description:
-      "How to run a Gryt server, from the app on your desk to a Helm chart, and what a server owner decides.",
+      "How to run a Gryt server, from the app on your desk to a Helm chart, and what you get to decide once it is up.",
   },
   {
     path: "blog",
     title: "Blog",
-    description: "Stories, updates, and technical deep-dives from the Gryt team.",
+    description: "Posts about building Gryt, written by the one person building it.",
   },
   {
     path: "compare",
@@ -55,7 +55,7 @@ export const STATIC_PAGES = [
     path: "sponsors",
     title: "Sponsors",
     description:
-      "Everyone who has sponsored Gryt, and what sponsoring pays for.",
+      "Everyone who has chipped in, and what the money pays for.",
   },
   {
     path: "terms",
