@@ -29,12 +29,12 @@ documented at [ui.gryt.chat](https://ui.gryt.chat).
 
 <Image src="/blog/gryt-ui-overview.webp" alt="The Gryt UI documentation site, a dark catalogue page listing 47 components with a search field, a theme picker, and cards for the example screens" width="2880" height="1900" />
 
-## What is in it
+## What's in it
 
-47 components. They are built on [Base UI](https://base-ui.com), the MUI team's
+47 components. They're built on [Base UI](https://base-ui.com), the MUI team's
 headless library, so the keyboard behaviour, focus trapping and ARIA wiring come
 from people who do that for a living, and the styling is Tailwind on the Gryt
-palette. There is no CSS-in-JS runtime; the stylesheet is compiled and you import
+palette. There's no CSS-in-JS runtime. The stylesheet is compiled and you import
 it once.
 
 A dialog that traps focus properly, a menu that responds to arrow keys, a
@@ -45,7 +45,7 @@ and I style them.
 The docs site also carries whole screens built out of nothing but the library:
 the sign-in page, the settings dialog, a channel view, a voice room, the two left
 rails. Each runs on its own page and ships its source. They exist because a
-catalogue of buttons does not tell you whether the parts hold together.
+catalogue of buttons doesn't tell you whether the parts hold together.
 
 <Image src="/blog/gryt-ui-chat-panel.webp" alt="A full-screen chat panel example — channel header, message bubbles from three people, and a composer — assembled only from Gryt UI components" width="2880" height="1800" />
 
@@ -63,13 +63,13 @@ a font, it learned it once and both renderers picked it up.
 
 ## Themes are a link now
 
-A Gryt theme is a couple of dozen hex values. That is small enough to be a URL,
+A Gryt theme is a couple of dozen hex values. That's small enough to be a URL,
 which turns out to change what a theme is for.
 
 The generator at
 [ui.gryt.chat/theme/generator](https://ui.gryt.chat/theme/generator) puts an
 editor on the left and real components on the right — not swatches, the actual
-`Button` and `TextField` and voice tile reading the theme you are building. When
+`Button` and `TextField` and voice tile reading the theme you're building. When
 it looks right you press **Copy link**, and pasting that link into the client's
 appearance settings applies it.
 
@@ -81,11 +81,11 @@ birds in its member list. Seven are ports of themes people already know: Dracula
 Nord, Catppuccin, GitHub, Claude, shadcn/ui and Solarized. Every one is checked
 for contrast in both light and dark before it ships.
 
-One of them is not mine. **Gryt Rounded** is the shipped palette with every
+One of them isn't mine. **Gryt Rounded** is the shipped palette with every
 corner set to eight pixels, which mostly means the controls that were pills stop
 being pills. Carlo built it in the generator and sent me the link, I pasted it
-in, liked it, and it is now a preset. That loop working is the part I wanted from
-the generator, and I did not expect it to happen within a week.
+in, liked it, and it's a preset now. That loop working is the part I wanted from
+the generator, and I didn't expect it to happen within a week.
 
 <Image src="/blog/gryt-ui-themes-in-client.webp" alt="Gryt's appearance settings in dark mode, listing the Gryt, Gryt Rounded, Ember, Paper and Rose themes with colour strips beside each name" width="2880" height="1800" />
 
@@ -94,7 +94,7 @@ the generator, and I did not expect it to happen within a week.
 The other thing that changed is boring and has made everything else easier.
 `@gryt/ui` and its siblings are on [changesets](https://github.com/changesets/changesets).
 A pull request that changes behaviour carries a small markdown file saying which
-packages it touches and whether it is a patch, minor or major. When that merges,
+packages it touches and whether it's a patch, minor or major. When that merges,
 a bot opens a "Version Packages" pull request that collects every pending
 changeset, writes the changelogs and bumps the versions. Merging that publishes
 to npm.
@@ -105,13 +105,13 @@ before this, "what changed between the version the client uses and the one the
 phone uses" was a question I answered by reading commits.
 
 The packages are MIT, unlike the AGPL-3.0 apps that use them. If you want a
-chat-shaped component library for something that is not Gryt, take it.
+chat-shaped component library for something that isn't Gryt, take it.
 
-## What it is not
+## What it isn't
 
-It is not a general-purpose design system, and I would not recommend building a
+It isn't a general-purpose design system, and I wouldn't recommend building a
 dashboard on it. The primitives are chat primitives: message rows, member lists,
-voice tiles, a sheet that behaves on a phone. There is no data table, no date
+voice tiles, a sheet that behaves on a phone. There's no data table, no date
 picker, no chart.
 
 The version numbers also start with a zero for a reason. Props still move. If you

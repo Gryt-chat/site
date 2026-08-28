@@ -10,25 +10,25 @@ asks you to sign up before you can use it, and the desktop app will host as many
 servers as you want without a terminal. Download it, start a server, tell your
 friends the address. That was the whole idea.
 
-## You do not need an account
+## You don't need an account
 
 Opening Gryt used to mean making an account first. It doesn't now. You get an
 identity the moment the app starts — a keypair on your own machine that signs
 for you, with no sign-up, no email address, and no way for us or anyone else to
 attach it to a person.
 
-It is not a limited mode. A guest identity signs the same challenge as an
+It isn't a limited mode. A guest identity signs the same challenge as an
 account, gets the same roles, and can own a server. What differs is who vouches
 for the key: an account is vouched for by `id.gryt.chat`, and a guest identity
 vouches for itself.
 
-Each server you join gets its own key, so two servers cannot work out that they
+Each server you join gets its own key, so two servers can't work out that they
 are talking to the same person.
 
-Signing in still does something, and it is worth knowing what: an account is the
-same identity on every Gryt server, it survives losing the device, and it is
+Signing in still does something, and it's worth knowing what: an account is the
+same identity on every Gryt server, it survives losing the device, and it's
 what a ban can hold on to. If you make one later, the membership you already
-have comes with you — your roles and history are not left behind on the old
+have comes with you — your roles and history aren't left behind on the old
 identity.
 
 Servers decide which they accept, and say so before you try. The add-server
@@ -41,10 +41,10 @@ The desktop app has always had a server inside it. It will now run several, and
 getting one going is three fields and a button.
 
 Name it, take the port it offers or set your own, and press Create. It starts
-and puts you in it — there is no second step where you go and connect to the
-thing you just made. The port it offers is one that is actually free, checked
-against every interface the server will bind rather than just loopback, and if
-you type your own the field tells you whether anything else is on it.
+and puts you in it — there's no second step where you go and connect to the
+thing you just made. The port it offers is one that's actually free. It's checked
+against every interface the server will bind to, not just loopback. And if you
+type your own, the field tells you whether anything else is on it.
 
 Hosting a second server is cheap on purpose. They share one SFU, because voice
 rooms are namespaced per server, so server number two costs a server process and
@@ -58,7 +58,7 @@ its identity key.
 ## Somebody has to let you in
 
 A server can now be set to let people ask. Instead of an invite code or an open
-door, a would-be member sends a request with a line about who they are, and
+door, a would-be member sends a request with a line about who they're, and
 somebody with the right role approves or refuses it.
 
 Alongside that: an invite can only bring in so many people per hour, banning
@@ -67,15 +67,15 @@ believes an address a client made up about itself.
 
 ## Adding a server, rearranged
 
-The add-server dialog was doing two unrelated jobs in one column. It is three
+The add-server dialog was doing two unrelated jobs in one column. It's three
 steps now: create your own, or paste an invite. The join step leads with the
 invite link, fetches the server on paste, and shows a one-line preview rather
 than a full screen confirming what the name already told you.
 
 Servers on your network moved out into their own **Discovery** destination in
-the rail, with a dot when something has turned up since you last looked — not a
-count, because a count sits permanently at six on a machine that hosts a few and
-stops meaning anything.
+the rail, with a dot when something has turned up since you last looked. Not a
+count: on a machine that hosts a few, a count sits at six forever and stops
+meaning anything.
 
 ---
 
@@ -84,7 +84,7 @@ stops meaning anything.
 **Identity**
 
 - You no longer need an account. A guest identity is a real identity, generated on your machine, with no sign-up
-- A separate key per server, so two servers cannot tell they are talking to the same person
+- A separate key per server, so two servers can't tell they're talking to the same person
 - Making an account later keeps the membership you already had, rather than starting over
 - Authorise a second device from the first, instead of copying your key around by hand
 - One key can now speak for several devices
@@ -114,13 +114,13 @@ stops meaning anything.
 - The welcome is a message from a person rather than a feature list
 - The tour plays once, can be skipped properly, and opens what it points at
 - The titlebar stays usable while a dialog is open
-- Update failures say what failed instead of blaming your connection or a rate limit that did not exist
+- Update failures say what failed instead of blaming your connection or a rate limit that didn't exist
 - Report a bug opens a GitHub issue carrying your version and platform
 - Sign-in shows your name rather than printing your email as "Username"
 
 **Under the hood**
 
 - The client is on React 19 and Tailwind 4
-- The client compiles in CI, so a type error cannot reach a release
+- The client compiles in CI, so a type error can't reach a release
 - Server identity certificates that vouch for themselves, and the built-in CA that never worked is gone
 - Renames are counted, so a sudden one is visible in the member list
