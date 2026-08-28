@@ -93,7 +93,7 @@ export function Bird() {
           Avatars
         </motion.p>
         <motion.h2 className={styles.title} variants={rise(reduced)}>
-          Everybody gets an owl. Yours is drawn where you are standing.
+          Everybody gets an owl. Yours gets drawn right here.
         </motion.h2>
 
         <motion.div
@@ -117,7 +117,7 @@ export function Bird() {
               autoComplete="off"
             />
             <span className={styles.fieldHint}>
-              Nothing is sent anywhere. The drawing happens in this tab.
+              Nothing gets sent anywhere. It's drawn in this tab.
             </span>
           </label>
 
@@ -143,9 +143,9 @@ export function Bird() {
         <motion.figure className={styles.capture} variants={rise(reduced)}>
           <Clip {...EDITOR} alt={EDITOR_SHOWS} width={2200} height={1212} />
           <figcaption>
-            The same designer in the app, with the parts this page has nowhere
-            to put: a wardrobe you have worn before, Surprise me, and a message
-            sent at the end to show the new bird arrived with it.
+            The same designer in the app, doing the bits this page can't: the
+            owls you've worn before, Surprise me, and a message at the end to
+            show the new bird came with it.
           </figcaption>
         </motion.figure>
 
@@ -153,11 +153,11 @@ export function Bird() {
           Or use a picture you already have.
         </motion.h3>
         <motion.p className={styles.sub} variants={rise(reduced)}>
-          A GIF stays a GIF, and so does an animated WebP: the movement survives
-          the upload rather than being flattened to the first frame, and it
-          plays in the member list and beside every message you send. There is
-          no tier that unlocks it. Up to 25&nbsp;MB, cropped square and stored
-          at 256 pixels, and server icons take the same files.{" "}
+          A GIF stays a GIF, and so does an animated WebP. It keeps moving
+          instead of being flattened to the first frame, and it plays in the
+          member list and next to every message you send. There's no paid tier
+          that unlocks it. Up to 25&nbsp;MB, cropped square, stored at 256
+          pixels. Server icons take the same files.{" "}
           <a href={AVATAR_DOCS} target="_blank" rel="noreferrer">
             More on profiles
           </a>

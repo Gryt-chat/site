@@ -164,6 +164,40 @@ the front page's rhythm. Recorded here so the next run does not re-pick blind:
 with one dot is thin. It was kept deliberately because it comes good as releases
 land, and there are three now.
 
+## Voice
+
+Plain, spoken English. Short sentences, ordinary words, contractions.
+
+That is not what the pages said until 2026-08-28. They were written without
+contractions and with long sentences carrying two or three clauses, which reads
+as an essay rather than as somebody talking, and Sivert's own writing does not
+sound like that at all. The blog is the reference: "we shouldn't have needed
+them", "that's a stretch I'll leave to the etymologists", "honestly, that's good
+enough". Contractions throughout, sentences that end where the thought ends,
+and no word a reader has to slow down for.
+
+What the pass changed, and what to keep doing:
+
+- **Contract.** "It is not" is "It isn't". "There is nothing" is "There's
+  nothing". JSX wants `&rsquo;` rather than a bare apostrophe, which is the
+  convention the rest of the file already uses.
+- **Cut sentences in half at the semicolon or the second clause.** "Voice is
+  routed through an SFU for fan-out, so the SFU is on the path, and it is run by
+  the server owner" became three short statements.
+- **Use the ordinary word.** Not "infrastructure you control" but "machines you
+  control". Not "persistent channels" but "channels that stay put". Not
+  "engagement mechanics" but "nothing built to keep you scrolling".
+- **Say who does what.** "The operator" is "whoever runs the server". "A
+  guest identity involves nothing of ours" is "a guest identity doesn't touch
+  anything of ours".
+- **Do not lose a number, a name or a caveat.** This is a rewrite of how the
+  sentences read, not of what they claim. Every figure, port, price and
+  trade-off on these pages survived it unchanged.
+
+`Motivation` was barely touched. It is Sivert writing in the first person about
+why he built this, it already sounds like him, and it only needed its
+contractions putting back.
+
 ## What the content pages must share
 
 - The token set, verbatim. No page-local colours, no second accent.

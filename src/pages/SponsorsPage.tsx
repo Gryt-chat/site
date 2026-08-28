@@ -57,10 +57,11 @@ export function SponsorsPage() {
         title="People who have sponsored Gryt"
         lede={
           <>
-            Sponsoring pays for a domain, the box the auth stack runs on, and the
-            Apple and Windows signing certificates that stop the installer warning
-            people off their own download. That is the whole list. There is nothing
-            to buy inside Gryt, and no part of it is held back for people who pay.
+            Sponsoring pays for a domain, the box the auth stack runs on, and
+            the Apple and Windows signing certificates that stop the installer
+            warning people off their own download. That's the whole list.
+            There's nothing to buy inside Gryt, and nothing held back for
+            people who pay.
           </>
         }
       />
@@ -92,7 +93,7 @@ export function SponsorsPage() {
             <section className={styles.block}>
               <h2 className={styles.blockHeading}>Sponsored once</h2>
               <p className={styles.blockNote}>
-                A single payment rather than a subscription. Nobody here has
+                A one-off payment rather than a subscription. Nobody here has
                 stopped sponsoring, because there was never anything to stop.
               </p>
               <ul className={styles.list}>
@@ -122,9 +123,9 @@ export function SponsorsPage() {
           ))}
         </ul>
         <p className={styles.footnote}>
-          Money has also arrived through Ko-fi and directly, which the tiers do
-          not cover. Anyone who has sent something is listed here on the same
-          terms, and nothing is published without asking first.
+          Money has also come in through Ko-fi and directly, which the tiers
+          don't cover. Anyone who has sent something is listed here the same
+          way, and nothing goes up without asking first.
         </p>
         <Button
           className={styles.button}

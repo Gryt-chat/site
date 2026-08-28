@@ -62,28 +62,28 @@ const WAYS = [
   {
     name: "From the app",
     detail:
-      "The client you downloaded is already a server. Name it, press create, and read the address out. No terminal at all.",
+      "The client you downloaded is already a server. Name it, press create, read the address out. No terminal at all.",
     href: `${DOCS}/deployment/embedded`,
     linkLabel: "Hosting from the app",
   },
   {
     name: "Windows",
     detail:
-      "A zip, one config file and a batch script. Node.js is the only thing you install yourself.",
+      "A zip, one config file and a batch script. Node.js is the only thing you have to install yourself.",
     href: `${DOCS}/deployment/windows`,
     linkLabel: "Windows guide",
   },
   {
     name: "Linux",
     detail:
-      "Four commands and a server is up. The database is SQLite, so it is one file on your disk — copy it and you have a backup.",
+      "Four commands and a server is up. The database is SQLite, so it's one file on your disk. Copy it and you have a backup.",
     href: `${DOCS}/guide/quick-start`,
     linkLabel: "Quick start",
   },
   {
     name: "Docker",
     detail:
-      "A compose file and an .env. There is a Helm chart too, if you are the sort of person who has a cluster.",
+      "A compose file and an .env. There's a Helm chart too, if you're the sort of person who has a cluster.",
     href: `${DOCS}/deployment/docker-compose`,
     linkLabel: "Deployment docs",
   },
@@ -109,16 +109,16 @@ export function SelfHost() {
           Put it on a machine that stays on.
         </motion.h2>
         <motion.p className={styles.sub} variants={rise(reduced)}>
-          Hosting from the app is enough for an evening with friends. For a
-          server that should still be there when your laptop closes, put it
-          somewhere that does not. Pick whichever of these sounds like you.
+          Hosting from the app is fine for an evening with friends. If you
+          want a server that's still there after you close your laptop, put it
+          on something that stays on. Pick whichever of these sounds like you.
         </motion.p>
 
         <motion.figure className={styles.capture} variants={rise(reduced)}>
           <Clip {...CREATE} alt={CREATE_SHOWS} width={2200} height={1212} />
           <figcaption>
-            The whole thing, uncut: name it, take the port it picked, press
-            create, say something, and there it is on the network for everybody
+            The whole thing, uncut. Name it, keep the port it picked, press
+            create, say something, and there it is on the network for everyone
             else. It stops when you close the app, which is what the four below
             are for.
           </figcaption>

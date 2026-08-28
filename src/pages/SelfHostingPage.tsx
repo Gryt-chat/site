@@ -45,7 +45,7 @@ const START: Rung[] = [
     needs: "Nothing you have not already got",
     name: "From the app",
     detail:
-      "The client you downloaded is a server too. Add Server, then Host a server, name it, and read the address out to whoever is joining. Anybody on the same network does not need the address at all.",
+      "The client you downloaded is a server too. Add Server, then Host a server, name it, and read the address out to whoever is joining. Anyone on the same network won't even need that.",
     href: `${DOCS}/deployment/embedded`,
   },
   {
@@ -54,10 +54,10 @@ const START: Rung[] = [
     detail: (
       <>
         One script installs a binary. Run <code>gryt</code> and press{" "}
-        <code>n</code>: it asks eight questions with sensible defaults, writes
-        the Compose files, picks ports nothing else is holding, and starts a
-        shared voice server and object store the first time. Starting what it
-        writes needs Docker, so that has to be there first.
+        <code>n</code>. It asks eight questions with sensible defaults, writes
+        the Compose files, picks ports nothing else is using, and starts a
+        shared voice server and object store the first time round. It needs
+        Docker to start what it writes, so get that first.
       </>
     ),
     command: { label: "bash", code: "curl -fsSL https://get.gryt.chat | sh", shell: true },
@@ -69,9 +69,9 @@ const START: Rung[] = [
     detail: (
       <>
         A zip, one config file and <code>start.bat</code>. Node.js is the only
-        thing you install yourself, and it has to be 22.13 or newer: the server
-        uses the SQLite built into Node rather than a compiled module, and 22.12
-        does not have it.
+        thing you install yourself, and it has to be 22.13 or newer. The server
+        uses the SQLite built into Node rather than a separate module, and 22.12
+        doesn&rsquo;t have it.
       </>
     ),
     href: `${DOCS}/deployment/windows`,
@@ -80,7 +80,7 @@ const START: Rung[] = [
     needs: "Docker, and somewhere to put it",
     name: "Docker Compose",
     detail:
-      "A compose file and an .env, both fetched with curl — no clone. Set the address people will reach you on, bring it up, and you have what most people running this for a community end up with.",
+      "A compose file and an .env, both fetched with curl. No clone. Set the address people will reach you on, bring it up, and you have what most people running this for a community end up with.",
     command: { label: "bash", code: "docker compose up -d", shell: true },
     href: `${DOCS}/deployment/docker-compose`,
   },
@@ -90,8 +90,8 @@ const START: Rung[] = [
     detail: (
       <>
         <code>ops/helm/gryt</code> in the monorepo, with a README and example
-        values. There is no published chart repository and no docs page yet, so
-        this one goes to the chart itself.
+        values. There&rsquo;s no published chart repo and no docs page yet, so
+        this link goes to the chart itself.
       </>
     ),
     command: { label: "bash", code: "helm install my-gryt ./ops/helm/gryt", shell: true },
@@ -209,42 +209,42 @@ export function SelfHostingPage() {
       <PageHeader
         eyebrow="For self-hosters"
         title="Run it yourself."
-        lede="Running the server yourself is the normal way to use Gryt. This page is the shortest route from wherever you are now to a server that is up."
+        lede="Running the server yourself is the normal way to use Gryt. This page is the shortest route from wherever you are now to a server that works."
       />
 
       <Block
         heading="Getting one up"
-        note="Five ways in, ordered by how much you have to know rather than by which is best. Pick the first one you can already do — the first needs nothing but the app you downloaded, and the last is a Helm chart."
+        note="Five ways in, ordered by how much you have to know rather than by which is best. Pick the first one you can already do. The first needs nothing but the app you downloaded. The last one is a Helm chart."
       >
         <Ladder rungs={START} />
       </Block>
 
       <Block heading="What you are running">
         <p className={styles.blockNote}>
-          Four things: a Node server that handles accounts, channels, messages
-          and uploads; a voice server written in Go that routes the audio and
-          video; somewhere to put files, which is any S3-compatible storage; and
-          a small worker that resizes images. On one machine that is one{" "}
-          <code>docker compose up</code>. The desktop app has the first three
-          inside it already, which is why hosting from the app needs no terminal
-          at all.
+          Four things. A Node server that handles accounts, channels, messages
+          and uploads. A voice server written in Go that moves the audio and
+          video around. Somewhere to put files, which is any S3-compatible
+          storage. And a small worker that resizes images. On one machine
+          that&rsquo;s one <code>docker compose up</code>. The desktop app has
+          the first three inside it already, which is why hosting from the app
+          needs no terminal at all.
         </p>
-        <Frame label="Voice is WebRTC over UDP, and it is the one part a reverse proxy or a tunnel cannot carry for you. A single port rather than a range, 3478 unless you change it, and it has to be reachable directly.">
+        <Frame label="Voice is WebRTC over UDP, and it is the one part a reverse proxy or a tunnel can't carry for you. One port, not a range, 3478 unless you change it, and it has to be reachable directly.">
           <StackSketch />
         </Frame>
       </Block>
 
       <Block heading="Reaching it from outside">
         <p className={styles.blockNote}>
-          Skip this entirely if the server is for people on your own network.
-          Gryt servers announce themselves over mDNS, so on a LAN nobody has to
-          type an address at all.
+          Skip all of this if the server is only for people on your own
+          network. Gryt servers announce themselves over mDNS, so on a LAN
+          nobody types an address at all.
         </p>
         <p className={styles.blockNote}>
-          Going public is four lines in <code>.env</code>, and getting them
-          wrong is why voice connects for people on the LAN and for nobody
-          else. The UDP port has to be open as UDP; a reverse proxy in front of
-          the server does not cover it.
+          Going public is four lines in <code>.env</code>. Getting them wrong
+          is the usual reason voice works for people on the LAN and for nobody
+          else. The UDP port has to be open as UDP &mdash; a reverse proxy in
+          front of the server doesn&rsquo;t cover it.
         </p>
         <Snippet label=".env" code={PUBLIC_ENV} />
         <LinkRows items={REACH} />
@@ -252,13 +252,13 @@ export function SelfHostingPage() {
 
       <Block
         heading="Running it properly"
-        note="The settings that matter once it is up and somebody other than you is using it. Upgrading is the same two lines as installing, and pinning a version rather than tracking latest is what makes them predictable."
+        note="The settings that start to matter once it is up and somebody other than you is using it. Upgrading is the same two lines as installing, and pinning a version instead of following latest is what makes them predictable."
       >
         <Snippet label="bash" code={UPGRADE} shell />
         <p className={styles.blockNote}>
           Back up the server data directory first if you are moving to a beta.
-          A beta build may change the SQLite schema when it starts, and there is
-          no down-migration — going back means restoring that copy.
+          A beta build can change the SQLite schema when it starts, and there is
+          no way back down. Going back means restoring that copy.
         </p>
         <LinkRows items={RUN} />
       </Block>
@@ -273,22 +273,21 @@ export function SelfHostingPage() {
           Almost every limit in Gryt belongs to whoever runs the server, and
           there is no tier above them that raises it. Uploads, avatars and emoji
           all ship at 100&nbsp;MB so nobody fills a disk by accident, and an
-          owner can set any of them to whatever they like, including no limit at
-          all. Voice bitrate is 96&nbsp;kbps out of the box and goes to 510.
+          owner can set any of them to whatever they want, including no limit at
+          all. Voice starts at 96&nbsp;kbps and goes to 510.
         </p>
         <p className={styles.blockNote}>
-          Two ceilings are not yours. Uploads are streamed in parts, so above
-          your own limit the next one belongs to the object storage &mdash;
-          5&nbsp;TB per file on S3. And behind a Cloudflare Tunnel, the edge
-          caps request bodies at 100&nbsp;MB on the free plans whatever your
-          server is set to.
+          Two limits are not yours to set. Uploads are sent in parts, so past
+          your own limit the next one belongs to the storage &mdash; 5&nbsp;TB a
+          file on S3. And behind a Cloudflare Tunnel, the free plans cap request
+          bodies at 100&nbsp;MB whatever your server says.
         </p>
       </Block>
 
       <section className={styles.tail}>
         <p className={styles.tailText}>
-          Why Gryt covers the trust boundaries: what we can see and what we
-          cannot. The deployment section of the docs is the full set of guides.
+          Why Gryt covers who you are trusting and with what. The deployment
+          section of the docs has the full set of guides.
         </p>
         <div className={styles.tailLinks}>
           <Link to="/why-gryt">

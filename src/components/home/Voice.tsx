@@ -90,20 +90,20 @@ const SHARE_SHOWS =
  */
 const LEAD: [string, string] = [
   "The voice server",
-  "Ours, written from scratch in Go instead of rented from somebody else",
+  "Ours. Written from scratch in Go, not rented from somebody else",
 ];
 
 const FACTS = [
-  ["Sound", "Opus at 48 kHz in stereo, with recovery for dropped packets"],
-  ["Quality", "Nothing is re-encoded on the way through, so nothing is lost"],
-  ["Noise", "RNNoise, running on your machine rather than on a server"],
+  ["Sound", "Opus at 48 kHz in stereo, and it recovers dropped packets"],
+  ["Quality", "Nothing gets re-encoded on the way through, so nothing is lost"],
+  ["Noise", "RNNoise, running on your machine instead of on a server"],
   [
     "If the server restarts",
-    "You keep talking. Voice and everything else are separate connections to separate services, and the server asks who is still in the room when it comes back",
+    "You keep talking. Voice is a separate connection to a separate service, and when the server comes back it asks who is still in the room",
   ],
   [
     "eSports mode",
-    "128 kbps, Opus in 10 ms frames, push-to-talk forced on and every filter off",
+    "128 kbps, Opus in 10 ms frames, push-to-talk forced on, every filter off",
   ],
   ["Network", "One UDP port to open, not a range. 3478, unless you change it"],
 ];
@@ -221,16 +221,16 @@ export function Voice() {
         </motion.h2>
         <motion.p className={styles.sub} variants={rise(reduced)}>
           Full-quality audio, a noise filter that runs on your own machine, and
-          screen sharing fast enough to watch somebody play. There is no better
-          tier above you. Whoever runs the server sets the limits, and they can
-          raise them.
+          screen sharing fast enough to watch somebody play. There's no better
+          tier you could be paying for. The person running the server sets the
+          limits, and they can raise them.
         </motion.p>
 
         <motion.div className={styles.demo} variants={rise(reduced)}>
           <Panel />
           <p className={styles.note}>
-            Drawn out of the same components the app is built from. The
-            voices are on a timer; nobody is talking.
+            Built from the same components as the app. The voices are on a
+            timer &mdash; nobody is actually talking.
           </p>
         </motion.div>
 
@@ -255,9 +255,9 @@ export function Voice() {
         </motion.h3>
         <motion.p className={styles.sub} variants={rise(reduced)}>
           Enough that a game still looks like the game. 30, 60, 90 and 120 are
-          the normal settings, with 144, 165 and 240 there for people who want to
-          push it, at up to 4K. Anything above 60 needs the Windows app, which
-          captures the screen itself instead of going through the browser.
+          the normal settings, and 144, 165 and 240 are there if you want to
+          push it, up to 4K. Anything above 60 needs the Windows app, which
+          grabs the screen itself instead of going through the browser.
         </motion.p>
 
         {/* Directly under the claim it belongs to. It used to sit at the very
@@ -267,8 +267,8 @@ export function Voice() {
         <motion.figure className={styles.share} variants={rise(reduced)}>
           <Clip {...SHARE} alt={SHARE_SHOWS} width={2200} height={1238} />
           <figcaption>
-            What the people watching see: your screen as the main view, everyone
-            in the call in a strip above it.
+            What everyone watching sees: your screen as the main view, with the
+            people in the call in a strip above it.
           </figcaption>
         </motion.figure>
 
@@ -276,14 +276,14 @@ export function Voice() {
           <div className={styles.splitCopy}>
             <h3 className={styles.subTitleTight}>Send the whole file.</h3>
             <p className={styles.sub}>
-              The size limit is whatever the person running the server sets, and
-              there is no tier that raises it because there are no tiers. It
+              The size limit is whatever the person running the server sets.
+               There's no tier that raises it, because there are no tiers. It
               ships at 100&nbsp;MB so nobody fills a disk by accident, and the
-              ceiling above that is the storage&rsquo;s rather than ours.{" "}
+              next limit up belongs to the storage rather than to us.{" "}
               <Link to="/self-hosting">What a server decides</Link>.
             </p>
           </div>
-          <Frame label="Above the shipped default, the next ceiling is the object storage's: 5 TB a file on S3.">
+          <Frame label="Past the 100 MB default, the next limit is the storage's own: 5 TB a file on S3.">
             <UploadSketch />
           </Frame>
         </motion.div>

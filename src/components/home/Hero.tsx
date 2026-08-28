@@ -68,10 +68,9 @@ export function Hero() {
         </motion.h1>
 
         <motion.p className={styles.lede} variants={rise(reduced)}>
-          Gryt is voice, video and text chat, and the app you download is also
-          the server. The conversation lives on a machine you own, and nobody has
-          to hand over an email, a phone number or a photo of their face to join
-          it.
+          Gryt is voice, video and text chat. The app you download is also the
+          server, so your conversations sit on a machine you own. Nobody has to
+          hand over an email, a phone number or a photo of their face to join.
         </motion.p>
 
         <motion.div className={styles.actions} variants={rise(reduced)}>

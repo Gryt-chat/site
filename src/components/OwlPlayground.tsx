@@ -66,10 +66,10 @@ const src = owlAvatarDataUri(avatarSeed(${literal}) ?? "${FALLBACK}");`;
         <div className={styles.code}>
           <Snippet label="owl.ts" code={code} />
           <p className={styles.note}>
-            No network, no canvas and no dependencies: the package is a function
-            from a string to SVG markup, and it runs the same in Node as it does
-            here. <code>avatarSeed</code> lower-cases and trims, so one person
-            keeps one owl across a rename that only changed the capitals.
+            No network, no canvas, no dependencies. It is a function from a
+            string to SVG markup, and it runs the same in Node as it does here.{" "}
+            <code>avatarSeed</code> lower-cases and trims, so somebody who
+            renames themselves and only changes the capitals keeps the same owl.
           </p>
         </div>
       </div>

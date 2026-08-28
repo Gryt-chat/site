@@ -40,21 +40,20 @@ export function Identity() {
       eyebrow="No sign-up"
       title="No email, no phone number, and no photo of your face."
       media={
-        <Frame label="A real password field, so your manager offers to fill it the way it fills any other.">
+        <Frame label="It's a real password field, so your manager offers to fill it like it fills any other.">
           <VaultSketch />
         </Frame>
       }
     >
       <p>
-        Joining a chat platform normally means handing a company enough to
-        identify you, and then trusting them to look after it. Gryt skips that
-        trade: your device makes you an identity and your device keeps it.
+        Signing up for a chat app usually means giving a company enough to
+        identify you, then hoping they look after it. Gryt doesn't ask. Your
+        device makes an identity for you, and your device keeps it.
       </p>
 
       <p>
-        You can keep that identity in a password manager, exactly like a
-        password. It is twenty-four words, and on a second machine you paste
-        them back in.{" "}
+        You can put it in a password manager, the same as any password. It's
+        twenty-four words. On a second machine you paste them back in.{" "}
         <a href={ACCOUNTS_DOCS} target="_blank" rel="noreferrer">
           How that works
         </a>

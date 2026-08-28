@@ -32,10 +32,10 @@ export function NotFound() {
     <main className={styles.page}>
       <div className={styles.panel}>
         <p className={styles.code}>404</p>
-        <h1 className={styles.title}>There is nothing at this address</h1>
+        <h1 className={styles.title}>Nothing here</h1>
         <p className={styles.body}>
-          No page is served at <code className={styles.path}>{pathname}</code>.
-          It may have moved, or the link that sent you here may be wrong.
+          There is no page at <code className={styles.path}>{pathname}</code>.
+          It might have moved, or the link that sent you here might be wrong.
         </p>
 
         <nav className={styles.links} aria-label="Go to">

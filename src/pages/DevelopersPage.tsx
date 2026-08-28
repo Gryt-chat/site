@@ -299,45 +299,45 @@ export function DevelopersPage() {
       <PageHeader
         eyebrow="For developers"
         title="Take a piece of it."
-        lede="Six of the pieces Gryt is made of are published on npm. The design system, the tokens and the owl avatars are MIT, so you can use them in something that has nothing to do with Gryt. The bot SDK, the voice engine and the APIs are here too."
+        lede="Six of the pieces Gryt is made of are on npm. The design system, the tokens and the owl avatars are MIT, so you can use them in something that has nothing to do with Gryt. The bot SDK, the voice engine and the APIs are here too."
       />
 
       <p className={styles.intro}>
-        Identities are P-256 keypairs that sign their own certificates, and a
-        server checks a signature rather than asking anybody, including us.
-        There is no bot account type, no bot token and no bot bypass: what a bot
-        may do is what an admin agreed to let it do, enforced by the same checks
-        that apply to a person.
+        An identity is a P-256 keypair that signs its own certificate. A server
+        checks the signature instead of asking anybody, including us. There is
+        no bot account type, no bot token and no way for a bot to skip any of
+        it &mdash; what a bot can do is whatever an admin agreed to, checked the
+        same way it is checked for a person.
       </p>
 
       <Block
         heading="An owl from a name"
-        note="Every avatar in Gryt is drawn from a nickname. The package that does it has no dependencies and never touches the network, which is why this page can run it rather than show you a picture of it. Type a name and both halves change."
+        note="Every avatar in Gryt is drawn from a nickname. The package that does it has no dependencies and never touches the network, so this page can just run it instead of showing you a picture. Type a name and both halves change."
       >
         <OwlPlayground />
       </Block>
 
       <Block
         heading="The packages"
-        note="All six are used by the app you can download, and none of them needs a Gryt server to be useful on its own. Four are MIT; the two that are AGPL are the ones that only make sense pointed at Gryt."
+        note="All six are used by the app you can download, and none of them needs a Gryt server to be useful. Four are MIT. The two AGPL ones are the two that only make sense pointed at Gryt."
       >
         <PackageRows items={PACKAGES} />
       </Block>
 
       <Block heading="Bots">
         <p className={styles.blockNote}>
-          A bot joins a server the way any other client does: a key it holds, a
-          certificate it signed itself, and a challenge-response over P-256.
-          From the server's side it is a member like any other.
+          A bot joins a server the same way any other client does: a key it
+          holds, a certificate it signed itself, and a challenge-response over
+          P-256. From the server&rsquo;s side it is just another member.
         </p>
         <ol className={styles.steps}>
           <li>
-            It starts knowing only the address, says what it is called and what
-            it wants to be allowed to do, and is turned away.
+            It starts up knowing only the address, says what it is called and
+            what it wants to be allowed to do, and gets turned away.
           </li>
           <li>
-            A request is left behind. An admin opens{" "}
-            <strong>Server settings → Bots</strong> and sees the ask.
+            It leaves a request behind. An admin opens{" "}
+            <strong>Server settings → Bots</strong> and sees it.
           </li>
           <li>
             They untick anything they would rather it did not have, and let it
@@ -346,17 +346,18 @@ export function DevelopersPage() {
           <li>The approval reaches the bot without a restart. Leave it running.</li>
         </ol>
         <p className={styles.blockNote}>
-          The first declaration is the only one: a later run asking for more
-          gets the answer to the question the first one asked. The run it
-          protects you from is the one that is not yours, after a published
-          image has changed hands. For a compose file or CI, an admin can
-          decide it all in advance and hand over a single-use token instead.
+          What a bot asks for on its first run is the only list it ever gets. A
+          later run asking for more is answered with the first run&rsquo;s
+          answer. The run that protects you from is the one that is not yours,
+          after a published image has changed hands. If nobody is around for the
+          first launch &mdash; a compose file, CI &mdash; an admin can decide it
+          all up front and hand over a single-use token instead.
         </p>
         <Snippet label="bot.ts" code={BOT_EXAMPLE} />
         <p className={styles.blockNote}>
-          <code>bot.can()</code> answers from what the server said rather than
-          from what was asked for, and stays current when an admin widens or
-          narrows it mid-run.
+          <code>bot.can()</code> answers from what the server said, not from
+          what you asked for, and it keeps up if an admin changes their mind
+          while the bot is running.
         </p>
         <LinkRows items={BOTS} />
       </Block>
@@ -364,20 +365,19 @@ export function DevelopersPage() {
       <Block heading="Addons">
         <p className={styles.blockNote}>
           An addon is a folder with an <code>addon.json</code> in it, loaded by
-          the desktop app. A theme addon injects CSS. A plugin addon injects a
-          module, and what that module can talk to is one object on{" "}
+          the desktop app. A theme addon adds CSS. A plugin addon adds a module,
+          and that module can talk to exactly one thing: an object on{" "}
           <code>window</code>.
         </p>
         <Snippet label="pluginApi.ts" code={PLUGIN_API} />
         <p className={styles.blockNote}>
-          That is the whole surface. There is no
-          sandbox, no permission model, no registry and no docs page, and the
-          plugin system is still listed as planned on the roadmap. It is enough
-          to restyle the client or bolt something small onto it, and not enough
-          to build a product on.
+          That is all of it. No sandbox, no permission model, no registry, no
+          docs page, and the plugin system is still listed as planned on the
+          roadmap. It is enough to restyle the client or bolt something small
+          onto it. It is not enough to build a product on.
         </p>
         <p className={styles.blockNote}>
-          The shape it should take has not been decided. If you have tried to
+          What it should turn into has not been decided. If you have tried to
           write one, an issue saying what you needed is more use than a feature
           request.
         </p>
@@ -385,18 +385,18 @@ export function DevelopersPage() {
 
       <Block heading="The APIs">
         <p className={styles.blockNote}>
-          Everything the clients use. The one call that needs nothing is{" "}
-          <code>/info</code>, the join preview: it is unauthenticated on
-          purpose, because a client has to be able to say whether you need an
-          account before you try.
+          Everything the clients use. The one call that needs nothing from you
+          is <code>/info</code>, the join preview. It is open on purpose: a
+          client has to be able to tell you whether you need an account before
+          you try.
         </p>
         <Snippet label="bash" code={INFO_REQUEST} shell />
         <Snippet label="json" code={INFO_RESPONSE} />
         <p className={styles.blockNote}>
-          A server with discovery turned off answers 404 to anybody who is not
-          already a member, and the build number is only included for members —
-          an open endpoint that names your exact version is a list of hosts to
-          scan.
+          A server with discovery turned off answers 404 to anyone who is not
+          already a member. The build number only comes back for members, since
+          an open endpoint that names your exact version is a list of hosts for
+          somebody to scan.
         </p>
         <LinkRows items={APIS} />
       </Block>
@@ -407,10 +407,10 @@ export function DevelopersPage() {
       >
         <Snippet label="JoinButton.tsx" code={VOICE_EXAMPLE} />
         <p className={styles.blockNote}>
-          Two things have to be true above that, and both of them fail
-          silently. <code>&lt;VoiceSingletonHooks /&gt;</code> must be mounted,
-          or every singleton hook returns its initial value while the app still
-          builds and launches. And Vite has to leave the package alone with{" "}
+          Two things have to be true above that, and both fail silently.{" "}
+          <code>&lt;VoiceSingletonHooks /&gt;</code> has to be mounted, or every
+          singleton hook just returns its starting value while the app builds
+          and launches like normal. And Vite has to leave the package alone with{" "}
           <code>optimizeDeps.exclude</code>, or the RNNoise worker looks for
           itself somewhere it is not and you ship without noise suppression.
         </p>
@@ -419,7 +419,7 @@ export function DevelopersPage() {
 
       <Block
         heading="The design system"
-        note="One set of tokens, two renderers, and a generator that turns a palette into a link. These three come out of the published package and are rendered here, picking up this page's tokens as they go."
+        note="One set of tokens, two renderers, and a generator that turns a palette into a link. These three come straight out of the published package and are rendered here, picking up this page's colours as they go."
       >
         <div className={styles.sampleStage}>
           <Avatar seed="nora" alt="" size="small" />
@@ -432,7 +432,7 @@ export function DevelopersPage() {
 
       <Block
         heading="The source"
-        note="One superproject with the rest as submodules, each with its own CI and its own releases. The flag is not optional — without it you get thirteen empty directories."
+        note="One superproject with the rest as submodules, each with its own CI and its own releases. The flag is not optional: without it you get thirteen empty folders."
       >
         <Snippet label="bash" code={CLONE} shell />
         <LinkRows items={SOURCE} />
@@ -440,7 +440,7 @@ export function DevelopersPage() {
 
       <section className={styles.tail}>
         <p className={styles.tailText}>
-          If you are here to run a server rather than to build on one, the{" "}
+          If you are here to run a server rather than build on one, the{" "}
           <Link to="/self-hosting">self-hosting</Link> page has the guides.
         </p>
         <div className={styles.tailLinks}>
