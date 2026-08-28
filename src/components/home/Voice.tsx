@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 import { Clip, type ClipSet } from "../Clip";
 import { inView, rise, stagger } from "./motion";
-import { Frame, UploadSketch } from "./sketches";
+import { Frame, UploadSketch } from "../sketches";
 import styles from "./Voice.module.css";
 
 /**

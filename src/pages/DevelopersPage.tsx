@@ -1,8 +1,17 @@
+import { Avatar, Button, Chip } from "@gryt/ui";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 
-import { Block, type RowItem } from "../components/LinkRows";
+import {
+  Block,
+  LinkRows,
+  PackageRows,
+  type PackageItem,
+  type RowItem,
+} from "../components/LinkRows";
+import { OwlPlayground } from "../components/OwlPlayground";
 import { PageHeader } from "../components/PageHeader";
+import { Snippet } from "../components/Snippet";
 import { pageTitle } from "../lib/title";
 import styles from "../styles/audience.module.css";
 
@@ -13,6 +22,18 @@ import styles from "../styles/audience.module.css";
  * shortened where a row needed shortening — not new copy, because a second
  * description is a second thing to keep right.
  *
+ * It was six groups of rows and nothing else, which on a site whose front page
+ * runs the product live in four places hands a developer an index. The
+ * directories are still directories and still rows; what changed is that the
+ * first half of the page now shows the things it is describing. The owl is
+ * drawn here by the published package, the packages carry the line that
+ * installs them, and the two smallest surfaces in Gryt — the bot handshake and
+ * the plugin object — are short enough to print in full.
+ *
+ * Nothing here is a second copy of the docs. Every snippet is either read out
+ * of the source it documents or is the code running on this page, and the rows
+ * still go to `docs.gryt.chat` for the rest.
+ *
  * Two things deliberately absent:
  *
  *  - There is no Figma file and no Code Connect anywhere in this repository. A
@@ -20,58 +41,158 @@ import styles from "../styles/audience.module.css";
  *  - `voice/index` in the docs still says the package is `0.1.1` when it is
  *    `0.4.2`, so the voice rows point at the pages that are current. The stale
  *    one is a docs task, not something to hide behind a link.
- *
- * The addons section is the long version of what the front page says in three
- * sentences. It is honest about being thin, and it stays that way until the
- * thing itself is not.
  */
 const DOCS = "https://docs.gryt.chat/docs";
 const NPM = "https://www.npmjs.com/package";
 const GH = "https://github.com/Gryt-chat";
 
-const PACKAGES: RowItem[] = [
+const PACKAGES: PackageItem[] = [
   {
     name: "@gryt/ui",
-    mono: true,
-    detail: "MIT. React components on Base UI, styled with Tailwind on the Gryt palette — what the desktop and web clients render.",
+    licence: "MIT",
+    detail: "React components on Base UI, styled with Tailwind on the Gryt palette — what the desktop and web clients render.",
+    install: "npm i @gryt/ui",
     href: `${NPM}/@gryt/ui`,
   },
   {
     name: "@gryt/ui-native",
-    mono: true,
-    detail: "MIT. The same design system through React Native: same tokens, same names, a different renderer.",
+    licence: "MIT",
+    detail: "The same design system through React Native: same tokens, same names, a different renderer.",
+    install: "npm i @gryt/ui-native",
     href: `${NPM}/@gryt/ui-native`,
   },
   {
     name: "@gryt/theme",
-    mono: true,
-    detail: "MIT. The design tokens, colour scales and OKLCH maths, with no renderer and no DOM. The theme swatches on our front page come out of it.",
+    licence: "MIT",
+    detail: "The design tokens, colour scales and OKLCH maths, with no renderer and no DOM. The theme swatches on our front page come out of it.",
+    install: "npm i @gryt/theme",
     href: `${NPM}/@gryt/theme`,
   },
   {
     name: "@gryt/owl",
-    mono: true,
-    detail: "MIT. The owl avatars — give it a name, get an SVG. No renderer, no DOM, no dependencies.",
+    licence: "MIT",
+    detail: "The owl avatars — give it a name, get an SVG. No renderer, no DOM, no dependencies.",
+    install: "npm i @gryt/owl",
     href: `${NPM}/@gryt/owl`,
   },
   {
     name: "@gryt/voice",
-    mono: true,
-    detail: "AGPL. The voice engine on its own: signalling, ICE, tracks and audio, with web and React Native adapters.",
+    licence: "AGPL",
+    detail: "The voice engine on its own: signalling, ICE, tracks and audio, with web and React Native adapters.",
+    install: "npm i @gryt/voice",
     href: `${NPM}/@gryt/voice`,
   },
   {
     name: "@gryt/bot",
-    mono: true,
-    detail: "AGPL. Write a Gryt bot in TypeScript. It joins a server the way any other client does.",
+    licence: "AGPL",
+    detail: "Write a Gryt bot in TypeScript. It joins a server the way any other client does.",
+    install: "npm i @gryt/bot",
     href: `${NPM}/@gryt/bot`,
   },
 ];
 
+/**
+ * The example from `bot/index.mdx`, two lines shorter.
+ *
+ * The docs version gives every command a description and a `requires` list,
+ * which is the right advice and the wrong first impression — the shape of the
+ * SDK is what this is here to show. Both dropped fields are optional in
+ * `GrytBotOptions` and `CommandOptions`, so this compiles as it stands.
+ */
+const BOT_EXAMPLE = `import { GrytBot } from "@gryt/bot";
+
+const bot = new GrytBot({
+  host: "chat.example.com",
+  nickname: "Helper",
+  wants: ["read_messages", "send_messages"],
+});
+
+bot.command("ping", async (ctx) => ctx.reply("pong"));
+
+void bot.start();`;
+
+/**
+ * The top of `packages/client/src/packages/addons/src/pluginApi.ts`, as it is.
+ *
+ * Printed rather than summarised, because "the surface is thin" is the claim
+ * and the declaration is the proof. One alias is inlined — the source names the
+ * handler type separately — and nothing else is changed. If the plugin surface
+ * grows, this grows with it or it becomes a lie, which is easier to notice than
+ * a paragraph going quietly out of date.
+ */
+const PLUGIN_API = `type ThemeInfo = { appearance: "light" | "dark"; accentColor: string };
+
+interface GrytPluginAPI {
+  version: string;
+  theme: ThemeInfo;
+  on(event: "themeChange", handler: (theme: ThemeInfo) => void): () => void;
+}
+
+declare global {
+  interface Window {
+    gryt?: GrytPluginAPI;
+  }
+}`;
+
+/**
+ * The first call anybody makes against a Gryt server, and what comes back.
+ *
+ * `/info` is the join preview and it is deliberately unauthenticated: a client
+ * has to be able to say "you do not need an account for this one" before
+ * anybody tries. It is the shortest possible proof that a host is a Gryt server
+ * and that you can talk to it, which is why it is here rather than a paragraph
+ * about REST.
+ *
+ * `description` is dropped from the response shown; everything else is the
+ * shape in `server/api-reference`. A server with `discoverable` off answers 404
+ * to anyone who is not already a member, so an empty answer is a setting rather
+ * than a bug.
+ */
+const INFO_REQUEST = `curl -s https://chat.example.com/info`;
+
+const INFO_RESPONSE = `{
+  "serverId": "...",
+  "name": "Bird House",
+  "members": "12",
+  "lanOpen": false,
+  "identityTiers": ["account"],
+  "joinPolicy": "invite"
+}`;
+
+/**
+ * Joining and leaving a call, from `voice/getting-started`.
+ *
+ * The whole engine behind two functions and a state, which is the argument for
+ * the package. What the snippet cannot show is the part that costs people an
+ * afternoon — `<VoiceSingletonHooks />` has to be mounted above this or every
+ * hook quietly returns its initial value — so the copy beside it says that
+ * instead of hoping somebody clicks through.
+ */
+const VOICE_EXAMPLE = `import { SFUConnectionState, useSFU } from "@gryt/voice";
+
+function JoinButton({ channelId }: { channelId: string }) {
+  const { connect, disconnect, connectionState } = useSFU();
+
+  if (connectionState === SFUConnectionState.CONNECTED) {
+    return <button onClick={() => disconnect()}>Leave</button>;
+  }
+  return <button onClick={() => connect(channelId)}>Join</button>;
+}`;
+
+/** The three components rendered above it, as they are written there. */
+const UI_EXAMPLE = `import { Avatar, Button, Chip } from "@gryt/ui";
+
+<Avatar seed="nora" alt="" size="small" />
+<Chip label="42 ms" tone="success" />
+<Button size="small">Send</Button>`;
+
+/** Thirteen repositories, and the one flag that gets all of them. */
+const CLONE = `git clone --recurse-submodules https://github.com/Gryt-chat/gryt.git`;
+
 const BOTS: RowItem[] = [
   {
     name: "Writing a bot",
-    detail: "The SDK, how a bot asks to be let in, and what happens when an admin says yes.",
+    detail: "The SDK in full: commands, events, attachments, and running one as a container.",
     href: `${DOCS}/bot`,
   },
   {
@@ -190,48 +311,70 @@ export function DevelopersPage() {
       </p>
 
       <Block
+        heading="An owl from a name"
+        note="Every avatar in Gryt is drawn from a nickname. The package that does it has no dependencies and never touches the network, which is why this page can run it rather than show you a picture of it. Type a name and both halves change."
+      >
+        <OwlPlayground />
+      </Block>
+
+      <Block
         heading="The packages"
         note="All six are used by the app you can download, and none of them needs a Gryt server to be useful on its own. Four are MIT; the two that are AGPL are the ones that only make sense pointed at Gryt."
-        items={PACKAGES}
-      />
+      >
+        <PackageRows items={PACKAGES} />
+      </Block>
 
-      <Block
-        heading="Bots"
-        note="A bot knocks: it starts, says what it is called and what it wants to be allowed to do, and waits. An admin opens Server settings, unticks anything they would rather it did not have, and lets it in. The approval reaches the bot without a restart."
-        items={BOTS}
-      />
-
-      <Block
-        heading="The APIs"
-        note="Everything the clients use."
-        items={APIS}
-      />
-
-      <Block
-        heading="The voice engine"
-        note="@gryt/voice is the calling half of Gryt with nothing else attached — signalling, ICE, tracks and audio behind a set of React hooks. It talks to a Gryt SFU, and that is the only Gryt piece it needs."
-        items={VOICE}
-      />
-
-      <Block
-        heading="The design system"
-        note="One set of tokens, two renderers, and a generator that turns a palette into a link."
-        items={DESIGN}
-      />
+      <Block heading="Bots">
+        <p className={styles.blockNote}>
+          A bot joins a server the way any other client does: a key it holds, a
+          certificate it signed itself, and a challenge-response over P-256.
+          From the server's side it is a member like any other.
+        </p>
+        <ol className={styles.steps}>
+          <li>
+            It starts knowing only the address, says what it is called and what
+            it wants to be allowed to do, and is turned away.
+          </li>
+          <li>
+            A request is left behind. An admin opens{" "}
+            <strong>Server settings → Bots</strong> and sees the ask.
+          </li>
+          <li>
+            They untick anything they would rather it did not have, and let it
+            in.
+          </li>
+          <li>The approval reaches the bot without a restart. Leave it running.</li>
+        </ol>
+        <p className={styles.blockNote}>
+          The first declaration is the only one: a later run asking for more
+          gets the answer to the question the first one asked. The run it
+          protects you from is the one that is not yours, after a published
+          image has changed hands. For a compose file or CI, an admin can
+          decide it all in advance and hand over a single-use token instead.
+        </p>
+        <Snippet label="bot.ts" code={BOT_EXAMPLE} />
+        <p className={styles.blockNote}>
+          <code>bot.can()</code> answers from what the server said rather than
+          from what was asked for, and stays current when an admin widens or
+          narrows it mid-run.
+        </p>
+        <LinkRows items={BOTS} />
+      </Block>
 
       <Block heading="Addons">
         <p className={styles.blockNote}>
           An addon is a folder with an <code>addon.json</code> in it, loaded by
           the desktop app. A theme addon injects CSS. A plugin addon injects a
           module, and what that module can talk to is one object on{" "}
-          <code>window</code>: the client version, the theme you are on, and an
-          event that fires when you change it.
+          <code>window</code>.
         </p>
+        <Snippet label="pluginApi.ts" code={PLUGIN_API} />
         <p className={styles.blockNote}>
-          That is the whole surface. There is no sandbox, no permission model,
-          no registry and no docs page, and the plugin system is still listed as
-          planned on the roadmap. It is enough to restyle the client or bolt
-          something small onto it, and not enough to build a product on.
+          That is the whole surface. There is no
+          sandbox, no permission model, no registry and no docs page, and the
+          plugin system is still listed as planned on the roadmap. It is enough
+          to restyle the client or bolt something small onto it, and not enough
+          to build a product on.
         </p>
         <p className={styles.blockNote}>
           The shape it should take has not been decided. If you have tried to
@@ -240,11 +383,60 @@ export function DevelopersPage() {
         </p>
       </Block>
 
+      <Block heading="The APIs">
+        <p className={styles.blockNote}>
+          Everything the clients use. The one call that needs nothing is{" "}
+          <code>/info</code>, the join preview: it is unauthenticated on
+          purpose, because a client has to be able to say whether you need an
+          account before you try.
+        </p>
+        <Snippet label="bash" code={INFO_REQUEST} shell />
+        <Snippet label="json" code={INFO_RESPONSE} />
+        <p className={styles.blockNote}>
+          A server with discovery turned off answers 404 to anybody who is not
+          already a member, and the build number is only included for members —
+          an open endpoint that names your exact version is a list of hosts to
+          scan.
+        </p>
+        <LinkRows items={APIS} />
+      </Block>
+
+      <Block
+        heading="The voice engine"
+        note="@gryt/voice is the calling half of Gryt with nothing else attached — signalling, ICE, tracks and audio behind a set of React hooks. It talks to a Gryt SFU, and that is the only Gryt piece it needs."
+      >
+        <Snippet label="JoinButton.tsx" code={VOICE_EXAMPLE} />
+        <p className={styles.blockNote}>
+          Two things have to be true above that, and both of them fail
+          silently. <code>&lt;VoiceSingletonHooks /&gt;</code> must be mounted,
+          or every singleton hook returns its initial value while the app still
+          builds and launches. And Vite has to leave the package alone with{" "}
+          <code>optimizeDeps.exclude</code>, or the RNNoise worker looks for
+          itself somewhere it is not and you ship without noise suppression.
+        </p>
+        <LinkRows items={VOICE} />
+      </Block>
+
+      <Block
+        heading="The design system"
+        note="One set of tokens, two renderers, and a generator that turns a palette into a link. These three come out of the published package and are rendered here, picking up this page's tokens as they go."
+      >
+        <div className={styles.sampleStage}>
+          <Avatar seed="nora" alt="" size="small" />
+          <Chip label="42 ms" tone="success" />
+          <Button size="small">Send</Button>
+        </div>
+        <Snippet label="app.tsx" code={UI_EXAMPLE} />
+        <LinkRows items={DESIGN} />
+      </Block>
+
       <Block
         heading="The source"
-        note="One superproject with the rest as submodules, each with its own CI and its own releases."
-        items={SOURCE}
-      />
+        note="One superproject with the rest as submodules, each with its own CI and its own releases. The flag is not optional — without it you get thirteen empty directories."
+      >
+        <Snippet label="bash" code={CLONE} shell />
+        <LinkRows items={SOURCE} />
+      </Block>
 
       <section className={styles.tail}>
         <p className={styles.tailText}>

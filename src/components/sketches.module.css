@@ -83,6 +83,14 @@
   stroke-linejoin: round;
 }
 
+/* A line round several things that are one thing: a machine, a deployment. */
+.boundary {
+  fill: none;
+  stroke: var(--border);
+  stroke-width: 1.5;
+  stroke-dasharray: 5 5;
+}
+
 /* Anything that carries something from one place to another. */
 .wire {
   fill: none;
@@ -176,5 +184,24 @@
 @media (max-width: 820px) {
   .frame {
     padding: 14px;
+  }
+}
+
+/* ── One drawing, two widths ───────────────────────────── */
+
+/* `StackSketch` is wide enough that scaling it into a phone column puts its
+   labels at about six pixels. The narrow version is the same drawing stacked,
+   and exactly one of them is in the layout at any width. */
+.narrow {
+  display: none;
+}
+
+@media (max-width: 620px) {
+  .wide {
+    display: none;
+  }
+
+  .narrow {
+    display: block;
   }
 }

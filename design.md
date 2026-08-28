@@ -155,7 +155,7 @@ the front page's rhythm. Recorded here so the next run does not re-pick blind:
 | `/changelog/:version` | Workbench | the notes are mostly app captures |
 | `/why-gryt` | Conversational FAQ | it is questions and trust boundaries |
 | `/compare` | Index-First | it is two tables and a set of cards |
-| `/developers`, `/self-hosting` | Index-First | both are grouped rows that mostly leave for the docs |
+| `/developers`, `/self-hosting` | Index-First, with worked examples | the tail of each is grouped rows that leave for the docs; the top half runs and installs things |
 | `/sponsors` | Index-First | the page is a list of people |
 | `/privacy`, `/terms`, `/community-guidelines` | Long Document | they are documents |
 | `/invite` | none, component-scope | an app screen with states, not a page |
@@ -311,6 +311,12 @@ to look at on the other.
 matching pair for /developers and /self-hosting: a heading, a note, and rows of
 name + one line + arrow. Rows rather than cards, by the standing rule below.
 
+`LinkRows.tsx` also exports `PackageRows`, which cannot be a `Row`. A row is one
+anchor over the whole strip and a package needs two controls in it — the name
+goes to npm and the install command goes to the clipboard. A button inside a
+link is invalid markup and unusable with a keyboard, so that strip is a plain
+container with two controls rather than an anchor with a button in it.
+
 ## The audience split
 
 The front page kept accumulating technical material because there was nowhere
@@ -323,10 +329,63 @@ three pages now, and each one has a reader:
 | `/developers` | somebody building on it or taking a package away |
 | `/self-hosting` | somebody putting a server on a machine |
 
-Both new pages are mostly a front door onto `docs.gryt.chat`. The docs are
-already grouped by audience and they are kept correct; a second copy of them
-here would be a second copy to keep correct, and this one would be the one that
-went stale.
+Both pages are a front door onto `docs.gryt.chat` and neither is only that. The
+docs are already grouped by audience and they are kept correct; a second copy of
+them here would be a second copy to keep correct, and this one would be the one
+that went stale. So the directories stay directories and stay linked, and what
+sits above them is the shortest true answer to what the reader came for.
+
+**Each section shows the thing it is describing, or says why it cannot.** That
+is the front page's rule applied to the two pages that were exempt from it, and
+the exemption was the whole problem: twenty rows on `/developers` and seventeen
+on `/self-hosting` handed a developer an index on a site whose front page runs
+the product live in four places. Six identical row groups in a column is a
+shape the eye stops reading at the third.
+
+What each one shows now:
+
+| Section | What is on the page |
+|---|---|
+| `/developers` — an owl from a name | `@gryt/owl` drawing live from a field you type in, beside the two lines that did it |
+| — the packages | the install line for each, with a copy button, and the licence beside the name |
+| — bots | the knock as four numbered steps, and the `GrytBot` example |
+| — addons | the `GrytPluginAPI` declaration, printed from the source |
+| — the APIs | `curl /info` and what comes back |
+| — the voice engine | joining a call, and the two silent failures above it |
+| — the design system | `Avatar`, `Chip` and `Button` out of `@gryt/ui`, rendered |
+| — the source | the clone line, with the submodule flag |
+| `/self-hosting` — getting one up | five rungs ordered by how much you have to know, each with its first command |
+| — what you are running | the four services drawn, and which two take connections |
+| — reaching it from outside | the four `.env` lines that decide whether voice works |
+| — running it properly | the two lines that upgrade it |
+
+**The no-code rule does not reach these two pages.** It was decided for
+somebody deciding whether to try Gryt, and a shell command in front of that
+person is an obstacle. In front of a developer or a self-hoster it is the
+shortest true answer. The ban in the standing rules is on hand-built window
+chrome — title bars, traffic lights, invented terminal frames — and a labelled
+`<pre>` is not one. `src/components/Snippet.tsx` is that block: a hairline, a
+label naming the language or the file it came out of, and a copy button whose
+own label changes rather than firing a toast. A shell snippet draws a `$` that
+is `user-select: none` and is not in what gets copied.
+
+**Every snippet is read out of the thing it documents.** The plugin API is the
+top of `pluginApi.ts`, the bot example is `bot/index.mdx` with two optional
+fields dropped, the owl block prints the line running three rows above it in
+its own file, and the ladder's commands are the ones in the deployment guides.
+Nothing is written for the page, so nothing on the page can drift on its own —
+it goes stale only when the source does, which is a change somebody is already
+making.
+
+**The ladder on `/self-hosting` is ordered, and says by what.** The five ways to
+get a server up differ by how much you have to know, from the app you already
+downloaded to a Helm chart, and as five equal rows that ordering was invisible —
+somebody who does not know Docker had no way to tell which one was theirs. Each
+rung leads with what it costs you to be there. Two rungs carry no command
+because they genuinely have none: hosting from the app is three clicks, and
+Windows is a zip and a double-click. One line each, never a whole file; the
+twelve-line Compose block was deliberately taken off the front page and it does
+not grow back here.
 
 `/why-gryt` keeps the *why* and `/self-hosting` takes the *how*. Question 4
 there used to cover embedded, Compose, Helm, LAN discovery and tunnels, which is
@@ -339,8 +398,10 @@ else, and the two audience pages are where a whole kind of visitor should land.
 
 ## Drawings where a capture will go
 
-`src/components/home/sketches.tsx`, and the `Frame` in it is the rounded box
-they sit in.
+`src/components/sketches.tsx`, and the `Frame` in it is the rounded box they
+sit in. It was under `home/` while the front page was the only page with any; a
+diagram vocabulary that lives inside one page's folder is one the next page
+quietly re-invents.
 
 They are **diagrams, not screenshots.** The standing rule below bans hand-built
 fake window chrome and it still means it: an SVG pretending to be the emoji
@@ -356,6 +417,13 @@ true and stays useful beside a clip rather than being deleted when one arrives.
 The vocabulary is in `sketches.module.css` and is deliberately small: two fills,
 two strokes, an accent for the one thing a person sets, and no colour written
 into the SVG. A themed site gets themed diagrams.
+
+`StackSketch` — the four services on `/self-hosting` — is two drawings, and one
+of them is in the layout at a time. A 640-unit viewBox scaled into a 330px phone
+column puts its labels at about six pixels, and the alternative, a diagram that
+scrolls sideways, is worse on the one device where sideways is how you move
+through the page. The narrow one stacks the boxes and brings both arrows in from
+the left. Same facts, same classes, laid out for the width it is drawn at.
 
 ## The front page, as it stands
 
@@ -429,6 +497,14 @@ are on, travels to whatever you hover or tab to, and returns when you leave —
 or away entirely on `/`, which is not in the bar, so there is nothing to return
 to. `useTravellingUnderline` measures in the list's own coordinates; the list is
 the positioned ancestor.
+
+It leaves on `/` because the hook is told the route changed. It parks under
+whichever link carries `aria-current`, which is measured in an effect, and the
+effect has to re-run when the page changes rather than only when the pointer
+moves. Without the route in its dependencies it did the first half of that
+correctly and never the second: clicking the wordmark navigated to `/` and left
+the underline sitting under whichever page you had just come from. Fixed
+2026-08-28, reported by Sivert.
 
 It is `Tabs.Indicator` from `@gryt/ui` doing the same job in a different row,
 so it borrows that component's timing exactly: `--gryt-dur-spring` (500ms) and

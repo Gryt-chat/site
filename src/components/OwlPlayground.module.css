@@ -1,0 +1,130 @@
+/* Hallmark · genre: atmospheric-technical · design-system: design.md · designed-as-app
+ *
+ * The live block at the top of /developers: a field, the owl it draws, and the
+ * code that drew it.
+ *
+ * No outer card. `design.md` says cards are a budget, and the snippet inside
+ * already lifts off the page — a filled box around a filled box is the "no card
+ * inside a card" rule with two extra steps.
+ */
+
+.playground {
+  margin-top: 22px;
+}
+
+.field {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.fieldLabel {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--accent);
+  flex: none;
+}
+
+.input {
+  flex: 1;
+  min-width: 0;
+  font-family: var(--font-mono);
+  font-size: 19px;
+  color: var(--text);
+  background: none;
+  border: 0;
+  padding: 2px 0;
+}
+
+.input::placeholder {
+  color: var(--text-dimmer);
+}
+
+.input:focus {
+  outline: none;
+}
+
+/* The rule under the field is the focus ring: an outline round a borderless
+   input draws a box that is not there the rest of the time. */
+.field:focus-within {
+  border-bottom-color: var(--accent);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 190px minmax(0, 1fr);
+  gap: 28px;
+  align-items: start;
+  margin-top: 20px;
+}
+
+.output {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+.output img {
+  display: block;
+  width: 190px;
+  height: 190px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+}
+
+.output figcaption {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--text-dim);
+  overflow-wrap: anywhere;
+  text-align: center;
+}
+
+.code {
+  min-width: 0;
+}
+
+/* The snippet brings its own top margin, and it is the first thing in this
+   column. */
+.code > :first-child {
+  margin-top: 0;
+}
+
+.note {
+  margin: 14px 0 0;
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--text-dim);
+}
+
+.note code {
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+  color: var(--text);
+}
+
+@media (max-width: 700px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+  }
+
+  .output {
+    align-items: flex-start;
+  }
+
+  .output img {
+    width: 150px;
+    height: 150px;
+  }
+
+  .output figcaption {
+    text-align: left;
+  }
+}

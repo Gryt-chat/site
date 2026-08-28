@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
 import { Showcase } from "../Showcase";
-import { Frame, VaultSketch } from "./sketches";
+import { Frame, VaultSketch } from "../sketches";
 
 /**
  * The account question, answered here rather than in a section of its own.
