@@ -1,128 +1,106 @@
-import { useCallback, useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
-import { Button } from "@gryt/ui";
+
 import { inView, rise, stagger } from "./motion";
 import styles from "./SelfHost.module.css";
 
+const DOCS = "https://docs.gryt.chat/docs";
+
 /**
- * The commands are the ones from docs/guide/quick-start.mdx, unchanged. There
- * is deliberately no `curl | sh` one-liner: `.env` needs a real JWT_SECRET and
- * the SFU's public host before the stack will work, so a command that ran
- * everything unattended would hand people a broken server.
+ * Four ways in, and none of them is a wall of shell.
+ *
+ * This section used to open on a twelve-line Docker Compose block with an
+ * `openssl rand` in it, which is the right thing to hand somebody who has
+ * already decided and the wrong thing to put in front of somebody deciding.
+ * The commands live in the quick-start guide, where they can be kept correct in
+ * one place.
+ *
+ * Ordered by how little you have to know: the desktop app needs nothing, and
+ * Docker is at the end because it is the one that assumes the most.
  */
-const INSTALL = `mkdir gryt && cd gryt
-
-# the compose file and a starter .env
-curl -Lo docker-compose.yml https://raw.githubusercontent.com/Gryt-chat/gryt/main/ops/deploy/compose/prod.yml
-curl -Lo .env https://raw.githubusercontent.com/Gryt-chat/gryt/main/ops/deploy/compose/.env.example
-
-# change these two, leave the third alone
-echo 'SERVER_NAME=My Gryt Server'            >> .env
-echo 'SFU_PUBLIC_HOST=wss://sfu.example.com' >> .env
-echo "JWT_SECRET=$(openssl rand -base64 48)" >> .env
-
-docker compose up -d`;
-
-const paths = [
+const WAYS = [
+  {
+    name: "From the app",
+    detail:
+      "The client you downloaded is already a server. Name it, press create, and read the address out. No terminal at all.",
+    href: `${DOCS}/deployment/embedded`,
+    linkLabel: "Hosting from the app",
+  },
   {
     name: "Windows",
-    detail: "A zip, one config file and a batch script. Node.js is the only thing you install yourself.",
-    href: "https://docs.gryt.chat/docs/deployment/windows",
+    detail:
+      "A zip, one config file and a batch script. Node.js is the only thing you install yourself.",
+    href: `${DOCS}/deployment/windows`,
     linkLabel: "Windows guide",
   },
   {
-    name: "Cloudflare Tunnel",
-    detail: "TLS with no open HTTP ports. Only the SFU's UDP range needs to be reachable.",
-    href: "https://docs.gryt.chat/docs/deployment/cloudflare-tunnel",
-    linkLabel: "Tunnel guide",
+    name: "Linux",
+    detail:
+      "Four commands and a server is up. The database is SQLite, so it is one file on your disk — copy it and you have a backup.",
+    href: `${DOCS}/guide/quick-start`,
+    linkLabel: "Quick start",
   },
   {
-    name: "From the desktop app",
-    detail: "The client you download is also a server, and it will run several. They share one media server, so the second costs a process rather than a stack. No terminal at all.",
-    href: "https://docs.gryt.chat/docs/deployment/embedded",
-    linkLabel: "Embedded guide",
+    name: "Docker",
+    detail:
+      "A compose file and an .env. There is a Helm chart too, if you are the sort of person who has a cluster.",
+    href: `${DOCS}/deployment/docker-compose`,
+    linkLabel: "Deployment docs",
   },
+];
+
+const MORE = [
+  { label: "No domain, just an IP", href: `${DOCS}/deployment/no-domain` },
+  { label: "Behind a Cloudflare Tunnel", href: `${DOCS}/deployment/cloudflare-tunnel` },
+  { label: "Over Tailscale", href: `${DOCS}/deployment/tailscale` },
+  { label: "Monitoring", href: `${DOCS}/deployment/monitoring` },
 ];
 
 export function SelfHost() {
   const reduced = useReducedMotion() ?? false;
-  const [copied, setCopied] = useState(false);
-
-  const copy = useCallback(() => {
-    navigator.clipboard.writeText(INSTALL).then(
-      () => {
-        setCopied(true);
-        window.setTimeout(() => setCopied(false), 2000);
-      },
-      () => setCopied(false),
-    );
-  }, []);
 
   return (
     <section className={styles.section} id="self-host">
       <motion.div className={styles.inner} variants={stagger(reduced)} {...inView}>
         <motion.p className={styles.eyebrow} variants={rise(reduced)}>
-          Run it yourself
+          Self-hosting
         </motion.p>
         <motion.h2 className={styles.heading} variants={rise(reduced)}>
-          No database container. No sysadmin degree.
+          Put it on a machine that stays on.
         </motion.h2>
         <motion.p className={styles.sub} variants={rise(reduced)}>
-          The database is SQLite, so it is one file on your disk. Copy it and
-          you have a backup, move it and you have migrated. Four commands and a
-          server is up.
-        </motion.p>
-
-        <motion.figure className={styles.terminal} variants={rise(reduced)}>
-          <figcaption>
-            <span>Docker Compose, any Linux box</span>
-            <Button
-              className={styles.copy}
-              onClick={copy}
-              size="xsmall"
-              tone="ghost"
-            >
-              {copied ? "Copied" : "Copy"}
-            </Button>
-          </figcaption>
-          <pre>
-            <code>{INSTALL}</code>
-          </pre>
-        </motion.figure>
-
-        <motion.p className={styles.docs} variants={rise(reduced)}>
-          The two <code>echo</code> lines append over the defaults already in{" "}
-          <code>.env</code>, so the last value wins and you never open an
-          editor. <code>SFU_PUBLIC_HOST</code> is the address browsers reach
-          your media server on.{" "}
-          <a
-            href="https://docs.gryt.chat/docs/guide/quick-start"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Full quick-start guide
-          </a>{" "}
-          ·{" "}
-          <a
-            href="https://docs.gryt.chat/docs/deployment/docker-compose"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Deployment docs
-          </a>
+          Hosting from the app is enough for an evening with friends. For a
+          server that should still be there when your laptop closes, put it
+          somewhere that does not. Pick whichever of these sounds like you.
         </motion.p>
 
         <div className={styles.grid}>
-          {paths.map((p) => (
-            <motion.article key={p.name} className={styles.card} variants={rise(reduced)}>
-              <h3>{p.name}</h3>
-              <p>{p.detail}</p>
-              <a href={p.href} target="_blank" rel="noreferrer">
-                {p.linkLabel} <span aria-hidden="true">→</span>
-              </a>
-            </motion.article>
+          {WAYS.map((w) => (
+            <motion.a
+              key={w.name}
+              className={styles.card}
+              href={w.href}
+              target="_blank"
+              rel="noreferrer"
+              variants={rise(reduced)}
+            >
+              <h3>{w.name}</h3>
+              <p>{w.detail}</p>
+              <span className={styles.cardLink}>
+                {w.linkLabel} <span aria-hidden="true">→</span>
+              </span>
+            </motion.a>
           ))}
         </div>
+
+        <motion.ul className={styles.more} variants={rise(reduced)}>
+          {MORE.map((m) => (
+            <li key={m.href}>
+              <a href={m.href} target="_blank" rel="noreferrer">
+                {m.label} <span aria-hidden="true">→</span>
+              </a>
+            </li>
+          ))}
+        </motion.ul>
       </motion.div>
     </section>
   );

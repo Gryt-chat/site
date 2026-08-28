@@ -1,10 +1,21 @@
-/* A floating pill rather than a full-width slab.
+/* Edge-aligned: wordmark hard against the left, everything else hard against
+ * the right, and the whole middle left empty.
  *
- * The old shape — wordmark hard-left, six inline links right-grouped, a filled
- * CTA hard-right, edge to edge, fixed, hairline border along the bottom — is
- * the most-copied nav on the web, and the hairline cut straight across the
- * hero's ambient wash. The pill detaches from the edges, so the hero reads as
- * one field with the nav sitting on it.
+ * Two shapes came before it. The original was the most-copied nav on the web —
+ * wordmark left, links right-grouped, filled CTA, edge to edge — and it was
+ * replaced with a floating pill, which fixed the sameness and introduced a
+ * worse problem: the pill was transparent until 24px of scroll, so it was
+ * nearly invisible at the top of the page, which is the only place a first-time
+ * visitor ever sees it.
+ *
+ * This is the answer to both. It carries a surface from the first pixel, so it
+ * is always visible. And it is the one element on the site that ignores the
+ * 1100px column everything else obeys — which is what makes it read as chrome
+ * rather than as the page's first section, and is why it does not need a heavy
+ * fill to separate itself.
+ *
+ * There is no scroll state and no scroll listener. "Always visible" was the
+ * brief; a bar that changes on scroll is answering a different one.
  */
 .nav {
   position: fixed;
@@ -12,34 +23,37 @@
   left: 0;
   right: 0;
   z-index: 100;
-  padding: 14px 16px;
-  pointer-events: none;
-}
-
-.inner {
-  max-width: 1120px;
-  margin: 0 auto;
-  padding: 0 10px 0 18px;
-  height: 56px;
+  height: 68px;
   display: flex;
   align-items: center;
-  gap: 26px;
-  pointer-events: auto;
-  border: 1px solid transparent;
-  border-radius: 999px;
-  transition: background 0.28s ease-out, border-color 0.28s ease-out,
-    box-shadow 0.28s ease-out, max-width 0.28s ease-out;
+  padding: 0 24px;
+  background: color-mix(in oklab, var(--bg) 82%, transparent);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
 }
 
-/* Past the fold the pill earns its background. Over the hero it stays
-   transparent so nothing is layered on top of the artwork. */
-.scrolled .inner {
-  max-width: 980px;
-  background: rgba(22, 24, 32, 0.82);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  border-color: var(--border);
-  box-shadow: 0 18px 44px -24px rgba(0, 0, 0, 0.9);
+/* The bar's contents sit on the same column as the page's.
+ *
+ * `--max-w` and a 24px gutter, which is exactly what every section uses, so the
+ * wordmark lands on the same vertical as each section's eyebrow and the
+ * download button lands on the same vertical as the right edge of the content.
+ * On a wide display the two line up down the whole page rather than the bar
+ * hanging outside it.
+ *
+ * This was 1800 for a day, on the argument that a bar which ignores the column
+ * reads as chrome rather than as the page's first section. That argument holds
+ * and it lost anyway: the misalignment was visible on every wide display and
+ * the theory was not.
+ *
+ * The surface still runs the full width of the viewport. That is the part
+ * doing the work — the bar is edge to edge, its contents are not. */
+.inner {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: var(--max-w);
+  margin-inline: auto;
 }
 
 .brand {
@@ -53,11 +67,64 @@
 
 /* ── Desktop links ──────────────────────────────────── */
 
-.links {
+/* Everything that is not the wordmark. */
+.right {
   display: flex;
   align-items: center;
-  gap: 24px;
+  gap: 26px;
   margin-left: auto;
+}
+
+/* Positioned, because the underline is measured in this box's coordinates. */
+.links {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 26px;
+}
+
+/* One mark for the whole row, travelling between links rather than one fading
+   in under each — the same idea as `Tabs.Indicator` in @gryt/ui, and the same
+   timing: `--gryt-dur-spring` and `--ease-spring` are both already on :root
+   from the library's stylesheet, so the bar and the app's tab strips move at
+   one speed on one curve.
+
+   `translate` and `width` rather than `left`: those two are the properties the
+   library animates, and neither of them is layout. */
+.underline {
+  position: absolute;
+  bottom: -7px;
+  left: 0;
+  height: 2px;
+  width: var(--ul-width, 0);
+  translate: var(--ul-left, 0) 0;
+  border-radius: 2px;
+  background: var(--accent);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.underline[data-on] {
+  opacity: 1;
+}
+
+/* Only once it has been somewhere. Without this the first hover slides the
+   mark in from the left edge of the list, which reads as a stray element
+   rather than as an underline arriving. */
+.underline[data-settled] {
+  transition:
+    translate var(--gryt-dur-spring, 500ms) var(--ease-spring, ease),
+    width var(--gryt-dur-spring, 500ms) var(--ease-spring, ease),
+    opacity 160ms ease-out;
+}
+
+/* A hairline between the four destinations and the two actions. The gap alone
+   read as one row of six things, three of which behave differently. */
+.rule {
+  width: 1px;
+  height: 22px;
+  background: var(--border);
+  flex: none;
 }
 
 /* Named rather than `.links a`, and that is not tidiness.
@@ -71,13 +138,15 @@
    targeted; Gryt UI's Button brings its own pill and padding. */
 .links .navLink {
   color: var(--text-dim);
-  font-size: 14px;
-  font-weight: 500;
+  font-size: 14.5px;
+  font-weight: 600;
   white-space: nowrap;
+  padding: 2px 0;
   transition: color 0.16s ease-out;
 }
 
-.links .navLink:hover {
+.links .navLink:hover,
+.links .navLink[aria-current="page"] {
   color: var(--text);
 }
 
@@ -148,6 +217,11 @@
   top: 0;
   right: 0;
   bottom: 0;
+  /* `left: auto` is load-bearing. Gryt UI's popup sets `left-1/2`, and on a
+     fixed element with a definite width `left` wins over `right` in LTR, so
+     the sheet was anchored to the middle of the viewport rather than to its
+     right edge. */
+  left: auto;
   z-index: 201;
   width: min(320px, 85vw);
   background: var(--bg);
@@ -156,6 +230,21 @@
   flex-direction: column;
   animation: slideIn 0.25s cubic-bezier(0.32, 0.72, 0, 1);
   outline: none;
+
+  /* Gryt UI's Dialog.Popup centres itself with `top-1/2 left-1/2
+     -translate-x-1/2 -translate-y-1/2 scale-98`, and `translate` and `scale`
+     are their own CSS properties rather than shorthands for `transform`. So
+     the `top: 0` above did win — and the popup was still dragged up by half
+     its own height anyway, because nothing here touched `translate`. The sheet
+     was drawn from -398px to 398px in an 812px viewport, with its first five
+     links above the top of the screen and unreachable.
+
+     Nothing appeared in the console and both stylesheets were present, which
+     is the same failure GRYT-643 had one property along: a library utility the
+     site did not know it had to override. `transform` below is untouched,
+     because that is what slideIn animates. */
+  translate: none;
+  scale: none;
 }
 
 @keyframes slideIn {
@@ -226,25 +315,65 @@
 /* ── Responsive ─────────────────────────────────────── */
 
 @media (max-width: 900px) {
-  .nav { padding: 10px 12px; }
-
-  .inner {
-    padding: 0 8px 0 14px;
-    height: 52px;
+  .nav {
+    height: 60px;
+    padding: 0 16px;
   }
 
-  .links { display: none; }
+  /* The whole right-hand group goes, not each child: the sheet carries every
+     one of them, and an emptied-out flex box would still eat the auto margin
+     the hamburger needs. */
+  .right { display: none; }
 
-  /* With the bar transparent over the hero, the hamburger needs its own
-     surface or it floats on the artwork with nothing behind it. */
+  /* The bar carries its own surface now, so the hamburger no longer needs one
+     of its own — it used to be a floating pill because there was nothing
+     behind it. 44px square, which is the floor. */
   .hamburger {
     display: flex;
     margin-left: auto;
-    background: var(--bg-card-translucent);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid var(--border);
-    border-radius: 999px;
-    padding: 10px;
+    min-width: 44px;
+    min-height: 44px;
+    border-radius: var(--radius-sm);
+  }
+}
+
+/* The live download button.
+   The version used to sit after the platform and made the bar too wide, so it
+   is only the verb and the platform now. `nowrap` because a clickable label on
+   two lines reads as a styling bug. */
+.download span {
+  white-space: nowrap;
+}
+
+/* The slot the button's width is animated on.
+
+   `clip` and not `hidden`: `hidden` makes a scroll container, and this sits
+   inside a `position: fixed` bar — the same reason index.css clips `html, body`
+   rather than hiding. The clip margin keeps the focus ring, which is 2px at 3px
+   offset, from being cut off with the overflow. */
+.downloadSlot {
+  overflow: clip;
+  overflow-clip-margin: 8px;
+  flex: none;
+}
+
+/* Only once a real width has been measured. The first commit writes the
+   starting width and must land without a transition, or the button grows out of
+   nothing on page load. */
+.downloadSlot[data-settled] {
+  transition: width 420ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Measured here. It must never be the thing being animated, or the observer
+   would be watching its own output. */
+.downloadInner {
+  width: max-content;
+}
+
+/* @gryt/ui's tab indicator is `motion-reduce:transition-none`, and this is the
+   same mark doing the same job. It still moves — it just arrives. */
+@media (prefers-reduced-motion: reduce) {
+  .underline[data-settled] {
+    transition: opacity 100ms ease-out;
   }
 }

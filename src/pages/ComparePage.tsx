@@ -1,7 +1,9 @@
 import { motion, useReducedMotion } from "motion/react";
-import { inView, rise, stagger } from "./motion";
 import { Card } from "@gryt/ui";
-import styles from "./Compare.module.css";
+
+import { PageHeader } from "../components/PageHeader";
+import { inView, rise, stagger } from "../components/home/motion";
+import styles from "./ComparePage.module.css";
 
 /**
  * Two comparisons, because they are two different arguments.
@@ -11,9 +13,9 @@ import styles from "./Compare.module.css";
  * is already settled and the honest answer is that they are good.
  *
  * Every Gryt figure below was read out of the source, not remembered:
- *   uploads, avatars, emoji all 100 MB      server/src/db/interfaces.ts:84-88
+ *   uploads, avatars, emoji all 100 MB      server/src/db/interfaces.ts:147-149
  *   upload ceiling: operator's, 0 = none    socket/handlers/admin.ts:157
- *   voice bitrate default 96, ceiling 510    interfaces.ts:83, channels.ts:65
+ *   voice bitrate default 96, ceiling 510   interfaces.ts:150, sqlite/channels.ts:65
  *   screen share fps ladder                  client useScreenShare.ts:15
  *   custom invite codes                      server/src/db/sqlite/invites.ts:31
  *   animated avatars                         image-worker/src/index.ts:264
@@ -42,7 +44,12 @@ const paidElsewhere = [
   { label: "File upload size", gryt: "Whatever the host allows", discord: "500 MB on Nitro", cost: "$9.99/mo", teamspeak: "Your disk" },
   { label: "Custom invite link", gryt: "Included", discord: "14 boosts", cost: "$69.86/mo", teamspeak: "\u2014" },
   { label: "Your own domain", gryt: "Included", discord: "\u2014", teamspeak: "Included" },
-  { label: "Addons and plugins", gryt: "Included", discord: "\u2014", teamspeak: "Included" },
+  // Not "Included". The client loads theme and plugin addons from a folder, and
+  // that is genuinely all of it — one object on `window`, no sandbox, no
+  // registry, and the roadmap still lists the plugin system as planned. Two of
+  // our own pages disagreed with this row and the row was the one that was
+  // wrong. Say what it does instead of what it sounds like.
+  { label: "Addons and plugins", gryt: "Themes, and an early plugin API", discord: "\u2014", teamspeak: "Included" },
 ];
 
 const everyone = [
@@ -169,23 +176,17 @@ function Table({
   );
 }
 
-export function Compare() {
+export function ComparePage() {
   const reduced = useReducedMotion() ?? false;
 
   return (
-    <section className={styles.section} id="compare">
-      <motion.div className={styles.inner} variants={stagger(reduced)} {...inView}>
-        <motion.p className={styles.eyebrow} variants={rise(reduced)}>
-          Against the alternatives
-        </motion.p>
-        <motion.h2 className={styles.heading} variants={rise(reduced)}>
-          What the same things cost on Discord.
-        </motion.h2>
-        <motion.p className={styles.lede} variants={rise(reduced)}>
-          Everything in the Gryt column ships in the stable build at no cost,
-          and a server owner can raise the limits. The right-hand column is
-          what the equivalent runs to per month.
-        </motion.p>
+    <main className={styles.page}>
+      <PageHeader
+        eyebrow="Against the alternatives"
+        title="What the same things cost elsewhere"
+        lede="Everything in the Gryt column ships in the stable build at no cost, and a server owner can raise the limits. The right-hand column is what the equivalent runs to per month."
+      />
+      <motion.div variants={stagger(reduced)} {...inView}>
 
         <motion.div variants={rise(reduced)}>
           <Table rows={paidElsewhere} caption="Features that cost money on other platforms" />
@@ -206,8 +207,8 @@ export function Compare() {
 
         <motion.p className={styles.note} variants={rise(reduced)}>
           Gryt's figures are read out of its own source and all of them are
-          stable: 5 MB avatars are the shipped default,
-          voice tops out at 510 kbps, screen sharing runs 30 to 120 fps with
+          stable: uploads, avatars and emoji all ship at 100 MB,
+          voice starts at 96 kbps and tops out at 510, screen sharing runs 30 to 120 fps with
           144, 165 and 240 as experimental options, and a server owner can
           raise every limit. Discord prices are US list, checked August 2026,
           at $2.99 for Nitro Basic, $9.99 for Nitro and $4.99 per server boost;
@@ -251,6 +252,6 @@ export function Compare() {
           ))}
         </div>
       </motion.div>
-    </section>
+    </main>
   );
 }

@@ -1,0 +1,261 @@
+/* Padding on the section and the width cap on the inner, matching SelfHost —
+   the other way round puts this section's text 24px inboard of that one's. */
+.section {
+  border-top: 1px solid var(--border);
+  padding: 100px 24px;
+}
+
+.inner {
+  max-width: var(--max-w);
+  margin: 0 auto;
+}
+
+.eyebrow {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--accent);
+  margin-bottom: 12px;
+}
+
+.title,
+.subTitle {
+  font-weight: 800;
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+  min-width: 0;
+  margin-bottom: 16px;
+}
+
+.title {
+  font-size: clamp(28px, 3.6vw, 44px);
+  letter-spacing: -0.028em;
+  line-height: 1.08;
+}
+
+.subTitle {
+  font-size: clamp(22px, 2.4vw, 30px);
+  letter-spacing: -0.024em;
+  line-height: 1.12;
+  margin-top: 80px;
+}
+
+.sub {
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--text-dim);
+  max-width: 64ch;
+}
+
+.demo {
+  margin-top: 32px;
+}
+
+.note {
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--text-dimmer);
+  max-width: 58ch;
+  margin: 14px 0 0;
+}
+
+/* ── The panel ─────────────────────────────────────────── */
+
+.panel {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--bg-raised);
+  padding: 16px;
+}
+
+.panelHead {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.channel {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.panelHead > :last-child {
+  margin-left: auto;
+}
+
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 10px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 9px;
+  padding: 18px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  /* The tile's own colour is the person's owl colour, at a tenth of it — the
+     same relationship the client uses, which is why a tile and the owl on it
+     never read as two different colours. */
+  background: color-mix(in oklab, var(--tint) 9%, var(--bg-card));
+}
+
+/* The ring is on the avatar and nothing else moves. A tile that grows or
+   reorders when somebody talks makes a busy channel unreadable. */
+.ring {
+  display: inline-flex;
+  border-radius: 999px;
+  padding: 3px;
+  box-shadow: 0 0 0 2px color-mix(in oklab, var(--tint) calc(var(--glow) * 100%), transparent);
+  background: color-mix(in oklab, var(--tint) calc(var(--glow) * 22%), transparent);
+  transition: box-shadow 90ms linear, background-color 90ms linear;
+}
+
+.who {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--text);
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.marks {
+  display: flex;
+  gap: 6px;
+  min-height: 16px;
+}
+
+.mark {
+  font-size: 11px;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--text-dimmer);
+}
+
+.mark[data-share] {
+  color: var(--accent-light);
+}
+
+/* ── Facts ─────────────────────────────────────────────── */
+
+.facts {
+  margin: 36px 0 0;
+  border-top: 1px solid var(--border);
+}
+
+.fact {
+  display: grid;
+  grid-template-columns: minmax(0, 200px) minmax(0, 1fr);
+  gap: 8px 24px;
+  padding: 13px 2px;
+  border-bottom: 1px solid var(--border);
+}
+
+.fact dt {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--text-dimmer);
+  padding-top: 2px;
+}
+
+.fact dd {
+  margin: 0;
+  font-size: 15.5px;
+  line-height: 1.55;
+  color: var(--text);
+}
+
+/* ── Text one side, drawing the other ──────────────────── */
+
+.split {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 44px;
+  align-items: center;
+  margin-top: 80px;
+}
+
+.splitCopy {
+  min-width: 0;
+}
+
+/* The same size as .subTitle, without its 80px lead-in: the grid already
+   provides the space, and the heading has to sit level with the drawing. */
+.subTitleTight {
+  font-size: clamp(22px, 2.4vw, 30px);
+  font-weight: 800;
+  letter-spacing: -0.024em;
+  line-height: 1.12;
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+  min-width: 0;
+  margin: 0 0 16px;
+}
+
+/* ── Share and indicator ───────────────────────────────── */
+
+.share,
+.indicator {
+  margin: 32px 0 0;
+}
+
+.share img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+.indicator {
+  max-width: 528px;
+}
+
+.share figcaption,
+.indicator figcaption {
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--text-dimmer);
+  margin-top: 12px;
+  max-width: 58ch;
+}
+
+@media (max-width: 900px) {
+  .split {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 28px;
+  }
+}
+
+@media (max-width: 820px) {
+  .section {
+    padding: 68px 16px;
+  }
+
+  .subTitle {
+    margin-top: 60px;
+  }
+
+  .split {
+    margin-top: 60px;
+  }
+
+  .fact {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 4px;
+  }
+}

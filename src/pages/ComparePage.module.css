@@ -1,37 +1,13 @@
-.section {
-  padding: 100px 24px;
-  border-top: 1px solid var(--border);
+/* A page now, not a front-page section. `120px` of head room is what the other
+   content pages leave for the floating navbar to sit over. */
+.page {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 120px 24px 96px;
 }
 
-.inner { max-width: var(--max-w); margin: 0 auto; }
 
-.eyebrow {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: 14px;
-}
 
-.heading {
-  font-size: clamp(28px, 3.6vw, 44px);
-  font-weight: 800;
-  letter-spacing: -0.028em;
-  line-height: 1.1;
-  max-width: 24ch;
-  text-wrap: balance;
-}
-
-.lede {
-  margin-top: 14px;
-  margin-bottom: 34px;
-  font-size: 17px;
-  line-height: 1.65;
-  color: var(--text-dim);
-  max-width: 58ch;
-}
 
 /* Value cells. "Free" is the one that should catch the eye going down the
    column, so it is the only one that gets the accent. */

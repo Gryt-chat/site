@@ -1,18 +1,51 @@
+/* The one section that lifts off the page.
+ *
+ * It is the last thing the page asks of anybody, and somebody scrolling for a
+ * download button should not have to read a heading to find it. A raised
+ * surface and a rule top and bottom is enough to separate it, and it is the
+ * cheap version on purpose.
+ *
+ * A full accent ground was built and rejected. It was unmissable and it passed
+ * contrast, but on an accent ground the accent-filled Download buttons have to
+ * stop being accent — so the loudest thing on the site loses its colour exactly
+ * where it is most wanted. It also needed about twenty token overrides across
+ * both prefixes to stop Gryt UI's components drawing themselves for a dark
+ * page, which is a lot of machinery for a background. */
 .section {
   padding: 100px 24px;
+  background: var(--bg-raised);
   border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
 }
 
 /* No border and no background of its own. A bordered panel holding bordered
    download cards is a card inside a card, and the outer one was the wrong
    layer: it framed the options instead of letting them sit on the page. */
+/* Centred, because this is the last thing the page asks of anybody and a
+   closing ask that sits in the left column reads like another paragraph. The
+   cards below it keep their own alignment; only the head and the tabs centre. */
 .box {
   max-width: var(--max-w);
   margin: 0 auto;
   position: relative;
+  text-align: center;
+}
+
+.eyebrow {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--accent);
+  margin: 0 0 12px;
 }
 
 .title {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 20ch;
+  overflow-wrap: anywhere;
+  min-width: 0;
   font-size: clamp(28px, 3.6vw, 44px);
   font-weight: 800;
   letter-spacing: -0.028em;
@@ -24,8 +57,8 @@
 /* The lede is the section's own, not a shared .section-desc, so it can hold a
    measure rather than inherit one. */
 .desc {
-  margin: 0 0 32px;
-  max-width: 56ch;
+  margin: 0 auto 34px;
+  max-width: 54ch;
   font-size: 17px;
   line-height: 1.65;
   color: var(--text-dim);
@@ -35,7 +68,6 @@
 
 .osTabs {
   display: flex;
-  gap: 4px;
   justify-content: center;
   margin-bottom: 24px;
   background: var(--bg-card);
@@ -54,8 +86,13 @@
    What is left is the corner. Gryt UI's Button is a full pill; a pill inside
    the tab strip's own rounded rectangle leaves four crescents of card showing
    at the ends. `--radius-sm` sits it back inside the track. */
+/* Gryt UI's Tab lays its children out itself; all this adds is the gap between
+   the platform icon and its name, which a tab with an icon in it needs and a
+   plain text tab does not. */
 .osTab {
-  border-radius: var(--radius-sm);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
 }
 
 /* ── Coming soon badge ──────────────────────────────────── */
@@ -275,4 +312,42 @@
      the site's own button, and the rule went on matching nothing — stacked
      buttons kept their content width on a phone and nothing said so. */
   .altActions :global(.gryt-button) { width: 100%; max-width: 280px; }
+}
+
+/* The head and the tabs are centred; anything with rows in it is not. Centred
+   body text in a list of file names and sizes is unreadable. */
+/* The head and the tabs are centred; anything with rows in it is not. Centred
+   body text in a list of file names and sizes is unreadable. The list itself is
+   centred as a block, which is what stops the whole section reading as
+   left-aligned with a centred title stuck on top. */
+.downloadList,
+.comingSoonPanel,
+.fallback,
+.loading {
+  max-width: 720px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: left;
+}
+
+.card,
+.note {
+  text-align: left;
+}
+
+.altActions {
+  justify-content: center;
+}
+
+.divider {
+  max-width: 720px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.note {
+  max-width: 62ch;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
 }

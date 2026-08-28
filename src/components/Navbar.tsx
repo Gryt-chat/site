@@ -1,49 +1,186 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useLayoutEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button, Dialog } from "@gryt/ui";
-import { MdMenu, MdClose } from "react-icons/md";
+import { MdMenu, MdClose, MdArrowDownward } from "react-icons/md";
 import { GrytLogo } from "./GrytLogo";
+import { actions, community, navBar, reading, type SiteLink } from "../data/siteLinks";
+import { useLatestDownload } from "../lib/useLatestDownload";
+import { useTravellingUnderline } from "./useTravellingUnderline";
 import styles from "./Navbar.module.css";
 
 /**
- * The bar carries three links. Blog, Feedback and GitHub moved to the footer,
- * which already listed all three — six links plus two buttons was a directory,
- * and the two things a visitor is actually here to do were competing with it.
+ * Both lists come out of `src/data/siteLinks.ts`, which is the point of that
+ * file: the bar and the footer used to hold a copy each, and they drifted —
+ * `Blog` was in the mobile sheet and not on the desktop bar, and `Compared` did
+ * not exist in either.
  *
- * The mobile sheet keeps the full set, because a sheet has the room and
- * somebody who opened it is looking for something specific.
+ * The bar carries four, because two buttons sit beside them and six links plus
+ * two buttons is a directory rather than a decision. Blog and Changelog are for
+ * people who already use Gryt, so they wait in the sheet and the footer, and
+ * `Compared` joined them there when /developers and /self-hosting arrived.
+ *
+ * Everything sits hard right against the viewport edge, with the wordmark hard
+ * left and nothing in between. `Navbar.module.css` has the reasoning.
  */
-const navLinks = [
-  { href: "/why-gryt", label: "Why Gryt?", external: false, isRoute: true },
-  { href: "/changelog", label: "Changelog", external: false, isRoute: true },
-  { href: "https://docs.gryt.chat", label: "Docs", external: true },
-];
+const navLinks = navBar.map((l) => ({
+  href: l.href,
+  label: l.label,
+  external: !l.route,
+  isRoute: !!l.route,
+}));
 
+/**
+ * By label rather than by index. `getGoing[3]` would keep compiling and quietly
+ * point somewhere else the day somebody reorders the list, which is the class of
+ * drift this file was made to stop.
+ */
+const pick = (from: SiteLink[], label: string): SiteLink | null => {
+  const hit = from.find((l) => l.label === label);
+  if (!hit) {
+    // Warn and drop, rather than throw. Throwing was the first version, and it
+    // took the whole site down over one renamed footer link — while `yarn build`
+    // stayed green, because the build writes meta shells and never renders a
+    // component. A missing nav link is a bad afternoon; a white page is worse.
+    console.warn(`siteLinks has no "${label}" — the navbar expected one and dropped it`);
+    return null;
+  }
+  return hit;
+};
+
+const asNav = (l: SiteLink) => ({
+  href: l.href,
+  label: l.label,
+  external: !l.route,
+  isRoute: !!l.route,
+});
+
+/* The sheet keeps everything the bar dropped. There is no width argument on a
+   full-height sheet, so nothing has to lose. */
 const sheetLinks = [
   ...navLinks,
-  { href: "/blog", label: "Blog", external: false, isRoute: true },
-  { href: "https://feedback.gryt.chat", label: "Feedback", external: true },
-  { href: "https://github.com/Gryt-chat/gryt", label: "GitHub", external: true },
+  ...[
+    pick(reading, "Compared"),
+    pick(reading, "Blog"),
+    pick(reading, "Changelog"),
+    pick(community, "Feedback"),
+  ]
+    .filter((l): l is SiteLink => l !== null)
+    .map(asNav),
+  { href: "https://github.com/Gryt-chat/gryt", label: "GitHub", external: true, isRoute: false },
 ];
 
-export function Navbar() {
-  const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+/**
+ * The one control on the page that does real work.
+ *
+ * It knows which platform you are on and which build is current, and it hands
+ * you that file rather than scrolling you to a section or dropping you on a
+ * releases list to guess. Until the release lands it says "Download" and
+ * scrolls to the section, which is also what it does if GitHub rate-limits the
+ * call — sixty unauthenticated requests an hour per address, which a shared
+ * office will reach.
+ */
+function DownloadAction() {
+  const { osName, option } = useLatestDownload();
   const location = useLocation();
   const navigate = useNavigate();
 
-  const close = useCallback(() => setOpen(false), []);
+  /**
+   * The button starts as "Download" and becomes "Download for macOS" the moment
+   * the release call comes back — a jump of about seventy pixels in a row that
+   * is right-aligned, so everything to its left jumps with it.
+   *
+   * The width is measured off the content and transitioned to. React writes the
+   * pixel value on commit and CSS animates it, rather than framer-motion
+   * driving the value: motion applies values through a `requestAnimationFrame`
+   * loop, and rAF is throttled to nothing in a background tab. That would be
+   * benign here — no animation, correct width — but it also makes the whole
+   * thing unverifiable, and the same rAF assumption was already a real bug in
+   * the nav underline an hour ago.
+   *
+   * `settled` is the first-measurement guard: the button has no business
+   * animating from zero on load, only from one real width to the next.
+   *
+   * `overflow: clip` on the wrapper rather than `hidden`, because `hidden` makes
+   * a scroll container and this one has a `position: fixed` ancestor — the same
+   * reason `index.css` clips `html, body`. The clip margin keeps the focus ring
+   * from being cut off with the overflow.
+   */
+  const inner = useRef<HTMLDivElement>(null);
+  const measured = useRef(false);
+  const [width, setWidth] = useState<number | null>(null);
+  const [settled, setSettled] = useState(false);
 
   /**
-   * The pill is transparent over the hero and picks up its surface once you
-   * leave the fold, so nothing sits on top of the artwork until it has to.
+   * On commit, synchronously, before the browser paints.
+   *
+   * A ResizeObserver was the first version and it is the wrong primary: its
+   * callbacks are delivered as part of the rendering steps, so in a tab that is
+   * not rendering it never fires at all and the width is never written. A
+   * layout effect runs whether or not anything is being painted.
+   */
+  useLayoutEffect(() => {
+    const el = inner.current;
+    if (!el) return;
+    setWidth(el.offsetWidth);
+    setSettled(measured.current);
+    measured.current = true;
+  }, [option, osName]);
+
+  /**
+   * And then the reflows React cannot see: the variable font finishing loading
+   * and every label getting a pixel wider. Supplementary — everything above
+   * still holds if this never runs.
    */
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    const el = inner.current;
+    if (!el || typeof ResizeObserver === "undefined") return;
+    const ro = new ResizeObserver(() => setWidth(el.offsetWidth));
+    ro.observe(el);
+    return () => ro.disconnect();
   }, []);
+
+  const toSection = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (location.pathname !== "/") {
+      navigate("/#download");
+      return;
+    }
+    document.getElementById("download")?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  return (
+    <div
+      className={styles.downloadSlot}
+      data-settled={settled ? "" : undefined}
+      style={width != null ? { width } : undefined}
+    >
+      <div className={styles.downloadInner} ref={inner}>
+        {option ? (
+          <Button
+            render={<a href={option.url} download />}
+            size="small"
+            className={styles.download}
+          >
+            <MdArrowDownward size={15} aria-hidden="true" />
+            <span>Download for {osName}</span>
+          </Button>
+        ) : (
+          <Button onClick={toSection} render={<a href="#download" />} size="small">
+            Download
+          </Button>
+        )}
+      </div>
+    </div>
+  );
+}
+
+export function Navbar() {
+  const [open, setOpen] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { listRef, at, settled } = useTravellingUnderline<HTMLUListElement>();
+
+  const close = useCallback(() => setOpen(false), []);
 
   const scrollToDownload = useCallback(
     (e: React.MouseEvent) => {
@@ -68,56 +205,80 @@ export function Navbar() {
   );
 
   return (
-    <nav className={`${styles.nav} ${scrolled ? styles.scrolled : ""}`}>
+    <nav className={styles.nav}>
       <div className={styles.inner}>
         <Link to="/" className={styles.brand} onClick={handleBrandClick}>
           <GrytLogo size={32} />
           Gryt
         </Link>
 
-        {/* Desktop links */}
-        <ul className={styles.links}>
-          {navLinks.map((link) => (
-            <li key={link.href}>
-              {link.isRoute ? (
-                <Link className={styles.navLink} to={link.href}>{link.label}</Link>
-              ) : link.external ? (
-                <a
-                  className={styles.navLink}
-                  href={link.href}
-                  rel="noreferrer"
-                  target="_blank"
-                >
-                  {link.label}
-                </a>
-              ) : (
-                <a className={styles.navLink} href={link.href}>{link.label}</a>
-              )}
-            </li>
-          ))}
-          <li>
-            <a
-              href="https://app.gryt.chat"
-              className={styles.openApp}
-            >
-              Open App
-            </a>
-          </li>
-          {/* shrink-0 on the li, not the button: the li is the flex item, and a
-              flex item squeezed below its content takes its children with it.
-              Gryt UI's small button is a shade wider than the hand-rolled one
-              it replaced, which was enough to tip the row over and clip the
-              label to "Downloa". */}
-          <li className="shrink-0">
-            <Button
-              onClick={scrollToDownload}
-              render={<a href="#download" />}
-              size="small"
-            >
-              Download
-            </Button>
-          </li>
-        </ul>
+        {/* Desktop links.
+
+            The four destinations are their own list so the underline has a
+            positioned box to travel inside that stops before the actions —
+            "Open in browser" and Download are not places you can be, so the
+            mark has no business under them. */}
+        <div className={styles.right}>
+          <ul className={styles.links} ref={listRef}>
+            {navLinks.map((link) => (
+              <li key={link.href}>
+                {link.isRoute ? (
+                  <Link
+                    className={styles.navLink}
+                    to={link.href}
+                    aria-current={location.pathname === link.href ? "page" : undefined}
+                  >
+                    {link.label}
+                  </Link>
+                ) : link.external ? (
+                  <a
+                    className={styles.navLink}
+                    href={link.href}
+                    rel="noreferrer"
+                    target="_blank"
+                  >
+                    {link.label}
+                  </a>
+                ) : (
+                  <a className={styles.navLink} href={link.href}>{link.label}</a>
+                )}
+              </li>
+            ))}
+
+            {/* One mark for the whole row, placed in the list's own
+                coordinates. `data-settled` is what stops it sliding in from
+                the left edge the first time it appears. */}
+            <span
+              className={styles.underline}
+              aria-hidden="true"
+              data-on={at ? "" : undefined}
+              data-settled={settled ? "" : undefined}
+              style={
+                at
+                  ? ({
+                      "--ul-left": `${at.left}px`,
+                      "--ul-width": `${at.width}px`,
+                    } as React.CSSProperties)
+                  : undefined
+              }
+            />
+          </ul>
+
+          <span aria-hidden="true" className={styles.rule} />
+
+          <a href="https://app.gryt.chat" className={styles.openApp}>
+            {actions.openApp.label}
+          </a>
+
+          {/* shrink-0 on the wrapper, not the button: it is the flex item, and
+              a flex item squeezed below its content takes its children with
+              it. Gryt UI's small button is a shade wider than the hand-rolled
+              one it replaced, which was enough to tip the row over and clip
+              the label to "Downloa". */}
+          <div className="shrink-0">
+            <DownloadAction />
+          </div>
+        </div>
 
         {/* Mobile hamburger */}
         <Dialog.Root open={open} onOpenChange={setOpen}>
@@ -196,7 +357,7 @@ export function Navbar() {
                   className={`${styles.openApp} ${styles.openAppMobile}`}
                   onClick={close}
                 >
-                  Open App
+                  {actions.openApp.label}
                 </a>
                 <Button
                   className="w-full"

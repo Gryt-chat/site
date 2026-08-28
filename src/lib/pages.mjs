@@ -24,9 +24,27 @@ export const STATIC_PAGES = [
     description: "Why we built an open-source, self-hosted voice, video and text chat platform.",
   },
   {
+    path: "developers",
+    title: "For developers",
+    description:
+      "Gryt's published packages, the bot SDK, the APIs, the voice engine and the design system.",
+  },
+  {
+    path: "self-hosting",
+    title: "Self-hosting",
+    description:
+      "How to run a Gryt server, from the app on your desk to a Helm chart, and what a server owner decides.",
+  },
+  {
     path: "blog",
     title: "Blog",
     description: "Stories, updates, and technical deep-dives from the Gryt team.",
+  },
+  {
+    path: "compare",
+    title: "Gryt vs Discord and TeamSpeak",
+    description:
+      "What the same features cost on Discord and TeamSpeak, including the rows where Gryt loses.",
   },
   {
     path: "changelog",

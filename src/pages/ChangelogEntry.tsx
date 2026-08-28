@@ -3,6 +3,7 @@ import { useParams, Link, Navigate } from 'react-router-dom'
 import { MdChevronLeft } from 'react-icons/md'
 import { useAllReleases, findRelease, type AnyRelease } from '../lib/changelog'
 import { pageTitle } from '../lib/title'
+import { Clip } from '../components/Clip'
 import { LightboxImage } from '../components/Lightbox'
 import styles from './ChangelogEntry.module.css'
 import type { ComponentPropsWithoutRef } from 'react'
@@ -20,49 +21,12 @@ function MdxImage(props: ComponentPropsWithoutRef<'img'>) {
   return <LightboxImage {...props} />
 }
 
-/**
- * A clip in release notes plays itself, silently, forever.
- *
- * These are screen recordings of an interface — a speaking ring pulsing, a
- * layout rearranging — so they are closer to an animated image than to video.
- * Nobody wants to press play on a four second loop, and nobody wants sound
- * from a page they are reading.
- *
- * The attributes are set here rather than per post so a note cannot ship a clip
- * that autoplays with sound. `muted` and `playsInline` are also what make
- * autoplay work at all: iOS refuses fullscreen-by-default inline video, and
- * every browser refuses to autoplay anything audible.
- */
-function Clip({
-  src,
-  av1,
-  ...props
-}: Omit<ComponentPropsWithoutRef<'video'>, 'children'> & { av1?: string }) {
-  return (
-    <video
-      {...props}
-      autoPlay
-      muted
-      loop
-      playsInline
-      controls={false}
-      preload="metadata"
-    >
-      {/* AV1 first: it holds far more detail per byte, which matters for a
-          screen recording where the interesting part is a thin ring. Browsers
-          that cannot decode it — Safari without hardware AV1, mostly — fall
-          through to the H.264 copy, which is encoded well past the point of
-          visible loss rather than merely small. */}
-      {av1 && <source src={av1} type="video/mp4; codecs=av01.0.05M.08" />}
-      <source src={src} type="video/mp4" />
-    </video>
-  )
-}
-
 // Clip is a named component rather than a `video` override because MDX only
 // routes markdown-generated elements through this map — a literal <video> tag
-// in a note would render with none of these attributes, which is exactly the
-// failure this exists to prevent.
+// in a note would render with none of its attributes, which is exactly the
+// failure it exists to prevent. It lives in components/ now because the front
+// page shows captures too, and two answers to "how does a clip behave" is one
+// too many.
 const components = { a: MdxLink, img: MdxImage, Clip }
 
 /**

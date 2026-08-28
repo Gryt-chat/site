@@ -1,0 +1,164 @@
+/* Hallmark · genre: atmospheric-technical · design-system: design.md · designed-as-app */
+
+.carousel {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Everything below reads its colours from the preset's own variables, which
+   `createGrytTheme` puts on this element inline. `--gryt-*` rather than the
+   site's aliases on purpose: the aliases point at `--gryt-*` already, so a
+   rule here that used `var(--bg)` would resolve against the page and stay the
+   page's colour while everything around it changed. */
+.preview {
+  background: var(--gryt-bg);
+  border: 1px solid var(--gryt-border);
+  border-radius: var(--gryt-radius-lg);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  /* Held still so the panel does not resize as the message lines change
+     length between themes — a box that jumps every 3.6 seconds is a box you
+     cannot read. */
+  min-height: 232px;
+  transition: background-color 0.35s ease, border-color 0.35s ease;
+}
+
+.previewHead {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--gryt-border);
+}
+
+.previewChannel {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--gryt-text);
+}
+
+.previewHead > :last-child {
+  margin-left: auto;
+}
+
+.previewLines {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex: 1;
+}
+
+.previewLines li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.previewWho {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--gryt-text);
+  flex-shrink: 0;
+}
+
+.previewSays {
+  font-size: 13.5px;
+  color: var(--gryt-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+}
+
+.previewFoot {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.previewBox {
+  flex: 1;
+  min-width: 0;
+  font-size: 13.5px;
+  color: var(--gryt-muted);
+  background: var(--gryt-surface);
+  border: 1px solid var(--gryt-border);
+  border-radius: var(--gryt-radius-md);
+  padding: 9px 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ── The pager ─────────────────────────────────────────── */
+
+/* Back on the page's own tokens: the controls belong to gryt.chat, not to
+   whichever theme happens to be on screen. */
+.pager {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.arrow {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  color: var(--text-dim);
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.arrow:hover {
+  color: var(--text);
+  border-color: var(--accent);
+}
+
+.arrow:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.presetName {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  /* Fixed, so the two arrows do not slide inwards on "Ice" and outwards on
+     "Catppuccin". */
+  min-width: 148px;
+  text-align: center;
+}
+
+.presetLabel {
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: -0.014em;
+  color: var(--text);
+}
+
+.presetCount {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  color: var(--text-dimmer);
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 820px) {
+  .preview {
+    min-height: 216px;
+  }
+}

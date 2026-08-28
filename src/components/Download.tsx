@@ -12,7 +12,7 @@ import {
   type OS,
   type Release,
 } from "../lib/releases";
-import { Button, Divider } from "@gryt/ui";
+import { Alert, Button, Chip, Divider, Spinner, Tabs } from "@gryt/ui";
 
 const OS_LABELS: Record<OS, { label: string; icon: typeof FaWindows; comingSoon?: boolean }> = {
   windows: { label: "Windows", icon: FaWindows },
@@ -22,19 +22,43 @@ const OS_LABELS: Record<OS, { label: string; icon: typeof FaWindows; comingSoon?
   android: { label: "Android", icon: FaAndroid, comingSoon: true },
 };
 
-function OSTab({ os, active, onClick }: { os: OS; active: boolean; onClick: () => void }) {
-  const { label, icon: Icon, comingSoon } = OS_LABELS[os];
+/**
+ * The platform picker is Gryt UI's `Tabs`, indicator and all.
+ *
+ * It was a row of hand-rolled buttons toggling `aria-pressed`, which is the
+ * wrong control twice over: a set of buttons where one is "on" is a tab list
+ * wearing a disguise, and it meant no arrow-key navigation and none of the
+ * sliding indicator the library already draws.
+ */
+const OS_ORDER = ["windows", "macos", "linux", "ios", "android"] as const;
+
+function OSTabs({
+  value,
+  onChange,
+}: {
+  value: OS;
+  onChange: (os: OS) => void;
+}) {
   return (
-    <Button
-      aria-pressed={active}
-      className={styles.osTab}
-      onClick={onClick}
-      tone={active ? "primary" : "ghost"}
+    <Tabs
+      className={styles.osTabs}
+      value={value}
+      onValueChange={(next) => onChange(next as OS)}
     >
-      <Icon size={16} />
-      {label}
-      {comingSoon && <span className={styles.comingSoon}>In dev</span>}
-    </Button>
+      <Tabs.List aria-label="Platform">
+        {OS_ORDER.map((os) => {
+          const { label, icon: Icon, comingSoon } = OS_LABELS[os];
+          return (
+            <Tabs.Tab className={styles.osTab} key={os} value={os}>
+              <Icon size={16} />
+              {label}
+              {comingSoon && <Chip label="In dev" tone="neutral" />}
+            </Tabs.Tab>
+          );
+        })}
+        <Tabs.Indicator />
+      </Tabs.List>
+    </Tabs>
   );
 }
 
@@ -85,22 +109,21 @@ export function Download() {
   return (
     <section className={styles.section} id="download">
       <div className={styles.box}>
-        <h2 className={styles.title}>Get it and go.</h2>
+        {/* The heading says the word people are scanning for.
+            It used to be "Somewhere for your people, in about a minute." — a
+            benefit line that never said "download" anywhere, on the one section
+            somebody arrives at having already decided. The eyebrow moved to
+            carry the minute, because that is the reassurance and the heading is
+            the signpost. */}
+        <p className={styles.eyebrow}>About a minute</p>
+        <h2 className={styles.title}>Download Gryt.</h2>
         <p className={styles.desc}>
-          The desktop app gives you global push-to-talk and the rest of it. The
-          browser gives you a call in about ten seconds.
+          The desktop app is the one that hosts servers and does global
+          push-to-talk. The browser gets you into a call in about ten seconds and
+          needs nothing installed.
         </p>
 
-        <div className={styles.osTabs}>
-          {(["windows", "macos", "linux", "ios", "android"] as const).map((os) => (
-            <OSTab
-              key={os}
-              os={os}
-              active={selectedOS === os}
-              onClick={() => setSelectedOS(os)}
-            />
-          ))}
-        </div>
+        <OSTabs value={selectedOS} onChange={setSelectedOS} />
 
         {OS_LABELS[selectedOS].comingSoon && (
           <div className={styles.comingSoonPanel}>
@@ -119,7 +142,9 @@ export function Download() {
 
         {!OS_LABELS[selectedOS].comingSoon && error && (
           <div className={styles.fallback}>
-            <p>Could not load releases.</p>
+            <Alert severity="warning">
+              Could not reach GitHub for the release list.
+            </Alert>
             <Button
               render={<a href="https://github.com/Gryt-chat/gryt/releases" target="_blank" rel="noreferrer" />}
               tone="neutral"
@@ -131,7 +156,10 @@ export function Download() {
         )}
 
         {!OS_LABELS[selectedOS].comingSoon && !error && !release && (
-          <div className={styles.loading}>Loading releases…</div>
+          <div className={styles.loading}>
+            <Spinner size={18} />
+            Looking up the latest release…
+          </div>
         )}
 
         {!OS_LABELS[selectedOS].comingSoon && !error && release && options.length > 0 && (

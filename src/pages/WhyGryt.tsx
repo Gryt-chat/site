@@ -7,7 +7,6 @@ import styles from "./WhyGryt.module.css";
 const DOCS_WHY_GRYT_URL = "https://docs.gryt.chat/docs/guide/why-gryt";
 const DOCS_ARCH_URL = "https://docs.gryt.chat/docs/guide/architecture";
 const DOCS_ACCOUNTS_URL = "https://docs.gryt.chat/docs/guide/accounts";
-const DOCS_EMBEDDED_URL = "https://docs.gryt.chat/docs/deployment/embedded";
 const DOCS_TUNNEL_URL =
   "https://docs.gryt.chat/docs/deployment/cloudflare-tunnel";
 
@@ -130,30 +129,23 @@ export function WhyGryt() {
       <Answer q="Where does the server run?">
         <p>
           Wherever you put it. The desktop app has a full server inside it, so
-          you can host one without a terminal, and it will run several at once.
-          They share a media server, which is what makes the second one cost a
-          process rather than a stack.
+          you can host one without a terminal, and the same server runs under
+          Docker Compose or Helm on a machine that should stay up when your
+          laptop closes.
         </p>
         <p>
-          On a machine that should stay up when your laptop closes, the same
-          server runs under Docker Compose or Helm. On a LAN, servers announce
-          themselves and turn up in the client without anyone typing an address.
-        </p>
-        <p>
-          Reaching it from outside your network means opening a port either way.
-          A{" "}
+          Reaching it from outside your own network means opening a port either
+          way. A{" "}
           <a href={DOCS_TUNNEL_URL} target="_blank" rel="noreferrer">
             Cloudflare Tunnel
           </a>{" "}
           takes care of the HTTPS and WebSocket side without exposing those, but
-          voice is WebRTC over UDP and a tunnel cannot carry it. The SFU&rsquo;s
-          UDP range has to be reachable directly.
+          voice is WebRTC over UDP and a tunnel cannot carry it. That is one
+          port rather than a range, and it has to be reachable directly.
         </p>
         <p>
-          <a href={DOCS_EMBEDDED_URL} target="_blank" rel="noreferrer">
-            Hosting from the app
-          </a>{" "}
-          covers the first case.
+          <Link to="/self-hosting">Self-hosting</Link> is the how, in more
+          detail than a page about trust boundaries should carry.
         </p>
       </Answer>
 
@@ -183,8 +175,9 @@ export function WhyGryt() {
           Yes, and that is the common case. Most people run one Gryt server for
           a community, a team, or a group of friends. Starting one from the
           desktop app takes a name and a button, and a server that should
-          outlive the session is a single command on Linux. The architecture is
-          documented rather than implied.
+          outlive the session is a single command on Linux. On a network you
+          share, servers announce themselves and turn up in the client without
+          anybody typing an address.
         </p>
       </Answer>
 

@@ -1,75 +1,16 @@
-/* Hallmark · macrostructure: retained homepage · genre: atmospheric-technical
-   · tone: direct · anchor hue: periwinkle · pre-emit critique: P5 H5 E5 S5 R5 V5 */
+/* Hallmark · route: custom (bespoke) · structure: claim + demonstration, one
+   per section · idea: "the page runs Gryt rather than describing it"
+   · theme: Gryt tokens (project-locked, design.md) · gates: all-pass */
 
+/* The fold is mostly air, on purpose. The navbar is a floating pill over the
+   top of this, so the first line of type needs to clear it by more than the
+   pill's own height or the two read as one crowded block. */
 .hero {
   position: relative;
   overflow: hidden;
-  padding: 92px 24px 0;
+  padding: 152px 24px 0;
   isolation: isolate;
 }
-
-/* ── Ambient field ────────────────────────────────────────
-   Two slow-drifting accent washes and a faint grid. Animated on transform and
-   opacity only, and stopped entirely under reduced motion by the global rule
-   in index.css. */
-
-.field {
-  position: absolute;
-  inset: -20% -10% auto;
-  height: 900px;
-  z-index: -1;
-  pointer-events: none;
-}
-
-.blobA,
-.blobB {
-  position: absolute;
-  display: block;
-  border-radius: 50%;
-  filter: blur(90px);
-  will-change: transform;
-}
-
-.blobA {
-  width: 620px;
-  height: 620px;
-  left: 8%;
-  top: 6%;
-  background: radial-gradient(circle, color-mix(in oklab, var(--accent) 50%, transparent), transparent 68%);
-  animation: driftA 26s ease-in-out infinite alternate;
-}
-
-.blobB {
-  width: 720px;
-  height: 720px;
-  right: 4%;
-  top: 0;
-  background: radial-gradient(circle, rgba(97, 87, 216, 0.42), transparent 70%);
-  animation: driftB 32s ease-in-out infinite alternate;
-}
-
-.grid {
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(var(--border) 1px, transparent 1px),
-    linear-gradient(90deg, var(--border) 1px, transparent 1px);
-  background-size: 72px 72px;
-  opacity: 0.22;
-  mask-image: radial-gradient(ellipse 80% 60% at 50% 30%, #000 30%, transparent 75%);
-}
-
-@keyframes driftA {
-  from { transform: translate3d(0, 0, 0) scale(1); }
-  to { transform: translate3d(70px, 50px, 0) scale(1.12); }
-}
-
-@keyframes driftB {
-  from { transform: translate3d(0, 0, 0) scale(1.08); }
-  to { transform: translate3d(-80px, 40px, 0) scale(1); }
-}
-
-/* ── Content ──────────────────────────────────────────── */
 
 .inner {
   max-width: 880px;
@@ -81,49 +22,23 @@
   gap: 22px;
 }
 
-/* `align-items: center` centres the text's em box, and the em box carries
-   descender room the string barely uses: "Open source under AGPL-3.0" has one
-   descender, the p in Open. Measured on the rendered page, that drags the box
-   down enough to leave the cap band sitting 0.7px above the icon's ink centre,
-   which on a 1x display rounds to a whole pixel of disagreement. Pull the icon
-   up to meet the letters rather than nudging the text off its own baseline. */
-.badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  padding: 7px 16px 7px 9px;
-  border-radius: 999px;
-  border: 1px solid var(--border);
-  background: color-mix(in oklab, var(--bg-card) 70%, transparent);
-  backdrop-filter: blur(10px);
-  font-size: 13.5px;
-  color: var(--text-dim) !important;
-  transition: border-color 0.18s ease-out, color 0.18s ease-out;
+.eyebrow {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--accent);
+  margin: 0;
 }
-
-.badge svg {
-  flex: none;
-  transform: translateY(-0.7px);
-}
-
-.badge:hover {
-  border-color: var(--accent);
-  color: var(--text) !important;
-}
-
-.badgeArrow {
-  color: var(--accent-light);
-  transition: transform 0.18s ease-out;
-}
-
-.badge:hover .badgeArrow { transform: translateX(3px); }
 
 .title {
-  font-size: clamp(38px, 6.2vw, 76px);
+  font-size: clamp(38px, 6.2vw, 72px);
   line-height: 1.02;
   letter-spacing: -0.035em;
   font-weight: 800;
   text-wrap: balance;
+  overflow-wrap: anywhere;
+  min-width: 0;
   margin: 0;
 }
 
@@ -131,7 +46,7 @@
   font-size: clamp(17px, 1.6vw, 20px);
   line-height: 1.6;
   color: var(--text-dim);
-  max-width: 60ch;
+  max-width: 56ch;
   margin: 0;
 }
 
@@ -140,16 +55,12 @@
   gap: 12px;
   flex-wrap: wrap;
   justify-content: center;
-  margin-top: 6px;
+  margin-top: 12px;
 }
 
 /* Both actions are Gryt UI Buttons at `size="large"`, so the geometry, the
    weight, the pill and the press are the component's. What is left here is the
-   part the hero owns: a glow under the primary, and glass on the secondary.
-
-   The `color: #14161d !important` that used to sit on the primary is gone
-   twice over — Gryt UI paints its own ink, and the `!important` was only ever
-   there to beat the unlayered bare `a` rule that index.css no longer has. */
+   part the hero owns: a glow under the primary, and glass on the secondary. */
 
 .primary {
   box-shadow: 0 0 0 0 var(--accent-glow);
@@ -168,32 +79,72 @@
   transition: border-color 0.18s ease-out;
 }
 
-.secondary:hover { border-color: var(--accent); }
+.secondary:hover {
+  border-color: var(--accent);
+}
 
-/* ── Screenshot ───────────────────────────────────────── */
+/* Text, not a button. Two filled affordances and a third would be three equal
+   asks, and this one is for the minority who already know they want it. */
+.tertiary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 4px;
+  font-size: 15px;
+  font-weight: 700;
+  white-space: nowrap;
+  color: var(--text-dim);
+  transition: color 0.18s ease-out;
+}
+
+.tertiary:hover {
+  color: var(--accent-light);
+}
+
+.tertiary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+  border-radius: var(--radius-sm);
+}
+
+/* ── The capture ──────────────────────────────────────── */
 
 .shot {
   max-width: 1180px;
-  margin: 56px auto 0;
+  /* A long way below the buttons. The clip is the second thing on the page and
+     it should arrive as its own beat rather than as the bottom of the first
+     one. */
+  margin: 108px auto 0;
   border-radius: var(--radius-lg) var(--radius-lg) 0 0;
   border: 1px solid var(--border);
   border-bottom: 0;
   overflow: hidden;
-  box-shadow: 0 -1px 0 rgba(255, 255, 255, 0.04) inset,
+  box-shadow:
+    0 -1px 0 rgba(255, 255, 255, 0.04) inset,
     0 40px 90px -30px rgba(0, 0, 0, 0.75);
-  /* The shot runs off the bottom of the hero into the next section, which is
-     what makes the fold feel like it continues rather than stopping. */
+  /* It runs off the bottom of the hero into the next section, which is what
+     makes the fold feel like it continues rather than stopping. */
   mask-image: linear-gradient(to bottom, #000 76%, transparent 99%);
 }
 
-.shot img {
+.shot img,
+.shot video {
   width: 100%;
   height: auto;
   display: block;
+  /* The clip already carries the frame; a second one inside it would be a
+     border drawn on a border. */
+  border: 0;
+  border-radius: 0;
 }
 
 @media (max-width: 768px) {
-  .hero { padding: 56px 16px 0; }
-  .shot { margin-top: 40px; border-radius: var(--radius-md) var(--radius-md) 0 0; }
-  .grid { background-size: 48px 48px; }
+  .hero {
+    padding: 96px 16px 0;
+  }
+
+  .shot {
+    margin-top: 68px;
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+  }
 }
