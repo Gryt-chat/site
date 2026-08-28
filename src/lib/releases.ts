@@ -31,10 +31,51 @@ export interface DownloadOption {
 const LATEST =
   "https://api.github.com/repos/Gryt-chat/gryt/releases/latest";
 
+/**
+ * One request per page load, however many things ask for it.
+ *
+ * GitHub allows sixty unauthenticated calls an hour per address. The front page
+ * asks twice — the navbar's download button and the download section — and
+ * `/download` asks again, so without this a visitor who looks at two pages has
+ * spent four of their sixty, and an office behind one address burns through
+ * them in an afternoon. We hit the limit ourselves while building this, which
+ * is how it was found: the section rendered "Could not load releases" on a
+ * machine with a perfectly good internet connection.
+ *
+ * The promise is cached rather than the result, so callers that arrive while
+ * the first request is still open wait on it instead of starting a second. A
+ * failure is not cached: the next caller gets a fresh attempt, because the
+ * usual reason for failure is a rate limit that expires.
+ */
+let inFlight: Promise<Release> | null = null;
+
 export function fetchLatestRelease(signal?: AbortSignal): Promise<Release> {
-  return fetch(LATEST, { signal }).then((res) => {
-    if (!res.ok) throw new Error(`GitHub answered ${res.status}`);
-    return res.json() as Promise<Release>;
+  if (inFlight) return inFlight;
+
+  // Deliberately not passing `signal` to the shared fetch. One caller
+  // unmounting must not cancel the request every other caller is waiting on;
+  // the abort is honoured below, per caller, instead.
+  inFlight = fetch(LATEST)
+    .then((res) => {
+      if (!res.ok) throw new Error(`GitHub answered ${res.status}`);
+      return res.json() as Promise<Release>;
+    })
+    .catch((err) => {
+      inFlight = null;
+      throw err;
+    });
+
+  if (!signal) return inFlight;
+
+  const shared = inFlight;
+  return new Promise<Release>((resolve, reject) => {
+    if (signal.aborted) return reject(new DOMException("Aborted", "AbortError"));
+    signal.addEventListener(
+      "abort",
+      () => reject(new DOMException("Aborted", "AbortError")),
+      { once: true },
+    );
+    shared.then(resolve, reject);
   });
 }
 

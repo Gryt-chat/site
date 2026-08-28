@@ -478,24 +478,24 @@
   resolved "https://registry.yarnpkg.com/@floating-ui/utils/-/utils-0.2.12.tgz#afefe785949f16ac4cdd1e695935a321572dd56a"
   integrity sha512-HpCo8tmWzLVad5s2d19EhAz5zqrrQ6s69qd6moPMQvkOuSwDT1YgRfWSVuc4ennqrgv3OHppiOGMQ7oC13yIww==
 
-"@gryt/owl@^0.3.0":
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/@gryt/owl/-/owl-0.3.0.tgz#1795528570edda3016ebbdc216ffe127c09522c8"
-  integrity sha512-ozzIKcMQjQKGwKQ5wThedX2MyTL0hp6N5wxFchd6OcVXqjEtKP7n6kMNb6vIDm0Yt+s3gUZqLfadhHhRCBLLeA==
+"@gryt/owl@^0.5.0":
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/@gryt/owl/-/owl-0.5.0.tgz#93bfe7dad147349dd3f1fed7c02ee34535788a3d"
+  integrity sha512-jQ/UvQrnpPm9wuwwAIV/kKv6Et9F3HVmb95sRuPUYGvtcSZ3HcfiLMF5eqMECgt1V4mhsZdUuniLAHoDp97UcQ==
 
-"@gryt/theme@^0.6.0":
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/@gryt/theme/-/theme-0.6.0.tgz#cd874d27d1daf425a30e694bb15c61572e987578"
-  integrity sha512-VugKgDb2XKk0AzmpfjWU3JO0laTeYQZzUv+Jjcby0V5pwfm4ps12dvG2EfN/l7hvJzj7BzyZhjxENn4iph1YRQ==
+"@gryt/theme@^0.7.0":
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/@gryt/theme/-/theme-0.7.0.tgz#732e5186926a013c9f5b150f30670be2891108ef"
+  integrity sha512-b+DANFKylJYO3ux7nyKjwbU0fUxSH0Kwmyn0Y6CAefzfBqmVS+UnSvsmQCfxSAerj0R7Ms3/GH7fTylo01UEGA==
 
-"@gryt/ui@^0.20.1":
-  version "0.20.1"
-  resolved "https://registry.yarnpkg.com/@gryt/ui/-/ui-0.20.1.tgz#ed94240503a9a7a625093d1d52ffc2c7e7caa93d"
-  integrity sha512-qNTCW3mqV0gA0AEQdTJsRDEr0koJzUp//HXDA0izLuLWzZ1epkBDTmFQRD0xO8XdXzFDLfDm4DVxs8WHBfUIhA==
+"@gryt/ui@^0.21.1":
+  version "0.21.1"
+  resolved "https://registry.yarnpkg.com/@gryt/ui/-/ui-0.21.1.tgz#de77e00548c14c5b675edbfbf2e5f3264035f2f4"
+  integrity sha512-pXlbagB11ahfpft/wfzs57kjdJk5leoxP0j783HsEzraR2Pvd32Vgu3lX7qUNhQj2OtnGRmr+u3QavVQIUBc3Q==
   dependencies:
     "@base-ui/react" "^1.7.0"
-    "@gryt/owl" "^0.3.0"
-    "@gryt/theme" "^0.6.0"
+    "@gryt/owl" "^0.5.0"
+    "@gryt/theme" "^0.7.0"
     "@phosphor-icons/react" "^2.1.10"
     clsx "^2.1.1"
     tailwind-merge "^3.4.0"
@@ -773,6 +773,18 @@
   dependencies:
     "@tybys/wasm-util" "^0.10.3"
 
+"@noble/curves@^2.3.0":
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/@noble/curves/-/curves-2.3.0.tgz#0ac09b0c0fc3ceffbbe599c2e5685b5f59ab005d"
+  integrity sha512-v7cY+4oWYPQszRj6ZFGzTVL7uP2TaLo1xMhWHzYC5wj0ZhOXQ5x+sBre8rF3hi8cAoi0bh1qXoovoOkdFtvqEg==
+  dependencies:
+    "@noble/hashes" "2.3.0"
+
+"@noble/hashes@2.3.0", "@noble/hashes@^2.3.0":
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/@noble/hashes/-/hashes-2.3.0.tgz#505fd39c3134a37e67c8c4e6c6049a496154879c"
+  integrity sha512-oN+QwyX7VSHotibwubG3kpzbwKrfnyR6OOO+3Nk/53ADL7FmgHHz4TgrbaYKvvOw09u6QTx0oiH1cNCIOuN0CQ==
+
 "@phosphor-icons/react@^2.1.10":
   version "2.1.10"
   resolved "https://registry.yarnpkg.com/@phosphor-icons/react/-/react-2.1.10.tgz#3a97ec5b7a4b8d53afeb29125bc17e74ed2daf92"
@@ -916,6 +928,13 @@
   version "4.59.0"
   resolved "https://registry.yarnpkg.com/@rollup/rollup-win32-x64-msvc/-/rollup-win32-x64-msvc-4.59.0.tgz#4584a8a87b29188a4c1fe987a9fcf701e256d86c"
   integrity sha512-2HRCml6OztYXyJXAvdDXPKcawukWY2GpR5/nxKp4iBgiO3wcoEGkAaqctIbZcNB6KlUQBIqt8VYkNSj2397EfA==
+
+"@scure/bip39@^2.3.0":
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/@scure/bip39/-/bip39-2.3.0.tgz#38da3f75760e8b599eb0bfd4e52ed491e5ba4fff"
+  integrity sha512-qdyWuxoYwi3+YmqIsfkpz1I029m980WkVPilj+kG7VxSm+gKQ2BmQru3nv3LbMtpSUXuyZwdFT65JkpKu5OHOQ==
+  dependencies:
+    "@noble/hashes" "2.3.0"
 
 "@swc/helpers@^0.5.12":
   version "0.5.23"

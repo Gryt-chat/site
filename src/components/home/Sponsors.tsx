@@ -18,7 +18,20 @@ const SPONSOR_URL = "https://github.com/sponsors/Gryt-chat";
  * Current sponsors only. The full history, including one-off payments and when
  * each arrived, is at /sponsors: a payment from a year ago is not current, and
  * showing it here would either imply it is or need a caveat beside it.
+ *
+ * The empty slots are the point of the row.
+ *
+ * The $100 tier promises a logo on this page and the section said so only in
+ * the small print underneath, which meant somebody reading it saw a paragraph
+ * asking for money rather than the space their logo would occupy. Two outlined
+ * slots show the placement, sized exactly as a real logo is sized, so the offer
+ * is visible rather than described. They disappear once three logos are up —
+ * at that point the row is making the argument by itself and empty boxes beside
+ * it would read as sponsors who left.
  */
+const OPEN_SLOTS = 2;
+const SLOTS_UNTIL = 3;
+
 export function Sponsors() {
   const reduced = useReducedMotion() ?? false;
 
@@ -38,30 +51,38 @@ export function Sponsors() {
           Sponsors
         </motion.p>
         <motion.h2 className={styles.heading} variants={rise(reduced)}>
-          What sponsoring actually pays for
+          Gryt is free, and it is not asking you for money.
         </motion.h2>
         <motion.p className={styles.sub} variants={rise(reduced)}>
-          A domain, the box the auth stack runs on, and the Apple and Windows
-          signing certificates that stop the installer warning people off their
-          own download. That is the whole list. There is nothing to buy inside
-          Gryt.
+          There is nothing to buy inside it and nothing behind a subscription. If
+          you are feeling generous you can chip in, and it goes on a domain, the
+          box the auth stack runs on, and the Apple and Windows signing
+          certificates. Nothing here depends on it.
         </motion.p>
 
-        {logos.length > 0 && (
-          <motion.ul className={styles.logos} variants={rise(reduced)}>
-            {logos.map((s) => (
-              <li key={s.name} className={s.featured ? styles.featured : undefined}>
-                {s.href ? (
-                  <a href={s.href} target="_blank" rel="noreferrer">
-                    <img src={s.logo} alt={s.name} />
-                  </a>
-                ) : (
+        <motion.ul className={styles.logos} variants={rise(reduced)}>
+          {logos.map((s) => (
+            <li key={s.name} className={s.featured ? styles.featured : undefined}>
+              {s.href ? (
+                <a href={s.href} target="_blank" rel="noreferrer">
                   <img src={s.logo} alt={s.name} />
-                )}
+                </a>
+              ) : (
+                <img src={s.logo} alt={s.name} />
+              )}
+            </li>
+          ))}
+
+          {logos.length < SLOTS_UNTIL &&
+            Array.from({ length: OPEN_SLOTS }, (_, i) => (
+              <li key={`slot-${i}`} className={styles.slot}>
+                <a href={SPONSOR_URL} target="_blank" rel="noreferrer">
+                  <span className={styles.slotLine}>Your logo</span>
+                  <span className={styles.slotSub}>$100 a month</span>
+                </a>
               </li>
             ))}
-          </motion.ul>
-        )}
+        </motion.ul>
 
         {names.length > 0 && (
           <motion.ul className={styles.names} variants={rise(reduced)}>
@@ -88,9 +109,10 @@ export function Sponsors() {
             Sponsor Gryt
           </Button>
           <span className={styles.note}>
-            Names are listed from $25 a month, logos from $100.{" "}
-            <Link to="/sponsors">Everyone who has sponsored</Link>, including
-            one-off payments, is on its own page.
+            Names go up from $25 a month and logos from $100, and one-off
+            payments are just as welcome. The tiers are written out on the{" "}
+            <Link to="/sponsors">sponsors page</Link>, along with everybody who
+            has.
           </span>
         </motion.p>
       </motion.div>

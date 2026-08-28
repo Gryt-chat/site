@@ -1,118 +1,96 @@
 import { Link } from "react-router-dom";
 
+import { Button } from "@gryt/ui";
+
 import { GrytLogo } from "./GrytLogo";
-import { Chip } from "@gryt/ui";
+import {
+  community,
+  getGoing,
+  legal,
+  reading,
+  source,
+  type SiteLink,
+} from "../data/siteLinks";
 import styles from "./Footer.module.css";
 
 /**
- * Three groups rather than four columns of links above a social row above a
- * copyright tail, and the first group is the thing worth saying: every part of
- * Gryt is a repository you can read. The old shape gave equal weight to
- * "Roadmap" and "the entire media server".
+ * A sign-off, then the links.
+ *
+ * The previous version led with six repository cells and three rows of links,
+ * which was a directory wearing a footer's clothes. The page above it argues
+ * that Gryt belongs to you and is made by one person in the open; the footer
+ * should finish that sentence rather than start a new index.
+ *
+ * So: the closing line and the two actions first, at a size somebody will
+ * actually read. Everything else goes underneath in one quiet block, because a
+ * person hunting for the Mastodon account will find it there and a person who
+ * has just finished the page should not have to walk past it.
  */
-const repos = [
-  { href: "https://github.com/Gryt-chat/gryt", label: "Monorepo" },
-  { href: "https://github.com/Gryt-chat/client", label: "Client" },
-  { href: "https://github.com/Gryt-chat/server", label: "Server" },
-  { href: "https://github.com/Gryt-chat/sfu", label: "SFU" },
-  { href: "https://github.com/Gryt-chat/auth", label: "Auth" },
-  { href: "https://github.com/Gryt-chat/image-worker", label: "Image worker" },
+const groups: { title: string; links: SiteLink[] }[] = [
+  { title: "Get Gryt", links: getGoing },
+  { title: "Read", links: reading },
+  { title: "Talk to us", links: community },
+  { title: "Source", links: source },
 ];
 
-const groups = [
-  {
-    title: "Get started",
-    links: [
-      { href: "https://app.gryt.chat", label: "Open in browser", external: true },
-      { href: "https://github.com/Gryt-chat/gryt/releases", label: "Download", external: true },
-      { href: "https://docs.gryt.chat/docs/guide/quick-start", label: "Self-host guide", external: true },
-      { href: "https://docs.gryt.chat", label: "Documentation", external: true },
-      { href: "https://docs.gryt.chat/docs/guide/roadmap", label: "Roadmap", external: true },
-    ],
-  },
-  {
-    title: "Community",
-    links: [
-      // The invite itself lives in one place, the redirect in this repo's
-      // Dockerfile. See the note there for why it is not written out here.
-      { href: "https://gryt.chat/discord", label: "Discord", external: true },
-      { href: "https://mastodon.social/@gryt", label: "Mastodon", external: true, relMe: true },
-      { href: "https://bsky.app/profile/gryt.chat", label: "Bluesky", external: true },
-      { href: "https://www.reddit.com/r/Gryt/", label: "Reddit", external: true },
-      { href: "https://feedback.gryt.chat", label: "Feedback", external: true },
-    ],
-  },
-  {
-    title: "This site",
-    links: [
-      { href: "/why-gryt", label: "Why Gryt?", isRoute: true },
-      { href: "/blog", label: "Blog", isRoute: true },
-      { href: "/changelog", label: "Changelog", isRoute: true },
-      { href: "/sponsors", label: "Sponsors", isRoute: true },
-      { href: "/privacy", label: "Privacy", isRoute: true },
-      { href: "/terms", label: "Terms of use", isRoute: true },
-      { href: "/community-guidelines", label: "Guidelines", isRoute: true },
-      { href: "mailto:business@gryt.chat", label: "Business inquiries" },
-    ],
-  },
-] as const;
-
-type Link_ = { href: string; label: string; external?: boolean; isRoute?: boolean; relMe?: boolean };
-
-function FooterLink({ link }: { link: Link_ }) {
-  if (link.isRoute) return <Link to={link.href}>{link.label}</Link>;
-  if (link.external) {
-    return (
-      <a href={link.href} target="_blank" rel={link.relMe ? "me noreferrer" : "noreferrer"}>
-        {link.label}
-      </a>
-    );
-  }
-  return <a href={link.href}>{link.label}</a>;
+function FooterLink({ link }: { link: SiteLink }) {
+  if (link.route) return <Link to={link.href}>{link.label}</Link>;
+  // Anything that is not a route is either off-site or a mailto. Only the first
+  // wants a new tab.
+  if (link.href.startsWith("mailto:")) return <a href={link.href}>{link.label}</a>;
+  return (
+    <a href={link.href} target="_blank" rel={link.relMe ? "me noreferrer" : "noreferrer"}>
+      {link.label}
+    </a>
+  );
 }
 
 export function Footer() {
   return (
     <footer className={styles.footer}>
-      <div className={styles.inner}>
-        <div className={styles.lead}>
-          <div className={styles.brand}>
-            <GrytLogo size={30} />
-            Gryt
-          </div>
-          <p className={styles.pitch}>
-            Voice, text and video chat you host yourself. Every piece of it is
-            open source, down to the media server and the identity authority.
-          </p>
-          <nav className={styles.repos} aria-label="Repositories">
-            {repos.map((r) => (
-              <a key={r.href} href={r.href} target="_blank" rel="noreferrer">
-                <Chip>{r.label}</Chip>
-              </a>
-            ))}
-          </nav>
-        </div>
-
-        <div className={styles.groups}>
-          {groups.map((g) => (
-            <nav key={g.title} aria-label={g.title}>
-              <h2>{g.title}</h2>
-              <ul>
-                {g.links.map((l) => (
-                  <li key={l.href + l.label}>
-                    <FooterLink link={l} />
-                  </li>
-                ))}
-              </ul>
-            </nav>
-          ))}
+      <div className={styles.signoff}>
+        <GrytLogo size={44} />
+        <p className={styles.line}>
+          Made by one person, in the open, since 2022. Every part of it is a
+          repository you can read, and it will always be.
+        </p>
+        <div className={styles.actions}>
+          <Button render={<a href="https://app.gryt.chat" />} size="large">
+            Open in browser
+          </Button>
+          <Button render={<Link to="/download" />} size="large" tone="neutral">
+            Download
+          </Button>
         </div>
       </div>
 
-      <p className={styles.colophon}>
-        <span>AGPL-3.0</span>
-        <span>Built in the open since 2022</span>
-      </p>
+      <div className={styles.index}>
+        {groups.map((g) => (
+          <nav className={styles.group} key={g.title} aria-label={g.title}>
+            <h2>{g.title}</h2>
+            <ul>
+              {g.links.map((l) => (
+                <li key={l.href + l.label}>
+                  <FooterLink link={l} />
+                </li>
+              ))}
+            </ul>
+          </nav>
+        ))}
+      </div>
+
+      <div className={styles.colophon}>
+        <p className={styles.licence}>
+          <span>AGPL-3.0</span>
+        </p>
+        <ul className={styles.legal}>
+          {legal.map((l) => (
+            <li key={l.href}>
+              <FooterLink link={l} />
+            </li>
+          ))}
+        </ul>
+      </div>
     </footer>
   );
 }

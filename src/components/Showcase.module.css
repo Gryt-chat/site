@@ -1,0 +1,139 @@
+/* Hallmark · genre: atmospheric-technical · design-system: design.md · designed-as-app */
+
+/* Padding on the section and the width cap on the inner, matching every other
+   front-page section — the other way round puts this section's text 24px
+   inboard of the ones above and below it. */
+.section {
+  border-top: 1px solid var(--border);
+  padding: 100px 24px;
+}
+
+.inner {
+  max-width: var(--max-w);
+  margin: 0 auto;
+}
+
+.row {
+  display: grid;
+  gap: 40px;
+  align-items: center;
+}
+
+.row[data-split] {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 56px;
+}
+
+/* The media is given the wider column, not a larger scale — the copy stays at
+   a readable measure and the picture takes the difference. */
+.row[data-split][data-size="large"][data-side="right"] {
+  grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+}
+
+.row[data-split][data-size="large"][data-side="left"] {
+  grid-template-columns: minmax(0, 1.18fr) minmax(0, 0.82fr);
+}
+
+/* Placed by column rather than reordered, so the DOM keeps the reading order.
+   `copy` is written first and lands second when the media is on the left. */
+.row[data-split][data-side="left"] > .copy {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.row[data-split][data-side="left"] > .media {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.eyebrow {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--accent);
+  margin-bottom: 12px;
+}
+
+.title {
+  font-size: clamp(28px, 3.6vw, 44px);
+  font-weight: 800;
+  letter-spacing: -0.028em;
+  line-height: 1.08;
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+  min-width: 0;
+  margin-bottom: 16px;
+}
+
+/* The measure is on the body rather than on the section, so a full-width block
+   keeps a readable line length instead of running the width of the page. */
+.body {
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--text-dim);
+  max-width: 64ch;
+}
+
+.body p {
+  margin: 0 0 14px;
+}
+
+.body p:last-child {
+  margin-bottom: 0;
+}
+
+.media {
+  margin: 0;
+  min-width: 0;
+}
+
+.media img,
+.media video {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+.caption {
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--text-dimmer);
+  margin-top: 12px;
+  max-width: 58ch;
+}
+
+.below {
+  margin-top: 36px;
+}
+
+/* One column, media after the words, which is the order they are written in
+   and the order the DOM already has. Everything the two-column rules set has
+   to be undone here, including the explicit placement. */
+@media (max-width: 900px) {
+  .row[data-split],
+  .row[data-split][data-size="large"][data-side="right"],
+  .row[data-split][data-size="large"][data-side="left"] {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 32px;
+  }
+
+  .row[data-split][data-side="left"] > .copy,
+  .row[data-split][data-side="left"] > .media {
+    grid-column: auto;
+    grid-row: auto;
+  }
+}
+
+@media (max-width: 820px) {
+  .section {
+    padding: 68px 16px;
+  }
+
+  .row,
+  .row[data-split] {
+    gap: 28px;
+  }
+}

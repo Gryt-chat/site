@@ -1,11 +1,19 @@
-/* Tailwind first, so utilities are available to compose with; then Gryt UI's
-   stylesheet, then the site's token aliases which point at it.
+/* Gryt UI's stylesheet first, then Tailwind, then the site's token aliases.
    `@source` has to name the files Tailwind should scan — the site keeps its
-   components outside the default content globs. */
-@import "tailwindcss";
-@source "./**/*.{ts,tsx}";
+   components outside the default content globs.
+
+   The order matters and used to be the other way round. @gryt/ui ships its own
+   precompiled Tailwind utilities, so importing it after `tailwindcss` put the
+   library's unprefixed classes *after* this site's responsive variants. Same
+   layer, same specificity, so source order decided every tie: `.flex-col` from
+   the library beat `.md\:flex-row` from here, and the owl designer's three
+   panes stacked at 1440px with nothing in the console. Library first means the
+   site's utilities come last, which is the right direction anyway — a consumer
+   should be able to override a library with a utility class. */
 @import "@gryt/ui/styles.css";
+@import "tailwindcss";
 @import "./styles/tokens.css";
+@source "./**/*.{ts,tsx}";
 
 /* The blanket reset this file used to carry is gone, and its absence is
    load-bearing.
@@ -25,6 +33,30 @@
 html, body { overflow-x: clip; }
 
 html { scroll-behavior: smooth; scrollbar-color: var(--border) transparent; }
+
+/* Every anchor target clears the navbar.
+ *
+ * The bar is `position: fixed` and 68px tall, so anything scrolled to by a
+ * `#hash` or by `scrollIntoView` landed with its first line under the bar —
+ * the Download button in the nav scrolled you to a heading you could not read.
+ *
+ * `scroll-margin-top` rather than an offset in the click handler, because it
+ * fixes every route into the same target: the button, a pasted `#download`
+ * link, a browser restoring a hash on reload, and find-in-page. One property,
+ * and the handlers stay ignorant of the chrome.
+ *
+ * 68 for the bar and 32 of air, which is more than it needs to clear and is
+ * meant to be — landing exactly against the bar reads as being cut off. 60 and
+ * 24 under 900px, matching the shorter bar. */
+[id] {
+  scroll-margin-top: 100px;
+}
+
+@media (max-width: 900px) {
+  [id] {
+    scroll-margin-top: 84px;
+  }
+}
 
 /* The front page animates. This is the floor under all of it: anyone who has
    asked their OS to stop moving things gets a static page, including the

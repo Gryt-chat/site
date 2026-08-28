@@ -65,6 +65,41 @@
 
 .featured img { height: 44px; max-width: 280px; opacity: 1; }
 
+/* An empty placement, at the height a real logo is given, so the row shows the
+   offer rather than describing it underneath. Dashed and dim: it has to read as
+   a space that is free, never as a sponsor whose image failed to load. */
+.slot a {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+  height: 32px;
+  padding: 0 16px;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-dimmer);
+  transition: border-color 0.16s ease-out, color 0.16s ease-out;
+}
+
+.slot a:hover {
+  border-color: var(--accent);
+  color: var(--accent-light);
+  filter: none;
+}
+
+.slotLine {
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+}
+
+.slotSub {
+  font-size: 11px;
+  line-height: 1.1;
+  opacity: 0.75;
+}
+
 /* ── Name tier ────────────────────────────────────────── */
 
 .names {
@@ -125,5 +160,8 @@
   .section { padding: 68px 16px; }
   .logos { gap: 12px 28px; margin-top: 28px; padding-bottom: 24px; }
   .logos img { height: 26px; max-width: 150px; }
+  .slot a { height: 26px; padding: 0 12px; }
+  .slotLine { font-size: 11.5px; }
+  .slotSub { font-size: 10px; }
   .featured img { height: 34px; max-width: 200px; }
 }

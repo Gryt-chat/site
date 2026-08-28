@@ -1,148 +1,124 @@
 .section {
-  padding: 100px 24px;
   border-top: 1px solid var(--border);
+  padding: 100px 24px;
 }
 
-.inner { max-width: var(--max-w); margin: 0 auto; }
+.inner {
+  max-width: var(--max-w);
+  margin: 0 auto;
+}
 
 .eyebrow {
-  font-family: var(--font-mono);
   font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.18em;
+  font-weight: 700;
   text-transform: uppercase;
+  letter-spacing: 1.5px;
   color: var(--accent);
-  margin-bottom: 14px;
+  margin-bottom: 12px;
 }
 
 .heading {
   font-size: clamp(28px, 3.6vw, 44px);
   font-weight: 800;
   letter-spacing: -0.028em;
-  line-height: 1.1;
-  max-width: 20ch;
+  line-height: 1.08;
   text-wrap: balance;
+  overflow-wrap: anywhere;
+  min-width: 0;
+  margin-bottom: 16px;
 }
 
 .sub {
-  margin-top: 14px;
-  font-size: 17px;
-  line-height: 1.65;
-  color: var(--text-dim);
-  max-width: 56ch;
-  margin-bottom: 32px;
-}
-
-/* ── The command block ────────────────────────────────── */
-
-.terminal {
-  margin: 0;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  background: var(--bg-raised);
-  overflow: hidden;
-}
-
-.terminal figcaption {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  padding: 12px 14px 12px 18px;
-  border-bottom: 1px solid var(--border);
-  font-family: var(--font-mono);
-  font-size: 12.5px;
-  color: var(--text-dimmer);
-  letter-spacing: 0.04em;
-}
-
-/* An outlined pill on the terminal's caption bar: `tone="ghost"` so the Button
-   brings no fill, and what is left is the hairline and the monospace — the
-   caption is set in mono, and a proportional label on it reads as a different
-   object. */
-.copy {
-  border: 1px solid var(--border);
-  color: var(--accent-light);
-  font-family: var(--font-mono);
-  transition: border-color 0.16s ease-out;
-}
-
-.copy:hover { border-color: var(--accent); color: var(--accent-light); }
-
-.terminal pre {
-  margin: 0;
-  padding: 20px 18px;
-  overflow-x: auto;
-}
-
-.terminal code {
-  font-family: var(--font-mono);
-  font-size: 13.5px;
-  line-height: 1.85;
-  color: var(--text);
-  white-space: pre;
-}
-
-.docs {
-  margin-top: 16px;
-  font-size: 14.5px;
+  font-size: 16px;
   line-height: 1.7;
   color: var(--text-dim);
-  max-width: 68ch;
+  max-width: 64ch;
 }
-
-.docs code {
-  font-family: var(--font-mono);
-  font-size: 0.9em;
-  color: var(--accent-light);
-}
-
-.docs a { color: var(--accent-light); }
-.docs a:hover { color: var(--accent-hover); }
-
-/* ── The other three routes ───────────────────────────── */
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 14px;
-  margin-top: 40px;
+  margin-top: 36px;
 }
 
+/* The whole card is the link. A card with a link inside it has two targets and
+   one of them is most of the card, which is a coin toss the visitor did not
+   know they were making. */
 .card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
   background: var(--bg-raised);
   padding: 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
   transition: border-color 0.2s ease-out, transform 0.2s ease-out;
 }
 
-.card:hover { border-color: var(--accent); transform: translateY(-3px); }
+.card:hover {
+  border-color: var(--accent);
+  transform: translateY(-3px);
+}
 
-.card h3 { font-size: 16.5px; font-weight: 700; }
+.card:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.card h3 {
+  font-size: 17.5px;
+  font-weight: 800;
+  letter-spacing: -0.014em;
+  color: var(--text);
+}
 
 .card p {
   font-size: 14.5px;
   line-height: 1.62;
   color: var(--text-dim);
   flex: 1;
+  margin: 0;
 }
 
-.card a {
+.cardLink {
   font-family: var(--font-mono);
   font-size: 13px;
   color: var(--accent-light);
   white-space: nowrap;
 }
 
-.card a span { transition: transform 0.16s ease-out; display: inline-block; }
-.card:hover a span { transform: translateX(3px); }
+.cardLink span {
+  display: inline-block;
+  transition: transform 0.16s ease-out;
+}
+
+.card:hover .cardLink span {
+  transform: translateX(3px);
+}
+
+.more {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 28px;
+  list-style: none;
+  margin: 32px 0 0;
+  padding: 0;
+}
+
+.more a {
+  font-size: 14px;
+  color: var(--text-dim);
+  white-space: nowrap;
+  transition: color 0.16s ease-out;
+}
+
+.more a:hover {
+  color: var(--accent-light);
+}
 
 @media (max-width: 820px) {
-  .section { padding: 68px 16px; }
-  .grid { grid-template-columns: minmax(0, 1fr); margin-top: 30px; }
-  .terminal code { font-size: 12.5px; }
+  .section {
+    padding: 68px 16px;
+  }
 }
