@@ -1,0 +1,75 @@
+/* Hallmark · genre: atmospheric-technical · design-system: design.md · designed-as-app
+ *
+ * A labelled code block. One lift off the page ground, a hairline, and no
+ * chrome: no title bar, no traffic lights, nothing pretending to be a terminal
+ * window. The label carries what a frame would have claimed and is true.
+ */
+
+.snippet {
+  margin: 18px 0 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg-raised);
+  overflow: hidden;
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 7px 8px 7px 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-dimmer);
+}
+
+.copy {
+  font-family: var(--font);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--text-dim);
+  background: none;
+  border: 0;
+  border-radius: var(--radius-sm);
+  padding: 4px 9px;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.copy:hover {
+  color: var(--accent-light);
+}
+
+.copy:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.pre {
+  margin: 0;
+  padding: 13px 14px 15px;
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--text);
+  tab-size: 2;
+}
+
+/* Drawn, never copied, and not taken by a selection either. */
+.prompt {
+  color: var(--text-dimmer);
+  user-select: none;
+}
+
+@media (max-width: 560px) {
+  .pre {
+    font-size: 12.5px;
+  }
+}

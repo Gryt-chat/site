@@ -6,21 +6,21 @@ headline: Voice got a proper design pass, and hosting from the app finally proce
 ---
 
 This one is mostly about voice looking like someone designed it, and about the
-desktop app finally doing the image work it was only pretending to do. There is
+desktop app finally doing the image work it was only pretending to do. There's
 also a fair bit of security work in here. Servers now have to prove who they
 are, which is worth reading about further down.
 
 ## Voice looks like someone designed it
 
 The voice panel used to be a row of grey circles with names under them. Every
-tile is now tinted from the colour of the person in it, so a call you are only
+tile is now tinted from the colour of the person in it, so a call you're only
 half-watching still tells you who is where. It works a bit like remembering
 where somebody sits in a room.
 
 ![The voice panel beside the chat, each tile tinted from that person's avatar](/changelog/voice-split.webp)
 
 Whoever is talking gets a ring in their own colour, and a halo behind their
-avatar that grows with how loud they are. It follows the syllables rather than
+avatar that grows with how loud they're. It follows the syllables rather than
 blinking on and off, so someone trailing off looks different from someone
 stopping.
 
@@ -33,17 +33,17 @@ stopping.
 
 Muted people wear a badge now. Before, the only sign was a halo that never
 appeared, and noticing that something is absent is a lot to ask. Deafened people
-get their own badge, because it means something different: they cannot hear you
+get their own badge, because it means something different: they can't hear you
 either.
 
 Maximise the panel and the call fills the window, with the tiles growing to use
-the space, so there is no gap left where the chat was.
+the space, so there's no gap left where the chat was.
 
 ![The maximised voice grid, the same call filling the window](/changelog/voice-maximised.webp)
 
 When somebody shares their screen, the share becomes the main view and everyone
-else moves to a strip above it. That is what you want to be looking at during a
-screen share, and it is probably what you expected the old layout to do.
+else moves to a strip above it. That's what you want to be looking at during a
+screen share, and it's probably what you expected the old layout to do.
 
 ![A shared screen as the main view, with the other people in a strip above it](/changelog/voice-maximised-share.webp)
 
@@ -55,13 +55,13 @@ and a face is something you recognise without reading it.
 
 ![A voice tile with a generated avatar, the tile tinted to match](/changelog/avatar-tile.webp)
 
-It is drawn on your own machine, so nothing about you goes anywhere to make it,
+It's drawn on your own machine, so nothing about you goes anywhere to make it,
 and it still works on a server with no internet access. The same person gets the
-same face every time, and the tile takes its colour from that face. That is what
+same face every time, and the tile takes its colour from that face. That's what
 makes the tinting further up work for the many people who never uploaded
 anything.
 
-Servers without an icon get one too, in a style that is not a face. A server is
+Servers without an icon get one too, in a style that's not a face. A server is
 not a person, and drawing it as one looked wrong every time.
 
 ![A server with no icon set, showing a generated one](/changelog/server-icon.webp)
@@ -81,15 +81,15 @@ your disk. Images skip the upload size limit on the assumption that something
 will shrink them afterwards, and nothing was. The image worker ships with the
 app now, so all of that actually happens.
 
-## Servers have to prove who they are
+## Servers have to prove who they're
 
 Your client remembers a server's identity key the first time you connect, and
-checks it every time after. A server that cannot prove it is the same one you
-trusted before does not get your identity.
+checks it every time after. A server that can't prove it's the same one you
+trusted before doesn't get your identity.
 
-There is a screen for this under server settings, so a server that legitimately
+There's a screen for this under server settings, so a server that legitimately
 changes its key is something you can see and undo. A server can also rotate its
-key deliberately and clients will follow it, so a planned rotation is not
+key deliberately and clients will follow it, so a planned rotation isn't
 treated as an attack.
 
 Two more, plainly. Your client used to sign a challenge that named a *different*
@@ -137,7 +137,7 @@ run code as you.
 
 **Security**
 
-- Servers now prove who they are. Your client remembers a server's key on first connect and checks it every time after
+- Servers now prove who they're. Your client remembers a server's key on first connect and checks it every time after
 - A new screen under server settings shows pinned identities, so you can see a change and undo a block
 - Servers can rotate a key deliberately and clients follow it, rather than treating a planned rotation as an attack
 - Your client refuses to sign for a server it didn't dial. A server could previously get a credential for somewhere else

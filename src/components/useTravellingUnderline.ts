@@ -23,7 +23,14 @@ import { useCallback, useEffect, useRef, useState } from "react";
  * list has to be a positioned ancestor. Measured rather than derived from a
  * class, because the widths are whatever the words happen to be.
  *
- * Two things here were written the obvious way first and were wrong:
+ * **It has to be told the page changed.** The mark parks under whichever link
+ * carries `aria-current`, and that is measured in an effect — so the effect has
+ * to re-run when the current page changes, not only when the pointer moves.
+ * Without `page` in the dependencies the underline stayed under the last page
+ * you visited after clicking the wordmark, which navigates to `/` and is the
+ * one route where the answer is "nowhere". Reported on 2026-08-28.
+ *
+ * Three things here were written the obvious way first and were wrong:
  *
  * **Native listeners, not React's `onPointerLeave`.** `pointerleave` does not
  * bubble, so React simulates enter and leave from `pointerout` — which is a
@@ -44,7 +51,10 @@ export interface Underline {
   width: number;
 }
 
-export function useTravellingUnderline<T extends HTMLElement>() {
+export function useTravellingUnderline<T extends HTMLElement>(
+  /** The current route. Changing it re-measures, which is how the mark leaves. */
+  page: string,
+) {
   const listRef = useRef<T>(null);
   const [target, setTarget] = useState<HTMLElement | null>(null);
   const [at, setAt] = useState<Underline | null>(null);
@@ -74,7 +84,9 @@ export function useTravellingUnderline<T extends HTMLElement>() {
   }, [target]);
 
   /* eslint-disable react-hooks/set-state-in-effect */
-  useEffect(measure, [measure]);
+  // `page` is not read by `measure` — it reads `aria-current` off the DOM — so
+  // it is a dependency of the effect rather than of the callback.
+  useEffect(measure, [measure, page]);
 
   // A width that changed under it — the window resized, or the variable font
   // finished loading and every label got a pixel wider.

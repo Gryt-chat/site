@@ -12,12 +12,12 @@ tags:
 
 ## Six days
 
-The mobile repository's first commit is dated 20 August. It is 26 August as I
-write this, and there are 156 commits in it and nineteen builds. I am putting
+The mobile repository's first commit is dated 20 August. It's 26 August as I
+write this, and there are 156 commits in it and nineteen builds. I'm putting
 that up front because the app is a week old, and the screenshots below are a
 progress report rather than a launch.
 
-It is React Native on Expo, and it draws its interface from the same
+It's React Native on Expo, and it draws its interface from the same
 `@gryt/ui-native` package the [component library
 post](/blog/the-component-library-behind-gryt) covers, which is most of why it
 came together this quickly. Sheets, drawers, buttons, sliders and the owl
@@ -47,10 +47,10 @@ attempts because the first one crashed on the wrong thread.
 
 The server tab is built around who is actually talking. Rooms with people in
 them float to the top under a **LIVE NOW** heading with their faces on them, and
-the strip is not drawn at all when nobody is in a call. That occupancy has always
+the strip isn't drawn at all when nobody is in a call. That occupancy has always
 been in the payload the server sends; nothing had ever read it.
 
-## It is set in Atkinson Hyperlegible
+## It's set in Atkinson Hyperlegible
 
 The same face as the rest of Gryt, which took a bit of doing — the font has to
 reach the text the component library draws, not only the text the app writes
@@ -59,17 +59,17 @@ sides read it from there.
 
 The chat view ships as a setting rather than a decision. **Cozy** keeps avatars
 and groups runs of messages from the same person; **Compact** drops the avatar
-column and gives the 52 points back to the words. It is stored as an enum rather
+column and gives the 52 points back to the words. It's stored as an enum rather
 than a boolean, so a third layout can be added later without migrating anybody.
 
 <Image src="/blog/gryt-mobile-pair.webp" alt="Two iPhone screens: a profile screen showing an owl avatar, identity and settings rows, and a search tab reading 'Search is not built yet'" width="1648" height="1620" />
 
-## What does not work
+## What doesn't work
 
-Search is not built. The tab exists and says so, which I would rather do than
-hide the tab and have people wonder where search went.
+Search isn't built. The tab exists and says so, which I'd rather do than
+hide the tab and leave people wondering where search went.
 
-There is no App Store listing. Builds go to TestFlight, and getting one requires
+There's no App Store listing. Builds go to TestFlight, and getting one requires
 me to add you. Android builds exist and LAN discovery works there, but Android
 is behind iOS on polish and has had far less time on real hardware.
 
@@ -78,7 +78,7 @@ The whole thing is version 0.1.0. Things will move.
 ## Why bother
 
 Gryt's argument has always been that the machine under your desk can host the
-thing you talk on. That argument is easier to make when you are not asking
+thing you talk on. That argument is easier to make when you're not asking
 people to be at a desk to answer.
 
 A phone is also the honest test of whether the design system was worth building.

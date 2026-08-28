@@ -150,33 +150,60 @@
 
 /* ── Facts ─────────────────────────────────────────────── */
 
+/* Seven facts as cards, which is a deliberate spend against the standing rule
+   that cards are a budget. What it buys is the measure: as full-width rows the
+   labels sat in a 200px gutter and each one-sentence value was stranded on
+   1500px of line, with a band of empty page to the right of every one of them.
+   Three columns put each fact on about six words a line.
+
+   The budget is available here. Emoji and Themes either side of this section
+   are showcases, and SelfHost's card grid is four sections further down. */
 .facts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
   margin: 36px 0 0;
-  border-top: 1px solid var(--border);
+}
+
+/* The provenance claim frames the other six rather than being a seventh of
+   them, and seven equal boxes in a three-column grid leaves one on its own
+   looking like the row ran out. */
+.factLead {
+  grid-column: 1 / -1;
 }
 
 .fact {
-  display: grid;
-  grid-template-columns: minmax(0, 200px) minmax(0, 1fr);
-  gap: 8px 24px;
-  padding: 13px 2px;
-  border-bottom: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg-raised);
+  padding: 24px;
 }
 
+/* No hover lift. SelfHost's cards move because the whole card is a link and
+   the movement says so; these go nowhere, and a card that answers the pointer
+   and then does nothing is a button that isn't one. */
 .fact dt {
-  font-size: 12px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 1.2px;
-  color: var(--text-dimmer);
-  padding-top: 2px;
+  font-size: 17.5px;
+  font-weight: 800;
+  letter-spacing: -0.014em;
+  color: var(--text);
 }
 
 .fact dd {
   margin: 0;
-  font-size: 15.5px;
-  line-height: 1.55;
+  font-size: 14.5px;
+  line-height: 1.62;
+  color: var(--text-dim);
+}
+
+.factLead dd {
+  font-size: 16px;
+  line-height: 1.6;
   color: var(--text);
+  max-width: 62ch;
 }
 
 /* ── Text one side, drawing the other ──────────────────── */
@@ -255,7 +282,24 @@
   }
 
   .fact {
+    padding: 18px;
+  }
+}
+
+@media (max-width: 900px) {
+  .facts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 620px) {
+  .facts {
     grid-template-columns: minmax(0, 1fr);
-    gap: 4px;
+  }
+
+  /* One column makes every card a full-width row, so the lead is no longer
+     distinguishable by its width. Its larger body text is what is left. */
+  .factLead dd {
+    font-size: 15.5px;
   }
 }

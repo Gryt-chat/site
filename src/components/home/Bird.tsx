@@ -2,6 +2,7 @@ import { avatarSeed, owlAvatarDataUri } from "@gryt/owl";
 import { motion, useReducedMotion } from "motion/react";
 import { useMemo, useState } from "react";
 
+import { Clip, type ClipSet } from "../Clip";
 import { OwlDesigner } from "../owl/owlDesigner";
 import { DEMO_NAMES } from "../../data/demoNames";
 import { useRotatingName } from "./useRotatingName";
@@ -29,6 +30,40 @@ import styles from "./Bird.module.css";
  */
 const AVATAR_DOCS = "https://docs.gryt.chat/docs/guide/accounts";
 
+/**
+ * The designer in the app, doing the things the one above it cannot.
+ *
+ * Sivert's own capture, 2026-08-28, and **the whole take**. The component on
+ * this page is the client's, but a marketing page has no account to save to and
+ * no member list to save into — so the parts of the feature that only exist
+ * inside the app were a claim until now: the wardrobe counts down the left,
+ * Surprise me rolling a whole owl at once, Use this owl, and then the message
+ * he sends afterwards, which is the only thing in the recording that proves the
+ * new bird actually went anywhere.
+ *
+ * That ending is why it is not trimmed. A cut that stopped at "Avatar updated"
+ * would end on a toast saying it worked; this one ends on it having worked, on
+ * a message and in a member list.
+ *
+ *   node scripts/encode-clips.mjs avatar-editor-preview.mp4 avatar-editor \
+ *     --width 2200 --fps 30 --poster-at 2.4
+ *
+ * The still is taken from 2.4s rather than the first frame. The first two
+ * seconds are a settings panel sliding open, and a half-drawn panel is a poor
+ * thing to hand somebody who has asked for no motion.
+ */
+const EDITOR: ClipSet = {
+  src: "/home/avatar-editor.mp4",
+  av1: "/home/avatar-editor.av1.mp4",
+  poster: "/home/avatar-editor.poster.webp",
+};
+
+const EDITOR_SHOWS =
+  "The owl designer open in the Gryt desktop app: rows of expressions, " +
+  "glasses, heads and colours being picked, Surprise me rolling a new bird, " +
+  "and the chosen owl appearing on the profile and beside a message once it " +
+  "is saved";
+
 /** Four names, four owls, drawn here rather than saved as images. */
 const GALLERY = ["kasper", "nora", "tobias", "ida"];
 
@@ -49,11 +84,16 @@ export function Bird() {
   return (
     <section className={styles.section} id="bird">
       <motion.div className={styles.inner} variants={stagger(reduced)} {...inView}>
+        {/* The label for the section, not a second headline. "Your own bird,
+            if you want it" was a sentence in the slot every other section fills
+            with one word, and the heading under it already says the same thing
+            with more room to do it in. `Avatars` is also what this section is,
+            since the upload half moved in here. */}
         <motion.p className={styles.eyebrow} variants={rise(reduced)}>
-          Your own bird, if you want it
+          Avatars
         </motion.p>
         <motion.h2 className={styles.title} variants={rise(reduced)}>
-          Everybody gets an owl. Yours is drawn where you are standing.
+          Everybody gets an owl. Here's yours.
         </motion.h2>
 
         <motion.div
@@ -66,7 +106,7 @@ export function Bird() {
               read as a caption rather than as the one thing on this section
               you are meant to type in. */}
           <label className={styles.field}>
-            <span className={styles.fieldLabel}>Type a name and watch</span>
+            <span className={styles.fieldLabel}>Type a name</span>
             <input
               className={styles.input}
               value={name}
@@ -77,7 +117,7 @@ export function Bird() {
               autoComplete="off"
             />
             <span className={styles.fieldHint}>
-              Nothing is sent anywhere. The drawing happens in this tab.
+              Nothing gets sent anywhere. It's drawn in this tab.
             </span>
           </label>
 
@@ -100,15 +140,24 @@ export function Bird() {
           </div>
         </motion.div>
 
+        <motion.figure className={styles.capture} variants={rise(reduced)}>
+          <Clip {...EDITOR} alt={EDITOR_SHOWS} width={2200} height={1212} />
+          <figcaption>
+            The same designer in the app, doing the bits this page can't. The
+            owls you've worn before, Surprise me, and a message at the end so
+            you can see the new owl actually turn up.
+          </figcaption>
+        </motion.figure>
+
         <motion.h3 className={styles.subTitle} variants={rise(reduced)}>
           Or use a picture you already have.
         </motion.h3>
         <motion.p className={styles.sub} variants={rise(reduced)}>
-          A GIF stays a GIF, and so does an animated WebP: the movement survives
-          the upload rather than being flattened to the first frame, and it
-          plays in the member list and beside every message you send. There is
-          no tier that unlocks it. Up to 25&nbsp;MB, cropped square and stored
-          at 256 pixels, and server icons take the same files.{" "}
+          A GIF stays a GIF, and so does an animated WebP. It keeps moving
+          instead of getting flattened to the first frame, and it plays in the
+          member list and next to every message you send. You don't have to pay
+          for that. Up to 25&nbsp;MB, cropped square, stored at 256 pixels.
+          Server icons work the same way.{" "}
           <a href={AVATAR_DOCS} target="_blank" rel="noreferrer">
             More on profiles
           </a>

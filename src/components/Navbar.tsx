@@ -178,7 +178,9 @@ export function Navbar() {
   const [open, setOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  const { listRef, at, settled } = useTravellingUnderline<HTMLUListElement>();
+  const { listRef, at, settled } = useTravellingUnderline<HTMLUListElement>(
+    location.pathname,
+  );
 
   const close = useCallback(() => setOpen(false), []);
 

@@ -118,7 +118,7 @@ export function DownloadPage() {
                 </Button>
               </div>
               <p className={styles.hint}>
-                If it did not start, use the button. Other builds and other
+                If nothing happened, use the button. Other builds and other
                 platforms are on the{" "}
                 <Link to="/#download">download page</Link>.
               </p>
@@ -129,7 +129,7 @@ export function DownloadPage() {
             <>
               <h1 className={styles.title}>No {name} build yet</h1>
               <p className={styles.body}>
-                The latest release does not include a {name} build. The{" "}
+                The latest release doesn't have a {name} build in it. The{" "}
                 <Link to="/#download">download page</Link> has what there is.
               </p>
             </>
@@ -137,10 +137,10 @@ export function DownloadPage() {
 
           {state.kind === "failed" && (
             <>
-              <h1 className={styles.title}>Could not reach the release list</h1>
+              <h1 className={styles.title}>Couldn't reach GitHub</h1>
               <p className={styles.body}>
-                Gryt asks GitHub which build is current, and that request did
-                not come back. It is usually brief.
+                Gryt asks GitHub which build is the latest one, and that
+                didn't come back. It usually sorts itself out.
               </p>
               <div className={styles.actions}>
                 <Button render={<Link to="/#download" />} size="large">
@@ -148,7 +148,7 @@ export function DownloadPage() {
                 </Button>
               </div>
               <p className={styles.hint}>
-                Or take the file straight from{" "}
+                Or grab the file straight from{" "}
                 <a
                   href="https://github.com/Gryt-chat/gryt/releases/latest"
                   target="_blank"

@@ -35,6 +35,21 @@
   max-width: 64ch;
 }
 
+/* The capture sits between the argument and the four ways, at the section
+   width. It is the only picture in this section and it is the one card's proof,
+   so it goes above them rather than inside one. */
+.capture {
+  margin: 32px 0 0;
+}
+
+.capture figcaption {
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--text-dimmer);
+  margin-top: 12px;
+  max-width: 58ch;
+}
+
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));

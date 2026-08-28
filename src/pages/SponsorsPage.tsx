@@ -14,7 +14,7 @@ const TIERS = [
   { amount: "$100 a month", gets: "Your logo on this site, linked wherever you want." },
   {
     amount: "$500 a month",
-    gets: "Logo at the top of the list, and your team's bug reports looked at first.",
+    gets: "Logo at the top of the list, and your team's bug reports go to the front of the queue.",
   },
 ];
 
@@ -54,20 +54,21 @@ export function SponsorsPage() {
     <main className={styles.page}>
       <PageHeader
         eyebrow="Sponsors"
-        title="People who have sponsored Gryt"
+        title="People who have chipped in"
         lede={
           <>
-            Sponsoring pays for a domain, the box the auth stack runs on, and the
-            Apple and Windows signing certificates that stop the installer warning
-            people off their own download. That is the whole list. There is nothing
-            to buy inside Gryt, and no part of it is held back for people who pay.
+            It pays for a domain, the box the auth stack runs on, and the
+            Apple and Windows signing certificates that stop the installer
+            warning people off their own download. That's the whole list.
+            There's nothing to buy inside Gryt, and nothing held back for the
+            people who pay.
           </>
         }
       />
 
       {sponsors.length === 0 ? (
         <p className={styles.empty}>
-          Nobody yet. This is where names go.
+          Nobody yet. This is where the names go.
         </p>
       ) : (
         <>
@@ -92,7 +93,7 @@ export function SponsorsPage() {
             <section className={styles.block}>
               <h2 className={styles.blockHeading}>Sponsored once</h2>
               <p className={styles.blockNote}>
-                A single payment rather than a subscription. Nobody here has
+                A one-off payment instead of a subscription. Nobody here has
                 stopped sponsoring, because there was never anything to stop.
               </p>
               <ul className={styles.list}>
@@ -112,7 +113,7 @@ export function SponsorsPage() {
       )}
 
       <section className={styles.block}>
-        <h2 className={styles.blockHeading}>What the tiers give you</h2>
+        <h2 className={styles.blockHeading}>What you get</h2>
         <ul className={styles.tiers}>
           {TIERS.map((t) => (
             <li key={t.amount}>
@@ -122,9 +123,9 @@ export function SponsorsPage() {
           ))}
         </ul>
         <p className={styles.footnote}>
-          Money has also arrived through Ko-fi and directly, which the tiers do
-          not cover. Anyone who has sent something is listed here on the same
-          terms, and nothing is published without asking first.
+          Money has also come in through Ko-fi and straight to me, which the
+          tiers don't cover. Anyone who sent something is listed here the same
+          way, and nothing goes up without asking first.
         </p>
         <Button
           className={styles.button}

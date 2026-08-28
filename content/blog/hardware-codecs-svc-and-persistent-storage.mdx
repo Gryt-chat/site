@@ -13,36 +13,36 @@ tags:
 
 ## Three things at once
 
-This update touches three separate areas that all shipped around the same time. Normally I would split them into their own posts, but they happened back to back and I think the context of working on all three in quick succession tells a more honest story than pretending each one existed in isolation.
+This update touches three separate areas that all shipped around the same time. Normally I'd split them into their own posts. But they happened back to back, and telling it that way is more honest than pretending each one existed on its own.
 
-So here it is: hardware-accelerated codec selection, SVC layer-aware forwarding in the SFU, and a fix for the desktop app silently losing all your data between restarts.
+So: hardware-accelerated codec selection, SVC layer-aware forwarding in the SFU, and a fix for the desktop app silently losing all your data between restarts.
 
 ## The codec problem
 
-When Gryt first got screen sharing, it used whatever codec the browser decided to negotiate. In practice that usually meant VP9, a fine codec with excellent compression, but one that almost never gets hardware-accelerated encoding on consumer GPUs. Your CPU was doing all the work. Share a game at 1080p 30fps and you could feel it.
+When Gryt first got screen sharing, it used whatever codec the browser picked. That usually meant VP9. It's a fine codec and it compresses well, but consumer GPUs almost never hardware-encode it, so your CPU was doing all the work. Share a game at 1080p 30fps and you could feel it.
 
-The fix was straightforward once I understood what was happening. WebRTC lets you tell the browser which codec you prefer via `setCodecPreferences` on the transceiver. By putting H.264 first in the list, the browser negotiates H.264 and hands the encoding off to your GPU's hardware encoder: NVENC on NVIDIA, Quick Sync on Intel, AMF on AMD. CPU usage drops to nearly nothing.
+The fix was easy once I understood what was going on. WebRTC lets you tell the browser which codec you'd rather have, with `setCodecPreferences` on the transceiver. Put H.264 first and the browser negotiates H.264 and hands the encoding to your GPU: NVENC on NVIDIA, Quick Sync on Intel, AMF on AMD. CPU usage drops to nearly nothing.
 
-But H.264 is not always the best choice. AV1 offers significantly better compression at the same bitrate, and newer GPUs (RTX 40 series, Intel Arc, AMD RX 7000+) can hardware-encode it. So instead of hardcoding H.264, Gryt now lets you choose: Auto (H.264), H.264, VP9, or AV1. The "Auto" setting checks what your browser supports via `RTCRtpSender.getCapabilities("video")` and prefers H.264 for universal compatibility. If you know your hardware supports AV1, you can switch to it and get better quality at the same bandwidth.
+But H.264 isn't always the best choice. AV1 compresses a lot better at the same bitrate, and newer GPUs (RTX 40 series, Intel Arc, AMD RX 7000+) can hardware-encode it. So instead of hardcoding H.264, you get to pick: Auto (H.264), H.264, VP9, or AV1. Auto checks what your browser supports with `RTCRtpSender.getCapabilities("video")` and goes for H.264, because everything can play it. If you know your hardware does AV1, switch to it and get better quality for the same bandwidth.
 
-One codec that is not on the list is H.265/HEVC. Despite being widely used for video streaming, WebRTC simply does not support it. The browser APIs do not expose it as a negotiable codec. AV1 fills the same niche with better compression and actual browser support, so nothing is lost.
+One codec isn't on the list: H.265/HEVC. It's everywhere in video streaming, but WebRTC doesn't support it and the browser APIs won't let you negotiate it. AV1 does the same job with better compression and browsers that actually support it, so nothing is lost.
 
-All of this is hidden behind an "Advanced" toggle in the screen share dialog. Most users never need to touch it, since the defaults are good. But if you want to fine-tune your codec, bitrate, or degradation preference, the controls are there.
+All of this sits behind an "Advanced" toggle in the screen share dialog. The defaults are good, so most people never open it. But if you want to change the codec, the bitrate or the degradation preference, it's there.
 
 ## Gaming mode
 
 Alongside the codec work, I added a "Gaming mode" toggle (on by default) that bundles several encoder hints for fast-moving content:
 
-- **Cursor hiding.** The mouse cursor is stripped from the captured stream, so viewers do not see a frozen cursor hovering over a full-screen game that hides it
-- **Content hint.** Set to "motion" instead of "detail", which tells the encoder to prioritize framerate over sharpness
+- **Cursor hiding.** The cursor is stripped from the capture, so nobody watching sees a frozen cursor sitting over a game that hides it
+- **Content hint.** Set to "motion" instead of "detail", which tells the encoder to keep the framerate up rather than the sharpness
 - **Degradation preference.** Set to "maintain-framerate" so WebRTC drops resolution before framerate when bandwidth is tight
 - **Bitrate boost.** A 1.5x multiplier on the auto-estimated bitrate (capped at 20 Mbps) to give the encoder more headroom
 
-For presentations and text-heavy content, turning gaming mode off switches back to resolution-first encoding. But for gaming and video, the difference is significant.
+For a presentation or anything text-heavy, turn gaming mode off and it goes back to resolution first. For games and video the difference is big.
 
 ## SVC: one stream, multiple quality levels
 
-This is the part I am most excited about. Scalable Video Coding lets the encoder produce temporal layers within a single stream. With L1T3 (the default), the encoder outputs three framerate tiers in one RTP stream:
+This is the part I'm most excited about. Scalable Video Coding lets the encoder produce temporal layers within a single stream. With L1T3 (the default), the encoder outputs three framerate tiers in one RTP stream:
 
 - **T0**: Base layer at 7.5 fps
 - **T0 + T1**: 15 fps
@@ -77,7 +77,7 @@ The adaptation happens automatically. The SFU reads REMB (Receiver Estimated Max
 - Below 3 Mbps: T0 + T1 (15 fps)
 - Above 3 Mbps: All layers (30 fps)
 
-There is also a `set_layer` WebSocket event for manual control, which could power a quality selector UI in the future.
+There's also a `set_layer` WebSocket event for manual control, which could drive a quality picker later.
 
 ### Performance impact
 
@@ -85,7 +85,7 @@ On the client side: none. Hardware encoders (NVENC, Quick Sync, AMF) support tem
 
 On the SFU side: parsing the 3-byte Dependency Descriptor header per RTP packet adds nanoseconds of overhead. The per-receiver fanout replaces one `Write()` call with N `Write()` calls, but the total I/O is the same. Memory overhead is one lightweight track object per receiver per video track. In a 10-person room with 2 video tracks, that is 20 extra objects, which is negligible.
 
-Where SVC actually *saves* resources is downstream bandwidth. Instead of pushing 30 fps to a receiver that cannot handle it (causing retransmits and congestion), the SFU sends only what each viewer can absorb.
+Where SVC actually *saves* something is downstream bandwidth. Instead of pushing 30 fps at somebody who can't take it, and causing retransmits and congestion, the SFU sends each viewer only what they can absorb.
 
 ## The disappearing data bug
 
@@ -93,7 +93,7 @@ This one was frustrating to track down and probably affected more users than I r
 
 The desktop app stores authentication tokens, theme settings, server configurations, and other preferences in `localStorage`. This works fine most of the time. But `localStorage` in Electron is origin-bound, tied to the specific `http://127.0.0.1:port` URL that the app loads. If for any reason that port changes, or the Chromium profile gets reset, or storage is cleared during an update, everything is gone. You are signed out, your servers are missing, your settings are back to defaults.
 
-The annoying part is that this would not fail consistently. It could work perfectly for weeks and then silently lose everything on the next launch. The kind of bug that makes you question your own sanity because you cannot reproduce it on demand.
+The annoying part is that it didn't fail consistently. It could work for weeks and then silently lose everything on the next launch. The kind of bug that makes you doubt yourself, because you can't reproduce it on demand.
 
 The fix was to stop relying on `localStorage` as the source of truth. The desktop app now backs every `localStorage` entry with a JSON file (`gryt-global.json`) in the Electron userData directory, the same directory that survives across updates and reinstalls.
 

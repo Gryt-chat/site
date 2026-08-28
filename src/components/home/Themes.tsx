@@ -2,10 +2,12 @@ import { avatarSeed } from "@gryt/owl";
 import { createGrytTheme, grytPresets, grytThemeToOptions } from "@gryt/theme";
 import { Avatar, Button, Chip } from "@gryt/ui";
 import { useReducedMotion } from "motion/react";
+import type { CSSProperties } from "react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { MdChevronLeft, MdChevronRight } from "react-icons/md";
 
 import { Showcase } from "../Showcase";
+import { usePageTheme } from "./usePageTheme";
 import styles from "./Themes.module.css";
 
 /**
@@ -64,13 +66,12 @@ const PEOPLE = [
  * inside — the two Gryt UI components included — resolves against this preset
  * rather than against the page. Radius comes with it, which is why the corners
  * move between Signal, GitHub and Gryt Rounded.
+ *
+ * The variables are built by the carousel rather than here, because once
+ * somebody picks a theme the same set is painted onto the page as well and
+ * building it twice would be two objects that have to agree.
  */
-function Preview({ preset }: { preset: (typeof grytPresets)[number] }) {
-  const vars = useMemo(
-    () => createGrytTheme(grytThemeToOptions(preset.theme, "dark")),
-    [preset],
-  );
-
+function Preview({ vars }: { vars: CSSProperties }) {
   return (
     <div className={styles.preview} style={vars}>
       <div className={styles.previewHead}>
@@ -133,9 +134,21 @@ function Carousel() {
 
   const preset = grytPresets[index];
 
+  const vars = useMemo(
+    () => createGrytTheme(grytThemeToOptions(preset.theme, "dark")),
+    [preset],
+  );
+
+  /* The rest of the page comes along, but only once somebody has actually
+     picked something. While it is still cycling on its own, repainting the
+     whole site every four seconds would be a page nobody could read. That is
+     the same `picked` flag that stops the rotation, so the two happen
+     together: press an arrow, the carousel stops and the site changes. */
+  usePageTheme(picked ? vars : null);
+
   return (
     <div className={styles.carousel} ref={ref}>
-      <Preview preset={preset} />
+      <Preview vars={vars} />
 
       <div className={styles.pager}>
         <button
@@ -180,14 +193,16 @@ export function Themes() {
       media={<Carousel />}
     >
       <p>
-        {Spell(OURS)} of them are ours and {spell(PORTED)} are ports of themes
-        you have probably already used somewhere else. A theme sets the whole
-        palette and the corner radius, so picking one changes the shape of the
-        app as well as the colour of it.
+        {Spell(OURS)} are ours. {Spell(PORTED)} are ports of themes you've
+        probably seen somewhere else. A theme sets the colours and the corner
+        radius, so picking one changes the shape of the app as well as the
+        colour.
       </p>
       <p>
-        The panel beside this is built from the components the client renders,
-        and each theme is applied to it the way the app applies one.
+        The panel next to this is built from the same parts as the app, and
+        each theme goes on it the same way. Press an arrow and the rest of this
+        page comes with it &mdash; that's the same set of variables, on the
+        whole site instead of one box.
       </p>
       <p>
         If none of them fits, build one at{" "}
@@ -195,8 +210,8 @@ export function Themes() {
           ui.gryt.chat
         </a>{" "}
         and paste the link it gives you into Appearance. Text size, interface
-        scale and emoji size are separate from all of it &mdash; 10 to 24
-        pixels, 50 to 200 per cent, and 12 to 96 pixels.
+        scale and emoji size are their own settings: 10 to 24 pixels, 50 to 200
+        per cent, and 12 to 96 pixels.
       </p>
     </Showcase>
   );

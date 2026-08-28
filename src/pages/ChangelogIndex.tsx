@@ -52,7 +52,7 @@ export function ChangelogIndex() {
             <h1 className={styles.title}>Changelog</h1>
             <p className={styles.sub}>
               {drafts
-                ? 'Including the notes nobody has read yet. They are not on this page for anybody else.'
+                ? 'Including the notes nobody has read yet. Only you can see them.'
                 : 'What changed in each release of Gryt, newest first.'}
             </p>
           </div>

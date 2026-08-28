@@ -131,6 +131,201 @@
   color: var(--accent-light);
 }
 
+/* ── Packages ──────────────────────────────────────────── */
+
+/* A row with two controls in it: the name goes to npm, the command goes to the
+   clipboard. It reuses the list's hairlines and its own grid, because the
+   single-anchor `.row` cannot hold a button. */
+.package {
+  display: grid;
+  grid-template-columns: auto auto minmax(0, 1fr);
+  align-items: baseline;
+  gap: 4px 12px;
+  padding: 14px 2px;
+}
+
+.packageName {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 14.5px;
+  color: var(--text);
+  overflow-wrap: anywhere;
+}
+
+.packageName:hover {
+  color: var(--accent-light);
+}
+
+.licence {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-dimmer);
+}
+
+.packageDetail {
+  grid-column: 1 / -1;
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text-dim);
+  max-width: 66ch;
+}
+
+/* The install line sits at the right end of the name row and is the whole
+   control: the command is the label, so there is nothing to hunt for. */
+.install {
+  justify-self: end;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 3px 8px;
+  margin-right: -8px;
+  background: none;
+  border: 0;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  color: var(--text-dimmer);
+  transition: color 0.2s;
+}
+
+.install code {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: inherit;
+  white-space: nowrap;
+}
+
+.installState {
+  font-family: var(--font);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-dimmer);
+}
+
+.install:hover,
+.install:hover .installState {
+  color: var(--accent-light);
+}
+
+.install:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+/* ── A live component beside its code ──────────────────── */
+
+/* The design-system section renders the components it is describing, out of
+   the published package, the same way the owl block draws a real owl. Hairlines
+   rather than a fill: the snippet under it is already a surface. */
+.sampleStage {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px 18px;
+  margin-top: 20px;
+  padding: 22px 2px;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+/* ── The ladder ────────────────────────────────────────── */
+
+.ladder {
+  margin: 24px 0 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--border);
+}
+
+.rung {
+  display: grid;
+  grid-template-columns: 150px minmax(0, 1fr);
+  gap: 24px;
+  padding: 26px 2px;
+  border-bottom: 1px solid var(--border);
+}
+
+.rungMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.rungIndex {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--accent);
+}
+
+.rungNeeds {
+  font-size: 13.5px;
+  line-height: 1.45;
+  color: var(--text-dimmer);
+}
+
+.rungName {
+  margin: 0;
+  font-size: 17.5px;
+  font-weight: 800;
+  letter-spacing: -0.014em;
+  color: var(--text);
+}
+
+.rungDetail {
+  margin: 8px 0 0;
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--text-dim);
+  max-width: 62ch;
+}
+
+.rungDetail code {
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+  color: var(--text);
+}
+
+.rungLink {
+  display: inline-block;
+  margin-top: 14px;
+  font-size: 14.5px;
+  font-weight: 700;
+}
+
+/* ── Numbered steps ────────────────────────────────────── */
+
+/* The bot handshake on /developers. Four things that happen in an order, which
+   is what an ordered list is for — it was a paragraph, and a paragraph makes
+   the reader count the steps themselves. */
+.steps {
+  /* Tailwind's preflight strips the marker off every `ol` on the site, so this
+     asks for it back rather than assuming a browser default that is not there
+     any more. */
+  list-style: decimal;
+  margin: 18px 0 0;
+  padding: 0 0 0 28px;
+  max-width: 66ch;
+}
+
+.steps li {
+  margin-top: 10px;
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--text-dim);
+  padding-left: 6px;
+}
+
+.steps li::marker {
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 13px;
+}
+
+.steps strong {
+  color: var(--text);
+  font-weight: 700;
+}
+
 /* ── The tail ──────────────────────────────────────────── */
 
 .tail {
@@ -173,5 +368,32 @@
      detail runs the width of the page rather than under a 210px gutter. */
   .rowDetail {
     grid-column: 1 / -1;
+  }
+
+  .rung {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+  }
+
+  /* What it costs you goes on one line above the name rather than in a gutter
+     there is no room for. */
+  .rungMeta {
+    flex-direction: row;
+    align-items: baseline;
+    gap: 10px;
+  }
+}
+
+@media (max-width: 560px) {
+  /* The command drops under the name: at this width it is the widest thing in
+     the row and it was pushing the licence into the name. */
+  .package {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .install {
+    grid-column: 1 / -1;
+    justify-self: start;
+    margin: 4px 0 0 -8px;
   }
 }

@@ -59,19 +59,15 @@ export function Hero() {
         initial="hidden"
         animate="shown"
       >
-        <motion.p className={styles.eyebrow} variants={rise(reduced)}>
-          Yours, not rented
-        </motion.p>
-
         <motion.h1 className={styles.title} variants={rise(reduced)}>
           A place to talk that belongs to you.
         </motion.h1>
 
         <motion.p className={styles.lede} variants={rise(reduced)}>
-          Gryt is voice, video and text chat, and the app you download is also
-          the server. The conversation lives on a machine you own, and nobody has
-          to hand over an email, a phone number or a photo of their face to join
-          it.
+          Gryt is voice, video and text chat. Download the app and you can make
+          your own server right from it. Your chats stay on your machine, and
+          nobody has to hand over an email, a phone number or a photo of their
+          face to join.
         </motion.p>
 
         <motion.div className={styles.actions} variants={rise(reduced)}>

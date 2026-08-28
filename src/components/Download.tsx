@@ -109,18 +109,21 @@ export function Download() {
   return (
     <section className={styles.section} id="download">
       <div className={styles.box}>
-        {/* The heading says the word people are scanning for.
-            It used to be "Somewhere for your people, in about a minute." — a
-            benefit line that never said "download" anywhere, on the one section
-            somebody arrives at having already decided. The eyebrow moved to
-            carry the minute, because that is the reassurance and the heading is
-            the signpost. */}
-        <p className={styles.eyebrow}>About a minute</p>
+        {/* Both lines say the word people are scanning for.
+            The heading used to be "Somewhere for your people, in about a
+            minute." — a benefit line that never said "download" anywhere, on
+            the one section somebody arrives at having already decided. The
+            minute moved up to the eyebrow, and then out of it: an eyebrow is a
+            label for the section under it, and "About a minute" is not the name
+            of anything. The reassurance is still on the page, a line below, in
+            the sentence about the browser taking ten seconds. */}
+        <p className={styles.eyebrow}>Download</p>
         <h2 className={styles.title}>Download Gryt.</h2>
         <p className={styles.desc}>
-          The desktop app is the one that hosts servers and does global
-          push-to-talk. The browser gets you into a call in about ten seconds and
-          needs nothing installed.
+          The desktop app is the one that hosts servers, and the one where
+          push-to-talk still works when the window isn't in front. The browser
+          gets you into a call in about ten seconds and needs nothing
+          installed.
         </p>
 
         <OSTabs value={selectedOS} onChange={setSelectedOS} />
@@ -128,11 +131,12 @@ export function Download() {
         {OS_LABELS[selectedOS].comingSoon && (
           <div className={styles.comingSoonPanel}>
             <p className={styles.comingSoonTitle}>
-              The {OS_LABELS[selectedOS].label} app is in development
+              The {OS_LABELS[selectedOS].label} app isn&rsquo;t ready yet
             </p>
             <p className={styles.comingSoonDesc}>
-              It is being built and made stable right now, so there is nothing to
-              download yet. Until there is, Gryt runs in your mobile browser at{" "}
+              It&rsquo;s being built right now, so there&rsquo;s nothing to
+              download. Until there is, Gryt runs in your phone&rsquo;s browser
+              at{" "}
               <a href="https://app.gryt.chat" target="_blank" rel="noreferrer">
                 app.gryt.chat
               </a>
@@ -143,7 +147,7 @@ export function Download() {
         {!OS_LABELS[selectedOS].comingSoon && error && (
           <div className={styles.fallback}>
             <Alert severity="warning">
-              Could not reach GitHub for the release list.
+              Couldn&rsquo;t reach GitHub for the list of releases.
             </Alert>
             <Button
               render={<a href="https://github.com/Gryt-chat/gryt/releases" target="_blank" rel="noreferrer" />}
@@ -158,7 +162,7 @@ export function Download() {
         {!OS_LABELS[selectedOS].comingSoon && !error && !release && (
           <div className={styles.loading}>
             <Spinner size={18} />
-            Looking up the latest release…
+            Finding the latest release…
           </div>
         )}
 
@@ -172,7 +176,7 @@ export function Download() {
 
         {!OS_LABELS[selectedOS].comingSoon && !error && release && options.length === 0 && (
           <div className={styles.fallback}>
-            <p>No downloads available for {OS_LABELS[selectedOS].label} yet.</p>
+            <p>Nothing to download for {OS_LABELS[selectedOS].label} yet.</p>
             <Button
               render={<a href="https://github.com/Gryt-chat/gryt/releases" target="_blank" rel="noreferrer" />}
               tone="neutral"

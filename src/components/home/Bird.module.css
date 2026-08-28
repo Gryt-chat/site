@@ -113,6 +113,21 @@
   max-width: 64ch;
 }
 
+/* The capture of the app, under the live designer. Same treatment as the one
+   in SelfHost and the screen share in Voice: section width, hairline, a caption
+   that says what it is. */
+.capture {
+  margin: 40px 0 0;
+}
+
+.capture figcaption {
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--text-dimmer);
+  margin-top: 12px;
+  max-width: 58ch;
+}
+
 .gallery {
   display: flex;
   flex-wrap: wrap;

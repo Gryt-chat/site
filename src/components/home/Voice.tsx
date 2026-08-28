@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 import { Clip, type ClipSet } from "../Clip";
 import { inView, rise, stagger } from "./motion";
-import { Frame, UploadSketch } from "./sketches";
+import { Frame, UploadSketch } from "../sketches";
 import styles from "./Voice.module.css";
 
 /**
@@ -72,6 +72,13 @@ const SHARE_SHOWS =
 /**
  * Seven facts, and three of them are the ones Sivert picked out.
  *
+ * Cards rather than rows since 2026-08-28. As a full-width strip the labels sat
+ * in a 200px gutter and each one-sentence value ran on a 1500px measure with
+ * empty page to the right of it, which is a lot of eye travel for seven short
+ * sentences. The first is split out because it frames the other six rather than
+ * being one of them, and because seven equal boxes in a three-column grid leave
+ * one sitting on its own.
+ *
  * Read from source rather than from the docs:
  *   RNNoise, on this machine   client settings/hooks/useAudioSettings.ts
  *   restart survival           sfu sync_request, docs/sfu/index.mdx
@@ -81,20 +88,24 @@ const SHARE_SHOWS =
  * The last one is a single muxed port, 3478 unless it is changed — not a
  * range. /why-gryt said range until this pass, and was wrong.
  */
+const LEAD: [string, string] = [
+  "The voice server",
+  "Ours. We wrote it from scratch in Go instead of renting one",
+];
+
 const FACTS = [
-  ["The voice server", "Ours, written from scratch in Go instead of rented from somebody else"],
-  ["Sound", "Opus at 48 kHz in stereo, with recovery for dropped packets"],
-  ["Quality", "Nothing is re-encoded on the way through, so nothing is lost"],
-  ["Noise", "RNNoise, running on your machine rather than on a server"],
+  ["Sound", "Opus at 48 kHz, in stereo, and it copes with dropped packets"],
+  ["Quality", "Nothing gets re-encoded on the way, so nothing gets lost"],
+  ["Noise", "RNNoise cleans up your mic, on your machine, not on a server"],
   [
     "If the server restarts",
-    "You keep talking. Voice and everything else are separate connections to separate services, and the server asks who is still in the room when it comes back",
+    "You keep talking. Voice is its own connection to its own service, and when the server comes back it just asks who is still in the room",
   ],
   [
     "eSports mode",
-    "128 kbps, Opus in 10 ms frames, push-to-talk forced on and every filter off",
+    "128 kbps, Opus in 10 ms frames, push-to-talk on, every filter off",
   ],
-  ["Network", "One UDP port to open, not a range"],
+  ["Network", "One UDP port to open, not a range. 3478, unless you change it"],
 ];
 
 /** Smooth pseudo-levels. A ring that jumps reads as a blink, not as a voice. */
@@ -210,20 +221,27 @@ export function Voice() {
         </motion.h2>
         <motion.p className={styles.sub} variants={rise(reduced)}>
           Full-quality audio, a noise filter that runs on your own machine, and
-          screen sharing fast enough to watch somebody play. There is no better
-          tier above you. Whoever runs the server sets the limits, and they can
-          raise them.
+          screen sharing fast enough to actually watch someone play. There's no
+          better version you could be paying for. Whoever runs the server sets
+          the limits, and they can turn them up.
         </motion.p>
 
         <motion.div className={styles.demo} variants={rise(reduced)}>
           <Panel />
           <p className={styles.note}>
-            Drawn out of the same components the app is built from. The
-            voices are on a timer; nobody is talking.
+            Built from the same parts as the app. The voices are on a timer.
+            Nobody's really talking.
           </p>
         </motion.div>
 
+        {/* Still a description list: every one of these is a term and what it
+            means, and a card is a way of drawing that rather than a reason to
+            stop saying it. */}
         <motion.dl className={styles.facts} variants={rise(reduced)}>
+          <div className={`${styles.fact} ${styles.factLead}`}>
+            <dt>{LEAD[0]}</dt>
+            <dd>{LEAD[1]}</dd>
+          </div>
           {FACTS.map(([k, v]) => (
             <div className={styles.fact} key={k}>
               <dt>{k}</dt>
@@ -237,9 +255,9 @@ export function Voice() {
         </motion.h3>
         <motion.p className={styles.sub} variants={rise(reduced)}>
           Enough that a game still looks like the game. 30, 60, 90 and 120 are
-          the normal settings, with 144, 165 and 240 there for people who want to
-          push it, at up to 4K. Anything above 60 needs the Windows app, which
-          captures the screen itself instead of going through the browser.
+          the normal settings. 144, 165 and 240 are there if you want to push
+          it, up to 4K. Anything over 60 needs the Windows app, because it grabs
+          the screen itself instead of going through the browser.
         </motion.p>
 
         {/* Directly under the claim it belongs to. It used to sit at the very
@@ -249,8 +267,8 @@ export function Voice() {
         <motion.figure className={styles.share} variants={rise(reduced)}>
           <Clip {...SHARE} alt={SHARE_SHOWS} width={2200} height={1238} />
           <figcaption>
-            What the people watching see: your screen as the main view, everyone
-            in the call in a strip above it.
+            What everyone watching sees. Your screen is the main thing, and the
+            people in the call sit in a strip above it.
           </figcaption>
         </motion.figure>
 
@@ -258,14 +276,14 @@ export function Voice() {
           <div className={styles.splitCopy}>
             <h3 className={styles.subTitleTight}>Send the whole file.</h3>
             <p className={styles.sub}>
-              The size limit is whatever the person running the server sets, and
-              there is no tier that raises it because there are no tiers. It
-              ships at 100&nbsp;MB so nobody fills a disk by accident, and the
-              ceiling above that is the storage&rsquo;s rather than ours.{" "}
+              The size limit is whatever the person running the server picks.
+              There's no tier that raises it, because there are no tiers. It
+              starts at 100&nbsp;MB so nobody fills a disk by accident, and the
+              next limit after that belongs to the storage, not to us.{" "}
               <Link to="/self-hosting">What a server decides</Link>.
             </p>
           </div>
-          <Frame label="Above the shipped default, the next ceiling is the object storage's: 5 TB a file on S3.">
+          <Frame label="Past the 100 MB default, the next limit is the storage's own. On S3 that's 5 TB a file.">
             <UploadSketch />
           </Frame>
         </motion.div>

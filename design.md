@@ -155,7 +155,7 @@ the front page's rhythm. Recorded here so the next run does not re-pick blind:
 | `/changelog/:version` | Workbench | the notes are mostly app captures |
 | `/why-gryt` | Conversational FAQ | it is questions and trust boundaries |
 | `/compare` | Index-First | it is two tables and a set of cards |
-| `/developers`, `/self-hosting` | Index-First | both are grouped rows that mostly leave for the docs |
+| `/developers`, `/self-hosting` | Index-First, with worked examples | the tail of each is grouped rows that leave for the docs; the top half runs and installs things |
 | `/sponsors` | Index-First | the page is a list of people |
 | `/privacy`, `/terms`, `/community-guidelines` | Long Document | they are documents |
 | `/invite` | none, component-scope | an app screen with states, not a page |
@@ -163,6 +163,57 @@ the front page's rhythm. Recorded here so the next run does not re-pick blind:
 `/changelog` was picked when `content/changelog` held one release and a timeline
 with one dot is thin. It was kept deliberately because it comes good as releases
 land, and there are three now.
+
+## Voice
+
+Plain, spoken English. Short sentences, ordinary words, contractions.
+
+Sivert's rules, given 2026-08-28, in his words:
+
+- Simple words. Write like you talk to a friend.
+- Short sentences. Break a complex thought into pieces.
+- No AI phrases: "dive into", "unleash", "game-changing", "revolutionary",
+  "transformative", "leverage", "optimize", "unlock potential".
+- Be direct. Say what you mean without extra words.
+- Starting a sentence with "and", "but" or "so" is fine.
+- Don't force friendliness or fake excitement.
+- Cut fluff. Drop adjectives and adverbs that are not doing anything.
+- Show a specific case instead of an abstraction.
+- Be honest. Admit limits. Don't oversell.
+- Simple connectors: "here's the thing", "and", "but".
+
+The check before shipping a line: would you say it out loud? Does it use words a
+normal person uses? Does it sound like marketing? Does it get to the point?
+
+That is not what the pages said until 2026-08-28. They were written without
+contractions and with long sentences carrying two or three clauses, which reads
+as an essay rather than as somebody talking, and Sivert's own writing does not
+sound like that at all. The blog is the reference: "we shouldn't have needed
+them", "that's a stretch I'll leave to the etymologists", "honestly, that's good
+enough". Contractions throughout, sentences that end where the thought ends,
+and no word a reader has to slow down for.
+
+What the pass changed, and what to keep doing:
+
+- **Contract.** "It is not" is "It isn't". "There is nothing" is "There's
+  nothing". JSX wants `&rsquo;` rather than a bare apostrophe, which is the
+  convention the rest of the file already uses.
+- **Cut sentences in half at the semicolon or the second clause.** "Voice is
+  routed through an SFU for fan-out, so the SFU is on the path, and it is run by
+  the server owner" became three short statements.
+- **Use the ordinary word.** Not "infrastructure you control" but "machines you
+  control". Not "persistent channels" but "channels that stay put". Not
+  "engagement mechanics" but "nothing built to keep you scrolling".
+- **Say who does what.** "The operator" is "whoever runs the server". "A
+  guest identity involves nothing of ours" is "a guest identity doesn't touch
+  anything of ours".
+- **Do not lose a number, a name or a caveat.** This is a rewrite of how the
+  sentences read, not of what they claim. Every figure, port, price and
+  trade-off on these pages survived it unchanged.
+
+`Motivation` was barely touched. It is Sivert writing in the first person about
+why he built this, it already sounds like him, and it only needed its
+contractions putting back.
 
 ## What the content pages must share
 
@@ -186,6 +237,22 @@ These were decided during that rebuild and are worth not re-litigating:
 
 - **Cards are a budget, not a default.** If two adjacent sections are both card
   grids, one of them is wrong. Rules and type first.
+
+  The seven voice facts are a deliberate spend against this, made on
+  2026-08-28. As a full-width strip the labels sat in a 200px gutter and each
+  one-sentence value ran on a 1500px measure with empty page to the right of
+  it, which is a long way for the eye to travel seven times over. Three columns
+  put each fact on about six words a line. The budget was there: `Emoji` and
+  `Themes` either side of that section are showcases, and `SelfHost`'s card
+  grid is four sections further down.
+
+  The first fact takes the whole row. It frames the other six rather than being
+  one of them, and seven equal boxes in a three-column grid leave one sitting
+  on its own looking like the row ran out. They are still a `<dl>` — each one
+  is a term and what it means, and a card is a way of drawing that rather than
+  a reason to stop saying it — and they do not lift on hover, because
+  `SelfHost`'s cards move to say the whole card is a link and these go
+  nowhere.
 - **No card inside a card.**
 - **No decorative gradient blobs, glow divs, or fake window chrome.** The hero
   uses a real screenshot.
@@ -230,21 +297,48 @@ nobody sees.
 committed; only the outputs are, and the script is run by hand rather than in
 `yarn build`, since on CI there would be nothing to encode.
 
-Two clips are on the page, both from Sivert's own captures at 3840x2160 / 60fps:
+Five clips are on the page, all from Sivert's own captures at 60fps — 3840x2160
+for the first three, 3840x2116 for the two added on 2026-08-28:
 
 | Clip | Where | Encode |
 |---|---|---|
 | `client-live` | the hero, 12s of the 20s take | `--width 2200 --fps 60 --av1-crf 30 --h264-crf 21 --duration 12` |
 | `screen-share` | `Voice`, 10s | `--width 2200 --fps 60 --av1-crf 30 --h264-crf 21` |
 | `emoji-import` | `Emoji`, all 15s, **1:1** | `--width 1080 --fps 60 --av1-crf 30 --h264-crf 21` |
+| `create-server` | `SelfHost`, all 16s | `--width 2200 --fps 30 --poster-at 2.9` |
+| `avatar-editor` | `Bird`, all 18.5s | `--width 2200 --fps 30 --poster-at 2.4` |
 
-**2200 wide** because the widest slot either sits in is 1180 CSS px, and a 2x
-display asking for that wants roughly this many real pixels. **60fps is kept**:
-the source is 60, and screen sharing is the one claim on this page where frame
-rate *is* the claim. **CRF 30 / 21** rather than the script's 34 / 20 defaults,
-which are tuned for flat UI at 30fps — a game inside a screen share is real
-motion, and a 60fps frame gets half the time on screen to hide its own
-artefacts.
+**2200 wide** because the widest slot any of them sits in is 1180 CSS px, and a
+2x display asking for that wants roughly this many real pixels.
+
+**60fps is kept on the first three**: the source is 60, and screen sharing is
+the one claim on this page where frame rate *is* the claim. Those three also
+take **CRF 30 / 21** rather than the script's 34 / 20 defaults, which are tuned
+for flat UI at 30fps — a game inside a screen share is real motion, and a 60fps
+frame gets half the time on screen to hide its own artefacts.
+
+**The last two are 30fps at the default CRFs**, and they are a tenth of the
+size for it: `create-server` is 468 kB of AV1 for eleven and a half seconds.
+They are flat UI at a walking pace — a dialog, a field, a cursor crossing a
+grid of owls — and nothing in either of them is a claim about frame rate. Going
+to 60 would have doubled the bytes to say nothing.
+
+**Neither of the two new ones is trimmed, and that is the point of them.**
+They were cut down first — `create-server` to 11.5s and `avatar-editor` to
+11.2s — and Sivert said no: each is one continuous take of a process, and the
+last few seconds are the part that proves the rest. `create-server` ends on the
+discovery page with the server it just made already listed; `avatar-editor`
+ends on a message sent with the new owl beside it. A cut that stopped earlier
+would end on a toast saying it worked rather than on it having worked.
+
+**`--poster-at` exists because of this.** The poster is what
+`prefers-reduced-motion` gets *instead of* the video, so with trimming off the
+table it is the only way to keep a bad first frame out of the still.
+`create-server` opens on an empty client — "Nothing here yet" is an honest first
+frame and a poor still for a section about starting a server — and takes its
+still from 2.9s, where the Create your server dialog is open with the port
+already filled in. `avatar-editor` opens on a settings panel sliding open and
+takes its still from 2.4s, on the wardrobe.
 
 The hero take is cut to 12 seconds. It loops silently, nobody watches a hero for
 twenty, and the trim takes it from 3.5 MB to 1.6 MB of AV1 before anything else
@@ -273,10 +367,30 @@ at 522 CSS px — and it is not trimmed, being a sequence rather than an ambient
 loop. `EmojiSketch` was deleted with it: the drawing existed to stand in for
 this clip and had no second consumer.
 
-`Lan` still holds `null` and shows a drawing instead. That is the
+`Lan` still holds `null` and shows the live discovery pane instead. That is the
 resolution of the older rule about video-shaped holes: the hole is the problem,
 not the absence of footage, so each of those sections has something finished in
 it that a clip will later replace.
+
+Its footage is on the page, at the end of `create-server` over in `SelfHost` —
+the same take runs on to Servers on your network with the server it just made
+listed on it. It was briefly cut out and shown here as a second clip, and that
+was wrong twice over: it is one continuous thing, and the same take running in
+two places on one page is the same footage twice. `Lan`'s pane says in its own
+caption that the four servers on it are made up, which is the honest version of
+a reconstruction.
+
+That clip lists real machines by name — a `.local` mDNS hostname and three
+truncated MacBook names. Nothing routable and nothing secret, but a public
+repository is not undoable, so it was Sivert's call rather than an assumption,
+made on 2026-08-28.
+
+**`SelfHost` and `Bird` are the two sections that gained a capture.** Neither
+had one. `SelfHost` had four cards and no picture of the thing the first card
+describes; `Bird` runs the client's own designer live, which is the stronger
+demonstration, but a marketing page has no account to save to and no member
+list to save into — so the wardrobe, Surprise me, and the bird arriving on your
+messages were a claim. The clip is the part the live component cannot be.
 
 The hero's decorative blob field is gone. The standing rule above had made it the
 one exception left in the file, and the hero earns its way without it.
@@ -305,11 +419,17 @@ to look at on the other.
 - `media` may be omitted, and a section without it renders as a plain column
   rather than as an empty half. Four sections are in that state now, waiting on
   captures — the call `Hero.tsx` made until its own clip arrived.
-- `below` is full width under both columns. The voice fact strip is why.
+- `below` is full width under both columns. The voice fact cards are why.
 
 `src/styles/audience.module.css` and `src/components/LinkRows.tsx` are the
 matching pair for /developers and /self-hosting: a heading, a note, and rows of
 name + one line + arrow. Rows rather than cards, by the standing rule below.
+
+`LinkRows.tsx` also exports `PackageRows`, which cannot be a `Row`. A row is one
+anchor over the whole strip and a package needs two controls in it — the name
+goes to npm and the install command goes to the clipboard. A button inside a
+link is invalid markup and unusable with a keyboard, so that strip is a plain
+container with two controls rather than an anchor with a button in it.
 
 ## The audience split
 
@@ -323,10 +443,63 @@ three pages now, and each one has a reader:
 | `/developers` | somebody building on it or taking a package away |
 | `/self-hosting` | somebody putting a server on a machine |
 
-Both new pages are mostly a front door onto `docs.gryt.chat`. The docs are
-already grouped by audience and they are kept correct; a second copy of them
-here would be a second copy to keep correct, and this one would be the one that
-went stale.
+Both pages are a front door onto `docs.gryt.chat` and neither is only that. The
+docs are already grouped by audience and they are kept correct; a second copy of
+them here would be a second copy to keep correct, and this one would be the one
+that went stale. So the directories stay directories and stay linked, and what
+sits above them is the shortest true answer to what the reader came for.
+
+**Each section shows the thing it is describing, or says why it cannot.** That
+is the front page's rule applied to the two pages that were exempt from it, and
+the exemption was the whole problem: twenty rows on `/developers` and seventeen
+on `/self-hosting` handed a developer an index on a site whose front page runs
+the product live in four places. Six identical row groups in a column is a
+shape the eye stops reading at the third.
+
+What each one shows now:
+
+| Section | What is on the page |
+|---|---|
+| `/developers` — an owl from a name | `@gryt/owl` drawing live from a field you type in, beside the two lines that did it |
+| — the packages | the install line for each, with a copy button, and the licence beside the name |
+| — bots | the knock as four numbered steps, and the `GrytBot` example |
+| — addons | the `GrytPluginAPI` declaration, printed from the source |
+| — the APIs | `curl /info` and what comes back |
+| — the voice engine | joining a call, and the two silent failures above it |
+| — the design system | `Avatar`, `Chip` and `Button` out of `@gryt/ui`, rendered |
+| — the source | the clone line, with the submodule flag |
+| `/self-hosting` — getting one up | five rungs ordered by how much you have to know, each with its first command |
+| — what you are running | the four services drawn, and which two take connections |
+| — reaching it from outside | the four `.env` lines that decide whether voice works |
+| — running it properly | the two lines that upgrade it |
+
+**The no-code rule does not reach these two pages.** It was decided for
+somebody deciding whether to try Gryt, and a shell command in front of that
+person is an obstacle. In front of a developer or a self-hoster it is the
+shortest true answer. The ban in the standing rules is on hand-built window
+chrome — title bars, traffic lights, invented terminal frames — and a labelled
+`<pre>` is not one. `src/components/Snippet.tsx` is that block: a hairline, a
+label naming the language or the file it came out of, and a copy button whose
+own label changes rather than firing a toast. A shell snippet draws a `$` that
+is `user-select: none` and is not in what gets copied.
+
+**Every snippet is read out of the thing it documents.** The plugin API is the
+top of `pluginApi.ts`, the bot example is `bot/index.mdx` with two optional
+fields dropped, the owl block prints the line running three rows above it in
+its own file, and the ladder's commands are the ones in the deployment guides.
+Nothing is written for the page, so nothing on the page can drift on its own —
+it goes stale only when the source does, which is a change somebody is already
+making.
+
+**The ladder on `/self-hosting` is ordered, and says by what.** The five ways to
+get a server up differ by how much you have to know, from the app you already
+downloaded to a Helm chart, and as five equal rows that ordering was invisible —
+somebody who does not know Docker had no way to tell which one was theirs. Each
+rung leads with what it costs you to be there. Two rungs carry no command
+because they genuinely have none: hosting from the app is three clicks, and
+Windows is a zip and a double-click. One line each, never a whole file; the
+twelve-line Compose block was deliberately taken off the front page and it does
+not grow back here.
 
 `/why-gryt` keeps the *why* and `/self-hosting` takes the *how*. Question 4
 there used to cover embedded, Compose, Helm, LAN discovery and tunnels, which is
@@ -339,8 +512,10 @@ else, and the two audience pages are where a whole kind of visitor should land.
 
 ## Drawings where a capture will go
 
-`src/components/home/sketches.tsx`, and the `Frame` in it is the rounded box
-they sit in.
+`src/components/sketches.tsx`, and the `Frame` in it is the rounded box they
+sit in. It was under `home/` while the front page was the only page with any; a
+diagram vocabulary that lives inside one page's folder is one the next page
+quietly re-invents.
 
 They are **diagrams, not screenshots.** The standing rule below bans hand-built
 fake window chrome and it still means it: an SVG pretending to be the emoji
@@ -357,6 +532,13 @@ The vocabulary is in `sketches.module.css` and is deliberately small: two fills,
 two strokes, an accent for the one thing a person sets, and no colour written
 into the SVG. A themed site gets themed diagrams.
 
+`StackSketch` — the four services on `/self-hosting` — is two drawings, and one
+of them is in the layout at a time. A 640-unit viewBox scaled into a 330px phone
+column puts its labels at about six pixels, and the alternative, a diagram that
+scrolls sideways, is worse on the one device where sideways is how you move
+through the page. The narrow one stacks the boxes and brings both arrows in from
+the left. Same facts, same classes, laid out for the width it is drawn at.
+
 ## The front page, as it stands
 
 Twelve sections: `Hero`, `Identity`, `Bird`, `Emoji`, `Voice`, `Themes`, `Lan`,
@@ -369,7 +551,7 @@ download; and then sponsoring, which is the one thing on the page that asks
 rather than offers and is last for that reason.
 
 Nine features were picked and four of them are facts about voice quality, so
-`Voice` carries them as a fact strip rather than as four blocks down the page.
+`Voice` carries them as a set of cards rather than as four blocks down the page.
 Grouping rather than cutting: everything picked is on the page and the page is
 still readable in one sitting.
 
@@ -389,6 +571,32 @@ bird and drew the same owl whatever anybody typed, which is the opposite of what
 the heading claims. It follows the name until somebody picks a hat, at which
 point the bird is theirs. The client leaves the prop off: there you open the
 designer to design, and your last look is the right place to start.
+
+**Picking a theme repaints the whole page, on `/` only.** Press an arrow and
+the 233 custom properties go onto `<html>` instead of just onto the panel, so
+the navbar, every section and the footer move with it, radius included.
+`src/styles/tokens.css` is what makes that a twenty-line hook rather than a
+rewrite: every name this site uses is an alias of a `--gryt-` property, so
+setting the design system's variables at the root moves everything that reads
+one.
+
+Three conditions on it, in `usePageTheme.ts`:
+
+- **Only after somebody presses an arrow.** It hangs off the same `picked` flag
+  that stops the rotation, so the two happen together. Repainting the whole site
+  every four seconds while the carousel cycles on its own would be a page nobody
+  could read.
+- **Only on the front page.** `Themes` renders on `/` and nowhere else, so
+  navigating away unmounts it and the cleanup removes every property. A theme
+  that followed you to `/why-gryt` would be a preference the site had decided to
+  remember, and this is a demonstration rather than a setting.
+- **On `document.documentElement`, not `body`.** The navbar and the footer sit
+  outside the page's own tree, and a variable set on `body` reaches neither.
+
+What does not follow: the clips and screenshots. They are recordings of the app
+in the theme it was recorded in, and no amount of CSS retints a video. The page
+around them changes and they do not, which is the honest version — they are
+captures, not mock-ups.
 
 **`Themes` shows one panel that restyles, not eighteen swatches.** A theme
 changes the corner radius as well as the palette and a row of colour chips
@@ -429,6 +637,14 @@ are on, travels to whatever you hover or tab to, and returns when you leave —
 or away entirely on `/`, which is not in the bar, so there is nothing to return
 to. `useTravellingUnderline` measures in the list's own coordinates; the list is
 the positioned ancestor.
+
+It leaves on `/` because the hook is told the route changed. It parks under
+whichever link carries `aria-current`, which is measured in an effect, and the
+effect has to re-run when the page changes rather than only when the pointer
+moves. Without the route in its dependencies it did the first half of that
+correctly and never the second: clicking the wordmark navigated to `/` and left
+the underline sitting under whichever page you had just come from. Fixed
+2026-08-28, reported by Sivert.
 
 It is `Tabs.Indicator` from `@gryt/ui` doing the same job in a different row,
 so it borrows that component's timing exactly: `--gryt-dur-spring` (500ms) and

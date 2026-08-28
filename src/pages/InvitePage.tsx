@@ -126,8 +126,8 @@ export function InvitePage() {
           <GrytLogo size={44} className={styles.logo} />
           <h1 className={styles.title}>This invite link is incomplete</h1>
           <p className={styles.body}>
-            It is missing the server or the code it needs to send you anywhere.
-            Ask whoever sent it for the full link.
+            It is missing the server or the code, so there is nowhere to send
+            you. Ask whoever sent it for the whole link.
           </p>
           <div className={styles.actions}>
             <Button

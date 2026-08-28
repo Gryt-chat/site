@@ -7,7 +7,7 @@
  *
  *   node scripts/encode-clips.mjs <source> <name> \
  *     [--width 1440] [--fps 30] [--av1-crf 34] [--h264-crf 20] \
- *     [--start 0] [--duration <seconds>]
+ *     [--start 0] [--duration <seconds>] [--poster-at <seconds>]
  *
  * Writes public/home/<name>.av1.mp4, <name>.mp4 and <name>.poster.webp.
  *
@@ -20,6 +20,13 @@
  *
  * `--start` and `--duration` trim, and they go before `-i` so ffmpeg seeks
  * rather than decoding and throwing away everything up to the in-point.
+ *
+ * `--poster-at` takes the still from somewhere other than the first frame,
+ * counted from the start of the trimmed clip. The poster is what
+ * `prefers-reduced-motion` gets *instead of* the video, so it has to be a frame
+ * worth looking at on its own — and the first frame of a recording is often a
+ * settled empty state or a panel caught mid-transition. The clip still starts
+ * where `--start` says.
  *
  * Sources are not committed — they are hundreds of megabytes of raw capture and
  * nothing rebuilds from them. Only the three outputs go in the repo, which is
@@ -47,7 +54,8 @@ const flag = (n, d) => {
 if (!source || !name) {
   console.error(
     "usage: node scripts/encode-clips.mjs <source> <name> [--width 1440] " +
-      "[--fps 30] [--av1-crf 34] [--h264-crf 20] [--start 0] [--duration n]",
+      "[--fps 30] [--av1-crf 34] [--h264-crf 20] [--start 0] [--duration n] " +
+      "[--poster-at n]",
   );
   process.exit(1);
 }
@@ -62,6 +70,7 @@ const av1Crf = String(flag("av1-crf", 34));
 const h264Crf = String(flag("h264-crf", 20));
 const start = flag("start", null);
 const duration = flag("duration", null);
+const posterAt = flag("poster-at", null);
 
 /** Before `-i`, so ffmpeg seeks instead of decoding up to the in-point. */
 const trim = [
@@ -80,14 +89,20 @@ mkdirSync(OUT_DIR, { recursive: true });
  */
 const scale = `scale='min(${width},iw)':-2:flags=lanczos`;
 
-const ff = (label, out, extra) => {
+const ff = (label, out, extra, seek = trim) => {
   const target = join(OUT_DIR, out);
   process.stdout.write(`  ${label} -> public/home/${out} `);
-  execFileSync("ffmpeg", ["-y", ...trim, "-i", source, "-vf", scale, ...extra, target], {
+  execFileSync("ffmpeg", ["-y", ...seek, "-i", source, "-vf", scale, ...extra, target], {
     stdio: ["ignore", "ignore", "pipe"],
   });
   console.log(`(${(statSync(target).size / 1024).toFixed(0)} kB)`);
 };
+
+/** Where the still comes from: the in-point, or `--poster-at` past it. */
+const posterSeek =
+  posterAt != null
+    ? ["-ss", String(Number(start ?? 0) + Number(posterAt))]
+    : trim;
 
 console.log(
   `encoding ${source} at ${width}px / ${fps}fps` +
@@ -123,14 +138,16 @@ ff("h264 ", `${name}.mp4`, [
   "-movflags", "+faststart",
 ]);
 
-// The poster is the first frame, and it is also the still that
-// prefers-reduced-motion gets instead of the loop.
+// The poster is the first frame unless `--poster-at` says otherwise, and it is
+// also the still that prefers-reduced-motion gets instead of the loop — so a
+// clip whose first frame is an empty state or a half-drawn panel should say
+// otherwise.
 //
 // Through sharp rather than ffmpeg, because ffmpeg is not reliably built with
 // libwebp — Homebrew's is not — and sharp is already a dependency here for the
 // image pass.
 const framePath = join(OUT_DIR, `${name}.poster.png`);
-ff("frame ", `${name}.poster.png`, ["-frames:v", "1"]);
+ff("frame ", `${name}.poster.png`, ["-frames:v", "1"], posterSeek);
 const posterPath = join(OUT_DIR, `${name}.poster.webp`);
 await sharp(framePath).webp({ quality: 88 }).toFile(posterPath);
 rmSync(framePath);

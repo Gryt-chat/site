@@ -55,7 +55,7 @@ export function Motivation() {
     <section className={styles.section} id="motivation">
       <motion.div className={styles.inner} variants={stagger(reduced)} {...inView}>
         <motion.p className={styles.eyebrow} variants={rise(reduced)}>
-          Why this exists
+          Motivation
         </motion.p>
         <motion.h2 className={styles.title} variants={rise(reduced)}>
           One senior engineer, four years, and a voice stack written from
@@ -64,9 +64,9 @@ export function Motivation() {
 
         <motion.div className={styles.prose} variants={rise(reduced)}>
           <p>
-            I started Gryt in May 2022 because I wanted somewhere for my friends
-            to talk that I was not renting from anybody, and because the chat
-            apps we were using kept asking for a little more of us every year.
+            I started Gryt in May 2022. I wanted somewhere for my friends to
+            talk that I wasn't renting from anybody, and the chat apps we were
+            using kept asking for a bit more of us every year.
           </p>
           <p>
             Roughly two of those four years went into WebRTC before the media
@@ -81,11 +81,11 @@ export function Motivation() {
             call I want to be able to trace it down to an individual packet.
           </p>
           <p>
-            It is still one person. The app, the server, the voice stack, the
+            It's still one person. The app, the server, the voice stack, the
             identity system, the component library, the mobile app, the docs and
-            this page. That is either the best or the worst thing about Gryt
-            depending on what you need from it, and you should know it before
-            you build a community on top of it.
+            this page. That's either the best or the worst thing about Gryt
+            depending on what you need from it, and you should know that before
+            you put a community on it.
           </p>
         </motion.div>
 
