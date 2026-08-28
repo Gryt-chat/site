@@ -40,34 +40,34 @@ export function Identity() {
       eyebrow="No sign-up"
       title="No email, no phone number, and no photo of your face."
       media={
-        <Frame label="It's a real password field, so your manager offers to fill it like it fills any other.">
+        <Frame label="It's a real password field, so your password manager offers to fill it like any other.">
           <VaultSketch />
         </Frame>
       }
     >
       <p>
-        Signing up for a chat app usually means giving a company enough to
-        identify you, then hoping they look after it. Gryt doesn't ask. Your
-        device makes an identity for you, and your device keeps it.
+        Most chat apps want enough about you to know who you are, and then you
+        just have to hope they look after it. Gryt doesn't ask. Your device
+        makes an identity and your device keeps it.
       </p>
 
       <p>
-        You can put it in a password manager, the same as any password. It's
-        twenty-four words. On a second machine you paste them back in.{" "}
+        It's twenty-four words. Put them in your password manager like any
+        other password, and paste them back in on your next machine.{" "}
         <a href={ACCOUNTS_DOCS} target="_blank" rel="noreferrer">
           How that works
         </a>
-        . None of it reaches us either way, and there is no advertising and
-        nothing that tracks you. <Link to="/privacy">What we hold</Link>.
+        . None of it comes to us. No ads, nothing tracking you.{" "}
+        <Link to="/privacy">What we hold</Link>.
       </p>
 
       <p>
-        You can make an account, and it is not the more private option &mdash; a
-        guest identity involves nothing of ours, and signing in means trusting
-        our login service instead. What it buys you is one name across every
-        server, a way back in if you lose the device, and a ban that sticks. You
-        can do it later without losing the servers you have already joined, and
-        a server says whether it takes guests before you try one.
+        You can make an account too. But it's not the more private choice
+        &mdash; a guest identity never touches anything of ours, and signing in
+        means trusting our login service. What you get for it is one name on
+        every server, a way back in if you lose your device, and a ban that
+        sticks. You can do it later without losing the servers you've joined,
+        and a server tells you whether it takes guests before you try.
       </p>
     </Showcase>
   );

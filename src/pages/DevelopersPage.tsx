@@ -299,64 +299,64 @@ export function DevelopersPage() {
       <PageHeader
         eyebrow="For developers"
         title="Take a piece of it."
-        lede="Six of the pieces Gryt is made of are on npm. The design system, the tokens and the owl avatars are MIT, so you can use them in something that has nothing to do with Gryt. The bot SDK, the voice engine and the APIs are here too."
+        lede="Six of the pieces Gryt is made of are on npm. The design system, the tokens and the owl avatars are MIT, so you can drop them into something that has nothing to do with Gryt. The bot SDK, the voice engine and the APIs are here too."
       />
 
       <p className={styles.intro}>
         An identity is a P-256 keypair that signs its own certificate. A server
-        checks the signature instead of asking anybody, including us. There is
-        no bot account type, no bot token and no way for a bot to skip any of
-        it &mdash; what a bot can do is whatever an admin agreed to, checked the
-        same way it is checked for a person.
+        checks the signature instead of asking anyone, us included. There&rsquo;s
+        no bot account type, no bot token, and no way for a bot to skip any of
+        it. What a bot can do is whatever an admin agreed to, checked the same
+        way it&rsquo;s checked for a person.
       </p>
 
       <Block
         heading="An owl from a name"
-        note="Every avatar in Gryt is drawn from a nickname. The package that does it has no dependencies and never touches the network, so this page can just run it instead of showing you a picture. Type a name and both halves change."
+        note="Every avatar in Gryt is drawn from a nickname. The package that does it has no dependencies and never touches the network, so this page just runs it instead of showing you a picture. Type a name and both halves change."
       >
         <OwlPlayground />
       </Block>
 
       <Block
         heading="The packages"
-        note="All six are used by the app you can download, and none of them needs a Gryt server to be useful. Four are MIT. The two AGPL ones are the two that only make sense pointed at Gryt."
+        note="All six are used by the app you can download, and none of them needs a Gryt server to be useful. Four are MIT. The two AGPL ones only make sense pointed at Gryt anyway."
       >
         <PackageRows items={PACKAGES} />
       </Block>
 
       <Block heading="Bots">
         <p className={styles.blockNote}>
-          A bot joins a server the same way any other client does: a key it
+          A bot joins a server the same way any other client does. A key it
           holds, a certificate it signed itself, and a challenge-response over
-          P-256. From the server&rsquo;s side it is just another member.
+          P-256. From the server&rsquo;s side it&rsquo;s just another member.
         </p>
         <ol className={styles.steps}>
           <li>
-            It starts up knowing only the address, says what it is called and
-            what it wants to be allowed to do, and gets turned away.
+            It starts up knowing only the address, says what it&rsquo;s called
+            and what it wants to be allowed to do, and gets turned away.
           </li>
           <li>
             It leaves a request behind. An admin opens{" "}
             <strong>Server settings → Bots</strong> and sees it.
           </li>
           <li>
-            They untick anything they would rather it did not have, and let it
-            in.
+            They untick anything they&rsquo;d rather it didn&rsquo;t have, and
+            let it in.
           </li>
           <li>The approval reaches the bot without a restart. Leave it running.</li>
         </ol>
         <p className={styles.blockNote}>
           What a bot asks for on its first run is the only list it ever gets. A
-          later run asking for more is answered with the first run&rsquo;s
-          answer. The run that protects you from is the one that is not yours,
-          after a published image has changed hands. If nobody is around for the
-          first launch &mdash; a compose file, CI &mdash; an admin can decide it
-          all up front and hand over a single-use token instead.
+          later run asking for more gets the answer the first one got. That
+          isn&rsquo;t aimed at you. It&rsquo;s aimed at the run that isn&rsquo;t
+          yours, after somebody takes over a published image. And if nobody is
+          around for the first launch, like in a compose file or CI, an admin
+          can decide it all up front and hand over a single-use token.
         </p>
         <Snippet label="bot.ts" code={BOT_EXAMPLE} />
         <p className={styles.blockNote}>
           <code>bot.can()</code> answers from what the server said, not from
-          what you asked for, and it keeps up if an admin changes their mind
+          what you asked for. And it keeps up if an admin changes their mind
           while the bot is running.
         </p>
         <LinkRows items={BOTS} />
@@ -371,32 +371,33 @@ export function DevelopersPage() {
         </p>
         <Snippet label="pluginApi.ts" code={PLUGIN_API} />
         <p className={styles.blockNote}>
-          That is all of it. No sandbox, no permission model, no registry, no
-          docs page, and the plugin system is still listed as planned on the
-          roadmap. It is enough to restyle the client or bolt something small
-          onto it. It is not enough to build a product on.
+          And that&rsquo;s all of it. No sandbox, no permission model, no
+          registry, no docs page, and the plugin system is still down as planned
+          on the roadmap. It&rsquo;s enough to restyle the client or bolt
+          something small onto it. It isn&rsquo;t enough to build a product
+          on.
         </p>
         <p className={styles.blockNote}>
-          What it should turn into has not been decided. If you have tried to
-          write one, an issue saying what you needed is more use than a feature
-          request.
+          What it should turn into hasn&rsquo;t been decided yet. If you&rsquo;ve
+          tried to write one, an issue saying what you needed is more use than a
+          feature request.
         </p>
       </Block>
 
       <Block heading="The APIs">
         <p className={styles.blockNote}>
-          Everything the clients use. The one call that needs nothing from you
-          is <code>/info</code>, the join preview. It is open on purpose: a
-          client has to be able to tell you whether you need an account before
-          you try.
+          Everything the apps use. The one call that needs nothing from you is{" "}
+          <code>/info</code>, the join preview. It&rsquo;s open on purpose,
+          because a client has to be able to tell you whether you need an
+          account before you try.
         </p>
         <Snippet label="bash" code={INFO_REQUEST} shell />
         <Snippet label="json" code={INFO_RESPONSE} />
         <p className={styles.blockNote}>
-          A server with discovery turned off answers 404 to anyone who is not
-          already a member. The build number only comes back for members, since
-          an open endpoint that names your exact version is a list of hosts for
-          somebody to scan.
+          A server with discovery turned off answers 404 to anyone who
+          isn&rsquo;t already a member. The build number only comes back for
+          members, because an open endpoint that names your exact version is a
+          list of hosts for someone to scan.
         </p>
         <LinkRows items={APIS} />
       </Block>
@@ -407,19 +408,20 @@ export function DevelopersPage() {
       >
         <Snippet label="JoinButton.tsx" code={VOICE_EXAMPLE} />
         <p className={styles.blockNote}>
-          Two things have to be true above that, and both fail silently.{" "}
+          Two things have to be true above that, and both fail quietly.{" "}
           <code>&lt;VoiceSingletonHooks /&gt;</code> has to be mounted, or every
-          singleton hook just returns its starting value while the app builds
+          singleton hook just hands back its starting value while the app builds
           and launches like normal. And Vite has to leave the package alone with{" "}
           <code>optimizeDeps.exclude</code>, or the RNNoise worker looks for
-          itself somewhere it is not and you ship without noise suppression.
+          itself somewhere it isn&rsquo;t and you ship without noise
+          suppression.
         </p>
         <LinkRows items={VOICE} />
       </Block>
 
       <Block
         heading="The design system"
-        note="One set of tokens, two renderers, and a generator that turns a palette into a link. These three come straight out of the published package and are rendered here, picking up this page's colours as they go."
+        note="One set of tokens, two renderers, and a generator that turns a palette into a link. These three come straight out of the published package and are drawn here, picking up this page's colours as they go."
       >
         <div className={styles.sampleStage}>
           <Avatar seed="nora" alt="" size="small" />
@@ -432,7 +434,7 @@ export function DevelopersPage() {
 
       <Block
         heading="The source"
-        note="One superproject with the rest as submodules, each with its own CI and its own releases. The flag is not optional: without it you get thirteen empty folders."
+        note="One superproject with the rest as submodules, each with its own CI and its own releases. The flag isn't optional. Without it you get thirteen empty folders."
       >
         <Snippet label="bash" code={CLONE} shell />
         <LinkRows items={SOURCE} />
@@ -440,7 +442,8 @@ export function DevelopersPage() {
 
       <section className={styles.tail}>
         <p className={styles.tailText}>
-          If you are here to run a server rather than build on one, the{" "}
+          If you&rsquo;re here to run a server rather than build on one,
+          the{" "}
           <Link to="/self-hosting">self-hosting</Link> page has the guides.
         </p>
         <div className={styles.tailLinks}>

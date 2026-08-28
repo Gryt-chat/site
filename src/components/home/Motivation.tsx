@@ -55,7 +55,7 @@ export function Motivation() {
     <section className={styles.section} id="motivation">
       <motion.div className={styles.inner} variants={stagger(reduced)} {...inView}>
         <motion.p className={styles.eyebrow} variants={rise(reduced)}>
-          Why this exists
+          Motivation
         </motion.p>
         <motion.h2 className={styles.title} variants={rise(reduced)}>
           One senior engineer, four years, and a voice stack written from

@@ -181,13 +181,13 @@ export function Themes() {
     >
       <p>
         {Spell(OURS)} are ours. {Spell(PORTED)} are ports of themes you've
-        probably used somewhere else. A theme sets the whole palette and the
-        corner radius, so picking one changes the shape of the app as well as
-        the colour.
+        probably seen somewhere else. A theme sets the colours and the corner
+        radius, so picking one changes the shape of the app as well as the
+        colour.
       </p>
       <p>
-        The panel next to this is built from the same components as the app,
-        and each theme goes on it the same way.
+        The panel next to this is built from the same parts as the app, and
+        each theme goes on it the same way.
       </p>
       <p>
         If none of them fits, build one at{" "}
@@ -195,7 +195,7 @@ export function Themes() {
           ui.gryt.chat
         </a>{" "}
         and paste the link it gives you into Appearance. Text size, interface
-        scale and emoji size are separate settings: 10 to 24 pixels, 50 to 200
+        scale and emoji size are their own settings: 10 to 24 pixels, 50 to 200
         per cent, and 12 to 96 pixels.
       </p>
     </Showcase>

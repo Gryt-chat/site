@@ -52,18 +52,17 @@ export function Emoji() {
       eyebrow="Emoji"
       title="Bring the emoji you already have."
       media={<Clip {...IMPORT} alt={SHOWS} width={1080} height={1080} />}
-      mediaCaption="A whole pack from emoji.gg, from one link. You see the list before anything lands, and then the emoji are in the picker."
+      mediaCaption="A whole pack from emoji.gg, from one link. You get to see the list first, and then they're in the picker."
     >
       <p>
-        Paste a link into server settings and Gryt imports what's behind it.
-        One emoji, a whole pack, or somebody&rsquo;s entire profile from
-        emoji.gg or BetterTTV. You don&rsquo;t have to say which; it works that
-        out.
+        Paste a link into server settings and Gryt grabs what's behind it. One
+        emoji, a whole pack, or somebody&rsquo;s entire profile from emoji.gg or
+        BetterTTV. You don&rsquo;t have to tell it which one it is.
       </p>
       <p>
-        You see the list first. Rename the ones you want, untick the ones you
-        don&rsquo;t, and only the rest get imported. They all come out 128
-        pixels tall, and animated ones are stored as WebP.{" "}
+        You see the whole list before anything happens. Rename what you want,
+        untick what you don&rsquo;t, and only the rest come in. They all end up
+        128 pixels tall, and the animated ones are stored as WebP.{" "}
         <a href={DOCS} target="_blank" rel="noreferrer">
           Emoji in the docs
         </a>

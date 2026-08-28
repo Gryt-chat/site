@@ -54,10 +54,10 @@ export function Sponsors() {
           Gryt is free, and it isn't asking you for money.
         </motion.h2>
         <motion.p className={styles.sub} variants={rise(reduced)}>
-          There's nothing to buy inside it and nothing behind a subscription.
-          If you want to chip in you can, and it goes on a domain, the box the
-          auth stack runs on, and the Apple and Windows signing certificates.
-          Nothing here depends on it.
+          There's nothing to buy in it and nothing behind a subscription. You
+          can chip in if you want to. It pays for a domain, the box the auth
+          stack runs on, and the Apple and Windows signing certificates. None of
+          this depends on it.
         </motion.p>
 
         <motion.ul className={styles.logos} variants={rise(reduced)}>

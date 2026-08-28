@@ -135,8 +135,8 @@ function Pane() {
       </ul>
 
       <p className={styles.note}>
-        The pane from the app, built here from the same components. Nobody on
-        this page is on your network &mdash; these four are made up.
+        The pane from the app, built here from the same parts. Nobody on this
+        page is on your network. These four are made up.
       </p>
     </div>
   );
@@ -160,13 +160,14 @@ export function Lan() {
       mediaCaption={LAN ? "A server started on one machine, appearing on another." : undefined}
     >
       <p>
-        Start a server on your machine and everyone else on the network sees
-        it appear in their list. No address to read out, no invite link to send
-        round. It's mDNS, the same thing that finds your printer.
+        Start a server on your machine and everyone else on the network just
+        sees it appear in their list. No address to read out, no invite link to
+        send round. It's mDNS, the same thing that finds your printer.
       </p>
       <p>
         The desktop app is the one doing the looking, so a browser tab won't
-        find anything this way. The server has a switch for it, on by default.{" "}
+        find anything this way. The server has a switch for it and it's on by
+        default.{" "}
         <a href={DOCS} target="_blank" rel="noreferrer">
           Hosting from the app
         </a>

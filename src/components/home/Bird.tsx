@@ -93,7 +93,7 @@ export function Bird() {
           Avatars
         </motion.p>
         <motion.h2 className={styles.title} variants={rise(reduced)}>
-          Everybody gets an owl. Yours gets drawn right here.
+          Everybody gets an owl. Here's yours.
         </motion.h2>
 
         <motion.div
@@ -106,7 +106,7 @@ export function Bird() {
               read as a caption rather than as the one thing on this section
               you are meant to type in. */}
           <label className={styles.field}>
-            <span className={styles.fieldLabel}>Type a name and watch</span>
+            <span className={styles.fieldLabel}>Type a name</span>
             <input
               className={styles.input}
               value={name}
@@ -143,9 +143,9 @@ export function Bird() {
         <motion.figure className={styles.capture} variants={rise(reduced)}>
           <Clip {...EDITOR} alt={EDITOR_SHOWS} width={2200} height={1212} />
           <figcaption>
-            The same designer in the app, doing the bits this page can't: the
-            owls you've worn before, Surprise me, and a message at the end to
-            show the new bird came with it.
+            The same designer in the app, doing the bits this page can't. The
+            owls you've worn before, Surprise me, and a message at the end so
+            you can see the new owl actually turn up.
           </figcaption>
         </motion.figure>
 
@@ -154,10 +154,10 @@ export function Bird() {
         </motion.h3>
         <motion.p className={styles.sub} variants={rise(reduced)}>
           A GIF stays a GIF, and so does an animated WebP. It keeps moving
-          instead of being flattened to the first frame, and it plays in the
-          member list and next to every message you send. There's no paid tier
-          that unlocks it. Up to 25&nbsp;MB, cropped square, stored at 256
-          pixels. Server icons take the same files.{" "}
+          instead of getting flattened to the first frame, and it plays in the
+          member list and next to every message you send. You don't have to pay
+          for that. Up to 25&nbsp;MB, cropped square, stored at 256 pixels.
+          Server icons work the same way.{" "}
           <a href={AVATAR_DOCS} target="_blank" rel="noreferrer">
             More on profiles
           </a>

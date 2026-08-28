@@ -109,9 +109,9 @@ export function SelfHost() {
           Put it on a machine that stays on.
         </motion.h2>
         <motion.p className={styles.sub} variants={rise(reduced)}>
-          Hosting from the app is fine for an evening with friends. If you
-          want a server that's still there after you close your laptop, put it
-          on something that stays on. Pick whichever of these sounds like you.
+          Hosting from the app is fine for an evening with friends. But if you
+          want it still running after you shut your laptop, put it on something
+          that stays on. Pick whichever of these sounds like you.
         </motion.p>
 
         <motion.figure className={styles.capture} variants={rise(reduced)}>
@@ -119,7 +119,7 @@ export function SelfHost() {
           <figcaption>
             The whole thing, uncut. Name it, keep the port it picked, press
             create, say something, and there it is on the network for everyone
-            else. It stops when you close the app, which is what the four below
+            else. It stops when you close the app. That's what the four below
             are for.
           </figcaption>
         </motion.figure>

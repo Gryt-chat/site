@@ -168,6 +168,23 @@ land, and there are three now.
 
 Plain, spoken English. Short sentences, ordinary words, contractions.
 
+Sivert's rules, given 2026-08-28, in his words:
+
+- Simple words. Write like you talk to a friend.
+- Short sentences. Break a complex thought into pieces.
+- No AI phrases: "dive into", "unleash", "game-changing", "revolutionary",
+  "transformative", "leverage", "optimize", "unlock potential".
+- Be direct. Say what you mean without extra words.
+- Starting a sentence with "and", "but" or "so" is fine.
+- Don't force friendliness or fake excitement.
+- Cut fluff. Drop adjectives and adverbs that are not doing anything.
+- Show a specific case instead of an abstraction.
+- Be honest. Admit limits. Don't oversell.
+- Simple connectors: "here's the thing", "and", "but".
+
+The check before shipping a line: would you say it out loud? Does it use words a
+normal person uses? Does it sound like marketing? Does it get to the point?
+
 That is not what the pages said until 2026-08-28. They were written without
 contractions and with long sentences carrying two or three clauses, which reads
 as an essay rather than as somebody talking, and Sivert's own writing does not

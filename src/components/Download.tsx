@@ -120,9 +120,10 @@ export function Download() {
         <p className={styles.eyebrow}>Download</p>
         <h2 className={styles.title}>Download Gryt.</h2>
         <p className={styles.desc}>
-          The desktop app is the one that hosts servers and does push-to-talk
-          while it's in the background. The browser gets you into a call in
-          about ten seconds and needs nothing installed.
+          The desktop app is the one that hosts servers, and the one where
+          push-to-talk still works when the window isn't in front. The browser
+          gets you into a call in about ten seconds and needs nothing
+          installed.
         </p>
 
         <OSTabs value={selectedOS} onChange={setSelectedOS} />

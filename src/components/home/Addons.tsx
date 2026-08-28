@@ -27,12 +27,12 @@ export function Addons() {
       <p>
         An addon is a folder with an <code>addon.json</code> in it. A theme
         addon adds CSS. A plugin addon adds a module, and that module can talk
-        to exactly one thing: an object on <code>window</code> holding a
-        version, the theme you're on, and an event for when you change it.
+        to exactly one thing: an object on <code>window</code> with a version,
+        the theme you're on, and an event for when you change it.
       </p>
       <p>
-        That's all of it. There's no sandbox, no registry and no marketplace,
-        and the plugin system is still{" "}
+        And that's all of it. No sandbox, no registry, no marketplace, and the
+        plugin system is still{" "}
         <a href={ROADMAP} target="_blank" rel="noreferrer">
           on the roadmap
         </a>
