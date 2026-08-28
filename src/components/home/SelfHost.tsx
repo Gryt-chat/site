@@ -76,7 +76,7 @@ const WAYS = [
   {
     name: "Linux",
     detail:
-      "Four commands and a server is up. The database is SQLite, so a backup is one directory — with one catch worth reading about first.",
+      "Four commands and a server is up. The database is SQLite, so a backup is one directory. There's a catch worth reading about first.",
     href: `${DOCS}/guide/quick-start`,
     linkLabel: "Quick start",
   },

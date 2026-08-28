@@ -270,10 +270,9 @@ export function SelfHostingPage() {
           <a href={`${DOCS}/deployment/backups`} target="_blank" rel="noreferrer">
             how to take one
           </a>{" "}
-          before you write a cron job. The database runs in WAL mode, so copying{" "}
-          <code>gryt.db</code> on its own while the server is running can hand
-          you a file with nothing in it &mdash; not an old backup, an empty one,
-          and you find out on the day you restore it.
+          first. The database runs in WAL mode, so copying <code>gryt.db</code>{" "}
+          on its own while the server is running can hand you an empty database,
+          and nothing says so until the day you restore it.
         </p>
         <LinkRows items={RUN} />
       </Block>
