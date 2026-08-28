@@ -178,6 +178,11 @@ const RUN: RowItem[] = [
     detail: "Metrics and health endpoints, for when you want to know before somebody tells you.",
     href: `${DOCS}/deployment/monitoring`,
   },
+  {
+    name: "Backups",
+    detail: "What to copy, and why copying gryt.db on its own can hand you an empty database.",
+    href: `${DOCS}/deployment/backups`,
+  },
 ];
 
 const TOOLS: RowItem[] = [
@@ -258,8 +263,17 @@ export function SelfHostingPage() {
         <p className={styles.blockNote}>
           Back up the server data directory first if you&rsquo;re moving to a
           beta. A beta build can change the SQLite schema when it starts, and
-          there&rsquo;s no way back down. Going back means restoring that
-          copy.
+          there&rsquo;s no way back down. Going back means restoring that copy.
+        </p>
+        <p className={styles.blockNote}>
+          And read{" "}
+          <a href={`${DOCS}/deployment/backups`} target="_blank" rel="noreferrer">
+            how to take one
+          </a>{" "}
+          before you write a cron job. The database runs in WAL mode, so copying{" "}
+          <code>gryt.db</code> on its own while the server is running can hand
+          you a file with nothing in it &mdash; not an old backup, an empty one,
+          and you find out on the day you restore it.
         </p>
         <LinkRows items={RUN} />
       </Block>
