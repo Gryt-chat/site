@@ -109,13 +109,15 @@ export function Download() {
   return (
     <section className={styles.section} id="download">
       <div className={styles.box}>
-        {/* The heading says the word people are scanning for.
-            It used to be "Somewhere for your people, in about a minute." — a
-            benefit line that never said "download" anywhere, on the one section
-            somebody arrives at having already decided. The eyebrow moved to
-            carry the minute, because that is the reassurance and the heading is
-            the signpost. */}
-        <p className={styles.eyebrow}>About a minute</p>
+        {/* Both lines say the word people are scanning for.
+            The heading used to be "Somewhere for your people, in about a
+            minute." — a benefit line that never said "download" anywhere, on
+            the one section somebody arrives at having already decided. The
+            minute moved up to the eyebrow, and then out of it: an eyebrow is a
+            label for the section under it, and "About a minute" is not the name
+            of anything. The reassurance is still on the page, a line below, in
+            the sentence about the browser taking ten seconds. */}
+        <p className={styles.eyebrow}>Download</p>
         <h2 className={styles.title}>Download Gryt.</h2>
         <p className={styles.desc}>
           The desktop app is the one that hosts servers and does global

@@ -254,8 +254,8 @@ for the first three, 3840x2116 for the two added on 2026-08-28:
 | `client-live` | the hero, 12s of the 20s take | `--width 2200 --fps 60 --av1-crf 30 --h264-crf 21 --duration 12` |
 | `screen-share` | `Voice`, 10s | `--width 2200 --fps 60 --av1-crf 30 --h264-crf 21` |
 | `emoji-import` | `Emoji`, all 15s, **1:1** | `--width 1080 --fps 60 --av1-crf 30 --h264-crf 21` |
-| `create-server` | `SelfHost`, 11.5s | `--width 2200 --fps 30 --duration 11.5 --poster-at 2.9` |
-| `avatar-editor` | `Bird`, 11.2s | `--width 2200 --fps 30 --start 2.4 --duration 11.2` |
+| `create-server` | `SelfHost`, all 16s | `--width 2200 --fps 30 --poster-at 2.9` |
+| `avatar-editor` | `Bird`, all 18.5s | `--width 2200 --fps 30 --poster-at 2.4` |
 
 **2200 wide** because the widest slot any of them sits in is 1180 CSS px, and a
 2x display asking for that wants roughly this many real pixels.
@@ -272,15 +272,22 @@ They are flat UI at a walking pace — a dialog, a field, a cursor crossing a
 grid of owls — and nothing in either of them is a claim about frame rate. Going
 to 60 would have doubled the bytes to say nothing.
 
-**`--poster-at` exists because of `create-server`.** The poster is what
-`prefers-reduced-motion` gets *instead of* the video, and that clip opens on an
-empty client — "Nothing here yet" is an honest first frame and a poor still for
-a section about starting a server. The flag takes the still from 2.9s, where
-the Create your server dialog is open with the port already filled in, and
-leaves the clip starting where it started. `avatar-editor` needed the opposite
-fix and got it by moving the in-point: its first two seconds are a settings
-panel sliding open, so both the still and the first second were a half-drawn
-UI, and `--start 2.4` opens on the wardrobe instead.
+**Neither of the two new ones is trimmed, and that is the point of them.**
+They were cut down first — `create-server` to 11.5s and `avatar-editor` to
+11.2s — and Sivert said no: each is one continuous take of a process, and the
+last few seconds are the part that proves the rest. `create-server` ends on the
+discovery page with the server it just made already listed; `avatar-editor`
+ends on a message sent with the new owl beside it. A cut that stopped earlier
+would end on a toast saying it worked rather than on it having worked.
+
+**`--poster-at` exists because of this.** The poster is what
+`prefers-reduced-motion` gets *instead of* the video, so with trimming off the
+table it is the only way to keep a bad first frame out of the still.
+`create-server` opens on an empty client — "Nothing here yet" is an honest first
+frame and a poor still for a section about starting a server — and takes its
+still from 2.9s, where the Create your server dialog is open with the port
+already filled in. `avatar-editor` opens on a settings panel sliding open and
+takes its still from 2.4s, on the wardrobe.
 
 The hero take is cut to 12 seconds. It loops silently, nobody watches a hero for
 twenty, and the trim takes it from 3.5 MB to 1.6 MB of AV1 before anything else
@@ -314,12 +321,18 @@ resolution of the older rule about video-shaped holes: the hole is the problem,
 not the absence of footage, so each of those sections has something finished in
 it that a clip will later replace.
 
-Footage for it exists. The `create-server` take runs on past its in-point and
-ends on the Servers on your network page with the server that was just made
-turning up in it, which is exactly `Lan`'s claim. It is not on the page because
-that page lists real machines by name — a `.local` mDNS hostname and three
-truncated MacBook names — and putting those in a public repository is not
-undoable afterwards. Sivert's call.
+Its footage is on the page, at the end of `create-server` over in `SelfHost` —
+the same take runs on to Servers on your network with the server it just made
+listed on it. It was briefly cut out and shown here as a second clip, and that
+was wrong twice over: it is one continuous thing, and the same take running in
+two places on one page is the same footage twice. `Lan`'s pane says in its own
+caption that the four servers on it are made up, which is the honest version of
+a reconstruction.
+
+That clip lists real machines by name — a `.local` mDNS hostname and three
+truncated MacBook names. Nothing routable and nothing secret, but a public
+repository is not undoable, so it was Sivert's call rather than an assumption,
+made on 2026-08-28.
 
 **`SelfHost` and `Bird` are the two sections that gained a capture.** Neither
 had one. `SelfHost` had four cards and no picture of the thing the first card

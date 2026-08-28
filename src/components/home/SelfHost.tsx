@@ -9,18 +9,26 @@ const DOCS = "https://docs.gryt.chat/docs";
 /**
  * Hosting from the app, start to finish, with nothing cut out.
  *
- * Sivert's own capture, 2026-08-28. Eleven and a half seconds from an empty
- * client to a server with a channel open and somebody talking in it: Add a
- * server, name it, take the port it picked, press create. There is no terminal
- * in the recording because there is no terminal in the flow, which is the whole
- * claim of the first card below and was a sentence until now.
+ * Sivert's own capture, 2026-08-28, and **the whole take**. Sixteen seconds
+ * from an empty client to a server that somebody else on the network can see:
+ * Add a server, name it, take the port it picked, press create, look through
+ * the settings it made, say something in #General, react to it, and open
+ * Servers on your network to find it already listed. There is no terminal in
+ * the recording because there is no terminal in the flow, which is the claim of
+ * the first card below and was a sentence until now.
+ *
+ * It was cut into two shorter clips first — the creation here, the discovery
+ * page over in `Lan` — and that was wrong. It is one continuous thing, the
+ * point of it is that you watch a server go from nothing to findable without
+ * the recording ever leaving the app, and two clips of the same take running in
+ * two places on one page is the same footage twice.
  *
  * `--poster-at 2.9` rather than the first frame. The clip opens on an empty
  * client, and an empty client is what `prefers-reduced-motion` would have been
  * handed as the still for a section about starting a server.
  *
  *   node scripts/encode-clips.mjs create-server-preview.mp4 create-server \
- *     --width 2200 --fps 30 --duration 11.5 --poster-at 2.9
+ *     --width 2200 --fps 30 --poster-at 2.9
  *
  * 30fps and the script's default CRFs, unlike the two clips in Hero and Voice.
  * This is flat UI at a walking pace — a dialog, a field, a cursor — and frame
@@ -34,8 +42,9 @@ const CREATE: ClipSet = {
 
 const CREATE_SHOWS =
   "An empty Gryt client, then Add a server, a name typed into Create your " +
-  "server with the port already filled in, and a running server with its " +
-  "General channel open";
+  "server with the port already filled in, a running server with its General " +
+  "channel open and a message sent in it, and finally the Servers on your " +
+  "network page with that server already listed";
 
 /**
  * Four ways in, and none of them is a wall of shell.
@@ -108,9 +117,10 @@ export function SelfHost() {
         <motion.figure className={styles.capture} variants={rise(reduced)}>
           <Clip {...CREATE} alt={CREATE_SHOWS} width={2200} height={1212} />
           <figcaption>
-            Hosting from the app, in full: name it, take the port it picked,
-            press create. It stops when you close the app, which is what the
-            four below are for.
+            The whole thing, uncut: name it, take the port it picked, press
+            create, say something, and there it is on the network for everybody
+            else. It stops when you close the app, which is what the four below
+            are for.
           </figcaption>
         </motion.figure>
 

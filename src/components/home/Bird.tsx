@@ -31,21 +31,26 @@ import styles from "./Bird.module.css";
 const AVATAR_DOCS = "https://docs.gryt.chat/docs/guide/accounts";
 
 /**
- * The designer in the app, doing the three things the one above it cannot.
+ * The designer in the app, doing the things the one above it cannot.
  *
- * Sivert's own capture, 2026-08-28. The component on this page is the client's,
- * but a marketing page has no account to save to and no member list to save
- * into — so the parts of the feature that only exist inside the app were a
- * claim until now: the wardrobe counts down the left, Surprise me rolling a
- * whole owl at once, Use this owl, and the new bird arriving on the profile and
- * on every message the moment it uploads.
+ * Sivert's own capture, 2026-08-28, and **the whole take**. The component on
+ * this page is the client's, but a marketing page has no account to save to and
+ * no member list to save into — so the parts of the feature that only exist
+ * inside the app were a claim until now: the wardrobe counts down the left,
+ * Surprise me rolling a whole owl at once, Use this owl, and then the message
+ * he sends afterwards, which is the only thing in the recording that proves the
+ * new bird actually went anywhere.
+ *
+ * That ending is why it is not trimmed. A cut that stopped at "Avatar updated"
+ * would end on a toast saying it worked; this one ends on it having worked, on
+ * a message and in a member list.
  *
  *   node scripts/encode-clips.mjs avatar-editor-preview.mp4 avatar-editor \
- *     --width 2200 --fps 30 --start 2.4 --duration 11.2
+ *     --width 2200 --fps 30 --poster-at 2.4
  *
- * It starts at 2.4s rather than 0. The first two seconds are a settings panel
- * sliding open, and a frame of that is both a poor still and a poor first
- * second — the clip opens on the wardrobe instead, which is what it is about.
+ * The still is taken from 2.4s rather than the first frame. The first two
+ * seconds are a settings panel sliding open, and a half-drawn panel is a poor
+ * thing to hand somebody who has asked for no motion.
  */
 const EDITOR: ClipSet = {
   src: "/home/avatar-editor.mp4",
@@ -56,7 +61,8 @@ const EDITOR: ClipSet = {
 const EDITOR_SHOWS =
   "The owl designer open in the Gryt desktop app: rows of expressions, " +
   "glasses, heads and colours being picked, Surprise me rolling a new bird, " +
-  "and the chosen owl appearing on the profile once it is saved";
+  "and the chosen owl appearing on the profile and beside a message once it " +
+  "is saved";
 
 /** Four names, four owls, drawn here rather than saved as images. */
 const GALLERY = ["kasper", "nora", "tobias", "ida"];
@@ -78,8 +84,13 @@ export function Bird() {
   return (
     <section className={styles.section} id="bird">
       <motion.div className={styles.inner} variants={stagger(reduced)} {...inView}>
+        {/* The label for the section, not a second headline. "Your own bird,
+            if you want it" was a sentence in the slot every other section fills
+            with one word, and the heading under it already says the same thing
+            with more room to do it in. `Avatars` is also what this section is,
+            since the upload half moved in here. */}
         <motion.p className={styles.eyebrow} variants={rise(reduced)}>
-          Your own bird, if you want it
+          Avatars
         </motion.p>
         <motion.h2 className={styles.title} variants={rise(reduced)}>
           Everybody gets an owl. Yours is drawn where you are standing.
@@ -133,8 +144,8 @@ export function Bird() {
           <Clip {...EDITOR} alt={EDITOR_SHOWS} width={2200} height={1212} />
           <figcaption>
             The same designer in the app, with the parts this page has nowhere
-            to put: a wardrobe you have worn before, Surprise me, and the bird
-            landing on your profile and your messages as soon as you keep it.
+            to put: a wardrobe you have worn before, Surprise me, and a message
+            sent at the end to show the new bird arrived with it.
           </figcaption>
         </motion.figure>
 
