@@ -572,6 +572,32 @@ the heading claims. It follows the name until somebody picks a hat, at which
 point the bird is theirs. The client leaves the prop off: there you open the
 designer to design, and your last look is the right place to start.
 
+**Picking a theme repaints the whole page, on `/` only.** Press an arrow and
+the 233 custom properties go onto `<html>` instead of just onto the panel, so
+the navbar, every section and the footer move with it, radius included.
+`src/styles/tokens.css` is what makes that a twenty-line hook rather than a
+rewrite: every name this site uses is an alias of a `--gryt-` property, so
+setting the design system's variables at the root moves everything that reads
+one.
+
+Three conditions on it, in `usePageTheme.ts`:
+
+- **Only after somebody presses an arrow.** It hangs off the same `picked` flag
+  that stops the rotation, so the two happen together. Repainting the whole site
+  every four seconds while the carousel cycles on its own would be a page nobody
+  could read.
+- **Only on the front page.** `Themes` renders on `/` and nowhere else, so
+  navigating away unmounts it and the cleanup removes every property. A theme
+  that followed you to `/why-gryt` would be a preference the site had decided to
+  remember, and this is a demonstration rather than a setting.
+- **On `document.documentElement`, not `body`.** The navbar and the footer sit
+  outside the page's own tree, and a variable set on `body` reaches neither.
+
+What does not follow: the clips and screenshots. They are recordings of the app
+in the theme it was recorded in, and no amount of CSS retints a video. The page
+around them changes and they do not, which is the honest version — they are
+captures, not mock-ups.
+
 **`Themes` shows one panel that restyles, not eighteen swatches.** A theme
 changes the corner radius as well as the palette and a row of colour chips
 cannot show that. `createGrytTheme(grytThemeToOptions(preset.theme, "dark"))`
