@@ -131,11 +131,12 @@ export function Download() {
         {OS_LABELS[selectedOS].comingSoon && (
           <div className={styles.comingSoonPanel}>
             <p className={styles.comingSoonTitle}>
-              The {OS_LABELS[selectedOS].label} app is in development
+              The {OS_LABELS[selectedOS].label} app isn&rsquo;t ready yet
             </p>
             <p className={styles.comingSoonDesc}>
-              It is being built and made stable right now, so there is nothing to
-              download yet. Until there is, Gryt runs in your mobile browser at{" "}
+              It&rsquo;s being built right now, so there&rsquo;s nothing to
+              download. Until there is, Gryt runs in your phone&rsquo;s browser
+              at{" "}
               <a href="https://app.gryt.chat" target="_blank" rel="noreferrer">
                 app.gryt.chat
               </a>
@@ -146,7 +147,7 @@ export function Download() {
         {!OS_LABELS[selectedOS].comingSoon && error && (
           <div className={styles.fallback}>
             <Alert severity="warning">
-              Could not reach GitHub for the release list.
+              Couldn&rsquo;t reach GitHub for the list of releases.
             </Alert>
             <Button
               render={<a href="https://github.com/Gryt-chat/gryt/releases" target="_blank" rel="noreferrer" />}
@@ -161,7 +162,7 @@ export function Download() {
         {!OS_LABELS[selectedOS].comingSoon && !error && !release && (
           <div className={styles.loading}>
             <Spinner size={18} />
-            Looking up the latest release…
+            Finding the latest release…
           </div>
         )}
 
@@ -175,7 +176,7 @@ export function Download() {
 
         {!OS_LABELS[selectedOS].comingSoon && !error && release && options.length === 0 && (
           <div className={styles.fallback}>
-            <p>No downloads available for {OS_LABELS[selectedOS].label} yet.</p>
+            <p>Nothing to download for {OS_LABELS[selectedOS].label} yet.</p>
             <Button
               render={<a href="https://github.com/Gryt-chat/gryt/releases" target="_blank" rel="noreferrer" />}
               tone="neutral"
