@@ -120,6 +120,26 @@ ICE_UDP_MUX_PORT=3478
 CORS_ORIGIN=http://127.0.0.1:15738,https://app.gryt.chat`;
 
 /**
+ * The Caddyfile from `deployment/docker-compose`, as it is written there.
+ *
+ * The page told people to go public and never said what terminates the TLS.
+ * The server does not: `packages/server/src/index.ts` calls `createServer`
+ * from `http` and has no certificate of its own, so every deployment with a
+ * domain on it has something in front, and the docs' answer is Caddy.
+ *
+ * Four lines rather than the compose service that runs it, because the compose
+ * service is boilerplate and these are the two decisions in it: which name
+ * goes to which of the two services people have to reach.
+ */
+const CADDYFILE = `api.example.com {
+    reverse_proxy server:5000
+}
+
+sfu.example.com {
+    reverse_proxy sfu:5005
+}`;
+
+/**
  * Upgrading, which is the same two lines as installing.
  *
  * Worth the four lines of page it takes because the docs' warning is easy to
@@ -134,6 +154,11 @@ const REACH: RowItem[] = [
     name: "No domain, just an IP",
     detail: "What works and what does not when there is no name pointing at the box.",
     href: `${DOCS}/deployment/no-domain`,
+  },
+  {
+    name: "TLS with Caddy",
+    detail: "The compose service that runs the proxy above, and where the certificates come from.",
+    href: `${DOCS}/deployment/docker-compose#tls-with-caddy-recommended`,
   },
   {
     name: "Cloudflare Tunnel",
@@ -252,6 +277,21 @@ export function SelfHostingPage() {
           doesn&rsquo;t cover it.
         </p>
         <Snippet label=".env" code={PUBLIC_ENV} />
+        <p className={styles.blockNote}>
+          The server doesn&rsquo;t do TLS. It speaks plain HTTP and has no
+          certificate of its own, so a domain means something in front of it.
+          Caddy is the usual answer. It gets the certificates and renews them
+          without being asked, and the config is two names pointed at two
+          services.
+        </p>
+        <Snippet label="Caddyfile" code={CADDYFILE} />
+        <p className={styles.blockNote}>
+          <code>server</code> and <code>sfu</code> are the compose service
+          names, so it works from a Caddy container in the same file. The
+          second name has to be the one in{" "}
+          <code>SFU_PUBLIC_HOST</code>. And Caddy serves HTTP/3 on UDP 443 by
+          default, which is one more reason not to put voice on 443.
+        </p>
         <LinkRows items={REACH} />
       </Block>
 
