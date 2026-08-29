@@ -12,6 +12,12 @@ dist
 dist-ssr
 *.local
 
+# This project installs with yarn, and the Dockerfile runs
+# `yarn install --frozen-lockfile`. A committed package-lock.json is a second
+# dependency tree that nothing installs from, and Dependabot scans it: every
+# advisory was reported once per lockfile, which is how 63 became 126.
+package-lock.json
+
 # Environment
 .env
 .env.*
