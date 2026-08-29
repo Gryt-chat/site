@@ -153,21 +153,6 @@ of it is wired up and no behaviour depends on it yet. When encryption lands, tha
 notice becomes conditional, and it will say which people in a conversation cannot
 hold a key rather than disappearing quietly.
 
-## Under the hood
-
-- Voice moved into its own package, `@gryt/voice`, so the desktop app and the
-  phone app share one implementation instead of two that drift.
-- The SFU pings each connection and gives up on one that stops answering, rather
-  than forwarding to somebody who left.
-- The SFU says why before hanging up, instead of dropping the TCP connection.
-- The SFU decides who is in voice. Presence used to be the server's guess.
-- A reconnecting socket is told to retry rather than that it is forbidden. The old
-  answer was the one thing a client won't retry, so a reconnect during a restore
-  could put somebody out of a channel they were still in.
-- The Doctor places a real call and names the hop that's broken.
-- `image-worker` and `voice` build on every pull request. Neither had a workflow
-  that did.
-
 ---
 
 ## The short version
