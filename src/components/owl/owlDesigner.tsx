@@ -518,6 +518,7 @@ export function OwlDesigner({
      down as a prop. */
   useEffect(() => {
     if (!active) return;
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- the reset above
     setLookState(startingLook(followSeed ? seed : undefined));
     setCustomised(false);
     setPane("expression");
@@ -534,6 +535,7 @@ export function OwlDesigner({
   /** Follow the name, until somebody picks a hat. Then it is theirs. */
   useEffect(() => {
     if (!followSeed || customised || !seed) return;
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- follows a prop
     setLookState(lookFromSeed(seed));
   }, [followSeed, customised, seed]);
 
