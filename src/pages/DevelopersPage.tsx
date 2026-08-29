@@ -401,11 +401,11 @@ export function DevelopersPage() {
           it and the server sees a stranger knocking, holding nothing.
         </p>
         <p className={styles.blockNote}>
-          Mounting the volume isn&rsquo;t enough by itself. By default that
-          file is written next to the code, and the bot is the only thing that
-          can move it: <code>identityPath</code> is an option on{" "}
-          <code>GrytBot</code>, and the SDK reads no environment variables of
-          its own. The example passes{" "}
+          Mounting the volume isn&rsquo;t enough by itself. By default the bot
+          writes that file next to the code, and only the bot can move it.{" "}
+          <code>identityPath</code> is an option on <code>GrytBot</code>, and
+          the SDK reads no environment variables of its own. The example
+          passes{" "}
           <code>process.env.GRYT_IDENTITY_PATH</code>, and its Dockerfile sets
           that to <code>/data/gryt-bot-identity.json</code>. Miss it and the bot
           works, keeps its identity across restarts, and loses it the next time
