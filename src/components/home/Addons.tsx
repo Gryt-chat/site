@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 
+import { AddonSketch, Frame } from "../sketches";
 import { Showcase } from "../Showcase";
 
 /**
@@ -12,7 +13,9 @@ import { Showcase } from "../Showcase";
  * against a competitor while the roadmap listed the plugin system as planned.
  * That row is fixed; this section is why it was wrong.
  *
- * If this grows, this is the section that has to grow with it.
+ * If this grows, this is the section that has to grow with it, and so does
+ * `AddonSketch` — the drawing beside it is the claim about smallness made
+ * checkable, and it goes stale the same way the copy would.
  */
 const ROADMAP = "https://docs.gryt.chat/docs/guide/roadmap";
 
@@ -20,9 +23,15 @@ export function Addons() {
   return (
     <Showcase
       id="addons"
-      size="full"
+      size="regular"
+      side="right"
       eyebrow="Addons"
       title="Themes, and a small plugin API."
+      media={
+        <Frame label="A theme's CSS goes in like any other stylesheet. A plugin's module gets one object, with three things on it.">
+          <AddonSketch />
+        </Frame>
+      }
     >
       <p>
         An addon is a folder with an <code>addon.json</code> in it. A theme

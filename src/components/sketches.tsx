@@ -365,3 +365,89 @@ export function StackSketch() {
     </>
   );
 }
+
+/**
+ * What an addon is, and the one door a plugin gets.
+ *
+ * The section beside it says the surface is small, and a paragraph claiming
+ * smallness is the one claim a drawing can settle. So the two halves are drawn
+ * at the size they deserve: the folder on the left is the whole of what you
+ * write, and the door on the right is the whole of what you can reach.
+ *
+ * The facts are `packages/client/src/packages/addons/src`. `AddonManifest` in
+ * `types.ts` has `styles` for a theme and `main` for a plugin, and
+ * `useAddonLoader` injects the first and imports the second. `pluginApi.ts` is
+ * the door: `version`, `theme`, and `on("themeChange")`, hung on `window.gryt`.
+ * Three members, and nothing else on the object.
+ *
+ * The asymmetry between the two wires is the point. A theme's CSS goes into the
+ * client the way any stylesheet does, so that arrow lands on the app itself. A
+ * plugin's module lands on the door instead, because the door is all it gets.
+ *
+ * No `main` file is drawn holding a network call, a filesystem or a message,
+ * because it cannot have one. If the plugin API grows, this drawing has to grow
+ * with it or it becomes the same lie the copy used to tell.
+ */
+export function AddonSketch() {
+  return (
+    <svg
+      className={styles.svg}
+      viewBox="0 0 320 200"
+      role="img"
+      aria-label="An addon folder holding addon.json with a styles entry for a theme and a main entry for a plugin. The theme's CSS goes into the client; the plugin's module reaches one object on window, holding a version, the current theme, and a themeChange event."
+    >
+      {/* what you write */}
+      <rect x="14" y="28" width="118" height="144" rx="12" className={styles.panel} />
+      <text x="28" y="50" className={styles.smallStrong}>
+        Your folder
+      </text>
+      <line x1="28" y1="60" x2="118" y2="60" className={styles.axis} />
+
+      <text x="28" y="78" className={styles.mono}>
+        addon.json
+      </text>
+
+      <rect x="28" y="88" width="90" height="34" rx="9" className={styles.field} />
+      <text x="38" y="104" className={styles.mono}>
+        styles[]
+      </text>
+      <text x="38" y="116" className={styles.smallDim}>
+        a theme
+      </text>
+
+      <rect x="28" y="128" width="90" height="34" rx="9" className={styles.field} />
+      <text x="38" y="144" className={styles.mono}>
+        main
+      </text>
+      <text x="38" y="156" className={styles.smallDim}>
+        a plugin
+      </text>
+
+      {/* the client, and the one door in it */}
+      <rect x="176" y="28" width="130" height="144" rx="12" className={styles.panel} />
+      <text x="190" y="50" className={styles.smallStrong}>
+        The client
+      </text>
+      <text x="190" y="70" className={styles.mono}>
+        window.gryt
+      </text>
+
+      <rect x="188" y="80" width="106" height="76" rx="10" className={styles.gate} />
+      <text x="200" y="102" className={styles.small}>
+        version
+      </text>
+      <text x="200" y="122" className={styles.small}>
+        theme
+      </text>
+      <text x="200" y="142" className={styles.small}>
+        themeChange
+      </text>
+
+      {/* CSS goes into the client. A module gets the door and nothing else. */}
+      <path d="M124 105h52" className={styles.wire} />
+      <path d="M170 100l6 5-6 5" className={styles.wire} />
+      <path d="M124 145h64" className={styles.arc} />
+      <path d="M182 140l6 5-6 5" className={styles.arc} />
+    </svg>
+  );
+}

@@ -539,6 +539,21 @@ scrolls sideways, is worse on the one device where sideways is how you move
 through the page. The narrow one stacks the boxes and brings both arrows in from
 the left. Same facts, same classes, laid out for the width it is drawn at.
 
+`AddonSketch` — beside `Addons` on the front page — is the drawing that closes
+the last section on either audience page with an empty half at 1440. The section
+claims the addon surface is small, and a paragraph is the one thing that cannot
+settle a claim about smallness, so the drawing is the claim made checkable: the
+folder you write on the left, the client on the right, and inside it one box
+holding `version`, `theme` and `themeChange`. Nothing else on the object,
+because there is nothing else on the object.
+
+The two arrows are deliberately different. A theme's CSS lands on the client the
+way any stylesheet does, so that arrow stops at the panel. A plugin's module
+lands on the box, because the box is the whole of what it can reach. Facts from
+`packages/client/src/packages/addons/src` — `styles` and `main` in `types.ts`,
+and the three members of `GrytPluginAPI` in `pluginApi.ts`. If that interface
+grows, this drawing grows with it or it becomes the lie the copy used to tell.
+
 ## The front page, as it stands
 
 Twelve sections: `Hero`, `Identity`, `Bird`, `Emoji`, `Voice`, `Themes`, `Lan`,
