@@ -83,7 +83,6 @@ export function useTravellingUnderline<T extends HTMLElement>(
     placed.current = true;
   }, [target]);
 
-  /* eslint-disable react-hooks/set-state-in-effect */
   // `page` is not read by `measure` — it reads `aria-current` off the DOM — so
   // it is a dependency of the effect rather than of the callback.
   useEffect(measure, [measure, page]);
@@ -98,7 +97,6 @@ export function useTravellingUnderline<T extends HTMLElement>(
     for (const child of Array.from(list.children)) ro.observe(child);
     return () => ro.disconnect();
   }, [measure]);
-  /* eslint-enable react-hooks/set-state-in-effect */
 
   // Hover and keyboard focus both move it; leaving the row sends it back.
   useEffect(() => {
