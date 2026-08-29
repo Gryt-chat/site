@@ -107,11 +107,11 @@
   border-radius: 2px;
 }
 
-/* Scroll container only. Mermaid.tsx draws its own bordered, padded, filled box
-   inline, so a border and a fill here too would be a card inside a card. */
+/* `Frame` draws the box, the same one the drawings on the other pages sit in,
+   so there is nothing to add here but the space above it. The drawing scales
+   with the column, so there is nothing to scroll either. */
 .diagram {
   margin-top: 20px;
-  overflow-x: auto;
 }
 
 .tail {

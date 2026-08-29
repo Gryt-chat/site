@@ -451,3 +451,196 @@ export function AddonSketch() {
     </svg>
   );
 }
+
+/**
+ * What talks to what, on /why-gryt.
+ *
+ * This was a mermaid graph, and mermaid was in the bundle for it alone. Two
+ * things were wrong with that beyond the weight. Its node and edge labels
+ * cannot hold spaces without quoting, so the page shipped `Signaling_server`,
+ * `Object_storage` and `Optional_sign_in` to readers. And it drew its own
+ * bordered box in its own colours, which is why `WhyGryt.module.css` had to say
+ * "no border here, mermaid draws one" — a diagram that ignores the theme on a
+ * site whose whole front page repaints from one.
+ *
+ * Same facts as the graph it replaces: a client talks to the server for chat
+ * and uploads and to the SFU for media, the server owns the database and the
+ * object store, and identity hangs off the side because a guest never touches
+ * it. The dashed boundary is that last part, and the copy above the drawing
+ * already names it.
+ */
+function ArchitectureWide() {
+  return (
+    <svg
+      className={`${styles.svg} ${styles.wide}`}
+      viewBox="0 0 440 300"
+      role="img"
+      aria-label="You talk to the client. The client talks to the server for chat and uploads, and to the voice server for voice and video. The server owns the database and the file storage. Signing in and certificates sit apart, dashed, because a guest never uses them."
+    >
+      {/* you, and the app in front of you */}
+      <rect x="12" y="112" width="60" height="40" rx="10" className={styles.field} />
+      <text x="42" y="136" className={styles.smallCentre}>
+        You
+      </text>
+
+      <rect x="96" y="98" width="92" height="68" rx="12" className={styles.panel} />
+      <text x="142" y="126" className={styles.smallCentre} style={{ fontWeight: 700 }}>
+        Client
+      </text>
+      <text x="142" y="142" className={styles.smallCentreDim}>
+        app or browser
+      </text>
+
+      <path d="M74 132h16" className={styles.wire} />
+      <path d="M84 127l6 5-6 5" className={styles.wire} />
+
+      {/* the two things it talks to */}
+      <rect x="232" y="40" width="104" height="60" rx="12" className={styles.panel} />
+      <text x="284" y="66" className={styles.smallCentre} style={{ fontWeight: 700 }}>
+        Server
+      </text>
+      <text x="284" y="82" className={styles.smallCentreDim}>
+        chat and uploads
+      </text>
+
+      <rect x="232" y="164" width="104" height="60" rx="12" className={styles.panel} />
+      <text x="284" y="190" className={styles.smallCentre} style={{ fontWeight: 700 }}>
+        Voice server
+      </text>
+      <text x="284" y="206" className={styles.smallCentreDim}>
+        voice and video
+      </text>
+
+      <path d="M190 120C210 120 212 74 226 72" className={styles.wire} />
+      <path d="M220 67l6 5-6 5" className={styles.wire} />
+      <path d="M190 144C210 144 212 190 226 192" className={styles.wire} />
+      <path d="M220 187l6 5-6 5" className={styles.wire} />
+
+      {/* what the server keeps */}
+      <rect x="356" y="34" width="72" height="30" rx="9" className={styles.field} />
+      <text x="392" y="53" className={styles.smallCentre}>
+        Database
+      </text>
+      <rect x="356" y="76" width="72" height="30" rx="9" className={styles.field} />
+      <text x="392" y="95" className={styles.smallCentre}>
+        Files
+      </text>
+      <path d="M338 60h12" className={styles.wire} />
+      <path d="M344 55l6 5-6 5" className={styles.wire} />
+      <path d="M338 84h12" className={styles.wire} />
+      <path d="M344 79l6 5-6 5" className={styles.wire} />
+
+      {/* the half a guest never touches */}
+      <rect x="272" y="248" width="160" height="44" rx="12" className={styles.boundary} />
+      <text x="352" y="266" className={styles.smallCentreDim}>
+        Signing in, certificates
+      </text>
+      <text x="352" y="282" className={styles.smallCentreDim}>
+        not used by guests
+      </text>
+
+      {/* Both dashed lines start where the optional thing is actually asked
+          for: the client signs you in, and the server checks the certificate.
+          The voice server is not on either path, so nothing touches it. */}
+      <path d="M142 170v102h130" className={styles.boundary} />
+      <path d="M344 102v146" className={styles.boundary} />
+    </svg>
+  );
+}
+
+/**
+ * The same drawing for a phone, stacked.
+ *
+ * A 440-unit viewBox in a 330px column puts these labels at about eight
+ * pixels, which is the failure `StackSketchNarrow` exists for. One column
+ * instead: you, the client, then the two things it talks to with the server's
+ * storage under it.
+ *
+ * One difference from the wide one, and it is deliberate. There the optional
+ * half has two dashed lines into it, because the client asks for the sign-in
+ * and the server checks the certificate. Two dashed lines down a 320-unit
+ * column cross the boxes they are meant to avoid, so the narrow one draws a
+ * single connector and the group says both halves in words.
+ */
+function ArchitectureNarrow() {
+  return (
+    <svg
+      className={`${styles.svg} ${styles.narrow}`}
+      viewBox="0 0 320 400"
+      role="presentation"
+      aria-hidden="true"
+    >
+      <rect x="110" y="6" width="100" height="30" rx="9" className={styles.field} />
+      <text x="160" y="26" className={styles.smallCentre}>
+        You
+      </text>
+      <path d="M160 36v10" className={styles.wire} />
+      <path d="M155 42l5 6 5-6" className={styles.wire} />
+
+      <rect x="88" y="52" width="144" height="50" rx="12" className={styles.panel} />
+      <text x="160" y="74" className={styles.smallCentre} style={{ fontWeight: 700 }}>
+        Client
+      </text>
+      <text x="160" y="90" className={styles.smallCentreDim}>
+        app or browser
+      </text>
+      <path d="M160 102v16" className={styles.wire} />
+      <path d="M155 114l5 6 5-6" className={styles.wire} />
+
+      <rect x="48" y="126" width="224" height="48" rx="12" className={styles.panel} />
+      <text x="160" y="148" className={styles.smallCentre} style={{ fontWeight: 700 }}>
+        Server
+      </text>
+      <text x="160" y="164" className={styles.smallCentreDim}>
+        chat and uploads
+      </text>
+
+      <rect x="48" y="192" width="106" height="28" rx="9" className={styles.field} />
+      <text x="101" y="210" className={styles.smallCentre}>
+        Database
+      </text>
+      <rect x="166" y="192" width="106" height="28" rx="9" className={styles.field} />
+      <text x="219" y="210" className={styles.smallCentre}>
+        Files
+      </text>
+      <path d="M101 174v10" className={styles.wire} />
+      <path d="M96 180l5 6 5-6" className={styles.wire} />
+      <path d="M219 174v10" className={styles.wire} />
+      <path d="M214 180l5 6 5-6" className={styles.wire} />
+
+      <rect x="48" y="244" width="224" height="48" rx="12" className={styles.panel} />
+      <text x="160" y="266" className={styles.smallCentre} style={{ fontWeight: 700 }}>
+        Voice server
+      </text>
+      <text x="160" y="282" className={styles.smallCentreDim}>
+        voice and video
+      </text>
+      <path d="M88 78H24v190h18" className={styles.wire} />
+      <path d="M36 263l6 5-6 5" className={styles.wire} />
+
+      <rect x="40" y="330" width="240" height="52" rx="12" className={styles.boundary} />
+      <text x="160" y="350" className={styles.smallCentreDim}>
+        Signing in, certificates
+      </text>
+      <text x="160" y="366" className={styles.smallCentreDim}>
+        the client asks, the server checks
+      </text>
+      <path d="M232 78h64v274h-16" className={styles.boundary} />
+    </svg>
+  );
+}
+
+/**
+ * The pair. Only the wide one carries the description, for the reason
+ * `StackSketch` gives: two `img` roles saying the same thing is one screen
+ * reader announcement too many, and `display: none` is not something the
+ * accessibility tree is guaranteed to agree about across breakpoints.
+ */
+export function ArchitectureSketch() {
+  return (
+    <>
+      <ArchitectureWide />
+      <ArchitectureNarrow />
+    </>
+  );
+}

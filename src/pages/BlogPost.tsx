@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect } from 'react'
+import { Suspense, useEffect } from 'react'
 import { useParams, Link, Navigate } from 'react-router-dom'
 import { MdChevronLeft } from 'react-icons/md'
 import { Chip } from '@gryt/ui'
@@ -8,18 +8,6 @@ import { LightboxImage } from '../components/Lightbox'
 import { PostNav } from '../components/PostNav'
 import styles from './BlogPost.module.css'
 import type { ComponentPropsWithoutRef } from 'react'
-
-const LazyMermaid = lazy(() =>
-  import('../components/Mermaid').then((m) => ({ default: m.Mermaid }))
-)
-
-function MermaidWrapper(props: { chart: string }) {
-  return (
-    <Suspense fallback={<div style={{ margin: '24px 0', padding: '24px', textAlign: 'center', color: 'var(--text-dim)' }}>Loading diagram…</div>}>
-      <LazyMermaid {...props} />
-    </Suspense>
-  )
-}
 
 function MdxLink({ href, ...rest }: ComponentPropsWithoutRef<'a'>) {
   if (href?.startsWith('/')) {
@@ -32,7 +20,7 @@ function MdxImage(props: ComponentPropsWithoutRef<'img'>) {
   return <LightboxImage {...props} />
 }
 
-const components = { a: MdxLink, img: MdxImage, Image: MdxImage, Mermaid: MermaidWrapper }
+const components = { a: MdxLink, img: MdxImage, Image: MdxImage }
 
 export function BlogPost() {
   const { slug } = useParams<{ slug: string }>()
