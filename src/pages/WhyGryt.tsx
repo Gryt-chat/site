@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import type { ReactNode } from "react";
 
-import { Mermaid } from "../components/Mermaid";
+import { ArchitectureSketch, Frame } from "../components/sketches";
 import styles from "./WhyGryt.module.css";
 
 const DOCS_WHY_GRYT_URL = "https://docs.gryt.chat/docs/guide/why-gryt";
@@ -9,25 +9,6 @@ const DOCS_ARCH_URL = "https://docs.gryt.chat/docs/guide/architecture";
 const DOCS_ACCOUNTS_URL = "https://docs.gryt.chat/docs/guide/accounts";
 const DOCS_TUNNEL_URL =
   "https://docs.gryt.chat/docs/deployment/cloudflare-tunnel";
-
-/**
- * Identity hangs off the side because it is optional.
- *
- * The old diagram drew the login and the certificate as ordinary edges
- * alongside the ones carrying voice and messages, which read as four things you
- * need to have working. A guest never touches either.
- */
-const ARCHITECTURE = `
-graph TB
-  user[User] --> client[Client]
-  client -->|WSS_signaling| server[Signaling_server]
-  client -->|UDP_media| sfu[SFU]
-  server --> db[Database]
-  server --> s3[Object_storage]
-  client -.->|Optional_sign_in| auth[Identity_provider]
-  client -.->|Optional_certificate| identity[Identity_service]
-  server -.->|JWKS_verify| identity
-`;
 
 function Answer({ q, children }: { q: string; children: ReactNode }) {
   return (
@@ -158,7 +139,9 @@ export function WhyGryt() {
           ones a guest never uses.
         </p>
         <div className={styles.diagram}>
-          <Mermaid chart={ARCHITECTURE} />
+          <Frame label="Voice goes straight from the client to the voice server, over UDP. Nothing in between carries it, and that's the one a tunnel can't do for you.">
+            <ArchitectureSketch />
+          </Frame>
         </div>
       </Answer>
 

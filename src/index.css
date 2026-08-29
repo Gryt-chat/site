@@ -164,17 +164,3 @@ body {
 }
 .border-top { border-top: 1px solid var(--border); }
 
-/**
- * Mermaid puts each label in a foreignObject sized from its own measurement of
- * the text, and that measurement comes out narrower than the width the browser
- * then lays the same string out at. The foreignObject clips, so every label
- * lost its last character or two: "Signaling_server" read as "Signaling_serv",
- * "User" as "Use".
- *
- * The node box around it is already far wider than the text needs (89px of box
- * for a 33px label), so letting the label overflow its foreignObject shows it
- * in full and moves nothing.
- */
-.mermaidDiagram foreignObject {
-  overflow: visible;
-}
