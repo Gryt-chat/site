@@ -112,6 +112,30 @@ bot.command("ping", async (ctx) => ctx.reply("pong"));
 void bot.start();`;
 
 /**
+ * `examples/support-bot/compose.yml`, with the interpolation taken out.
+ *
+ * The real file guards `GRYT_HOST` with `${GRYT_HOST:?...}` and gives the
+ * nickname and the token defaults, which is right for a file somebody runs and
+ * wrong for one somebody reads: three of the four environment lines would be
+ * shell syntax rather than the thing being shown. The host is written out
+ * literally and the two optional keys are gone. Everything left is that file.
+ *
+ * The volume is the reason this is on the page at all, and it is only half the
+ * story on its own — see the paragraph under it.
+ */
+const BOT_COMPOSE = `services:
+  support-bot:
+    build: .
+    restart: unless-stopped
+    environment:
+      GRYT_HOST: chat.example.com
+    volumes:
+      - support-bot-identity:/data
+
+volumes:
+  support-bot-identity:`;
+
+/**
  * The top of `packages/client/src/packages/addons/src/pluginApi.ts`, as it is.
  *
  * Printed rather than summarised, because "the surface is thin" is the claim
@@ -191,8 +215,13 @@ const CLONE = `git clone --recurse-submodules https://github.com/Gryt-chat/gryt.
 
 const BOTS: RowItem[] = [
   {
+    name: "The support bot",
+    detail: "A folder to copy: a Dockerfile, the compose file above, and a bot that answers out of a JSON file.",
+    href: `${GH}/bot/tree/main/examples/support-bot`,
+  },
+  {
     name: "Writing a bot",
-    detail: "The SDK in full: commands, events, attachments, and running one as a container.",
+    detail: "The SDK in full: commands, events, attachments, and what a bot does when an admin says no.",
     href: `${DOCS}/bot`,
   },
   {
@@ -358,6 +387,29 @@ export function DevelopersPage() {
           <code>bot.can()</code> answers from what the server said, not from
           what you asked for. And it keeps up if an admin changes their mind
           while the bot is running.
+        </p>
+        <p className={styles.blockNote}>
+          A bot runs as a container. The example below builds on its own,
+          since <code>@gryt/bot</code> comes off npm like any other
+          dependency.
+        </p>
+        <Snippet label="compose.yml" code={BOT_COMPOSE} />
+        <p className={styles.blockNote}>
+          <code>gryt-bot-identity.json</code> is the bot. The id the server
+          knows it by comes from the key inside it. Keep that file on a volume
+          and the bot keeps its permissions across restarts and upgrades. Lose
+          it and the server sees a stranger knocking, holding nothing.
+        </p>
+        <p className={styles.blockNote}>
+          Mounting the volume isn&rsquo;t enough by itself. By default that
+          file is written next to the code, and the bot is the only thing that
+          can move it: <code>identityPath</code> is an option on{" "}
+          <code>GrytBot</code>, and the SDK reads no environment variables of
+          its own. The example passes{" "}
+          <code>process.env.GRYT_IDENTITY_PATH</code>, and its Dockerfile sets
+          that to <code>/data/gryt-bot-identity.json</code>. Miss it and the bot
+          works, keeps its identity across restarts, and loses it the next time
+          you rebuild the image.
         </p>
         <LinkRows items={BOTS} />
       </Block>
