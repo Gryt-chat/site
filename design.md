@@ -512,6 +512,12 @@ else, and the two audience pages are where a whole kind of visitor should land.
 
 ## Drawings where a capture will go
 
+The captures themselves are in [`SHOTLIST.md`](SHOTLIST.md): what each recorded
+clip has to contain, the flags it was encoded with, and the one shot still
+missing. That file was untracked and lost once already, which is why it is
+beside this one now.
+
+
 `src/components/sketches.tsx`, and the `Frame` in it is the rounded box they
 sit in. It was under `home/` while the front page was the only page with any; a
 diagram vocabulary that lives inside one page's folder is one the next page

@@ -15,6 +15,10 @@ import styles from "./Lan.module.css";
  * It lives under `electron/`, so this is the desktop app doing the looking and
  * the section has to say so rather than implying a browser tab can. The server
  * side is the "Discoverable on LAN" switch, documented in deployment/embedded.
+ *
+ * The clip this is waiting for needs two machines, and `SHOTLIST.md` has the
+ * recipe. Until it exists the section renders `Pane` below, which is a finished
+ * thing rather than a placeholder.
  */
 const LAN: ClipSet | null = null;
 
