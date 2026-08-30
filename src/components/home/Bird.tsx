@@ -3,7 +3,7 @@ import { motion, useReducedMotion } from "motion/react";
 import { useMemo, useState } from "react";
 
 import { Clip, type ClipSet } from "../Clip";
-import { OwlDesigner } from "../owl/owlDesigner";
+import { OwlDesigner } from "@gryt/ui";
 import { DEMO_NAMES } from "../../data/demoNames";
 import { useRotatingName } from "./useRotatingName";
 
