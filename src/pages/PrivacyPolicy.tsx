@@ -58,9 +58,18 @@ export function PrivacyPolicy() {
           read. If that matters to you, check that your client is up to date.
         </p>
         <p>
-          Server logs on community.gryt.chat record IP addresses when a request
-          is rate-limited, and are kept only as long as the container's logs are
-          retained. No IP address is written to the database.
+          Server logs on community.gryt.chat record IP addresses, and only in
+          one situation: when a request is rate-limited, the log line naming the
+          ban includes the address it applied to. Nothing else writes one down,
+          and no IP address is stored in the database.
+        </p>
+        <p>
+          Those logs have a ceiling. Each service on that machine keeps at most
+          three log files of 20 MB, and the oldest is deleted when a new one
+          starts. That is a limit on size, not on time, so we cannot promise a
+          number of days: a quiet week stays on disk longer than a busy one.
+          What we can say is that the logs roll over on their own, rather than
+          building up for as long as the server has been running.
         </p>
 
         <h2>What we collect</h2>
@@ -138,8 +147,9 @@ export function PrivacyPolicy() {
             account exists.
           </li>
           <li>
-            <strong>Operational logs</strong> are retained for a limited period
-            for security purposes.
+            <strong>Operational logs</strong> are kept for security and
+            reliability. On community.gryt.chat they are capped by size and roll
+            over, as described above. On other servers, the operator decides.
           </li>
           <li>
             <strong>Server data</strong> is retained according to the policies
