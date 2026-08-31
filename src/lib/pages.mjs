@@ -74,6 +74,12 @@ export const STATIC_PAGES = [
     description: "Rules and expectations for the Gryt community.",
   },
   {
+    path: "security",
+    title: "Reporting a security problem",
+    description:
+      "How to report a vulnerability in Gryt, what is in scope, and what we can honestly promise back.",
+  },
+  {
     path: "invite",
     title: "Invite",
     description: "Join a Gryt server with an invite link.",
@@ -96,6 +102,7 @@ export const ALIAS_PAGES = [
   { path: "privacy-policy", of: "privacy" },
   { path: "terms-of-use", of: "terms" },
   { path: "guidelines", of: "community-guidelines" },
+  { path: "security-policy", of: "security" },
 ];
 
 /** The primary page an alias stands in for, or undefined if it is not an alias. */

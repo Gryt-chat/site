@@ -17,6 +17,7 @@ const ChangelogEntry = lazy(() => import("./pages/ChangelogEntry").then((m) => (
 const SponsorsPage = lazy(() => import("./pages/SponsorsPage").then((m) => ({ default: m.SponsorsPage })));
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy").then((m) => ({ default: m.PrivacyPolicy })));
 const CommunityGuidelines = lazy(() => import("./pages/CommunityGuidelines").then((m) => ({ default: m.CommunityGuidelines })));
+const SecurityPolicy = lazy(() => import("./pages/SecurityPolicy").then((m) => ({ default: m.SecurityPolicy })));
 const DownloadPage = lazy(() => import("./pages/DownloadPage").then((m) => ({ default: m.DownloadPage })));
 const InvitePage = lazy(() => import("./pages/InvitePage").then((m) => ({ default: m.InvitePage })));
 const TermsOfUse = lazy(() => import("./pages/TermsOfUse").then((m) => ({ default: m.TermsOfUse })));
@@ -81,6 +82,8 @@ export default function App() {
           <Route path="/terms-of-use" element={<TermsOfUse />} />
           <Route path="/community-guidelines" element={<CommunityGuidelines />} />
           <Route path="/guidelines" element={<CommunityGuidelines />} />
+          <Route path="/security" element={<SecurityPolicy />} />
+          <Route path="/security-policy" element={<SecurityPolicy />} />
           <Route path="/download" element={<DownloadPage />} />
           <Route path="/invite" element={<InvitePage />} />
           <Route path="/auth/callback" element={<AuthCallbackPage />} />
