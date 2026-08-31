@@ -28,14 +28,39 @@ export function PrivacyPolicy() {
           <li>
             <strong>id.gryt.chat</strong>, our identity certificate service
           </li>
+          <li>
+            <strong>community.gryt.chat</strong>, the Gryt server we run
+          </li>
         </ul>
 
         <p>
           <strong>Gryt servers:</strong> Gryt is designed for self-hosted and
-          third-party servers. We do not operate a Gryt server you can join.
-          When you connect to a server, that server is run by its own operator,
-          who controls how your data is processed and stored. Contact the server
-          operator for their privacy practices.
+          third-party servers. When you connect to one, that server is run by its
+          own operator, who controls how your data is processed and stored.
+          Contact that operator for their privacy practices. This policy does not
+          cover them.
+        </p>
+        <p>
+          <strong>community.gryt.chat</strong> is the exception: we run it, so
+          this policy covers it. What that server stores is what any Gryt server
+          stores — your membership and role, your nickname and avatar, the
+          messages you send, and any files you upload. Messages and uploads are
+          kept until you or a moderator delete them; we do not expire them on a
+          schedule.
+        </p>
+        <p>
+          <strong>What we can and cannot read there.</strong> Messages in
+          channels are not encrypted, and we can read them. Direct messages sent
+          by a client that supports encryption are end-to-end encrypted and we
+          cannot read their contents — but we can still see who is talking to
+          whom and when, that a file was sent, and how large it is. An older
+          client that does not support encryption sends a direct message we can
+          read. If that matters to you, check that your client is up to date.
+        </p>
+        <p>
+          Server logs on community.gryt.chat record IP addresses when a request
+          is rate-limited, and are kept only as long as the container's logs are
+          retained. No IP address is written to the database.
         </p>
 
         <h2>What we collect</h2>

@@ -1,7 +1,7 @@
 import { PageHeader } from "../components/PageHeader";
 import styles from "../styles/document.module.css";
 
-const LAST_UPDATED = "February 23, 2026";
+const LAST_UPDATED = "August 31, 2026";
 
 export function CommunityGuidelines() {
   return (
@@ -24,8 +24,16 @@ export function CommunityGuidelines() {
         <p>
           <strong>Gryt servers:</strong> Gryt can connect to servers run by
           other people (including your own self-hosted servers). Those server
-          operators set their own rules and enforcement. Gryt Chat does not run
-          an "official" server you can join under the Gryt Chat name.
+          operators set their own rules and enforcement, and these guidelines do
+          not apply there.
+        </p>
+
+        <p>
+          <strong>community.gryt.chat</strong> is the one server we run
+          ourselves, and these guidelines do apply on it. We do not read the
+          server looking for problems — we act on what people report. Report
+          something in the app, or email{" "}
+          <a href="mailto:sivert@gryt.chat">sivert@gryt.chat</a>.
         </p>
 
         <h2>Follow the law</h2>
