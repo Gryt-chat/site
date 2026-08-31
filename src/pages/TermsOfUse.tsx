@@ -1,7 +1,7 @@
 import { PageHeader } from "../components/PageHeader";
 import styles from "../styles/document.module.css";
 
-const LAST_UPDATED = "February 27, 2026";
+const LAST_UPDATED = "August 31, 2026";
 
 export function TermsOfUse() {
   return (
@@ -25,6 +25,9 @@ export function TermsOfUse() {
           <li>
             <strong>auth.gryt.chat</strong>, our authentication service
           </li>
+          <li>
+            <strong>community.gryt.chat</strong>, the Gryt server we run
+          </li>
         </ul>
         <p>
           Gryt Chat is a personal project operated by Sivert from Norway. By
@@ -43,10 +46,18 @@ export function TermsOfUse() {
         <h2>What the service is</h2>
         <p>
           Gryt Chat provides authentication and a web client that lets you
-          connect to <strong>self-hosted Gryt servers</strong> operated by third
-          parties. We do not operate a Gryt server you can join. The content,
-          moderation, and policies of each server are the responsibility of its
-          operator.
+          connect to <strong>Gryt servers</strong>. Almost every server is
+          self-hosted and run by somebody else; the content, moderation, and
+          policies of those servers are the responsibility of their operators,
+          not ours.
+        </p>
+        <p>
+          We run one server ourselves, at{" "}
+          <strong>community.gryt.chat</strong>. These Terms and our{" "}
+          <a href="/community-guidelines">Community Guidelines</a> apply there,
+          and the sections below on moderation and on your content apply to it
+          specifically. Running one server does not make us responsible for any
+          other.
         </p>
 
         <h2>Your account</h2>
@@ -77,10 +88,32 @@ export function TermsOfUse() {
           </li>
         </ul>
 
-        <h2>Third-party servers</h2>
+        <h2>Moderation on community.gryt.chat</h2>
         <p>
-          Gryt servers are operated by independent third parties, not by Gryt
-          Chat. When you connect to a server:
+          We do not monitor or pre-screen what people post. There is no review
+          before a message appears, and nobody is reading the server looking for
+          problems.
+        </p>
+        <p>
+          We act on reports. If something breaks our{" "}
+          <a href="/community-guidelines">Community Guidelines</a> or the law,
+          report it in the app or email{" "}
+          <a href="mailto:sivert@gryt.chat">sivert@gryt.chat</a> and we will look
+          at it. We do not promise a response time. Reporting is how something
+          gets seen, so if nobody reports it, it will most likely stay up.
+        </p>
+        <p>
+          We may remove content, and suspend or ban accounts, at our discretion
+          and without notice. Anything you post to a server is stored by that
+          server and can be read by whoever runs it, including us on
+          community.gryt.chat. Do not post anything there you would not want the
+          operator to read.
+        </p>
+
+        <h2>Servers we do not run</h2>
+        <p>
+          Every Gryt server other than <strong>community.gryt.chat</strong> is
+          operated by an independent third party. When you connect to one:
         </p>
         <ul>
           <li>
@@ -89,7 +122,7 @@ export function TermsOfUse() {
           </li>
           <li>
             Gryt Chat has <strong>no responsibility</strong> for content, conduct,
-            data handling, or any other aspect of third-party servers.
+            data handling, or any other aspect of that server.
           </li>
           <li>
             Any disputes related to a server should be directed to the server
