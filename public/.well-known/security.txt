@@ -1,0 +1,8 @@
+# Reporting a security problem in Gryt.
+# https://gryt.chat/security
+
+Contact: mailto:sivert@gryt.chat
+Expires: 2027-08-31T00:00:00.000Z
+Preferred-Languages: en, no
+Canonical: https://gryt.chat/.well-known/security.txt
+Policy: https://gryt.chat/security
