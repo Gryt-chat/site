@@ -1,9 +1,45 @@
+# syntax=docker/dockerfile:1
+#
+# The syntax directive is required for the cache mount below. Without it
+# BuildKit parses `RUN --mount` as a plain RUN with odd arguments and the build
+# fails in a way that does not obviously point back here.
+
 FROM --platform=$BUILDPLATFORM node:22-alpine AS builder
 
 WORKDIR /app
 
 COPY package.json yarn.lock ./
-RUN yarn install --frozen-lockfile --ignore-engines
+
+# Skip the download half of an invalidated install.
+#
+# Measured on the Raspberry Pi that serves gryt.chat (GRYT-833). A cold
+# `yarn install` here takes 641s, which is 71% of the whole 15-minute build, and
+# it splits almost evenly:
+#
+#     [1/4] Resolving     0.7s
+#     [2/4] Fetching    289s     <- this is what the cache mount removes
+#     [3/4] Linking     280s     <- this is not
+#     [4/4] Building      1.8s
+#
+# So this is worth roughly 289 seconds, not 641. The linking phase is writing
+# tens of thousands of small files to a USB flash drive and no cache helps with
+# that; making it faster means a different package manager or building the image
+# somewhere other than a Pi, both of which are on GRYT-833.
+#
+# The layer is usually cached and an ordinary commit pays none of this. It is
+# invalidated by any change to package.json or yarn.lock — including adding a
+# script, which is what GRYT-823 did — and `type=cache` is what survives that,
+# because layer caching by definition does not.
+#
+# Worth knowing if you benchmark this on a laptop and conclude it does nothing:
+# fetching there is about two seconds, so there is nothing to save. The win only
+# exists on the machine with the slow link, which is the machine that runs it.
+#
+# `sharing=locked` because the Pi builds site, docs and ui from one daemon and
+# two yarns writing one cache directory is how a cache becomes the corruption it
+# was meant to prevent.
+RUN --mount=type=cache,target=/usr/local/share/.cache/yarn,sharing=locked \
+    yarn install --frozen-lockfile --ignore-engines
 
 COPY . .
 RUN yarn build
