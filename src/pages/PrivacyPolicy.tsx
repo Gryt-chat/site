@@ -157,11 +157,49 @@ export function PrivacyPolicy() {
           </li>
         </ul>
 
+        <h2 id="deleting-your-account">Deleting your account</h2>
+        <p>
+          This applies to the Gryt account you sign in with, on the Gryt Chat
+          apps for Android, iOS, desktop and the web.
+        </p>
+        <p>
+          To delete it, email{" "}
+          <a href="mailto:sivert@gryt.chat">sivert@gryt.chat</a> from the address
+          the account uses, and ask for the account to be deleted. There is no
+          self-service button for this yet. We will confirm by reply once it is
+          done.
+        </p>
+        <p>
+          <strong>What deleting the account removes.</strong> The account itself
+          and everything held with it on{" "}
+          <strong>auth.gryt.chat</strong> — your email address, your display
+          name, and your sign-in credentials — along with any identity
+          certificates issued to it by <strong>id.gryt.chat</strong>. These are
+          removed within 30 days of the request.
+        </p>
+        <p>
+          <strong>What it does not remove.</strong> Messages, files, and profile
+          information you sent to a Gryt server are held by that server, and
+          those servers are run by other people rather than by us. Deleting your
+          Gryt account does not reach them. You can delete your own messages in
+          the app, and for the rest you have to ask that server's operator.
+          Operational logs, which hold IP addresses and request timestamps
+          rather than anything you wrote, are kept until they roll over as
+          described under Data retention.
+        </p>
+        <p>
+          You do not need an account to use Gryt. If you never made one, there
+          is nothing here to delete: the identity you join servers with is a key
+          held on your own device, and uninstalling the app — or clearing its
+          data from your system settings — removes it.
+        </p>
+
         <h2>Your rights and choices</h2>
         <ul>
           <li>
-            <strong>Local data:</strong> clear your browser storage at any time
-            to remove tokens and preferences.
+            <strong>Local data:</strong> clear your browser storage, or the
+            app's data from your device settings, at any time to remove tokens,
+            keys and preferences.
           </li>
           <li>
             <strong>Server data:</strong> contact the server operator to request
@@ -169,7 +207,9 @@ export function PrivacyPolicy() {
           </li>
           <li>
             <strong>Account data:</strong> contact us to request information
-            about or deletion of your authentication account.
+            about your authentication account, or see{" "}
+            <a href="#deleting-your-account">Deleting your account</a> above to
+            have it removed.
           </li>
         </ul>
 
