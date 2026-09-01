@@ -1,6 +1,7 @@
 import { motion, useInView, useReducedMotion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 
+import githubStats from "../../data/githubStats.json";
 import { inView, rise, stagger } from "./motion";
 import styles from "./Motivation.module.css";
 
@@ -16,7 +17,10 @@ const MONOREPO = "https://github.com/Gryt-chat/gryt";
 const FIGURES = [
   { value: 4, suffix: "+", label: "years, since May 2022" },
   { value: 2, suffix: "", label: "of them spent on WebRTC before writing the media server" },
-  { value: 13, suffix: "", label: "repositories, all public" },
+  // Read at build time by scripts/fetch-github-stats.mjs, which counts the
+  // organisation's repositories minus the archived ones. It was 13 written by
+  // hand and had been 19 for a while before anybody noticed.
+  { value: githubStats.publicRepos, suffix: "", label: "repositories, all public" },
   { value: 1, suffix: "", label: "person" },
 ];
 
