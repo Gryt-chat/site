@@ -4,19 +4,8 @@ import { PageHeader } from "../components/PageHeader";
 import { formatSince, sponsors } from "../data/sponsors";
 import { pageTitle } from "../lib/title";
 import styles from "./SponsorsPage.module.css";
+import { SPONSOR_TIERS, SPONSOR_URL, sponsorUrl } from "../data/sponsorTiers";
 
-const SPONSOR_URL = "https://github.com/sponsors/Gryt-chat";
-
-const TIERS = [
-  { amount: "$5 a month", gets: "A sponsor badge on your GitHub profile." },
-  { amount: "$25 a month", gets: "Your name or handle in Gryt's README." },
-  { amount: "$50 once", gets: "Your name in the notes for the next release." },
-  { amount: "$100 a month", gets: "Your logo on this site, linked wherever you want." },
-  {
-    amount: "$500 a month",
-    gets: "Logo at the top of the list, and your team's bug reports go to the front of the queue.",
-  },
-];
 
 /**
  * Everyone who has sponsored Gryt, and what sponsoring pays for.
@@ -115,9 +104,20 @@ export function SponsorsPage() {
       <section className={styles.block}>
         <h2 className={styles.blockHeading}>What you get</h2>
         <ul className={styles.tiers}>
-          {TIERS.map((t) => (
+          {/* The amount is the link where we know the tier's id, so choosing a
+              tier from the list it is described in goes straight to checkout.
+              Tiers whose id we do not have yet stay plain text rather than
+              linking to the tier list — a link that looks like the others and
+              lands somewhere else is worse than no link. */}
+          {SPONSOR_TIERS.map((t) => (
             <li key={t.amount}>
-              <span className={styles.amount}>{t.amount}</span>
+              {t.tierId ? (
+                <a className={styles.amount} href={sponsorUrl(t.tierId)} target="_blank" rel="noreferrer">
+                  {t.amount}
+                </a>
+              ) : (
+                <span className={styles.amount}>{t.amount}</span>
+              )}
               <span className={styles.gets}>{t.gets}</span>
             </li>
           ))}

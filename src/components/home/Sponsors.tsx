@@ -4,8 +4,8 @@ import { Button } from "@gryt/ui";
 import { inView, rise, stagger } from "./motion";
 import { sponsors } from "../../data/sponsors";
 import styles from "./Sponsors.module.css";
+import { LOGO_TIER, SPONSOR_URL, sponsorUrl } from "../../data/sponsorTiers";
 
-const SPONSOR_URL = "https://github.com/sponsors/Gryt-chat";
 
 /**
  * Where a sponsor's name and logo go (GRYT-271).
@@ -76,9 +76,14 @@ export function Sponsors() {
           {logos.length < SLOTS_UNTIL &&
             Array.from({ length: OPEN_SLOTS }, (_, i) => (
               <li key={`slot-${i}`} className={styles.slot}>
-                <a href={SPONSOR_URL} target="_blank" rel="noreferrer">
+                {/* Straight to the $100 checkout rather than the tier list.
+                    This button names its own price, so somebody clicking it has
+                    already chosen — making them find the tier again is a step
+                    that asks nothing and can lose them. The general "Sponsor
+                    Gryt" button below stays generic on purpose. */}
+                <a href={sponsorUrl(LOGO_TIER?.tierId)} target="_blank" rel="noreferrer">
                   <span className={styles.slotLine}>Your logo</span>
-                  <span className={styles.slotSub}>$100 a month</span>
+                  <span className={styles.slotSub}>{LOGO_TIER?.amount ?? "$100 a month"}</span>
                 </a>
               </li>
             ))}
