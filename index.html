@@ -28,13 +28,24 @@
     <link rel="icon" type="image/svg+xml" href="/logo.svg" />
 
     <link rel="preload" as="image" href="/logo.svg" />
+    <!--
+      The hero's first frame. `Clip` renders it as the `poster` of the video,
+      and as a plain `img` under prefers-reduced-motion, so it is what paints
+      first either way and preloading it is worth the priority.
+
+      One file, no srcset. The three responsive stills this used to name —
+      client-sm, client-md and client.webp — were deleted in GRYT-640 when the
+      front page became a clip, and this link went on asking for the first of
+      them: a 404 on every visit to gryt.chat, quietly, since then.
+
+      `prerender-blog.mjs` strips this on every other page, which is what the
+      data attribute is for.
+    -->
     <link
       data-home-preload
       rel="preload"
       as="image"
-      href="/home/client-sm.webp"
-      imagesrcset="/home/client-sm.webp 720w, /home/client-md.webp 1728w, /home/client.webp 3456w"
-      imagesizes="(max-width: 768px) calc(100vw - 32px), min(1180px, calc(100vw - 48px))"
+      href="/home/client-live.poster.webp"
       fetchpriority="high"
     />
     <link rel="me" href="https://mastodon.social/@gryt" />
