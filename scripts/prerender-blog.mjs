@@ -2,6 +2,7 @@ import { readFileSync, writeFileSync, readdirSync, mkdirSync, existsSync } from 
 import { join, dirname, basename } from 'path';
 import { fileURLToPath } from 'url';
 import { STATIC_PAGES, ALIAS_PAGES } from '../src/lib/pages.mjs';
+import { render } from '../dist-ssr/entry-server.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const distDir = join(__dirname, '..', 'dist');
@@ -40,7 +41,31 @@ function docTitle(name) {
   return `${name} | ${siteName}`;
 }
 
-function renderPage(template, { pageTitle, docTitleName, description, url, ogImage, ogType, noindex }) {
+/**
+ * The page, rendered, as the string that goes inside `<div id="root">`.
+ *
+ * Everything above this only ever rewrote meta tags, so every page shipped as a
+ * 2 kB shell with the words in a JavaScript chunk. A crawler saw a title and a
+ * description; a link preview saw the same; somebody on a slow connection saw
+ * nothing until the bundle arrived. Sixteen blog posts and six release notes,
+ * none of their prose in the HTML.
+ *
+ * React's markup goes in whole, comments and inline scripts included. The
+ * `<!--$-->` markers are how hydration finds its Suspense boundaries and the
+ * scripts are what close them; tidying either away breaks the thing this exists
+ * to enable.
+ */
+async function body(route) {
+  try {
+    return await render(route);
+  } catch (err) {
+    /* A page that will not render is a page that would ship as a shell, which
+       is the state this is meant to end. Fail the build and say which one. */
+    throw new Error(`could not prerender ${route}: ${err.message}`, { cause: err });
+  }
+}
+
+function renderPage(template, { pageTitle, docTitleName, description, url, ogImage, ogType, noindex, html: rendered }) {
   // The responsive hero preload belongs only to the homepage. This template is
   // copied for every static route, where preloading it would waste bandwidth.
   let html = template.replace(/\s*<link[^>]*data-home-preload[^>]*>/, '');
@@ -65,6 +90,9 @@ function renderPage(template, { pageTitle, docTitleName, description, url, ogIma
   html = html.replace(/<meta name="twitter:title"[^>]*>/, `<meta name="twitter:title" content="${escHtml(pageTitle)}" />`);
   html = html.replace(/<meta name="twitter:description"[^>]*>/, `<meta name="twitter:description" content="${escHtml(description)}" />`);
   html = html.replace(/<meta name="twitter:image"[^>]*>/, `<meta name="twitter:image" content="${ogImage}" />`);
+  if (rendered) {
+    html = html.replace('<div id="root"></div>', `<div id="root">${rendered}</div>`);
+  }
   return html;
 }
 
@@ -82,6 +110,7 @@ for (const page of STATIC_PAGES) {
     description: page.description,
     url: `${siteUrl}/${page.path}`,
     ogImage: `${siteUrl}/${page.path}/og.png`,
+    html: await body(`/${page.path}`),
   });
   writeFileSync(join(outDir, 'index.html'), html);
   console.log(`  dist/${page.path}/index.html`);
@@ -97,6 +126,10 @@ for (const alias of ALIAS_PAGES) {
     description: target.description,
     url: `${siteUrl}/${target.path}`,
     ogImage: `${siteUrl}/${target.path}/og.png`,
+    /* The alias path, not the target's. The canonical points at the target but
+       the router matches what is in the address bar, and rendering the other
+       one here would be markup the client immediately throws away. */
+    html: await body(`/${alias.path}`),
   });
   writeFileSync(join(outDir, 'index.html'), html);
   console.log(`  dist/${alias.path}/index.html -> canonical /${target.path}`);
@@ -114,6 +147,7 @@ for (const alias of ALIAS_PAGES) {
     url: `${siteUrl}/auth/callback`,
     ogImage: `${siteUrl}/og-image.png`,
     noindex: true,
+    html: await body('/auth/callback'),
   });
   writeFileSync(join(outDir, 'index.html'), html);
   console.log('  dist/auth/callback/index.html');
@@ -130,6 +164,8 @@ for (const alias of ALIAS_PAGES) {
     url: `${siteUrl}/404`,
     ogImage: `${siteUrl}/og-image.png`,
     noindex: true,
+    /* Any path that does not match, which is what nginx serves this for. */
+    html: await body('/this-path-does-not-exist'),
   });
   writeFileSync(join(distDir, '404.html'), html);
   console.log('  dist/404.html');
@@ -151,6 +187,7 @@ for (const file of mdxFiles) {
     url: `${siteUrl}/blog/${slug}`,
     ogImage: `${siteUrl}/blog/${slug}/og.png`,
     ogType: 'article',
+    html: await body(`/blog/${slug}`),
   });
   writeFileSync(join(outDir, 'index.html'), html);
   console.log(`  dist/blog/${slug}/index.html`);
@@ -178,9 +215,22 @@ for (const file of changelogFiles) {
     url: `${siteUrl}/changelog/${slug}`,
     ogImage: `${siteUrl}/changelog/${slug}/og.png`,
     ogType: 'article',
+    html: await body(`/changelog/${slug}`),
   });
   writeFileSync(join(outDir, 'index.html'), html);
   console.log(`  dist/changelog/${slug}/index.html`);
 }
 
-console.log('Done prerendering meta tags.');
+// --- The home page ---
+// Last, and into the file every page above was copied from. `template` was read
+// into memory at the top, so writing it now cannot reach them.
+{
+  const html = template.replace(
+    '<div id="root"></div>',
+    `<div id="root">${await body('/')}</div>`,
+  );
+  writeFileSync(join(distDir, 'index.html'), html);
+  console.log('  dist/index.html');
+}
+
+console.log('Done prerendering.');

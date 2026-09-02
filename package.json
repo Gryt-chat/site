@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "node scripts/fetch-github-stats.mjs && tsc -b && node scripts/optimize-images.mjs && vite build && node scripts/prerender-blog.mjs && node scripts/check-meta.mjs",
+    "build": "node scripts/fetch-github-stats.mjs && tsc -b && node scripts/optimize-images.mjs && vite build && vite build --ssr src/entry-server.tsx --outDir dist-ssr && node scripts/prerender-blog.mjs && node scripts/check-meta.mjs",
     "lint": "eslint .",
     "preview": "vite preview",
     "generate:og": "node scripts/generate-og-image.mjs",

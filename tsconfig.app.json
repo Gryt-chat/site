@@ -24,5 +24,8 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["src", "content"]
+  "include": ["src", "content"],
+  /* Rendered by node at build time, not by a browser, so it is the one file in
+     src that needs node types. It has its own project below. */
+  "exclude": ["src/entry-server.tsx"]
 }
