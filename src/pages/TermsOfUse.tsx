@@ -1,7 +1,7 @@
 import { PageHeader } from "../components/PageHeader";
 import styles from "../styles/document.module.css";
 
-const LAST_UPDATED = "August 31, 2026";
+const LAST_UPDATED = "September 3, 2026";
 
 export function TermsOfUse() {
   return (
@@ -38,9 +38,15 @@ export function TermsOfUse() {
 
         <h2>Eligibility</h2>
         <p>
-          You must be at least <strong>13 years old</strong> to create an account
+          You must be at least <strong>16 years old</strong> to create an account
           or use our services. If you are under 18, you confirm that a parent or
           guardian has reviewed and agrees to these Terms on your behalf.
+        </p>
+        <p>
+          Sixteen is the age the GDPR sets for agreeing to a service like this
+          one on your own. Some countries lower it, and Norway, where Gryt is run
+          from, allows 13. The limit is different across Europe and Gryt does not
+          ask where you are, so it uses the higher number everywhere.
         </p>
 
         <h2>What the service is</h2>
