@@ -46,6 +46,19 @@ RUN yarn build
 
 FROM nginx:alpine
 
+# Where the release notes come from.
+#
+# The changelog page fetches /release-notes/changelog.json from this origin and
+# nginx proxies it to the reports service, which is the only thing that writes
+# it. They used to be one host and a bind mount; they are two machines now, so
+# this is a request rather than a file. See the location block below.
+#
+# The default is the public hostname, which is right for anybody who is not
+# Gryt. Gryt's own build passes the reports service's address on the LAN
+# instead, which is 2ms against 144ms measured from the Pi on 2026-09-02 and
+# needs no DNS at all.
+ARG GRYT_CHANGELOG_UPSTREAM=https://reports.gryt.chat/v1/changelog/notes
+
 RUN printf '%s\n' \
   'events { worker_connections 1024; }' \
   'http {' \
@@ -90,6 +103,46 @@ RUN printf '%s\n' \
   '    location ^~ /fonts/ {' \
   '      add_header Cache-Control "public, max-age=31536000, immutable";' \
   '      try_files $uri =404;' \
+  '    }' \
+  '    # The release notes, proxied from the reports service.' \
+  '    #' \
+  '    # This path used to be a bind mount: reports wrote changelog.json into a' \
+  '    # directory this container also mounted, and nginx served the file. That' \
+  '    # worked while the two were on one box. They are not — reports is on the' \
+  '    # machine with the database and this container is on the Raspberry Pi —' \
+  '    # so the mount was never there and the path answered 404 for as long as' \
+  '    # the split has existed. Nothing said so: the page treats a failed fetch' \
+  '    # as "no notes yet" and renders the hand-written ones, which is the same' \
+  '    # thing it does before the first note is published.' \
+  '    #' \
+  '    # Proxied rather than fetched from the page directly, so the browser only' \
+  '    # ever talks to this origin and there is no CORS to keep in step across' \
+  '    # two repositories.' \
+  '    #' \
+  '    # Through a variable, which is what makes nginx resolve the name per' \
+  '    # request instead of at startup. With a literal there, a name that does' \
+  '    # not resolve when the container boots is a refusal to start — the whole' \
+  '    # site down because the changelog upstream was briefly unreachable. This' \
+  '    # way that same failure is a 502 on one request, which the page already' \
+  '    # handles.' \
+  '    location = /release-notes/changelog.json {' \
+  '      resolver 1.1.1.1 8.8.8.8 valid=300s ipv6=off;' \
+  "      set \$upstream '${GRYT_CHANGELOG_UPSTREAM}';" \
+  '      proxy_pass $upstream;' \
+  '      proxy_ssl_server_name on;' \
+  '      # Short, because nothing on the page waits for this and a slow answer' \
+  '      # is worth less than a fast empty one.' \
+  '      proxy_connect_timeout 2s;' \
+  '      proxy_read_timeout 5s;' \
+  '      # Pressing Publish is meant to be visible in seconds. Cloudflare fronts' \
+  '      # this hostname and its dashboard cache TTL overrides what an origin' \
+  '      # asks for, so anything short of no-store is a suggestion.' \
+  '      #' \
+  '      # Hidden and then set, rather than only set. reports sends no-store' \
+  '      # too, and add_header appends, so without the hide the answer carries' \
+  '      # the header twice. This block is the one that decides.' \
+  '      proxy_hide_header Cache-Control;' \
+  '      add_header Cache-Control "no-store" always;' \
   '    }' \
   '    # Everything else: prerendered pages, the mark, the share cards, the' \
   '    # screenshots. Ten minutes and then revalidate, which matches the deploy' \
