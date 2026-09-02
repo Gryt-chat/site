@@ -1,0 +1,172 @@
+---
+version: 1.9.0
+date: 2026-09-02
+headline: Your messages can follow you to a second device now, and denying a permission on a channel finally does something.
+---
+
+Two things in this release, and they both come down to Gryt having quietly asked
+you to trust one machine.
+
+Your messages were tied to the device you wrote them on. Sign in on a second one
+and you got a fresh message identity, published over the old one, and your first
+laptop would then warn you that the server was showing a key that wasn't yours.
+A warning about a hostile server, raised by your own machine. Security settings
+said there was no separate recovery key to save, which was true of your account
+and the servers on it, and not true of the thing somebody reading that sentence
+would care about.
+
+The other half is permissions. Channels can be locked to a role now, and Speak
+in the voice matrix does what it says. It didn't before: an owner could deny it,
+watch it save, and the person kept talking.
+
+## Set a message password and your conversations travel
+
+**Settings → You → Security** has a message password now, if you're signed in
+with a Gryt account. Setting one seals this device's identity and stores it on
+your account. On the next device, **Use it on this device** opens it, and you
+arrive as the same person in your conversations rather than as a stranger with
+the same name.
+
+The floor is four characters. That's barely a floor, and it's meant to catch an
+empty box or a stray keystroke landing on Save rather than to be a policy. How
+much protection you want on your own messages is your call. If you want this to
+really hold, the 24-word phrase is still there and is unaffected by any of it.
+
+Guests don't need any of this. The 24 words already do the same job, with
+nothing stored anywhere.
+
+If the password is gone, **start again** mints a new identity. It can't be
+recovered from, which is the same property that makes "we can't read your
+messages" true, so the panel counts what it will cost you before you do it: an
+account signs with a key of its own, so it loses message history and nothing
+else, but every server you joined *without* an account derives your key from the
+seed. On those you come back as a new person with no roles and nothing you
+owned. The panel names the number. Typing "start again" is the confirmation,
+because one you can click through without reading isn't one.
+
+## Channels can be locked to a role
+
+A channel points at a set of per-role rules, and several channels can share one,
+which is what makes a template. Each role gets allow, deny, or inherit on each
+permission, and a channel stores only what it changes — so hiding a channel from
+three roles is three rules rather than a full grid.
+
+A hidden channel is now hidden in the places it used to leak out of. It stays
+off the sidebar, and a new channel arrives with a row rather than appearing
+after a reload.
+
+## Roles look like roles
+
+The role editor shows every permission at once instead of one section at a time,
+saves as you edit rather than waiting for a button, and lines its columns up.
+A new role arrives with a colour already picked, and picking a different one is
+a swatch rather than a hex field.
+
+The member list is grouped by role, and names are coloured by it. On a server
+with more than a handful of people that's the difference between a list and a
+structure.
+
+## Blocking somebody asks for no permission
+
+Block is in the member list's context menu, above the volume slider and outside
+the moderator section, and it's on the desktop app now as well as the phone.
+
+Kick and ban sit behind permissions. Blocking doesn't, deliberately: a block
+that needed a role wouldn't work for the person who needs it most, and it has to
+work against somebody who outranks you.
+
+Reporting works the same way. You can report a person rather than only a
+message, with a reason, and reporting somebody who outranks you is exactly the
+report that mustn't be refused. Nothing reaches the person you reported — no
+event, no marker, no error naming a cause.
+
+## Security
+
+- **A server with no password set signed its voice tokens with an empty key.**
+  `SERVER_PASSWORD` stopped being something anybody types a while ago; its only
+  remaining job was signing the tokens that let your browser into a voice room,
+  and it defaulted to the empty string. An empty key is one anybody can guess, so
+  anybody could mint a token and enter any room on that server as any user, with
+  permission to speak. Servers now generate a signing key instead of defaulting
+  to nothing, and the voice server refuses an empty secret outright. Every Gryt
+  server this affects has been given a generated key.
+- **Denying Speak did nothing.** Audio doesn't pass through the Gryt server, so
+  nothing was enforcing the setting. Voice tokens now carry what you're allowed
+  to do, and the voice server drops a microphone whose token doesn't grant it.
+- **An upload was read in full before the token was checked.** Posting a 20 MB
+  server icon with no credentials at all was answered with 401 after the whole
+  body had been accepted into memory. The token is checked first now.
+- **Upload limits were 100 MB each by default**, which is what a server runs on
+  if nobody opens the settings, on a machine that may have no backups. The
+  defaults are 8 MB for an avatar, 25 MB for an attachment and 2 MB for an
+  emoji. Anyone who wants more says so.
+
+## For people running servers
+
+`join_policy: "request"` can actually be set now. It could be described and not
+applied.
+
+Metrics moved to a port that isn't reachable from outside the machine, and a
+server whose metrics port is already busy starts anyway rather than refusing to
+run.
+
+## Under the hood
+
+Windows builds are signed where there's a certificate to sign them with, and say
+so plainly when there isn't. There's an MSIX package alongside the installers,
+which is the first step towards Gryt being installable from the Microsoft Store.
+
+**Center my face** takes several readings over a couple of seconds and uses the
+median, rather than centring on whatever a single frame happened to catch.
+
+A fresh install is named after the machine instead of being called "Unknown", and
+the connect screen offers the server we run when you have nothing to paste into
+it.
+
+---
+
+## The short version
+
+**Messages**
+
+- Set a message password and your conversations follow you to a second device
+- Signing in elsewhere no longer makes you a stranger in your own conversations
+- The old copy claiming there was nothing to save has been corrected
+- Guests are unchanged. The 24 words already did this
+- Forgetting the password can't be recovered from, and the reset counts what it costs you first
+
+**Permissions**
+
+- Channels can be locked to a role, with rules shared between channels as templates
+- A hidden channel is hidden everywhere it used to leak out of
+- Every role permission is on one screen, and the editor saves as you go
+- The member list is grouped by role and names are coloured by it
+- New roles arrive with a colour, picked from a swatch
+
+**Moderation**
+
+- Block somebody from the desktop app, with no permission needed and no rank in the way
+- Report a person rather than only a message
+- Nothing tells the person they were reported or blocked
+
+**Security**
+
+- A server with no password set was signing voice tokens with an empty key, so anyone could enter any room as anyone. Fixed, and every affected server re-keyed
+- Denying Speak had no effect on whether somebody could talk. It does now
+- A server icon upload was read to completion before the request was authorised
+- Upload limits default to 8 MB, 25 MB and 2 MB instead of 100 MB across the board
+
+**Hosting**
+
+- `join_policy: "request"` works
+- Metrics are on a port the outside world can't reach, and a busy one no longer stops the server
+
+**Updates**
+
+- Windows builds are signed where a certificate exists, and say so when one doesn't
+- An MSIX package is built alongside the installers
+
+**Under the hood**
+
+- Center my face samples over a couple of seconds and takes the median
+- A new install is named after the machine rather than "Unknown"

@@ -11,10 +11,10 @@ one person, or with a handful, that isn't a channel and isn't listed for anyone
 else. You can ring somebody from inside it, and they get a call rather than a
 message they might read tomorrow.
 
-**Direct messages are not encrypted yet.** Whoever runs the server can read
-them, the same as any channel. Gryt says so above the box you type into, rather
-than letting a conversation that looks private stand in for a private one. There
-is more on that below, including what is and isn't built.
+They're encrypted, too. That came later in the 1.7 line than the rest of this,
+so an earlier version of this note said it hadn't happened yet. It has: a direct
+message is sealed on your machine before it goes anywhere, and the server stores
+something it can't read.
 
 ## Messages that aren't in a channel
 
@@ -32,6 +32,38 @@ Two things about messages changed while this was being built. There's a length
 cap now, so one person can't paste a novel into a channel and push everything off
 the screen. And a very long message folds down to a readable height
 with a control to open it, instead of taking over the view on arrival.
+
+## The server can't read them
+
+A direct message is sealed before it leaves your machine, with a key wrapped once
+for each person in the conversation. You don't switch it on and you can't forget
+to.
+
+It seals only when everybody in the conversation has a key it's willing to use.
+Sealing for most of a group would leave one person looking at a conversation
+they can't read while everyone else sees it working, which is worse than not
+sealing at all. When it can't seal, the line above the messages says so and links
+to the explanation — that's the line in the picture above.
+
+Attachments go the same way. They used to go up as themselves, get thumbnailed,
+and be served to anybody holding the link, so a private conversation could have
+public photographs in it. They're encrypted before upload now, with the key
+inside the sealed message.
+
+Your key is pinned the first time Gryt sees it. If it changes, it says so instead
+of carrying on, because a changed key is what a server inserting itself into a
+conversation looks like. That warning used to fire on a race every single time
+you joined a server, and then stay on screen for the rest of the session, which
+turned the one warning that means something into noise. It waits five seconds
+before speaking now, and you can dismiss it.
+
+Pinning catches a key that changed. It can't tell you the first one was ever
+right, because the server is what introduced the two of you and no check made
+through the server gets past that. So there's a short code you and the other
+person can read to each other over anything else — a phone call, or standing in
+the same room. It's built from everything each side has pinned about the other,
+so substituting any part of it makes the two codes differ, and the server can't
+do anything about that because it never sees the comparison.
 
 ## Ringing somebody from the conversation
 
@@ -131,6 +163,15 @@ Other things you'll notice:
 
 ## Security
 
+- Every browser that joined a call was handed the secret the server registers
+  with on the voice server. Anyone who had ever been in a call held it, and with
+  it you could talk to the public voice server directly, claim any user id and
+  enter any room, skipping every access check made here. The join payload carries
+  a signed token for one user and one room now, and no password.
+- The HTTP endpoints had one rate limit between them, on webhooks. Uploads,
+  avatars, emoji and its importers, file serving and the rest were open. The worst
+  was link previews, which fetches a URL the caller picks from inside the server's
+  own network with no limit at all. All of them are limited now.
 - SVG is refused for emoji uploads and skipped inside emoji ZIPs. An SVG can carry
   scripts, and Gryt was serving them from its own address. Anything already stored
   is served with headers that stop it running.
@@ -144,16 +185,17 @@ Other things you'll notice:
 
 ## What this doesn't do
 
-**Direct messages are not encrypted.** They're stored on the server like any
-other message, and whoever runs it can read them. The notice above the composer
-says so and links to the documentation. A conversation that looks private is not
-the same as a private one, and Gryt would rather tell you which this is.
+**Encryption covers direct messages, not channels.** A channel is stored as text
+on the server like it always was, and whoever runs it can read it. That's what a
+channel is for and it isn't changing.
 
-The groundwork for encrypting them is in this release — a second key that never
-leaves your machine, and a per-message key wrapped once for each member — but none
-of it is wired up and no behaviour depends on it yet. When encryption lands, that
-notice becomes conditional, and it will say which people in a conversation cannot
-hold a key rather than disappearing quietly.
+**A conversation is only sealed when everyone in it can be.** Somebody on an old
+client, or one that hasn't published a key yet, means the whole conversation goes
+in the clear, and the line above the messages says so. It's the honest failure,
+but it does mean one person can hold a group open.
+
+**Comparing the code is on you.** Nothing makes you do it, and until you have,
+you're trusting that the server introduced you to the person you think it did.
 
 ---
 
@@ -166,8 +208,12 @@ hold a key rather than disappearing quietly.
 - Hide a conversation without leaving it. It returns when somebody writes
 - Direct messages are their own permission
 - Messages have a length cap, and a long one folds down until you open it
-- They are not encrypted. The server owner can read them, and Gryt says so in the
-  conversation
+- They're encrypted end to end, with no setup, whenever everybody in the
+  conversation has a key
+- Attachments are encrypted too. They used to be served to anybody with the link
+- A conversation that can't be sealed says so, in the conversation
+- A key that changes is called out, and a short code you compare out loud catches
+  one that was wrong from the start
 
 **Calls**
 
@@ -214,6 +260,10 @@ hold a key rather than disappearing quietly.
 
 **Security**
 
+- Every browser in a call held the server's shared voice secret, which let anyone
+  enter any room as anyone. It's a signed per-user token now
+- The HTTP surface had one rate limit. Link previews would fetch any URL a caller
+  chose, from inside the server's network, unlimited
 - SVG is refused for emoji, skipped in emoji ZIPs, and what is stored is sandboxed
 - Every path that decodes an upload carries the pixel ceiling
 - Animated server icons have a frame cap
