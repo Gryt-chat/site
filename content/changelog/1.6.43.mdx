@@ -1,0 +1,125 @@
+---
+version: 1.6.43
+date: 2026-08-26
+headline: Push to talk works again, and a screen share sends only the audio you meant to send.
+---
+
+Two things in here started as requests on Discord. Looking at where the first
+one would go turned up something worse than the thing that was asked for.
+
+## Push to talk had no key
+
+Somebody asked to bind hotkeys to mouse buttons. Checking where that would fit
+found that push to talk had not worked at all since 1.6.33 — holding the key did
+nothing, and had done nothing for ten releases.
+
+A refactor had moved half of it into the voice package and deleted the other
+half, which happened to be the only thing listening for the key. Nothing was
+left to notice the key going down, so the app never registered the shortcut. It
+failed silently, which is why it lasted.
+
+Push to talk, mute, deafen and disconnect are one thing now instead of four
+half-wired ones. And you can bind any of them to a mouse button, which is what
+was being asked for in the first place.
+
+## A screen share sends the applications you picked
+
+Sharing your screen while sitting in another app's voice chat sent that app's
+audio out with it. Everyone in the Gryt call heard the other call.
+
+You choose which applications a share carries audio from. On Windows that means
+capturing each one separately and mixing them before they leave, so picking two
+applications is genuinely two, not a screen's worth of sound with the rest hoped
+away.
+
+## Two people don't have to be two sizes
+
+A call with exactly two people put one of you full size and the other in a
+corner. That's the right default for a conversation, and the wrong one when
+you're both doing something, or watching a share, or just sitting together.
+
+There's a setting for it now. It stays on the old behaviour unless you change
+it, so nobody's layout moves under them.
+
+## Reporting a bug happens inside Gryt
+
+**Give feedback** and **Report a bug** used to open a browser and ask you to
+sign in somewhere else before you could say anything. They also couldn't carry
+the things that make a voice bug diagnosable: which versions you're running,
+whether your own machine is hosting the server you're on, and the tail of the
+log.
+
+Both open a form inside the app now. The report is signed with your identity
+key, so a server owner reading it can tell it came from who it says.
+
+## Clicking a tile stops taking over the app
+
+Clicking a webcam closed both sidebars, stopped them opening on hover, and grew
+the call to two thirds of the window. That was never fullscreen but there was no
+telling the difference. A click now focuses the stream and leaves the rest of
+Gryt where it was.
+
+## The identity card is on messages
+
+Hovering somebody in the member list showed when they joined, whether there's an
+account behind the name, how many times they've been renamed, and a fingerprint
+for this server. None of it reached the chat, which is the one place it matters:
+a message is where somebody pretending to be a moderator is most convincing, and
+nobody reads one and then opens the member list to compare fingerprints.
+
+## For people running servers
+
+A server hosted from the app keeps the ports it was given. It used to re-probe
+on every start and quietly move to the next free one — sensible when something
+else has grabbed the port, and wrong for anyone who forwarded 5000 on a router,
+because the server comes back up looking healthy while nobody outside can reach
+it.
+
+LAN discovery stops collapsing servers into each other. Both lists deduplicated
+on a field that isn't an identity and that almost nobody sets, so several
+servers on one network showed up as one entry. On the network this was found on,
+five were advertising and four looked identical.
+
+## Smaller things
+
+Reopening the app after your sign-in expired says so instead of sitting on
+placeholders forever. The camera preview shows the resolution actually being
+sent rather than the one requested. A video tile that fails says so rather than
+connecting forever.
+
+Gryt has a new mark: a violet owl on dark indigo, where it used to be a dark owl
+on a violet disc. The owls people have as avatars are untouched — that's a
+different drawing.
+
+---
+
+## The short version
+
+**Voice**
+
+- Push to talk works. It had done nothing since 1.6.33
+- Push to talk, mute, deafen and disconnect can all be bound to mouse buttons
+- A screen share sends audio only from the applications you pick, instead of everything the machine is playing
+- A two-person call can have equal tiles instead of one large and one small. Off by default
+- Clicking a stream focuses it without hiding the rest of Gryt
+- The camera preview shows the resolution being sent
+- A video tile that fails says so instead of connecting forever
+
+**Reports**
+
+- Give feedback and Report a bug open a form inside Gryt instead of a browser and a sign-in somewhere else
+- A report carries the versions and the log tail, and is signed with your identity key
+
+**Trust**
+
+- The identity card — join date, whether there's an account, renames, fingerprint — is on messages, not only in the member list
+
+**Hosting**
+
+- A server hosted from the app keeps its ports instead of quietly moving to a free one
+- LAN discovery lists every server on the network rather than collapsing them onto one entry
+
+**Under the hood**
+
+- Reopening after an expired sign-in says so rather than loading forever
+- A new Gryt mark. Avatar owls are unaffected
