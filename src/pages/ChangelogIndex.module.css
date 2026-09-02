@@ -202,25 +202,8 @@
   flex-wrap: wrap;
 }
 
-.betaToggle {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 14px;
-  color: var(--text-dim);
-  cursor: pointer;
-  user-select: none;
-  padding-top: 4px;
-}
-
 .betaToggle:hover {
   color: var(--text);
-}
-
-.loading {
-  font-family: var(--font-mono);
-  font-size: 13px;
-  color: var(--text-dimmer);
 }
 
 @media (max-width: 640px) {
@@ -229,10 +212,3 @@
   }
 }
 
-/* Which parts of Gryt a release moved. Quiet on purpose — it answers a
-   question rather than announcing one, and only a self-hoster is asking it. */
-.parts {
-  color: var(--text-dim);
-  font-size: 13px;
-  letter-spacing: 0.01em;
-}

@@ -1,0 +1,85 @@
+---
+version: 1.6.52
+date: 2026-08-29
+headline: Voice stops announcing a failure it is still recovering from, and Gryt behind a proxy works again.
+---
+
+The end of the 1.6 line was fixes, so this is a short one. Two of them were the
+kind you'd have noticed and had no way to explain.
+
+## A voice error that waits until it's actually failed
+
+Somebody reported "could not connect to voice" with no way to say which server
+or which channel. Their log said something worse: by the time they read it, the
+call was already back up.
+
+The message fired the moment the connection failed, while the engine was still
+retrying. Their first attempt couldn't find a route to the voice server and gave
+up after sixteen seconds; the retry a second and a half later connected. In
+between, Gryt told them their network might not allow voice traffic, which was
+alarming and wrong.
+
+It waits for the engine to stop trying now. And it names the server and the
+channel, with the server's icon, so a message about a failure tells you where
+the failure was.
+
+## Gryt behind a proxy
+
+The desktop app assumed a server spoke plain HTTP unless it had learned
+otherwise, and it only ever learned while adding one. A server already in your
+list — added before that code existed, or added on another machine and synced
+over — kept the assumption for good.
+
+Against a server behind a proxy that redirects to HTTPS, that broke every
+request the browser checks first. Avatar uploads, link previews and emoji
+imports were all dead, permanently, while chat carried on working, because the
+WebSocket goes through the same proxy without complaint. So the server looked
+fine and three things quietly didn't.
+
+Gryt now asks a server once which scheme it's on and remembers the answer.
+
+## Smaller things
+
+The chat stays where you put it while images load. Opening a channel used to
+drop you at the bottom, then the pictures would arrive and push you into the
+middle of a conversation.
+
+A link preview the server refused isn't asked for again. Servers won't fetch a
+private address on your behalf, which is right, but the card asked every time
+the message scrolled back into view.
+
+Voice tiles take their colour from the owl somebody designed rather than from a
+sample of the picture of it. A red owl was being drawn on a mustard tile,
+because sampling the image mostly finds the face.
+
+The confirmation after you send a report stays until you dismiss it. It used to
+close itself after two and a half seconds, which is not long enough to read a
+paragraph, and it said rather more than it needed to.
+
+## For people running servers
+
+A socket reconnecting after a drop is told to retry rather than told it's
+forbidden. And the server log says who dropped and from where, instead of
+recording that somebody did.
+
+---
+
+## The short version
+
+**Voice**
+
+- A voice error waits until the engine has given up, instead of firing on a failure it's about to recover from
+- The error names the server and the channel it happened in
+- Tiles take their colour from the designed owl rather than a sample of the picture
+
+**Hosting**
+
+- A server behind a proxy that redirects to HTTPS works. Avatar uploads, link previews and emoji imports were dead against one
+- A reconnecting socket is told to retry rather than that it's forbidden
+- The log says who dropped and from where
+
+**Interface**
+
+- The chat holds its position while images load
+- A link preview the server refused isn't requested again
+- The confirmation after sending a report waits to be dismissed
