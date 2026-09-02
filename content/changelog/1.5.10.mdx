@@ -1,0 +1,88 @@
+---
+version: 1.5.10
+date: 2026-08-13
+headline: Gryt can wear a theme you paste in, and leaving a server actually forgets it.
+---
+
+The 1.5 line ended with the client coming off the component library it was
+built on, and two things arrived on the way out: somewhere to keep a theme, and
+an answer to what leaving a server is supposed to do.
+
+## Themes
+
+**Settings → Appearance** takes a link. Build a palette on ui.gryt.chat, paste
+the link in, see what arrived, and keep it. The list underneath holds everything
+you've imported, switching is immediate, and it survives a restart.
+
+Eleven come built in — Ember, Paper, Signal, Dracula, Nord, Catppuccin, GitHub,
+Claude, shadcn, Solarized, and Gryt's own. They're read from the component
+library rather than copied in, so a palette that gets a contrast fix in a later
+release gets it on your machine too instead of being frozen the day you clicked
+it.
+
+The titlebar stays on Gryt's colours whatever you pick. It sits against the
+window frame and the traffic lights rather than on the page, and it shouldn't
+turn purple because the chat below it did.
+
+## Leaving a server forgets it
+
+Leaving used to remove the entry from the sidebar and stop. Two things that only
+mean something for a member outlived the membership.
+
+The one people hit was the pinned identity. A pin says "the server I belong to
+answers with this key, tell me if anything else ever answers instead" — sensible
+while you're a member, and nothing at all once you've left. It stayed pinned, so
+deleting a server and building a new one on the same address was refused, with a
+message pointing at a settings screen you had to already know existed.
+
+## Security
+
+- **Deleting a hosted server left its credentials behind for the next one.**
+  The rail keys a server on the address you joined at, and deleting only cleared
+  the entry under the loopback address. Anyone who joined over the LAN — which is
+  what both Discovery and an invite you send somebody hand out — sat under a
+  192.168 address that survived the delete, and that entry is what holds the
+  access tokens and the pinned identity. The next server you created took the
+  same preferred port, landed on the same address, and was handed credentials it
+  had never issued. Every entry for a server goes now, whatever address it was
+  reached at.
+
+## Smaller things
+
+Right-clicking a server took the whole app down. So did right-clicking a channel
+or a member — every context menu in the client had the same fault in it.
+
+Server settings opens at a width that fits its contents rather than collapsing
+to 600 pixels around a rail. Status colours are readable in the light theme.
+
+## Under the hood
+
+The client is off Radix Themes entirely and on `@gryt/ui`, which is the library
+the rest of Gryt uses. Avatars, inputs, toggles, buttons, menus, hover cards,
+dialogs, selects, tab rails and the layout primitives all moved. Nothing about
+that is visible on its own, and it is what made the theme list possible.
+
+---
+
+## The short version
+
+**Appearance**
+
+- Paste a link from ui.gryt.chat and Gryt wears that theme
+- Eleven themes built in, read from the library so they stay current
+- Switching is immediate and survives a restart
+- The titlebar keeps Gryt's own colours whatever theme you pick
+- Status colours are readable in the light theme
+
+**Servers**
+
+- Leaving a server forgets its pinned identity and its tokens, so rebuilding one on the same address works
+- Server settings is as wide as what's in it
+
+**Security**
+
+- Deleting a hosted server left tokens and a pinned identity behind under whatever address people joined at, and the next server on that address inherited them
+
+**Under the hood**
+
+- The client is off Radix Themes and onto `@gryt/ui`

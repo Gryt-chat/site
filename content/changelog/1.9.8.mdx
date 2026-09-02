@@ -1,0 +1,52 @@
+---
+version: 1.9.8
+date: 2026-09-02
+headline: The owl you designed on one server can be the one you have on all of them.
+---
+
+A small release with one thing in it worth having.
+
+## Use the same face everywhere
+
+Settings already had a Sync button, which pushes your account's picture
+outward. This is the other direction, and it's the one people kept asking for.
+
+If you designed an owl on one server, or uploaded a picture there, that's the
+one you want. Until now the only way to have it anywhere else was to design or
+upload it again on each server, one at a time. There's a button on that server
+now that copies it to the rest.
+
+Owls and pictures are the same button. A designed owl is stored as a picture
+plus the string that draws it, so both go across the same way, wardrobe and all.
+
+Your nickname stays where it is. Being called something different in different
+places is the point of a per-server name, and quietly renaming you on five
+servers is not what copying an avatar asked for.
+
+The button only shows up when you're connected to more than one server and the
+one you're looking at has an avatar of its own, so it never offers to copy your
+account's default onto itself.
+
+## Under the hood
+
+The Windows Store package now carries the identity the Store assigned rather
+than a guessed one, which is the part that had to be right before anything can
+be submitted. It still can't be installed by hand — an MSIX has to be signed,
+and for a Store app the Store is what signs it. The app says so plainly now
+instead of suggesting a way round it that doesn't work.
+
+---
+
+## The short version
+
+**Avatars and images**
+
+- Copy the avatar you have on one server to every other server you're on
+- Designed owls and uploaded pictures both work, and the owl keeps what it's wearing
+- Your nickname on each server is left alone
+- The button appears only where there's something to copy and somewhere to copy it to
+
+**Under the hood**
+
+- The Windows Store package carries its real identity, which submission needs
+- The app stops suggesting a way to install the unsigned package that never worked

@@ -1,0 +1,74 @@
+---
+version: 1.3.1
+date: 2026-08-05
+headline: The volume sliders stop lying about what they do, and the noise gate keeps working when you look away.
+---
+
+This one is voice, and two of the fixes in it are the kind you'd have noticed
+and had no way to explain.
+
+## The sliders meant nothing like what they said
+
+The percentages were run through a curve, so the numbers on screen were not the
+numbers you were getting. 100% was a 2x boost. Normal volume landed at about
+79%. At 50% you were down to a quarter of the amplitude, roughly 12 dB quieter,
+under a label that said 50% was normal.
+
+A slider is now what it claims: 100% is unchanged audio, and the top of the
+range is 200%, which is twice as loud. The old curve was gentler to drag
+through, and that's what it cost — but a control that reads 50% and does
+something else is not a control.
+
+Both sliders, microphone and output.
+
+## The noise gate stopped when the window did
+
+Minimise Gryt, or put a game in fullscreen, and everyone in the call started
+hearing everything your microphone picked up.
+
+The gate was watching your audio from the same clock the browser uses to draw
+frames, and that clock stops when a window is hidden. Rather than risk cutting
+somebody off mid-sentence, the code held the gate wide open whenever it couldn't
+see. So the moment you stopped looking at Gryt, it stopped filtering.
+
+It runs on the audio thread now, which nothing throttles. The gate works the
+same whether Gryt is in front of you or behind a game.
+
+## Picking a microphone picks that microphone
+
+Choosing a different input device carried on using the old one. The code checked
+whether a microphone was live, decided one was, and stopped there without ever
+asking whether it was the one you'd chosen.
+
+## macOS was never getting updates
+
+The macOS build shipped pointing at a repository with no releases in it, so
+every update check came back with nothing and there was no sign anything was
+wrong. Windows and Linux were unaffected — they set the address a different way,
+which is why this went unnoticed.
+
+## Smaller things
+
+The camera tile appears while the video is still connecting instead of after,
+and keeps trying rather than giving up on a stream that arrives late. A call is
+no longer sometimes declared failed and dropped while you're still in it. The
+speaking indicator stops lighting up slightly before the audio it's reacting to,
+and keeps working when you alt-tab away. The audio meter in settings costs less
+to draw.
+
+---
+
+## The short version
+
+**Voice**
+
+- 100% on a volume slider is now unchanged audio, and the maximum is 200%. It used to be a 2x boost at 100%, and normal volume sat at 79%
+- The noise gate keeps working while Gryt is minimised or behind a fullscreen game. It used to switch itself off
+- Choosing a different microphone actually changes microphone
+- A call is no longer sometimes marked failed and dropped while you're in it
+- The speaking indicator fires with the audio rather than just before it, and survives alt-tabbing
+- The camera tile shows while the video is connecting, and waits for a stream that arrives late
+
+**Updates**
+
+- macOS was checking a repository with no releases in it, so it never found one. Windows and Linux were fine
