@@ -1,4 +1,4 @@
-import { Suspense, useEffect } from 'react'
+import { lazy, Suspense, useEffect } from 'react'
 import { useParams, Link, Navigate } from 'react-router-dom'
 import { MdChevronLeft } from 'react-icons/md'
 import { Chip } from '@gryt/ui'
@@ -20,7 +20,29 @@ function MdxImage(props: ComponentPropsWithoutRef<'img'>) {
   return <LightboxImage {...props} />
 }
 
-const components = { a: MdxLink, img: MdxImage, Image: MdxImage }
+/* Lazily, so mermaid stays out of the main bundle and off every page that has
+   no diagram in it. That was already true before GRYT-700 removed the component
+   for being "in the bundle"; what was in the bundle was /why-gryt importing it
+   directly, and that page draws its own sketches now. */
+const LazyMermaid = lazy(() =>
+  import('../components/Mermaid').then((m) => ({ default: m.Mermaid }))
+)
+
+function MermaidWrapper(props: { chart: string }) {
+  return (
+    <Suspense
+      fallback={
+        <div style={{ margin: '24px 0', padding: '24px', textAlign: 'center', color: 'var(--text-dim)' }}>
+          Loading diagram…
+        </div>
+      }
+    >
+      <LazyMermaid {...props} />
+    </Suspense>
+  )
+}
+
+const components = { a: MdxLink, img: MdxImage, Image: MdxImage, Mermaid: MermaidWrapper }
 
 export function BlogPost() {
   const { slug } = useParams<{ slug: string }>()
