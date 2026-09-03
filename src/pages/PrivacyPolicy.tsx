@@ -108,16 +108,28 @@ export function PrivacyPolicy() {
           When you send a bug report or feedback from inside a Gryt app, it goes
           to <strong>reports.gryt.chat</strong>, which we run. The report holds
           what you wrote and any contact details you chose to give. We also
-          record your IP address, the app version and build, an install id, your
-          platform, operating system version and device model, your user-agent,
-          and which account sent it if you were signed in. The address and the
-          install id stop one person flooding the inbox.
+          record the app version and build, an install id, your platform,
+          operating system version and device model, and your user-agent. The
+          install id is a number the app made up about itself the first time it
+          ran. Nothing outside our database can turn it into a name or an
+          address, but it does link your reports to each other, which is how we
+          tell that this one and last week's came from the same copy of the app.
         </p>
         <p>
-          Unlike the chat server's logs, this is the address itself rather than
-          a label, and we keep it for as long as the report exists. Nothing
-          expires reports on a schedule. If you would rather not send that,
-          email{" "}
+          Your IP address and, if you signed the report, your identity key are
+          recorded too, and both are deleted after two days. They are there to
+          stop one person filling the inbox with junk, which happens within a
+          day if it happens at all. The report stays; the part that says where
+          it came from does not.
+        </p>
+        <p>
+          Two other places hold an address for a little longer. A rate counter
+          keeps one for a day, and if somebody is blocked from sending reports,
+          the block holds the address it applies to for as long as it lasts,
+          which is a week by default. Neither is attached to anything you wrote.
+        </p>
+        <p>
+          If you would rather send none of this, email{" "}
           <a href="mailto:sivert@gryt.chat">sivert@gryt.chat</a> instead of
           using the form.
         </p>
@@ -177,8 +189,9 @@ export function PrivacyPolicy() {
             over, as described above. On other servers, the operator decides.
           </li>
           <li>
-            <strong>Bug reports</strong> are kept until we delete them. There is
-            no schedule.
+            <strong>Bug reports</strong> are kept until we delete them. The IP
+            address and identity key on one are deleted after two days; the rest
+            of the report has no schedule.
           </li>
           <li>
             <strong>Server data</strong> is retained according to the policies
@@ -215,7 +228,8 @@ export function PrivacyPolicy() {
           Operational logs, which hold request timestamps and the labels
           described above rather than anything you wrote, are kept until they
           roll over as described under Data retention. A bug report you sent is
-          separate, and we will delete it on request.
+          separate. The address on it is gone after two days either way, and we
+          will delete the rest of it on request.
         </p>
         <p>
           You do not need an account to use Gryt. If you never made one, there
