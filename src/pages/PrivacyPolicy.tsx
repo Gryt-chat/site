@@ -1,7 +1,7 @@
 import { PageHeader } from "../components/PageHeader";
 import styles from "../styles/document.module.css";
 
-const LAST_UPDATED = "February 28, 2026";
+const LAST_UPDATED = "September 3, 2026";
 
 export function PrivacyPolicy() {
   return (
@@ -58,10 +58,14 @@ export function PrivacyPolicy() {
           read. If that matters to you, check that your client is up to date.
         </p>
         <p>
-          Server logs on community.gryt.chat record IP addresses, and only in
-          one situation: when a request is rate-limited, the log line naming the
-          ban includes the address it applied to. Nothing else writes one down,
-          and no IP address is stored in the database.
+          Server logs on community.gryt.chat do not record IP addresses. A log
+          line that has to tell two callers apart — a rate-limit ban, a client
+          connecting, a client dropping — carries a short label worked out from
+          the address instead. The key that produces it is random, generated
+          when the server starts and never written down. The same address gets
+          the same label for as long as that process runs, and a different one
+          after a restart. The address itself is never written, and none is
+          stored in the database.
         </p>
         <p>
           Those logs have a ceiling. Each service on that machine keeps at most
@@ -99,12 +103,33 @@ export function PrivacyPolicy() {
           identity claims only for the duration of the request.
         </p>
 
+        <h3>Bug reports and feedback</h3>
+        <p>
+          When you send a bug report or feedback from inside a Gryt app, it goes
+          to <strong>reports.gryt.chat</strong>, which we run. The report holds
+          what you wrote and any contact details you chose to give. We also
+          record your IP address, the app version and build, an install id, your
+          platform, operating system version and device model, your user-agent,
+          and which account sent it if you were signed in. The address and the
+          install id stop one person flooding the inbox.
+        </p>
+        <p>
+          Unlike the chat server's logs, this is the address itself rather than
+          a label, and we keep it for as long as the report exists. Nothing
+          expires reports on a schedule. If you would rather not send that,
+          email{" "}
+          <a href="mailto:sivert@gryt.chat">sivert@gryt.chat</a> instead of
+          using the form.
+        </p>
+
         <h3>Operational logs</h3>
         <p>
-          Like most web services, our servers may record minimal operational
+          Like most web services, our web servers may record minimal operational
           data for security and reliability, for example IP addresses,
-          user-agent strings, and request timestamps. We do not use analytics or
-          cross-site tracking.
+          user-agent strings, and request timestamps. The chat server on
+          community.gryt.chat is the exception described above, since it writes
+          a label rather than an address. We do not use analytics or cross-site
+          tracking.
         </p>
 
         <h2>What we do not collect</h2>
@@ -152,6 +177,10 @@ export function PrivacyPolicy() {
             over, as described above. On other servers, the operator decides.
           </li>
           <li>
+            <strong>Bug reports</strong> are kept until we delete them. There is
+            no schedule.
+          </li>
+          <li>
             <strong>Server data</strong> is retained according to the policies
             of each server operator.
           </li>
@@ -183,9 +212,10 @@ export function PrivacyPolicy() {
           those servers are run by other people rather than by us. Deleting your
           Gryt account does not reach them. You can delete your own messages in
           the app, and for the rest you have to ask that server's operator.
-          Operational logs, which hold IP addresses and request timestamps
-          rather than anything you wrote, are kept until they roll over as
-          described under Data retention.
+          Operational logs, which hold request timestamps and the labels
+          described above rather than anything you wrote, are kept until they
+          roll over as described under Data retention. A bug report you sent is
+          separate, and we will delete it on request.
         </p>
         <p>
           You do not need an account to use Gryt. If you never made one, there
