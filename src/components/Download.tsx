@@ -46,12 +46,11 @@ function OSTabs({
     >
       <Tabs.List aria-label="Platform">
         {OS_ORDER.map((os) => {
-          const { label, icon: Icon, comingSoon } = OS_LABELS[os];
+          const { label, icon: Icon } = OS_LABELS[os];
           return (
             <Tabs.Tab className={styles.osTab} key={os} value={os}>
               <Icon size={16} />
               {label}
-              {comingSoon && <Chip label="In dev" tone="neutral" />}
             </Tabs.Tab>
           );
         })}
@@ -180,6 +179,10 @@ export function Download() {
 
         {OS_LABELS[selectedOS].comingSoon && (
           <div className={styles.comingSoonPanel}>
+            {/* The badge belongs here rather than on the tab. On the tab it made
+                two of the five platforms wider than the rest for a word you only
+                need once you have picked one. */}
+            <Chip label="In dev" tone="neutral" />
             <p className={styles.comingSoonTitle}>
               The {OS_LABELS[selectedOS].label} app isn&rsquo;t ready yet
             </p>
