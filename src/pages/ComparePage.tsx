@@ -6,11 +6,8 @@ import { inView, rise, stagger } from "../components/home/motion";
 import styles from "./ComparePage.module.css";
 
 /**
- * Two comparisons, because they are two different arguments.
- *
- * The tables are against the closed platforms, where the case is about what a
- * feature costs you. The cards are against the open ones, where that argument
- * is already settled and the honest answer is that they are good.
+ * Two comparisons, because they are two different arguments. Tables against the
+ * closed platforms, cards against the open ones.
  *
  * Every Gryt figure below was read out of the source, not remembered:
  *   uploads, avatars, emoji all 100 MB      server/src/db/interfaces.ts:147-149
@@ -22,9 +19,8 @@ import styles from "./ComparePage.module.css";
  *   addons                                   client addonsSettings.tsx
  *
  * The Discord column says "Subscription" and "Paid boosts" rather than "Nitro"
- * and "Boost level". Those are Discord's words for money, and repeating them in
- * our own comparison does their softening for them. No boost level is named
- * either, because published sources disagree on which level unlocks what.
+ * and "Boost level": those are Discord's words for money. No boost level is
+ * named either, because published sources disagree on which unlocks what.
  */
 const paidElsewhere = [
   { label: "Animated avatar", gryt: "Included", discord: "Nitro Basic", cost: "$2.99/mo", teamspeak: "\u2014" },

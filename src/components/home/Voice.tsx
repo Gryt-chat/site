@@ -12,22 +12,15 @@ import styles from "./Voice.module.css";
 /**
  * Everything about voice in one section rather than four down the page.
  *
- * Sivert picked nine features to show and four of them — 120 fps sharing,
- * surviving a server restart, local noise suppression and eSports mode — are
- * facts about the same thing. Four alternating blocks would have been the old
- * page again with better pictures, so they are one block with a fact strip.
- *
- * The panel is a demonstration, not a call.
- *
- * Everyone here is a name and a state, and the levels are made up on a timer —
- * the page says so under the panel, because a marketing page that implies a
- * live room is exactly the sort of claim the rest of this page exists to avoid
- * making.
+ * The panel is a demonstration, not a call. Everyone in it is a name and a
+ * state, and the levels are made up on a timer — **the page says so under the
+ * panel**, because implying a live room is the sort of claim the rest of this
+ * page exists to avoid making.
  *
  * What is real is the drawing: `Avatar` is the component the client renders,
  * the owls come out of `@gryt/owl` on this machine, and the tile tint is
- * `owlAvatarColour` of the same seed — which is why an owl and its tile are the
- * same colour in the app rather than two colours that nearly match.
+ * `owlAvatarColour` of the same seed, so an owl and its tile are one colour
+ * rather than two that nearly match.
  */
 interface Person {
   name: string;
@@ -70,14 +63,8 @@ const SHARE_SHOWS =
   "people in the call as a strip of tiles above it";
 
 /**
- * Seven facts, and three of them are the ones Sivert picked out.
- *
- * Cards rather than rows since 2026-08-28. As a full-width strip the labels sat
- * in a 200px gutter and each one-sentence value ran on a 1500px measure with
- * empty page to the right of it, which is a lot of eye travel for seven short
- * sentences. The first is split out because it frames the other six rather than
- * being one of them, and because seven equal boxes in a three-column grid leave
- * one sitting on its own.
+ * Seven facts, and three of them are the ones Sivert picked out. The first is
+ * split out because it frames the other six rather than being one of them.
  *
  * Read from source rather than from the docs:
  *   RNNoise, on this machine   client settings/hooks/useAudioSettings.ts
@@ -85,8 +72,8 @@ const SHARE_SHOWS =
  *   eSports mode               client settings/hooks/settingsSearch.ts
  *   one UDP port               sfu internal/config, ICE_UDP_MUX_PORT
  *
- * The last one is a single muxed port, 3478 unless it is changed — not a
- * range. /why-gryt said range until this pass, and was wrong.
+ * The last one is a single muxed port, 3478 unless it is changed — **not a
+ * range**. /why-gryt said range until this pass, and was wrong.
  */
 const LEAD: [string, string] = [
   "The voice server",

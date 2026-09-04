@@ -4,22 +4,15 @@ import styles from "./Snippet.module.css";
 /**
  * A line or two of real code, with a label and a copy button.
  *
- * /developers and /self-hosting had no code on them at all, which for those two
- * readers is strange. The front page's no-code rule was decided for somebody
- * deciding whether to try Gryt — a shell command in front of that person is an
- * obstacle — and it does not transfer to a page whose reader came to install
- * something.
- *
  * `design.md` bans hand-built fake window chrome: title bars, traffic lights,
- * an invented terminal frame. A code block is not that, and this one does not
- * pretend to be a terminal. It is a labelled `<pre>` with a hairline.
+ * an invented terminal frame. This does not pretend to be a terminal — it is a
+ * labelled `<pre>` with a hairline.
  *
- * The `$` on a shell line is drawn and never copied. Everybody has pasted a
- * prompt into their own shell once; the copy button hands over the command and
- * the selection does too, because the prompt is `user-select: none`.
+ * The `$` on a shell line is drawn and never copied. The copy button hands over
+ * the command, and so does the selection, because the prompt is
+ * `user-select: none`.
  *
- * The button says "Copied" rather than firing a toast. A toast for something
- * that happened where you are looking is a notification about your own hand.
+ * The button says "Copied" rather than firing a toast.
  */
 export function Snippet({
   label,

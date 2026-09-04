@@ -9,15 +9,12 @@ import { useTravellingUnderline } from "./useTravellingUnderline";
 import styles from "./Navbar.module.css";
 
 /**
- * Both lists come out of `src/data/siteLinks.ts`, which is the point of that
- * file: the bar and the footer used to hold a copy each, and they drifted —
- * `Blog` was in the mobile sheet and not on the desktop bar, and `Compared` did
- * not exist in either.
+ * Both lists come out of `src/data/siteLinks.ts`.
  *
  * The bar carries four, because two buttons sit beside them and six links plus
- * two buttons is a directory rather than a decision. Blog and Changelog are for
- * people who already use Gryt, so they wait in the sheet and the footer, and
- * `Compared` joined them there when /developers and /self-hosting arrived.
+ * two buttons is a directory rather than a decision. Blog, Changelog and
+ * `Compared` are for people who already use Gryt, so they wait in the sheet and
+ * the footer.
  *
  * Everything sits hard right against the viewport edge, with the wordmark hard
  * left and nothing in between. `Navbar.module.css` has the reasoning.
@@ -85,25 +82,22 @@ function DownloadAction() {
   const navigate = useNavigate();
 
   /**
-   * The button starts as "Download" and becomes "Download for macOS" the moment
-   * the release call comes back — a jump of about seventy pixels in a row that
-   * is right-aligned, so everything to its left jumps with it.
+   * The button starts as "Download" and becomes "Download for macOS" when the
+   * release call comes back, so its width is measured off the content and
+   * transitioned to.
    *
-   * The width is measured off the content and transitioned to. React writes the
-   * pixel value on commit and CSS animates it, rather than framer-motion
-   * driving the value: motion applies values through a `requestAnimationFrame`
-   * loop, and rAF is throttled to nothing in a background tab. That would be
-   * benign here — no animation, correct width — but it also makes the whole
-   * thing unverifiable, and the same rAF assumption was already a real bug in
-   * the nav underline an hour ago.
+   * React writes the pixel value on commit and CSS animates it, rather than
+   * framer-motion driving it: motion applies values through a
+   * `requestAnimationFrame` loop, and rAF is throttled to nothing in a
+   * background tab. The same assumption was a real bug in the nav underline.
    *
-   * `settled` is the first-measurement guard: the button has no business
-   * animating from zero on load, only from one real width to the next.
+   * `settled` is the first-measurement guard, so the button animates from one
+   * real width to the next rather than from zero on load.
    *
-   * `overflow: clip` on the wrapper rather than `hidden`, because `hidden` makes
-   * a scroll container and this one has a `position: fixed` ancestor — the same
-   * reason `index.css` clips `html, body`. The clip margin keeps the focus ring
-   * from being cut off with the overflow.
+   * `overflow: clip` on the wrapper rather than `hidden`, because `hidden`
+   * makes a scroll container and this one has a `position: fixed` ancestor —
+   * the same reason `index.css` clips `html, body`. The clip margin keeps the
+   * focus ring from being cut off with the overflow.
    */
   const inner = useRef<HTMLDivElement>(null);
   const measured = useRef(false);

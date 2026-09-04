@@ -1,29 +1,13 @@
 /**
  * Every destination the site chrome can point at, in one place.
  *
- * The nav and the footer both used to carry their own copy of this, which is
- * why `Why Gryt?`, `Changelog` and the docs appeared in both and `Blog` was in
- * the mobile sheet but not the desktop nav. A link that exists twice drifts;
- * a link that exists once is either in a group or it is not.
+ * The nav and the footer used to carry their own copies, and they drifted:
+ * three links appeared in both, one was in the mobile sheet and not the
+ * desktop nav, and `/download` was linked from nowhere at all.
  *
  * The groups are the editorial decision. Thirty targets is too many to lay out
- * flat — that is what made the footer hard to read — so they are sorted by what
- * somebody is trying to do rather than by where the link happens to go.
- *
- * Findings from the IA audit on 2026-08-27, all fixed here:
- *
- *  - `/download` was an orphan. It is prerendered, it has its own share card,
- *    it sniffs your OS and hands you the right file, and nothing anywhere
- *    linked to it. The footer's "Download" went to the GitHub releases list
- *    instead, which is the same job done worse.
- *  - "Docs" and "Documentation" were two names for `docs.gryt.chat`, and
- *    "Open App" and "Open in browser" were two names for `app.gryt.chat`.
- *  - The footer group "This site" held Blog, Terms and Business inquiries. Say
- *    the name, then say the contents: it does not predict them. It was a
- *    bucket, so it is gone.
- *  - The repository chips were named after the codebase — `SFU`, `Monorepo`,
- *    `Image worker`. The front page had just stopped saying "SFU" in favour of
- *    "the part that carries your voice", and the footer was undoing that.
+ * flat, so they are sorted by what somebody is trying to do rather than by
+ * where the link happens to go.
  */
 
 export interface SiteLink {

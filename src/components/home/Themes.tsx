@@ -13,24 +13,16 @@ import styles from "./Themes.module.css";
 /**
  * Every shipped theme, on a piece of the app rather than as a swatch.
  *
- * `@gryt/theme` is a dependency of this site and `grytPresets` is the same
- * array the client's Appearance tab renders, so `createGrytTheme` turns a
- * preset into the 233 custom properties the design system runs on, and the
- * preview below is drawn with them. The pieces inside it are `Avatar`, `Chip`
- * and `Button` out of `@gryt/ui` — the components the client renders rather
- * than a drawing of them, which is the same call the voice panel makes.
+ * `grytPresets` is the same array the client's Appearance tab renders, and
+ * `createGrytTheme` turns a preset into the custom properties the preview is
+ * drawn with. Ship a nineteenth theme and the carousel grows a step with no
+ * edit here.
  *
- * A row of colour swatches came first and it was the wrong picture. A theme
- * changes the corner radius as well as the palette, and eighteen chips cannot
- * show that; one panel that actually restyles can.
- *
- * Ship a nineteenth theme and the carousel grows a step with no edit here.
- * Which is also why the count in the copy is read rather than written: two
- * comments elsewhere in this repository still claim eleven and twelve presets.
+ * **The count in the copy is read, not written.** Two comments elsewhere in
+ * this repository still claim eleven and twelve presets.
  *
  * The dark half of each theme is what is shown, because the site is dark and a
  * carousel mixing the two would read as thirty-six themes rather than eighteen.
- * `Paper`, `Ice` and the ported ones all carry a light half in the app.
  */
 const GENERATOR = "https://ui.gryt.chat/theme/generator";
 

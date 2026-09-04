@@ -19,28 +19,16 @@ import styles from "../styles/audience.module.css";
  * For people who want to build on Gryt or take a piece of it away with them.
  *
  * The package descriptions are the ones in each package's own `package.json`,
- * shortened where a row needed shortening — not new copy, because a second
- * description is a second thing to keep right.
- *
- * It was six groups of rows and nothing else, which on a site whose front page
- * runs the product live in four places hands a developer an index. The
- * directories are still directories and still rows; what changed is that the
- * first half of the page now shows the things it is describing. The owl is
- * drawn here by the published package, the packages carry the line that
- * installs them, and the two smallest surfaces in Gryt — the bot handshake and
- * the plugin object — are short enough to print in full.
- *
- * Nothing here is a second copy of the docs. Every snippet is either read out
- * of the source it documents or is the code running on this page, and the rows
- * still go to `docs.gryt.chat` for the rest.
+ * shortened where a row needed it. A second description is a second thing to
+ * keep right, and every snippet here is either read out of the source it
+ * documents or is the code running on this page.
  *
  * Two things deliberately absent:
  *
- *  - There is no Figma file and no Code Connect anywhere in this repository. A
- *    developer page is the obvious place to claim one and it would be a lie.
+ *  - There is no Figma file and no Code Connect anywhere in this repository.
+ *    This is the obvious page to claim one, and it would be a lie.
  *  - `voice/index` in the docs still says the package is `0.1.1` when it is
- *    `0.4.2`, so the voice rows point at the pages that are current. The stale
- *    one is a docs task, not something to hide behind a link.
+ *    `0.4.2`, so the voice rows point at the pages that are current.
  */
 const DOCS = "https://docs.gryt.chat/docs";
 const NPM = "https://www.npmjs.com/package";
@@ -163,9 +151,7 @@ declare global {
  *
  * `/info` is the join preview and it is deliberately unauthenticated: a client
  * has to be able to say "you do not need an account for this one" before
- * anybody tries. It is the shortest possible proof that a host is a Gryt server
- * and that you can talk to it, which is why it is here rather than a paragraph
- * about REST.
+ * anybody tries.
  *
  * `description` is dropped from the response shown; everything else is the
  * shape in `server/api-reference`. A server with `discoverable` off answers 404

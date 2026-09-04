@@ -50,12 +50,11 @@ const pageTitles: Record<string, string> = {
  * Pages are lazy behind `Suspense`, so on a cross-route hash link the element
  * does not exist when the effect runs. Following `/#download` from `/download`
  * means waiting for the home page chunk: measured at **573ms** on a dev server
- * with a cold chunk. An earlier version of this gave up after ten frames, which
- * is about 160ms, and therefore never scrolled at all.
+ * with a cold chunk. An earlier version gave up after ten frames, about 160ms,
+ * and therefore never scrolled at all.
  *
  * Three seconds is far more than the measurement and still bounded, so an id
- * that genuinely does not exist stops rather than ambushing somebody who has
- * started reading.
+ * that does not exist stops rather than ambushing somebody mid-read.
  */
 const HASH_TARGET_TIMEOUT_MS = 3000;
 
@@ -85,18 +84,12 @@ function ScrollAndTitle() {
    * Scroll to the `#hash` when there is one, and to the top when there is not.
    *
    * React Router does not scroll to fragments — only a full page load does,
-   * which is why pasting `/#download` and pressing Enter always worked while
-   * clicking a link to it did not. This used to be an unconditional
-   * `scrollTo(0, 0)`, so even something that had scrolled correctly would have
-   * been undone by it.
+   * which is why pasting `/#download` always worked while clicking a link to it
+   * did not. Doing it here means a plain `<Link to="/#download">` is enough,
+   * rather than every caller remembering to call `scrollIntoView` by hand.
    *
-   * The navbar worked around that by calling `scrollIntoView` by hand after
-   * navigating, in two places. Anything written without knowing to do that was
-   * broken, which is what happened to the link on the download page. Doing it
-   * centrally means a plain `<Link to="/#download">` is enough.
-   *
-   * No offset is applied here: `[id] { scroll-margin-top }` in index.css
-   * already clears the fixed navbar, and its comment names the hash case.
+   * No offset is applied: `[id] { scroll-margin-top }` in index.css already
+   * clears the fixed navbar.
    */
   useEffect(() => {
     if (!hash) {

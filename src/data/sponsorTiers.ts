@@ -1,30 +1,18 @@
 /**
  * The sponsorship tiers, and where each one's Sponsor button should go.
  *
- * `https://github.com/sponsors/Gryt-chat` is the tier list. Somebody who has
- * already decided — they clicked a button that says "Your logo, $100 a month" —
- * lands there and has to find that tier again and pick it. GitHub accepts a
- * `tier_id` and goes straight to checkout for that amount, which is one screen
- * instead of three.
+ * GitHub accepts a `tier_id` and goes straight to checkout for that amount,
+ * which is one screen instead of three.
  *
- * ## Why the amount and the id live together
- *
- * The amounts were written out twice: once in the open slot on the home page
- * and once in the tier list on /sponsors. Attaching ids to those separately is
- * how a button ends up promising $100 and charging $500 — the worst failure
- * this file can have, and one nobody would notice from the page. So the pair is
- * declared once, here, and both pages read it.
- *
- * ## Getting the missing ids
+ * **The amount and the id are declared together.** They were written out twice
+ * before, once in the open slot on the home page and once in the tier list on
+ * /sponsors; attaching ids separately is how a button promises $100 and
+ * charges $500, which nobody would catch from the page.
  *
  * Only $100 is known. The ids are not in the public sponsors page HTML, so
- * there is no way to look them up programmatically. To add one: open
+ * they cannot be looked up programmatically — open
  * https://github.com/sponsors/Gryt-chat, click the tier, and copy `tier_id`
- * out of the resulting URL.
- *
- * A tier with no id keeps the generic link, which is exactly what every tier
- * did before this file existed. Adding one is a single line and nothing else
- * has to change.
+ * out of the URL. A tier with no id keeps the generic link.
  */
 
 /** The tier list, in the order the sponsors page shows them. */

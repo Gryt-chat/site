@@ -2,33 +2,20 @@ import { Clip, type ClipSet } from "../Clip";
 import { Showcase } from "../Showcase";
 
 /**
- * The importer, which is the feature Sivert is proudest of.
+ * The emoji importer.
  *
  * Facts read out of `packages/client/src/packages/socket/src/utils/
- * emoteImportSources.ts` and `hooks/useEmoteImport.ts`, not out of the docs —
- * the emoji docs never mention emoji.gg at all and are a separate task.
+ * emoteImportSources.ts` and `hooks/useEmoteImport.ts`. The emoji docs never
+ * mention emoji.gg at all.
  *
- * Sivert's capture, 2160x2160 at 60fps, all 15 seconds:
+ * Encoded from Sivert's 2160x2160 60fps capture, all 15 seconds of it:
  *
  *   yarn encode:clips <source> emoji-import \
  *     --width 1080 --fps 60 --av1-crf 30 --h264-crf 21
  *
- * **Square, and that is why this showcase is `regular`.** `large` gives the
- * media the wider column, which is right for a 16:9 clip and wrong for a 1:1
- * one — a 616px square beside two paragraphs is a column of picture next to a
- * column of mostly nothing. An even split puts the square at 522 and the text
- * at 522, which is the closest the two get to the same height.
- *
- * 1080 rather than the 2200 the hero and the share clip use: at 522 CSS px this
- * is still better than 2x on a Retina display, and the two full-width clips are
- * the ones that need the pixels.
- *
- * Not trimmed. It is a sequence rather than an ambient loop — open a pack,
- * paste, fetch, rename, import, then pick them out of the emoji picker and send
- * them — and cutting it anywhere drops a step the copy beside it names.
- *
- * It replaces `EmojiSketch`, which was deleted with it: that drawing existed to
- * stand in for this and there is no second place it was used.
+ * **Square, so this showcase is `regular`.** `large` gives the media the wider
+ * column, which is right for 16:9 and wrong for 1:1. An even split puts the
+ * square at 522 and the text at 522, the closest the two get to one height.
  */
 const IMPORT: ClipSet = {
   src: "/home/emoji-import.mp4",

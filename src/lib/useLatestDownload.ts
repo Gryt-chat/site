@@ -22,15 +22,15 @@ export interface LatestDownload {
 /**
  * The current release for the platform you are on.
  *
- * The navbar needs the same three facts `/download` and the download section
- * already work out — which platform, which file, which version — so the answer
- * lives here rather than being derived a third time. Two callers disagreeing
- * about which file is the Windows installer is the kind of drift that does not
- * fail, it just hands somebody the wrong binary.
+ * The navbar, `/download` and the download section all need the same three
+ * facts — which platform, which file, which version — so the answer lives here
+ * rather than being derived three times. Two callers disagreeing about which
+ * file is the Windows installer does not fail, it hands somebody the wrong
+ * binary.
  *
- * Everything degrades to a plain link. GitHub rate-limits unauthenticated calls
- * to sixty an hour per address, so a shared office or a CGNAT range will hit it,
- * and the button has to keep working when it does.
+ * Everything degrades to a plain link, because a shared office or a CGNAT
+ * range will hit GitHub's sixty calls an hour and the button has to keep
+ * working when it does.
  */
 export function useLatestDownload(): LatestDownload {
   /* Windows until detection lands, so the prerendered button and the hydrated

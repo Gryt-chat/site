@@ -12,30 +12,15 @@ import styles from "../styles/audience.module.css";
 /**
  * The how, where /why-gryt keeps the why.
  *
- * Those two collided before this page existed: /why-gryt question 4 covered
- * embedded, Compose, Helm, LAN discovery and tunnels at length, which is a
- * deployment guide inside a trust page. That answer is now a sentence and a
- * link here, and this page carries the rest.
+ * Almost every row leaves for docs.gryt.chat on purpose. A second copy of the
+ * docs on this site would be a second copy to keep right, and the one that
+ * went stale would be this one.
  *
- * Almost every row leaves for docs.gryt.chat on purpose. The docs are already
- * grouped by audience and they are kept right; a second copy of them on this
- * site would be a second copy to keep right, and the one that went stale would
- * be this one.
- *
- * Two things changed after the front-page rebuild. The five ways to get a
- * server up are a ladder rather than five equal rows — they differ by how much
- * you have to know, and that ordering was invisible. And the four services are
- * drawn rather than described: a paragraph is the wrong shape for four boxes
- * and two arrows, and the asymmetry between them is the one fact on this page
- * that costs people an evening when they miss it.
- *
- * One thing deliberately not promised as a docs link: the Helm chart. It is
- * real — `ops/helm/gryt` in the monorepo, with a README and example values —
- * and it has no docs page at all. The row goes to the directory rather than to
- * a page that does not exist. Its README offers `helm repo add gryt
- * https://charts.gryt.chat` and hedges it with "if published"; it is not,
- * `charts.gryt.chat` does not resolve, so the line here installs from the
- * chart directory.
+ * **The Helm row goes to the directory, not to a docs page.** `ops/helm/gryt`
+ * in the monorepo is real and has no docs page at all. Its README offers
+ * `helm repo add gryt https://charts.gryt.chat` hedged with "if published" —
+ * it is not, `charts.gryt.chat` does not resolve, so the line here installs
+ * from the chart directory instead.
  */
 const DOCS = "https://docs.gryt.chat/docs";
 const HELM = "https://github.com/Gryt-chat/gryt/tree/main/ops/helm/gryt";
@@ -102,13 +87,8 @@ const START: Rung[] = [
 
 /**
  * The four lines that decide whether voice works for anybody who is not on your
- * LAN.
- *
- * From `deployment/docker-compose`'s production checklist, cut to the ones
- * about being reachable — the rest of that list is a real checklist and belongs
- * where it is. These four are here because "voice connects on the LAN and for
- * nobody else" is the single most common way a Gryt server is half up, and the
- * answer is four variables rather than a paragraph.
+ * LAN. From `deployment/docker-compose`'s production checklist, cut to the ones
+ * about being reachable.
  *
  * `ICE_UDP_MUX_PORT` defaults to 3478 and is written out anyway: the line a
  * person needs is the one they open in a firewall, and a default they cannot

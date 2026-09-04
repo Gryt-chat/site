@@ -4,47 +4,24 @@ import { useCallback, useEffect, useRef, useState } from "react";
  * One underline for a whole row of links, which travels to whichever one you
  * are pointing at.
  *
- * The same idea as `Tabs.Indicator` in `@gryt/ui`: the mark belongs to the
- * list, not to the item, so moving between items is one thing sliding rather
- * than one fading out while another fades in. It borrows that component's
- * timing too — `--gryt-dur-spring` and `--ease-spring`, both already on
- * `:root` from the library's stylesheet — so the nav and the app's tab strips
- * move at the same speed on the same curve.
- *
- * Where it parks:
- *
- *  - under the current page, if one of the links is the page you are on
- *  - under whatever you are hovering or have tabbed to, while you are there
- *  - back to the current page when you leave, or away entirely if there isn't
- *    one — the front page is not in the bar, so on `/` there is nothing to
- *    return to and the underline should not sit under a link you are not on
+ * Parks under the current page, follows hover and focus while they are on the
+ * row, and returns on leave — or goes nowhere on `/`, which is not in the bar.
  *
  * Measured in the list's own coordinates via `offsetLeft`/`offsetWidth`, so the
- * list has to be a positioned ancestor. Measured rather than derived from a
- * class, because the widths are whatever the words happen to be.
+ * list has to be a positioned ancestor.
  *
- * **It has to be told the page changed.** The mark parks under whichever link
- * carries `aria-current`, and that is measured in an effect — so the effect has
- * to re-run when the current page changes, not only when the pointer moves.
- * Without `page` in the dependencies the underline stayed under the last page
- * you visited after clicking the wordmark, which navigates to `/` and is the
- * one route where the answer is "nowhere". Reported on 2026-08-28.
+ * **`page` has to be in the dependencies.** The mark parks under whichever link
+ * carries `aria-current` and that is measured in an effect, so navigating has
+ * to re-run it. Without this the underline stays under the last page you were
+ * on after clicking the wordmark.
  *
- * Three things here were written the obvious way first and were wrong:
+ * Native `pointerout` with a `relatedTarget` check, not React's
+ * `onPointerLeave`: `pointerleave` does not bubble, so React simulates it and
+ * "leave the row" came out unreliable.
  *
- * **Native listeners, not React's `onPointerLeave`.** `pointerleave` does not
- * bubble, so React simulates enter and leave from `pointerout` — which is a
- * layer of interpretation between the pointer and this hook that made "leave
- * the row" unreliable. `pointerout` with a `relatedTarget` check is what the
- * browser actually reports.
- *
- * **No `requestAnimationFrame` for arming the transition.** The first version
- * used the two-frame trick to commit a position with transitions off and turn
- * them on a frame later. rAF is throttled to nothing in a background tab, so
- * the underline could be left permanently un-animated by something as ordinary
- * as opening the page in a tab you were not looking at. Whether it may animate
- * is a fact about the state — has it been somewhere before? — so it is tracked
- * as one.
+ * No `requestAnimationFrame` for arming the transition. rAF is throttled to
+ * nothing in a background tab, which left the underline permanently
+ * un-animated. Whether it may animate is tracked as state instead.
  */
 export interface Underline {
   left: number;

@@ -11,14 +11,13 @@ import styles from "./Lan.module.css";
  * LAN discovery, and the limit on it.
  *
  * `packages/client/electron/lanDiscovery.ts` — mDNS, merged on the instance
- * name, with a Bonjour browser on macOS and a raw dgram socket everywhere else.
- * It lives under `electron/`, so this is the desktop app doing the looking and
- * the section has to say so rather than implying a browser tab can. The server
- * side is the "Discoverable on LAN" switch, documented in deployment/embedded.
+ * name. **It lives under `electron/`, so this is the desktop app doing the
+ * looking** and the section has to say so rather than implying a browser tab
+ * can. The server side is the "Discoverable on LAN" switch, documented in
+ * deployment/embedded.
  *
- * The clip this is waiting for needs two machines, and `SHOTLIST.md` has the
- * recipe. Until it exists the section renders `Pane` below, which is a finished
- * thing rather than a placeholder.
+ * The clip this is waiting for needs two machines and `SHOTLIST.md` has the
+ * recipe. Until it exists the section renders `Pane` below.
  */
 const LAN: ClipSet | null = null;
 
@@ -31,26 +30,19 @@ const DOCS = "https://docs.gryt.chat/docs/deployment/embedded";
 /**
  * The discovery pane, built from the components the client builds it from.
  *
- * `packages/client/src/components/discovery.tsx` is the original: a `Surface`
- * per server, an `Avatar` squared off to `--gryt-radius-md` because a server is
- * a place and the round ones in that app are people, the name with a `New` chip
- * on anything found this visit, the address under it, and a `Join` on the right.
- * `Surface`, `Avatar`, `Chip` and `Button` all come from `@gryt/ui`, so this is
- * that pane at a different width rather than a drawing of it.
+ * `packages/client/src/components/discovery.tsx` is the original, and
+ * `Surface`, `Avatar`, `Chip` and `Button` all come from `@gryt/ui` — so this
+ * is that pane at a different width rather than a drawing of it.
  *
- * The icons are the real generated ones. A server that has never uploaded an
- * icon gets a DiceBear Planets avatar seeded on its name — Planets rather than
- * a character, because a server is not a person, and CC0 so no deployment
- * inherits an attribution obligation. These four were rendered from the same
- * generator with the same seeds and committed under `public/home/servers/`
- * rather than generated in the browser: `@dicebear/core` plus the Planets
- * definition is about 80 kB for four decorative icons on a marketing page, and
- * the output is identical either way.
+ * The icons are DiceBear Planets seeded on each server's name, Planets because
+ * a server is not a person and CC0 so no deployment inherits an attribution
+ * obligation. They are **rendered once and committed** under
+ * `public/home/servers/` rather than generated in the browser: `@dicebear/core`
+ * plus the Planets definition is about 80 kB for four decorative icons, and the
+ * output is identical either way.
  *
- * The fourth arrives on a timer, because "servers turn up on their own" is the
- * claim and a still grid of four states it rather than showing it. It arrives
- * once, when the pane is first on screen, and not at all under reduced motion —
- * the same two conditions the voice panel and the theme carousel are held to.
+ * The fourth arrives on a timer, once, when the pane is first on screen, and
+ * not at all under reduced motion.
  */
 const FOUND = [
   { name: "Gryta Krutt", addr: "192.168.1.24:5000", icon: "gryta-krutt" },

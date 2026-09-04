@@ -10,24 +10,14 @@ import { LOGO_TIER, SPONSOR_URL, sponsorUrl } from "../../data/sponsorTiers";
 /**
  * Where a sponsor's name and logo go (GRYT-271).
  *
- * Written to read the same with nobody in it, because for now that is the
- * case. A section that only made sense once it had somebody in it would have
- * to be built later, which is how the placement came to be promised and never
- * built the first time.
+ * Written to read the same with nobody in it, because for now that is the case.
  *
  * Current sponsors only. The full history, including one-off payments and when
- * each arrived, is at /sponsors: a payment from a year ago is not current, and
- * showing it here would either imply it is or need a caveat beside it.
+ * each arrived, is at /sponsors — a payment from a year ago is not current.
  *
- * The empty slots are the point of the row.
- *
- * The $100 tier promises a logo on this page and the section said so only in
- * the small print underneath, which meant somebody reading it saw a paragraph
- * asking for money rather than the space their logo would occupy. Two outlined
- * slots show the placement, sized exactly as a real logo is sized, so the offer
- * is visible rather than described. They disappear once three logos are up —
- * at that point the row is making the argument by itself and empty boxes beside
- * it would read as sponsors who left.
+ * The two outlined slots are sized exactly as a real logo is, so the $100
+ * tier's offer is visible rather than described. They disappear once three
+ * logos are up, where empty boxes would start reading as sponsors who left.
  */
 const OPEN_SLOTS = 2;
 const SLOTS_UNTIL = 3;

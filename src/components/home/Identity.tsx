@@ -6,28 +6,13 @@ import { Frame, VaultSketch } from "../sketches";
 /**
  * The account question, answered here rather than in a section of its own.
  *
- * The tempting version of that paragraph is "you can sign up for an even more
- * secure experience", and it is backwards. A guest identity involves nothing of
- * ours — the certificate is signed by the key it describes and no server
- * contacts us to check it. Signing in means trusting `auth.gryt.chat` and
- * `id.gryt.chat`, which is less self-contained, not more private.
- *
- * What an account is genuinely for is on the other side of that trade, and it
- * is worth saying plainly: one name everywhere, a way back after a lost device,
- * and a ban that means something, which is what a server admin needs. Both
- * details in the last sentence exist because they remove the fear of choosing
- * wrong — `guide/accounts.mdx` on keeping your membership, and the chip in the
- * client's Add Server dialog, which says whether a server takes guests before
- * you try to join.
- *
- * The vault beside it is the answer to the obvious follow-up. "No account"
- * sounds like "nothing to lose it with" until you learn the identity is 24
- * BIP-39 words and the field you paste them into is a real password field — at
- * which point it is the same thing you already do with every other login, and
- * the fear goes away. That is worth a picture rather than a clause.
- *
- * Built on `Showcase` rather than on a section of its own, which is what took
- * its own CSS module out of the repository.
+ * **Do not write "sign up for a more secure experience".** It is backwards. A
+ * guest identity involves nothing of ours — the certificate is signed by the
+ * key it describes, and no server contacts us to check it. Signing in means
+ * trusting `auth.gryt.chat` and `id.gryt.chat`, which is less self-contained,
+ * not more private. What an account is for sits on the other side of that
+ * trade: one name everywhere, a way back after a lost device, and a ban that
+ * means something.
  */
 const ACCOUNTS_DOCS = "https://docs.gryt.chat/docs/guide/accounts";
 

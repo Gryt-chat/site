@@ -22,15 +22,13 @@ function buildWebAppUrl(host: string, code: string): string {
  * Whether this is a phone, which changes what the page may do rather than only
  * how it reads.
  *
- * A desktop browser handles an unknown `gryt://` quietly — nothing happens and
- * the page carries on. iOS puts up "Safari cannot open the page because the
- * address is invalid", from a page the visitor did not ask to do anything yet,
- * and it also blocks a scheme navigation that no tap started. So on a phone the
- * link is never fired on load; it is behind a button.
+ * A desktop browser handles an unknown `gryt://` quietly. iOS puts up "Safari
+ * cannot open the page because the address is invalid", and blocks a scheme
+ * navigation that no tap started — so on a phone the link is never fired on
+ * load, it is behind a button.
  *
  * User-agent sniffing, which is usually the wrong tool. There is no feature to
- * detect here: the question is what the OS does with an unhandled scheme, and
- * nothing exposes that.
+ * detect here: the question is what the OS does with an unhandled scheme.
  */
 function isPhone(): boolean {
   if (typeof navigator === "undefined") return false;
@@ -60,13 +58,10 @@ function ServerIcon({ host, name }: { host: string; name: string }) {
 }
 
 /**
- * Not a macrostructure. This is an app screen, not a landing page: somebody
- * arrives holding a link and needs one decision made for them as fast as
- * possible. Hallmark's own component-scope rule says to say that out loud and
- * skip the page apparatus, so what gets the attention here is the state
- * machine instead.
+ * An app screen, not a landing page: somebody arrives holding a link and needs
+ * one decision made for them as fast as possible.
  *
- * Four states, and each one is now visibly different:
+ * Four states, and each one is visibly different:
  *   handing off  the gryt:// deep link has been fired, nothing has answered yet
  *   choosing     it did not answer within 1.5s, so ask
  *   invalid      the link is missing host or code
@@ -74,8 +69,7 @@ function ServerIcon({ host, name }: { host: string; name: string }) {
  *
  * A phone skips straight to choosing, and the button says "Join in the Gryt
  * app" rather than "the desktop app", because the phone app registers the same
- * `gryt://` scheme and is the thing somebody holding a link on a phone wants.
- * The reason it does not hand off automatically is in `isPhone`.
+ * `gryt://` scheme. Why it does not hand off automatically is in `isPhone`.
  */
 export function InvitePage() {
   const [params] = useSearchParams();

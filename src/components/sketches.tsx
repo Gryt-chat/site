@@ -4,20 +4,11 @@ import styles from "./sketches.module.css";
  * Drawings that stand where a capture will go, and drawings that are the
  * finished thing.
  *
- * These were under `home/` while the front page was the only page with any.
- * `/self-hosting` needed one too, and a diagram vocabulary that lives inside
- * one page's folder is one that the next page quietly re-invents.
- *
  * These are **diagrams, not screenshots.** The standing rule in design.md bans
- * hand-built fake window chrome, and it means it — an SVG pretending to be the
- * emoji importer would be a picture of a UI that exists, drawn by somebody who
- * was not looking at it, and it would go stale the first time the real one
- * moved. So each of these carries the *shape* of what happens: a link goes in,
- * a list comes back, you tick some of it. Nobody will mistake one for the app.
- *
- * They are also not placeholders in the "coming soon" sense. Each one is a
- * finished thing that says something true, and it stays useful beside a clip
- * rather than being deleted when one arrives.
+ * hand-built fake window chrome. An SVG pretending to be the emoji importer
+ * would be a picture of a UI that exists, drawn by somebody who was not looking
+ * at it, and it would go stale the first time the real one moved. Each of these
+ * carries the *shape* of what happens instead.
  *
  * Everything is drawn in `currentColor` and two CSS variables, so they follow
  * the theme rather than carrying a palette of their own.
@@ -100,15 +91,13 @@ export function UploadSketch() {
 /**
  * An identity sitting in a password manager, as an entry.
  *
- * Not a picture of 1Password or of Gryt: a password manager entry is a shape
- * everyone recognises — a name, a site, a value you cannot read, a button that
- * copies it — and that shape is the whole claim. The value is drawn as dots
- * rather than as words, because a page showing something that looks like a real
- * recovery phrase is a page teaching people to read one off a screen.
+ * Not a picture of 1Password or of Gryt. **The value is drawn as dots rather
+ * than as words**: a page showing something that looks like a real recovery
+ * phrase is a page teaching people to read one off a screen.
  *
- * `guide/accounts.mdx` and the 1.6.0 post are the source: the seed is 24 BIP-39
- * words, and the field you paste them back into is a real password field, which
- * is what makes a manager offer to fill it.
+ * `guide/accounts.mdx` and the 1.6.0 post are the source — the seed is 24
+ * BIP-39 words, and the field you paste them back into is a real password
+ * field, which is what makes a manager offer to fill it.
  */
 export function VaultSketch() {
   const dots = Array.from({ length: 6 }, (_, i) => i);
@@ -175,22 +164,16 @@ export function VaultSketch() {
  * The four things a Gryt server is, and the two ways in.
  *
  * Two drawings, one shown at a time. A 640-unit viewBox scaled into a 330px
- * phone column puts the labels at about six pixels, which is a diagram nobody
- * can read pretending to be one they can — and the alternative, a diagram that
- * scrolls sideways, is worse on the device where sideways scrolling is how you
- * move through the page. So the boxes stack and the arrows come in from the
- * left in one column instead. Same facts, same vocabulary, laid out for the
- * width it is actually being drawn at.
+ * phone column puts the labels at about six pixels, so the narrow one stacks
+ * the boxes and brings the arrows in from the left instead.
  *
- * `/self-hosting` said this in a paragraph, and a paragraph is the wrong shape
- * for four boxes and two arrows. The facts are `ops/deploy/compose/prod.yml`:
- * the Node server (SQLite inside it, no database container), the Go SFU, MinIO
- * standing in for any S3-compatible storage, and the image worker.
+ * The facts are `ops/deploy/compose/prod.yml`: the Node server (SQLite inside
+ * it, no database container), the Go SFU, MinIO standing in for any
+ * S3-compatible storage, and the image worker.
  *
- * The asymmetry is the point of drawing it at all. One arrow is ordinary web
- * traffic that a reverse proxy or a tunnel will carry; the other is UDP that
- * nothing can carry for you, which is the single fact that costs people an
- * evening when they miss it.
+ * The asymmetry is the point. One arrow is ordinary web traffic that a reverse
+ * proxy or a tunnel will carry; the other is UDP that nothing can carry for
+ * you, which is the fact that costs people an evening when they miss it.
  */
 function StackSketchWide() {
   return (
@@ -369,24 +352,16 @@ export function StackSketch() {
 /**
  * What an addon is, and the one door a plugin gets.
  *
- * The section beside it says the surface is small, and a paragraph claiming
- * smallness is the one claim a drawing can settle. So the two halves are drawn
- * at the size they deserve: the folder on the left is the whole of what you
- * write, and the door on the right is the whole of what you can reach.
- *
  * The facts are `packages/client/src/packages/addons/src`. `AddonManifest` in
  * `types.ts` has `styles` for a theme and `main` for a plugin, and
  * `useAddonLoader` injects the first and imports the second. `pluginApi.ts` is
  * the door: `version`, `theme`, and `on("themeChange")`, hung on `window.gryt`.
  * Three members, and nothing else on the object.
  *
- * The asymmetry between the two wires is the point. A theme's CSS goes into the
- * client the way any stylesheet does, so that arrow lands on the app itself. A
- * plugin's module lands on the door instead, because the door is all it gets.
- *
- * No `main` file is drawn holding a network call, a filesystem or a message,
- * because it cannot have one. If the plugin API grows, this drawing has to grow
- * with it or it becomes the same lie the copy used to tell.
+ * A theme's CSS arrow lands on the app itself; a plugin's module lands on the
+ * door, because the door is all it gets. No `main` file is drawn holding a
+ * network call, a filesystem or a message, because it cannot have one. **If the
+ * plugin API grows, this drawing has to grow with it.**
  */
 export function AddonSketch() {
   return (
@@ -455,19 +430,15 @@ export function AddonSketch() {
 /**
  * What talks to what, on /why-gryt.
  *
- * This was a mermaid graph, and mermaid was in the bundle for it alone. Two
- * things were wrong with that beyond the weight. Its node and edge labels
- * cannot hold spaces without quoting, so the page shipped `Signaling_server`,
- * `Object_storage` and `Optional_sign_in` to readers. And it drew its own
- * bordered box in its own colours, which is why `WhyGryt.module.css` had to say
- * "no border here, mermaid draws one" — a diagram that ignores the theme on a
- * site whose whole front page repaints from one.
+ * **Do not put mermaid back.** It was in the bundle for this one graph, its
+ * labels cannot hold spaces without quoting so the page shipped
+ * `Signaling_server` and `Object_storage` to readers, and it drew its own
+ * bordered box in its own colours on a site whose front page repaints from the
+ * theme.
  *
- * Same facts as the graph it replaces: a client talks to the server for chat
- * and uploads and to the SFU for media, the server owns the database and the
- * object store, and identity hangs off the side because a guest never touches
- * it. The dashed boundary is that last part, and the copy above the drawing
- * already names it.
+ * A client talks to the server for chat and uploads and to the SFU for media,
+ * the server owns the database and the object store, and identity hangs off the
+ * side because a guest never touches it. The dashed boundary is that last part.
  */
 function ArchitectureWide() {
   return (
@@ -549,18 +520,12 @@ function ArchitectureWide() {
 }
 
 /**
- * The same drawing for a phone, stacked.
+ * The same drawing for a phone, stacked into one column.
  *
- * A 440-unit viewBox in a 330px column puts these labels at about eight
- * pixels, which is the failure `StackSketchNarrow` exists for. One column
- * instead: you, the client, then the two things it talks to with the server's
- * storage under it.
- *
- * One difference from the wide one, and it is deliberate. There the optional
- * half has two dashed lines into it, because the client asks for the sign-in
- * and the server checks the certificate. Two dashed lines down a 320-unit
- * column cross the boxes they are meant to avoid, so the narrow one draws a
- * single connector and the group says both halves in words.
+ * The wide one draws two dashed lines into the optional half, because the
+ * client asks for the sign-in and the server checks the certificate. Two dashed
+ * lines down a 320-unit column cross the boxes they are meant to avoid, so this
+ * one draws a single connector and the group says both halves in words.
  */
 function ArchitectureNarrow() {
   return (
