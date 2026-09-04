@@ -12,7 +12,7 @@ import {
   type OS,
   type Release,
 } from "../lib/releases";
-import { Alert, Button, Checkbox, Chip, Divider, Spinner, Tabs } from "@gryt/ui";
+import { Alert, Button, Chip, Divider, Spinner, Switch, Tabs, Tooltip } from "@gryt/ui";
 
 const OS_LABELS: Record<OS, { label: string; icon: typeof FaWindows; comingSoon?: boolean }> = {
   windows: { label: "Windows", icon: FaWindows },
@@ -149,22 +149,28 @@ export function Download() {
         <OSTabs value={selectedOS} onChange={setSelectedOS} />
 
         {!OS_LABELS[selectedOS].comingSoon && hasBothBuilds && (
-          <label className={styles.serverToggle}>
-            <Checkbox
+          <div className={styles.serverToggle}>
+            <Switch
               checked={withServer}
               onCheckedChange={(next) => setWithServer(next === true)}
             />
-            <span>
-              <span className={styles.serverToggleLabel}>
-                Include the server
-              </span>
-              <span className={styles.serverToggleDesc}>
-                Lets you host a Gryt server from inside the app, for friends on
-                your network or over the internet. Adds about 35&nbsp;MB. You
-                can join any server without it.
-              </span>
+            <span className={styles.serverToggleLabel}>
+              Include built in server?
             </span>
-          </label>
+            {/* The explanation is a hover rather than a paragraph. Most people
+                are here to get the app, and a sentence about hosting under the
+                one control they have to read is a sentence in the way. */}
+            <Tooltip title="Lets you run a server from inside the app, so friends can join yours. Adds about 35 MB. Without it you can still join anyone else's server.">
+              <span
+                className={styles.serverToggleHint}
+                tabIndex={0}
+                role="note"
+                aria-label="Lets you run a server from inside the app, so friends can join yours. Adds about 35 MB. Without it you can still join anyone else's server."
+              >
+                ?
+              </span>
+            </Tooltip>
+          </div>
         )}
 
         {OS_LABELS[selectedOS].comingSoon && (
