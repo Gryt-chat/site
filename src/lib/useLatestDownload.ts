@@ -2,13 +2,13 @@ import { useEffect, useState } from "react";
 
 import {
   categorizeAssets,
-  detectOS,
   fetchLatestRelease,
   OS_NAMES,
   primaryOption,
   type DownloadOption,
   type OS,
 } from "./releases";
+import { useDetectedOS } from "./useDetectedOS";
 
 export interface LatestDownload {
   os: OS;
@@ -33,7 +33,10 @@ export interface LatestDownload {
  * and the button has to keep working when it does.
  */
 export function useLatestDownload(): LatestDownload {
-  const [os] = useState<OS>(() => detectOS());
+  /* Windows until detection lands, so the prerendered button and the hydrated
+     one say the same thing. It is a label here rather than an action, so the
+     one frame before the real answer costs nothing. */
+  const os = useDetectedOS() ?? "windows";
   const [option, setOption] = useState<DownloadOption | null>(null);
   const [version, setVersion] = useState<string | null>(null);
 

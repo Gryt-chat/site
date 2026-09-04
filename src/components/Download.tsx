@@ -5,12 +5,12 @@ import { DownloadIcon, ServerRackIcon } from "./icons";
 import styles from "./Download.module.css";
 import {
   categorizeAssets,
-  detectOS,
   fetchLatestRelease,
   formatSize,
   type OS,
   type Release,
 } from "../lib/releases";
+import { useDetectedOS } from "../lib/useDetectedOS";
 import { Alert, Button, Chip, Divider, Spinner, Switch, Tabs } from "@gryt/ui";
 
 const OS_LABELS: Record<OS, { label: string; icon: typeof FaWindows; comingSoon?: boolean }> = {
@@ -64,7 +64,12 @@ function OSTabs({
 export function Download() {
   const [release, setRelease] = useState<Release | null>(null);
   const [error, setError] = useState(false);
-  const [selectedOS, setSelectedOS] = useState<OS>(detectOS);
+  /* Detection lands a commit after the first render, so the prerender and the
+     hydration agree and the tabs are never left with two of them selected.
+     useDetectedOS says why that matters. A click wins over detection. */
+  const detectedOS = useDetectedOS();
+  const [pickedOS, setPickedOS] = useState<OS | null>(null);
+  const selectedOS = pickedOS ?? detectedOS ?? "windows";
 
   /*
    * Off by default, so the smaller build is what somebody gets without reading
@@ -135,7 +140,7 @@ export function Download() {
     <section className={styles.section} id="download">
       <div className={styles.box}>
         <h2 className={styles.title}>Download Gryt.</h2>
-        <OSTabs value={selectedOS} onChange={setSelectedOS} />
+        <OSTabs value={selectedOS} onChange={setPickedOS} />
 
         {!OS_LABELS[selectedOS].comingSoon && hasBothBuilds && (
           <div className={styles.serverToggle}>
