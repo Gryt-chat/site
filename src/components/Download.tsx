@@ -11,7 +11,7 @@ import {
   type OS,
   type Release,
 } from "../lib/releases";
-import { Alert, Button, Chip, Divider, Spinner, Switch, Tabs, Tooltip } from "@gryt/ui";
+import { Alert, Button, Chip, Divider, Spinner, Switch, Tabs } from "@gryt/ui";
 
 const OS_LABELS: Record<OS, { label: string; icon: typeof FaWindows; comingSoon?: boolean }> = {
   windows: { label: "Windows", icon: FaWindows },
@@ -136,10 +136,6 @@ export function Download() {
     <section className={styles.section} id="download">
       <div className={styles.box}>
         <h2 className={styles.title}>Download Gryt.</h2>
-        <p className={styles.desc}>
-          Push-to-talk keeps working when the window isn&rsquo;t in front.
-        </p>
-
         <OSTabs value={selectedOS} onChange={setSelectedOS} />
 
         {!OS_LABELS[selectedOS].comingSoon && hasBothBuilds && (
@@ -148,22 +144,37 @@ export function Download() {
               checked={withServer}
               onCheckedChange={(next) => setWithServer(next === true)}
             />
-            <span className={styles.serverToggleLabel}>
+            {/* Clickable, because the label became a span when the tooltip
+                arrived and a span is not a label. Not a real <label> wrapping
+                the row: the "?" sits in that row too, and hovering it to read
+                the explanation should not flip the switch. */}
+            <span
+              className={styles.serverToggleLabel}
+              onClick={() => setWithServer((on) => !on)}
+            >
               Include built in server?
             </span>
-            {/* The explanation is a hover rather than a paragraph. Most people
-                are here to get the app, and a sentence about hosting under the
-                one control they have to read is a sentence in the way. */}
-            <Tooltip title="Lets you run a server from inside the app, so friends can join yours. Adds about 35 MB. Without it you can still join anyone else's server.">
+            {/* A card rather than @gryt/ui's Tooltip. That one draws a single
+                narrow line, which on a large screen is small type running the
+                width of the viewport — the two things that make a sentence hard
+                to read. This one has a width, so it wraps. */}
+            <span className={styles.serverToggleHintWrap}>
               <span
                 className={styles.serverToggleHint}
                 tabIndex={0}
-                role="note"
-                aria-label="Lets you run a server from inside the app, so friends can join yours. Adds about 35 MB. Without it you can still join anyone else's server."
+                role="button"
+                aria-label="What the built in server is"
               >
                 ?
               </span>
-            </Tooltip>
+              <span className={styles.serverToggleCard} role="note">
+                Lets you host a server from inside the app, so friends can join
+                yours. Adds about 35&nbsp;MB.
+                <br />
+                <br />
+                You can still join other people&rsquo;s servers without it.
+              </span>
+            </span>
           </div>
         )}
 
