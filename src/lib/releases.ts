@@ -180,7 +180,7 @@ export function categorizeAssets(
 
     if (name.includes("-win-") || name.includes("-win32-")) {
       if (name.includes("portable")) {
-        result.windows.push(option("Portable", "Runs from anywhere, nothing to install"));
+        result.windows.push(option("Portable", "Runs from anywhere, nothing to install. Does not update itself."));
       } else if (name.endsWith(".exe")) {
         result.windows.push(option("Installer", "Standard Windows installer (NSIS)"));
       }

@@ -1,14 +1,13 @@
 import { useEffect, useMemo, useState } from "react";
 import { FaAndroid, FaApple, FaLinux, FaWindows } from "react-icons/fa";
 
-import { DownloadIcon, GlobeIcon, ServerRackIcon } from "./icons";
+import { DownloadIcon, ServerRackIcon } from "./icons";
 import styles from "./Download.module.css";
 import {
   categorizeAssets,
   detectOS,
   fetchLatestRelease,
   formatSize,
-  type DownloadOption,
   type OS,
   type Release,
 } from "../lib/releases";
@@ -62,30 +61,6 @@ function OSTabs({
   );
 }
 
-function DownloadCard({ option }: { option: DownloadOption }) {
-  return (
-    <a href={option.url} className={styles.downloadCard} download>
-      <div className={styles.cardInfo}>
-        <span className={styles.cardLabel}>{option.label}</span>
-        <span className={styles.cardDesc}>{option.description}</span>
-      </div>
-      <div className={styles.cardAction}>
-        <span className={styles.cardSize}>{formatSize(option.size)}</span>
-        {/* A Button rendered as a span, not a button. The whole card is the
-            link — that is the bigger target and the one a keyboard reaches —
-            so this is the affordance inside it, and a real button nested in an
-            anchor is invalid markup as well as a second tab stop. What it is
-            here for is the look: the six other actions on this page are Gryt
-            UI Buttons, and this one used to be drawn by hand with its own
-            corner. */}
-        <Button className={styles.cardBtn} render={<span />} size="small" tabIndex={-1}>
-          <DownloadIcon size={14} />
-          Download
-        </Button>
-      </div>
-    </a>
-  );
-}
 
 export function Download() {
   const [release, setRelease] = useState<Release | null>(null);
@@ -101,6 +76,12 @@ export function Download() {
    * about the install, and the other build is one tick and one download away.
    */
   const [withServer, setWithServer] = useState(false);
+
+  /* Which package format, within the platform. Windows has an installer and a
+     portable; macOS a disk image and a zip; Linux three. Before this the page
+     drew a button per format per build, so Windows was four stacked Download
+     buttons and Linux six. */
+  const [format, setFormat] = useState<string | null>(null);
 
   useEffect(() => {
     fetchLatestRelease()
@@ -124,26 +105,39 @@ export function Download() {
   const matching = all.filter((opt) => opt.withServer === withServer);
   const options = matching.length > 0 ? matching : all;
   const hasBothBuilds = all.some((o) => o.withServer) && all.some((o) => !o.withServer);
+
+  /* Ordered here rather than taken from the release, whose assets arrive
+     alphabetically — which puts the portable build first on Windows and makes
+     it the default. It should not be: a portable build cannot update itself,
+     because there is no install for electron-updater to replace. */
+  const FORMAT_ORDER = [
+    "Installer",
+    "Portable",
+    "DMG",
+    "ZIP",
+    "AppImage",
+    "Debian / Ubuntu",
+    "Snap",
+  ];
+
+  const formats = [...new Set(options.map((o) => o.label))].sort(
+    (a, b) => FORMAT_ORDER.indexOf(a) - FORMAT_ORDER.indexOf(b),
+  );
+
+  const ordered = formats
+    .map((name) => options.find((o) => o.label === name))
+    .filter((o): o is (typeof options)[number] => Boolean(o));
+
+  const chosen =
+    ordered.find((o) => o.label === format) ?? ordered[0] ?? null;
   const version = release?.tag_name?.replace(/^v/, "");
 
   return (
     <section className={styles.section} id="download">
       <div className={styles.box}>
-        {/* Both lines say the word people are scanning for.
-            The heading used to be "Somewhere for your people, in about a
-            minute." — a benefit line that never said "download" anywhere, on
-            the one section somebody arrives at having already decided. The
-            minute moved up to the eyebrow, and then out of it: an eyebrow is a
-            label for the section under it, and "About a minute" is not the name
-            of anything. The reassurance is still on the page, a line below, in
-            the sentence about the browser taking ten seconds. */}
-        <p className={styles.eyebrow}>Download</p>
         <h2 className={styles.title}>Download Gryt.</h2>
         <p className={styles.desc}>
-          The desktop app is the one that hosts servers, and the one where
-          push-to-talk still works when the window isn't in front. The browser
-          gets you into a call in about ten seconds and needs nothing
-          installed.
+          Push-to-talk keeps working when the window isn&rsquo;t in front.
         </p>
 
         <OSTabs value={selectedOS} onChange={setSelectedOS} />
@@ -211,11 +205,38 @@ export function Download() {
           </div>
         )}
 
-        {!OS_LABELS[selectedOS].comingSoon && !error && release && options.length > 0 && (
-          <div className={styles.downloadList}>
-            {options.map((opt) => (
-              <DownloadCard key={opt.fileName} option={opt} />
-            ))}
+        {!OS_LABELS[selectedOS].comingSoon && !error && release && chosen && (
+          <div className={styles.picker}>
+            {formats.length > 1 && (
+              <Tabs
+                className={styles.formatTabs}
+                value={chosen.label}
+                onValueChange={(next) => setFormat(String(next))}
+              >
+                <Tabs.List aria-label="Package format">
+                  {formats.map((name) => (
+                    <Tabs.Tab className={styles.formatTab} key={name} value={name}>
+                      {name}
+                    </Tabs.Tab>
+                  ))}
+                  <Tabs.Indicator />
+                </Tabs.List>
+              </Tabs>
+            )}
+
+            <p className={styles.formatDesc}>{chosen.description}</p>
+
+            <Button
+              className={styles.downloadBtn}
+              render={<a href={chosen.url} download />}
+              size="large"
+            >
+              <DownloadIcon size={18} />
+              Download
+              <span className={styles.downloadBtnSize}>
+                {formatSize(chosen.size)}
+              </span>
+            </Button>
           </div>
         )}
 
@@ -247,14 +268,11 @@ export function Download() {
 
         <Divider className={styles.divider} />
 
+        {/* One secondary action, and it is a different intent from the
+            buttons above: somebody who came to download may also want to run a
+            server. "Try in Browser" used to sit beside it and is the same
+            action as "Open in browser" in the navbar, three lines up the page. */}
         <div className={styles.altActions}>
-          <Button
-            render={<a href="https://app.gryt.chat" target="_blank" rel="noreferrer" />}
-            tone="primary"
-          >
-            <GlobeIcon size={16} />
-            Try in Browser
-          </Button>
           <Button
             render={<a href="https://docs.gryt.chat/docs/guide/quick-start" target="_blank" rel="noreferrer" />}
             tone="neutral"
@@ -263,11 +281,6 @@ export function Download() {
             Self-Host a Server
           </Button>
         </div>
-
-        <p className={styles.note}>
-          No download required. Works in Chrome, Firefox, Edge, and Safari.
-          Some features like global push-to-talk are desktop-only.
-        </p>
       </div>
     </section>
   );

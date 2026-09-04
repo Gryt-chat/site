@@ -360,8 +360,9 @@
   display: flex;
   gap: 10px;
   align-items: center;
-  max-width: 480px;
-  margin: 0 0 20px;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto 20px;
   padding: 14px 16px;
   border-radius: var(--radius-md);
   border: 1px solid var(--border);
@@ -388,4 +389,47 @@
   font-size: 0.72rem;
   font-weight: 700;
   cursor: help;
+}
+
+/* ── The picker ─────────────────────────────────────────── */
+
+.picker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 8px;
+}
+
+.formatTabs {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 4px;
+  display: inline-flex;
+}
+
+.formatTab {
+  display: inline-flex;
+  align-items: center;
+}
+
+.formatDesc {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+/* The size sits inside the button rather than beside it. It is part of the
+   decision, and a number floating next to a button reads as a caption for the
+   section rather than as what you are about to fetch. */
+.downloadBtnSize {
+  opacity: 0.75;
+  font-variant-numeric: tabular-nums;
+}
+
+.downloadBtnSize::before {
+  content: "·";
+  margin: 0 8px;
 }
