@@ -5,15 +5,14 @@ import { GrytLogo } from "../components/GrytLogo";
 import { pageTitle } from "../lib/title";
 import {
   categorizeAssets,
-  detectOS,
   fetchLatestRelease,
   formatSize,
   OS_NAMES,
   parseOS,
   primaryOption,
   type DownloadOption,
-  type OS,
 } from "../lib/releases";
+import { useDetectedOS } from "../lib/useDetectedOS";
 import styles from "../styles/handoff.module.css";
 
 /**
@@ -41,7 +40,11 @@ type State =
 
 export function DownloadPage() {
   const [params] = useSearchParams();
-  const [os] = useState<OS>(() => parseOS(params.get("os")) ?? detectOS());
+  /* Null on the first render, on both sides of hydration. This page assigns
+     window.location once it knows, so it cannot start on a guess and correct
+     itself — that is two downloads. ?os= is no earlier than detection is: the
+     prerender has no query string either. */
+  const os = useDetectedOS(parseOS(params.get("os")));
   const [state, setState] = useState<State>({ kind: "resolving" });
 
   useEffect(() => {
@@ -49,6 +52,8 @@ export function DownloadPage() {
   }, []);
 
   useEffect(() => {
+    if (!os) return;
+
     const abort = new AbortController();
 
     fetchLatestRelease(abort.signal)
@@ -82,7 +87,7 @@ export function DownloadPage() {
     return () => abort.abort();
   }, [os]);
 
-  const name = OS_NAMES[os];
+  const name = os ? OS_NAMES[os] : null;
 
   return (
     <main className={styles.page}>
@@ -94,7 +99,9 @@ export function DownloadPage() {
         <div className={styles.state} aria-live="polite">
           {state.kind === "resolving" && (
             <>
-              <h1 className={styles.title}>Getting Gryt for {name}</h1>
+              <h1 className={styles.title}>
+                {name ? `Getting Gryt for ${name}` : "Getting Gryt"}
+              </h1>
               <p className={styles.waiting}>
                 <span className={styles.pulse} aria-hidden="true" />
                 Finding the latest build
