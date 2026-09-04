@@ -351,3 +351,35 @@
   margin-right: auto;
   text-align: center;
 }
+
+/* The build picker, between the OS tabs and the list they change.
+
+   A row rather than a card: it changes what the list below offers, so it wants
+   to read as part of that list's chrome and not as another thing to download. */
+.serverToggle {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  max-width: 480px;
+  margin: 0 0 20px;
+  padding: 14px 16px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: var(--accent-wash-faint);
+  text-align: left;
+  cursor: pointer;
+}
+
+.serverToggleLabel {
+  display: block;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.serverToggleDesc {
+  display: block;
+  margin-top: 4px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.45;
+}

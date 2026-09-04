@@ -12,7 +12,7 @@ import {
   type OS,
   type Release,
 } from "../lib/releases";
-import { Alert, Button, Chip, Divider, Spinner, Tabs } from "@gryt/ui";
+import { Alert, Button, Checkbox, Chip, Divider, Spinner, Tabs } from "@gryt/ui";
 
 const OS_LABELS: Record<OS, { label: string; icon: typeof FaWindows; comingSoon?: boolean }> = {
   windows: { label: "Windows", icon: FaWindows },
@@ -92,6 +92,16 @@ export function Download() {
   const [error, setError] = useState(false);
   const [selectedOS, setSelectedOS] = useState<OS>(detectOS);
 
+  /*
+   * Off by default, so the smaller build is what somebody gets without reading
+   * anything. Most people join servers rather than run one, and the server is
+   * 30 to 50MB depending on the format — the whole reason both builds exist.
+   *
+   * Nobody is stuck either way: this is a checkbox on the page, not a decision
+   * about the install, and the other build is one tick and one download away.
+   */
+  const [withServer, setWithServer] = useState(false);
+
   useEffect(() => {
     fetchLatestRelease()
       .then(setRelease)
@@ -103,7 +113,17 @@ export function Download() {
     [release],
   );
 
-  const options = grouped?.[selectedOS] ?? [];
+  const all = grouped?.[selectedOS] ?? [];
+
+  /*
+   * Falls back to whatever the platform has when the chosen build is not on the
+   * release. A release built before the slim ones existed only has full
+   * artifacts, and a platform whose slim leg failed only has full ones — in
+   * both cases an empty list would read as "no download for your OS".
+   */
+  const matching = all.filter((opt) => opt.withServer === withServer);
+  const options = matching.length > 0 ? matching : all;
+  const hasBothBuilds = all.some((o) => o.withServer) && all.some((o) => !o.withServer);
   const version = release?.tag_name?.replace(/^v/, "");
 
   return (
@@ -127,6 +147,25 @@ export function Download() {
         </p>
 
         <OSTabs value={selectedOS} onChange={setSelectedOS} />
+
+        {!OS_LABELS[selectedOS].comingSoon && hasBothBuilds && (
+          <label className={styles.serverToggle}>
+            <Checkbox
+              checked={withServer}
+              onCheckedChange={(next) => setWithServer(next === true)}
+            />
+            <span>
+              <span className={styles.serverToggleLabel}>
+                Include the server
+              </span>
+              <span className={styles.serverToggleDesc}>
+                Lets you host a Gryt server from inside the app, for friends on
+                your network or over the internet. Adds about 35&nbsp;MB. You
+                can join any server without it.
+              </span>
+            </span>
+          </label>
+        )}
 
         {OS_LABELS[selectedOS].comingSoon && (
           <div className={styles.comingSoonPanel}>
