@@ -26,6 +26,16 @@ export interface DownloadOption {
   url: string;
   size: number;
   fileName: string;
+  /**
+   * Whether this build carries the server you can host from inside the app.
+   *
+   * Every release ships each platform twice: the full build, and a slim one
+   * without that server, which is 30 to 50MB smaller depending on the format.
+   * Both are the same app otherwise. Without this flag the two land in the list
+   * as duplicate rows with identical labels, which is what happened the first
+   * release that published them.
+   */
+  withServer: boolean;
 }
 
 const LATEST =
@@ -155,67 +165,38 @@ export function categorizeAssets(
       continue;
     }
 
+    // electron-builder names the slim artifacts, so the file name is the only
+    // thing that says which build this is.
+    const withServer = !name.includes("-slim");
+
+    const option = (label: string, description: string): DownloadOption => ({
+      label,
+      description,
+      withServer,
+      url: asset.browser_download_url,
+      size: asset.size,
+      fileName: asset.name,
+    });
+
     if (name.includes("-win-") || name.includes("-win32-")) {
       if (name.includes("portable")) {
-        result.windows.push({
-          label: "Portable",
-          description: "Runs from anywhere, nothing to install",
-          url: asset.browser_download_url,
-          size: asset.size,
-          fileName: asset.name,
-        });
+        result.windows.push(option("Portable", "Runs from anywhere, nothing to install"));
       } else if (name.endsWith(".exe")) {
-        result.windows.push({
-          label: "Installer",
-          description: "Standard Windows installer (NSIS)",
-          url: asset.browser_download_url,
-          size: asset.size,
-          fileName: asset.name,
-        });
+        result.windows.push(option("Installer", "Standard Windows installer (NSIS)"));
       }
     } else if (name.includes("-mac-")) {
       if (name.endsWith(".dmg")) {
-        result.macos.push({
-          label: "DMG",
-          description: "Standard macOS disk image",
-          url: asset.browser_download_url,
-          size: asset.size,
-          fileName: asset.name,
-        });
+        result.macos.push(option("DMG", "Standard macOS disk image"));
       } else if (name.endsWith(".zip")) {
-        result.macos.push({
-          label: "ZIP",
-          description: "Compressed app bundle",
-          url: asset.browser_download_url,
-          size: asset.size,
-          fileName: asset.name,
-        });
+        result.macos.push(option("ZIP", "Compressed app bundle"));
       }
     } else if (name.includes("-linux-")) {
       if (name.endsWith(".appimage")) {
-        result.linux.push({
-          label: "AppImage",
-          description: "Portable, works on most distros",
-          url: asset.browser_download_url,
-          size: asset.size,
-          fileName: asset.name,
-        });
+        result.linux.push(option("AppImage", "Portable, works on most distros"));
       } else if (name.endsWith(".deb")) {
-        result.linux.push({
-          label: "Debian / Ubuntu",
-          description: ".deb package for apt-based distros",
-          url: asset.browser_download_url,
-          size: asset.size,
-          fileName: asset.name,
-        });
+        result.linux.push(option("Debian / Ubuntu", ".deb package for apt-based distros"));
       } else if (name.endsWith(".snap")) {
-        result.linux.push({
-          label: "Snap",
-          description: "Snap package (also on snapcraft.io)",
-          url: asset.browser_download_url,
-          size: asset.size,
-          fileName: asset.name,
-        });
+        result.linux.push(option("Snap", "Snap package (also on snapcraft.io)"));
       }
     }
   }
