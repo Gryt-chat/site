@@ -4,17 +4,13 @@ import { Snippet } from "./Snippet";
 import styles from "../styles/audience.module.css";
 
 /**
- * The five ways to get a server up, in the order that matters.
+ * The five ways to get a server up, in the order that matters: they differ by
+ * how much you have to know, from the app you already downloaded to a Helm
+ * chart. Each rung leads with what it costs you to be here.
  *
- * They were five identical rows, which threw away the only thing that makes
- * the set a set: they differ by how much you have to know. From the app you
- * already downloaded, to a Helm chart. Five equal rows say "pick one", and
- * somebody who does not know Docker has no way to tell which one is for them.
- *
- * So each rung leads with what it costs you to be here, and the first command
- * is on the page where there is one. Not the whole file — the twelve-line
- * Compose block was deliberately taken off the front page and it should not
- * grow back here. One line, and the guide has the rest.
+ * **One line of command, not the whole file.** The twelve-line Compose block
+ * was deliberately taken off the front page and it should not grow back here.
+ * The guide has the rest.
  *
  * Two rungs have no command, because they genuinely do not: hosting from the
  * app is three clicks, and Windows is a zip and a double-click.

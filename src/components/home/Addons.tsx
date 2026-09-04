@@ -8,13 +8,11 @@ import { Showcase } from "../Showcase";
  *
  * `packages/client/src/packages/addons/src/pluginApi.ts` is forty lines. The
  * entire surface a plugin gets is `window.gryt` with a version string, the
- * current theme, and a `themeChange` event. There is no sandbox, no registry
- * and no docs page, and /compare used to claim addons as a shipped feature
- * against a competitor while the roadmap listed the plugin system as planned.
- * That row is fixed; this section is why it was wrong.
+ * current theme, and a `themeChange` event. No sandbox, no registry, no docs
+ * page.
  *
- * If this grows, this is the section that has to grow with it, and so does
- * `AddonSketch` — the drawing beside it is the claim about smallness made
+ * **If this grows, this section has to grow with it, and so does
+ * `AddonSketch`** — the drawing beside it is the claim about smallness made
  * checkable, and it goes stale the same way the copy would.
  */
 const ROADMAP = "https://docs.gryt.chat/docs/guide/roadmap";

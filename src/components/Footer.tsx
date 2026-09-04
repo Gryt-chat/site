@@ -16,15 +16,8 @@ import styles from "./Footer.module.css";
 /**
  * A sign-off, then the links.
  *
- * The previous version led with six repository cells and three rows of links,
- * which was a directory wearing a footer's clothes. The page above it argues
- * that Gryt belongs to you and is made by one person in the open; the footer
- * should finish that sentence rather than start a new index.
- *
- * So: the closing line and the two actions first, at a size somebody will
- * actually read. Everything else goes underneath in one quiet block, because a
- * person hunting for the Mastodon account will find it there and a person who
- * has just finished the page should not have to walk past it.
+ * The closing line and the two actions come first, at a size somebody will
+ * read. Everything else goes underneath in one quiet block.
  */
 const groups: { title: string; links: SiteLink[] }[] = [
   { title: "Get Gryt", links: getGoing },

@@ -3,17 +3,11 @@ import { useEffect, useRef, useState } from "react";
 const HOLD_MS = 3200;
 
 /**
- * Swaps the name in the avatar demo every few seconds.
+ * Swaps the name in the avatar demo every three seconds.
  *
- * It typed the name in a character at a time to begin with, which meant the owl
- * was redrawn on every keystroke and the whole thing flickered. One swap every
- * three seconds shows the same thing — a different name, a different owl — and
- * sits still while you read it.
- *
- * It stops the moment somebody touches the field, because a box that keeps
- * changing while you are trying to use it is the worst kind of clever, and it
- * stops for good once they have typed something of their own. Reduced motion
- * pauses it too: the rotation is decoration, the owl is the point.
+ * It stops the moment somebody touches the field, and for good once they have
+ * typed something of their own. Reduced motion pauses it too: the rotation is
+ * decoration, the owl is the point.
  *
  * Returns the name plus a setter, so the field stays a normal controlled input.
  */

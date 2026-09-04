@@ -7,32 +7,19 @@ import styles from "./SelfHost.module.css";
 const DOCS = "https://docs.gryt.chat/docs";
 
 /**
- * Hosting from the app, start to finish, with nothing cut out.
+ * Hosting from the app, start to finish.
  *
- * Sivert's own capture, 2026-08-28, and **the whole take**. Sixteen seconds
- * from an empty client to a server that somebody else on the network can see:
- * Add a server, name it, take the port it picked, press create, look through
- * the settings it made, say something in #General, react to it, and open
- * Servers on your network to find it already listed. There is no terminal in
- * the recording because there is no terminal in the flow, which is the claim of
- * the first card below and was a sentence until now.
- *
- * It was cut into two shorter clips first — the creation here, the discovery
- * page over in `Lan` — and that was wrong. It is one continuous thing, the
- * point of it is that you watch a server go from nothing to findable without
- * the recording ever leaving the app, and two clips of the same take running in
- * two places on one page is the same footage twice.
- *
- * `--poster-at 2.9` rather than the first frame. The clip opens on an empty
- * client, and an empty client is what `prefers-reduced-motion` would have been
- * handed as the still for a section about starting a server.
+ * Sivert's capture, 2026-08-28, and **the whole take** — sixteen seconds from
+ * an empty client to a server somebody else on the network can see. It stays
+ * one clip on purpose: the point is that the recording never leaves the app.
+ * `Lan` shows the discovery end of the same flow, so do not cut this in two
+ * and run half of it there.
  *
  *   node scripts/encode-clips.mjs create-server-preview.mp4 create-server \
  *     --width 2200 --fps 30 --poster-at 2.9
  *
- * 30fps and the script's default CRFs, unlike the two clips in Hero and Voice.
- * This is flat UI at a walking pace — a dialog, a field, a cursor — and frame
- * rate is not the claim it is making.
+ * `--poster-at 2.9` because the first frame is an empty client, which is what
+ * `prefers-reduced-motion` would otherwise get as the still.
  */
 const CREATE: ClipSet = {
   src: "/home/create-server.mp4",

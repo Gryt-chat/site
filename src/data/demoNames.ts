@@ -2,14 +2,12 @@
  * Names the avatar demo cycles through.
  *
  * A third ordinary names, a third old internet, a third the people everybody
- * who has ever been in a voice call with their friends grew up watching. The
- * point of the demo is that the owl is different every time, and that is easier
- * to feel when you recognise the name it was drawn from.
+ * grew up watching. Recognising the name makes it easier to feel that the owl
+ * is different every time.
  *
- * Some famous ones are deliberately missing. Pepe and Wojak were both adopted
- * by people we would rather not put on the front page, whatever they started
- * as, and a handful of creators from the same era carry baggage that would
- * follow them onto this page. Anything that needs a caveat is not on the list.
+ * **Anything that needs a caveat is not on the list.** Pepe and Wojak were both
+ * adopted by people we would rather not put on the front page, and a handful of
+ * creators from the same era carry baggage that would follow them here.
  *
  * Nothing here is a real Gryt user, and none of them endorse anything.
  * `avatarSeed` lower-cases and trims, so "PewDiePie" and "pewdiepie" are one

@@ -16,20 +16,15 @@ import { useDetectedOS } from "../lib/useDetectedOS";
 import styles from "../styles/handoff.module.css";
 
 /**
- * One URL that starts a download.
- *
- * It exists for the message a stuck Windows client gets posted into its
- * channel. That used to link to GitHub Releases, which is a wall of release
- * notes above a collapsed Assets list of a dozen files across three platforms
- * — asking somebody whose app cannot update itself to go and identify the .exe.
+ * One URL that starts a download, for the message a stuck client gets posted
+ * into its channel.
  *
  * `?os=` rather than `/download/windows` because the site has no SPA fallback:
  * nginx serves prerendered directories and answers 404 for anything else, so a
  * path segment would need its own prerendered directory and its own share card
  * per platform. A query string resolves to this one directory and survives.
  *
- * Without `?os=` it reads the user agent, which is what a person arriving from
- * a link somewhere else wants.
+ * Without `?os=` it reads the user agent.
  */
 
 type State =

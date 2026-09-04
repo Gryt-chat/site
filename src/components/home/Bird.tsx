@@ -11,46 +11,31 @@ import { inView, rise, stagger } from "./motion";
 import styles from "./Bird.module.css";
 
 /**
- * The client's own designer, in the page rather than behind a button.
- *
- * A modal would mean asking somebody to open a window to look at a toy, and the
- * toy is the argument: your face is drawn, so it is yours to change. It is the
+ * The client's own designer, in the page rather than behind a button. It is the
  * same component the app opens from settings, not a version of it.
  *
  * `followSeed` is the prop this page needed and the client does not. Without it
  * the designer opened on a saved look, or on the default gold bird, and drew
- * the same owl whatever anybody typed — which is the opposite of what the
- * heading claims. It now opens on the owl the name already draws and keeps
- * following the name until somebody picks a hat, at which point the bird is
- * theirs and the name stops moving it.
- *
- * The avatar upload used to be its own section further down. It is here now: it
- * is the same question — what is your face — and asking it twice on one page
- * made the second one read as filler.
+ * the same owl whatever anybody typed. It now opens on the owl the name already
+ * draws and keeps following the name until somebody picks a hat, at which point
+ * the bird is theirs and the name stops moving it.
  */
 const AVATAR_DOCS = "https://docs.gryt.chat/docs/guide/accounts";
 
 /**
  * The designer in the app, doing the things the one above it cannot.
  *
- * Sivert's own capture, 2026-08-28, and **the whole take**. The component on
- * this page is the client's, but a marketing page has no account to save to and
- * no member list to save into — so the parts of the feature that only exist
- * inside the app were a claim until now: the wardrobe counts down the left,
- * Surprise me rolling a whole owl at once, Use this owl, and then the message
- * he sends afterwards, which is the only thing in the recording that proves the
- * new bird actually went anywhere.
- *
- * That ending is why it is not trimmed. A cut that stopped at "Avatar updated"
- * would end on a toast saying it worked; this one ends on it having worked, on
- * a message and in a member list.
+ * Sivert's capture, 2026-08-28, and **the whole take**. A marketing page has no
+ * account to save to and no member list to save into, so the ending is the
+ * point: it stops on the new owl having reached a message and a member list,
+ * not on a toast saying it worked. Do not trim it back to "Avatar updated".
  *
  *   node scripts/encode-clips.mjs avatar-editor-preview.mp4 avatar-editor \
  *     --width 2200 --fps 30 --poster-at 2.4
  *
- * The still is taken from 2.4s rather than the first frame. The first two
- * seconds are a settings panel sliding open, and a half-drawn panel is a poor
- * thing to hand somebody who has asked for no motion.
+ * `--poster-at 2.4` because the first two seconds are a settings panel sliding
+ * open, and a half-drawn panel is a poor still for somebody who asked for no
+ * motion.
  */
 const EDITOR: ClipSet = {
   src: "/home/avatar-editor.mp4",

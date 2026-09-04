@@ -46,16 +46,13 @@ const LATEST =
  *
  * GitHub allows sixty unauthenticated calls an hour per address. The front page
  * asks twice — the navbar's download button and the download section — and
- * `/download` asks again, so without this a visitor who looks at two pages has
- * spent four of their sixty, and an office behind one address burns through
- * them in an afternoon. We hit the limit ourselves while building this, which
- * is how it was found: the section rendered "Could not load releases" on a
- * machine with a perfectly good internet connection.
+ * `/download` asks again, so without this an office behind one address burns
+ * through the sixty in an afternoon and the section renders "Could not load
+ * releases" on a perfectly good connection.
  *
- * The promise is cached rather than the result, so callers that arrive while
- * the first request is still open wait on it instead of starting a second. A
- * failure is not cached: the next caller gets a fresh attempt, because the
- * usual reason for failure is a rate limit that expires.
+ * The promise is cached rather than the result, so callers arriving while the
+ * first request is open wait on it instead of starting a second. **A failure is
+ * not cached**: the usual reason for one is a rate limit that expires.
  */
 let inFlight: Promise<Release> | null = null;
 

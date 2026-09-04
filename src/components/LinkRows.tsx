@@ -7,11 +7,6 @@ import styles from "../styles/audience.module.css";
 /**
  * A named group of destinations, and the rows in it.
  *
- * /developers and /self-hosting are both mostly a front door onto
- * docs.gryt.chat — the docs are already grouped by audience, and a second copy
- * of their content on this site would be a second copy to keep right. So each
- * page is orientation plus rows, and the rows are this.
- *
  * A row is a name, one line saying what is behind it, and an arrow. Not a card:
  * two of these pages are almost entirely rows, and a page of forty boxes is
  * unreadable in a way a page of forty rules is not.
@@ -87,15 +82,12 @@ function Row({ item }: { item: RowItem }) {
  * A published package: what it is called, what it costs you, and the line that
  * installs it.
  *
- * Not a `Row`, and it cannot be one. A row is a single anchor over the whole
- * strip, and this needs two controls in it — the name goes to npm and the
- * command goes to your clipboard. Nesting a button inside a link is invalid
- * markup and unusable with a keyboard, so the strip is a plain container with
- * two things in it instead.
+ * **Not a `Row`, and it cannot be one.** A row is a single anchor over the whole
+ * strip, and this needs two controls — the name goes to npm and the command
+ * goes to your clipboard. A button nested inside a link is invalid markup and
+ * unusable with a keyboard, so this is a plain container with two things in it.
  *
- * The licence sits beside the name rather than at the front of the sentence.
- * Which one a package is under is the second thing a developer wants to know
- * and it was buried in prose, one word in from the left, six times over.
+ * The licence sits beside the name rather than buried in the prose.
  */
 export interface PackageItem {
   name: string;

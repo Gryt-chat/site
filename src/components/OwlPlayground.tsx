@@ -7,23 +7,16 @@ import styles from "./OwlPlayground.module.css";
 /**
  * `@gryt/owl` running on the page that is telling you about it.
  *
- * /developers was twenty rows and no code, which for this reader is an index
- * rather than an answer. The front page already makes this argument — it draws
- * owls with the published package rather than showing pictures of them — and
- * the same argument is stronger here, because the person reading is deciding
- * whether to install it.
- *
- * The code is not an illustration of what the page does. It is what the page
- * does: the line in the snippet is the line three rows below it in this file,
- * with the name you typed in it.
+ * The snippet is not an illustration of what the page does. The line in it is
+ * the line three rows below it in this file, with the name you typed.
  *
  * `avatarSeed` returns `undefined` for a name that normalises to nothing, so
- * the `??` is in the snippet as well. A two-line example that does not compile
+ * the `??` is in the snippet as well — a two-line example that does not compile
  * is worse than a three-line one that does.
  *
  * The literal goes through `JSON.stringify` rather than being pasted between
- * two quote marks, so a name with a quote or a backslash in it produces valid
- * TypeScript instead of a broken line. Somebody will type one.
+ * two quote marks, so a name with a quote or a backslash in it still produces
+ * valid TypeScript. Somebody will type one.
  */
 const FALLBACK = "gryt";
 

@@ -5,22 +5,16 @@ import { inView, rise, stagger } from "./home/motion";
 import styles from "./Showcase.module.css";
 
 /**
- * One feature, shown beside its own words.
- *
- * The front page had eight hand-written sections and no way to say "media one
- * side, text the other" without a ninth CSS module doing it again. This is that
- * shape, once. The two audience pages use it too, which is the other half of
- * the reason it exists: three files agreeing on a layout is how the layout
- * stops being the same layout.
+ * One feature, shown beside its own words. The front page and the two audience
+ * pages all use it, which is what keeps them agreeing on the layout.
  *
  * `side` is passed in rather than derived from `:nth-child`. Alternation by
  * child index looks tidy right up until somebody inserts a section in the
  * middle, at which point every block below it flips and the diff says one line.
  *
- * `media` may be null, and a section with no media renders as a plain column
- * rather than as an empty half. Four of these are waiting on captures that do
- * not exist yet, and a page with a video-shaped hole in it is worse than a page
- * with a paragraph in it — the same call `Hero.tsx` makes with `CREATE_SERVER`.
+ * `media` may be null, and a section without it renders as a plain column
+ * rather than an empty half. Several are waiting on captures that do not exist
+ * yet, and a page with a video-shaped hole is worse than one with a paragraph.
  */
 export type ShowcaseSide = "left" | "right";
 export type ShowcaseSize = "regular" | "large" | "full";
