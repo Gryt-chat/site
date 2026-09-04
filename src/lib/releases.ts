@@ -187,9 +187,13 @@ export function categorizeAssets(
     } else if (name.includes("-mac-")) {
       if (name.endsWith(".dmg")) {
         result.macos.push(option("DMG", "Standard macOS disk image"));
-      } else if (name.endsWith(".zip")) {
-        result.macos.push(option("ZIP", "Compressed app bundle"));
       }
+
+      /* The .zip is deliberately not offered. It is on the release because
+         Squirrel.Mac can only apply an update from a zip — latest-mac.yml
+         points at it, not at the dmg — so it is the updater's payload rather
+         than a way to install. Listing it asked people to choose between the
+         app and the machinery the app updates itself with. */
     } else if (name.includes("-linux-")) {
       if (name.endsWith(".appimage")) {
         result.linux.push(option("AppImage", "Portable, works on most distros"));
