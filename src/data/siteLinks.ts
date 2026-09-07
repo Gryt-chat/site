@@ -32,6 +32,7 @@ const openInBrowser: SiteLink = { label: 'Open in browser', href: 'https://app.g
 const download: SiteLink = { label: 'Download', href: '/download', route: true }
 const selfHosting: SiteLink = { label: 'Self-hosting', href: '/self-hosting', route: true }
 const developers: SiteLink = { label: 'Developers', href: '/developers', route: true }
+const built: SiteLink = { label: 'Built with Gryt', href: '/built', route: true }
 const docs: SiteLink = { label: 'Docs', href: 'https://docs.gryt.chat' }
 const roadmap: SiteLink = { label: 'Roadmap', href: 'https://docs.gryt.chat/docs/guide/roadmap' }
 const whyGryt: SiteLink = { label: 'Why Gryt?', href: '/why-gryt', route: true }
@@ -49,6 +50,7 @@ export const getGoing: SiteLink[] = [
   download,
   selfHosting,
   developers,
+  built,
   docs,
   roadmap,
 ]

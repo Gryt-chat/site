@@ -30,6 +30,12 @@ export const STATIC_PAGES = [
       "Gryt's packages on npm, the bot SDK, the APIs, the voice engine and the design system.",
   },
   {
+    path: "built",
+    title: "Built with Gryt",
+    description:
+      "Bots, client addons and server plugins people have made, each a folder you can read before you run it.",
+  },
+  {
     path: "self-hosting",
     title: "Self-hosting",
     description:

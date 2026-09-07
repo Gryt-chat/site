@@ -350,18 +350,24 @@ export function StackSketch() {
 }
 
 /**
- * What an addon is, and the one door a plugin gets.
+ * What an addon is, and where a plugin actually runs.
  *
  * The facts are `packages/client/src/packages/addons/src`. `AddonManifest` in
- * `types.ts` has `styles` for a theme and `main` for a plugin, and
- * `useAddonLoader` injects the first and imports the second. `pluginApi.ts` is
- * the door: `version`, `theme`, and `on("themeChange")`, hung on `window.gryt`.
- * Three members, and nothing else on the object.
+ * `types.ts` has `styles` for a theme and `main` for a plugin. `useAddonLoader`
+ * injects the first into the page. `pluginHost.ts` gives the second a
+ * `Worker` of its own and `addonWorker.ts` is what it wakes up in: a `gryt`
+ * object, and no `window`, `document`, `localStorage`, `indexedDB` or nested
+ * `Worker` — those are deleted off the prototype chain before the plugin is
+ * imported.
  *
- * A theme's CSS arrow lands on the app itself; a plugin's module lands on the
- * door, because the door is all it gets. No `main` file is drawn holding a
- * network call, a filesystem or a message, because it cannot have one. **If the
- * plugin API grows, this drawing has to grow with it.**
+ * The two capability rows are `ADDON_CAPABILITIES` in `capabilities.ts`, and
+ * `mayCall` in `workerProtocol.ts` is what refuses a call the manifest never
+ * declared or the person never agreed to. Drawn as a gate rather than a label
+ * because it is one.
+ *
+ * The dashed box is the claim: the plugin is on the other side of it, and the
+ * arrow from the theme is not. **If the plugin API grows, or a capability is
+ * added, this drawing has to grow with it.**
  */
 export function AddonSketch() {
   return (
@@ -369,60 +375,67 @@ export function AddonSketch() {
       className={styles.svg}
       viewBox="0 0 320 200"
       role="img"
-      aria-label="An addon folder holding addon.json with a styles entry for a theme and a main entry for a plugin. The theme's CSS goes into the client; the plugin's module reaches one object on window, holding a version, the current theme, and a themeChange event."
+      aria-label="An addon folder holding manifest.json, with a styles entry for a theme and a main entry for a plugin. The theme's CSS goes into the page. The plugin goes somewhere else entirely: a worker of its own, drawn as a dashed box, where the only thing it can reach is a gryt object behind the two capabilities you granted — setting your status, and messaging a server."
     >
       {/* what you write */}
-      <rect x="14" y="28" width="118" height="144" rx="12" className={styles.panel} />
-      <text x="28" y="50" className={styles.smallStrong}>
+      <rect x="10" y="28" width="112" height="144" rx="12" className={styles.panel} />
+      <text x="24" y="50" className={styles.smallStrong}>
         Your folder
       </text>
-      <line x1="28" y1="60" x2="118" y2="60" className={styles.axis} />
+      <line x1="24" y1="60" x2="108" y2="60" className={styles.axis} />
 
-      <text x="28" y="78" className={styles.mono}>
-        addon.json
+      <text x="24" y="78" className={styles.mono}>
+        manifest.json
       </text>
 
-      <rect x="28" y="88" width="90" height="34" rx="9" className={styles.field} />
-      <text x="38" y="104" className={styles.mono}>
+      <rect x="24" y="88" width="84" height="34" rx="9" className={styles.field} />
+      <text x="34" y="104" className={styles.mono}>
         styles[]
       </text>
-      <text x="38" y="116" className={styles.smallDim}>
+      <text x="34" y="116" className={styles.smallDim}>
         a theme
       </text>
 
-      <rect x="28" y="128" width="90" height="34" rx="9" className={styles.field} />
-      <text x="38" y="144" className={styles.mono}>
+      <rect x="24" y="128" width="84" height="34" rx="9" className={styles.field} />
+      <text x="34" y="144" className={styles.mono}>
         main
       </text>
-      <text x="38" y="156" className={styles.smallDim}>
+      <text x="34" y="156" className={styles.smallDim}>
         a plugin
       </text>
 
-      {/* the client, and the one door in it */}
-      <rect x="176" y="28" width="130" height="144" rx="12" className={styles.panel} />
-      <text x="190" y="50" className={styles.smallStrong}>
+      {/* the client, and the worker inside it */}
+      <rect x="166" y="28" width="144" height="144" rx="12" className={styles.panel} />
+      <text x="180" y="48" className={styles.smallStrong}>
         The client
       </text>
-      <text x="190" y="70" className={styles.mono}>
-        window.gryt
+
+      {/* a theme lands here, on the page itself */}
+      <rect x="176" y="56" width="124" height="20" rx="6" className={styles.field} />
+      <text x="186" y="70" className={styles.smallDim}>
+        the page
       </text>
 
-      <rect x="188" y="80" width="106" height="76" rx="10" className={styles.gate} />
-      <text x="200" y="102" className={styles.small}>
-        version
-      </text>
-      <text x="200" y="122" className={styles.small}>
-        theme
-      </text>
-      <text x="200" y="142" className={styles.small}>
-        themeChange
+      {/* and a plugin lands in here, which is not the page */}
+      <rect x="176" y="84" width="124" height="80" rx="10" className={styles.boundary} />
+      <text x="186" y="100" className={styles.mono}>
+        worker
       </text>
 
-      {/* CSS goes into the client. A module gets the door and nothing else. */}
-      <path d="M124 105h52" className={styles.wire} />
-      <path d="M170 100l6 5-6 5" className={styles.wire} />
-      <path d="M124 145h64" className={styles.arc} />
-      <path d="M182 140l6 5-6 5" className={styles.arc} />
+      <rect x="186" y="108" width="104" height="48" rx="8" className={styles.gate} />
+      <text x="196" y="125" className={styles.small}>
+        gryt.setActivity
+      </text>
+      <text x="196" y="145" className={styles.small}>
+        gryt.messaging
+      </text>
+
+      {/* The theme's CSS goes to the page. The plugin's module goes past the
+          dashed line and gets the gate, which is the whole claim. */}
+      <path d="M114 105H140V66h30" className={styles.wire} />
+      <path d="M164 61l6 5-6 5" className={styles.wire} />
+      <path d="M114 145H152v-13h32" className={styles.arc} />
+      <path d="M178 127l6 5-6 5" className={styles.arc} />
     </svg>
   );
 }

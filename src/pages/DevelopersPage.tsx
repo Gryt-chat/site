@@ -124,27 +124,51 @@ volumes:
   support-bot-identity:`;
 
 /**
- * The top of `packages/client/src/packages/addons/src/pluginApi.ts`, as it is.
+ * The `gryt` object from `packages/client/src/packages/addons/src/addonWorker.ts`.
  *
- * Printed rather than summarised, because "the surface is thin" is the claim
- * and the declaration is the proof. One alias is inlined — the source names the
- * handler type separately — and nothing else is changed. If the plugin surface
- * grows, this grows with it or it becomes a lie, which is easier to notice than
- * a paragraph going quietly out of date.
+ * Printed rather than summarised, because "this is the whole surface" is the
+ * claim and the declaration is the proof. Getters are written as fields and one
+ * handler type is inlined; nothing else is changed. If the surface grows, this
+ * grows with it or it becomes a lie, which is easier to notice than a paragraph
+ * going quietly out of date.
+ *
+ * This page printed the old `pluginApi.ts` — `window.gryt` with three members —
+ * until GRYT-930 moved plugins into a worker and deleted that file.
  */
 const PLUGIN_API = `type ThemeInfo = { appearance: "light" | "dark"; accentColor: string };
 
-interface GrytPluginAPI {
+declare const gryt: {
   version: string;
   theme: ThemeInfo;
-  on(event: "themeChange", handler: (theme: ThemeInfo) => void): () => void;
-}
+  on(event: "themeChange" | "cleanup", handler: (theme?: ThemeInfo) => void): () => void;
 
-declare global {
-  interface Window {
-    gryt?: GrytPluginAPI;
-  }
-}`;
+  // needs "status"
+  setActivity(activity: string): Promise<unknown>;
+
+  // needs "messaging"
+  messaging: {
+    send(topic: string, data: unknown, host?: string): Promise<unknown>;
+    on(topic: string, handler: (message: unknown) => void): () => void;
+    servers(): Promise<string[]>;
+  };
+
+  log: { info(m: string): void; warn(m: string): void; error(m: string): void };
+};`;
+
+/**
+ * What is not there, taken from the same file.
+ *
+ * `addonWorker.ts` walks the prototype chain for each of these and deletes it
+ * before the plugin is imported — a plain `delete globalThis.indexedDB` does
+ * nothing, because they are getters on `WorkerGlobalScope.prototype` rather
+ * than own properties.
+ */
+const PLUGIN_GONE = `window        // a worker has none, so nothing on the page
+document
+localStorage
+indexedDB     // deleted off the prototype chain
+caches
+Worker        // no nesting out of it`;
 
 /**
  * The first call anybody makes against a Gryt server, and what comes back.
@@ -214,6 +238,29 @@ const BOTS: RowItem[] = [
     name: "Roles and permissions",
     detail: "The same permission set a bot is granted from. There is no separate bot permission model.",
     href: `${DOCS}/guide/roles`,
+  },
+];
+
+const ADDONS: RowItem[] = [
+  {
+    name: "Examples to copy",
+    detail: "A theme, a plugin pair, and a moderation plugin — each a folder, each with a README.",
+    href: "/built",
+  },
+  {
+    name: "Writing an addon",
+    detail: "The manifest, the API, the capabilities, and what granting one does and does not buy you.",
+    href: `${DOCS}/client/addons`,
+  },
+  {
+    name: "Server plugins",
+    detail: "What a plugin gets on the server side: events, moderation actions, and the reach it is refused.",
+    href: `${DOCS}/server/plugins`,
+  },
+  {
+    name: "Plugin pairs",
+    detail: "A client half and a server half talking to each other, and everything Gryt drops before either sees it.",
+    href: `${DOCS}/guide/plugin-pairs`,
   },
 ];
 
@@ -400,26 +447,41 @@ export function DevelopersPage() {
         <LinkRows items={BOTS} />
       </Block>
 
-      <Block heading="Addons">
+      <Block heading="Addons and plugins">
         <p className={styles.blockNote}>
-          An addon is a folder with an <code>addon.json</code> in it, loaded by
-          the desktop app. A theme addon adds CSS. A plugin addon adds a module,
-          and that module can talk to exactly one thing: an object on{" "}
-          <code>window</code>.
+          An addon is a folder with a <code>manifest.json</code> in it, loaded
+          by the desktop app. A theme is CSS and goes into the page. A plugin is
+          JavaScript and doesn&rsquo;t: it gets a worker of its own, and one
+          object in it.
         </p>
-        <Snippet label="pluginApi.ts" code={PLUGIN_API} />
+        <Snippet label="addonWorker.ts" code={PLUGIN_API} />
         <p className={styles.blockNote}>
-          And that&rsquo;s all of it. No sandbox, no permission model, no
-          registry, no docs page, and the plugin system is still down as planned
-          on the roadmap. It&rsquo;s enough to restyle the client or bolt
-          something small onto it. It isn&rsquo;t enough to build a product
-          on.
+          <code>setActivity</code> and <code>messaging</code> each need a
+          capability the manifest declared and the person turned on. Both, or
+          the call rejects and says which one is missing. A capability name this
+          build has never heard of is dropped rather than refused, so a plugin
+          written against a newer Gryt still loads on an older one.
         </p>
         <p className={styles.blockNote}>
-          What it should turn into hasn&rsquo;t been decided yet. If you&rsquo;ve
-          tried to write one, an issue saying what you needed is more use than a
-          feature request.
+          The other half of that is what a plugin doesn&rsquo;t get, and it
+          matters more than the list above:
         </p>
+        <Snippet label="not defined" code={PLUGIN_GONE} />
+        <p className={styles.blockNote}>
+          A plugin can&rsquo;t read your messages, can&rsquo;t reach your
+          identity key, and can&rsquo;t draw anything — it isn&rsquo;t on the
+          page. What it keeps is its internet connection, so whatever you grant
+          it, it can send anywhere. Installing one is still trusting whoever
+          wrote it with what you gave it.
+        </p>
+        <p className={styles.blockNote}>
+          Server plugins are the other side. They run inside the server process
+          with the database and the filesystem, and nothing contains them —
+          which is why every plugin a server runs is named to everybody who
+          joins, along with what it may do. There&rsquo;s no setting to hide
+          that.
+        </p>
+        <LinkRows items={ADDONS} />
       </Block>
 
       <Block heading="The APIs">

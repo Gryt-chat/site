@@ -9,6 +9,7 @@ import { STATIC_PAGES, ALIAS_PAGES } from "./lib/pages.mjs";
 const AuthCallbackPage = lazy(() => import("./pages/AuthCallbackPage").then((m) => ({ default: m.AuthCallbackPage })));
 const BlogIndex = lazy(() => import("./pages/BlogIndex").then((m) => ({ default: m.BlogIndex })));
 const BlogPost = lazy(() => import("./pages/BlogPost").then((m) => ({ default: m.BlogPost })));
+const BuiltPage = lazy(() => import("./pages/BuiltPage").then((m) => ({ default: m.BuiltPage })));
 const ComparePage = lazy(() => import("./pages/ComparePage").then((m) => ({ default: m.ComparePage })));
 const DevelopersPage = lazy(() => import("./pages/DevelopersPage").then((m) => ({ default: m.DevelopersPage })));
 const SelfHostingPage = lazy(() => import("./pages/SelfHostingPage").then((m) => ({ default: m.SelfHostingPage })));
@@ -178,6 +179,7 @@ export default function App() {
           <Route path="/blog/:slug" element={<BlogPost />} />
           <Route path="/compare" element={<ComparePage />} />
           <Route path="/developers" element={<DevelopersPage />} />
+          <Route path="/built" element={<BuiltPage />} />
           <Route path="/self-hosting" element={<SelfHostingPage />} />
           <Route path="/sponsors" element={<SponsorsPage />} />
           <Route path="/changelog" element={<ChangelogIndex />} />
