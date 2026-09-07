@@ -151,9 +151,19 @@ export const OS_NAMES: Record<OS, string> = {
  * returns them in upload order and a release that happened to upload the
  * portable build first would silently change what /download hands out.
  *
- * The choice per platform is the one that installs: the NSIS installer on
- * Windows, the disk image on macOS, the AppImage on Linux, which runs without a
- * package manager and therefore without knowing the distribution.
+ * On Windows and macOS that is the one that installs: the NSIS installer and
+ * the disk image.
+ *
+ * Linux is the AppImage, which is the one thing here that does not install. It
+ * leads anyway, because the choice has to be made from a browser and a browser
+ * cannot tell which distribution somebody is on. The .deb is the better answer
+ * for the people it fits and no worse for anyone, but offering it by default
+ * would hand a file to every Arch and Fedora user that their system will not
+ * take. The AppImage runs without a package manager, so it is the only one that
+ * works without knowing the answer.
+ *
+ * What that costs is that the default needs explaining, which is what the
+ * description on the AppImage does.
  */
 const PREFERRED: Record<OS, string[]> = {
   windows: ["Installer", "Portable"],
@@ -231,12 +241,23 @@ export function categorizeAssets(
          than a way to install. Listing it asked people to choose between the
          app and the machinery the app updates itself with. */
     } else if (name.includes("-linux-")) {
+      /* The AppImage line spells out that it is not an installer because
+         somebody read "portable, works on most distros", ran it, and put the
+         file in the Trash — which takes the app with it and leaves the
+         gryt:// handler pointing at nothing, so browser sign-in stops coming
+         back. GRYT-965 catches that at run time; this is the half that stops
+         it happening. ~/Applications is named here and in that dialog, so the
+         two agree about where it should live. */
       if (name.endsWith(".appimage")) {
-        result.linux.push(option("AppImage", "Portable, works on most distros"));
+        result.linux.push(option("AppImage", "The file is Gryt itself, so there's no install step. Keep it somewhere permanent like ~/Applications. Deleting it removes the app."));
       } else if (name.endsWith(".deb")) {
-        result.linux.push(option("Debian / Ubuntu", ".deb package for apt-based distros"));
+        result.linux.push(option("Debian / Ubuntu", "A normal package install on Debian, Ubuntu and anything else apt-based. There's no apt repo, so you update by downloading the next one."));
       } else if (name.endsWith(".snap")) {
-        result.linux.push(option("Snap", "Snap package (also on snapcraft.io)"));
+        /* No pointer to snapcraft.io. The Store has been stuck on 1.5.10
+           since 13 August while releases went to 1.9.x — GRYT-971. Sending
+           people there hands them a four-week-old build that reports itself
+           as current. Put it back when the Store is current again. */
+        result.linux.push(option("Snap", "Installs through snapd, on any distro that has it. Sandboxed like other snaps."));
       }
     }
   }

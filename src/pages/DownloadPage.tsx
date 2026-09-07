@@ -110,6 +110,19 @@ export function DownloadPage() {
               <p className={styles.body}>
                 Gryt {state.version} for {name}, {formatSize(state.option.size)}.
               </p>
+
+              {/* Linux only, and deliberately not "show the description for
+                  every platform". Windows and macOS hand over an installer,
+                  which needs no explanation; Linux hands over an AppImage,
+                  which is the app itself and gets thrown away by people who
+                  think they have downloaded a setup program. This page is the
+                  worst place for that to go unsaid, because the download has
+                  already started and there is nothing to read before it does.
+                  GRYT-965 is what happens next when it does go unsaid. */}
+              {os === "linux" && (
+                <p className={styles.note}>{state.option.description}</p>
+              )}
+
               <div className={styles.actions}>
                 <Button
                   render={<a href={state.option.url} />}

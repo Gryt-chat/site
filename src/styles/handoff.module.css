@@ -101,6 +101,21 @@
   color: var(--text-dimmer);
 }
 
+/* Brighter than .hint and set apart from it, because it is the one thing on
+   this page somebody has to read — the download has already started by the
+   time they get here, so a note styled like the footnote below it gets
+   skipped. */
+.note {
+  margin-top: 14px;
+  padding: 11px 14px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--text-dim);
+  text-align: left;
+}
+
 .waiting {
   display: inline-flex;
   align-items: center;
