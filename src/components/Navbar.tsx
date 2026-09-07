@@ -5,7 +5,7 @@ import { MdMenu, MdClose, MdArrowDownward, MdArrowDropDown } from "react-icons/m
 import { GrytLogo } from "./GrytLogo";
 import { actions, community, navBar, reading, type SiteLink } from "../data/siteLinks";
 import { useLatestDownload } from "../lib/useLatestDownload";
-import { formatSize } from "../lib/releases";
+import { formatSize, storeOption } from "../lib/releases";
 import { useTravellingUnderline } from "./useTravellingUnderline";
 import styles from "./Navbar.module.css";
 
@@ -78,16 +78,26 @@ const sheetLinks = [
  * office will reach.
  */
 function DownloadAction() {
-  const { osName, option, options } = useLatestDownload();
+  const { os, osName, option, options } = useLatestDownload();
   const location = useLocation();
   const navigate = useNavigate();
 
   /**
-   * The two variants of the platform's primary format. slim is what the button
-   * itself hands over — the deliberate default, smaller and serverless. full is
-   * the same app with the built-in server, one click away behind the caret
-   * rather than a scroll to the section. The caret only appears when both
-   * exist, so a platform that ever ships one build keeps a plain button.
+   * Windows leads with the Microsoft Store: signed, no SmartScreen warning, and
+   * it keeps itself updated. The direct .exe stays a click away in the menu for
+   * anyone who wants a standalone installer. Every other platform leads with its
+   * own file. The Store link needs no release call, so the Windows button can
+   * show before the fetch lands.
+   */
+  const store = os === "windows" ? storeOption() : null;
+  const primary = store ?? option;
+
+  /**
+   * The two variants of the platform's primary file format. slim is the
+   * deliberate default; full is the same app with the built-in server. On
+   * Windows the button itself is the Store, so these are the direct .exe the
+   * menu offers instead. The caret appears once both variants are known, so a
+   * platform that ships one build keeps a plain button.
    */
   const variants = option ? options.filter((o) => o.label === option.label) : [];
   const fullBuild = variants.find((o) => o.withServer);
@@ -162,16 +172,27 @@ function DownloadAction() {
       style={width != null ? { width } : undefined}
     >
       <div className={styles.downloadInner} ref={inner}>
-        {option ? (
+        {primary ? (
           <div className={styles.downloadGroup}>
-            <Button
-              render={<a href={option.url} download />}
-              size="small"
-              className={styles.download}
-            >
-              <MdArrowDownward size={15} aria-hidden="true" />
-              <span>Download for {osName}</span>
-            </Button>
+            {primary.external ? (
+              <Button
+                render={<a href={primary.url} target="_blank" rel="noopener noreferrer" />}
+                size="small"
+                className={styles.download}
+              >
+                <MdArrowDownward size={15} aria-hidden="true" />
+                <span>Get it from Microsoft Store</span>
+              </Button>
+            ) : (
+              <Button
+                render={<a href={primary.url} download />}
+                size="small"
+                className={styles.download}
+              >
+                <MdArrowDownward size={15} aria-hidden="true" />
+                <span>Download for {osName}</span>
+              </Button>
+            )}
             {hasChoice ? (
               <Menu.Root>
                 <Menu.Trigger
@@ -190,11 +211,15 @@ function DownloadAction() {
                     <Menu.Popup>
                       <Menu.Item render={<a href={slimBuild!.url} download />}>
                         Slim · {formatSize(slimBuild!.size)}
-                        <span className={styles.downloadHint}>the download, without a server</span>
+                        <span className={styles.downloadHint}>
+                          {store ? "direct .exe, no built-in server" : "the download, without a server"}
+                        </span>
                       </Menu.Item>
                       <Menu.Item render={<a href={fullBuild!.url} download />}>
                         Full · {formatSize(fullBuild!.size)}
-                        <span className={styles.downloadHint}>host a server from the app</span>
+                        <span className={styles.downloadHint}>
+                          {store ? "direct .exe, with the built-in server" : "host a server from the app"}
+                        </span>
                       </Menu.Item>
                       <Menu.Separator />
                       <Menu.Item onClick={toSection} render={<a href="#download" />}>
