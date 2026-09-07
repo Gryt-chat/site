@@ -7,15 +7,43 @@
  * was fine, and the card was simply absent wherever anyone pasted the link —
  * which is the one place nobody looks.
  *
+ * It also checks that each page carries the stylesheet its own route needs
+ * (GRYT-959). Same class of bug: every prerendered page shipped only the global
+ * stylesheet, its own arrived 50–120ms later with the lazy chunk, and the page
+ * painted unstyled and then restyled itself. Nothing failed there either.
+ *
  * Run after `yarn build`. Exits non-zero on the first real problem.
  */
 import { readFileSync, existsSync, readdirSync, statSync } from "fs";
 import { join, dirname, relative } from "path";
 import { fileURLToPath } from "url";
+import { routeStyles } from "./routeStyles.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const distDir = join(__dirname, "..", "dist");
 const SITE = "https://gryt.chat";
+
+/* Which stylesheet each route needs. Read from App.tsx and the build manifest,
+   so adding a page cannot forget to update a list here. */
+const template = readFileSync(join(distDir, "index.html"), "utf8");
+const globalCss = template.match(/href="(\/assets\/index-[^"]+\.css)"/)?.[1] ?? "";
+const stylesFor = routeStyles({
+  appSource: join(__dirname, "..", "src", "App.tsx"),
+  manifestPath: join(distDir, ".vite", "manifest.json"),
+  globalCss,
+});
+
+/**
+ * `developers/contributing/index.html` back to the route `/developers/contributing`.
+ *
+ * Only the static routes resolve; a blog post lands on `/blog/<slug>`, which is
+ * not a key, and comes back undefined. That is deliberate — the dynamic ones
+ * are covered by the route they were rendered from, and guessing at `:slug`
+ * here would be a second place to keep the router's shape.
+ */
+function routeOf(rel) {
+  return "/" + rel.replace(/\/index\.html$/, "").replace(/^index\.html$/, "");
+}
 
 if (!existsSync(distDir)) {
   console.error("No dist/. Run `yarn build` first.");
@@ -63,6 +91,18 @@ for (const file of htmlFiles(distDir)) {
   // Both, or neither, means the two halves disagree about what the page is.
   if (!noindex && !canonical) problems.push(`${rel}: indexable but no canonical`);
   if (noindex && canonical) problems.push(`${rel}: noindex and canonical at once`);
+
+  /* And the stylesheets the route needs, in the served head rather than pulled
+     in later by the lazy chunk. A missing one is invisible in a build log and
+     shows up as the page flashing unstyled on load. */
+  const wanted = stylesFor.get(routeOf(rel));
+  if (wanted) {
+    for (const href of wanted) {
+      if (!html.includes(`href="${href}"`)) {
+        problems.push(`${rel}: head is missing ${href}, so the page will flash unstyled`);
+      }
+    }
+  }
 }
 
 if (problems.length) {

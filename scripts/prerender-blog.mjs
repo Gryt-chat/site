@@ -3,6 +3,7 @@ import { join, dirname, basename } from 'path';
 import { fileURLToPath } from 'url';
 import { STATIC_PAGES, ALIAS_PAGES } from '../src/lib/pages.mjs';
 import { render } from '../dist-ssr/entry-server.js';
+import { routeStyles, styleLinks } from './routeStyles.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const distDir = join(__dirname, '..', 'dist');
@@ -65,7 +66,7 @@ async function body(route) {
   }
 }
 
-function renderPage(template, { pageTitle, docTitleName, description, url, ogImage, ogType, noindex, html: rendered }) {
+function renderPage(template, { pageTitle, docTitleName, description, url, ogImage, ogType, noindex, html: rendered, styles }) {
   // The responsive hero preload belongs only to the homepage. This template is
   // copied for every static route, where preloading it would waste bandwidth.
   let html = template.replace(/\s*<link[^>]*data-home-preload[^>]*>/, '');
@@ -90,6 +91,13 @@ function renderPage(template, { pageTitle, docTitleName, description, url, ogIma
   html = html.replace(/<meta name="twitter:title"[^>]*>/, `<meta name="twitter:title" content="${escHtml(pageTitle)}" />`);
   html = html.replace(/<meta name="twitter:description"[^>]*>/, `<meta name="twitter:description" content="${escHtml(description)}" />`);
   html = html.replace(/<meta name="twitter:image"[^>]*>/, `<meta name="twitter:image" content="${ogImage}" />`);
+  /* The route's own stylesheet, into the head beside the global one (GRYT-959).
+     Without it the page paints with the nav and footer styled and its own
+     content bare, then restyles when the lazy chunk lands. */
+  if (styles && styles.length > 0) {
+    html = html.replace('</head>', `${styleLinks(styles)}\n  </head>`);
+  }
+
   if (rendered) {
     html = html.replace('<div id="root"></div>', `<div id="root">${rendered}</div>`);
   }
@@ -97,6 +105,16 @@ function renderPage(template, { pageTitle, docTitleName, description, url, ogIma
 }
 
 const template = readFileSync(join(distDir, 'index.html'), 'utf-8');
+
+/* Which stylesheet each route needs, read out of App.tsx and the build
+   manifest. Throws rather than carrying on if the manifest is missing: a build
+   that silently reverted to one stylesheet per page is the bug this fixes. */
+const globalCss = template.match(/href="(\/assets\/index-[^"]+\.css)"/)?.[1] ?? '';
+const stylesFor = routeStyles({
+  appSource: join(__dirname, '..', 'src', 'App.tsx'),
+  manifestPath: join(distDir, '.vite', 'manifest.json'),
+  globalCss,
+});
 
 // --- Static pages ---
 
@@ -111,6 +129,7 @@ for (const page of STATIC_PAGES) {
     url: `${siteUrl}/${page.path}`,
     ogImage: `${siteUrl}/${page.path}/og.png`,
     html: await body(`/${page.path}`),
+    styles: stylesFor.get(`/${page.path}`),
   });
   writeFileSync(join(outDir, 'index.html'), html);
   console.log(`  dist/${page.path}/index.html`);
@@ -130,6 +149,7 @@ for (const alias of ALIAS_PAGES) {
        the router matches what is in the address bar, and rendering the other
        one here would be markup the client immediately throws away. */
     html: await body(`/${alias.path}`),
+    styles: stylesFor.get(`/${alias.path}`),
   });
   writeFileSync(join(outDir, 'index.html'), html);
   console.log(`  dist/${alias.path}/index.html -> canonical /${target.path}`);
@@ -148,6 +168,7 @@ for (const alias of ALIAS_PAGES) {
     ogImage: `${siteUrl}/og-image.png`,
     noindex: true,
     html: await body('/auth/callback'),
+    styles: stylesFor.get('/auth/callback'),
   });
   writeFileSync(join(outDir, 'index.html'), html);
   console.log('  dist/auth/callback/index.html');
@@ -166,6 +187,7 @@ for (const alias of ALIAS_PAGES) {
     noindex: true,
     /* Any path that does not match, which is what nginx serves this for. */
     html: await body('/this-path-does-not-exist'),
+    styles: stylesFor.get('*'),
   });
   writeFileSync(join(distDir, '404.html'), html);
   console.log('  dist/404.html');
@@ -188,6 +210,7 @@ for (const file of mdxFiles) {
     ogImage: `${siteUrl}/blog/${slug}/og.png`,
     ogType: 'article',
     html: await body(`/blog/${slug}`),
+    styles: stylesFor.get('/blog/:slug'),
   });
   writeFileSync(join(outDir, 'index.html'), html);
   console.log(`  dist/blog/${slug}/index.html`);
@@ -216,6 +239,7 @@ for (const file of changelogFiles) {
     ogImage: `${siteUrl}/changelog/${slug}/og.png`,
     ogType: 'article',
     html: await body(`/changelog/${slug}`),
+    styles: stylesFor.get('/changelog/:version'),
   });
   writeFileSync(join(outDir, 'index.html'), html);
   console.log(`  dist/changelog/${slug}/index.html`);
