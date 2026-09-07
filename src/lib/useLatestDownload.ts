@@ -15,6 +15,12 @@ export interface LatestDownload {
   osName: string;
   /** Null until the fetch lands, and null forever if it fails or the platform has no build. */
   option: DownloadOption | null;
+  /**
+   * Every build for this platform, in preferred order. Empty until the fetch
+   * lands. The navbar's split button reads it to offer the full build next to
+   * the slim default without a second request.
+   */
+  options: DownloadOption[];
   /** The tag, without the leading v. Null until it lands. */
   version: string | null;
 }
@@ -38,6 +44,7 @@ export function useLatestDownload(): LatestDownload {
      one frame before the real answer costs nothing. */
   const os = useDetectedOS() ?? "windows";
   const [option, setOption] = useState<DownloadOption | null>(null);
+  const [options, setOptions] = useState<DownloadOption[]>([]);
   const [version, setVersion] = useState<string | null>(null);
 
   useEffect(() => {
@@ -46,7 +53,9 @@ export function useLatestDownload(): LatestDownload {
     fetchLatestRelease(controller.signal)
       .then((release) => {
         setVersion(release.tag_name.replace(/^v/, ""));
-        setOption(primaryOption(categorizeAssets(release.assets)[os], os));
+        const forOS = categorizeAssets(release.assets)[os];
+        setOptions(forOS);
+        setOption(primaryOption(forOS, os));
       })
       .catch(() => {
         // Aborted, offline, or rate-limited. The caller falls back to a link to
@@ -56,5 +65,5 @@ export function useLatestDownload(): LatestDownload {
     return () => controller.abort();
   }, [os]);
 
-  return { os, osName: OS_NAMES[os], option, version };
+  return { os, osName: OS_NAMES[os], option, options, version };
 }

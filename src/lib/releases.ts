@@ -138,8 +138,17 @@ export function primaryOption(
   os: OS,
 ): DownloadOption | null {
   for (const label of PREFERRED[os]) {
-    const match = options.find((o) => o.label === label);
-    if (match) return match;
+    // Each label exists twice, the full build and the slim one. The default
+    // hands over slim on purpose: it is the smaller download and most people do
+    // not run a server from inside the app. Full is a deliberate choice further
+    // down the page. `find` here took whichever the GitHub API listed first,
+    // which is slim today only by luck of upload order — a release that uploaded
+    // the full asset first would silently make the bigger build everyone's
+    // default. Pick slim by intent so upload order stops deciding.
+    const matches = options.filter((o) => o.label === label);
+    if (matches.length > 0) {
+      return matches.find((o) => !o.withServer) ?? matches[0];
+    }
   }
   return options[0] ?? null;
 }

@@ -1,10 +1,11 @@
 import { useState, useCallback, useEffect, useLayoutEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Button, Dialog } from "@gryt/ui";
-import { MdMenu, MdClose, MdArrowDownward } from "react-icons/md";
+import { Button, Dialog, Menu } from "@gryt/ui";
+import { MdMenu, MdClose, MdArrowDownward, MdArrowDropDown } from "react-icons/md";
 import { GrytLogo } from "./GrytLogo";
 import { actions, community, navBar, reading, type SiteLink } from "../data/siteLinks";
 import { useLatestDownload } from "../lib/useLatestDownload";
+import { formatSize } from "../lib/releases";
 import { useTravellingUnderline } from "./useTravellingUnderline";
 import styles from "./Navbar.module.css";
 
@@ -77,9 +78,21 @@ const sheetLinks = [
  * office will reach.
  */
 function DownloadAction() {
-  const { osName, option } = useLatestDownload();
+  const { osName, option, options } = useLatestDownload();
   const location = useLocation();
   const navigate = useNavigate();
+
+  /**
+   * The two variants of the platform's primary format. slim is what the button
+   * itself hands over — the deliberate default, smaller and serverless. full is
+   * the same app with the built-in server, one click away behind the caret
+   * rather than a scroll to the section. The caret only appears when both
+   * exist, so a platform that ever ships one build keeps a plain button.
+   */
+  const variants = option ? options.filter((o) => o.label === option.label) : [];
+  const fullBuild = variants.find((o) => o.withServer);
+  const slimBuild = variants.find((o) => !o.withServer);
+  const hasChoice = Boolean(fullBuild && slimBuild);
 
   /**
    * The button starts as "Download" and becomes "Download for macOS" when the
@@ -150,14 +163,49 @@ function DownloadAction() {
     >
       <div className={styles.downloadInner} ref={inner}>
         {option ? (
-          <Button
-            render={<a href={option.url} download />}
-            size="small"
-            className={styles.download}
-          >
-            <MdArrowDownward size={15} aria-hidden="true" />
-            <span>Download for {osName}</span>
-          </Button>
+          <div className={styles.downloadGroup}>
+            <Button
+              render={<a href={option.url} download />}
+              size="small"
+              className={styles.download}
+            >
+              <MdArrowDownward size={15} aria-hidden="true" />
+              <span>Download for {osName}</span>
+            </Button>
+            {hasChoice ? (
+              <Menu.Root>
+                <Menu.Trigger
+                  render={
+                    <Button
+                      size="small"
+                      aria-label="Choose a build"
+                      className={styles.downloadCaret}
+                    />
+                  }
+                >
+                  <MdArrowDropDown size={18} aria-hidden="true" />
+                </Menu.Trigger>
+                <Menu.Portal>
+                  <Menu.Positioner align="end" sideOffset={8}>
+                    <Menu.Popup>
+                      <Menu.Item render={<a href={slimBuild!.url} download />}>
+                        Slim · {formatSize(slimBuild!.size)}
+                        <span className={styles.downloadHint}>the download, without a server</span>
+                      </Menu.Item>
+                      <Menu.Item render={<a href={fullBuild!.url} download />}>
+                        Full · {formatSize(fullBuild!.size)}
+                        <span className={styles.downloadHint}>host a server from the app</span>
+                      </Menu.Item>
+                      <Menu.Separator />
+                      <Menu.Item onClick={toSection} render={<a href="#download" />}>
+                        All builds and platforms
+                      </Menu.Item>
+                    </Menu.Popup>
+                  </Menu.Positioner>
+                </Menu.Portal>
+              </Menu.Root>
+            ) : null}
+          </div>
         ) : (
           <Button onClick={toSection} render={<a href="#download" />} size="small">
             Download
