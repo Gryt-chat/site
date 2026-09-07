@@ -101,10 +101,7 @@
   color: var(--text-dimmer);
 }
 
-/* Brighter than .hint and set apart from it, because it is the one thing on
-   this page somebody has to read — the download has already started by the
-   time they get here, so a note styled like the footnote below it gets
-   skipped. */
+/* Set apart from .hint so it does not read as another footnote. */
 .note {
   margin-top: 14px;
   padding: 11px 14px;
