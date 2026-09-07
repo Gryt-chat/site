@@ -155,7 +155,9 @@ the front page's rhythm. Recorded here so the next run does not re-pick blind:
 | `/changelog/:version` | Workbench | the notes are mostly app captures |
 | `/why-gryt` | Conversational FAQ | it is questions and trust boundaries |
 | `/compare` | Index-First | it is two tables and a set of cards |
-| `/developers`, `/self-hosting` | Index-First, with worked examples | the tail of each is grouped rows that leave for the docs; the top half runs and installs things |
+| `/developers` | Routing hub — one diagram, three card groups | it is a front door onto seven pages and four destinations elsewhere; see below |
+| `/developers/*` | Index-First, with worked examples | each one is a worked example and then grouped rows that leave for the docs |
+| `/self-hosting` | Index-First, with worked examples | the tail is grouped rows that leave for the docs; the top half runs and installs things |
 | `/sponsors` | Index-First | the page is a list of people |
 | `/privacy`, `/terms`, `/community-guidelines` | Long Document | they are documents |
 | `/invite` | none, component-scope | an app screen with states, not a page |
@@ -458,16 +460,55 @@ shape the eye stops reading at the third.
 
 What each one shows now:
 
-| Section | What is on the page |
+**`/developers` was split in GRYT-956.** It had grown to 563 lines, eight
+sections, 28 links and nine snippets — a directory that happened to scroll, and
+the shape this section was written to stop. The six sections that were mostly
+rows are pages of their own now, and the hub answers one sentence: *I am a
+developer, what does Gryt have for me and how do I help expand it?*
+
+That splits in three, and the three groups are the split:
+
+| Group | What is in it |
 |---|---|
-| `/developers` — an owl from a name | `@gryt/owl` drawing live from a field you type in, beside the two lines that did it |
-| — the packages | the install line for each, with a copy button, and the licence beside the name |
-| — bots | the knock as four numbered steps, and the `GrytBot` example |
-| — addons | the `GrytPluginAPI` declaration, printed from the source |
-| — the APIs | `curl /info` and what comes back |
-| — the voice engine | joining a call, and the two silent failures above it |
-| — the design system | `Avatar`, `Chip` and `Button` out of `@gryt/ui`, rendered |
-| — the source | the clone line, with the submodule flag |
+| Take a piece | the design system, voice in your own app, the APIs, and the six packages as a strip |
+| Build on it | a bot, a client addon, a server plugin |
+| Help build Gryt | contributing, the roadmap, and getting yours onto `/built` |
+
+**Help build Gryt is the half that was missing.** Contributing was one row
+inside "The source", which is the wrong weight for half of the question the page
+exists to answer.
+
+Two of the destinations are not under `/developers` at all — `/self-hosting` and
+`/built` — and a hub organised by what somebody wants to do rather than by the
+URL tree can say so.
+
+**Cards, against the rule above, and only here.** A routing page is the one
+shape where eleven destinations have to be scannable rather than read. The
+budget is spent on this page and nowhere else: the packages stay a strip, and
+all seven pages under it are rows and prose.
+
+**The owl moved to `/developers/design-system`.** It was the first thing on the
+old page and it is a demo of one MIT package, not the answer to what a developer
+arrived wanting.
+
+The one drawing is `DevArchitecture.tsx`: the three programs Gryt is, and the
+four places somebody else's code attaches. It answers what the cards cannot —
+*where does the thing I am about to write actually run?* **It goes stale the day
+the architecture moves**, which is the known cost of having it. It scrolls
+inside its own container below 820px rather than shrinking, because the whole
+viewBox at 375px renders its labels at about four pixels.
+
+What each page under it shows:
+
+| Page | What is on it |
+|---|---|
+| `/developers/bots` | the knock as four numbered steps, the `GrytBot` example, and the compose file |
+| `/developers/addons` | the `gryt` object printed from the source, and what is *not* defined in the worker |
+| `/developers/plugins` | a plugin manifest, and why installing one is a bigger decision than a theme |
+| `/developers/apis` | `curl /info` and what comes back |
+| `/developers/voice` | joining a call, and the two silent failures above it |
+| `/developers/design-system` | the owl drawing live, and `Avatar`, `Chip` and `Button` rendered |
+| `/developers/contributing` | the clone line with the submodule flag, and the rules worth knowing before a PR |
 | `/self-hosting` — getting one up | five rungs ordered by how much you have to know, each with its first command |
 | — what you are running | the four services drawn, and which two take connections |
 | — reaching it from outside | the four `.env` lines that decide whether voice works |
