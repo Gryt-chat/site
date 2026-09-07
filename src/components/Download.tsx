@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { FaAndroid, FaApple, FaLinux, FaWindows } from "react-icons/fa";
+import { FaAndroid, FaApple, FaLinux, FaMicrosoft, FaWindows } from "react-icons/fa";
 
 import { DownloadIcon, ServerRackIcon } from "./icons";
 import styles from "./Download.module.css";
@@ -7,6 +7,7 @@ import {
   categorizeAssets,
   fetchLatestRelease,
   formatSize,
+  MS_STORE_URL,
   type OS,
   type Release,
 } from "../lib/releases";
@@ -141,6 +142,28 @@ export function Download() {
       <div className={styles.box}>
         <h2 className={styles.title}>Download Gryt.</h2>
         <OSTabs value={selectedOS} onChange={setPickedOS} />
+
+        {/* Windows leads with the Store: signed, no SmartScreen warning, and it
+            updates itself (the in-app updater stands down there). Sits above the
+            picker and outside the release-gated blocks, so it shows even while
+            GitHub is loading or rate-limited. The direct installer stays below
+            for anyone who wants a standalone .exe. */}
+        {selectedOS === "windows" && (
+          <div className={styles.storeRow}>
+            <Button
+              className={styles.storeBtn}
+              render={<a href={MS_STORE_URL} target="_blank" rel="noreferrer" />}
+              size="large"
+            >
+              <FaMicrosoft size={18} />
+              Get it from the Microsoft Store
+            </Button>
+            <p className={styles.storeNote}>
+              Recommended — signed, and it keeps itself updated through the
+              Store. Or grab the direct installer below.
+            </p>
+          </div>
+        )}
 
         {!OS_LABELS[selectedOS].comingSoon && hasBothBuilds && (
           <div className={styles.serverToggle}>

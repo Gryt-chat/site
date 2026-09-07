@@ -487,3 +487,29 @@
     max-width: 260px;
   }
 }
+
+/* Windows' Microsoft Store recommendation, above the direct-download picker.
+   Centred and full-width like the download button it sits over, with a quiet
+   line under it so it reads as the recommended path without shouting down the
+   direct installer. */
+.storeRow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  margin-block: 1rem 0.25rem;
+}
+
+.storeBtn {
+  width: 100%;
+  max-width: 22rem;
+}
+
+.storeNote {
+  margin: 0;
+  max-width: 26rem;
+  text-align: center;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  opacity: 0.7;
+}

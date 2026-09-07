@@ -36,6 +36,36 @@ export interface DownloadOption {
    * release that published them.
    */
   withServer: boolean;
+  /**
+   * A place to send people rather than a file to hand them. The Microsoft Store
+   * is the only one: its link opens a listing, so the button is a plain link,
+   * not a `download`, and there is no size to show. Everything from a GitHub
+   * release leaves this unset.
+   */
+  external?: boolean;
+}
+
+/**
+ * The Microsoft Store listing. Windows' recommended download, because the Store
+ * build is signed (no SmartScreen warning) and updates through the Store — the
+ * in-app updater stands down for it, `process.windowsStore` in the client.
+ *
+ * A plain https link, not `ms-windows-store://`: the protocol only works on
+ * Windows and dies quietly anywhere else, and this link is served to whoever
+ * the site guessed is on Windows, which it sometimes gets wrong.
+ */
+export const MS_STORE_URL = "https://apps.microsoft.com/detail/9pkpt1c2m95q";
+
+export function storeOption(): DownloadOption {
+  return {
+    label: "Microsoft Store",
+    description: "Signed by Microsoft, installs and updates through the Store.",
+    url: MS_STORE_URL,
+    size: 0,
+    fileName: "",
+    withServer: true,
+    external: true,
+  };
 }
 
 const LATEST =
