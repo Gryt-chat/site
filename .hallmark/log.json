@@ -1,7 +1,14 @@
 [
   {
+    "date": "2026-09-07",
+    "macrostructure": "Routing hub \u2014 diagram, then three card groups",
+    "theme": "Gryt tokens (project-locked, design.md)",
+    "enrichment": "hand-built SVG architecture diagram (Tier B)",
+    "brief": "/developers split into a hub plus seven pages; owl dropped, contributing promoted to its own page"
+  },
+  {
     "date": "2026-08-27",
-    "macrostructure": "bespoke — claim + demonstration, one per section",
+    "macrostructure": "bespoke \u2014 claim + demonstration, one per section",
     "theme": "Gryt tokens (project-locked, design.md)",
     "enrichment": "live @gryt/ui and @gryt/owl rendering; real WebCrypto derivation",
     "brief": "Front page rebuilt around freedom and ownership, plain English, every section shown rather than argued"
@@ -11,20 +18,20 @@
     "macrostructure": "component-scope (no macrostructure)",
     "theme": "Gryt tokens (project-locked, design.md)",
     "enrichment": "none",
-    "brief": "Blog post previous/next navigation — rules and type, not cards"
+    "brief": "Blog post previous/next navigation \u2014 rules and type, not cards"
   },
   {
     "date": "2026-08-26",
     "macrostructure": "Catalogue",
     "theme": "Gryt tokens (project-locked, not rotated)",
     "enrichment": "none",
-    "brief": "Blog index — list to card grid, banners on posts"
+    "brief": "Blog index \u2014 list to card grid, banners on posts"
   },
   {
     "date": "2026-08-26",
     "macrostructure": "Index-First",
     "theme": "Gryt tokens (project-locked)",
     "enrichment": "none",
-    "brief": "Blog index — inferred from the stamp this run replaced"
+    "brief": "Blog index \u2014 inferred from the stamp this run replaced"
   }
 ]

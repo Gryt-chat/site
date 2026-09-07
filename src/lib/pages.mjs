@@ -30,6 +30,48 @@ export const STATIC_PAGES = [
       "Gryt's packages on npm, the bot SDK, the APIs, the voice engine and the design system.",
   },
   {
+    path: "developers/bots",
+    title: "Bots",
+    description:
+      "A bot joins a Gryt server the way any other client does. The handshake, the SDK, and running one in a container.",
+  },
+  {
+    path: "developers/addons",
+    title: "Client addons",
+    description:
+      "A theme is CSS. A plugin runs in a worker of its own, and what it can call is what you granted it.",
+  },
+  {
+    path: "developers/plugins",
+    title: "Server plugins",
+    description:
+      "JavaScript that runs inside a Gryt server, with the database and the filesystem, and why that is a bigger decision than a theme.",
+  },
+  {
+    path: "developers/apis",
+    title: "The APIs",
+    description:
+      "Every REST endpoint and socket event a Gryt server answers, the SFU protocol, and how identity is checked.",
+  },
+  {
+    path: "developers/voice",
+    title: "The voice engine",
+    description:
+      "@gryt/voice is the calling half of Gryt on its own: signalling, ICE, tracks and audio behind React hooks.",
+  },
+  {
+    path: "developers/design-system",
+    title: "The design system",
+    description:
+      "One set of tokens, two renderers, and a generator that turns a palette into a link. Four packages, all MIT.",
+  },
+  {
+    path: "developers/contributing",
+    title: "Contributing",
+    description:
+      "How a change gets into Gryt, what pull requests are wanted for, and which paths always get a human read.",
+  },
+  {
     path: "built",
     title: "Built with Gryt",
     description:

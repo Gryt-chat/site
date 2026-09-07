@@ -11,6 +11,13 @@ const BlogIndex = lazy(() => import("./pages/BlogIndex").then((m) => ({ default:
 const BlogPost = lazy(() => import("./pages/BlogPost").then((m) => ({ default: m.BlogPost })));
 const BuiltPage = lazy(() => import("./pages/BuiltPage").then((m) => ({ default: m.BuiltPage })));
 const ComparePage = lazy(() => import("./pages/ComparePage").then((m) => ({ default: m.ComparePage })));
+const BotsPage = lazy(() => import("./pages/developers/BotsPage").then((m) => ({ default: m.BotsPage })));
+const AddonsPage = lazy(() => import("./pages/developers/AddonsPage").then((m) => ({ default: m.AddonsPage })));
+const PluginsPage = lazy(() => import("./pages/developers/PluginsPage").then((m) => ({ default: m.PluginsPage })));
+const ApisPage = lazy(() => import("./pages/developers/ApisPage").then((m) => ({ default: m.ApisPage })));
+const VoicePage = lazy(() => import("./pages/developers/VoicePage").then((m) => ({ default: m.VoicePage })));
+const DesignSystemPage = lazy(() => import("./pages/developers/DesignSystemPage").then((m) => ({ default: m.DesignSystemPage })));
+const ContributingPage = lazy(() => import("./pages/developers/ContributingPage").then((m) => ({ default: m.ContributingPage })));
 const DevelopersPage = lazy(() => import("./pages/DevelopersPage").then((m) => ({ default: m.DevelopersPage })));
 const SelfHostingPage = lazy(() => import("./pages/SelfHostingPage").then((m) => ({ default: m.SelfHostingPage })));
 const ChangelogIndex = lazy(() => import("./pages/ChangelogIndex").then((m) => ({ default: m.ChangelogIndex })));
@@ -179,6 +186,13 @@ export default function App() {
           <Route path="/blog/:slug" element={<BlogPost />} />
           <Route path="/compare" element={<ComparePage />} />
           <Route path="/developers" element={<DevelopersPage />} />
+          <Route path="/developers/bots" element={<BotsPage />} />
+          <Route path="/developers/addons" element={<AddonsPage />} />
+          <Route path="/developers/plugins" element={<PluginsPage />} />
+          <Route path="/developers/apis" element={<ApisPage />} />
+          <Route path="/developers/voice" element={<VoicePage />} />
+          <Route path="/developers/design-system" element={<DesignSystemPage />} />
+          <Route path="/developers/contributing" element={<ContributingPage />} />
           <Route path="/built" element={<BuiltPage />} />
           <Route path="/self-hosting" element={<SelfHostingPage />} />
           <Route path="/sponsors" element={<SponsorsPage />} />
