@@ -17,6 +17,14 @@ export interface RowItem {
   href: string;
   /** Set for a package name or a command — something you type, not a title. */
   mono?: boolean;
+  /**
+   * Who made it, under the name.
+   *
+   * Only /built uses this. A row on the other pages is a destination, and a
+   * destination has no author; an entry in a showcase does, and leaving it off
+   * would let Gryt's own examples read as somebody else's work.
+   */
+  by?: string;
 }
 
 export function Block({
@@ -57,6 +65,7 @@ function Row({ item }: { item: RowItem }) {
     <>
       <span className={styles.rowName} data-mono={item.mono || undefined}>
         {item.name}
+        {item.by && <span className={styles.rowBy}>{item.by}</span>}
       </span>
       <span className={styles.rowDetail}>{item.detail}</span>
       <span className={styles.rowArrow} aria-hidden="true">

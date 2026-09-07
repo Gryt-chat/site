@@ -4,18 +4,22 @@ import { AddonSketch, Frame } from "../sketches";
 import { Showcase } from "../Showcase";
 
 /**
- * The honest version, and it is short because the feature is.
+ * Themes and plugins, and where a plugin runs.
  *
- * `packages/client/src/packages/addons/src/pluginApi.ts` is forty lines. The
- * entire surface a plugin gets is `window.gryt` with a version string, the
- * current theme, and a `themeChange` event. No sandbox, no registry, no docs
- * page.
+ * This said "no sandbox, no registry, no docs page" until the plugin system
+ * landed, and every word was true when it was written. What changed:
+ * `pluginHost.ts` gives each plugin a `Worker`, `addonWorker.ts` deletes
+ * `window`, `document`, `localStorage`, `indexedDB` and `Worker` off the
+ * prototype chain before importing it, and `mayCall` in `workerProtocol.ts`
+ * refuses anything the manifest did not declare and the person did not agree
+ * to.
  *
- * **If this grows, this section has to grow with it, and so does
- * `AddonSketch`** — the drawing beside it is the claim about smallness made
- * checkable, and it goes stale the same way the copy would.
+ * **If the capability list grows, this section has to grow with it, and so does
+ * `AddonSketch`** — the drawing beside it is the claim made checkable, and it
+ * goes stale the same way the copy did.
  */
-const ROADMAP = "https://docs.gryt.chat/docs/guide/roadmap";
+const ADDONS = "https://docs.gryt.chat/docs/client/addons";
+const PAIRS = "https://docs.gryt.chat/docs/guide/plugin-pairs";
 
 export function Addons() {
   return (
@@ -24,28 +28,31 @@ export function Addons() {
       size="regular"
       side="right"
       eyebrow="Addons"
-      title="Themes, and a small plugin API."
+      title="Themes, and plugins that stay where you put them."
       media={
-        <Frame label="A theme's CSS goes in like any other stylesheet. A plugin's module gets one object, with three things on it.">
+        <Frame label="A theme's CSS goes into the page like any other stylesheet. A plugin doesn't go into the page at all — it gets a worker, and one object in it.">
           <AddonSketch />
         </Frame>
       }
     >
       <p>
-        An addon is a folder with an <code>addon.json</code> in it. A theme
-        addon adds CSS. A plugin addon adds a module, and that module can talk
-        to exactly one thing: an object on <code>window</code> with a version,
-        the theme you're on, and an event for when you change it.
+        An addon is a folder you drop in. A{" "}
+        <a href={ADDONS} target="_blank" rel="noreferrer">
+          theme
+        </a>{" "}
+        is CSS. A plugin is JavaScript, and it runs in a worker of its own,
+        where there&rsquo;s no page to reach, no messages to read and no key to
+        take. What it can call is what you ticked when you turned it on.
       </p>
       <p>
-        And that's all of it. No sandbox, no registry, no marketplace, and the
-        plugin system is still{" "}
-        <a href={ROADMAP} target="_blank" rel="noreferrer">
-          on the roadmap
+        It can also{" "}
+        <a href={PAIRS} target="_blank" rel="noreferrer">
+          talk to a copy of itself on the server
         </a>
-        . It's enough to restyle the client. It isn't enough to build a
-        product on.{" "}
-        <Link to="/developers">More on the developer page</Link>.
+        , which is how one plugin shows everybody what you&rsquo;re playing. A
+        server names every plugin it runs to everybody who joins, and that
+        can&rsquo;t be turned off.{" "}
+        <Link to="/built">See what people have built</Link>.
       </p>
     </Showcase>
   );
