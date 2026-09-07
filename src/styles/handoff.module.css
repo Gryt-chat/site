@@ -101,6 +101,18 @@
   color: var(--text-dimmer);
 }
 
+/* Set apart from .hint so it does not read as another footnote. */
+.note {
+  margin-top: 14px;
+  padding: 11px 14px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--text-dim);
+  text-align: left;
+}
+
 .waiting {
   display: inline-flex;
   align-items: center;

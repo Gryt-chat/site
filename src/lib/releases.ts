@@ -151,9 +151,9 @@ export const OS_NAMES: Record<OS, string> = {
  * returns them in upload order and a release that happened to upload the
  * portable build first would silently change what /download hands out.
  *
- * The choice per platform is the one that installs: the NSIS installer on
- * Windows, the disk image on macOS, the AppImage on Linux, which runs without a
- * package manager and therefore without knowing the distribution.
+ * Linux leads with the AppImage because the choice is made from a browser,
+ * which cannot tell the distribution — a .deb by default would hand every Arch
+ * and Fedora user a file their system will not take.
  */
 const PREFERRED: Record<OS, string[]> = {
   windows: ["Installer", "Portable"],
@@ -231,12 +231,19 @@ export function categorizeAssets(
          than a way to install. Listing it asked people to choose between the
          app and the machinery the app updates itself with. */
     } else if (name.includes("-linux-")) {
+      /* All three update themselves, so no description may imply otherwise:
+         electron-updater reads resources/package-type, which the .deb ships as
+         "deb", and the AppImage gets AppImageUpdater. */
       if (name.endsWith(".appimage")) {
-        result.linux.push(option("AppImage", "Portable, works on most distros"));
+        result.linux.push(option("AppImage", "Portable, works on most distros. It's the app itself, so put it somewhere it can stay. Updates replace this file in place."));
       } else if (name.endsWith(".deb")) {
-        result.linux.push(option("Debian / Ubuntu", ".deb package for apt-based distros"));
+        result.linux.push(option("Debian / Ubuntu", ".deb package for Debian, Ubuntu and other apt-based distros."));
       } else if (name.endsWith(".snap")) {
-        result.linux.push(option("Snap", "Snap package (also on snapcraft.io)"));
+        /* No pointer to snapcraft.io yet. The Store served 1.5.10 from 13
+           August while releases went to 1.9.x, because nothing ever put the
+           uploaded revisions on a channel — fixed in GRYT-971, but not proven
+           until a release runs through it. Put the pointer back then. */
+        result.linux.push(option("Snap", "Snap package, for any distro running snapd."));
       }
     }
   }

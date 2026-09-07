@@ -110,6 +110,14 @@ export function DownloadPage() {
               <p className={styles.body}>
                 Gryt {state.version} for {name}, {formatSize(state.option.size)}.
               </p>
+
+              {/* Linux only: the other two hand over an installer that needs
+                  no explanation. Here the download has already started, so
+                  there is no earlier moment to say it. */}
+              {os === "linux" && (
+                <p className={styles.note}>{state.option.description}</p>
+              )}
+
               <div className={styles.actions}>
                 <Button
                   render={<a href={state.option.url} />}
