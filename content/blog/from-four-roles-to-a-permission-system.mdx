@@ -1,0 +1,173 @@
+---
+title: From Four Roles to a Permission System
+description: Gryt had owner, admin, mod and member, hardcoded into a ladder. A role is now a set of 41 permissions, a channel can have an opinion about 13 of them, and the hard part turned out to be making a hidden channel properly hidden.
+author: Sivert
+date: 2026-09-08
+tags:
+  - permissions
+  - roles
+  - moderation
+---
+
+For most of Gryt's life there were four roles: owner, admin, mod, member. They were
+hardcoded, they were a ladder, and what each one could do was written into whichever
+handler happened to need to know. If you wanted a role for people who can post but
+not join voice, you couldn't have one. If you wanted `#rules` to be read-only, you
+couldn't have that either.
+
+That's gone now. A role is a set of permissions and a rank, both of which you pick,
+and a channel can change what a role may do inside it. This is the story of getting
+there, including the part I got wrong first.
+
+## The checks didn't agree with each other
+
+Before any of the new work there was a plainer problem.
+
+The rule about who may act on whom was copied by hand into kick, ban, mute and
+deafen. Four verbatim copies of the same few lines, and they read the roles table
+directly. The gate that had already let the request in read something else, which
+also honoured the owner named in the server config. So an owner whose roles row said
+`admin` got past the door and was then refused by the handler, on their own server.
+
+Elsewhere the check wasn't there at all:
+
+- Voice disconnect had no target check, so an admin could pull the owner out of a call.
+- Resolving a report with delete-all-and-ban had none either, so the reports panel
+  could ban the owner while the ban handler two files away refused to.
+- The member list had no auth check whatsoever. Any socket that had connected could
+  ask for it and get everybody.
+
+All of that was fixed in 1.3.1, in seven passes, and there are tests standing on it
+now. Two builders were also emitting the member list with the same seventeen fields
+and disagreeing about five of them, so if you had two clients open, the moderation
+menu showed "Server mute" or "Remove server mute" depending on which one had
+answered most recently.
+
+## A role is a set of things you may do
+
+There are 41 permissions. Sending a message is one. Attaching a file is another.
+Editing your own message is separate from editing somebody else's, deafening is
+separate from muting, reading the reports queue is separate from acting on what's in
+it, and starting a call is separate from joining one. That last one is deliberate:
+gating both would leave somebody unable to answer a call placed to them.
+
+Every role carries two things: that set, and a rank. The permissions say what you can
+do. The rank says who you can do it to. Keeping them apart is why you can have a role
+that sits high enough to kick people and holds almost nothing else.
+
+Five roles ship with every server. Owner sits at rank 100, Admin at 80, Moderator at
+60, Member at 40 and Guest at 10. They're spaced so a role of your own slots between two of
+them without renumbering anything. You can rename them, recolour them and change what
+they hold. You can't delete them, because the defaults and the owner fall back to them.
+
+Four permissions stay out of Admin's set: managing roles, managing the server,
+replacing an identity, and answering a bot at the door. An admin who could grant
+`manage_roles` could hand themselves every other permission on the list.
+
+## Upgrading a server that already has people on it
+
+Adding a permission to the list doesn't change a single stored role. That's fine until
+you add `read_messages`. Before it existed, anybody admitted to the server could read;
+the moment reading is a permission, every role that already exists holds a set that
+doesn't contain it. The release that made reading a permission would have left an
+entire server unable to read anything.
+
+So each permission records what it was carved out of, or that it had no gate before.
+On upgrade, a role holding the old one gets the new one, and a permission that had no
+gate goes to everybody. It only grants. Nothing in that table takes a permission away,
+so whatever the person running the server has chosen survives an upgrade untouched.
+Six batches of it so far, and there'll be more.
+
+## Read-only channels, the cheap way first
+
+`#rules` is what forced the next step. A public server where anyone can post in the
+rules isn't a public server you can launch.
+
+Full per-channel overwrites were the honest fix and they weren't small, so I did the
+cheap one: a minimum rank to post, as one integer on the channel, checked next to the
+existing send-messages gate. That shipped in 1.6.17 and it unblocked read-only and
+staff-only channels without building the model underneath.
+
+The client half arrived a release later, which meant that for a while you could stand
+in `#rules`, see a normal composer, type a message and get told the channel was
+read-only for your role. It worked and it wasn't good. The refusal should be visible
+before you've typed anything.
+
+## Then the real thing
+
+1.8.0 replaced that. A channel can now have an opinion about 13 of the 41 permissions:
+the ones that mean something in one room. Banning somebody means the same thing
+wherever you're standing, so it isn't on the list.
+
+A rule is allow or deny. There's no third value for inherit, because inherit is the
+absence of a rule. A channel stores only what it changes, so hiding a channel from
+three roles is three rows rather than thirteen permissions times every role. It also
+means a permission I add next year needs no backfill here: every channel that exists
+already inherits it, which is both the right default and the safe one.
+
+Allow isn't the same as inheriting. It grants a permission the role doesn't hold
+across the server, which is how one channel lets a role post when it can't post
+anywhere else.
+
+## The hard part was the hiding
+
+Denying `read_messages` on a channel doesn't grey it out. The server stops naming it.
+It's absent from the server details, absent from the sidebar, and asking for it by id
+gets the same answer as asking for a channel that was never created.
+
+Getting that right meant finding every path a channel id can travel out on, and the
+obvious ones weren't the problem. There are thirteen cases in the leak test now. Four of
+them I missed on the first pass and wrote down as their own task rather than pretend
+the job was done:
+
+- A webhook row names the channel it posts into, so the webhook list hands over the id
+  of anything hidden.
+- An audit entry's target, for a channel action, is a channel id. Reading the audit
+  log is its own permission and can sit on a role well below any channel gate, so
+  somebody at rank 40 could read the id of a channel gated at 80.
+- A report snapshots the conversation it came from, so a moderator queue names a hidden
+  channel to whoever is working it.
+- `system_channel_id` in the server config, which is one field pointing at a channel
+  that might be gated.
+
+None of those is a channel list. They're all places a channel id ended up as a side
+effect of something else. Pins, search and mentions join that list the day they exist.
+
+## More than one role
+
+Until 1.8.5 the roles table had the member id as its primary key, so holding a second
+role wasn't representable. Mapping our own Discord's eight roles onto
+Gryt meant collapsing three of them into one, because they couldn't stack.
+
+You can hold several now. Permissions add up across them and your rank is the highest
+one you hold. Where two of your roles disagree about a channel, allow wins — picking
+up a role shouldn't take something away, which is the rule Discord settled on and the
+one people arrive expecting.
+
+## Roles that grant themselves
+
+A role can ask for a number of days and a number of messages before it grants itself.
+Set both and both have to be true. Time on its own lands a trusted tier on an account
+that signed up a month ago and never said a word, which is exactly who you didn't mean.
+
+It only ever promotes. Nothing here takes a role away from anybody.
+
+## What this doesn't do
+
+Bots don't hold roles at all. A bot knocks, whoever runs the server decides what it may do once,
+and that's its whole permission set, so no role edit can widen one by accident. What
+it asked for is written down and never rewritten, because a bot coming back asking for
+more is asking a question that's already been answered.
+
+Roles are per server, and they always will be. There's no notion of a role that
+follows you somewhere else.
+
+And none of this is retroactive against somebody who has already read a channel. If a
+channel was open and you close it, you've stopped them reading it from now on. You
+haven't unsent anything.
+
+## Where it lives
+
+**Server settings → Role editor** for the roles and what they hold, and **Server
+settings → Channel permissions** for what a single channel changes. Both need
+`manage_roles`, which is owner-only until you decide otherwise.
