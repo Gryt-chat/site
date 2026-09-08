@@ -1,0 +1,111 @@
+---
+title: Threads, Plugins, and Forty-Seven Themes
+description: Two weeks of Gryt in one post. Threads that hold a conversation, servers that run their own code, and a theme library that went from nineteen to forty-seven.
+author: Sivert
+date: 2026-09-08
+tags:
+  - threads
+  - plugins
+  - themes
+  - releases
+---
+
+The last couple of weeks have been the busiest Gryt has had. Threads landed, servers can
+run their own code now, the theme library nearly tripled, and the app finally installs
+the way people on Arch and macOS expected it to.
+
+Most of it is the same idea from different angles: a server with more than about ten
+people in it needs somewhere to put things. Here's what went in.
+
+## Threads
+
+A channel is one room and everyone talks in it. That works until two conversations start
+at once, and then it doesn't.
+
+You can start a thread off any message now, and inside it you get what a channel gives
+you: replies, edits, reactions, someone typing, scrolling back through the whole thing.
+A mention points at the thread it happened in, so clicking it takes you to the message
+instead of to the channel it hangs off.
+
+The part that took longest was unread counts. A thread's replies are counted against the
+thread now. Before that, answering someone in a thread badged the channel, you clicked in
+expecting a message, and the channel looked empty, because the message was one level down.
+The footer under a message shows what's unread inside it, and goes quiet once you've read
+it.
+
+<Image src="/blog/gryt-threads.webp" alt="The General channel on the left with four messages about a LAN party, and a thread panel open on the right holding two replies to the last of them. The message it started from carries a 2 replies footer, and the panel has a Mark solved button at the top." width="3200" height="1826" />
+
+Forum channels came with the same work. They're threads with the list turned inside out:
+every post is its own thread, and the channel is the index.
+
+## Servers can run their own code
+
+A server can load plugins. They run on the server, not in your client, and they get a
+narrow API rather than the run of the place. Every member can see the list of what a
+server runs before deciding to join it.
+
+You should get to say no to somebody else's server running code you can't see. So that
+list is on the join screen and not buried in settings.
+
+## Forty-seven themes
+
+There were nineteen. Now there are forty-seven, in ten collections: Gryt, Owl, Midnight,
+Winter, Spring, Summer, Autumn, Nature, Pastel and Brands. Owl is the six palettes the
+owl avatars are drawn from. Brands is the ported ones — Dracula, Nord, Catppuccin,
+GitHub, Claude, shadcn/ui, Solarized.
+
+I generated the twenty-eight new ones in OKLCH instead of picking them by eye. Each one
+clears fourteen contrast rules across the light and dark halves: text, muted, border,
+accent, and 7:1 for ink sitting on a filled colour.
+
+Running that check turned up a theme that had already shipped. Winter Arc missed on four
+of its six ink-on-fill pairs: 6.07 and 4.96 in the dark half, 4.68 and 5.27 in the light
+one. I'd left it out of the check by name when the collections landed, because changing a
+shipped theme's colour felt like a separate decision. It is one, and I made it: the theme
+moved. Its dark danger came up from 0.62 to 0.71 lightness, which is the smallest step
+that clears the bar. You'd notice if you wear it.
+
+Forty-seven is too many for one list, so the picker groups them, and so does the theme
+section on the front page.
+
+<Image src="/blog/gryt-theme-collections.webp" alt="The theme picker in Appearance with eight collections collapsed into a list: Gryt, Owl, Midnight, Winter, Spring, Summer, Autumn and Nature. Each row has a one-line description, four colour dots from that collection, and a count." width="3200" height="1714" />
+
+## Settings you can find things in
+
+The settings list used to draw a category and the page inside it the same way, so the
+page you had open looked like the category it sits in. Sub-pages are indented under their
+category now, the one you're on is marked, and opening a category slides its pages out
+instead of snapping them open.
+
+<Image src="/blog/gryt-settings-appearance.webp" alt="The Settings dialog with Appearance selected in the left list and Theme, Display and Chat indented under it. On the right, the Gryt collection is open, showing theme cards with small drawings of the client in each theme's colours." width="3200" height="1714" />
+
+## Catching up on a busy server
+
+Channels can live in folders you drag them into, and you can mark a channel, a folder or
+a whole server as read.
+
+The server keeps your mentions now, instead of working them out per session. So the one
+you saw on your phone is gone on your laptop too.
+
+## Signing out of a computer you're not sitting at
+
+You can end your sessions on your other devices and stay signed in on the one in your
+hand. Every member carries a token version. Ending a session moves it, and the old tokens
+stop being accepted straight away.
+
+## Where you can install it
+
+There's a build for Intel Macs again, and an RPM alongside the deb. The Homebrew cask and
+the AUR package both track the current release, so:
+
+```
+brew install --cask gryt-chat/tap/gryt-chat
+yay -S gryt-chat-bin
+```
+
+Snap and winget are registered but still behind. They're on the list.
+
+## Worth a try
+
+Start a thread off a message in a busy channel, and open Appearance and press through a
+collection. Between them that's most of the last fortnight.
