@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { FaAndroid, FaApple, FaLinux, FaMicrosoft, FaWindows } from "react-icons/fa";
 
 import { DownloadIcon, ServerRackIcon } from "./icons";
+import { Snippet } from "./Snippet";
 import styles from "./Download.module.css";
 import {
   categorizeAssets,
@@ -28,6 +29,27 @@ const OS_LABELS: Record<OS, { label: string; icon: typeof FaWindows; comingSoon?
  * `aria-pressed` is a tab list in disguise, without arrow keys or the sliding indicator.
  */
 const OS_ORDER = ["windows", "macos", "linux", "ios", "android"] as const;
+
+/**
+ * Where a one-line install exists and points at a current build. Checked before adding
+ * each one, because a command that installs something ancient is worse than no command.
+ */
+const PACKAGE_MANAGERS: Partial<Record<OS, { label: string; code: string; note: string }>> = {
+  /* The tap repo is Gryt-chat/homebrew-tap, which Homebrew addresses as
+     gryt-chat/tap — the `homebrew-` prefix is implied and the owner lowercased. */
+  macos: {
+    label: "Homebrew",
+    code: "brew install --cask gryt-chat/tap/gryt-chat",
+    note: "Updates along with the rest of your casks.",
+  },
+  linux: {
+    label: "Arch — AUR",
+    code: "yay -S gryt-chat-bin",
+    note: "Or paru, or whichever helper you already use.",
+  },
+  /* No windows: Gryt.GrytChat is still an open submission to winget-pkgs, and
+     the Snap Store's stable is five minors behind the .snap here (GRYT-961). */
+};
 
 function OSTabs({
   value,
@@ -130,6 +152,7 @@ export function Download() {
   const chosen =
     ordered.find((o) => o.label === format) ?? ordered[0] ?? null;
   const version = release?.tag_name?.replace(/^v/, "");
+  const pkg = PACKAGE_MANAGERS[selectedOS];
 
   return (
     <section className={styles.section} id="download">
@@ -286,6 +309,15 @@ export function Download() {
               <DownloadIcon size={16} />
               View all releases on GitHub
             </Button>
+          </div>
+        )}
+
+        {/* Under the download button rather than above it: somebody who came
+            here for a file should not have to read past a shell command. */}
+        {!OS_LABELS[selectedOS].comingSoon && pkg && (
+          <div className={styles.pkgRow}>
+            <Snippet label={pkg.label} code={pkg.code} shell />
+            <p className={styles.pkgNote}>{pkg.note}</p>
           </div>
         )}
 

@@ -505,6 +505,21 @@
   max-width: 22rem;
 }
 
+/* Left-aligned inside a centred box: a shell command reads from its first
+   character, and Snippet's own label sits at the left of its head. */
+.pkgRow {
+  max-width: 26rem;
+  margin: 20px auto 0;
+  text-align: left;
+}
+
+.pkgNote {
+  margin: 8px 0 0;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  opacity: 0.7;
+}
+
 .storeNote {
   margin: 0;
   max-width: 26rem;
