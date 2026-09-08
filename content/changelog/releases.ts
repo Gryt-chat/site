@@ -25,6 +25,20 @@
 
 export type Surface = "app" | "server" | "voice" | "images";
 
+/**
+ * What a change is, for the reader deciding whether to keep reading.
+ *
+ * `security` is the only one that changes what somebody should do about the
+ * release, so it is the only one worth a separate word from `fixed`.
+ */
+export type ChangeKind = "new" | "fixed" | "changed" | "security";
+
+export interface Change {
+  kind: ChangeKind;
+  /** One sentence, same voice as `line`. */
+  text: string;
+}
+
 export interface ReleaseLine {
   /** The version, which is also the URL when there is a note. */
   version: string;
@@ -39,6 +53,16 @@ export interface ReleaseLine {
    * answer to "did I miss anything", and padding it out would not be.
    */
   line: string;
+  /**
+   * The same release split into what each change is, for the modal the app
+   * opens after it updates itself. The line stays either way — the changelog
+   * index wants one sentence, and a list of four reads badly there.
+   *
+   * Absent on everything before 1.10, and that is on purpose. The modal shows
+   * the version you have just updated *to*, so nobody sees 1.9.5's again and
+   * splitting the whole history buys nothing. Fill it in going forward.
+   */
+  changes?: Change[];
   /** Slug of the blog post telling this release's story, where there is one. */
   post?: string;
 }
@@ -54,22 +78,55 @@ export const app: ReleaseLine[] = [
     version: "1.10.3",
     date: "2026-09-08",
     line: "Joining voice waits for a slow microphone instead of giving up after six seconds and telling you it is unavailable. A role on the hover card shows its name rather than its id, and the role everybody starts with no longer takes a pill of its own.",
+    changes: [
+      {
+        kind: "fixed",
+        text: "Joining voice waits for a slow microphone instead of giving up after six seconds and telling you it is unavailable.",
+      },
+      {
+        kind: "fixed",
+        text: "A role on the hover card shows its name rather than its id, and the role everybody starts with no longer takes a pill of its own.",
+      },
+    ],
   },
   {
     version: "1.10.2",
     date: "2026-09-08",
     line: "A message Gryt cannot encrypt is no longer sent in the clear. Gryt asks before reading your process list now, and on a tiling window manager it draws no titlebar at all.",
+    changes: [
+      {
+        kind: "security",
+        text: "A message Gryt cannot encrypt is no longer sent in the clear.",
+      },
+      { kind: "security", text: "Gryt asks before reading your process list now." },
+      {
+        kind: "fixed",
+        text: "On a tiling window manager it draws no titlebar at all.",
+      },
+    ],
   },
   {
     version: "1.10.1",
     date: "2026-09-08",
     line: "Reply and edit inside a thread, scroll back through a long one, and see what it has unread without opening it. Mark a channel, a folder or a whole server as read, and install on an Intel Mac or from an RPM.",
+    changes: [
+      {
+        kind: "new",
+        text: "Reply and edit inside a thread, scroll back through a long one, and see what it has unread without opening it.",
+      },
+      { kind: "new", text: "Mark a channel, a folder or a whole server as read." },
+      { kind: "new", text: "Install on an Intel Mac or from an RPM." },
+    ],
   },
   {
     version: "1.10.0-beta.1",
     date: "2026-09-08",
     channel: "beta",
     line: "The first build with mark-as-read, the Intel Mac download and the RPM in it.",
+    changes: [
+      { kind: "new", text: "Mark a channel, a folder or a whole server as read." },
+      { kind: "new", text: "Install on an Intel Mac or from an RPM." },
+    ],
   },
   {
     version: "1.9.24",
