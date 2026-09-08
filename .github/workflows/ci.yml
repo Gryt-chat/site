@@ -16,16 +16,14 @@ jobs:
           # passes here is a build that passes in the image.
           node-version: 22
           cache: yarn
-      # yarn, because that is what the Dockerfile installs with. This repo also
-      # carries a package-lock.json, which is a known wart and not this file's
-      # to sort out.
+      # yarn, because that is what the Dockerfile installs with. The package-lock.json here
+      # is a known wart and not this file's to sort out.
       - run: yarn install --frozen-lockfile
 
       - run: yarn lint
 
-      # tsc -b, the image optimiser, vite build, the blog prerender and the meta
-      # check, in that order. The last one fails the build on a page missing its
-      # metadata, so this is more than a compile.
+      # tsc -b, the image optimiser, vite build, the blog prerender and the meta check. The
+      # last fails the build on a page missing its metadata, so this is more than a compile.
       - run: yarn build
 
   # gryt.chat is this Dockerfile. Its own job, because the image installs

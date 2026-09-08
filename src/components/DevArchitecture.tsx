@@ -1,23 +1,8 @@
 import styles from "../styles/devHub.module.css";
 
 /**
- * Where somebody else's code attaches to Gryt (GRYT-956).
- *
- * The one drawing on /developers, and it earns its place by answering the
- * question the cards under it cannot: *where does the thing I am about to write
- * actually run?* Three boxes for the three programs Gryt is, and four slots in
- * the accent for the four places code of your own goes — an addon inside the
- * client, a plugin inside the server, a bot beside it holding its own key, and
- * the voice engine on the wire to the SFU.
- *
- * **This goes stale the day the architecture moves.** That is the known cost of
- * having it, and it was weighed against a page that never says how the parts fit.
- * If a fourth program appears, or a slot moves, this is the file to change.
- *
- * Drawn rather than fetched: it is nine rectangles and four lines, so an image
- * would be a network request and a second thing to keep in step with the
- * palette. Every fill and stroke is a class in `devHub.module.css` pointing at
- * a token, so a theme change moves the drawing with it.
+ * Where somebody else's code attaches to Gryt (GRYT-956). This goes stale the day the
+ * architecture moves, which is the known cost. Drawn, so a theme change moves it too.
  */
 export function DevArchitecture() {
   return (

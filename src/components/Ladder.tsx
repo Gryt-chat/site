@@ -4,16 +4,8 @@ import { Snippet } from "./Snippet";
 import styles from "../styles/audience.module.css";
 
 /**
- * The five ways to get a server up, in the order that matters: they differ by
- * how much you have to know, from the app you already downloaded to a Helm
- * chart. Each rung leads with what it costs you to be here.
- *
- * **One line of command, not the whole file.** The twelve-line Compose block
- * was deliberately taken off the front page and it should not grow back here.
- * The guide has the rest.
- *
- * Two rungs have no command, because they genuinely do not: hosting from the
- * app is three clicks, and Windows is a zip and a double-click.
+ * The five ways to get a server up, in the order that matters: how much you have to know.
+ * One line of command, not the whole file — the twelve-line Compose block is not coming back.
  */
 export interface Rung {
   /** What you need before you start. The reason this list is ordered. */

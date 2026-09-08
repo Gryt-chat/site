@@ -24,12 +24,8 @@ const OS_LABELS: Record<OS, { label: string; icon: typeof FaWindows; comingSoon?
 };
 
 /**
- * The platform picker is Gryt UI's `Tabs`, indicator and all.
- *
- * It was a row of hand-rolled buttons toggling `aria-pressed`, which is the
- * wrong control twice over: a set of buttons where one is "on" is a tab list
- * wearing a disguise, and it meant no arrow-key navigation and none of the
- * sliding indicator the library already draws.
+ * The platform picker is Gryt UI's `Tabs`, indicator and all. A row of buttons toggling
+ * `aria-pressed` is a tab list in disguise, without arrow keys or the sliding indicator.
  */
 const OS_ORDER = ["windows", "macos", "linux", "ios", "android"] as const;
 
@@ -66,32 +62,24 @@ function OSTabs({
 export function Download() {
   const [release, setRelease] = useState<Release | null>(null);
   const [error, setError] = useState(false);
-  /* Detection lands a commit after the first render, so the prerender and the
-     hydration agree and the tabs are never left with two of them selected.
-     useDetectedOS says why that matters. A click wins over detection. */
+  /* Detection lands a commit after the first render, so the prerender and the hydration
+     agree and the tabs are never left with two selected. A click wins over detection. */
   const detectedOS = useDetectedOS();
   const [pickedOS, setPickedOS] = useState<OS | null>(null);
   const selectedOS = pickedOS ?? detectedOS ?? "windows";
 
   /*
-   * Off by default, so the smaller build is what somebody gets without reading
-   * anything. Most people join servers rather than run one, and the server is
-   * 30 to 50MB depending on the format — the whole reason both builds exist.
-   *
-   * Nobody is stuck either way: this is a checkbox on the page, not a decision
-   * about the install, and the other build is one tick and one download away.
+   * Off by default, so the smaller build is what somebody gets without reading anything.
+   * Nobody is stuck: this is a checkbox on the page, not a decision about the install.
    */
   const [withServer, setWithServer] = useState(false);
 
-  /* Which package format, within the platform. Windows has an installer and a
-     portable; macOS a disk image and a zip; Linux three. Before this the page
-     drew a button per format per build, so Windows was four stacked Download
-     buttons and Linux six. */
+  /* Which package format, within the platform. Before this the page drew a button per
+     format per build, so Windows was four stacked Download buttons and Linux six. */
   const [format, setFormat] = useState<string | null>(null);
 
-  /* Null off a Mac and in Safari. It only reorders the tabs below, so an
-     unknown chip costs nothing: both disk images are on the page either way,
-     and each says which Mac it is for. */
+  /* Null off a Mac and in Safari. It only reorders the tabs below, so an unknown chip costs
+     nothing: both disk images are on the page, and each says which Mac it is for. */
   const arch = useDetectedArch();
 
   useEffect(() => {
@@ -108,19 +96,15 @@ export function Download() {
   const all = grouped?.[selectedOS] ?? [];
 
   /*
-   * Falls back to whatever the platform has when the chosen build is not on the
-   * release. A release built before the slim ones existed only has full
-   * artifacts, and a platform whose slim leg failed only has full ones — in
-   * both cases an empty list would read as "no download for your OS".
+   * Falls back to whatever the platform has when the chosen build is not on the release. An
+   * empty list would read as "no download for your OS".
    */
   const matching = all.filter((opt) => opt.withServer === withServer);
   const options = matching.length > 0 ? matching : all;
   const hasBothBuilds = all.some((o) => o.withServer) && all.some((o) => !o.withServer);
 
-  /* Ordered here rather than taken from the release, whose assets arrive
-     alphabetically — which puts the portable build first on Windows and makes
-     it the default. It should not be: a portable build cannot update itself,
-     because there is no install for electron-updater to replace. */
+  /* Ordered here rather than taken from the release, whose assets arrive alphabetically and
+     put the portable build first. A portable build cannot update itself. */
   const FORMAT_ORDER = [
     "Installer",
     "Portable",

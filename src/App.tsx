@@ -33,9 +33,8 @@ const WhyGryt = lazy(() => import("./pages/WhyGryt").then((m) => ({ default: m.W
 const NotFound = lazy(() => import("./pages/NotFound").then((m) => ({ default: m.NotFound })));
 
 /**
- * Derived from the same list the build scripts read, so a page cannot have a
- * prerendered title and a different client-side one — or, as happened with
- * /changelog, exist in one list and not another.
+ * Derived from the same list the build scripts read, so a page cannot have a prerendered
+ * title and a different client-side one — or exist in one list and not another.
  */
 const pageTitles: Record<string, string> = {
   '/': HOME_TITLE,
@@ -53,30 +52,14 @@ const pageTitles: Record<string, string> = {
 };
 
 /**
- * How long to keep looking for a `#hash` target after a route change.
- *
- * Pages are lazy behind `Suspense`, so on a cross-route hash link the element
- * does not exist when the effect runs. Following `/#download` from `/download`
- * means waiting for the home page chunk: measured at **573ms** on a dev server
- * with a cold chunk. An earlier version gave up after ten frames, about 160ms,
- * and therefore never scrolled at all.
- *
- * Three seconds is far more than the measurement and still bounded, so an id
- * that does not exist stops rather than ambushing somebody mid-read.
+ * How long to keep looking for a `#hash` target after a route change. Pages are lazy, so
+ * the element does not exist yet: measured at 573ms with a cold chunk, bounded at three.
  */
 const HASH_TARGET_TIMEOUT_MS = 3000;
 
 /**
- * How long to keep the target in place after arriving at it.
- *
- * The home page is around 54,000px tall and full of images. Landing on
- * `#download` at 573ms means everything above it is still settling, and each
- * image that arrives pushes the target further down — so scrolling once lands
- * you near it and then drifts away from it.
- *
- * Any scroll, wheel, touch or key from the reader cancels this immediately.
- * Correcting a position somebody has deliberately moved away from would be
- * worse than the drift.
+ * How long to keep the target in place after arriving. The home page is 54,000px of images
+ * still settling, so it drifts. Any scroll, wheel, touch or key cancels this.
  */
 const HASH_SETTLE_MS = 1500;
 
@@ -89,15 +72,8 @@ function ScrollAndTitle() {
   }, [pathname]);
 
   /**
-   * Scroll to the `#hash` when there is one, and to the top when there is not.
-   *
-   * React Router does not scroll to fragments — only a full page load does,
-   * which is why pasting `/#download` always worked while clicking a link to it
-   * did not. Doing it here means a plain `<Link to="/#download">` is enough,
-   * rather than every caller remembering to call `scrollIntoView` by hand.
-   *
-   * No offset is applied: `[id] { scroll-margin-top }` in index.css already
-   * clears the fixed navbar.
+   * Scroll to the `#hash` when there is one, and to the top when there is not. React Router
+   * does not, so a plain `<Link to="/#download">` needs no scrollIntoView at the call site.
    */
   useEffect(() => {
     if (!hash) {
@@ -160,9 +136,8 @@ function ScrollAndTitle() {
       cancelAnimationFrame(raf);
       for (const event of events) window.removeEventListener(event, surrender);
     };
-    // `pathname` too: the same `#download` reached from two different routes
-    // has to scroll both times, and the hash alone does not change between
-    // them.
+    // `pathname` too: the same `#download` reached from two different routes has to scroll
+    // both times, and the hash alone does not change between them.
   }, [pathname, hash]);
 
   return null;
