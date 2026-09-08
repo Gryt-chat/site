@@ -34,7 +34,7 @@ const selfHosting: SiteLink = { label: 'Self-hosting', href: '/self-hosting', ro
 const developers: SiteLink = { label: 'Developers', href: '/developers', route: true }
 const built: SiteLink = { label: 'Built with Gryt', href: '/built', route: true }
 const docs: SiteLink = { label: 'Docs', href: 'https://docs.gryt.chat' }
-const roadmap: SiteLink = { label: 'Roadmap', href: 'https://docs.gryt.chat/docs/guide/roadmap' }
+const roadmap: SiteLink = { label: 'Roadmap', href: 'https://docs.gryt.chat/docs/about/roadmap' }
 const whyGryt: SiteLink = { label: 'Why Gryt?', href: '/why-gryt', route: true }
 const compared: SiteLink = { label: 'Compared', href: '/compare', route: true }
 

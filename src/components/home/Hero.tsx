@@ -23,7 +23,7 @@ import styles from "./Hero.module.css";
  * `Clip` renders its own poster for `prefers-reduced-motion`, so there is no
  * separate still to generate.
  */
-const SELF_HOST = "https://docs.gryt.chat/docs/deployment/docker-compose";
+const SELF_HOST = "https://docs.gryt.chat/docs/host/docker-compose";
 
 const CLIENT_LIVE: ClipSet = {
   src: "/home/client-live.mp4",

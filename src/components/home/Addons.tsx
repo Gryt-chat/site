@@ -18,8 +18,8 @@ import { Showcase } from "../Showcase";
  * `AddonSketch`** — the drawing beside it is the claim made checkable, and it
  * goes stale the same way the copy did.
  */
-const ADDONS = "https://docs.gryt.chat/docs/client/addons";
-const PAIRS = "https://docs.gryt.chat/docs/guide/plugin-pairs";
+const ADDONS = "https://docs.gryt.chat/docs/build/addons";
+const PAIRS = "https://docs.gryt.chat/docs/build/plugin-pairs";
 
 export function Addons() {
   return (

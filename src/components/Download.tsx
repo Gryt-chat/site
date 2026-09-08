@@ -316,7 +316,7 @@ export function Download() {
             action as "Open in browser" in the navbar, three lines up the page. */}
         <div className={styles.altActions}>
           <Button
-            render={<a href="https://docs.gryt.chat/docs/guide/quick-start" target="_blank" rel="noreferrer" />}
+            render={<a href="https://docs.gryt.chat/docs/host/quick-start" target="_blank" rel="noreferrer" />}
             tone="neutral"
           >
             <ServerRackIcon size={16} />

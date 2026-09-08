@@ -4,11 +4,11 @@ import type { ReactNode } from "react";
 import { ArchitectureSketch, Frame } from "../components/sketches";
 import styles from "./WhyGryt.module.css";
 
-const DOCS_WHY_GRYT_URL = "https://docs.gryt.chat/docs/guide/why-gryt";
-const DOCS_ARCH_URL = "https://docs.gryt.chat/docs/guide/architecture";
-const DOCS_ACCOUNTS_URL = "https://docs.gryt.chat/docs/guide/accounts";
+const DOCS_WHY_GRYT_URL = "https://docs.gryt.chat/docs/about/why-gryt";
+const DOCS_ARCH_URL = "https://docs.gryt.chat/docs/about/architecture";
+const DOCS_ACCOUNTS_URL = "https://docs.gryt.chat/docs/use/accounts";
 const DOCS_TUNNEL_URL =
-  "https://docs.gryt.chat/docs/deployment/cloudflare-tunnel";
+  "https://docs.gryt.chat/docs/host/cloudflare-tunnel";
 
 function Answer({ q, children }: { q: string; children: ReactNode }) {
   return (

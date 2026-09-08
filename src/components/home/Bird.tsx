@@ -20,7 +20,7 @@ import styles from "./Bird.module.css";
  * draws and keeps following the name until somebody picks a hat, at which point
  * the bird is theirs and the name stops moving it.
  */
-const AVATAR_DOCS = "https://docs.gryt.chat/docs/guide/accounts";
+const AVATAR_DOCS = "https://docs.gryt.chat/docs/use/accounts";
 
 /**
  * The designer in the app, doing the things the one above it cannot.
