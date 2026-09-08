@@ -51,6 +51,11 @@ export interface ReleaseLine {
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.10.2",
+    date: "2026-09-08",
+    line: "A message Gryt cannot encrypt is no longer sent in the clear. Gryt asks before reading your process list now, and on a tiling window manager it draws no titlebar at all.",
+  },
+  {
     version: "1.10.1",
     date: "2026-09-08",
     line: "Reply and edit inside a thread, scroll back through a long one, and see what it has unread without opening it. Mark a channel, a folder or a whole server as read, and install on an Intel Mac or from an RPM.",
