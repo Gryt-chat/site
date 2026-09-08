@@ -1,4 +1,8 @@
 import { lazy, type ComponentType, type LazyExoticComponent } from 'react'
+import * as lines from '../../content/changelog/releases'
+import type { ReleaseLine, Surface } from '../../content/changelog/releases'
+
+export type { ReleaseLine, Surface }
 
 export interface ChangelogFrontmatter {
   /** Product version these notes describe, e.g. "1.4.0". */
@@ -85,3 +89,47 @@ export function releasesSince(since: string | null | undefined): ChangelogEntry[
     (r) => compareVersions(r.frontmatter.version, since) < 0,
   )
 }
+
+/* ── every release, not only the ones with prose ─────────────────────────── */
+
+/**
+ * A release as the index lists it: always a line, sometimes a note.
+ *
+ * The two halves are written in different places on purpose. A line belongs
+ * with the other lines, where you can read the whole history in one file and
+ * see the gaps; a note is prose and belongs in its own MDX. Joining them here
+ * means the page never has to know which a release has.
+ */
+export interface ListedRelease {
+  version: string
+  date: string
+  channel?: 'beta'
+  line: string
+  post?: string
+  /** Present when somebody wrote the release a note. */
+  entry?: ChangelogEntry
+}
+
+const notesByVersion = new Map(releases.map((r) => [r.frontmatter.version, r]))
+
+export function listReleases(surface: Surface): ListedRelease[] {
+  return lines[surface].map((release) => ({
+    ...release,
+    entry: notesByVersion.get(release.version),
+  }))
+}
+
+/**
+ * The surfaces, in the order the tabs show them, and what each one is.
+ *
+ * Named the way the patch notes already name them — `sfu` means nothing to
+ * somebody deciding whether they need to update anything. Mobile is missing
+ * because it has never cut a release: it goes out through TestFlight, and a
+ * tab that is permanently empty is worse than no tab.
+ */
+export const SURFACES: { id: Surface; name: string; blurb: string }[] = [
+  { id: 'app', name: 'The app', blurb: 'What you install. The desktop app, and gryt.chat in a browser.' },
+  { id: 'server', name: 'The server', blurb: 'What somebody runs to host a Gryt server.' },
+  { id: 'voice', name: 'Voice', blurb: 'The media server that carries calls. Updated alongside the server.' },
+  { id: 'images', name: 'Images', blurb: 'Avatars, thumbnails and uploads. Runs beside the server.' },
+]
