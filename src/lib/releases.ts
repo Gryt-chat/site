@@ -1,10 +1,6 @@
 /**
- * What the latest release contains, and which file a given platform wants.
- *
- * This lived inside `components/Download.tsx` until `/download` needed the same
- * answers without the page around them. It is one copy on purpose: the two
- * callers disagreeing about which file is the Windows installer is exactly the
- * kind of drift that does not fail, it just sends somebody the wrong binary.
+ * What the latest release contains, and which file a given platform wants. One copy on
+ * purpose: two callers disagreeing about the Windows installer sends somebody the wrong file.
  */
 
 export interface ReleaseAsset {
@@ -35,38 +31,25 @@ export interface DownloadOption {
   size: number;
   fileName: string;
   /**
-   * Whether this build carries the server you can host from inside the app.
-   *
-   * Every release ships each platform twice: the full build, and a slim one
-   * without that server, which is 30 to 50MB smaller depending on the format.
-   * Both are the same app otherwise. Without this flag the two land in the list
-   * as duplicate rows with identical labels, which is what happened the first
-   * release that published them.
+   * Whether this build carries the server you can host from inside the app. Every release
+   * ships each platform twice, and without this flag the two are duplicate rows.
    */
   withServer: boolean;
   /**
-   * The chip this build runs on, or null where the platform ships one build for
-   * everybody. macOS is the only one with two, and an arm64 app does not start
-   * on an Intel Mac at all.
+   * The chip this build runs on, or null where the platform ships one build. macOS is the
+   * only one with two, and an arm64 app does not start on an Intel Mac at all.
    */
   arch: Arch | null;
   /**
-   * A place to send people rather than a file to hand them. The Microsoft Store
-   * is the only one: its link opens a listing, so the button is a plain link,
-   * not a `download`, and there is no size to show. Everything from a GitHub
-   * release leaves this unset.
+   * A place to send people rather than a file to hand them. The Microsoft Store is the only
+   * one: the button is a plain link, not a `download`, and there is no size to show.
    */
   external?: boolean;
 }
 
 /**
- * The Microsoft Store listing. Windows' recommended download, because the Store
- * build is signed (no SmartScreen warning) and updates through the Store — the
- * in-app updater stands down for it, `process.windowsStore` in the client.
- *
- * A plain https link, not `ms-windows-store://`: the protocol only works on
- * Windows and dies quietly anywhere else, and this link is served to whoever
- * the site guessed is on Windows, which it sometimes gets wrong.
+ * The Microsoft Store listing, which is Windows' recommended download: signed, and updated
+ * through the Store. A plain https link — `ms-windows-store://` dies quietly elsewhere.
  */
 export const MS_STORE_URL = "https://apps.microsoft.com/detail/9pkpt1c2m95q";
 
@@ -87,26 +70,16 @@ const LATEST =
   "https://api.github.com/repos/Gryt-chat/gryt/releases/latest";
 
 /**
- * One request per page load, however many things ask for it.
- *
- * GitHub allows sixty unauthenticated calls an hour per address. The front page
- * asks twice — the navbar's download button and the download section — and
- * `/download` asks again, so without this an office behind one address burns
- * through the sixty in an afternoon and the section renders "Could not load
- * releases" on a perfectly good connection.
- *
- * The promise is cached rather than the result, so callers arriving while the
- * first request is open wait on it instead of starting a second. **A failure is
- * not cached**: the usual reason for one is a rate limit that expires.
+ * One request per page load, however many things ask. GitHub allows sixty an hour per
+ * address. The promise is cached rather than the result, and a failure is not cached.
  */
 let inFlight: Promise<Release> | null = null;
 
 export function fetchLatestRelease(signal?: AbortSignal): Promise<Release> {
   if (inFlight) return inFlight;
 
-  // Deliberately not passing `signal` to the shared fetch. One caller
-  // unmounting must not cancel the request every other caller is waiting on;
-  // the abort is honoured below, per caller, instead.
+  // Deliberately not passing `signal` to the shared fetch: one caller unmounting must not
+  // cancel the request every other caller is waiting on. The abort is honoured per caller.
   inFlight = fetch(LATEST)
     .then((res) => {
       if (!res.ok) throw new Error(`GitHub answered ${res.status}`);
@@ -139,23 +112,8 @@ export function detectOS(): OS {
 }
 
 /**
- * Apple silicon or Intel, or null when the browser will not say.
- *
- * Nothing in the user agent answers this. Every Mac reports `MacIntel` as
- * `navigator.platform` and "Intel Mac OS X 10_15_7" in the user agent string,
- * on an M5 as much as on a 2019 MacBook. Measured on an M5 Pro on 2026-09-08:
- * both of those said Intel and `userAgentData.architecture` said "arm".
- *
- * So the GPU is the signal. Chromium and Firefox report the real renderer
- * through WEBGL_debug_renderer_info — "ANGLE (Apple, ANGLE Metal Renderer:
- * Apple M5 Pro...)" on that machine, and the vendor is Intel Inc. or ATI
- * Technologies on an Intel Mac.
- *
- * Safari is the exception and gets null rather than a guess. It answers "Apple
- * GPU" for every Mac to make fingerprinting harder, so trusting it would hand
- * every Intel Safari user an arm64 disk image that does not open. The label on
- * the button says which chip either way, which is the half that has to be
- * right.
+ * Apple silicon or Intel, or null when the browser will not say. Nothing in the user agent
+ * answers it, so the GPU is the signal; Safari says "Apple GPU" for every Mac and gets null.
  */
 export function detectMacArch(): Arch | null {
   try {
@@ -199,15 +157,8 @@ export const OS_NAMES: Record<OS, string> = {
 };
 
 /**
- * The file to hand somebody who asked for "the download" and nothing more.
- *
- * Ordered rather than "whichever asset GitHub listed first", because the API
- * returns them in upload order and a release that happened to upload the
- * portable build first would silently change what /download hands out.
- *
- * Linux leads with the AppImage because the choice is made from a browser,
- * which cannot tell the distribution — a .deb by default would hand every Arch
- * and Fedora user a file their system will not take.
+ * The file to hand somebody who asked for "the download". Ordered rather than whichever
+ * asset GitHub listed first, and Linux leads with the AppImage since a browser cannot tell.
  */
 const PREFERRED: Record<OS, string[]> = {
   windows: ["Installer", "Portable"],
@@ -224,23 +175,16 @@ export function primaryOption(
   os: OS,
   arch?: Arch | null,
 ): DownloadOption | null {
-  /* An arm64 app does not start on an Intel Mac, so the chip decides before the
-     format does. Narrowed rather than filtered outright: a release missing one
-     arch must still hand over the other with its label saying so, instead of
-     offering nothing. */
+  /* An arm64 app does not start on an Intel Mac, so the chip decides before the format does.
+     Narrowed rather than filtered: a release missing one arch still hands over the other. */
   if (arch) {
     const forArch = options.filter((o) => o.arch === null || o.arch === arch);
     if (forArch.length > 0) options = forArch;
   }
 
   for (const label of PREFERRED[os]) {
-    // Each label exists twice, the full build and the slim one. The default
-    // hands over slim on purpose: it is the smaller download and most people do
-    // not run a server from inside the app. Full is a deliberate choice further
-    // down the page. `find` here took whichever the GitHub API listed first,
-    // which is slim today only by luck of upload order — a release that uploaded
-    // the full asset first would silently make the bigger build everyone's
-    // default. Pick slim by intent so upload order stops deciding.
+    // Each label exists twice, full and slim. Slim by intent rather than by `find`, which
+    // took whatever GitHub listed first — upload order would otherwise pick the default.
     const matches = options.filter((o) => o.label === label);
     if (matches.length > 0) {
       return matches.find((o) => !o.withServer) ?? matches[0];
@@ -271,9 +215,8 @@ export function categorizeAssets(
     // thing that says which build this is.
     const withServer = !name.includes("-slim");
 
-    /* From the file name, the same way the variant is. `-mac-x64-slim.dmg` and
-       `-mac-arm64.dmg` are the two shapes; every other platform ships x64 only,
-       and says so in its own name. */
+    /* From the file name, the same way the variant is: `-mac-x64-slim.dmg` and
+       `-mac-arm64.dmg` are the two shapes, and every other platform ships x64 only. */
     const arch: Arch | null = name.includes("-arm64")
       ? "arm64"
       : name.includes("-x64") || name.includes("-x86_64") || name.includes("-amd64")
@@ -298,9 +241,8 @@ export function categorizeAssets(
       }
     } else if (name.includes("-mac-")) {
       if (name.endsWith(".dmg")) {
-        /* The chip is in the label, not only in `arch`, because the page groups
-           its format tabs by label. Two rows both reading "DMG" collapsed into
-           one tab and the array order picked the architecture. */
+        /* The chip is in the label, not only in `arch`, because the page groups its format
+           tabs by label. Two rows both reading "DMG" collapsed into one. */
         result.macos.push(
           arch === "x64"
             ? option("DMG (Intel)", "Disk image for Intel Macs")
@@ -308,15 +250,11 @@ export function categorizeAssets(
         );
       }
 
-      /* The .zip is deliberately not offered. It is on the release because
-         Squirrel.Mac can only apply an update from a zip — latest-mac.yml
-         points at it, not at the dmg — so it is the updater's payload rather
-         than a way to install. Listing it asked people to choose between the
-         app and the machinery the app updates itself with. */
+      /* The .zip is deliberately not offered: Squirrel.Mac can only update from a zip, so
+         it is the updater's payload rather than a way to install. */
     } else if (name.includes("-linux-")) {
-      /* All three update themselves, so no description may imply otherwise:
-         electron-updater reads resources/package-type, which the .deb ships as
-         "deb", and the AppImage gets AppImageUpdater. */
+      /* All three update themselves, so no description may imply otherwise: electron-updater
+         reads resources/package-type, and the AppImage gets AppImageUpdater. */
       if (name.endsWith(".appimage")) {
         result.linux.push(option("AppImage", "Portable, works on most distros. It's the app itself, so put it somewhere it can stay. Updates replace this file in place."));
       } else if (name.endsWith(".deb")) {
@@ -324,10 +262,8 @@ export function categorizeAssets(
       } else if (name.endsWith(".rpm")) {
         result.linux.push(option("Fedora / RHEL", ".rpm package for Fedora, RHEL, openSUSE and other dnf-based distros."));
       } else if (name.endsWith(".snap")) {
-        /* No pointer to snapcraft.io yet. The Store served 1.5.10 from 13
-           August while releases went to 1.9.x, because nothing ever put the
-           uploaded revisions on a channel — fixed in GRYT-971, but not proven
-           until a release runs through it. Put the pointer back then. */
+        /* No pointer to snapcraft.io yet. The Store served 1.5.10 while releases went to
+           1.9.x, because nothing put the revisions on a channel. Fixed in GRYT-971. */
         result.linux.push(option("Snap", "Snap package, for any distro running snapd."));
       }
     }

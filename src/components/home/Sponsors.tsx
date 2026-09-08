@@ -8,16 +8,8 @@ import { LOGO_TIER, SPONSOR_URL, sponsorUrl } from "../../data/sponsorTiers";
 
 
 /**
- * Where a sponsor's name and logo go (GRYT-271).
- *
- * Written to read the same with nobody in it, because for now that is the case.
- *
- * Current sponsors only. The full history, including one-off payments and when
- * each arrived, is at /sponsors — a payment from a year ago is not current.
- *
- * The two outlined slots are sized exactly as a real logo is, so the $100
- * tier's offer is visible rather than described. They disappear once three
- * logos are up, where empty boxes would start reading as sponsors who left.
+ * Where a sponsor's name and logo go (GRYT-271). Current sponsors only; the history is at
+ * /sponsors. The outlined slots are real logo size, and disappear once three are up.
  */
 const OPEN_SLOTS = 2;
 const SLOTS_UNTIL = 3;

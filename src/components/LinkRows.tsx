@@ -5,11 +5,8 @@ import { useCopy } from "../lib/useCopy";
 import styles from "../styles/audience.module.css";
 
 /**
- * A named group of destinations, and the rows in it.
- *
- * A row is a name, one line saying what is behind it, and an arrow. Not a card:
- * two of these pages are almost entirely rows, and a page of forty boxes is
- * unreadable in a way a page of forty rules is not.
+ * A named group of destinations, and the rows in it: a name, one line, an arrow. Not a card
+ * — a page of forty boxes is unreadable in a way a page of forty rules is not.
  */
 export interface RowItem {
   name: string;
@@ -18,11 +15,8 @@ export interface RowItem {
   /** Set for a package name or a command — something you type, not a title. */
   mono?: boolean;
   /**
-   * Who made it, under the name.
-   *
-   * Only /built uses this. A row on the other pages is a destination, and a
-   * destination has no author; an entry in a showcase does, and leaving it off
-   * would let Gryt's own examples read as somebody else's work.
+   * Who made it, under the name. Only /built uses this: an entry in a showcase has an
+   * author, and leaving it off would let Gryt's own examples read as somebody else's.
    */
   by?: string;
 }
@@ -88,15 +82,8 @@ function Row({ item }: { item: RowItem }) {
 }
 
 /**
- * A published package: what it is called, what it costs you, and the line that
- * installs it.
- *
- * **Not a `Row`, and it cannot be one.** A row is a single anchor over the whole
- * strip, and this needs two controls — the name goes to npm and the command
- * goes to your clipboard. A button nested inside a link is invalid markup and
- * unusable with a keyboard, so this is a plain container with two things in it.
- *
- * The licence sits beside the name rather than buried in the prose.
+ * A published package: what it is called, what it costs, and the line that installs it. Not
+ * a `Row`, which is one anchor: this needs two controls, and a button in a link is invalid.
  */
 export interface PackageItem {
   name: string;

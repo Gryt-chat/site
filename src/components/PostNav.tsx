@@ -11,16 +11,8 @@ interface PostNavProps {
 }
 
 /**
- * Reading on from the bottom of a post.
- *
- * "Previous" is the older post and sits on the left, "Next" is the newer one on
- * the right — the arrangement every blog uses, and the reason the props are
- * named `older` and `newer` instead. In an array sorted newest-first the next
- * entry along is the *older* post, so a component taking `previous` and `next`
- * would invite exactly the off-by-one this naming removes.
- *
- * The ends of the list have one neighbour each and render one link. A post with
- * neither — the only post — renders nothing rather than a dead control.
+ * Reading on from the bottom of a post. The props are `older` and `newer`: in a list sorted
+ * newest-first the next entry is the older post, which `previous`/`next` invites getting wrong.
  */
 export function PostNav({ older, newer }: PostNavProps) {
   if (!older && !newer) return null

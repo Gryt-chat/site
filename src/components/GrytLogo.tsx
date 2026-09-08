@@ -4,12 +4,8 @@ interface GrytLogoProps {
 }
 
 /*
- * The mark, at every size the site draws it: 44px on the invite and hand-off
- * pages, 32 and 28 in the navbar, 30 in the footer.
- *
- * /logo.svg is the round one. The square artboard is /logo-square.svg and has
- * one consumer left here — the OG card's background glyph, which drops the
- * ground and crops the bird itself.
+ * The mark, at every size the site draws it. /logo.svg is the round one; the square artboard
+ * has one consumer left, the OG card's background glyph.
  */
 export function GrytLogo({ size = 72, className }: GrytLogoProps) {
   return (

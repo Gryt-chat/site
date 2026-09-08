@@ -7,19 +7,8 @@ import styles from "./SelfHost.module.css";
 const DOCS = "https://docs.gryt.chat/docs";
 
 /**
- * Hosting from the app, start to finish.
- *
- * Sivert's capture, 2026-08-28, and **the whole take** — sixteen seconds from
- * an empty client to a server somebody else on the network can see. It stays
- * one clip on purpose: the point is that the recording never leaves the app.
- * `Lan` shows the discovery end of the same flow, so do not cut this in two
- * and run half of it there.
- *
- *   node scripts/encode-clips.mjs create-server-preview.mp4 create-server \
- *     --width 2200 --fps 30 --poster-at 2.9
- *
- * `--poster-at 2.9` because the first frame is an empty client, which is what
- * `prefers-reduced-motion` would otherwise get as the still.
+ * Hosting from the app, start to finish, as the whole take: the point is that the recording
+ * never leaves the app. Encoded with `--width 2200 --fps 30 --poster-at 2.9`.
  */
 const CREATE: ClipSet = {
   src: "/home/create-server.mp4",
@@ -34,16 +23,8 @@ const CREATE_SHOWS =
   "network page with that server already listed";
 
 /**
- * Four ways in, and none of them is a wall of shell.
- *
- * This section used to open on a twelve-line Docker Compose block with an
- * `openssl rand` in it, which is the right thing to hand somebody who has
- * already decided and the wrong thing to put in front of somebody deciding.
- * The commands live in the quick-start guide, where they can be kept correct in
- * one place.
- *
- * Ordered by how little you have to know: the desktop app needs nothing, and
- * Docker is at the end because it is the one that assumes the most.
+ * Four ways in, ordered by how little you have to know, and none of them a wall of shell.
+ * The twelve-line Compose block lives in the quick-start guide, where it stays correct.
  */
 const WAYS = [
   {

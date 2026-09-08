@@ -4,23 +4,15 @@ import { Snippet } from "../../components/Snippet";
 import styles from "../../styles/audience.module.css";
 
 /**
- * Client addons, lifted out of the old one-page `/developers` (GRYT-956).
- *
- * The server half moved to its own page rather than staying a paragraph at the
- * bottom of this one: a plugin inside somebody's server and a plugin inside
- * your own client are different decisions with different risks, and the old
- * page ran them together under one heading.
+ * Client addons, lifted out of the old one-page `/developers` (GRYT-956). The server half
+ * has its own page: a plugin in somebody's server is a different decision.
  */
 const DOCS = "https://docs.gryt.chat/docs";
 const GH = "https://github.com/Gryt-chat";
 
 /**
- * The `gryt` object from `packages/client/src/packages/addons/src/addonWorker.ts`.
- *
- * Printed rather than summarised, because "this is the whole surface" is the
- * claim and the declaration is the proof. If the surface grows, this grows with
- * it or it becomes a lie, which is easier to notice than a paragraph going
- * quietly out of date.
+ * The `gryt` object from `addons/src/addonWorker.ts`, printed rather than summarised: "this
+ * is the whole surface" is the claim, and the declaration is the proof.
  */
 const PLUGIN_API = `declare const gryt: {
   version: string;
@@ -53,11 +45,8 @@ const PLUGIN_API = `declare const gryt: {
 };`;
 
 /**
- * What is not there, taken from the same file.
- *
- * `addonWorker.ts` walks the prototype chain for each of these and deletes it
- * before the plugin is imported — a plain `delete globalThis.indexedDB` does
- * nothing, because they are getters on `WorkerGlobalScope.prototype`.
+ * What is not there, from the same file. `addonWorker.ts` walks the prototype chain and
+ * deletes each — `delete globalThis.indexedDB` does nothing, since they are getters.
  */
 const PLUGIN_GONE = `window        // a worker has none, so nothing on the page
 document

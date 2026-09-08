@@ -1,13 +1,6 @@
 /**
- * Who has sponsored Gryt (GRYT-271).
- *
- * A file rather than the GitHub Sponsors API, for two reasons. The tiers
- * promise a placement and not a live feed, so somebody sponsoring under a
- * handle they would rather not publish is a thing to honour by editing this
- * file. And money has arrived through Ko-fi and directly, which the API does
- * not know about at all.
- *
- * Nothing here is published without asking the person first.
+ * Who has sponsored Gryt (GRYT-271). A file rather than the API: the tiers promise a
+ * placement, not a live feed, and money has arrived through Ko-fi and directly too.
  */
 
 export interface Sponsor {
@@ -16,23 +9,18 @@ export interface Sponsor {
   /** Theirs to choose. The tier says "linked wherever you want". */
   href?: string;
   /**
-   * Path under `public/`, for the logo tiers.
-   *
-   * SVG or a 2x PNG that holds up on a dark background. There is no light
-   * appearance to fall back to.
+   * Path under `public/`, for the logo tiers. SVG or a 2x PNG that holds up on a dark
+   * background — there is no light appearance to fall back to.
    */
   logo?: string;
   /**
-   * `recurring` is a sponsorship that is still running. `once` is a single
-   * payment, which is a different thing and is listed separately: somebody who
-   * gave once a year ago has not stopped sponsoring, because there was never
-   * anything to stop.
+   * `recurring` is a sponsorship still running; `once` is a single payment, listed
+   * separately, because somebody who gave once has not stopped.
    */
   kind: "recurring" | "once";
   /**
-   * `YYYY-MM`. When a recurring sponsorship started, or when a one-off
-   * arrived. Shown as a month and a year, so nobody has to publish the day
-   * they sent money.
+   * `YYYY-MM`. When a recurring sponsorship started, or when a one-off arrived. Shown as a
+   * month and a year, so nobody has to publish the day they sent money.
    */
   since: string;
   /** Sorts to the front of the logos. */
@@ -40,10 +28,8 @@ export interface Sponsor {
 }
 
 export const sponsors: Sponsor[] = [
-  // The first person to sponsor Gryt, around the release in March 2026. Listed
-  // by first name and no link, which is what he asked for. There is no amount
-  // field on purpose: being listed is the thing the tiers promise, and what
-  // somebody paid is nobody else's business.
+  // Listed by first name and no link, which is what he asked for. There is no amount field
+  // on purpose: being listed is what the tiers promise.
   { name: "Carlo", kind: "once", since: "2026-03" },
 ];
 

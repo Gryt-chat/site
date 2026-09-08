@@ -20,10 +20,8 @@ function MdxImage(props: ComponentPropsWithoutRef<'img'>) {
   return <LightboxImage {...props} />
 }
 
-/* Lazily, so mermaid stays out of the main bundle and off every page that has
-   no diagram in it. That was already true before GRYT-700 removed the component
-   for being "in the bundle"; what was in the bundle was /why-gryt importing it
-   directly, and that page draws its own sketches now. */
+/* Lazily, so mermaid stays out of the main bundle and off every page with no diagram. What
+   was in the bundle before GRYT-700 was /why-gryt importing it directly. */
 const LazyMermaid = lazy(() =>
   import('../components/Mermaid').then((m) => ({ default: m.Mermaid }))
 )

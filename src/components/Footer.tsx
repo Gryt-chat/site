@@ -14,10 +14,8 @@ import {
 import styles from "./Footer.module.css";
 
 /**
- * A sign-off, then the links.
- *
- * The closing line and the two actions come first, at a size somebody will
- * read. Everything else goes underneath in one quiet block.
+ * A sign-off, then the links. The closing line and the two actions come first, at a size
+ * somebody will read; everything else goes underneath in one quiet block.
  */
 const groups: { title: string; links: SiteLink[] }[] = [
   { title: "Get Gryt", links: getGoing },

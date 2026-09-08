@@ -8,15 +8,8 @@ import { SPONSOR_TIERS, SPONSOR_URL, sponsorUrl } from "../data/sponsorTiers";
 
 
 /**
- * Everyone who has sponsored Gryt, and what sponsoring pays for.
- *
- * The front page carries the current logos and names, because that is what the
- * $100 tier promises and the front page is where it was promised. The history
- * lives here: a one-off from a year ago is not current, and putting it on the
- * front page either implies it is or needs a caveat next to it.
- *
- * The list does not animate. It is a list, and a list that arrives row by row
- * is one you cannot scan.
+ * Everyone who has sponsored Gryt, and what sponsoring pays for. The front page carries the
+ * current names; the history lives here. The list does not animate — it is a list.
  */
 export function SponsorsPage() {
   useEffect(() => {

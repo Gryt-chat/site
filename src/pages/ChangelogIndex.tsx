@@ -12,17 +12,8 @@ const DATE = new Intl.DateTimeFormat('en-GB', {
 })
 
 /**
- * Every release, and one line saying what it did.
- *
- * The page used to list only the releases somebody had written a note for — ten
- * of them, against 247 across the four surfaces. So a reader could not tell
- * whether a release they skipped had done anything, because a release without a
- * note was not on the page at all.
- *
- * Two tiers now. A release with a note keeps its card and its link; every other
- * release is one line, which is usually all there is to say about one fix. The
- * story of a feature is a blog post rather than a longer note, because a feature
- * does not land in one release.
+ * Every release, and one line saying what it did. Two tiers: a release with a note keeps its
+ * card, every other is one line. The story of a feature is a blog post.
  */
 export function ChangelogIndex() {
   const [surface, setSurface] = useState<Surface>('app')

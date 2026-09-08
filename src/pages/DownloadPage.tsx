@@ -17,15 +17,8 @@ import { useDetectedOS } from "../lib/useDetectedOS";
 import styles from "../styles/handoff.module.css";
 
 /**
- * One URL that starts a download, for the message a stuck client gets posted
- * into its channel.
- *
- * `?os=` rather than `/download/windows` because the site has no SPA fallback:
- * nginx serves prerendered directories and answers 404 for anything else, so a
- * path segment would need its own prerendered directory and its own share card
- * per platform. A query string resolves to this one directory and survives.
- *
- * Without `?os=` it reads the user agent.
+ * One URL that starts a download. `?os=` rather than `/download/windows`: the site has no
+ * SPA fallback, so a path segment would need its own prerendered directory and share card.
  */
 
 type State =
@@ -36,10 +29,8 @@ type State =
 
 export function DownloadPage() {
   const [params] = useSearchParams();
-  /* Null on the first render, on both sides of hydration. This page assigns
-     window.location once it knows, so it cannot start on a guess and correct
-     itself — that is two downloads. ?os= is no earlier than detection is: the
-     prerender has no query string either. */
+  /* Null on the first render, on both sides of hydration. This page assigns window.location
+     once it knows, so it cannot start on a guess and correct itself — that is two downloads. */
   const os = useDetectedOS(parseOS(params.get("os")));
   /* Null off a Mac and in Safari, which is fine: primaryOption falls back to
      Apple silicon, and the line below tells the person which one they got. */
@@ -70,11 +61,8 @@ export function DownloadPage() {
         });
 
         /*
-         * Assigning to location rather than clicking a synthetic link: GitHub
-         * serves release assets as attachments, so the browser downloads and
-         * the page stays where it is. The link below is not a fallback for
-         * this failing quietly — it is there because a browser can decline the
-         * navigation, and there is no event to tell us it did.
+         * Assigning to location rather than clicking a synthetic link: GitHub serves assets
+         * as attachments. The link below exists because a browser can decline, silently.
          */
         window.location.href = option.url;
       })

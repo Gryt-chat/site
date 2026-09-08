@@ -1,14 +1,6 @@
 /**
- * The published releases, cached for the changelog check.
- *
- * Same shape as `fetch-github-stats.mjs`: unauthenticated calls at build time,
- * written to `.cache/` so the check runs offline afterwards. A network that is
- * not there leaves the previous cache in place rather than failing the build —
- * the check treats a missing cache as "skip", so nothing depends on GitHub
- * being up to ship the site.
- *
- * Four repositories, because the four tabs on the changelog release on four
- * clocks. The surface names match the exports in `content/changelog/releases.ts`.
+ * The published releases, cached for the changelog check. A network that is not there
+ * leaves the previous cache, and a missing cache makes the check skip rather than fail.
  */
 
 import { mkdirSync, writeFileSync } from "node:fs";

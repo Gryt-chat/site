@@ -1,13 +1,6 @@
 /**
- * Every destination the site chrome can point at, in one place.
- *
- * The nav and the footer used to carry their own copies, and they drifted:
- * three links appeared in both, one was in the mobile sheet and not the
- * desktop nav, and `/download` was linked from nowhere at all.
- *
- * The groups are the editorial decision. Thirty targets is too many to lay out
- * flat, so they are sorted by what somebody is trying to do rather than by
- * where the link happens to go.
+ * Every destination the site chrome can point at, in one place. The nav and the footer had
+ * their own copies and drifted; the groups sort by what somebody is trying to do.
  */
 
 export interface SiteLink {
@@ -20,13 +13,8 @@ export interface SiteLink {
 }
 
 /**
- * The links two lists share, named rather than indexed.
- *
- * `navBar` used to be built as `reading[0]`, `reading[1]`, `getGoing[3]` with a
- * comment beside each saying what that index was. Adding one link to the middle
- * of `getGoing` silently moves the third one somewhere else, which is the same
- * class of drift this file exists to stop and which `Navbar.tsx` already warns
- * about in its own lookup. A const cannot go stale.
+ * The links two lists share, named rather than indexed. `navBar` was built as `reading[0]`
+ * and `getGoing[3]`, so adding a link to the middle silently moved another one.
  */
 const openInBrowser: SiteLink = { label: 'Open in browser', href: 'https://app.gryt.chat' }
 const download: SiteLink = { label: 'Download', href: '/download', route: true }
@@ -39,11 +27,8 @@ const whyGryt: SiteLink = { label: 'Why Gryt?', href: '/why-gryt', route: true }
 const compared: SiteLink = { label: 'Compared', href: '/compare', route: true }
 
 /**
- * Do the thing. The two that matter most are lifted out as `actions` below.
- *
- * `Self-host guide` used to go straight to the docs quick-start. It goes to
- * /self-hosting now, which is the page that then hands you the quick-start
- * along with the other four ways in.
+ * Do the thing. The two that matter most are lifted out as `actions` below, and
+ * "Self-host guide" goes to /self-hosting rather than straight to the quick-start.
  */
 export const getGoing: SiteLink[] = [
   openInBrowser,
@@ -74,11 +59,8 @@ export const community: SiteLink[] = [
 ]
 
 /**
- * Read the thing.
- *
- * Named for what each one is rather than what the directory is called. Somebody
- * who has never seen this project does not know what an SFU is, and the whole
- * point of the row is that they can go and look.
+ * Read the thing. Named for what each one is rather than what the directory is called:
+ * somebody who has never seen this project does not know what an SFU is.
  */
 export const source: SiteLink[] = [
   { label: 'Everything', href: 'https://github.com/Gryt-chat/gryt' },
@@ -99,15 +81,8 @@ export const legal: SiteLink[] = [
 ]
 
 /**
- * What the bar carries, as opposed to what the sheet and the footer carry.
- *
- * Four, and it is at its limit: two buttons sit beside them, and six links plus
- * two buttons is a directory rather than a decision.
- *
- * `Compared` came out to make room for the two audience pages, and it lost the
- * argument because it is a page you read once when you are weighing Gryt up
- * against something else, while /developers and /self-hosting are where a whole
- * kind of visitor should land. It is still in the sheet and in the footer.
+ * What the bar carries, as opposed to the sheet and the footer. Four, and at its limit —
+ * six links plus two buttons is a directory. "Compared" came out for the audience pages.
  */
 export const navBar: SiteLink[] = [whyGryt, developers, selfHosting, docs]
 
@@ -118,11 +93,8 @@ export const actions = {
 }
 
 /**
- * The tagline the chrome carries.
- *
- * It used to be "Voice, text and video chat you host yourself", which says
- * which shelf Gryt is on and nothing else. The front page no longer opens that
- * way and the footer should not either.
+ * The tagline the chrome carries. It used to say which shelf Gryt is on and nothing else;
+ * the front page no longer opens that way and the footer should not either.
  */
 export const tagline =
   'Voice, video and text chat that belongs to you. The app you download is also the server, and joining one asks nothing of you.'

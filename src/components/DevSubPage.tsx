@@ -9,15 +9,8 @@ import styles from "../styles/audience.module.css";
 import hub from "../styles/devHub.module.css";
 
 /**
- * The six pages under `/developers` (GRYT-956).
- *
- * They share a back link and a header and nothing else — the point of splitting
- * the hub was to give each one room for its own worked example, so the body is
- * whatever that page needs.
- *
- * The back link is a real one rather than browser history: somebody arriving
- * from a search result or a shared link has no history to go back to, and a
- * control that does nothing on a fresh tab is worse than no control.
+ * The six pages under `/developers`, sharing a back link and a header and nothing else. The
+ * back link is real rather than history: somebody arriving from a search has none.
  */
 export function DevSubPage({
   title,

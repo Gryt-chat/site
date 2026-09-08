@@ -11,31 +11,14 @@ import { inView, rise, stagger } from "./motion";
 import styles from "./Bird.module.css";
 
 /**
- * The client's own designer, in the page rather than behind a button. It is the
- * same component the app opens from settings, not a version of it.
- *
- * `followSeed` is the prop this page needed and the client does not. Without it
- * the designer opened on a saved look, or on the default gold bird, and drew
- * the same owl whatever anybody typed. It now opens on the owl the name already
- * draws and keeps following the name until somebody picks a hat, at which point
- * the bird is theirs and the name stops moving it.
+ * The client's own designer, in the page rather than behind a button. `followSeed` is the
+ * prop this page needed: it opens on the owl the typed name draws and follows it.
  */
 const AVATAR_DOCS = "https://docs.gryt.chat/docs/use/accounts";
 
 /**
- * The designer in the app, doing the things the one above it cannot.
- *
- * Sivert's capture, 2026-08-28, and **the whole take**. A marketing page has no
- * account to save to and no member list to save into, so the ending is the
- * point: it stops on the new owl having reached a message and a member list,
- * not on a toast saying it worked. Do not trim it back to "Avatar updated".
- *
- *   node scripts/encode-clips.mjs avatar-editor-preview.mp4 avatar-editor \
- *     --width 2200 --fps 30 --poster-at 2.4
- *
- * `--poster-at 2.4` because the first two seconds are a settings panel sliding
- * open, and a half-drawn panel is a poor still for somebody who asked for no
- * motion.
+ * The designer in the app, as the whole take: it ends on the new owl reaching a message and
+ * a member list. Encoded with `--width 2200 --fps 30 --poster-at 2.4`.
  */
 const EDITOR: ClipSet = {
   src: "/home/avatar-editor.mp4",

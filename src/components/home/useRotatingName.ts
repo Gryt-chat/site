@@ -3,13 +3,8 @@ import { useEffect, useRef, useState } from "react";
 const HOLD_MS = 3200;
 
 /**
- * Swaps the name in the avatar demo every three seconds.
- *
- * It stops the moment somebody touches the field, and for good once they have
- * typed something of their own. Reduced motion pauses it too: the rotation is
- * decoration, the owl is the point.
- *
- * Returns the name plus a setter, so the field stays a normal controlled input.
+ * Swaps the name in the avatar demo every three seconds. It stops the moment somebody
+ * touches the field, and for good once they type. Reduced motion pauses it too.
  */
 export function useRotatingName(
   names: string[],
@@ -18,9 +13,8 @@ export function useRotatingName(
 ): [string, (value: string) => void] {
   const [name, setName] = useState(initial);
 
-  // The timer owns `name` between renders. Keeping it in a ref as well means the
-  // effect never has to list it as a dependency and restart itself every time it
-  // changes the very thing it is watching.
+  // The timer owns `name` between renders. A ref as well means the effect never lists it as
+  // a dependency and restarts itself every time it changes the thing it is watching.
   const shown = useRef(initial);
   const touched = useRef(false);
 

@@ -4,19 +4,8 @@ import { AddonSketch, Frame } from "../sketches";
 import { Showcase } from "../Showcase";
 
 /**
- * Themes and plugins, and where a plugin runs.
- *
- * This said "no sandbox, no registry, no docs page" until the plugin system
- * landed, and every word was true when it was written. What changed:
- * `pluginHost.ts` gives each plugin a `Worker`, `addonWorker.ts` deletes
- * `window`, `document`, `localStorage`, `indexedDB` and `Worker` off the
- * prototype chain before importing it, and `mayCall` in `workerProtocol.ts`
- * refuses anything the manifest did not declare and the person did not agree
- * to.
- *
- * **If the capability list grows, this section has to grow with it, and so does
- * `AddonSketch`** — the drawing beside it is the claim made checkable, and it
- * goes stale the same way the copy did.
+ * Themes and plugins, and where a plugin runs. If the capability list in `workerProtocol.ts`
+ * grows, this section and `AddonSketch` have to grow with it or the claim goes stale.
  */
 const ADDONS = "https://docs.gryt.chat/docs/build/addons";
 const PAIRS = "https://docs.gryt.chat/docs/build/plugin-pairs";

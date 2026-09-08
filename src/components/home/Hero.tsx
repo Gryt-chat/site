@@ -7,21 +7,8 @@ import { rise, stagger } from "./motion";
 import styles from "./Hero.module.css";
 
 /**
- * Twelve seconds of a Gryt server being used, which is the hero.
- *
- * Sivert's capture, 3840x2160 at 60fps, cut from the top and encoded with:
- *
- *   yarn encode:clips <source> client-live \
- *     --width 2200 --fps 60 --av1-crf 30 --h264-crf 21 --duration 12
- *
- * 2200 wide because the slot below is at most 1180 CSS px and a 2x display
- * asking for that wants roughly this many real pixels. 60fps is kept because a
- * screen share of a game is the one thing on this page where frame rate is the
- * claim. Twelve seconds rather than the full twenty, which halves what a
- * visitor downloads before anything else on the page has loaded.
- *
- * `Clip` renders its own poster for `prefers-reduced-motion`, so there is no
- * separate still to generate.
+ * Twelve seconds of a Gryt server being used. Encoded with `--width 2200 --fps 60 --av1-crf
+ * 30 --h264-crf 21 --duration 12`; 60fps stays because the screen share is the claim.
  */
 const SELF_HOST = "https://docs.gryt.chat/docs/host/docker-compose";
 

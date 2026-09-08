@@ -42,10 +42,8 @@ export const posts: BlogPost[] = Object.entries(frontmatter)
     const byDate =
       new Date(b.frontmatter.date).getTime() -
       new Date(a.frontmatter.date).getTime()
-    /* Slug breaks the tie, because five of the posts share a publish date and
-       without this their order is whatever the glob returned. That was
-       invisible while the only thing reading this list was an index; it is not
-       invisible once a post links to the one before it. */
+    /* Slug breaks the tie, because five posts share a publish date and without this their
+       order is whatever the glob returned. Invisible until a post links to the one before. */
     return byDate !== 0 ? byDate : a.slug.localeCompare(b.slug)
   })
 
@@ -54,12 +52,8 @@ export function getPost(slug: string): BlogPost | undefined {
 }
 
 /**
- * The posts either side of this one.
- *
- * Named by what they are rather than by which way an arrow points. The list is
- * newest first, so the older post is the next entry along and the newer one is
- * the entry before — which is the opposite of what "next" reads like in an
- * array, and exactly the confusion this naming exists to keep out of the page.
+ * The posts either side of this one, named by what they are rather than which way an arrow
+ * points: the list is newest first, so the older post is the next entry along.
  */
 export function getNeighbours(slug: string): {
   older?: BlogPost

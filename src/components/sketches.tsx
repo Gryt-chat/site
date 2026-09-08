@@ -1,17 +1,8 @@
 import styles from "./sketches.module.css";
 
 /**
- * Drawings that stand where a capture will go, and drawings that are the
- * finished thing.
- *
- * These are **diagrams, not screenshots.** The standing rule in design.md bans
- * hand-built fake window chrome. An SVG pretending to be the emoji importer
- * would be a picture of a UI that exists, drawn by somebody who was not looking
- * at it, and it would go stale the first time the real one moved. Each of these
- * carries the *shape* of what happens instead.
- *
- * Everything is drawn in `currentColor` and two CSS variables, so they follow
- * the theme rather than carrying a palette of their own.
+ * Drawings that stand where a capture will go. These are diagrams, not screenshots: an SVG
+ * pretending to be the real UI would go stale the first time the real one moved.
  */
 export function Frame({
   children,
@@ -29,10 +20,8 @@ export function Frame({
 }
 
 /**
- * What a file runs into on the way up, and who set it.
- *
- * The numbers are the shipped default and the two ceilings above it, which is
- * the whole point of the block this sits beside.
+ * What a file runs into on the way up, and who set it. The numbers are the shipped default
+ * and the two ceilings above it, which is the point of the block beside this.
  */
 export function UploadSketch() {
   return (
@@ -89,15 +78,8 @@ export function UploadSketch() {
 }
 
 /**
- * An identity sitting in a password manager, as an entry.
- *
- * Not a picture of 1Password or of Gryt. **The value is drawn as dots rather
- * than as words**: a page showing something that looks like a real recovery
- * phrase is a page teaching people to read one off a screen.
- *
- * `guide/accounts.mdx` and the 1.6.0 post are the source — the seed is 24
- * BIP-39 words, and the field you paste them back into is a real password
- * field, which is what makes a manager offer to fill it.
+ * An identity sitting in a password manager, as an entry. The value is drawn as dots rather
+ * than words: a page showing a real-looking recovery phrase teaches people to read one.
  */
 export function VaultSketch() {
   const dots = Array.from({ length: 6 }, (_, i) => i);
@@ -161,19 +143,8 @@ export function VaultSketch() {
 }
 
 /**
- * The four things a Gryt server is, and the two ways in.
- *
- * Two drawings, one shown at a time. A 640-unit viewBox scaled into a 330px
- * phone column puts the labels at about six pixels, so the narrow one stacks
- * the boxes and brings the arrows in from the left instead.
- *
- * The facts are `ops/deploy/compose/prod.yml`: the Node server (SQLite inside
- * it, no database container), the Go SFU, MinIO standing in for any
- * S3-compatible storage, and the image worker.
- *
- * The asymmetry is the point. One arrow is ordinary web traffic that a reverse
- * proxy or a tunnel will carry; the other is UDP that nothing can carry for
- * you, which is the fact that costs people an evening when they miss it.
+ * The four things a Gryt server is, and the two ways in, from `ops/deploy/compose/prod.yml`.
+ * The asymmetry is the point: one arrow is web traffic, the other is UDP nothing carries.
  */
 function StackSketchWide() {
   return (
@@ -335,10 +306,8 @@ function StackSketchNarrow() {
 }
 
 /**
- * The pair. Only one is ever visible, and only the wide one carries the
- * description — two `img` roles saying the same thing is one screen reader
- * announcement too many, and CSS `display: none` is not something the
- * accessibility tree is guaranteed to agree about across breakpoints.
+ * The pair. Only one is ever visible, and only the wide one carries the description: two
+ * `img` roles saying the same thing is one screen reader announcement too many.
  */
 export function StackSketch() {
   return (
@@ -350,24 +319,8 @@ export function StackSketch() {
 }
 
 /**
- * What an addon is, and where a plugin actually runs.
- *
- * The facts are `packages/client/src/packages/addons/src`. `AddonManifest` in
- * `types.ts` has `styles` for a theme and `main` for a plugin. `useAddonLoader`
- * injects the first into the page. `pluginHost.ts` gives the second a
- * `Worker` of its own and `addonWorker.ts` is what it wakes up in: a `gryt`
- * object, and no `window`, `document`, `localStorage`, `indexedDB` or nested
- * `Worker` — those are deleted off the prototype chain before the plugin is
- * imported.
- *
- * The two capability rows are `ADDON_CAPABILITIES` in `capabilities.ts`, and
- * `mayCall` in `workerProtocol.ts` is what refuses a call the manifest never
- * declared or the person never agreed to. Drawn as a gate rather than a label
- * because it is one.
- *
- * The dashed box is the claim: the plugin is on the other side of it, and the
- * arrow from the theme is not. **If the plugin API grows, or a capability is
- * added, this drawing has to grow with it.**
+ * What an addon is, and where a plugin actually runs, from `packages/addons/src`. If the
+ * plugin API grows or a capability is added, this drawing has to grow with it.
  */
 export function AddonSketch() {
   return (
@@ -441,17 +394,8 @@ export function AddonSketch() {
 }
 
 /**
- * What talks to what, on /why-gryt.
- *
- * **Do not put mermaid back.** It was in the bundle for this one graph, its
- * labels cannot hold spaces without quoting so the page shipped
- * `Signaling_server` and `Object_storage` to readers, and it drew its own
- * bordered box in its own colours on a site whose front page repaints from the
- * theme.
- *
- * A client talks to the server for chat and uploads and to the SFU for media,
- * the server owns the database and the object store, and identity hangs off the
- * side because a guest never touches it. The dashed boundary is that last part.
+ * What talks to what, on /why-gryt. Do not put mermaid back: it shipped `Signaling_server`
+ * to readers and drew its own bordered box in its own colours.
  */
 function ArchitectureWide() {
   return (
@@ -533,12 +477,8 @@ function ArchitectureWide() {
 }
 
 /**
- * The same drawing for a phone, stacked into one column.
- *
- * The wide one draws two dashed lines into the optional half, because the
- * client asks for the sign-in and the server checks the certificate. Two dashed
- * lines down a 320-unit column cross the boxes they are meant to avoid, so this
- * one draws a single connector and the group says both halves in words.
+ * The same drawing for a phone, stacked into one column. Two dashed lines down a 320-unit
+ * column cross the boxes they avoid, so this draws one connector and says both in words.
  */
 function ArchitectureNarrow() {
   return (
@@ -609,10 +549,8 @@ function ArchitectureNarrow() {
 }
 
 /**
- * The pair. Only the wide one carries the description, for the reason
- * `StackSketch` gives: two `img` roles saying the same thing is one screen
- * reader announcement too many, and `display: none` is not something the
- * accessibility tree is guaranteed to agree about across breakpoints.
+ * The pair. Only the wide one carries the description, for the reason `StackSketch` gives:
+ * two `img` roles saying the same thing is one announcement too many.
  */
 export function ArchitectureSketch() {
   return (

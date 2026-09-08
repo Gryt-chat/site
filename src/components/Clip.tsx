@@ -4,11 +4,8 @@ import type { ComponentPropsWithoutRef } from "react";
 import styles from "./Clip.module.css";
 
 /**
- * The three files `scripts/encode-clips.mjs` writes, as one value.
- *
- * Sections that are waiting on a capture hold one of these as `null` and render
- * their still — or nothing — until it exists. Spelling the shape out once means
- * the day a clip lands, the change is the constant and nothing else.
+ * The three files `scripts/encode-clips.mjs` writes, as one value. A section waiting on a
+ * capture holds one as `null`, so the day a clip lands the change is the constant.
  */
 export interface ClipSet {
   src: string;
@@ -28,15 +25,8 @@ interface ClipProps extends Omit<ComponentPropsWithoutRef<"video">, "children" |
 }
 
 /**
- * A silent looping capture of the product.
- *
- * These play themselves, forever, with no controls — closer to an animated
- * image than to video, which is why `muted` and `playsInline` are here: without
- * both of them, autoplay is not something a browser will allow at all.
- *
- * `prefers-reduced-motion` gets the poster as a plain image rather than a
- * shorter animation. A clip that loops is motion no matter how it is eased in,
- * and the fade that `index.css` applies to everything else cannot reach it.
+ * A silent looping capture of the product: `muted` and `playsInline` are what make autoplay
+ * allowed at all. `prefers-reduced-motion` gets the poster as a plain image instead.
  */
 export function Clip({ src, av1, poster, alt, className, ...props }: ClipProps) {
   const reduced = useReducedMotion() ?? false;

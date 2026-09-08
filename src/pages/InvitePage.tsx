@@ -19,16 +19,8 @@ function buildWebAppUrl(host: string, code: string): string {
 }
 
 /**
- * Whether this is a phone, which changes what the page may do rather than only
- * how it reads.
- *
- * A desktop browser handles an unknown `gryt://` quietly. iOS puts up "Safari
- * cannot open the page because the address is invalid", and blocks a scheme
- * navigation that no tap started — so on a phone the link is never fired on
- * load, it is behind a button.
- *
- * User-agent sniffing, which is usually the wrong tool. There is no feature to
- * detect here: the question is what the OS does with an unhandled scheme.
+ * Whether this is a phone, which changes what the page may do. iOS blocks a scheme
+ * navigation no tap started, so on a phone the link is behind a button rather than fired.
  */
 function isPhone(): boolean {
   if (typeof navigator === "undefined") return false;
@@ -58,18 +50,8 @@ function ServerIcon({ host, name }: { host: string; name: string }) {
 }
 
 /**
- * An app screen, not a landing page: somebody arrives holding a link and needs
- * one decision made for them as fast as possible.
- *
- * Four states, and each one is visibly different:
- *   handing off  the gryt:// deep link has been fired, nothing has answered yet
- *   choosing     it did not answer within 1.5s, so ask
- *   invalid      the link is missing host or code
- *   (degraded)   /info did not answer, so the hostname stands in for the name
- *
- * A phone skips straight to choosing, and the button says "Join in the Gryt
- * app" rather than "the desktop app", because the phone app registers the same
- * `gryt://` scheme. Why it does not hand off automatically is in `isPhone`.
+ * An app screen, not a landing page: somebody arrives holding a link and needs one decision
+ * made fast. Four states — handing off, choosing, invalid, and degraded when /info is silent.
  */
 export function InvitePage() {
   const [params] = useSearchParams();
@@ -80,9 +62,8 @@ export function InvitePage() {
   // Read once. It cannot change while the page is open, and re-reading it in
   // render would make the first paint differ from the second.
   const [phone] = useState(isPhone);
-  // A phone starts in the choosing state rather than being put into it by an
-  // effect, which is both the honest description — there is no hand-off to wait
-  // for — and what keeps the first paint the same as the second.
+  // A phone starts in the choosing state rather than being put into it by an effect: there
+  // is no hand-off to wait for, and it keeps the first paint the same as the second.
   const [showChoices, setShowChoices] = useState(phone);
   const [preview, setPreview] = useState<ServerPreview | null>(null);
 

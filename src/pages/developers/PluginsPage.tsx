@@ -4,13 +4,8 @@ import { Snippet } from "../../components/Snippet";
 import styles from "../../styles/audience.module.css";
 
 /**
- * Server plugins (GRYT-956).
- *
- * Its own page rather than a paragraph under client addons, which is where it
- * used to live. The two are not the same decision: a client plugin runs in a
- * worker on your own machine with what you granted it, and a server plugin runs
- * inside somebody's server process with their database and nothing containing
- * it. Running them together under one heading understated the second.
+ * Server plugins (GRYT-956). Its own page rather than a paragraph under client addons: one
+ * runs in a worker on your machine, the other inside somebody's server with their database.
  */
 const DOCS = "https://docs.gryt.chat/docs";
 const GH = "https://github.com/Gryt-chat";

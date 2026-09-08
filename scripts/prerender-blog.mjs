@@ -30,31 +30,16 @@ function escHtml(s) {
 const siteName = 'Gryt';
 
 /**
- * The tab and the search result read `<name> | Gryt`. The share card does not:
- * a title under an image that already says Gryt does not need to say it again,
- * and Discord truncates the line. So `<title>` gets the suffix and `og:title`
- * stays bare.
- *
- * `src/lib/title.ts` carries the same rule for the client-side router, which is
- * what you get on an in-app navigation. Change one, change the other.
+ * `<title>` gets the ` | Gryt` suffix and `og:title` stays bare: the card already says Gryt,
+ * and Discord truncates. `src/lib/title.ts` carries the same rule — change one, change both.
  */
 function docTitle(name) {
   return `${name} | ${siteName}`;
 }
 
 /**
- * The page, rendered, as the string that goes inside `<div id="root">`.
- *
- * Everything above this only ever rewrote meta tags, so every page shipped as a
- * 2 kB shell with the words in a JavaScript chunk. A crawler saw a title and a
- * description; a link preview saw the same; somebody on a slow connection saw
- * nothing until the bundle arrived. Sixteen blog posts and six release notes,
- * none of their prose in the HTML.
- *
- * React's markup goes in whole, comments and inline scripts included. The
- * `<!--$-->` markers are how hydration finds its Suspense boundaries and the
- * scripts are what close them; tidying either away breaks the thing this exists
- * to enable.
+ * The page, rendered, as the string inside `<div id="root">`. React's markup goes in whole:
+ * the `<!--$-->` markers are how hydration finds its Suspense boundaries.
  */
 async function body(route) {
   try {
@@ -91,9 +76,8 @@ function renderPage(template, { pageTitle, docTitleName, description, url, ogIma
   html = html.replace(/<meta name="twitter:title"[^>]*>/, `<meta name="twitter:title" content="${escHtml(pageTitle)}" />`);
   html = html.replace(/<meta name="twitter:description"[^>]*>/, `<meta name="twitter:description" content="${escHtml(description)}" />`);
   html = html.replace(/<meta name="twitter:image"[^>]*>/, `<meta name="twitter:image" content="${ogImage}" />`);
-  /* The route's own stylesheet, into the head beside the global one (GRYT-959).
-     Without it the page paints with the nav and footer styled and its own
-     content bare, then restyles when the lazy chunk lands. */
+  /* The route's own stylesheet, into the head beside the global one (GRYT-959). Without it
+     the page paints with its content bare, then restyles when the lazy chunk lands. */
   if (styles && styles.length > 0) {
     html = html.replace('</head>', `${styleLinks(styles)}\n  </head>`);
   }
@@ -106,9 +90,8 @@ function renderPage(template, { pageTitle, docTitleName, description, url, ogIma
 
 const template = readFileSync(join(distDir, 'index.html'), 'utf-8');
 
-/* Which stylesheet each route needs, read out of App.tsx and the build
-   manifest. Throws rather than carrying on if the manifest is missing: a build
-   that silently reverted to one stylesheet per page is the bug this fixes. */
+/* Which stylesheet each route needs, read out of App.tsx and the build manifest. Throws
+   rather than carrying on: a silent revert to one stylesheet per page is the bug. */
 const globalCss = template.match(/href="(\/assets\/index-[^"]+\.css)"/)?.[1] ?? '';
 const stylesFor = routeStyles({
   appSource: join(__dirname, '..', 'src', 'App.tsx'),
@@ -145,9 +128,8 @@ for (const alias of ALIAS_PAGES) {
     description: target.description,
     url: `${siteUrl}/${target.path}`,
     ogImage: `${siteUrl}/${target.path}/og.png`,
-    /* The alias path, not the target's. The canonical points at the target but
-       the router matches what is in the address bar, and rendering the other
-       one here would be markup the client immediately throws away. */
+    /* The alias path, not the target's. The canonical points at the target but the router
+       matches the address bar, so the other one is markup the client throws away. */
     html: await body(`/${alias.path}`),
     styles: stylesFor.get(`/${alias.path}`),
   });
@@ -155,9 +137,8 @@ for (const alias of ALIAS_PAGES) {
   console.log(`  dist/${alias.path}/index.html -> canonical /${target.path}`);
 }
 
-// --- The auth callback ---
-// Nothing links to it and nobody should land on it from a search, but it has to
-// exist on disk now that unmatched paths 404 instead of falling back to the SPA.
+// The auth callback. Nothing links to it, but it has to exist on disk now that unmatched
+// paths 404 instead of falling back to the SPA.
 {
   const outDir = join(distDir, 'auth', 'callback');
   mkdirSync(outDir, { recursive: true });
@@ -174,10 +155,8 @@ for (const alias of ALIAS_PAGES) {
   console.log('  dist/auth/callback/index.html');
 }
 
-// --- 404 ---
-// nginx serves this for anything that does not resolve, with a 404 status. The
-// SPA boots from it exactly as it does from any other entry point and the
-// catch-all route renders NotFound.
+// 404. nginx serves this for anything that does not resolve, with a 404 status; the SPA
+// boots from it and the catch-all route renders NotFound.
 {
   const html = renderPage(template, {
     pageTitle: 'Page not found',
@@ -216,10 +195,8 @@ for (const file of mdxFiles) {
   console.log(`  dist/blog/${slug}/index.html`);
 }
 
-// --- Changelog entries ---
-// These get shared into chat far more than blog posts do — a release goes out,
-// the link is posted, and a link with no card looks like nothing happened. The
-// headline is written to be exactly this preview, so use it as the description.
+// Changelog entries, which get shared into chat far more than blog posts. The headline is
+// written to be exactly this preview, so use it as the description.
 const changelogFiles = existsSync(changelogContentDir)
   ? readdirSync(changelogContentDir).filter(f => f.endsWith('.mdx'))
   : [];
@@ -245,9 +222,8 @@ for (const file of changelogFiles) {
   console.log(`  dist/changelog/${slug}/index.html`);
 }
 
-// --- The home page ---
-// Last, and into the file every page above was copied from. `template` was read
-// into memory at the top, so writing it now cannot reach them.
+// The home page, last, and into the file every page above was copied from. `template` was
+// read into memory at the top, so writing it now cannot reach them.
 {
   const html = template.replace(
     '<div id="root"></div>',

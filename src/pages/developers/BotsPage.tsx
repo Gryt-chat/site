@@ -4,23 +4,15 @@ import { Snippet } from "../../components/Snippet";
 import styles from "../../styles/audience.module.css";
 
 /**
- * Bots, lifted out of the old one-page `/developers` (GRYT-956).
- *
- * The content is that page's Bots block, unchanged — the four steps of the
- * knock, the SDK example, the compose file, and the paragraph about the
- * identity file that costs people an afternoon. It has room to grow here, which
- * is the reason for the split.
+ * Bots, lifted out of the old one-page `/developers` (GRYT-956). The content is that page's
+ * Bots block, unchanged; it has room to grow here, which is the reason for the split.
  */
 const DOCS = "https://docs.gryt.chat/docs";
 const GH = "https://github.com/Gryt-chat";
 
 /**
- * The example from `bot/index.mdx`, two lines shorter.
- *
- * The docs version gives every command a description and a `requires` list,
- * which is the right advice and the wrong first impression — the shape of the
- * SDK is what this is here to show. Both dropped fields are optional in
- * `GrytBotOptions` and `CommandOptions`, so this compiles as it stands.
+ * The example from `bot/index.mdx`, two lines shorter: the shape of the SDK is what this
+ * shows. Both dropped fields are optional, so it compiles as it stands.
  */
 const BOT_EXAMPLE = `import { GrytBot } from "@gryt/bot";
 
@@ -35,12 +27,8 @@ bot.command("ping", async (ctx) => ctx.reply("pong"));
 void bot.start();`;
 
 /**
- * `examples/support-bot/compose.yml`, with the interpolation taken out.
- *
- * The real file guards `GRYT_HOST` with `${GRYT_HOST:?...}` and gives the
- * nickname and the token defaults, which is right for a file somebody runs and
- * wrong for one somebody reads: three of the four environment lines would be
- * shell syntax rather than the thing being shown.
+ * `examples/support-bot/compose.yml`, with the interpolation taken out: the real file guards
+ * `GRYT_HOST` and gives defaults, so three of four lines would read as shell syntax.
  */
 const BOT_COMPOSE = `services:
   support-bot:
