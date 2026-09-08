@@ -2,17 +2,8 @@ import { useCopy } from "../lib/useCopy";
 import styles from "./Snippet.module.css";
 
 /**
- * A line or two of real code, with a label and a copy button.
- *
- * `design.md` bans hand-built fake window chrome: title bars, traffic lights,
- * an invented terminal frame. This does not pretend to be a terminal — it is a
- * labelled `<pre>` with a hairline.
- *
- * The `$` on a shell line is drawn and never copied. The copy button hands over
- * the command, and so does the selection, because the prompt is
- * `user-select: none`.
- *
- * The button says "Copied" rather than firing a toast.
+ * A line or two of real code, with a label and a copy button. No fake window chrome, per
+ * `design.md`. The `$` is drawn and never copied, because the prompt is `user-select: none`.
  */
 export function Snippet({
   label,

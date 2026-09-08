@@ -8,16 +8,8 @@ import { Showcase } from "../Showcase";
 import styles from "./Lan.module.css";
 
 /**
- * LAN discovery, and the limit on it.
- *
- * `packages/client/electron/lanDiscovery.ts` — mDNS, merged on the instance
- * name. **It lives under `electron/`, so this is the desktop app doing the
- * looking** and the section has to say so rather than implying a browser tab
- * can. The server side is the "Discoverable on LAN" switch, documented in
- * deployment/embedded.
- *
- * The clip this is waiting for needs two machines and `SHOTLIST.md` has the
- * recipe. Until it exists the section renders `Pane` below.
+ * LAN discovery, and the limit on it. `electron/lanDiscovery.ts` — so this is the desktop app
+ * doing the looking, and the section has to say so rather than implying a browser tab can.
  */
 const LAN: ClipSet | null = null;
 
@@ -28,21 +20,8 @@ const SHOWS =
 const DOCS = "https://docs.gryt.chat/docs/host/from-the-app";
 
 /**
- * The discovery pane, built from the components the client builds it from.
- *
- * `packages/client/src/components/discovery.tsx` is the original, and
- * `Surface`, `Avatar`, `Chip` and `Button` all come from `@gryt/ui` — so this
- * is that pane at a different width rather than a drawing of it.
- *
- * The icons are DiceBear Planets seeded on each server's name, Planets because
- * a server is not a person and CC0 so no deployment inherits an attribution
- * obligation. They are **rendered once and committed** under
- * `public/home/servers/` rather than generated in the browser: `@dicebear/core`
- * plus the Planets definition is about 80 kB for four decorative icons, and the
- * output is identical either way.
- *
- * The fourth arrives on a timer, once, when the pane is first on screen, and
- * not at all under reduced motion.
+ * The discovery pane, built from the components the client builds it from, so it is that pane
+ * at another width. The icons are rendered once and committed under `public/home/servers/`.
  */
 const FOUND = [
   { name: "Gryta Krutt", addr: "192.168.1.24:5000", icon: "gryta-krutt" },
@@ -83,9 +62,8 @@ function Pane() {
     return () => window.clearTimeout(id);
   }, [seen, reduced]);
 
-  /* Derived rather than a second piece of state set from an effect. Reduced
-     motion gets the finished pane the moment it is on screen: the point is
-     what is in it, not the way the last one got there. */
+  /* Derived rather than a second piece of state set from an effect. Reduced motion gets the
+     finished pane the moment it is on screen. */
   const arrived = reduced ? seen : waited;
   const list = arrived ? [...FOUND, ARRIVES] : FOUND;
 

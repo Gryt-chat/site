@@ -5,18 +5,8 @@ import { Snippet } from "./Snippet";
 import styles from "./OwlPlayground.module.css";
 
 /**
- * `@gryt/owl` running on the page that is telling you about it.
- *
- * The snippet is not an illustration of what the page does. The line in it is
- * the line three rows below it in this file, with the name you typed.
- *
- * `avatarSeed` returns `undefined` for a name that normalises to nothing, so
- * the `??` is in the snippet as well — a two-line example that does not compile
- * is worse than a three-line one that does.
- *
- * The literal goes through `JSON.stringify` rather than being pasted between
- * two quote marks, so a name with a quote or a backslash in it still produces
- * valid TypeScript. Somebody will type one.
+ * `@gryt/owl` running on the page that is telling you about it: the line in the snippet is
+ * the line below, with the name you typed. The literal goes through `JSON.stringify`.
  */
 const FALLBACK = "gryt";
 

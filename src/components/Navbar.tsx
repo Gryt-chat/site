@@ -10,15 +10,8 @@ import { useTravellingUnderline } from "./useTravellingUnderline";
 import styles from "./Navbar.module.css";
 
 /**
- * Both lists come out of `src/data/siteLinks.ts`.
- *
- * The bar carries four, because two buttons sit beside them and six links plus
- * two buttons is a directory rather than a decision. Blog, Changelog and
- * `Compared` are for people who already use Gryt, so they wait in the sheet and
- * the footer.
- *
- * Everything sits hard right against the viewport edge, with the wordmark hard
- * left and nothing in between. `Navbar.module.css` has the reasoning.
+ * Both lists come out of `src/data/siteLinks.ts`. The bar carries four: six links plus two
+ * buttons is a directory rather than a decision, so the rest wait in the sheet.
  */
 const navLinks = navBar.map((l) => ({
   href: l.href,
@@ -28,17 +21,14 @@ const navLinks = navBar.map((l) => ({
 }));
 
 /**
- * By label rather than by index. `getGoing[3]` would keep compiling and quietly
- * point somewhere else the day somebody reorders the list, which is the class of
- * drift this file was made to stop.
+ * By label rather than by index. `getGoing[3]` would keep compiling and quietly point
+ * somewhere else the day somebody reorders the list.
  */
 const pick = (from: SiteLink[], label: string): SiteLink | null => {
   const hit = from.find((l) => l.label === label);
   if (!hit) {
-    // Warn and drop, rather than throw. Throwing was the first version, and it
-    // took the whole site down over one renamed footer link — while `yarn build`
-    // stayed green, because the build writes meta shells and never renders a
-    // component. A missing nav link is a bad afternoon; a white page is worse.
+    // Warn and drop, rather than throw. Throwing took the whole site down over one renamed
+    // footer link while `yarn build` stayed green, because it never renders a component.
     console.warn(`siteLinks has no "${label}" — the navbar expected one and dropped it`);
     return null;
   }
@@ -68,14 +58,8 @@ const sheetLinks = [
 ];
 
 /**
- * The one control on the page that does real work.
- *
- * It knows which platform you are on and which build is current, and it hands
- * you that file rather than scrolling you to a section or dropping you on a
- * releases list to guess. Until the release lands it says "Download" and
- * scrolls to the section, which is also what it does if GitHub rate-limits the
- * call — sixty unauthenticated requests an hour per address, which a shared
- * office will reach.
+ * The one control on the page that does real work: it hands you the file for your platform.
+ * Until the release lands, or if GitHub rate-limits, it says "Download" and scrolls.
  */
 function DownloadAction() {
   const { os, osName, option, options } = useLatestDownload();
@@ -83,21 +67,15 @@ function DownloadAction() {
   const navigate = useNavigate();
 
   /**
-   * Windows leads with the Microsoft Store: signed, no SmartScreen warning, and
-   * it keeps itself updated. The direct .exe stays a click away in the menu for
-   * anyone who wants a standalone installer. Every other platform leads with its
-   * own file. The Store link needs no release call, so the Windows button can
-   * show before the fetch lands.
+   * Windows leads with the Microsoft Store: signed, no SmartScreen warning, self-updating,
+   * and it needs no release call, so the button can show before the fetch lands.
    */
   const store = os === "windows" ? storeOption() : null;
   const primary = store ?? option;
 
   /**
-   * The two variants of the platform's primary file format. slim is the
-   * deliberate default; full is the same app with the built-in server. On
-   * Windows the button itself is the Store, so these are the direct .exe the
-   * menu offers instead. The caret appears once both variants are known, so a
-   * platform that ships one build keeps a plain button.
+   * The two variants of the platform's primary format; slim is the deliberate default. The
+   * caret appears once both are known, so a platform shipping one build keeps a plain button.
    */
   const variants = option ? options.filter((o) => o.label === option.label) : [];
   const fullBuild = variants.find((o) => o.withServer);
@@ -105,22 +83,8 @@ function DownloadAction() {
   const hasChoice = Boolean(fullBuild && slimBuild);
 
   /**
-   * The button starts as "Download" and becomes "Download for macOS" when the
-   * release call comes back, so its width is measured off the content and
-   * transitioned to.
-   *
-   * React writes the pixel value on commit and CSS animates it, rather than
-   * framer-motion driving it: motion applies values through a
-   * `requestAnimationFrame` loop, and rAF is throttled to nothing in a
-   * background tab. The same assumption was a real bug in the nav underline.
-   *
-   * `settled` is the first-measurement guard, so the button animates from one
-   * real width to the next rather than from zero on load.
-   *
-   * `overflow: clip` on the wrapper rather than `hidden`, because `hidden`
-   * makes a scroll container and this one has a `position: fixed` ancestor —
-   * the same reason `index.css` clips `html, body`. The clip margin keeps the
-   * focus ring from being cut off with the overflow.
+   * The label grows when the release call lands, so the width is measured and transitioned
+   * in CSS — motion's rAF loop is throttled to nothing in a background tab.
    */
   const inner = useRef<HTMLDivElement>(null);
   const measured = useRef(false);
@@ -128,12 +92,8 @@ function DownloadAction() {
   const [settled, setSettled] = useState(false);
 
   /**
-   * On commit, synchronously, before the browser paints.
-   *
-   * A ResizeObserver was the first version and it is the wrong primary: its
-   * callbacks are delivered as part of the rendering steps, so in a tab that is
-   * not rendering it never fires at all and the width is never written. A
-   * layout effect runs whether or not anything is being painted.
+   * On commit, synchronously, before the browser paints. A ResizeObserver is delivered as
+   * part of the rendering steps, so in a tab that is not rendering it never fires.
    */
   useLayoutEffect(() => {
     const el = inner.current;
@@ -144,9 +104,8 @@ function DownloadAction() {
   }, [option, osName]);
 
   /**
-   * And then the reflows React cannot see: the variable font finishing loading
-   * and every label getting a pixel wider. Supplementary — everything above
-   * still holds if this never runs.
+   * And then the reflows React cannot see: the variable font finishing loading and every
+   * label getting a pixel wider. Supplementary — everything above holds without it.
    */
   useEffect(() => {
     const el = inner.current;

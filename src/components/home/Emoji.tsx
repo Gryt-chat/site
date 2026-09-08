@@ -2,20 +2,8 @@ import { Clip, type ClipSet } from "../Clip";
 import { Showcase } from "../Showcase";
 
 /**
- * The emoji importer.
- *
- * Facts read out of `packages/client/src/packages/socket/src/utils/
- * emoteImportSources.ts` and `hooks/useEmoteImport.ts`. The emoji docs never
- * mention emoji.gg at all.
- *
- * Encoded from Sivert's 2160x2160 60fps capture, all 15 seconds of it:
- *
- *   yarn encode:clips <source> emoji-import \
- *     --width 1080 --fps 60 --av1-crf 30 --h264-crf 21
- *
- * **Square, so this showcase is `regular`.** `large` gives the media the wider
- * column, which is right for 16:9 and wrong for 1:1. An even split puts the
- * square at 522 and the text at 522, the closest the two get to one height.
+ * The emoji importer, from `emoteImportSources.ts` and `useEmoteImport.ts`. Square, so this
+ * showcase is `regular`: `large` gives the media the wider column, which suits 16:9.
  */
 const IMPORT: ClipSet = {
   src: "/home/emoji-import.mp4",

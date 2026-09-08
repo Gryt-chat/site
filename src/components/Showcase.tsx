@@ -5,16 +5,8 @@ import { inView, rise, stagger } from "./home/motion";
 import styles from "./Showcase.module.css";
 
 /**
- * One feature, shown beside its own words. The front page and the two audience
- * pages all use it, which is what keeps them agreeing on the layout.
- *
- * `side` is passed in rather than derived from `:nth-child`. Alternation by
- * child index looks tidy right up until somebody inserts a section in the
- * middle, at which point every block below it flips and the diff says one line.
- *
- * `media` may be null, and a section without it renders as a plain column
- * rather than an empty half. Several are waiting on captures that do not exist
- * yet, and a page with a video-shaped hole is worse than one with a paragraph.
+ * One feature, shown beside its own words. `side` is passed in rather than derived from
+ * `:nth-child`, or inserting a section flips every block below it. `media` may be null.
  */
 export type ShowcaseSide = "left" | "right";
 export type ShowcaseSize = "regular" | "large" | "full";
