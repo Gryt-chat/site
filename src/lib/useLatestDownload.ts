@@ -17,9 +17,8 @@ export interface LatestDownload {
   /** Null until the fetch lands, and null forever if it fails or the platform has no build. */
   option: DownloadOption | null;
   /**
-   * Every build for this platform, in preferred order. Empty until the fetch
-   * lands. The navbar's split button reads it to offer the full build next to
-   * the slim default without a second request.
+   * Every build for this platform, in preferred order; empty until the fetch lands. The
+   * navbar's split button reads it to offer full beside slim without a second request.
    */
   options: DownloadOption[];
   /** The tag, without the leading v. Null until it lands. */
@@ -27,22 +26,12 @@ export interface LatestDownload {
 }
 
 /**
- * The current release for the platform you are on.
- *
- * The navbar, `/download` and the download section all need the same three
- * facts — which platform, which file, which version — so the answer lives here
- * rather than being derived three times. Two callers disagreeing about which
- * file is the Windows installer does not fail, it hands somebody the wrong
- * binary.
- *
- * Everything degrades to a plain link, because a shared office or a CGNAT
- * range will hit GitHub's sixty calls an hour and the button has to keep
- * working when it does.
+ * The current release for the platform you are on. Three callers need the same three facts,
+ * and everything degrades to a plain link when GitHub's sixty an hour runs out.
  */
 export function useLatestDownload(): LatestDownload {
-  /* Windows until detection lands, so the prerendered button and the hydrated
-     one say the same thing. It is a label here rather than an action, so the
-     one frame before the real answer costs nothing. */
+  /* Windows until detection lands, so the prerendered button and the hydrated one say the
+     same thing. A label rather than an action, so the one frame costs nothing. */
   const os = useDetectedOS() ?? "windows";
   const arch = useDetectedArch();
   const [option, setOption] = useState<DownloadOption | null>(null);

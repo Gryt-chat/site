@@ -39,9 +39,7 @@ const frontmatter = import.meta.glob<ChangelogFrontmatter>('../../content/change
 })
 
 /**
- * Newest first, by version rather than date.
- *
- * Dates would mostly agree, but a note can be written or corrected after the
+ * Newest first, by version rather than date. A note can be written or corrected after the
  * release it describes, and the order people expect is the version order.
  */
 function compareVersions(a: string, b: string): number {
@@ -75,12 +73,8 @@ export function getRelease(version: string): ChangelogEntry | undefined {
 }
 
 /**
- * Everything released after `since`, newest first.
- *
- * This is what the desktop app asks for when it has updated: it knows the
- * version the user last saw, and wants the notes they have not read. An unknown
- * or missing `since` returns nothing rather than the entire history — someone
- * installing Gryt for the first time does not want six releases of context.
+ * Everything released after `since`, newest first — what the desktop app asks for once it
+ * has updated. An unknown `since` returns nothing rather than the entire history.
  */
 export function releasesSince(since: string | null | undefined): ChangelogEntry[] {
   if (!since) return []
@@ -93,12 +87,8 @@ export function releasesSince(since: string | null | undefined): ChangelogEntry[
 /* ── every release, not only the ones with prose ─────────────────────────── */
 
 /**
- * A release as the index lists it: always a line, sometimes a note.
- *
- * The two halves are written in different places on purpose. A line belongs
- * with the other lines, where you can read the whole history in one file and
- * see the gaps; a note is prose and belongs in its own MDX. Joining them here
- * means the page never has to know which a release has.
+ * A release as the index lists it: always a line, sometimes a note. The two halves are
+ * written in different places, and joining them here means the page never has to know.
  */
 export interface ListedRelease {
   version: string
@@ -113,22 +103,12 @@ export interface ListedRelease {
 const notesByVersion = new Map(releases.map((r) => [r.frontmatter.version, r]))
 
 /**
- * Every line, plus any note whose version has no line.
- *
- * That second half is not a nicety. Four notes — 1.4.0, 1.5.0, 1.6.0, 1.7.0 —
- * describe versions that were never released under those tags: they cover a
- * beta line, which is what the house style says a note should do while a
- * version is still in beta. Listing only the lines dropped all four off the
- * page the moment this function existed.
- *
- * So a note is enough to be listed. The line is what a release without one
- * gets, not a requirement for appearing at all.
+ * Every line, plus any note whose version has no line. Four notes cover beta lines that
+ * were never released under those tags, and listing only lines dropped all four.
  */
 export function listReleases(surface: Surface): ListedRelease[] {
-  /* Only the app has notes, and the join is by version number alone, so the
-     other three have to skip it rather than fall through: the server released
-     a 1.4.0, a 1.5.0 and a 1.7.0 of its own, and each would otherwise pick up
-     the app's note of that name and link to it. */
+  /* Only the app has notes and the join is by version number alone, so the other three
+     skip it: the server released a 1.4.0 of its own and would pick up the app's note. */
   if (surface !== 'app') return lines[surface].map((release) => ({ ...release }))
 
   const listed = lines.app.map((release) => ({
@@ -151,12 +131,8 @@ export function listReleases(surface: Surface): ListedRelease[] {
 }
 
 /**
- * The surfaces, in the order the tabs show them, and what each one is.
- *
- * Named the way the patch notes already name them — `sfu` means nothing to
- * somebody deciding whether they need to update anything. Mobile is missing
- * because it has never cut a release: it goes out through TestFlight, and a
- * tab that is permanently empty is worse than no tab.
+ * The surfaces, in the order the tabs show them. Named the way the patch notes name them —
+ * `sfu` means nothing to a reader. Mobile is missing: it has never cut a release.
  */
 export const SURFACES: { id: Surface; name: string; blurb: string }[] = [
   { id: 'app', name: 'The app', blurb: 'What you install. The desktop app, and gryt.chat in a browser.' },
