@@ -112,11 +112,39 @@ export interface ListedRelease {
 
 const notesByVersion = new Map(releases.map((r) => [r.frontmatter.version, r]))
 
+/**
+ * Every line, plus any note whose version has no line.
+ *
+ * That second half is not a nicety. Four notes — 1.4.0, 1.5.0, 1.6.0, 1.7.0 —
+ * describe versions that were never released under those tags: they cover a
+ * beta line, which is what the house style says a note should do while a
+ * version is still in beta. Listing only the lines dropped all four off the
+ * page the moment this function existed.
+ *
+ * So a note is enough to be listed. The line is what a release without one
+ * gets, not a requirement for appearing at all.
+ */
 export function listReleases(surface: Surface): ListedRelease[] {
-  return lines[surface].map((release) => ({
+  const listed = lines[surface].map((release) => ({
     ...release,
     entry: notesByVersion.get(release.version),
   }))
+
+  // Only the app has hand-written notes; the other surfaces have never had one.
+  if (surface !== 'app') return listed
+
+  const covered = new Set(listed.map((r) => r.version))
+  const orphans: ListedRelease[] = releases
+    .filter((entry) => !covered.has(entry.frontmatter.version))
+    .map((entry) => ({
+      version: entry.frontmatter.version,
+      date: entry.frontmatter.date,
+      channel: entry.frontmatter.channel === 'beta' ? 'beta' : undefined,
+      line: entry.frontmatter.headline ?? '',
+      entry,
+    }))
+
+  return [...listed, ...orphans].sort((a, b) => compareVersions(a.version, b.version))
 }
 
 /**
