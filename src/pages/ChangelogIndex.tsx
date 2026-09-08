@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
-import { useEffect, useState } from 'react'
-import { listReleases, SURFACES, type Surface } from '../lib/changelog'
+import { useEffect, useState, type ReactNode } from 'react'
+import { listReleases, SURFACES, type ListedRelease, type Surface } from '../lib/changelog'
 import { pageTitle } from '../lib/title'
 import { Chip } from "@gryt/ui";
 import styles from './ChangelogIndex.module.css'
@@ -10,6 +10,31 @@ const DATE = new Intl.DateTimeFormat('en-GB', {
   month: 'long',
   year: 'numeric',
 })
+
+/**
+ * The one kind worth marking in a list of eighty-two. New and Fixed are what a
+ * changelog is; a security fix is the reason somebody scrolls one.
+ */
+function hasSecurity(release: ListedRelease): boolean {
+  return release.changes?.some((c) => c.kind === 'security') ?? false
+}
+
+function LineRow({
+  version,
+  linked,
+  children,
+}: {
+  version: string
+  linked: boolean
+  children: ReactNode
+}) {
+  if (!linked) return <span className={styles.lineRow}>{children}</span>
+  return (
+    <Link to={`/changelog/${version}`} className={`${styles.lineRow} ${styles.lineLink}`}>
+      {children}
+    </Link>
+  )
+}
 
 /**
  * Every release, and one line saying what it did. Two tiers: a release with a note keeps its
@@ -93,6 +118,11 @@ export function ChangelogIndex() {
                           Beta
                         </Chip>
                       )}
+                      {hasSecurity(release) && (
+                        <Chip className={styles.beta} tone="warning">
+                          Security
+                        </Chip>
+                      )}
                       <time
                         className={styles.date}
                         dateTime={new Date(release.date).toISOString()}
@@ -109,13 +139,20 @@ export function ChangelogIndex() {
                   </span>
                 </Link>
               ) : (
-                <span className={styles.lineRow}>
+                /* Every app release has a page. The other three surfaces have
+                   lines and nothing to open, so their rows stay plain. */
+                <LineRow version={release.version} linked={surface === 'app'}>
                   <span className={styles.rail} aria-hidden="true" />
                   <span className={styles.lineVersion}>{release.version}</span>
                   <span className={styles.line}>
                     {release.channel === 'beta' && (
                       <Chip className={styles.beta} tone="warning">
                         Beta
+                      </Chip>
+                    )}
+                    {hasSecurity(release) && (
+                      <Chip className={styles.beta} tone="warning">
+                        Security
                       </Chip>
                     )}
                     {release.line}
@@ -126,7 +163,7 @@ export function ChangelogIndex() {
                   >
                     {DATE.format(new Date(release.date))}
                   </time>
-                </span>
+                </LineRow>
               )}
             </li>
           ))}

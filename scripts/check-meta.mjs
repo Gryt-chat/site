@@ -88,6 +88,16 @@ for (const file of htmlFiles(distDir)) {
   }
 }
 
+/* nginx has no SPA fallback and the app's modal links at /changelog/<version>
+   for every release it shows, so each one needs a page on disk. GRYT-1091. */
+const lines = await import(join(__dirname, "..", "content", "changelog", "releases.ts"));
+for (const release of lines.app) {
+  const page = join(distDir, "changelog", release.version, "index.html");
+  if (!existsSync(page)) {
+    problems.push(`changelog/${release.version} was not written out, so the app's Read more link 404s`);
+  }
+}
+
 if (problems.length) {
   console.error(`check-meta: ${problems.length} problem(s)\n`);
   for (const p of problems) console.error(`  ${p}`);

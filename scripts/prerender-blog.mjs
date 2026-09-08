@@ -222,6 +222,32 @@ for (const file of changelogFiles) {
   console.log(`  dist/changelog/${slug}/index.html`);
 }
 
+/* Every app release with no note. nginx answers `try_files $uri $uri/ =404`,
+   and the app's modal links here for every release it shows. GRYT-1091. */
+const noted = new Set(changelogFiles.map((f) => basename(f, '.mdx')));
+const lines = await import(join(__dirname, '..', 'content', 'changelog', 'releases.ts'));
+
+for (const release of lines.app) {
+  if (noted.has(release.version)) continue;
+
+  const outDir = join(distDir, 'changelog', release.version);
+  mkdirSync(outDir, { recursive: true });
+  const html = renderPage(template, {
+    pageTitle: `Gryt ${release.version}`,
+    docTitleName: `${release.version} | Changelog`,
+    description: release.line,
+    url: `${siteUrl}/changelog/${release.version}`,
+    /* The changelog's own card. A page of one-line changes is not worth a card
+       each, and would mean a committed PNG per release forever. */
+    ogImage: `${siteUrl}/changelog/og.png`,
+    ogType: 'article',
+    html: await body(`/changelog/${release.version}`),
+    styles: stylesFor.get('/changelog/:version'),
+  });
+  writeFileSync(join(outDir, 'index.html'), html);
+  console.log(`  dist/changelog/${release.version}/index.html`);
+}
+
 // The home page, last, and into the file every page above was copied from. `template` was
 // read into memory at the top, so writing it now cannot reach them.
 {

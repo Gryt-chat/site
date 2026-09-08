@@ -255,3 +255,73 @@
   }
 }
 
+
+/* A release that was split into kinds and never written up. The label sits in a
+   gutter as wide as the widest chip, matching the app's what's-new modal. */
+.kinds {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  column-gap: 20px;
+  max-width: var(--measure);
+  margin: 0;
+}
+
+.kinds dt {
+  grid-column: 1;
+  padding: 18px 0;
+  border-top: 1px solid var(--border);
+}
+
+.kinds dd {
+  display: flex;
+  flex-direction: column;
+  grid-column: 2;
+  gap: 10px;
+  margin: 0;
+  padding: 16px 0;
+  border-top: 1px solid var(--border);
+}
+
+.kinds dd p {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--text);
+}
+
+/* Under this the gutter stops leaving room for a sentence beside it. */
+@media (max-width: 560px) {
+  .kinds {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .kinds dt {
+    padding-bottom: 8px;
+  }
+
+  .kinds dd {
+    grid-column: 1;
+    padding-top: 0;
+    border-top: 0;
+  }
+}
+
+.noNote {
+  max-width: var(--measure);
+  margin: 40px 0 0;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--text-dim);
+}
+
+.onlyLine {
+  max-width: var(--measure);
+  margin: 0;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+  font-size: 18px;
+  line-height: 1.7;
+  color: var(--text);
+}
