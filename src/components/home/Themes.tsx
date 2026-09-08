@@ -11,18 +11,8 @@ import { usePageTheme } from "./usePageTheme";
 import styles from "./Themes.module.css";
 
 /**
- * Every shipped theme, on a piece of the app rather than as a swatch.
- *
- * `grytPresets` is the same array the client's Appearance tab renders, and
- * `createGrytTheme` turns a preset into the custom properties the preview is
- * drawn with. Ship a nineteenth theme and the carousel grows a step with no
- * edit here.
- *
- * **The count in the copy is read, not written.** Two comments elsewhere in
- * this repository still claim eleven and twelve presets.
- *
- * The dark half of each theme is what is shown, because the site is dark and a
- * carousel mixing the two would read as thirty-six themes rather than eighteen.
+ * Every shipped theme, on a piece of the app rather than as a swatch, from the same
+ * `grytPresets` the client renders. The count in the copy is read, not written.
  */
 const GENERATOR = "https://ui.gryt.chat/theme/generator";
 
@@ -52,16 +42,8 @@ const PEOPLE = [
 ];
 
 /**
- * A piece of the client, themed by whatever preset is handed to it.
- *
- * The style object is the whole design system's variable set, so everything
- * inside — the two Gryt UI components included — resolves against this preset
- * rather than against the page. Radius comes with it, which is why the corners
- * move between Signal, GitHub and Gryt Rounded.
- *
- * The variables are built by the carousel rather than here, because once
- * somebody picks a theme the same set is painted onto the page as well and
- * building it twice would be two objects that have to agree.
+ * A piece of the client, themed by whatever preset is handed to it: the style object is the
+ * whole variable set, so radius comes with it. The carousel builds them, not this.
  */
 function Preview({ vars }: { vars: CSSProperties }) {
   return (
@@ -131,11 +113,8 @@ function Carousel() {
     [preset],
   );
 
-  /* The rest of the page comes along, but only once somebody has actually
-     picked something. While it is still cycling on its own, repainting the
-     whole site every four seconds would be a page nobody could read. That is
-     the same `picked` flag that stops the rotation, so the two happen
-     together: press an arrow, the carousel stops and the site changes. */
+  /* The rest of the page comes along, but only once somebody has picked something: repainting
+     every four seconds while it cycles would be a page nobody could read. */
   usePageTheme(picked ? vars : null);
 
   return (

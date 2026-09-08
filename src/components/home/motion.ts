@@ -1,12 +1,8 @@
 import type { Variants } from "motion/react";
 
 /**
- * Shared motion vocabulary for the front page.
- *
- * Everything animates `transform` and `opacity` only, and every spatial move
- * has a reduced-motion counterpart that collapses to a short fade. Components
- * read `useReducedMotion()` and pass the result to these builders rather than
- * each one re-deriving it.
+ * Shared motion vocabulary for the front page: `transform` and `opacity` only, and every
+ * spatial move has a reduced-motion counterpart that collapses to a short fade.
  */
 const EASE_OUT = [0.16, 1, 0.3, 1] as const;
 

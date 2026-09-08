@@ -10,17 +10,8 @@ import { Frame, UploadSketch } from "../sketches";
 import styles from "./Voice.module.css";
 
 /**
- * Everything about voice in one section rather than four down the page.
- *
- * The panel is a demonstration, not a call. Everyone in it is a name and a
- * state, and the levels are made up on a timer — **the page says so under the
- * panel**, because implying a live room is the sort of claim the rest of this
- * page exists to avoid making.
- *
- * What is real is the drawing: `Avatar` is the component the client renders,
- * the owls come out of `@gryt/owl` on this machine, and the tile tint is
- * `owlAvatarColour` of the same seed, so an owl and its tile are one colour
- * rather than two that nearly match.
+ * Everything about voice in one section. The panel is a demonstration, not a call, and the
+ * page says so. What is real is the drawing: `Avatar`, `@gryt/owl` and `owlAvatarColour`.
  */
 interface Person {
   name: string;
@@ -38,19 +29,8 @@ const PEOPLE: Person[] = [
 ];
 
 /**
- * A screen share as the people watching it see it.
- *
- * Sivert's capture, encoded the same way as the hero:
- *
- *   yarn encode:clips <source> screen-share \
- *     --width 2200 --fps 60 --av1-crf 30 --h264-crf 21
- *
- * This one is 60fps, not 120. The heading above it says sharing goes to 120,
- * and the clip is not proof of that — it is a share at the top of what a
- * browser can play back, standing in until a 120fps take exists. The constant
- * is named for what it is rather than for the claim it sits under, and the
- * caption says what the viewer is looking at rather than how many frames it
- * took to get there.
+ * A screen share as the people watching it see it, encoded like the hero at `--fps 60`. The
+ * heading says 120 and this is not proof of that; the constant is named for what it is.
  */
 const SHARE: ClipSet = {
   src: "/home/screen-share.mp4",
@@ -63,17 +43,8 @@ const SHARE_SHOWS =
   "people in the call as a strip of tiles above it";
 
 /**
- * Seven facts, and three of them are the ones Sivert picked out. The first is
- * split out because it frames the other six rather than being one of them.
- *
- * Read from source rather than from the docs:
- *   RNNoise, on this machine   client settings/hooks/useAudioSettings.ts
- *   restart survival           sfu sync_request, docs/sfu/index.mdx
- *   eSports mode               client settings/hooks/settingsSearch.ts
- *   one UDP port               sfu internal/config, ICE_UDP_MUX_PORT
- *
- * The last one is a single muxed port, 3478 unless it is changed — **not a
- * range**. /why-gryt said range until this pass, and was wrong.
+ * Seven facts, read from source rather than the docs; the first frames the other six. The
+ * last is a single muxed port, 3478 unless changed — not a range, which /why-gryt claimed.
  */
 const LEAD: [string, string] = [
   "The voice server",
@@ -123,9 +94,8 @@ function useLevels(count: number, running: boolean) {
     return () => cancelAnimationFrame(raf);
   }, [count, running]);
 
-  // Silence is returned rather than written back into state: setting it in the
-  // effect would be a second render for a value that is a function of `running`
-  // already.
+  // Silence is returned rather than written back into state: setting it in the effect would
+  // be a second render for a value that is a function of `running` already.
   return running ? levels : silent;
 }
 
@@ -134,9 +104,8 @@ function Panel() {
   const [seen, setSeen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
-  // Nothing animates until the panel is on screen, and nothing animates at all
-  // for somebody who asked for less motion — a ring pulsing forever off the
-  // bottom of the viewport is work nobody sees.
+  // Nothing animates until the panel is on screen, and nothing at all for somebody who asked
+  // for less motion — a ring pulsing off the bottom of the viewport is work nobody sees.
   useEffect(() => {
     const el = ref.current;
     if (!el) return;

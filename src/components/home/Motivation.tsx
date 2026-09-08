@@ -9,17 +9,14 @@ const PION = "https://github.com/pion/webrtc";
 const MONOREPO = "https://github.com/Gryt-chat/gryt";
 
 /**
- * Every figure is one the blog already states. The 170 and the 131 over a
- * LAN-party weekend come from /blog/131-users-and-a-lan-party and
- * /blog/a-small-update; May 2022 is the GitHub organisation date in
- * /blog/the-story-of-gryt.
+ * Every figure is one the blog already states: the 170 and the 131 come from
+ * /blog/131-users-and-a-lan-party, and May 2022 from /blog/the-story-of-gryt.
  */
 const FIGURES = [
   { value: 4, suffix: "+", label: "years, since May 2022" },
   { value: 2, suffix: "", label: "of them spent on WebRTC before writing the media server" },
-  // Read at build time by scripts/fetch-github-stats.mjs, which counts the
-  // organisation's repositories minus the archived ones. It was 13 written by
-  // hand and had been 19 for a while before anybody noticed.
+  // Read at build time by scripts/fetch-github-stats.mjs, which counts the organisation's
+  // repositories minus the archived ones. It was 13 by hand and had been 19 for a while.
   { value: githubStats.publicRepos, suffix: "", label: "repositories, all public" },
   { value: 1, suffix: "", label: "person" },
 ];
