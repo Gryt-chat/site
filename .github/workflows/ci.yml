@@ -26,6 +26,10 @@ jobs:
       # to be swept, and that list only ever shrinks.
       - run: yarn test:comment-length
 
+      # Runs Clip.tsx's own observer callback. A clip that plays on load rather than
+      # on arrival is the bug this had, and autoPlay coming back is how it returns.
+      - run: yarn test:clips
+
       # tsc -b, the image optimiser, vite build, the blog prerender and the meta check. The
       # last fails the build on a page missing its metadata, so this is more than a compile.
       - run: yarn build

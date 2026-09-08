@@ -1,5 +1,5 @@
 import { useReducedMotion } from "motion/react";
-import type { ComponentPropsWithoutRef } from "react";
+import { type ComponentPropsWithoutRef, useEffect, useRef } from "react";
 
 import styles from "./Clip.module.css";
 
@@ -30,6 +30,27 @@ interface ClipProps extends Omit<ComponentPropsWithoutRef<"video">, "children" |
  */
 export function Clip({ src, av1, poster, alt, className, ...props }: ClipProps) {
   const reduced = useReducedMotion() ?? false;
+  const ref = useRef<HTMLVideoElement>(null);
+
+  // Played on arrival rather than on load. Autoplaying meant every clip on the
+  // page was already part way through by the time anybody scrolled to it.
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        // play() rejects if the browser refuses; muted and playsInline should
+        // stop that, and a refusal leaves the poster, which is not worth a throw.
+        if (entry.isIntersecting) void el.play().catch(() => {});
+        else el.pause();
+      },
+      { rootMargin: "80px" },
+    );
+
+    io.observe(el);
+    return () => io.disconnect();
+  }, [reduced]);
 
   if (reduced) {
     return (
@@ -46,10 +67,10 @@ export function Clip({ src, av1, poster, alt, className, ...props }: ClipProps) 
   return (
     <video
       {...props}
+      ref={ref}
       className={[styles.clip, className].filter(Boolean).join(" ")}
       poster={poster}
       aria-label={alt}
-      autoPlay
       muted
       loop
       playsInline
