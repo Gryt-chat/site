@@ -444,14 +444,626 @@ export const app: ReleaseLine[] = [
 ];
 
 /**
- * The server, voice and images have cut 72, 28 and 12 releases between them and
- * nobody has ever written a line for one.
+ * The server: what somebody runs to host a Gryt server.
  *
- * They are empty rather than absent so the page can say that out loud. A tab
- * that renders "no lines written yet" is a truthful answer to somebody asking
- * what changed in the server; leaving the tab out would imply the server has
- * not been released, which is the opposite of true.
+ * The app's version and the server's are unrelated — the app you install ships
+ * with a server embedded, and a server you join was released on its own clock.
+ * So a reader here is usually somebody deciding whether to pull a new image.
  */
-export const server: ReleaseLine[] = [];
-export const voice: ReleaseLine[] = [];
-export const images: ReleaseLine[] = [];
+export const server: ReleaseLine[] = [
+  {
+    version: "1.8.15",
+    date: "2026-09-07",
+    line: "Packaging only.",
+  },
+  {
+    version: "1.8.14",
+    date: "2026-09-07",
+    line: "Threads and forum channels, server side. A server can also load plugins, and every member can see which ones it runs.",
+  },
+  {
+    version: "1.8.13",
+    date: "2026-09-06",
+    line: "An emoji import stops hiding every other emoji, and one request answers how each member got in.",
+  },
+  {
+    version: "1.8.12",
+    date: "2026-09-05",
+    line: "A sidebar row can be a folder holding other rows.",
+  },
+  {
+    version: "1.8.11",
+    date: "2026-09-05",
+    line: "A mute stops somebody typing as well as talking, and link previews follow every redirect hop before fetching.",
+  },
+  {
+    version: "1.8.10",
+    date: "2026-09-04",
+    line: "The owner can set the owner role's colour.",
+  },
+  {
+    version: "1.8.9",
+    date: "2026-09-03",
+    line: "An invite code can carry a role, and callers' addresses are no longer written to the log.",
+  },
+  {
+    version: "1.8.8",
+    date: "2026-09-03",
+    line: "Packaging only.",
+  },
+  {
+    version: "1.8.7",
+    date: "2026-09-03",
+    line: "The server says which voice rooms a member may enter, and which channel templates exist.",
+  },
+  {
+    version: "1.8.6",
+    date: "2026-09-03",
+    line: "The server says which channels a member may post in.",
+  },
+  {
+    version: "1.8.5",
+    date: "2026-09-03",
+    line: "Mentions are stored server-side, a member can hold more than one role, and reading an upload needs a token.",
+  },
+  {
+    version: "1.8.4-beta.1",
+    date: "2026-09-02",
+    channel: "beta",
+    line: "Packaging only.",
+  },
+  {
+    version: "1.8.3",
+    date: "2026-09-02",
+    line: "A person can be reported, not only a message, and the SFU signing key is generated instead of left empty.",
+  },
+  {
+    version: "1.8.2",
+    date: "2026-09-02",
+    line: "One member can block another.",
+  },
+  {
+    version: "1.8.1-beta.1",
+    date: "2026-09-01",
+    channel: "beta",
+    line: "The voice token carries whether you may speak, so the SFU can refuse a microphone.",
+  },
+  {
+    version: "1.8.0",
+    date: "2026-09-01",
+    line: "Per-channel permissions, by role, with templates.",
+  },
+  {
+    version: "1.7.0",
+    date: "2026-08-31",
+    line: "A server can be set to admit people by request, and an upload's token is checked before anything is buffered.",
+  },
+  {
+    version: "1.6.21",
+    date: "2026-08-31",
+    line: "A busy metrics port no longer stops the server starting.",
+  },
+  {
+    version: "1.6.20-beta.1",
+    date: "2026-08-31",
+    channel: "beta",
+    line: "Packaging only.",
+  },
+  {
+    version: "1.6.19",
+    date: "2026-08-31",
+    line: "The HTTP surface is rate-limited, metrics move to a port the world cannot reach, and an attachment travels with its message.",
+  },
+  {
+    version: "1.6.18-beta.1",
+    date: "2026-08-31",
+    channel: "beta",
+    line: "Packaging only.",
+  },
+  {
+    version: "1.6.17",
+    date: "2026-08-31",
+    line: "A channel can require a rank to post in, and the SFU's shared secret stops being handed to every browser.",
+  },
+  {
+    version: "1.6.16-beta.1",
+    date: "2026-08-30",
+    channel: "beta",
+    line: "A direct message and an upload are both stored without the server being able to read either, and it ships the certificate authority's keys instead of fetching them.",
+  },
+  {
+    version: "1.6.15-beta.1",
+    date: "2026-08-29",
+    channel: "beta",
+    line: "Starting a call is its own permission.",
+  },
+  {
+    version: "1.6.14-beta.1",
+    date: "2026-08-29",
+    channel: "beta",
+    line: "Group direct messages, and you can ring somebody in one. SVG is skipped when an emoji ZIP is imported.",
+  },
+  {
+    version: "1.6.13-beta.1",
+    date: "2026-08-29",
+    channel: "beta",
+    line: "Direct messages, server side, with a cap on how long a message can be.",
+  },
+  {
+    version: "1.6.12",
+    date: "2026-08-27",
+    line: "A reconnecting socket is told to retry rather than that it is forbidden.",
+  },
+  {
+    version: "1.6.11",
+    date: "2026-08-27",
+    line: "The log says who dropped and from where.",
+  },
+  {
+    version: "1.6.10",
+    date: "2026-08-25",
+    line: "The SFU decides who is in voice.",
+  },
+  {
+    version: "1.6.9",
+    date: "2026-08-25",
+    line: "The stuck-updater reminder points at a download rather than at GitHub.",
+  },
+  {
+    version: "1.6.8",
+    date: "2026-08-25",
+    line: "A member's designed look is kept beside their nickname.",
+  },
+  {
+    version: "1.6.7",
+    date: "2026-08-24",
+    line: "Packaging only.",
+  },
+  {
+    version: "1.6.6",
+    date: "2026-08-23",
+    line: "Packaging only.",
+  },
+  {
+    version: "1.6.5",
+    date: "2026-08-23",
+    line: "A wrong clock on somebody's machine no longer makes the server unjoinable.",
+  },
+  {
+    version: "1.6.4",
+    date: "2026-08-22",
+    line: "Stranded clients are sent to the release download rather than to a pending folder.",
+  },
+  {
+    version: "1.6.3",
+    date: "2026-08-22",
+    line: "An animated server icon has its frames capped, and every upload decode carries a pixel ceiling.",
+  },
+  {
+    version: "1.6.2",
+    date: "2026-08-21",
+    line: "The update reminder names the version, because the pattern it used matched a broken one.",
+  },
+  {
+    version: "1.6.1",
+    date: "2026-08-21",
+    line: "The server says which addresses it answers on, and can hold a room of one so the Doctor can prove voice works.",
+  },
+  {
+    version: "1.6.0-beta.1",
+    date: "2026-08-21",
+    channel: "beta",
+    line: "Roles carry permissions rather than a rung on a ladder, and some grant themselves over time. Bots are their own tier and knock before they are let in.",
+  },
+  {
+    version: "1.5.1",
+    date: "2026-08-21",
+    line: "A proxy's address stops counting as proof of being on the LAN, and voice seats stop being derived from a port range.",
+  },
+  {
+    version: "1.5.0",
+    date: "2026-08-21",
+    line: "A local management API for the settings that live in the database, and a native client's own-host origin gets through CORS.",
+  },
+  {
+    version: "1.4.6",
+    date: "2026-08-18",
+    line: "A version it cannot parse is refused rather than compared.",
+  },
+  {
+    version: "1.4.5",
+    date: "2026-08-17",
+    line: "A purged user's files are deleted at the moment they are purged.",
+  },
+  {
+    version: "1.4.3",
+    date: "2026-08-16",
+    line: "First-time setup is only required of a new owner, not of everybody joining.",
+  },
+  {
+    version: "1.4.2",
+    date: "2026-08-14",
+    line: "Packaging only.",
+  },
+  {
+    version: "1.4.2-beta.1",
+    date: "2026-08-14",
+    channel: "beta",
+    line: "GRYT_AUTH_MODE is renamed to what it actually does.",
+  },
+  {
+    version: "1.4.1-beta.1",
+    date: "2026-08-14",
+    channel: "beta",
+    line: "A user id is qualified by the certificate authority that issued it.",
+  },
+  {
+    version: "1.4.0",
+    date: "2026-08-13",
+    line: "Packaging only.",
+  },
+  {
+    version: "1.4.0-beta.1",
+    date: "2026-08-12",
+    channel: "beta",
+    line: "A server can admit people by request, cap how many one invite brings in per hour, and close the door a banned user came through. One key can speak for several devices.",
+  },
+  {
+    version: "1.3.1-beta.1",
+    date: "2026-08-10",
+    channel: "beta",
+    line: "Kick, ban, mute and permissions do what they say.",
+  },
+  {
+    version: "1.3.0-beta.5",
+    date: "2026-08-10",
+    channel: "beta",
+    line: "The server relays where a speaker's face is in their camera frame.",
+  },
+  {
+    version: "1.3.0-beta.4",
+    date: "2026-08-09",
+    channel: "beta",
+    line: "Uploads stream to disk, and the cap that was never the operator's is gone.",
+  },
+  {
+    version: "1.3.0-beta.3",
+    date: "2026-08-08",
+    channel: "beta",
+    line: "Emoji import from emoji.gg, SVG accepted again for avatars, icons and chat, and clearing a server icon actually clears it.",
+  },
+  {
+    version: "1.3.0-beta.2",
+    date: "2026-08-08",
+    channel: "beta",
+    line: "better-sqlite3 is replaced by node:sqlite, so there is no native rebuild on Windows.",
+  },
+  {
+    version: "1.3.0-beta.1",
+    date: "2026-08-07",
+    channel: "beta",
+    line: "SVG uploads are refused. An SVG can carry scripts, and the server was serving them from its own address. The server also has an identity key now, and proves it on connect rather than on join.",
+  },
+  {
+    version: "1.2.0-beta.1",
+    date: "2026-08-05",
+    channel: "beta",
+    line: "A hand-started server is reachable from the dev client, and warns when it binds to loopback.",
+  },
+  {
+    version: "1.1.5",
+    date: "2026-05-28",
+    line: "Packaging only.",
+  },
+  {
+    version: "1.1.5-beta.2",
+    date: "2026-05-28",
+    channel: "beta",
+    line: "Packaging only.",
+  },
+  {
+    version: "1.1.5-beta.1",
+    date: "2026-05-28",
+    channel: "beta",
+    line: "Packaging only.",
+  },
+  {
+    version: "1.0.76",
+    date: "2026-05-27",
+    line: "Packaging only. The release workflow was being sorted out.",
+  },
+  {
+    version: "1.0.75",
+    date: "2026-05-25",
+    line: "LAN discovery works better, and the embedded server starts.",
+  },
+  {
+    version: "1.0.73",
+    date: "2026-03-10",
+    line: "An invite can have a code you choose.",
+  },
+  {
+    version: "1.0.72",
+    date: "2026-03-09",
+    line: "mDNS advertising through an avahi service file.",
+  },
+  {
+    version: "1.0.71",
+    date: "2026-03-09",
+    line: "mDNS can bind to a named network interface.",
+  },
+  {
+    version: "1.0.70",
+    date: "2026-03-09",
+    line: "mDNS advertising can pick which interface it uses.",
+  },
+  {
+    version: "1.0.69",
+    date: "2026-03-03",
+    line: "Webhooks.",
+  },
+  {
+    version: "1.0.68",
+    date: "2026-03-03",
+    line: "A server can be set discoverable, and it relays who is typing.",
+  },
+  {
+    version: "1.0.66",
+    date: "2026-03-02",
+    line: "Voice survives a brief disconnect instead of dropping you, and link previews can match a theme.",
+  },
+  {
+    version: "1.0.65",
+    date: "2026-03-01",
+    line: "A server can be opened to the LAN.",
+  },
+  {
+    version: "1.0.63",
+    date: "2026-03-01",
+    line: "Packaging only.",
+  },
+  {
+    version: "1.0.62",
+    date: "2026-03-01",
+    line: "Packaging only.",
+  },
+  {
+    version: "1.0.61",
+    date: "2026-03-01",
+    line: "Packaging only.",
+  },
+];
+
+/**
+ * Voice: the SFU, which every call goes through.
+ *
+ * It is the one component with no user interface at all, so a line here is
+ * about calls connecting, staying up, or costing less to carry.
+ */
+export const voice: ReleaseLine[] = [
+  {
+    version: "1.0.64",
+    date: "2026-09-06",
+    line: "Housekeeping only. Nothing changed in how voice works.",
+  },
+  {
+    version: "1.0.63",
+    date: "2026-09-03",
+    line: "Addresses nobody advertised are no longer offered while a call is being set up.",
+  },
+  {
+    version: "1.0.62",
+    date: "2026-09-02",
+    channel: "beta",
+    line: "Packaging only.",
+  },
+  {
+    version: "1.0.61",
+    date: "2026-09-02",
+    line: "An empty signing secret is refused at startup.",
+  },
+  {
+    version: "1.0.60",
+    date: "2026-09-01",
+    channel: "beta",
+    line: "A token that does not grant speak is refused the microphone, rather than muted after the fact.",
+  },
+  {
+    version: "1.0.59",
+    date: "2026-08-31",
+    line: "Metrics move to a port the internet cannot reach.",
+  },
+  {
+    version: "1.0.58",
+    date: "2026-08-31",
+    line: "Each person gets their own voice token instead of the password every browser had. A call somebody has been sitting in alone ends itself.",
+  },
+  {
+    version: "1.0.57",
+    date: "2026-08-29",
+    channel: "beta",
+    line: "Patched pion and x/crypto releases.",
+  },
+  {
+    version: "1.0.56",
+    date: "2026-08-25",
+    line: "A connection that stops answering is dropped instead of held open.",
+  },
+  {
+    version: "1.0.55",
+    date: "2026-08-24",
+    line: "It says why before hanging up, instead of dropping the connection without a word.",
+  },
+  {
+    version: "1.0.54",
+    date: "2026-08-23",
+    line: "Link-local addresses are left out of what gets offered for a call.",
+  },
+  {
+    version: "1.0.53",
+    date: "2026-08-23",
+    line: "A track whose sender has gone stops being forwarded.",
+  },
+  {
+    version: "1.0.52",
+    date: "2026-08-22",
+    line: "A renegotiation request is never dropped, so turning a camera on mid-call arrives.",
+  },
+  {
+    version: "1.0.51",
+    date: "2026-08-21",
+    line: "The log says which addresses each listener answers on.",
+  },
+  {
+    version: "1.0.50",
+    date: "2026-08-21",
+    line: "Media takes one UDP port instead of a range, so the firewall rule is one line.",
+  },
+  {
+    version: "1.0.49",
+    date: "2026-08-13",
+    line: "Packaging only.",
+  },
+  {
+    version: "1.0.48",
+    date: "2026-08-08",
+    channel: "beta",
+    line: "Release plumbing only.",
+  },
+  {
+    version: "1.0.47",
+    date: "2026-05-28",
+    line: "Packaging only.",
+  },
+  {
+    version: "1.0.46",
+    date: "2026-05-25",
+    channel: "beta",
+    line: "A frozen picture recovers sooner.",
+  },
+  {
+    version: "1.0.45",
+    date: "2026-03-09",
+    channel: "beta",
+    line: "The health check tests UDP, not only that the process is up.",
+  },
+  {
+    version: "1.0.44",
+    date: "2026-03-05",
+    channel: "beta",
+    line: "The log names the codec on each track.",
+  },
+  {
+    version: "1.0.43",
+    date: "2026-03-03",
+    channel: "beta",
+    line: "Housekeeping only.",
+  },
+  {
+    version: "1.0.42",
+    date: "2026-03-03",
+    channel: "beta",
+    line: "H.264 is preferred over the other codecs.",
+  },
+  {
+    version: "1.0.41",
+    date: "2026-03-03",
+    channel: "beta",
+    line: "Video is forwarded a layer at a time, so a slow connection gets a smaller picture.",
+  },
+  {
+    version: "1.0.40",
+    date: "2026-03-01",
+    line: "A connection caught mid-negotiation no longer wedges.",
+  },
+  {
+    version: "1.0.39",
+    date: "2026-03-01",
+    line: "Documentation only.",
+  },
+  {
+    version: "1.0.38",
+    date: "2026-03-01",
+    line: "Configuration loading is fixed.",
+  },
+  {
+    version: "1.0.37",
+    date: "2026-03-01",
+    line: "A stale connection is evicted when the same person joins again.",
+  },
+];
+
+/**
+ * Images: the worker that resizes an upload and makes its thumbnail.
+ *
+ * It is also the thing that decodes files strangers uploaded, which is why a
+ * dependency bump gets a line here and would not elsewhere.
+ */
+export const images: ReleaseLine[] = [
+  {
+    version: "1.2.5",
+    date: "2026-09-04",
+    line: "Packaging only.",
+  },
+  {
+    version: "1.2.4",
+    date: "2026-09-04",
+    channel: "beta",
+    line: "Housekeeping only.",
+  },
+  {
+    version: "1.2.3",
+    date: "2026-08-29",
+    channel: "beta",
+    line: "sharp 0.35, and one fewer dependency parsing files strangers uploaded.",
+  },
+  {
+    version: "1.2.2",
+    date: "2026-08-13",
+    line: "Packaging only.",
+  },
+  {
+    version: "1.2.1",
+    date: "2026-08-08",
+    channel: "beta",
+    line: "It says which version it is, so the server can tell.",
+  },
+  {
+    version: "1.2.0",
+    date: "2026-08-08",
+    channel: "beta",
+    line: "node:sqlite instead of better-sqlite3, so there is no native rebuild.",
+  },
+  {
+    version: "1.1.0",
+    date: "2026-08-07",
+    channel: "beta",
+    line: "Every upload has its dominant colour worked out while the thumbnail is made, and avatar thumbnails that came out too small are rebuilt.",
+  },
+  {
+    version: "1.0.6",
+    date: "2026-03-09",
+    channel: "beta",
+    line: "A smaller image, with the native build toolchain taken out of it.",
+  },
+  {
+    version: "1.0.5",
+    date: "2026-03-01",
+    line: "Object storage is set up asynchronously, and its errors are reported.",
+  },
+  {
+    version: "1.0.4",
+    date: "2026-02-28",
+    line: "Release plumbing only.",
+  },
+  {
+    version: "1.0.3",
+    date: "2026-02-28",
+    line: "The health check works, and the data directory is created with the permissions it needs.",
+  },
+  {
+    version: "1.0.2",
+    date: "2026-02-28",
+    line: "The first build: thumbnails and avatar compression, on amd64 and arm64.",
+  },
+];
