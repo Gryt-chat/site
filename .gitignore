@@ -34,3 +34,6 @@ package-lock.json
 *.sln
 *.sw?
 .cache/
+
+# Emitted by scripts/emit-changelog-json.mjs on every build.
+public/changelog.json
