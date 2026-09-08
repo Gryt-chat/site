@@ -20,13 +20,8 @@ const W = 1200;
 const H = 630;
 
 /**
- * The card is one flat field of the accent, which breaks the usual advice that
- * an accent should stay under a few percent of a surface. That advice is about
- * interfaces. This is a poster whose whole job is to be the one link preview in
- * a timeline of near-black cards that isn't near-black.
- *
- * The purple is stepped down from the brand's #968FF8 so white type clears
- * contrast on it — the token itself is too light to put #fff on.
+ * The card is one flat field of the accent: a poster whose job is to be the one link preview
+ * in a timeline of near-black cards. Stepped down from #968FF8 so white type clears.
  */
 const C = {
   field: '#6157d8',
@@ -38,18 +33,8 @@ const C = {
 };
 
 /**
- * The big owl behind the type is the mark's own drawing, recoloured to sit in
- * the field as tone rather than as a second logo.
- *
- * Every value here is below the field, so the glyph can only add contrast under
- * the white type, never take it away. That is the property to keep if these are
- * ever retuned: the card's whole contrast budget is white-on-#6157d8, and a
- * tone lighter than the field spends it.
- *
- * The order is the mark's own — face lightest, then body, then the wings, with
- * the eyes and beak darkest. In the mark those three are painted the ground
- * colour, so they are holes rather than shapes; there is no ground here, so
- * they get a value of their own and keep their place at the dark end.
+ * The big owl behind the type, recoloured to sit in the field as tone. Every value is below
+ * the field, so the glyph can only add contrast under the white type, never take it away.
  */
 const OWL_TONES = {
   '#B5A8E6': '#5850cc', // face
@@ -133,9 +118,8 @@ function wrap(text, maxWidth, opts) {
 }
 
 /**
- * Cuts a wrapped block to `max` lines. A description that simply stops mid-
- * sentence reads as a bug, so the last kept line loses words until an ellipsis
- * fits after it.
+ * Cuts a wrapped block to `max` lines. A description that stops mid-sentence reads as a bug,
+ * so the last kept line loses words until an ellipsis fits after it.
  */
 function clamp(lines, max, maxWidth, opts) {
   if (lines.length <= max) return lines;
@@ -147,9 +131,8 @@ function clamp(lines, max, maxWidth, opts) {
 }
 
 /**
- * Display type is sized to the copy, not the other way round. A long title set
- * at the size a short one wants is the most reliable way to make a card look
- * automated, so the size steps down until the title fits in three lines.
+ * Display type is sized to the copy: a long title at the size a short one wants is the most
+ * reliable way to make a card look automated, so the size steps down to fit three lines.
  */
 function fitTitle(text, { maxWidth, sizes, font, weight, tracking, maxLines }) {
   for (const size of sizes) {
@@ -163,19 +146,8 @@ function fitTitle(text, { maxWidth, sizes, font, weight, tracking, maxLines }) {
 // ------------------------------------------------------------------- the owl
 
 /**
- * Both owls on the card are read out of public/, not copied into this file.
- *
- * They used to be inlined here — the glyph once and the whole mark again — and
- * when the mark was redrawn in GRYT-600 the three files in public/ were swapped
- * and these two were not. Nothing failed. Every share card for all 32 pages
- * went on showing the old bird beside a site, a client and a docs build that
- * had all moved on, and the only way to notice was to look at one.
- *
- * `logo.svg` is the mark, under a circular clip, and `logo-square.svg` the same
- * drawing on its full artboard. The label row takes the mark, matching the
- * favicon; the big background glyph takes the square one with its ground
- * dropped, because it crops the bird itself and a circular clip would cut the
- * bleed the composition is built on.
+ * Both owls are read out of public/, not inlined here: when the mark was redrawn the inlined
+ * copies were missed and every card kept the old bird. `logo.svg` is the round mark.
  */
 
 function readMark(name, ns) {
@@ -184,10 +156,8 @@ function readMark(name, ns) {
   if (!inner.trim()) throw new Error(`${name}: no drawing found`);
 
   /*
-   * Both files came out of the same Figma frame, so both carry the same
-   * clipPath id. Two of them on one card is a duplicate id, the first
-   * definition wins, and the round mark quietly got the square one's clip —
-   * a square logo in the label row, no warning, and the run exits 0.
+   * Both files came out of the same Figma frame, so both carry the same clipPath id. Two on
+   * one card is a duplicate id, and the round mark quietly got the square one's clip.
    */
   const ids = [...inner.matchAll(/id="([^"]+)"/g)].map((m) => m[1]);
   if (!ids.length) return inner;
@@ -203,13 +173,8 @@ function readMark(name, ns) {
 const OWL_MARK = readMark('logo.svg', 'mark');
 
 /**
- * The mark without its ground, recoloured into the field.
- *
- * Substituting on the hex values means a redrawn mark that keeps the palette
- * needs no edit here, and one that changes it stops the run rather than
- * quietly drawing something else — which is the failure this whole comment is
- * about. The match is case-insensitive because a hex is a string and Figma and
- * a human do not agree on which case to write it in.
+ * The mark without its ground, recoloured into the field. Substituting on the hex values
+ * means a redrawn mark that changes the palette stops the run rather than drawing wrong.
  */
 const OWL_GLYPH = (() => {
   let svg = readMark('logo-square.svg', 'glyph');
@@ -220,9 +185,8 @@ const OWL_GLYPH = (() => {
   svg = svg.replace(ground, '');
 
   for (const [from, to] of Object.entries(OWL_TONES)) {
-    // A fresh regex per pass. `test` on a /g regex advances lastIndex, so
-    // reusing one across the check and the replace is the kind of thing that
-    // works until it doesn't.
+    // A fresh regex per pass. `test` on a /g regex advances lastIndex, so reusing one across
+    // the check and the replace is the kind of thing that works until it does not.
     if (!new RegExp(`fill="${from}"`, 'i').test(svg)) {
       throw new Error(`logo-square.svg: nothing painted ${from} — the mark's palette moved, retune OWL_TONES`);
     }
@@ -238,13 +202,8 @@ function escXml(s) {
 }
 
 /**
- * @param {object} card
- * @param {string} card.label      small line beside the mark, already uppercased
- * @param {string} card.title      the one thing someone reads
- * @param {string} [card.sub]      a sentence under it, two lines at most
- * @param {string} [card.metaLeft]
- * @param {string} [card.metaRight]
- * @param {boolean} [card.stat]    set the title as a figure (a version number)
+ * One card: a label beside the mark, the title, an optional sentence under it, and the two
+ * meta strings. `stat` sets the title as a figure, which is what a version number wants.
  */
 function buildCard({ label, title, sub, metaLeft, metaRight, stat = false }) {
   const out = [];
@@ -252,17 +211,8 @@ function buildCard({ label, title, sub, metaLeft, metaRight, stat = false }) {
   // The field, the mark bleeding off the right, and a film of grain over both.
   out.push(`<rect width="${W}" height="${H}" fill="${C.field}"/>`);
   /*
-   * 635px across, hung off the right edge and the bottom.
-   *
-   * Placed on the beak rather than on the artboard. The new drawing fills far
-   * more of its 1024 box than the old one filled its 512, so keeping the old
-   * 880px width cropped the head to a wall of tone and dropped the beak right
-   * on the meta line — legible, because every owl tone is darker than the
-   * field, but the URL sat in the middle of a face.
-   *
-   * These two numbers put the beak just above the rule and the crown just
-   * below the title, which is where the old card had them. Retuning them is a
-   * matter of looking at a card, not of arithmetic on the artboard.
+   * 635px across, hung off the right edge and the bottom, placed on the beak rather than the
+   * artboard: the new drawing fills more of its box, and 880 dropped the beak on the meta.
    */
   out.push(`<g transform="translate(620, 30) scale(${635 / 1024})">${OWL_GLYPH}</g>`);
   out.push(`<rect width="${W}" height="${H}" filter="url(#grain)" opacity="0.085"/>`);
@@ -373,10 +323,8 @@ function formatDate(date) {
 
 
 /**
- * Quantised to 64 colours. The grain defeats PNG's row filters, so a truecolour
- * card lands at a megabyte — thirteen times the old ones — for a texture nobody
- * looks at directly. The card is a flat field, a two-tone bird and four shades
- * of near-white, so 64 entries covers it, and the grain doubles as dithering.
+ * Quantised to 64 colours. The grain defeats PNG's row filters, so a truecolour card lands
+ * at a megabyte; 64 entries covers a flat field and a two-tone bird, and grains as dither.
  */
 async function write(svg, file) {
   await sharp(Buffer.from(svg)).png({ palette: true, colours: 64 }).toFile(file);

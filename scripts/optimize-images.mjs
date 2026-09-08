@@ -6,10 +6,8 @@ import { readdir, stat } from "fs/promises";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const publicDir = join(__dirname, "..", "public");
 
-// The front page hero used to be a still committed at 3456 wide, with two
-// narrower widths derived here. It is a clip now — `client-live.*`, written by
-// `scripts/encode-clips.mjs` — and `Clip` carries its own poster, so there is
-// nothing left for this step to resize.
+// The front page hero is a clip now — `client-live.*` from `scripts/encode-clips.mjs` — and
+// `Clip` carries its own poster, so there is nothing left for this step to resize.
 
 const previewSrc = join(publicDir, "preview.png");
 const full = await sharp(previewSrc)
