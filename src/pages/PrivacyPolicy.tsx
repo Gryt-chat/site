@@ -143,6 +143,13 @@ export function PrivacyPolicy() {
           a label rather than an address. We do not use analytics or cross-site
           tracking.
         </p>
+        <p>
+          Our login service at auth.gryt.chat also records failed sign-in
+          attempts, along with the IP address each one came from. We keep these
+          so we can tell an account locking itself out from someone working
+          through a list of passwords. Successful sign-ins are not recorded this
+          way, and failed ones are deleted after 30 days.
+        </p>
 
         <h2>What we do not collect</h2>
         <p>
@@ -187,6 +194,10 @@ export function PrivacyPolicy() {
             <strong>Operational logs</strong> are kept for security and
             reliability. On community.gryt.chat they are capped by size and roll
             over, as described above. On other servers, the operator decides.
+          </li>
+          <li>
+            <strong>Failed sign-in records</strong> on auth.gryt.chat are
+            deleted after 30 days.
           </li>
           <li>
             <strong>Bug reports</strong> are kept until we delete them. The IP
