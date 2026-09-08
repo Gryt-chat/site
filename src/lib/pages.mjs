@@ -1,19 +1,6 @@
 /**
- * The one list of static pages.
- *
- * This existed in three places and drifted, which is not hypothetical: on
- * 2026-08-09 `/changelog` was in the prerender list but not the share-card
- * list, so the page advertised an og:image that returned 404. Nothing failed;
- * the card was just missing wherever the link was pasted.
- *
- * Plain .mjs on purpose. `scripts/prerender-blog.mjs` and
- * `scripts/generate-og-image.mjs` are run by node with no build step and cannot
- * import TypeScript, and the app is bundled by Vite which imports .mjs happily.
- * `pages.d.ts` beside this file gives the TypeScript side its types.
- *
- * Adding a page here gives it a title, a meta description, prerendered HTML, a
- * canonical, a share card and a client-side document title. Forgetting one of
- * those is what this file is for.
+ * The one list of static pages. It existed in three places and drifted, which is how
+ * /changelog advertised an og:image that 404'd. Plain .mjs, so node can import it.
  */
 
 /** @type {{ path: string, title: string, description: string }[]} */
@@ -140,11 +127,8 @@ export const STATIC_PAGES = [
 ];
 
 /**
- * Routes that render an existing page under a second URL. They get their own
- * directory so nginx can serve them without an SPA catch-all, but their
- * canonical points at the primary.
- *
- * @type {{ path: string, of: string }[]}
+ * Routes that render an existing page under a second URL: their own directory so nginx can
+ * serve them without an SPA catch-all, with a canonical pointing at the primary.
  */
 export const ALIAS_PAGES = [
   { path: "privacy-policy", of: "privacy" },

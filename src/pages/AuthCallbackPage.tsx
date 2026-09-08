@@ -13,14 +13,8 @@ function buildDeepLink(params: URLSearchParams): string {
 }
 
 /**
- * The same screen as the invite page, doing the same job: fire a gryt:// link,
- * and if nothing has answered in 1.5 seconds, ask. Both now share
- * styles/handoff.module.css rather than keeping a copy each.
- *
- * Component-scope, so the work is the states rather than the shape:
- *   handing off  the deep link has been fired, nothing has answered
- *   fallback     it did not answer, so offer the button
- *   invalid      the callback arrived without a code or a state
+ * The same screen as the invite page: fire a gryt:// link, and if nothing has answered in
+ * 1.5 seconds, ask. Three states — handing off, fallback, and invalid.
  */
 export function AuthCallbackPage() {
   const [params] = useSearchParams();

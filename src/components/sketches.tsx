@@ -549,10 +549,8 @@ function ArchitectureNarrow() {
 }
 
 /**
- * The pair. Only the wide one carries the description, for the reason
- * `StackSketch` gives: two `img` roles saying the same thing is one screen
- * reader announcement too many, and `display: none` is not something the
- * accessibility tree is guaranteed to agree about across breakpoints.
+ * The pair. Only the wide one carries the description, for the reason `StackSketch` gives:
+ * two `img` roles saying the same thing is one announcement too many.
  */
 export function ArchitectureSketch() {
   return (

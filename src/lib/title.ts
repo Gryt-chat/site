@@ -1,13 +1,6 @@
 /**
- * Document titles.
- *
- * Every page reads `<name> | Gryt`, so a tab strip with four Gryt pages open
- * is still readable and a search result carries the brand without the page
- * having to repeat it in its own heading.
- *
- * The crawlers never run this code. `scripts/prerender-blog.mjs` writes the
- * same titles into the static HTML it emits per route, and it has its own copy
- * of `SITE_NAME` and `pageTitle` for that reason. Change one, change the other.
+ * Document titles: every page reads `<name> | Gryt`. `scripts/prerender-blog.mjs` has its
+ * own copy of `SITE_NAME` and `pageTitle` for the static HTML — change one, change both.
  */
 
 export const SITE_NAME = 'Gryt'

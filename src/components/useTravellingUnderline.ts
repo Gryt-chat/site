@@ -1,27 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
 /**
- * One underline for a whole row of links, which travels to whichever one you
- * are pointing at.
- *
- * Parks under the current page, follows hover and focus while they are on the
- * row, and returns on leave — or goes nowhere on `/`, which is not in the bar.
- *
- * Measured in the list's own coordinates via `offsetLeft`/`offsetWidth`, so the
- * list has to be a positioned ancestor.
- *
- * **`page` has to be in the dependencies.** The mark parks under whichever link
- * carries `aria-current` and that is measured in an effect, so navigating has
- * to re-run it. Without this the underline stays under the last page you were
- * on after clicking the wordmark.
- *
- * Native `pointerout` with a `relatedTarget` check, not React's
- * `onPointerLeave`: `pointerleave` does not bubble, so React simulates it and
- * "leave the row" came out unreliable.
- *
- * No `requestAnimationFrame` for arming the transition. rAF is throttled to
- * nothing in a background tab, which left the underline permanently
- * un-animated. Whether it may animate is tracked as state instead.
+ * One underline for a whole row of links, travelling to whichever one you point at. Measured
+ * in the list's own coordinates, so the list has to be a positioned ancestor.
  */
 export interface Underline {
   left: number;
@@ -37,10 +18,8 @@ export function useTravellingUnderline<T extends HTMLElement>(
   const [at, setAt] = useState<Underline | null>(null);
 
   /**
-   * Whether the mark is currently somewhere, so the next move can animate from
-   * it. Going from nowhere to somewhere must not animate: with no previous
-   * position it would slide in from the left edge of the list, which reads as a
-   * stray element rather than as an underline arriving.
+   * Whether the mark is currently somewhere, so the next move can animate from it. Going
+   * from nowhere would slide it in from the left edge, which reads as a stray element.
    */
   const placed = useRef(false);
   const [settled, setSettled] = useState(false);

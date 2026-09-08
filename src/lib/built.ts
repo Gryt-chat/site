@@ -1,27 +1,6 @@
 /**
- * Everything listed on /built, and the only place it is listed.
- *
- * This is a file in a repository rather than a submission form, which is the
- * whole point: an entry gets here by a pull request somebody read. "Who vetted
- * this" has an answer, and it is a name in the git log.
- *
- * What that does not mean is that the code was audited. A plugin runs on
- * somebody's machine and a server plugin runs inside somebody's server, and
- * merging a row on a website is not a security review of either. The page says
- * so where people will read it, and it has to keep saying so.
- *
- * ## Adding one
- *
- * Open a pull request adding an entry below. What it needs:
- *
- * - a `href` to source somebody can read, not to a download
- * - a `by` that is a person or a project, not a slogan
- * - a `detail` that says what the thing does, in one line, with no adjectives
- *   about how good it is
- *
- * `firstParty` is for the examples Gryt maintains. It exists so the page can
- * keep the two apart: a showcase where the only entries are the author's own,
- * presented as though other people made them, is a lie told by omission.
+ * Everything listed on /built, by pull request rather than a form, so "who vetted this" has
+ * an answer. Merging a row is not a security review, and the page says so.
  */
 
 import type { RowItem } from "../components/LinkRows";

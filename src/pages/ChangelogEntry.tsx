@@ -21,12 +21,8 @@ function MdxImage(props: ComponentPropsWithoutRef<'img'>) {
   return <LightboxImage {...props} />
 }
 
-// Clip is a named component rather than a `video` override because MDX only
-// routes markdown-generated elements through this map — a literal <video> tag
-// in a note would render with none of its attributes, which is exactly the
-// failure it exists to prevent. It lives in components/ now because the front
-// page shows captures too, and two answers to "how does a clip behave" is one
-// too many.
+// Clip is a named component rather than a `video` override because MDX only routes
+// markdown-generated elements through this map; a literal <video> would lose its attributes.
 const components = { a: MdxLink, img: MdxImage, Clip }
 
 export function ChangelogEntry() {

@@ -21,10 +21,8 @@ const tree = (
 
 const root = document.getElementById("root")!;
 
-/* Hydrate what the build already rendered, or mount from nothing.
-   The check is what is actually in the element rather than a flag, because the
-   two ways to arrive here are a prerendered file from nginx and `vite dev`,
-   and only one of them has anything to hydrate. */
+/* Hydrate what the build already rendered, or mount from nothing. The check is what is in
+   the element rather than a flag: only one of the two ways here has anything to hydrate. */
 if (root.firstChild) {
   hydrateRoot(root, tree);
 } else {

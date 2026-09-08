@@ -1,17 +1,6 @@
 /**
- * Names the avatar demo cycles through.
- *
- * A third ordinary names, a third old internet, a third the people everybody
- * grew up watching. Recognising the name makes it easier to feel that the owl
- * is different every time.
- *
- * **Anything that needs a caveat is not on the list.** Pepe and Wojak were both
- * adopted by people we would rather not put on the front page, and a handful of
- * creators from the same era carry baggage that would follow them here.
- *
- * Nothing here is a real Gryt user, and none of them endorse anything.
- * `avatarSeed` lower-cases and trims, so "PewDiePie" and "pewdiepie" are one
- * owl.
+ * Names the avatar demo cycles through. Anything that needs a caveat is not on the list, and
+ * nothing here is a real Gryt user. `avatarSeed` lower-cases, so case does not matter.
  */
 export const DEMO_NAMES = [
   // Ordinary, and the ones already in the client screenshots

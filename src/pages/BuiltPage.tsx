@@ -8,15 +8,8 @@ import { pageTitle } from "../lib/title";
 import styles from "../styles/audience.module.css";
 
 /**
- * Bots, addons and server plugins people can go and read.
- *
- * The list is `src/lib/built.ts` and it changes by pull request, deliberately.
- * A form would fill this page with links nobody looked at, and a page of links
- * nobody looked at is worse than an empty one: it reads as endorsement.
- *
- * Everything on it today is Gryt's own, and the page says so rather than
- * letting six first-party examples pass for a community. When somebody else's
- * entry lands, the copy under each heading is what has to change with it.
+ * Bots, addons and server plugins people can go and read, from `src/lib/built.ts`, by pull
+ * request. Everything on it today is Gryt's own, and the page says so.
  */
 const DOCS = "https://docs.gryt.chat/docs";
 const BUILT_FILE = "https://github.com/Gryt-chat/site/blob/main/src/lib/built.ts";
