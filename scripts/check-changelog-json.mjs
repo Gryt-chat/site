@@ -55,7 +55,52 @@ assert.equal(data.app[0].line, source.app[0].line, "the newest line does not mat
 const withNote = data.app.find((e) => e.note);
 assert.ok(withNote, "no app release is marked as having a note, but the .mdx files exist");
 
+/* ── the kinds the client groups by ──────────────────────────────────────── */
+
+const KINDS = new Set(["new", "fixed", "changed", "security"]);
+
+const grouped = data.app.filter((e) => e.changes);
+assert.ok(
+  grouped.length > 0,
+  "no app release carries changes, so the modal falls back to one row for every version",
+);
+
+for (const entry of grouped) {
+  assert.ok(
+    Array.isArray(entry.changes) && entry.changes.length > 0,
+    `${entry.version} has an empty changes array, which renders as a modal with a header and nothing under it`,
+  );
+  for (const change of entry.changes) {
+    assert.ok(
+      KINDS.has(change.kind),
+      `${entry.version} has a change of kind ${JSON.stringify(change.kind)}; ` +
+        `the client only draws ${[...KINDS].join(", ")} and would label it with nothing`,
+    );
+    assert.ok(
+      typeof change.text === "string" && change.text.length > 0,
+      `${entry.version} has a ${change.kind} change with no text`,
+    );
+  }
+}
+
+/* Both are written by hand, so a `changes` list saying less than the line does
+   is how somebody stops hearing about the thing the release was for. */
+for (const entry of grouped) {
+  assert.ok(
+    entry.changes.length >= entry.line.split(/(?<=\.)\s+/).filter(Boolean).length,
+    `${entry.version} has ${entry.changes.length} changes for a line of ` +
+      `${entry.line.split(/(?<=\.)\s+/).filter(Boolean).length} sentences, so the split dropped something`,
+  );
+}
+
+// Nothing before 1.10 was split, on purpose. The fallback has to keep working,
+// so at least one release without changes has to survive to exercise it.
+assert.ok(
+  data.app.some((e) => !e.changes),
+  "every app release now carries changes, so nothing exercises the fallback the client still ships",
+);
+
 console.log(
   `changelog.json: ok, ${data.app.length} app releases, newest ${data.app[0].version}, ` +
-    `${data.app.filter((e) => e.note).length} with notes`,
+    `${data.app.filter((e) => e.note).length} with notes, ${grouped.length} split into kinds`,
 );
