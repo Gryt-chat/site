@@ -51,6 +51,11 @@ export interface ReleaseLine {
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.10.3",
+    date: "2026-09-08",
+    line: "Joining voice waits for a slow microphone instead of giving up after six seconds and telling you it is unavailable. A role on the hover card shows its name rather than its id, and the role everybody starts with no longer takes a pill of its own.",
+  },
+  {
     version: "1.10.2",
     date: "2026-09-08",
     line: "A message Gryt cannot encrypt is no longer sent in the clear. Gryt asks before reading your process list now, and on a tiling window manager it draws no titlebar at all.",
