@@ -28,7 +28,7 @@ const SHOWS =
   "the whole pack comes back as a list with a name against each one, and the " +
   "emoji then appear in the picker and in a message";
 
-const DOCS = "https://docs.gryt.chat/docs/guide/emojis";
+const DOCS = "https://docs.gryt.chat/docs/use/emojis";
 
 export function Emoji() {
   return (

@@ -25,7 +25,7 @@ const SHOWS =
   "A Gryt server started on one machine appearing by itself in the server " +
   "list on another machine on the same network";
 
-const DOCS = "https://docs.gryt.chat/docs/deployment/embedded";
+const DOCS = "https://docs.gryt.chat/docs/host/from-the-app";
 
 /**
  * The discovery pane, built from the components the client builds it from.

@@ -14,7 +14,7 @@ import { Frame, VaultSketch } from "../sketches";
  * trade: one name everywhere, a way back after a lost device, and a ban that
  * means something.
  */
-const ACCOUNTS_DOCS = "https://docs.gryt.chat/docs/guide/accounts";
+const ACCOUNTS_DOCS = "https://docs.gryt.chat/docs/use/accounts";
 
 export function Identity() {
   return (

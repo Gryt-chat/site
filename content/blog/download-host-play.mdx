@@ -99,7 +99,7 @@ address.
 
 From outside, you need a route in, and this is the part I can't pretend is
 solved. A
-[Cloudflare Tunnel](https://docs.gryt.chat/docs/deployment/cloudflare-tunnel)
+[Cloudflare Tunnel](https://docs.gryt.chat/docs/host/cloudflare-tunnel)
 handles the HTTPS and WebSocket side without exposing anything, which is most of
 the setup. It can't carry the voice. WebRTC media is UDP and tunnels aren't, so
 the SFU still needs a UDP port reachable from outside. One port, not a range —
@@ -109,7 +109,7 @@ So the Hamachi-shaped problem is smaller than it was, not gone. You open one
 port instead of understanding a router page.
 
 And if a server should stay up when the laptop closes, run it with
-[Docker Compose](https://docs.gryt.chat/docs/deployment/docker-compose) instead.
+[Docker Compose](https://docs.gryt.chat/docs/host/docker-compose) instead.
 Same server, pointed at a disk that isn't your laptop.
 
 ---
@@ -117,4 +117,4 @@ Same server, pointed at a disk that isn't your laptop.
 The full list of what changed is in the
 [1.5.0 release notes](/changelog/1.5.0). If you want the reasoning about
 identity rather than the summary, that's in the
-[docs](https://docs.gryt.chat/docs/guide/accounts).
+[docs](https://docs.gryt.chat/docs/use/accounts).
