@@ -8,6 +8,7 @@
     "build": "node scripts/fetch-github-stats.mjs && node scripts/fetch-releases.mjs && node scripts/check-changelog-lines.mjs && tsc -b && node scripts/optimize-images.mjs && vite build && vite build --ssr src/entry-server.tsx --outDir dist-ssr && node scripts/prerender-blog.mjs && node scripts/check-meta.mjs",
     "lint": "eslint .",
     "test:comment-length": "node scripts/check-comment-length.mjs",
+    "test:clips": "node scripts/check-clip-playback.mjs",
     "preview": "vite preview",
     "generate:og": "node scripts/generate-og-image.mjs",
     "check:meta": "node scripts/check-meta.mjs",
