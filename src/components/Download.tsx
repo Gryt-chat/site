@@ -11,6 +11,7 @@ import {
   type OS,
   type Release,
 } from "../lib/releases";
+import { useDetectedArch } from "../lib/useDetectedArch";
 import { useDetectedOS } from "../lib/useDetectedOS";
 import { Alert, Button, Chip, Divider, Spinner, Switch, Tabs } from "@gryt/ui";
 
@@ -88,6 +89,11 @@ export function Download() {
      buttons and Linux six. */
   const [format, setFormat] = useState<string | null>(null);
 
+  /* Null off a Mac and in Safari. It only reorders the tabs below, so an
+     unknown chip costs nothing: both disk images are on the page either way,
+     and each says which Mac it is for. */
+  const arch = useDetectedArch();
+
   useEffect(() => {
     fetchLatestRelease()
       .then(setRelease)
@@ -118,10 +124,14 @@ export function Download() {
   const FORMAT_ORDER = [
     "Installer",
     "Portable",
-    "DMG",
-    "ZIP",
+    /* Your own chip first. An arm64 disk image does not open on an Intel Mac,
+       so this is not a preference the way Installer over Portable is. */
+    ...(arch === "x64"
+      ? ["DMG (Intel)", "DMG (Apple silicon)"]
+      : ["DMG (Apple silicon)", "DMG (Intel)"]),
     "AppImage",
     "Debian / Ubuntu",
+    "Fedora / RHEL",
     "Snap",
   ];
 

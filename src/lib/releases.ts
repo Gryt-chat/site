@@ -20,6 +20,14 @@ export interface Release {
 
 export type OS = "windows" | "macos" | "linux" | "ios" | "android";
 
+/** Which chip a build runs on. Only macOS ships more than one today. */
+export type Arch = "arm64" | "x64";
+
+export const ARCH_NAMES: Record<Arch, string> = {
+  arm64: "Apple silicon",
+  x64: "Intel",
+};
+
 export interface DownloadOption {
   label: string;
   description: string;
@@ -36,6 +44,12 @@ export interface DownloadOption {
    * release that published them.
    */
   withServer: boolean;
+  /**
+   * The chip this build runs on, or null where the platform ships one build for
+   * everybody. macOS is the only one with two, and an arm64 app does not start
+   * on an Intel Mac at all.
+   */
+  arch: Arch | null;
   /**
    * A place to send people rather than a file to hand them. The Microsoft Store
    * is the only one: its link opens a listing, so the button is a plain link,
@@ -64,6 +78,7 @@ export function storeOption(): DownloadOption {
     size: 0,
     fileName: "",
     withServer: true,
+    arch: null,
     external: true,
   };
 }
@@ -123,6 +138,45 @@ export function detectOS(): OS {
   return "linux";
 }
 
+/**
+ * Apple silicon or Intel, or null when the browser will not say.
+ *
+ * Nothing in the user agent answers this. Every Mac reports `MacIntel` as
+ * `navigator.platform` and "Intel Mac OS X 10_15_7" in the user agent string,
+ * on an M5 as much as on a 2019 MacBook. Measured on an M5 Pro on 2026-09-08:
+ * both of those said Intel and `userAgentData.architecture` said "arm".
+ *
+ * So the GPU is the signal. Chromium and Firefox report the real renderer
+ * through WEBGL_debug_renderer_info — "ANGLE (Apple, ANGLE Metal Renderer:
+ * Apple M5 Pro...)" on that machine, and the vendor is Intel Inc. or ATI
+ * Technologies on an Intel Mac.
+ *
+ * Safari is the exception and gets null rather than a guess. It answers "Apple
+ * GPU" for every Mac to make fingerprinting harder, so trusting it would hand
+ * every Intel Safari user an arm64 disk image that does not open. The label on
+ * the button says which chip either way, which is the half that has to be
+ * right.
+ */
+export function detectMacArch(): Arch | null {
+  try {
+    const ua = navigator.userAgent;
+    if (/safari/i.test(ua) && !/chrome|chromium|crios|edg/i.test(ua)) return null;
+
+    const gl = document.createElement("canvas").getContext("webgl");
+    if (!gl) return null;
+
+    const ext = gl.getExtension("WEBGL_debug_renderer_info");
+    if (!ext) return null;
+
+    const renderer = String(gl.getParameter(ext.UNMASKED_RENDERER_WEBGL) ?? "");
+    if (!renderer) return null;
+
+    return /apple/i.test(renderer) ? "arm64" : "x64";
+  } catch {
+    return null;
+  }
+}
+
 /** Only the three the site actually serves files for. */
 export function parseOS(value: string | null): OS | null {
   if (value === "windows" || value === "macos" || value === "linux") {
@@ -157,8 +211,10 @@ export const OS_NAMES: Record<OS, string> = {
  */
 const PREFERRED: Record<OS, string[]> = {
   windows: ["Installer", "Portable"],
-  macos: ["DMG", "ZIP"],
-  linux: ["AppImage", "Debian / Ubuntu", "Snap"],
+  /* Apple silicon first because that is every Mac sold since 2020, and because
+     `primaryOption` only falls back to this order when the chip is unknown. */
+  macos: ["DMG (Apple silicon)", "DMG (Intel)"],
+  linux: ["AppImage", "Debian / Ubuntu", "Fedora / RHEL", "Snap"],
   ios: [],
   android: [],
 };
@@ -166,7 +222,17 @@ const PREFERRED: Record<OS, string[]> = {
 export function primaryOption(
   options: DownloadOption[],
   os: OS,
+  arch?: Arch | null,
 ): DownloadOption | null {
+  /* An arm64 app does not start on an Intel Mac, so the chip decides before the
+     format does. Narrowed rather than filtered outright: a release missing one
+     arch must still hand over the other with its label saying so, instead of
+     offering nothing. */
+  if (arch) {
+    const forArch = options.filter((o) => o.arch === null || o.arch === arch);
+    if (forArch.length > 0) options = forArch;
+  }
+
   for (const label of PREFERRED[os]) {
     // Each label exists twice, the full build and the slim one. The default
     // hands over slim on purpose: it is the smaller download and most people do
@@ -205,10 +271,20 @@ export function categorizeAssets(
     // thing that says which build this is.
     const withServer = !name.includes("-slim");
 
+    /* From the file name, the same way the variant is. `-mac-x64-slim.dmg` and
+       `-mac-arm64.dmg` are the two shapes; every other platform ships x64 only,
+       and says so in its own name. */
+    const arch: Arch | null = name.includes("-arm64")
+      ? "arm64"
+      : name.includes("-x64") || name.includes("-x86_64") || name.includes("-amd64")
+        ? "x64"
+        : null;
+
     const option = (label: string, description: string): DownloadOption => ({
       label,
       description,
       withServer,
+      arch,
       url: asset.browser_download_url,
       size: asset.size,
       fileName: asset.name,
@@ -222,7 +298,14 @@ export function categorizeAssets(
       }
     } else if (name.includes("-mac-")) {
       if (name.endsWith(".dmg")) {
-        result.macos.push(option("DMG", "Standard macOS disk image"));
+        /* The chip is in the label, not only in `arch`, because the page groups
+           its format tabs by label. Two rows both reading "DMG" collapsed into
+           one tab and the array order picked the architecture. */
+        result.macos.push(
+          arch === "x64"
+            ? option("DMG (Intel)", "Disk image for Intel Macs")
+            : option("DMG (Apple silicon)", "Disk image for Apple silicon Macs"),
+        );
       }
 
       /* The .zip is deliberately not offered. It is on the release because
@@ -238,6 +321,8 @@ export function categorizeAssets(
         result.linux.push(option("AppImage", "Portable, works on most distros. It's the app itself, so put it somewhere it can stay. Updates replace this file in place."));
       } else if (name.endsWith(".deb")) {
         result.linux.push(option("Debian / Ubuntu", ".deb package for Debian, Ubuntu and other apt-based distros."));
+      } else if (name.endsWith(".rpm")) {
+        result.linux.push(option("Fedora / RHEL", ".rpm package for Fedora, RHEL, openSUSE and other dnf-based distros."));
       } else if (name.endsWith(".snap")) {
         /* No pointer to snapcraft.io yet. The Store served 1.5.10 from 13
            August while releases went to 1.9.x, because nothing ever put the
