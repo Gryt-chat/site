@@ -51,6 +51,17 @@ export interface ReleaseLine {
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.10.1",
+    date: "2026-09-08",
+    line: "Reply and edit inside a thread, scroll back through a long one, and see what it has unread without opening it. Mark a channel, a folder or a whole server as read, and install on an Intel Mac or from an RPM.",
+  },
+  {
+    version: "1.10.0-beta.1",
+    date: "2026-09-08",
+    channel: "beta",
+    line: "The first build with mark-as-read, the Intel Mac download and the RPM in it.",
+  },
+  {
     version: "1.9.24",
     date: "2026-09-07",
     line: "Servers can run plugins, and you can see what a server runs before you join.",
@@ -451,6 +462,17 @@ export const app: ReleaseLine[] = [
  * So a reader here is usually somebody deciding whether to pull a new image.
  */
 export const server: ReleaseLine[] = [
+  {
+    version: "1.9.0",
+    date: "2026-09-08",
+    line: "Sign out of your other devices without signing out of the one in your hand. A thread keeps its own typing line, its own mentions and its whole history, and leaving a server takes your picture with it.",
+  },
+  {
+    version: "1.8.16-beta.1",
+    date: "2026-09-08",
+    channel: "beta",
+    line: "The first build with per-device sign-out in it.",
+  },
   {
     version: "1.8.15",
     date: "2026-09-07",
