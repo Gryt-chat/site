@@ -1,25 +1,6 @@
 /**
- * Reads the public repository count off the GitHub organisation at build time.
- *
- * The number is on the home page ("13 repositories, all public") and used to be
- * a literal, which goes stale the moment a repository is added and says nothing
- * when it does.
- *
- * ## Why it writes a committed file rather than injecting a value
- *
- * `src/data/githubStats.json` is in git with a real number in it. This script
- * overwrites it, and **only on success**. So a build with no network, a rate
- * limit, or GitHub having a bad morning produces the last known good number
- * instead of `0`, and the build still finishes.
- *
- * That trade is deliberate: a stale-but-true count is a small wrong, and a site
- * announcing "0 repositories, all public" is a large one. Failing the release
- * over an unreachable third party would be worse than either.
- *
- * The freshness therefore comes from building often rather than from this being
- * guaranteed current. If the number matters more than that some day, it wants
- * to be a runtime fetch like `src/lib/releases.ts` — which is a different
- * decision, because then it can be wrong in the browser instead.
+ * Reads the public repository count off the GitHub organisation at build time, into a
+ * committed file, and only on success — a stale-but-true count beats "0 repositories".
  */
 import { readFileSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
@@ -29,16 +10,8 @@ const here = dirname(fileURLToPath(import.meta.url));
 const OUT = join(here, "..", "src", "data", "githubStats.json");
 
 /**
- * The repository list, not `orgs/Gryt-chat`'s `public_repos`.
- *
- * That field says 33, and 14 of those are archived `deprecated-*` repositories
- * from earlier rewrites — `deprecated-clientV2`, `gryt-authentication-server`
- * and so on. Publishing 33 would be true and misleading at once: the sentence
- * is about what Gryt is made of, and padding it with a decade of dead names to
- * make the figure larger is the kind of thing this site does not do.
- *
- * So archived is excluded, and forks with it. There are no forks today; the
- * filter is there so that adding one does not quietly inflate the count.
+ * The repository list, not `public_repos`, which says 33 and counts 14 archived
+ * `deprecated-*` repositories. Forks are excluded too, so adding one cannot inflate it.
  */
 const REPOS = "https://api.github.com/orgs/Gryt-chat/repos?type=public&per_page=100";
 
@@ -87,9 +60,8 @@ try {
       ? body.filter((repo) => repo && !repo.fork && !repo.archived).length
       : null;
 
-    // Guard the shape rather than trusting it. A number is what this is for,
-    // and 0 is the answer a renamed organisation would give — writing that
-    // would be the exact failure the fallback exists to prevent.
+    // Guard the shape rather than trusting it. A number is what this is for, and 0 is the
+    // answer a renamed organisation would give — writing that is the failure to prevent.
     if (typeof count !== "number" || !Number.isFinite(count) || count <= 0) {
       keepExisting(`GitHub returned no usable repository list (${JSON.stringify(count)})`);
     } else {

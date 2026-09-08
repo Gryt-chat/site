@@ -1,18 +1,6 @@
 /**
- * Checks the built site's metadata against the files it points at.
- *
- * The bug this exists for: /changelog was in the prerender list but not the
- * share-card list, so every prerendered page said `og:image=/changelog/og.png`
- * and that file did not exist. Nothing failed. The build was green, the page
- * was fine, and the card was simply absent wherever anyone pasted the link —
- * which is the one place nobody looks.
- *
- * It also checks that each page carries the stylesheet its own route needs
- * (GRYT-959). Same class of bug: every prerendered page shipped only the global
- * stylesheet, its own arrived 50–120ms later with the lazy chunk, and the page
- * painted unstyled and then restyled itself. Nothing failed there either.
- *
- * Run after `yarn build`. Exits non-zero on the first real problem.
+ * Checks the built site's metadata against the files it points at: a share card that does
+ * not exist, and a page missing its own route's stylesheet (GRYT-959). Run after build.
  */
 import { readFileSync, existsSync, readdirSync, statSync } from "fs";
 import { join, dirname, relative } from "path";
@@ -34,12 +22,8 @@ const stylesFor = routeStyles({
 });
 
 /**
- * `developers/contributing/index.html` back to the route `/developers/contributing`.
- *
- * Only the static routes resolve; a blog post lands on `/blog/<slug>`, which is
- * not a key, and comes back undefined. That is deliberate — the dynamic ones
- * are covered by the route they were rendered from, and guessing at `:slug`
- * here would be a second place to keep the router's shape.
+ * `developers/contributing/index.html` back to the route. Only the static routes resolve;
+ * a blog post comes back undefined, which the route it was rendered from covers.
  */
 function routeOf(rel) {
   return "/" + rel.replace(/\/index\.html$/, "").replace(/^index\.html$/, "");
@@ -92,9 +76,8 @@ for (const file of htmlFiles(distDir)) {
   if (!noindex && !canonical) problems.push(`${rel}: indexable but no canonical`);
   if (noindex && canonical) problems.push(`${rel}: noindex and canonical at once`);
 
-  /* And the stylesheets the route needs, in the served head rather than pulled
-     in later by the lazy chunk. A missing one is invisible in a build log and
-     shows up as the page flashing unstyled on load. */
+  /* And the stylesheets the route needs, in the served head rather than pulled in later by
+     the lazy chunk. A missing one shows up as the page flashing unstyled. */
   const wanted = stylesFor.get(routeOf(rel));
   if (wanted) {
     for (const href of wanted) {

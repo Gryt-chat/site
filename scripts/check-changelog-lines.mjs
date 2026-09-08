@@ -1,25 +1,6 @@
 /**
- * The changelog lines against the releases that actually happened.
- *
- * Written after twenty-seven of the first sixty dates went in wrong. They were
- * typed from the commit ranges rather than read off the releases, which is the
- * one thing `patch-notes-style.md` opens by saying not to do: *never from
- * memory*. Nothing failed, the page rendered, and every one of those dates was
- * a plausible day either side of the real one.
- *
- * Three things are checked, and the second is the one that costs a reader:
- *
- * - A line naming a version that was never released. Usually a typo in a
- *   version number, which silently invents a release.
- * - A date that disagrees with the release. Invisible, and wrong forever.
- * - A release with no line and no note, which is the gap this page exists to
- *   not have.
- *
- * All four surfaces, because they release on four clocks and the app pass is
- * the only one a human has ever proofread.
- *
- * The release lists are fetched once into `.cache/releases.json` by
- * `fetch-releases.mjs` so this runs offline and in CI without a token.
+ * The changelog lines against the releases that actually happened: a version never
+ * released, a date that disagrees, or a release with neither a line nor a note.
  */
 
 import assert from "node:assert/strict";
@@ -93,11 +74,8 @@ const notes = new Set(
     .map((name) => name.replace(/\.mdx$/, "")),
 );
 
-/* Stable only. A `-beta.N` is a build of a version rather than a version: 1.4.0
-   had twenty of them, and twenty lines saying "another 1.4.0 build" is the
-   noise patch-notes-style.md means when it says a note about deleting a dead
-   script is worse than silence. A beta that carried something gets a line the
-   same as anything else; it is just not required to. */
+/* Stable only. A `-beta.N` is a build of a version rather than a version — 1.4.0 had twenty
+   — and twenty lines saying "another 1.4.0 build" is noise. A beta may still get one. */
 const missing = [];
 for (const [surface, list] of Object.entries(published)) {
   const lined = new Set(entries.filter((e) => e.surface === surface).map((e) => e.version));

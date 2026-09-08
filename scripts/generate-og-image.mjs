@@ -1,20 +1,6 @@
 /**
- * Draws every share card the site serves, at 1200x630.
- *
- * The cards are set in Atkinson Hyperlegible, the same face as the site. That
- * takes some doing: Sharp rasterises SVG through librsvg, which resolves
- * `font-family` against the machine's installed fonts — on macOS via CoreText,
- * which never looks at fontconfig and so never sees the woff2 in public/fonts.
- * A card built with <text> therefore came out in Arial here and in something
- * else again on CI.
- *
- * So there is no <text> in the output. The woff2 is decompressed to TrueType in
- * memory, fontkit instances the variable font at the weight each line wants,
- * and every string is emitted as glyph outlines. The SVG that reaches Sharp
- * carries no font dependency at all, which is why it looks the same everywhere.
- *
- * Run by hand — `yarn generate:og` — not by `yarn build`. The PNGs are
- * committed. Re-run it when a title, a headline or this file changes.
+ * Draws every share card at 1200x630. No <text> in the output: librsvg resolves
+ * `font-family` against installed fonts, so every string is emitted as glyph outlines.
  */
 import sharp from 'sharp';
 import * as fontkit from 'fontkit';
