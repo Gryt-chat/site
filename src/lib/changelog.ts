@@ -125,13 +125,16 @@ const notesByVersion = new Map(releases.map((r) => [r.frontmatter.version, r]))
  * gets, not a requirement for appearing at all.
  */
 export function listReleases(surface: Surface): ListedRelease[] {
-  const listed = lines[surface].map((release) => ({
+  /* Only the app has notes, and the join is by version number alone, so the
+     other three have to skip it rather than fall through: the server released
+     a 1.4.0, a 1.5.0 and a 1.7.0 of its own, and each would otherwise pick up
+     the app's note of that name and link to it. */
+  if (surface !== 'app') return lines[surface].map((release) => ({ ...release }))
+
+  const listed = lines.app.map((release) => ({
     ...release,
     entry: notesByVersion.get(release.version),
   }))
-
-  // Only the app has hand-written notes; the other surfaces have never had one.
-  if (surface !== 'app') return listed
 
   const covered = new Set(listed.map((r) => r.version))
   const orphans: ListedRelease[] = releases
