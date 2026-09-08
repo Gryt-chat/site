@@ -9,19 +9,8 @@ import { pageTitle } from "../lib/title";
 import styles from "../styles/audience.module.css";
 
 /**
- * Which way in, and then out to the docs. Nothing here explains how anything
- * works.
- *
- * The file said that already and did the opposite: a `.env` snippet, a
- * Caddyfile, an upgrade snippet and four paragraphs about limits, each a copy
- * of a page in `host/`. One copy went stale exactly as predicted — it told
- * people to skip `.env` on a LAN because servers announce over mDNS, which the
- * docs contradict twice. `host/configuration` documents turning discovery off,
- * and `host/multi-server` says mDNS is desktop-only so the web app always needs
- * a typed address. A Compose deployment needs the address set either way.
- *
- * The ladder stays. Choosing between five ways in is a decision the docs do not
- * make for you, and it is the one thing this page is better placed to do.
+ * Which way in, and then out to the docs. Nothing here explains how anything works: the
+ * copies of `host/` pages went stale exactly as predicted. The ladder stays.
  */
 const DOCS = "https://docs.gryt.chat/docs";
 const HELM = "https://github.com/Gryt-chat/gryt/tree/main/ops/helm/gryt";

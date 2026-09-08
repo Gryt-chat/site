@@ -7,11 +7,8 @@ import styles from "../../styles/audience.module.css";
 const DOCS = "https://docs.gryt.chat/docs";
 
 /**
- * The first call anybody makes against a Gryt server, and what comes back.
- *
- * `/info` is the join preview and it is deliberately unauthenticated: a client
- * has to be able to say "you do not need an account for this one" before
- * anybody tries.
+ * The first call anybody makes against a Gryt server, and what comes back. `/info` is the
+ * join preview and is deliberately unauthenticated.
  */
 const INFO_REQUEST = `curl -s https://chat.example.com/info`;
 

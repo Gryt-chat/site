@@ -20,11 +20,8 @@ const paidElsewhere = [
   { label: "File upload size", gryt: "Whatever the host allows", discord: "500 MB on Nitro", cost: "$9.99/mo", teamspeak: "Your disk" },
   { label: "Custom invite link", gryt: "Included", discord: "14 boosts", cost: "$69.86/mo", teamspeak: "\u2014" },
   { label: "Your own domain", gryt: "Included", discord: "\u2014", teamspeak: "Included" },
-  // Not "Included". The client loads theme and plugin addons from a folder, and
-  // that is genuinely all of it — one object on `window`, no sandbox, no
-  // registry, and the roadmap still lists the plugin system as planned. Two of
-  // our own pages disagreed with this row and the row was the one that was
-  // wrong. Say what it does instead of what it sounds like.
+  // Not "Included". The client loads addons from a folder, one object on `window`, no
+  // sandbox and no registry. Two of our own pages disagreed and the row was wrong.
   { label: "Addons and plugins", gryt: "Themes, and an early plugin API", discord: "\u2014", teamspeak: "Included" },
 ];
 

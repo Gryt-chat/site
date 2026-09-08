@@ -4,12 +4,8 @@ import { Snippet } from "../../components/Snippet";
 import styles from "../../styles/audience.module.css";
 
 /**
- * How to help build Gryt (GRYT-956).
- *
- * The page that did not exist. Contributing was one row inside "The source" on
- * the old `/developers`, which is the wrong weight for half of the question the
- * page exists to answer — somebody arriving asks *what does Gryt have for me*
- * and *how do I help*, and only the first half had anywhere to go.
+ * How to help build Gryt (GRYT-956). The page that did not exist: contributing was one row
+ * inside "The source", which is the wrong weight for half of what the hub answers.
  */
 const DOCS = "https://docs.gryt.chat/docs";
 const GH = "https://github.com/Gryt-chat";

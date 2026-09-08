@@ -7,12 +7,8 @@ import { Snippet } from "../../components/Snippet";
 import styles from "../../styles/audience.module.css";
 
 /**
- * The design system (GRYT-956).
- *
- * The owl playground lives here now. It was the first thing on the old
- * `/developers` and it is a demo of one MIT package rather than the answer to
- * what a developer arrived wanting — but it is the best thing on the page once
- * somebody is here for the design system, so it leads.
+ * The design system (GRYT-956). The owl playground lives here now: it is a demo of one MIT
+ * package rather than what a developer arrived wanting, but it leads once somebody is here.
  */
 const DOCS = "https://docs.gryt.chat/docs";
 

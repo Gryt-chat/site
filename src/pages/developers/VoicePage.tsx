@@ -7,13 +7,8 @@ import styles from "../../styles/audience.module.css";
 const DOCS = "https://docs.gryt.chat/docs";
 
 /**
- * Joining and leaving a call, from `voice/getting-started`.
- *
- * The whole engine behind two functions and a state, which is the argument for
- * the package. What the snippet cannot show is the part that costs people an
- * afternoon — `<VoiceSingletonHooks />` has to be mounted above this or every
- * hook quietly returns its initial value — so the copy beside it says that
- * instead of hoping somebody clicks through.
+ * Joining and leaving a call, from `voice/getting-started`. What the snippet cannot show is
+ * that `<VoiceSingletonHooks />` has to be mounted above it, so the copy says so.
  */
 const VOICE_EXAMPLE = `import { SFUConnectionState, useSFU } from "@gryt/voice";
 

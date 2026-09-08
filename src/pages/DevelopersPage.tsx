@@ -20,30 +20,8 @@ import styles from "../styles/audience.module.css";
 import hub from "../styles/devHub.module.css";
 
 /**
- * The front door for somebody who writes code (GRYT-956).
- *
- * This was one 563-line page carrying eight sections, 28 links and nine
- * snippets — a directory that happened to scroll. It is a hub now, and the six
- * sections that were mostly rows are pages of their own under `/developers/`.
- *
- * The page answers one sentence: *I am a developer — what does Gryt have for
- * me, and how do I help expand it?* That splits in three, and the three groups
- * below are that split. **Help build Gryt** is the half that was missing: it
- * used to be one row inside "The source", which is the wrong weight for half of
- * the question the page exists to answer.
- *
- * Two destinations are not under `/developers` at all — `/self-hosting` and
- * `/built` — and a hub organised by what somebody wants to do rather than by
- * the URL tree can simply say so.
- *
- * Cards, against `design.md`'s "cards are a budget, not a default", because a
- * routing page is the one shape where eleven destinations have to be scannable
- * rather than read. The budget is spent here and nowhere else: the packages
- * stay a strip, and all six pages under this one are rows and prose.
- *
- * The owl playground moved to `/developers/design-system`. It was the first
- * thing on the page and it is a design-system demo, not the answer to what a
- * developer came for.
+ * The front door for somebody who writes code (GRYT-956). A hub: the six sections that were
+ * mostly rows are pages of their own. The card budget is spent here and nowhere else.
  */
 const DOCS = "https://docs.gryt.chat/docs";
 const NPM = "https://www.npmjs.com/package";
@@ -134,10 +112,8 @@ const HELP: DevCard[] = [
 ];
 
 /**
- * Six on npm, four of them MIT.
- *
- * A strip rather than a second card grid. Six package names with a licence each
- * is a list, and two card grids in a row is the thing `design.md` warns about.
+ * Six on npm, four of them MIT. A strip rather than a second card grid — two card grids in
+ * a row is the thing `design.md` warns about.
  */
 const PACKAGES: { name: string; licence: string; href: string }[] = [
   { name: "@gryt/ui", licence: "MIT", href: `${NPM}/@gryt/ui` },

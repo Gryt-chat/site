@@ -12,21 +12,8 @@ import { Themes } from "../components/home/Themes";
 import { Voice } from "../components/home/Voice";
 
 /**
- * One claim per section, and each one shown rather than argued.
- *
- * The middle of the page alternates left and right through `Showcase`. The side
- * is a prop rather than a `:nth-child` rule, so inserting a section does not
- * silently flip everything below it. Nothing enforces the alternation, and it
- * has drifted once. **The sequence lives here.** Anything with media on a side
- * takes the next value:
- *
- *     Identity  right
- *     Emoji     left
- *     Themes    right
- *     Lan       left
- *
- * `Hero`, `Bird`, `Voice`, `Addons`, `Motivation`, `SelfHost`, `Download` and
- * `Sponsors` are full-width: they do not take a turn and they do not reset it.
+ * One claim per section, each shown rather than argued. The middle alternates left and
+ * right through `Showcase`, and the sequence lives here: Identity, Emoji, Themes, Lan.
  */
 export function HomePage() {
   return (

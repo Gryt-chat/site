@@ -5,14 +5,8 @@ import { pageTitle } from "../lib/title";
 import styles from "./NotFound.module.css";
 
 /**
- * There was no catch-all route before this. Any URL that did not match rendered
- * an empty <Routes>, which meant gryt.chat/anything-mistyped showed the footer
- * jammed directly under the navbar, wordmark above wordmark, with no content
- * and no explanation — and kept the template's title, so it looked like a page
- * that had loaded rather than one that did not exist.
- *
- * Component-scope, not a macrostructure. The useful thing on a dead end is the
- * way out, so the real destinations are listed rather than decorated around.
+ * There was no catch-all route before this, so a mistyped URL rendered an empty `<Routes>`
+ * with the footer under the navbar. The useful thing on a dead end is the way out.
  */
 const DESTINATIONS = [
   { to: "/", label: "Front page" },
