@@ -137,3 +137,14 @@
     padding: 68px 16px;
   }
 }
+
+/* Not a link in running text: the base layer underlines every `a`. */
+.card {
+  text-decoration: none;
+}
+
+/* Not links in running text: the base layer underlines every `a`. */
+.more a,
+.links a {
+  text-decoration: none;
+}

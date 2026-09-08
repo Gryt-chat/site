@@ -89,18 +89,6 @@
   color: var(--accent-light);
 }
 
-.a a {
-  color: var(--accent-light);
-  text-decoration: underline;
-  text-decoration-color: color-mix(in srgb, var(--accent-light) 32%, transparent);
-  text-underline-offset: 3px;
-  transition: text-decoration-color 0.2s;
-}
-
-.a a:hover {
-  text-decoration-color: var(--accent-light);
-}
-
 .a a:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
@@ -185,4 +173,9 @@
   .sub {
     font-size: 16px;
   }
+}
+
+/* Not links in running text: the base layer underlines every `a`. */
+.links a {
+  text-decoration: none;
 }

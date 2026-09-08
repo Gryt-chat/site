@@ -261,3 +261,13 @@
     margin-top: 40px;
   }
 }
+
+/* Not a link in running text: the base layer underlines every `a`. */
+.card {
+  text-decoration: none;
+}
+
+/* Not links in running text: the base layer underlines every `a`. */
+.back {
+  text-decoration: none;
+}

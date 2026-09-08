@@ -110,18 +110,6 @@
   margin: 16px 0;
 }
 
-.prose a {
-  color: var(--accent-light);
-  text-decoration: underline;
-  text-decoration-color: color-mix(in oklab, var(--accent-light) 30%, transparent);
-  text-underline-offset: 3px;
-  transition: text-decoration-color 0.2s;
-}
-
-.prose a:hover {
-  text-decoration-color: var(--accent-light);
-}
-
 .prose strong {
   font-weight: 700;
   color: var(--text);
@@ -324,4 +312,9 @@
   font-size: 18px;
   line-height: 1.7;
   color: var(--text);
+}
+
+/* Not links in running text: the base layer underlines every `a`. */
+.back {
+  text-decoration: none;
 }

@@ -165,3 +165,14 @@
   .slotSub { font-size: 10px; }
   .featured img { height: 34px; max-width: 200px; }
 }
+
+/* Not a link in running text: the base layer underlines every `a`. */
+.button {
+  text-decoration: none;
+}
+
+/* Not links in running text: the base layer underlines every `a`. */
+.slot a,
+.slot {
+  text-decoration: none;
+}

@@ -196,3 +196,8 @@
     font-size: 20px;
   }
 }
+
+/* Not a link in running text: the base layer underlines every `a`. */
+.card {
+  text-decoration: none;
+}

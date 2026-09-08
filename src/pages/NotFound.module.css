@@ -89,3 +89,8 @@
     padding: 96px 16px 64px;
   }
 }
+
+/* Not a link in running text: the base layer underlines every `a`. */
+.link {
+  text-decoration: none;
+}
