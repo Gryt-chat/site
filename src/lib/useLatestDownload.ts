@@ -8,6 +8,7 @@ import {
   type DownloadOption,
   type OS,
 } from "./releases";
+import { useDetectedArch } from "./useDetectedArch";
 import { useDetectedOS } from "./useDetectedOS";
 
 export interface LatestDownload {
@@ -43,6 +44,7 @@ export function useLatestDownload(): LatestDownload {
      one say the same thing. It is a label here rather than an action, so the
      one frame before the real answer costs nothing. */
   const os = useDetectedOS() ?? "windows";
+  const arch = useDetectedArch();
   const [option, setOption] = useState<DownloadOption | null>(null);
   const [options, setOptions] = useState<DownloadOption[]>([]);
   const [version, setVersion] = useState<string | null>(null);
@@ -55,7 +57,7 @@ export function useLatestDownload(): LatestDownload {
         setVersion(release.tag_name.replace(/^v/, ""));
         const forOS = categorizeAssets(release.assets)[os];
         setOptions(forOS);
-        setOption(primaryOption(forOS, os));
+        setOption(primaryOption(forOS, os, arch));
       })
       .catch(() => {
         // Aborted, offline, or rate-limited. The caller falls back to a link to
@@ -63,7 +65,7 @@ export function useLatestDownload(): LatestDownload {
       });
 
     return () => controller.abort();
-  }, [os]);
+  }, [os, arch]);
 
   return { os, osName: OS_NAMES[os], option, options, version };
 }

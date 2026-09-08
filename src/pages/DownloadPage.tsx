@@ -12,6 +12,7 @@ import {
   primaryOption,
   type DownloadOption,
 } from "../lib/releases";
+import { useDetectedArch } from "../lib/useDetectedArch";
 import { useDetectedOS } from "../lib/useDetectedOS";
 import styles from "../styles/handoff.module.css";
 
@@ -40,6 +41,9 @@ export function DownloadPage() {
      itself — that is two downloads. ?os= is no earlier than detection is: the
      prerender has no query string either. */
   const os = useDetectedOS(parseOS(params.get("os")));
+  /* Null off a Mac and in Safari, which is fine: primaryOption falls back to
+     Apple silicon, and the line below tells the person which one they got. */
+  const arch = useDetectedArch();
   const [state, setState] = useState<State>({ kind: "resolving" });
 
   useEffect(() => {
@@ -53,7 +57,7 @@ export function DownloadPage() {
 
     fetchLatestRelease(abort.signal)
       .then((release) => {
-        const option = primaryOption(categorizeAssets(release.assets)[os], os);
+        const option = primaryOption(categorizeAssets(release.assets)[os], os, arch);
         if (!option) {
           setState({ kind: "empty" });
           return;
@@ -80,7 +84,7 @@ export function DownloadPage() {
       });
 
     return () => abort.abort();
-  }, [os]);
+  }, [os, arch]);
 
   const name = os ? OS_NAMES[os] : null;
 
@@ -111,10 +115,12 @@ export function DownloadPage() {
                 Gryt {state.version} for {name}, {formatSize(state.option.size)}.
               </p>
 
-              {/* Linux only: the other two hand over an installer that needs
-                  no explanation. Here the download has already started, so
-                  there is no earlier moment to say it. */}
-              {os === "linux" && (
+              {/* Linux, because the format needs saying, and macOS, because
+                  the chip does: an arm64 disk image will not open on an Intel
+                  Mac, and Safari does not say which one it is. Windows hands
+                  over an installer that needs no explanation. The download has
+                  already started, so there is no earlier moment for either. */}
+              {(os === "linux" || os === "macos") && (
                 <p className={styles.note}>{state.option.description}</p>
               )}
 
