@@ -6,6 +6,58 @@
   gap: 14px;
 }
 
+/* ── The collections ───────────────────────────────────── */
+
+/* On the page's own tokens, like the pager: these are controls rather than a
+   sample of the theme they select. */
+.groups {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+}
+
+.group {
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--text-dim);
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 5px 11px;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s, background-color 0.2s;
+}
+
+.group:hover {
+  color: var(--text);
+  border-color: var(--accent);
+}
+
+.group[aria-pressed="true"] {
+  color: var(--bg);
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.group:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* The line the library ships under each collection name, rather than one
+   written here that would drift from it. */
+.note {
+  margin: 0;
+  text-align: center;
+  font-size: 12.5px;
+  color: var(--text-dimmer);
+  /* Two lines' worth, so the panel below does not move between "Cold light,
+     long nights." and the longest of them. */
+  min-height: 2.6em;
+}
+
 /* Everything below reads its colours from the preset's own variables, which
    `createGrytTheme` puts on this element inline. `--gryt-*` rather than the
    site's aliases on purpose: the aliases point at `--gryt-*` already, so a

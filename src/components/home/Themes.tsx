@@ -1,5 +1,10 @@
 import { avatarSeed } from "@gryt/owl";
-import { createGrytTheme, grytPresets, grytThemeToOptions } from "@gryt/theme";
+import {
+  createGrytTheme,
+  grytPresets,
+  grytPresetsByCollection,
+  grytThemeToOptions,
+} from "@gryt/theme";
 import { Avatar, Button, Chip } from "@gryt/ui";
 import { useReducedMotion } from "motion/react";
 import type { CSSProperties } from "react";
@@ -16,8 +21,8 @@ import styles from "./Themes.module.css";
  */
 const GENERATOR = "https://ui.gryt.chat/theme/generator";
 
-const OURS = grytPresets.filter((p) => p.group === "Gryt").length;
-const PORTED = grytPresets.length - OURS;
+const COLLECTIONS = grytPresetsByCollection;
+const PORTED = grytPresets.filter((p) => p.collection === "Brands").length;
 
 const HOLD_MS = 3600;
 
@@ -73,14 +78,24 @@ function Preview({ vars }: { vars: CSSProperties }) {
 
 function Carousel() {
   const reduced = useReducedMotion() ?? false;
-  const [index, setIndex] = useState(0);
+  // Which collection, and how far into it. Held apart because the arrows move
+  // one and the timer moves the other. GRYT-1069.
+  const [at, setAt] = useState({ group: 0, member: 0 });
   const [picked, setPicked] = useState(false);
   const [seen, setSeen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
   const step = useCallback((by: number) => {
     setPicked(true);
-    setIndex((i) => (i + by + grytPresets.length) % grytPresets.length);
+    setAt(({ group, member }) => {
+      const size = COLLECTIONS[group].presets.length;
+      return { group, member: (member + by + size) % size };
+    });
+  }, []);
+
+  const jump = useCallback((group: number) => {
+    setPicked(true);
+    setAt({ group, member: 0 });
   }, []);
 
   // Nothing rotates off screen, and nothing rotates for somebody who asked for
@@ -95,18 +110,24 @@ function Carousel() {
     return () => io.disconnect();
   }, []);
 
-  // It stops for good once somebody uses an arrow. A carousel that keeps moving
-  // under the person steering it is the worst kind of clever.
+  // A collection per tick, so one pass is ten stops rather than forty-seven, and
+  // a further step in once it wraps, so the passes are not the same ten themes.
   useEffect(() => {
     if (!seen || picked || reduced) return;
-    const id = window.setInterval(
-      () => setIndex((i) => (i + 1) % grytPresets.length),
-      HOLD_MS,
-    );
+    const id = window.setInterval(() => {
+      setAt(({ group, member }) => {
+        const next = (group + 1) % COLLECTIONS.length;
+        return { group: next, member: next === 0 ? member + 1 : member };
+      });
+    }, HOLD_MS);
     return () => window.clearInterval(id);
   }, [seen, picked, reduced]);
 
-  const preset = grytPresets[index];
+  const collection = COLLECTIONS[at.group];
+  // Collections are different lengths, so the timer's running count is folded
+  // back in rather than clamped: the offset is what makes each pass differ.
+  const member = at.member % collection.presets.length;
+  const preset = collection.presets[member];
 
   const vars = useMemo(
     () => createGrytTheme(grytThemeToOptions(preset.theme, "dark")),
@@ -119,7 +140,25 @@ function Carousel() {
 
   return (
     <div className={styles.carousel} ref={ref}>
+      {/* The collections, so forty-seven themes are picked from four or five at
+          a time. Buttons rather than tabs: nothing is hidden behind them. */}
+      <div className={styles.groups}>
+        {COLLECTIONS.map((c, i) => (
+          <button
+            key={c.collection}
+            type="button"
+            className={styles.group}
+            aria-pressed={i === at.group}
+            onClick={() => jump(i)}
+          >
+            {c.collection}
+          </button>
+        ))}
+      </div>
+
       <Preview vars={vars} />
+
+      <p className={styles.note}>{collection.note}</p>
 
       <div className={styles.pager}>
         <button
@@ -136,7 +175,7 @@ function Carousel() {
         <span className={styles.presetName} aria-live="polite">
           <span className={styles.presetLabel}>{preset.name}</span>
           <span className={styles.presetCount}>
-            {index + 1} of {grytPresets.length}
+            {member + 1} of {collection.presets.length} in {collection.collection}
           </span>
         </span>
 
@@ -164,16 +203,18 @@ export function Themes() {
       media={<Carousel />}
     >
       <p>
-        {Spell(OURS)} are ours. {Spell(PORTED)} are ports of themes you've
-        probably seen somewhere else. A theme sets the colours and the corner
-        radius, so picking one changes the shape of the app as well as the
-        colour.
+        They come in {spell(COLLECTIONS.length)} collections, so you're picking
+        from four or five at a time rather than reading a list of{" "}
+        {grytPresets.length}. {Spell(PORTED)} are ports of themes you've
+        probably seen somewhere else and the rest are ours. A theme sets the
+        colours and the corner radius, so picking one changes the shape of the
+        app as well as the colour.
       </p>
       <p>
         The panel next to this is built from the same parts as the app, and
-        each theme goes on it the same way. Press an arrow and the rest of this
-        page comes with it &mdash; that's the same set of variables, on the
-        whole site instead of one box.
+        each theme goes on it the same way. Pick a collection or press an arrow
+        and the rest of this page comes with it &mdash; that's the same set of
+        variables, on the whole site instead of one box.
       </p>
       <p>
         If none of them fits, build one at{" "}
