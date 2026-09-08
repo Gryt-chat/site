@@ -308,3 +308,14 @@
   .lineRow { grid-template-columns: 14px minmax(0, 1fr); }
   .plain .date { grid-column: 2; grid-row: auto; }
 }
+
+/* A line row that goes somewhere: the kinds page. Same row as the others —
+   only the version lifts, so eighty rows do not all start looking clickable. */
+.lineLink .lineVersion {
+  color: var(--text);
+  transition: color 0.2s;
+}
+
+.lineLink:hover .lineVersion {
+  color: var(--accent-light);
+}

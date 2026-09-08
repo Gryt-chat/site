@@ -33,6 +33,7 @@ jobs:
       # The shape the client reads to say what changed after an update. A field
       # going missing here is a modal that never opens, and nothing else notices.
       - run: yarn test:changelog-json
+      - run: yarn test:changelog-kinds
 
       # tsc -b, the image optimiser, vite build, the blog prerender and the meta check. The
       # last fails the build on a page missing its metadata, so this is more than a compile.

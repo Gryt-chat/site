@@ -1,8 +1,35 @@
 import { lazy, type ComponentType, type LazyExoticComponent } from 'react'
 import * as lines from '../../content/changelog/releases'
-import type { ReleaseLine, Surface } from '../../content/changelog/releases'
+import type { Change, ChangeKind, ReleaseLine, Surface } from '../../content/changelog/releases'
 
-export type { ReleaseLine, Surface }
+export type { Change, ChangeKind, ReleaseLine, Surface }
+
+/**
+ * Security leads wherever it appears: below the features it gets scrolled past.
+ * The app's WhatsNewDialog keeps its own copy; a package would cost two releases.
+ */
+export const KIND_ORDER: ChangeKind[] = ['security', 'new', 'changed', 'fixed']
+
+export const KIND_LABELS: Record<string, string> = {
+  new: 'New',
+  fixed: 'Fixed',
+  changed: 'Changed',
+  security: 'Security',
+}
+
+/** The changes by kind, in KIND_ORDER, with anything unrecognised kept on the end. */
+export function groupChanges(changes: Change[]): [string, string[]][] {
+  const kinds = [...new Set(changes.map((c) => c.kind as string))]
+  const ordered = [
+    ...KIND_ORDER.filter((k) => kinds.includes(k)),
+    ...kinds.filter((k) => !(KIND_ORDER as string[]).includes(k)),
+  ]
+
+  return ordered.map((kind) => [
+    kind,
+    changes.filter((c) => c.kind === kind).map((c) => c.text),
+  ])
+}
 
 export interface ChangelogFrontmatter {
   /** Product version these notes describe, e.g. "1.4.0". */
@@ -73,6 +100,14 @@ export function getRelease(version: string): ChangelogEntry | undefined {
 }
 
 /**
+ * The app line for one version. What `/changelog/<version>` falls back to: the
+ * app's modal links there for releases that have kinds and no prose.
+ */
+export function getAppLine(version: string): ReleaseLine | undefined {
+  return lines.app.find((r) => r.version === version)
+}
+
+/**
  * Everything released after `since`, newest first — what the desktop app asks for once it
  * has updated. An unknown `since` returns nothing rather than the entire history.
  */
@@ -95,6 +130,8 @@ export interface ListedRelease {
   date: string
   channel?: 'beta'
   line: string
+  /** The same release split by kind, where somebody has written it that way. */
+  changes?: Change[]
   post?: string
   /** Present when somebody wrote the release a note. */
   entry?: ChangelogEntry
