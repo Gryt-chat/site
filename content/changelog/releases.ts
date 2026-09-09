@@ -75,6 +75,17 @@ export interface ReleaseLine {
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.11.2",
+    date: "2026-09-09",
+    line: "The notice about what changed in a new version appears, after reading your settings too early on every launch since it shipped and deciding each time that you were a fresh install.",
+    changes: [
+      {
+        kind: "fixed",
+        text: "The notice about what changed in a new version appears. It had been reading your settings before they had loaded, so every launch decided you were a fresh install and said nothing.",
+      },
+    ],
+  },
+  {
     version: "1.11.1",
     date: "2026-09-09",
     line: "Nothing changed in the app. This one exists so the update notice has an earlier version to compare against, which is what it needs before it can say anything.",
