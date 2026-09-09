@@ -1002,6 +1002,11 @@ export const server: ReleaseLine[] = [
  */
 export const voice: ReleaseLine[] = [
   {
+    version: "1.0.65",
+    date: "2026-09-09",
+    line: "Registration moves off the SFU's public port, so a stranger can no longer point their own server at yours and use it to carry their calls, and the servers already using it keep working without a config change.",
+  },
+  {
     version: "1.0.64",
     date: "2026-09-06",
     line: "Housekeeping only. Nothing changed in how voice works.",
