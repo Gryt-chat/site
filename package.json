@@ -19,7 +19,8 @@
     "emit:changelog": "node scripts/emit-changelog-json.mjs",
     "test:changelog-json": "node scripts/check-changelog-json.mjs",
     "test:changelog-kinds": "node scripts/check-changelog-kinds.mjs",
-    "test:link-underline": "node scripts/check-link-underline.mjs"
+    "test:link-underline": "node scripts/check-link-underline.mjs",
+    "test:changelog-lines": "node --test scripts/check-changelog-lines.test.mjs"
   },
   "dependencies": {
     "@gryt/owl": "^0.6.0",
