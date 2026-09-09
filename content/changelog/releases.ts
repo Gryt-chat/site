@@ -596,6 +596,11 @@ export const app: ReleaseLine[] = [
  */
 export const server: ReleaseLine[] = [
   {
+    version: "1.10.0",
+    date: "2026-09-09",
+    line: "The name you give a server when you create it saves properly now, and after an SFU upgrade the server works out where to register on its own instead of needing a config change.",
+  },
+  {
     version: "1.9.0",
     date: "2026-09-08",
     line: "Sign out of your other devices without signing out of the one in your hand. A thread keeps its own typing line, its own mentions and its whole history, and leaving a server takes your picture with it.",
@@ -996,6 +1001,11 @@ export const server: ReleaseLine[] = [
  * about calls connecting, staying up, or costing less to carry.
  */
 export const voice: ReleaseLine[] = [
+  {
+    version: "1.0.65",
+    date: "2026-09-09",
+    line: "Registration moves off the SFU's public port, so a stranger can no longer point their own server at yours and use it to carry their calls, and the servers already using it keep working without a config change.",
+  },
   {
     version: "1.0.64",
     date: "2026-09-06",
