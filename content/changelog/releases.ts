@@ -75,6 +75,29 @@ export interface ReleaseLine {
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.11.0",
+    date: "2026-09-09",
+    line: "Gryt says what changed the first time you open a new version. Voice no longer sends your microphone twice when a connection rebuilds, and messages in a thread sit in from the panel edge. Links are underlined wherever they appear.",
+    changes: [
+      {
+        kind: "new",
+        text: "Gryt says what changed the first time you open a new version, sorted into what is new, what is fixed and anything about security.",
+      },
+      {
+        kind: "fixed",
+        text: "Voice no longer sends your microphone twice when a connection rebuilds.",
+      },
+      {
+        kind: "fixed",
+        text: "Messages in a thread sit in from the panel edge instead of against it.",
+      },
+      {
+        kind: "changed",
+        text: "Links are underlined wherever they appear, rather than only under the pointer.",
+      },
+    ],
+  },
+  {
     version: "1.10.3",
     date: "2026-09-08",
     line: "Joining voice waits for a slow microphone instead of giving up after six seconds and telling you it is unavailable. A role on the hover card shows its name rather than its id, and the role everybody starts with no longer takes a pill of its own.",
