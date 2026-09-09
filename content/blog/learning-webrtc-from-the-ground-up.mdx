@@ -14,7 +14,7 @@ tags:
 
 Most people would tell you to build the easy stuff first, get the UI working, set up authentication, design the chat system, and bolt on voice later. I did the opposite. When I decided I wanted to build a communication platform, WebRTC was the first thing I tackled.
 
-The reasoning was simple. Voice is the part people leave over. You can have the most beautiful UI in the world, the most polished text chat and the best role system, but if your voice doesn't work reliably, none of it matters. I'd seen enough open source projects build fantastic features around text and community, only to struggle when it came to real-time voice communication. I didn't want that to be Gryt's story. If I couldn't solve voice, there was no point building the rest.
+The reasoning was simple. If voice doesn't work, people leave. You can have the most beautiful UI in the world, the most polished text chat and the best role system, but if your voice doesn't work reliably, none of it matters. I'd seen enough open source projects build fantastic features around text and community, only to struggle when it came to real-time voice communication. I didn't want that to be Gryt's story. If I couldn't solve voice, there was no point building the rest.
 
 The pragmatic move would have been to grab a WebRTC-as-a-service SDK, wire it up, and call it done. Plenty of good ones exist. But I had a nagging feeling that if I was going to build a voice platform I could stand behind, I needed to understand what was actually happening on the wire.
 
@@ -28,7 +28,7 @@ That was a sobering moment. WebRTC powers every video call on the modern web, in
 
 ## What a WebRTC tutorial leaves out
 
-Most tutorials show you the case where everything works: create an `RTCPeerConnection`, exchange SDP offers and answers through a signaling server, and audio starts flowing. That is a small part of what you have to build.
+Most tutorials show you the case where everything works: create an `RTCPeerConnection`, exchange SDP offers and answers through a signaling server, and audio starts flowing. That's a small part of what you actually have to build.
 
 Beneath that API sits a tower of protocols:
 
