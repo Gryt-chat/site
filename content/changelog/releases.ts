@@ -75,6 +75,21 @@ export interface ReleaseLine {
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.11.4",
+    date: "2026-09-09",
+    line: "Gryt no longer pulls its window in front of a game to show you something, and the notice about what changed tries again when the first answer is empty.",
+    changes: [
+      {
+        kind: "fixed",
+        text: "Gryt no longer puts its window above everything else when it has something to show you. An update notice while you were in a game pulled the app in front of it.",
+      },
+      {
+        kind: "fixed",
+        text: "The notice about what changed asks the site again when the first answer has nothing in it, and asks for a fresh copy rather than the one it already had. On 1.11.3 an app that updated before the site had rebuilt saw nothing.",
+      },
+    ],
+  },
+  {
     version: "1.11.3",
     date: "2026-09-09",
     line: "The login service going down no longer signs you out, because a refresh that cannot reach it now waits and tries again.",
