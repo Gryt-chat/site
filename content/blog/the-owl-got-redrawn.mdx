@@ -34,10 +34,9 @@ it were design work.
 
 <Image src="/blog/gryt-mark-2023-variants.webp" alt="Eight versions of the 2023 traced owl on different backgrounds — violet, dark, blue, a rainbow gradient, grey and salmon — all with the identical silhouette and two dot eyes" width="2152" height="304" />
 
-That's the part worth admitting. For three years I treated the colour as the
-thing that needed decisions and the drawing as settled, when it was the drawing
-that had never been decided at all. It wasn't a bad mark. It was an untouched
-one.
+For three years I treated the colour as the thing that needed decisions and the
+drawing as settled, when the drawing had never been decided at all. It wasn't a
+bad mark. It was an untouched one.
 
 ## Why it had to go
 
@@ -100,7 +99,7 @@ had been tried once before and rejected for reading as "a lump with two dents".
 A stroked outline is the most like everything else in a menu bar, which is also
 the argument against it.
 
-## One file, or fourteen pull requests
+## Shipping the new mark everywhere
 
 Fourteen READMEs across the Gryt repositories show the mark, and every one of
 them points at the same raw URL on `main`. That's either very convenient or a trap,
@@ -118,7 +117,7 @@ itself, and nobody had to review fourteen one-line pull requests.
 The check that it worked is that regenerating the icons afterwards produced a
 byte-identical `build/`.
 
-## Where it is now
+## Where the mark lives now
 
 The client, the site, the docs favicon and the phone app all carry it.
 
@@ -129,9 +128,9 @@ which next to a wordmark at 28 to 44 pixels reads as a broken image. Both read
 the file now, and the recolouring throws if the palette moves rather than
 quietly drawing something else.
 
-That's the failure mode worth naming, because a copy of the bird has drifted
-from the original here before. The drawing still lives in three places in the
-client alone, with nothing tying them together at build time.
+A copy of the bird has drifted from the original here before. The drawing still
+lives in three places in the client alone, with nothing tying them together at
+build time.
 
 The new mark is not the
 [avatar owl](/blog/the-gryt-owls). `@gryt/owl` draws people, the mark is the

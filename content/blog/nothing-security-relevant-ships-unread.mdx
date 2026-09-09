@@ -18,9 +18,7 @@ I don't think AI-generated code is particularly good. It tends to produce things
 
 So this post is about where I let AI near Gryt, and what has to happen before any of it reaches you.
 
-## But I'm one person
-
-Here's the part I can't really argue my way around.
+## Why I use it anyway
 
 Gryt is a desktop client, a web client, a signalling server, a Go SFU, an authentication service, an identity certificate authority, an image worker, a documentation site, and a marketing site. That's what it takes to build voice chat that doesn't depend on anyone else's infrastructure. And I maintain all of it on my own.
 
@@ -32,7 +30,7 @@ So I do use AI. But I've thought about the conditions, because "it was late and 
 
 A few hours before writing this, I published a version of this policy that said the important parts of Gryt were hand-written, full stop. No AI anywhere near the SFU, the auth code, the identity service, the image worker or the data layer.
 
-It broke almost immediately, and the way it broke was useful.
+It broke within hours.
 
 I wanted to add a small CI workflow to a few repositories, a YAML file that marks a task as done when a pull request merges. The rule forbade adding it to the SFU repo, because the rule covered the whole repository rather than the code that actually matters. A config file that pings a task tracker is not a threat to anyone's security, but the rule couldn't tell the difference.
 
@@ -40,7 +38,7 @@ That made me realise I'd written down the wrong promise. "No model touched this"
 
 So that's the rule now.
 
-## What it says
+## What the policy says
 
 AI can be used anywhere in Gryt. But some areas are different. The SFU, authentication and identity, the client's key handling, the image worker, the data layer. Those can only change through a pull request that I read line by line before merging. No direct commits, no exceptions for small changes.
 
@@ -48,7 +46,7 @@ Everything else, including docs, this site, the interface and tooling, is review
 
 The image worker stays on that list even though it looks out of place. It compresses avatars and makes thumbnails, which isn't exactly high-stakes work. But it takes a file a stranger uploaded and runs it through an image decoder, and image parsing has been a reliable source of memory-safety bugs for decades. It handles untrusted input, so it gets the closer read.
 
-## What that's actually worth
+## What the policy is worth
 
 I should be straight about the limits, because a policy like this is easy to oversell.
 

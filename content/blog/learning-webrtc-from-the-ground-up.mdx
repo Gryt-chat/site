@@ -10,7 +10,7 @@ tags:
   - technical
 ---
 
-## I started with the hard part
+## Why I built voice first
 
 Most people would tell you to build the easy stuff first, get the UI working, set up authentication, design the chat system, and bolt on voice later. I did the opposite. When I decided I wanted to build a communication platform, WebRTC was the first thing I tackled.
 
@@ -41,7 +41,7 @@ Beneath that API sits a tower of protocols:
 
 Each of these has its own RFC, its own edge cases, and its own failure modes. Understanding them changed how I thought about the entire system.
 
-## ICE looks simple and isn't
+## ICE negotiation
 
 ICE negotiation is where most WebRTC implementations silently break. The protocol gathers network candidates (host, server-reflexive, relay), prioritizes them, and runs connectivity checks to find the best path. Sounds straightforward until you encounter:
 
@@ -106,7 +106,7 @@ WebRTC failures are notoriously hard to diagnose. Log ICE states, DTLS handshake
 ### Understand the security model
 Don't just trust that "it's encrypted." Understand _how_ DTLS-SRTP works, what the fingerprint in the SDP means, and what an SFU can and can't see. If you're building something people rely on for private communication, you owe them that understanding.
 
-## Was it worth two years
+## Was it worth it
 
 Two years is a long time to spend learning a protocol. There were plenty of moments where I questioned whether it was worth it, and whether I should have just used an off-the-shelf SFU and spent those years building features instead.
 

@@ -24,8 +24,6 @@ there, including the part I got wrong first.
 
 <Image src="/blog/chat-in-a-server.webp" alt="A Gryt channel called General with a conversation about running a server on a Raspberry Pi, owl avatars beside each name, and a member list on the right" width="2880" height="1514" />
 
-Before any of the new work there was a plainer problem.
-
 The rule about who may act on whom was copied by hand into kick, ban, mute and
 deafen. Four verbatim copies of the same few lines, and they read the roles table
 directly. The gate that had already let the request in read something else, which
@@ -81,7 +79,7 @@ gate goes to everybody. It only grants. Nothing in that table takes a permission
 so whatever the person running the server has chosen survives an upgrade untouched.
 Six batches of it so far, and there'll be more.
 
-## Read-only channels, the cheap way first
+## Read-only channels
 
 `#rules` is what forced the next step. A public server where anyone can post in the
 rules isn't a public server you can launch.
@@ -96,7 +94,7 @@ in `#rules`, see a normal composer, type a message and get told the channel was
 read-only for your role. It worked and it wasn't good. The refusal should be visible
 before you've typed anything.
 
-## Then the real thing
+## Per-channel permissions
 
 1.8.0 replaced that. A channel can now have an opinion about 13 of the 41 permissions:
 the ones that mean something in one room. Banning somebody means the same thing
@@ -112,7 +110,7 @@ Allow isn't the same as inheriting. It grants a permission the role doesn't hold
 across the server, which is how one channel lets a role post when it can't post
 anywhere else.
 
-## The hard part was the hiding
+## Hiding a channel properly
 
 Denying `read_messages` on a channel doesn't grey it out. The server stops naming it.
 It's absent from the server details, absent from the sidebar, and asking for it by id
@@ -136,7 +134,7 @@ the job was done:
 None of those is a channel list. They're all places a channel id ended up as a side
 effect of something else. Pins, search and mentions join that list the day they exist.
 
-## More than one role
+## Holding more than one role
 
 Until 1.8.5 the roles table had the member id as its primary key, so holding a second
 role wasn't representable. Mapping our own Discord's eight roles onto
@@ -147,7 +145,7 @@ one you hold. Where two of your roles disagree about a channel, allow wins — p
 up a role shouldn't take something away, which is the rule Discord settled on and the
 one people arrive expecting.
 
-## Roles that grant themselves
+## Roles that people earn automatically
 
 A role can ask for a number of days and a number of messages before it grants itself.
 Set both and both have to be true. Time on its own lands a trusted tier on an account
@@ -155,7 +153,7 @@ that signed up a month ago and never said a word, which is exactly who you didn'
 
 It only ever promotes. Nothing here takes a role away from anybody.
 
-## What this doesn't do
+## What the permission system does not cover
 
 Bots don't hold roles at all. A bot knocks, whoever runs the server decides what it may do once,
 and that's its whole permission set, so no role edit can widen one by accident. What
@@ -169,7 +167,7 @@ And none of this is retroactive against somebody who has already read a channel.
 channel was open and you close it, you've stopped them reading it from now on. You
 haven't unsent anything.
 
-## Where it lives
+## Where to find it in the app
 
 **Server settings → Role editor** for the roles and what they hold, and **Server
 settings → Channel permissions** for what a single channel changes. Both need
