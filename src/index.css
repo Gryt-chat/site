@@ -139,12 +139,6 @@ body {
     text-decoration-color: currentColor;
   }
 
-  /* @gryt/ui renders a Button as an `a` when it is given an href. It is a
-     button wherever it lands, so it keeps no underline. */
-  a.gryt-button {
-    text-decoration: none;
-  }
-
   ul { list-style: none; }
 
   img { display: block; max-width: 100%; height: auto; }
