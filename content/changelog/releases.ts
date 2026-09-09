@@ -75,6 +75,69 @@ export interface ReleaseLine {
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.11.5",
+    date: "2026-09-10",
+    line: "Direct messages have a space of their own, reached from a button above the servers. Gryt always says when you are in a voice call, and it stops retrying a server that is never going to answer.",
+    changes: [
+      {
+        kind: "new",
+        text: "Direct messages have a space of their own, on a button above the servers. It holds every conversation you have, across every server you are on, and unread ones count on that button.",
+      },
+      {
+        kind: "changed",
+        text: "Clicking somebody in the member list opens your conversation with them. Direct messages are no longer a category in the channel list, and one you have not read shows on that person's row.",
+      },
+      {
+        kind: "fixed",
+        text: "The app always says when you are in a voice call. A call could get stuck reading as still connecting, and while that lasted the microphone mark on the server and the controls above your picture were both hidden. The call was up and your microphone was open the whole time.",
+      },
+      {
+        kind: "changed",
+        text: "The microphone mark on a server says whether sound is leaving your machine, and appears for a call that is still connecting rather than only one that is up.",
+      },
+      {
+        kind: "changed",
+        text: "Gryt gives up on a server that is not answering after about two minutes and says it is unreachable, with a button to try again. It used to retry for as long as the app was open.",
+      },
+      {
+        kind: "changed",
+        text: "The notice that Gryt is reconnecting to a server can be dismissed, and goes on its own after six seconds.",
+      },
+      {
+        kind: "fixed",
+        text: "Menus open where they should when the interface is scaled. The desktop app scales with Chromium's own zoom now rather than with CSS.",
+      },
+      {
+        kind: "fixed",
+        text: "A server you create keeps the name you gave it.",
+      },
+      {
+        kind: "security",
+        text: "Gryt warns you before a second device breaks encryption with the people you talk to, and offers to carry your message key across instead.",
+      },
+      {
+        kind: "changed",
+        text: "A message with a link no longer loads the preview until you ask for it. Reading a channel used to fetch pages from whatever sites had been linked in it.",
+      },
+      {
+        kind: "fixed",
+        text: "A direct conversation with nothing in it no longer says the server can read it, directly under a banner saying it cannot.",
+      },
+      {
+        kind: "fixed",
+        text: "A message arriving in a direct conversation no longer makes it jump, or turns the messages already on screen back into unreadable text.",
+      },
+      {
+        kind: "fixed",
+        text: "Gryt says when the other person's app is sending in the clear.",
+      },
+      {
+        kind: "changed",
+        text: "A channel with something unread is visible in the sidebar, on a colour of its own rather than the red Gryt uses for deleting things.",
+      },
+    ],
+  },
+  {
     version: "1.11.4",
     date: "2026-09-09",
     line: "Gryt no longer pulls its window in front of a game to show you something, and the notice about what changed tries again when the first answer is empty.",
