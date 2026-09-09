@@ -144,6 +144,17 @@ RUN printf '%s\n' \
   '      proxy_hide_header Cache-Control;' \
   '      add_header Cache-Control "no-store" always;' \
   '    }' \
+  '    # The desktop app and the hosted web clients read this to say what a' \
+  '    # release changed. Every one of them is another origin — the app loads' \
+  '    # from http://127.0.0.1 and its embedded server, app.gryt.chat is a' \
+  '    # different host — so without this the fetch is refused by the browser' \
+  '    # and the dialog never opens (GRYT-1101). Public, unauthenticated JSON,' \
+  '    # so * rather than a list nobody will remember to extend.' \
+  '    location = /changelog.json {' \
+  '      add_header Access-Control-Allow-Origin "*" always;' \
+  '      add_header Cache-Control "public, max-age=600, must-revalidate" always;' \
+  '      try_files $uri =404;' \
+  '    }' \
   '    # Everything else: prerendered pages, the mark, the share cards, the' \
   '    # screenshots. Ten minutes and then revalidate, which matches the deploy' \
   '    # timer, so a change is visible about as fast as it can ship. The' \
