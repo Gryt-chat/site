@@ -83,7 +83,7 @@ There's also a `set_layer` WebSocket event for manual control, which could drive
 
 On the client side: none. Hardware encoders (NVENC, Quick Sync, AMF) support temporal SVC natively for VP9, AV1, and H.264. The encoder does the same amount of work whether SVC is on or off.
 
-On the SFU side: parsing the 3-byte Dependency Descriptor header per RTP packet adds nanoseconds of overhead. The per-receiver fanout replaces one `Write()` call with N `Write()` calls, but the total I/O is the same. Memory overhead is one lightweight track object per receiver per video track. In a 10-person room with 2 video tracks, that is 20 extra objects, which is negligible.
+On the SFU side: parsing the 3-byte Dependency Descriptor header per RTP packet adds nanoseconds of overhead. The per-receiver fanout replaces one `Write()` call with N `Write()` calls, but the total I/O is the same. Memory overhead is one lightweight track object per receiver per video track. In a 10-person room with 2 video tracks, that's 20 extra objects, which is negligible.
 
 Where SVC actually *saves* something is downstream bandwidth. Instead of pushing 30 fps at somebody who can't take it, and causing retransmits and congestion, the SFU sends each viewer only what they can absorb.
 
@@ -99,7 +99,7 @@ The fix was to stop relying on `localStorage` as the source of truth. The deskto
 
 On startup, before React even renders, the app loads the file store via IPC and restores everything into `localStorage`. Then it patches `localStorage.setItem` and `localStorage.removeItem` so that every future write is automatically synced to the file in real time. The file store is the source of truth; `localStorage` is just a fast in-memory cache.
 
-On first launch after the update, a one-time migration runs that copies all existing `localStorage` entries into the file store. If you already had data in `localStorage` from before, it is preserved. If `localStorage` was empty but the file store had data from a previous session, it gets restored. Either way, nothing is lost.
+On first launch after the update, a one-time migration runs that copies all existing `localStorage` entries into the file store. If you already had data in `localStorage` from before, it's preserved. If `localStorage` was empty but the file store had data from a previous session, it gets restored. Either way, nothing is lost.
 
 The best part: zero changes to any of the existing code that reads or writes `localStorage`. The theme hook, the auth module, the token storage and the settings system all continue to call `localStorage.getItem` and `localStorage.setItem` exactly as before. The patching layer handles the persistence transparently.
 

@@ -1,0 +1,55 @@
+---
+version: 1.10.2
+date: 2026-09-08
+headline: A message Gryt could not encrypt was being sent in the clear. It is held back now, and Gryt asks before reading your process list.
+---
+
+Two things in this release are about Gryt doing something it had told you it
+wasn't doing. Both were mine.
+
+## The message that went out readable
+
+Carlo's messages in our direct conversation arrived marked as not encrypted.
+Mine said the conversation was sealed. Both were right.
+
+`useChatSend` carried a comment describing the rule:
+
+> Sealed or in the clear, never both — the server refuses a payload carrying
+> each. A failure to seal sends nothing rather than falling back.
+
+And then it did the opposite. If sealing produced something it sent that;
+otherwise it sent the plain text. So every time sealing failed, the message
+went out readable. That is what the message-key warning had been reporting all
+along, and what I had been reading as a false alarm.
+
+The server took it. `chat.ts` refuses a payload with both a sealed body and
+text, and refuses a sealed body outside a direct conversation, and had no rule
+at all against plain text inside one. So it stored it.
+
+A conversation that can be sealed now sends nothing when sealing fails. You
+get told, and the message stays in the box. That's what the comment had
+claimed since the sealing work landed.
+
+## Reading your process list
+
+Gryt can watch for a program running so a plugin can react to it, a game
+starting say. The design was already narrow: the watcher stops entirely when
+the list is empty, polls every ten seconds rather than continuously, filters
+helpers and system processes, and hands a plugin "yes to one you named" rather
+than the list.
+
+The gap was one line. The settings panel called `listRunning()` in an effect
+on mount, so opening that page read every process on your machine before you
+had agreed to anything. The comment directly above it said "this spawns a
+`ps`".
+
+Consent is recorded per machine now, as the time you gave it. The check is in
+the main process rather than only in the panel, so a device where you have
+revoked it cannot quietly resume from a stored list.
+
+## Also
+
+On a tiling window manager Gryt draws no titlebar at all, since the compositor
+is placing the window anyway. A selected settings page is easier to tell apart
+from the category holding it. And adopting a message key offers you the
+restart it needs rather than leaving you to work that out.

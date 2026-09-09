@@ -75,6 +75,11 @@ export interface ReleaseLine {
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.11.1",
+    date: "2026-09-09",
+    line: "Nothing changed in the app. This one exists so the update notice has an earlier version to compare against, which is what it needs before it can say anything.",
+  },
+  {
     version: "1.11.0",
     date: "2026-09-09",
     line: "Gryt says what changed the first time you open a new version. Voice no longer sends your microphone twice when a connection rebuilds, and messages in a thread sit in from the panel edge. Links are underlined wherever they appear.",
@@ -96,6 +101,7 @@ export const app: ReleaseLine[] = [
         text: "Links are underlined wherever they appear, rather than only under the pointer.",
       },
     ],
+    post: "gryt-tells-you-what-changed",
   },
   {
     version: "1.10.3",
