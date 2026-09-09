@@ -35,6 +35,7 @@ jobs:
       - run: yarn test:changelog-json
       - run: yarn test:changelog-kinds
       - run: yarn test:link-underline
+      - run: yarn test:changelog-lines
 
       # tsc -b, the image optimiser, vite build, the blog prerender and the meta check. The
       # last fails the build on a page missing its metadata, so this is more than a compile.
