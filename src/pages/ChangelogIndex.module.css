@@ -319,3 +319,9 @@
 .lineLink:hover .lineVersion {
   color: var(--accent-light);
 }
+
+/* Not a link in running text: the base layer underlines every `a`. */
+.link,
+.lineRow {
+  text-decoration: none;
+}

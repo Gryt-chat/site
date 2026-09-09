@@ -528,3 +528,8 @@
   line-height: 1.4;
   opacity: 0.7;
 }
+
+/* Not a link in running text: the base layer underlines every `a`. */
+.card {
+  text-decoration: none;
+}

@@ -148,3 +148,9 @@
   .tiers li { flex-direction: column; gap: 4px; }
   .amount { flex: none; padding-top: 0; }
 }
+
+/* Not a link in running text: the base layer underlines every `a`. */
+.amount,
+.button {
+  text-decoration: none;
+}

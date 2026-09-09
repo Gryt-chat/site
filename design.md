@@ -57,6 +57,25 @@ sentence. There is no second display face and there should not be one.
 Display sizes all carry negative tracking and `text-wrap: balance`. Body copy
 does not.
 
+## Links
+
+**A link in running text is underlined.** At rest, not on hover. That is set once
+in the base layer of `index.css`, with the rule mixed from the link's own colour
+at 32% so a paragraph of links doesn't read as a fence, and solid under the
+pointer.
+
+Everything else opts out in its own stylesheet. The nav, a card, a button, a
+`→` call to action and a footer column are read by their position and shape, and
+an underline through them makes the page worse. Each of those carries
+`text-decoration: none` with a line saying why.
+
+It used to work the other way round — `a { text-decoration: none }` in the base
+layer and four stylesheets adding the underline back per page. A new link
+started wrong and stayed wrong until somebody noticed, which is how the desktop
+app ended up with eight that only underlined on hover. `yarn test:link-underline`
+fails if the base layer stops underlining, or if anything turns it off for the
+bare element again.
+
 ## The section rhythm (front page only)
 
 This is how the front page builds a section. Content pages are **not** required

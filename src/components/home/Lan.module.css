@@ -149,3 +149,8 @@
     grid-template-columns: minmax(0, 1fr);
   }
 }
+
+/* Not a link in running text: the base layer underlines every `a`. */
+.card {
+  text-decoration: none;
+}

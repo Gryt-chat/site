@@ -425,3 +425,10 @@
     transition: opacity 100ms ease-out;
   }
 }
+
+/* Not a link in running text: the base layer underlines every `a`. */
+.brand,
+.links .navLink,
+.openApp {
+  text-decoration: none;
+}

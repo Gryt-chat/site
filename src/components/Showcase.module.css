@@ -137,3 +137,8 @@
     gap: 28px;
   }
 }
+
+/* Not a link in running text: the base layer underlines every `a`. */
+.row {
+  text-decoration: none;
+}

@@ -139,3 +139,10 @@
     border-radius: var(--radius-md) var(--radius-md) 0 0;
   }
 }
+
+/* Not a link in running text: the base layer underlines every `a`. */
+.primary,
+.secondary,
+.tertiary {
+  text-decoration: none;
+}
