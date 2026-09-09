@@ -10,8 +10,6 @@ tags:
   - open-source
 ---
 
-## Three copies of a button
-
 For most of Gryt's life the interface lived in one place: the client. A button
 was a `<button>` with some Tailwind on it, written where it was needed, and if
 the next screen needed a button too, that one got written where *it* was needed.
@@ -29,7 +27,7 @@ documented at [ui.gryt.chat](https://ui.gryt.chat).
 
 <Image src="/blog/gryt-ui-overview.webp" alt="The Gryt UI documentation site, a dark catalogue page listing 47 components with a search field, a theme picker, and cards for the example screens" width="2880" height="1900" />
 
-## What's in it
+## What the library contains
 
 47 components. They're built on [Base UI](https://base-ui.com), the MUI team's
 headless library, so the keyboard behaviour, focus trapping and ARIA wiring come
@@ -64,11 +62,11 @@ a font, it learned it once and both renderers picked it up.
 ## Themes are a link now
 
 A Gryt theme is a couple of dozen hex values. That's small enough to be a URL,
-which turns out to change what a theme is for.
+which changes what a theme is for.
 
 The generator at
 [ui.gryt.chat/theme/generator](https://ui.gryt.chat/theme/generator) puts an
-editor on the left and real components on the right — not swatches, the actual
+editor on the left and real components on the right, not swatches but the actual
 `Button` and `TextField` and voice tile reading the theme you're building. When
 it looks right you press **Copy link**, and pasting that link into the client's
 appearance settings applies it.
@@ -107,7 +105,7 @@ phone uses" was a question I answered by reading commits.
 The packages are MIT, unlike the AGPL-3.0 apps that use them. If you want a
 chat-shaped component library for something that isn't Gryt, take it.
 
-## What it isn't
+## What the library does not do
 
 It isn't a general-purpose design system, and I wouldn't recommend building a
 dashboard on it. The primitives are chat primitives: message rows, member lists,

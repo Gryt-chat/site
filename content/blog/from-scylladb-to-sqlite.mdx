@@ -64,7 +64,7 @@ I won't pretend this is a perfect decision with no downsides. There are real tra
 
 These are real limitations. I'm not dismissing them. They just matter at a scale Gryt hasn't reached, and may not reach for a long time.
 
-## The door is open for Postgres
+## Postgres is the next step if SQLite stops coping
 
 If Gryt grows to the point where SQLite becomes a bottleneck, the most likely next step is PostgreSQL rather than a return to ScyllaDB.
 
@@ -90,9 +90,9 @@ The migration was straightforward. The schema stayed conceptually the same, with
 
 For existing self-hosters running the old ScyllaDB setup: the migration path is documented in the deployment guide. For new users: you don't need to think about any of this. The database just works.
 
-## Simpler is better
+## Fewer moving parts
 
-If I've learned anything building Gryt over the past four years, it's that complexity is a tax you pay on every future decision. Every additional service in the stack is another thing that can fail, another thing that needs updating, another thing a new contributor has to understand.
+Every extra service in the stack is another thing that can fail, another thing that needs updating, and another thing a new contributor has to understand before they can run it.
 
 Removing ScyllaDB improved the Windows story, and it improved the whole self-hosting experience along with it. Fewer containers, fewer ports, fewer environment variables, fewer things to debug when something goes wrong.
 

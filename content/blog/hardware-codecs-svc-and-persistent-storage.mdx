@@ -11,11 +11,9 @@ tags:
   - desktop
 ---
 
-## Three things at once
+## What is in this update
 
-This update touches three separate areas that all shipped around the same time. Normally I'd split them into their own posts. But they happened back to back, and telling it that way is more honest than pretending each one existed on its own.
-
-So: hardware-accelerated codec selection, SVC layer-aware forwarding in the SFU, and a fix for the desktop app silently losing all your data between restarts.
+This update touches three separate areas that shipped within days of each other: hardware-accelerated codec selection, SVC layer-aware forwarding in the SFU, and a fix for the desktop app silently losing all your data between restarts.
 
 ## The codec problem
 
@@ -42,7 +40,7 @@ For a presentation or anything text-heavy, turn gaming mode off and it goes back
 
 ## SVC: one stream, multiple quality levels
 
-This is the part I'm most excited about. Scalable Video Coding lets the encoder produce temporal layers within a single stream. With L1T3 (the default), the encoder outputs three framerate tiers in one RTP stream:
+Scalable Video Coding lets the encoder produce temporal layers within a single stream. With L1T3 (the default), the encoder outputs three framerate tiers in one RTP stream:
 
 - **T0**: Base layer at 7.5 fps
 - **T0 + T1**: 15 fps
@@ -103,7 +101,7 @@ On first launch after the update, a one-time migration runs that copies all exis
 
 The best part: zero changes to any of the existing code that reads or writes `localStorage`. The theme hook, the auth module, the token storage and the settings system all continue to call `localStorage.getItem` and `localStorage.setItem` exactly as before. The patching layer handles the persistence transparently.
 
-## What is next
+## What comes next
 
 These three features set the stage for a few things I have been wanting to build:
 
