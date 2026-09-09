@@ -75,20 +75,31 @@ export interface ReleaseLine {
  */
 export const app: ReleaseLine[] = [
   {
-    version: "1.11.2",
+    version: "1.11.3",
     date: "2026-09-09",
-    line: "The notice about what changed in a new version appears, after reading your settings too early on every launch since it shipped and deciding each time that you were a fresh install.",
+    line: "The login service going down no longer signs you out, because a refresh that cannot reach it now waits and tries again.",
     changes: [
       {
         kind: "fixed",
-        text: "The notice about what changed in a new version appears. It had been reading your settings before they had loaded, so every launch decided you were a fresh install and said nothing.",
+        text: "The login service going down no longer signs you out. A refresh that cannot reach it waits and tries again, and only a token the service has actually turned down ends your session.",
+      },
+    ],
+  },
+  {
+    version: "1.11.2",
+    date: "2026-09-09",
+    line: "The notice about what changed now appears, instead of reading your settings too early and deciding every time that you were a new install.",
+    changes: [
+      {
+        kind: "fixed",
+        text: "The notice about what changed now appears. It had been reading your settings before they had loaded, so every launch decided you were a new install and said nothing.",
       },
     ],
   },
   {
     version: "1.11.1",
     date: "2026-09-09",
-    line: "Nothing changed in the app. This one exists so the update notice has an earlier version to compare against, which is what it needs before it can say anything.",
+    line: "Nothing changed in the app. We bumped the version to test the notice you are reading this in.",
   },
   {
     version: "1.11.0",
