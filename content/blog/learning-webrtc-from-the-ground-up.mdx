@@ -14,11 +14,11 @@ tags:
 
 Most people would tell you to build the easy stuff first, get the UI working, set up authentication, design the chat system, and bolt on voice later. I did the opposite. When I decided I wanted to build a communication platform, WebRTC was the first thing I tackled.
 
-The reasoning was simple: voice is what makes or breaks a platform like this. You can have the most beautiful UI in the world, the most polished text chat and the best role system, but if your voice doesn't work reliably, none of it matters. I'd seen enough open source projects build fantastic features around text and community, only to struggle when it came to real-time voice communication. I didn't want that to be Gryt's story. If I couldn't solve voice, there was no point building the rest.
+The reasoning was simple. Voice is the part people leave over. You can have the most beautiful UI in the world, the most polished text chat and the best role system, but if your voice doesn't work reliably, none of it matters. I'd seen enough open source projects build fantastic features around text and community, only to struggle when it came to real-time voice communication. I didn't want that to be Gryt's story. If I couldn't solve voice, there was no point building the rest.
 
 The pragmatic move would have been to grab a WebRTC-as-a-service SDK, wire it up, and call it done. Plenty of good ones exist. But I had a nagging feeling that if I was going to build a voice platform I could stand behind, I needed to understand what was actually happening on the wire.
 
-That decision turned what could have been a weekend integration into a nearly two-year deep dive. This post is about what I learned along the way.
+That decision turned what could have been a weekend integration into nearly two years of reading and rebuilding. This post is about what I learned along the way.
 
 ## Nobody around me could help
 
@@ -26,9 +26,9 @@ One of the first things I did when I committed to learning WebRTC was ask around
 
 That was a sobering moment. WebRTC powers every video call on the modern web, including Google Meet, Discord and Zoom in the browser, and yet among dozens of professional developers, nobody could explain how ICE negotiation works or what DTLS-SRTP actually does. A lot of people use it. Very few seem to know what it is doing. There were no mentors to lean on, no colleagues to pair with. It was going to be me, the RFCs, and a lot of trial and error.
 
-## The WebRTC stack is deeper than you think
+## What a WebRTC tutorial leaves out
 
-Most tutorials show you the "happy path": create an `RTCPeerConnection`, exchange SDP offers and answers through a signaling server, and audio starts flowing. It looks simple. It is not.
+Most tutorials show you the case where everything works: create an `RTCPeerConnection`, exchange SDP offers and answers through a signaling server, and audio starts flowing. That is a small part of what you have to build.
 
 Beneath that API sits a tower of protocols:
 
@@ -41,7 +41,7 @@ Beneath that API sits a tower of protocols:
 
 Each of these has its own RFC, its own edge cases, and its own failure modes. Understanding them changed how I thought about the entire system.
 
-## ICE: the hardest "simple" problem
+## ICE looks simple and isn't
 
 ICE negotiation is where most WebRTC implementations silently break. The protocol gathers network candidates (host, server-reflexive, relay), prioritizes them, and runs connectivity checks to find the best path. Sounds straightforward until you encounter:
 
@@ -106,7 +106,7 @@ WebRTC failures are notoriously hard to diagnose. Log ICE states, DTLS handshake
 ### Understand the security model
 Don't just trust that "it's encrypted." Understand _how_ DTLS-SRTP works, what the fingerprint in the SDP means, and what an SFU can and can't see. If you're building something people rely on for private communication, you owe them that understanding.
 
-## The payoff
+## Was it worth two years
 
 Two years is a long time to spend learning a protocol. There were plenty of moments where I questioned whether it was worth it, and whether I should have just used an off-the-shelf SFU and spent those years building features instead.
 

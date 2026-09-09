@@ -25,7 +25,7 @@ We set up around 20 voice channels to give people spaces to sit in, and pointed 
 
 It had both ups and downs.
 
-## The startup fiasco
+## Everything that broke in the first hour
 
 I wasn't at the LAN party when things kicked off. I was celebrating a birthday, which meant every issue that popped up had to be triaged and fixed from my phone.
 
@@ -69,7 +69,7 @@ After about 24 hours of continuous use, voice activity started lagging. Everyone
 
 The root cause was a CPU limit in the old Docker Compose configuration. The SFU container was capped at a fixed number of cores, which was fine for a handful of users but completely insufficient for a sustained 80+ person load. Once I removed the CPU limit and let the SFU use all available cores, everything went back to being smooth immediately.
 
-## The voice delay mystery
+## Voice picks up a delay over long sessions
 
 There's one issue we haven't solved yet. After a few hours of being continuously connected to a voice channel, users start experiencing a noticeable delay, around half a second of latency that wasn't there when they first joined. It builds up gradually, and there's no obvious explanation from the client side. Reconnecting to the voice channel resets it.
 

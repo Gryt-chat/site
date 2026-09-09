@@ -1,6 +1,6 @@
 ---
 title: The Server Can't Read Your Direct Messages
-description: Direct messages shipped without encryption, and said so. Two weeks later that line was gone.
+description: Direct messages shipped unencrypted and said so. Two weeks later they were encrypted on your machine, and twice along the way it quietly stopped working.
 author: Sivert
 date: 2026-09-09
 image: /blog/identity-card.webp
@@ -10,138 +10,147 @@ tags:
   - security
 ---
 
-Direct messages landed in 1.7 without encryption. There was a line above every
-conversation saying so, that this one wasn't private and the server could read it.
-Honest, and also a to-do list.
+Direct messages arrived in 1.7 with no encryption. Every conversation had a line
+above it saying so: this isn't private, the server can read it. That was true, and I
+wanted it gone.
 
-Two weeks later the line was gone. A direct message is sealed on your machine before
-it goes anywhere, and the server stores something it can't open. You don't switch it
-on and you can't forget to.
+Two weeks later it was. A direct message is now encrypted on your machine before it
+goes anywhere, and the server stores something it can't open. It's always on, and
+there's no setting for it.
 
-What I keep thinking about is the two separate times the whole feature was
-switched off and nothing anywhere said so.
+Getting there took two rounds of discovering that encryption had quietly stopped
+working for whole groups of people, with nothing on screen to say so. Both are below.
 
-## What sealing is
+## What "encrypted" means here
 
-Every message gets its own key. That key is wrapped once for each person in the
-conversation, using the key they published, and the wrapped copies ride along with
-the ciphertext. The server takes the whole thing and files it. It has no key to any
-of it.
+Every message gets its own key. That key is then encrypted separately for each person
+in the conversation, using the public key they published, and those encrypted copies
+travel with the message. The server stores all of it and can open none of it.
 
-Attachments go the same way. They used to go up as themselves, get a thumbnail made,
-and be served to anybody holding the link, so a private conversation could have
-public photographs in it. Now the file is encrypted before upload and its key sits
-inside the sealed message.
+Attachments work the same way. They used to go up as ordinary files, get a thumbnail
+made, and be served to anyone with the link, so a private conversation could have
+public photographs in it. Now the file is encrypted before it's uploaded and its key
+sits inside the message.
 
-It only seals when everybody in the conversation has a key it's willing to use.
-Sealing for four people out of five leaves the fifth looking at a conversation they
-can't read while everyone else sees it working, which is worse than not sealing at
-all. When it can't seal, the line above the messages comes back and says why.
+Gryt only encrypts when everyone in the conversation has published a key it will
+accept. Encrypting for four people out of five leaves the fifth staring at a
+conversation they can't read while everyone else sees it working, which is worse than
+not encrypting at all. When it can't encrypt, the line above the messages comes back
+and says why.
 
 ## Half of every signature would have been rejected
 
-The desktop did its crypto with WebCrypto and the phone couldn't. `crypto.subtle`
-isn't on React Native, so mobile was already doing its curve work with
-`@noble/curves`. Two implementations of one envelope is a pair of clients that send
-each other messages nobody can read, with the sender looking at the text they typed
-either way. So the desktop moved to noble too.
+The desktop app used the browser's built-in crypto. The phone couldn't:
+`crypto.subtle` doesn't exist in React Native, so mobile was already using
+`@noble/curves`. Two different implementations of the same format is how you end up
+with two apps that can't read each other's messages, while both senders see their own
+text just fine. So the desktop moved to noble as well.
 
-Nothing on the wire changed. Then the test vectors failed.
+The format on the wire didn't change, so this should have been invisible. The test
+vectors failed anyway.
 
-ECDSA has two valid signatures for every message: `s`, and `order - s`. Noble refuses
-the high one by default. That's the right default for a blockchain, where a signature
-you can rewrite and keep valid means a transaction you can replay under a second id.
-Nothing here is identified by its signature.
+ECDSA has two valid signatures for every message: `s`, and `order - s`. Noble rejects
+the high one by default. That's a sensible default for a blockchain, where a
+signature you can rewrite and keep valid means a transaction you can replay under a
+second id. Gryt doesn't identify anything by its signature, so the default is wrong
+here.
 
-WebCrypto doesn't normalise, and neither does JOSE. So about **half of all ES256
-signatures come out high**. With noble's default left on, roughly half of every
-client's published keys would have been rejected at random with "the signature does
-not check out", and the other half would have worked perfectly.
+The browser's crypto doesn't normalise, and neither does JOSE. So about **half of all
+ES256 signatures come out high**. Leaving noble's default on would have rejected
+roughly half of every client's published keys, at random, with "the signature does not
+check out". The other half would have worked perfectly.
 
-That's the shape of a bug that survives a lot of testing and then turns up months
-later as "encryption sometimes doesn't work". It only surfaced because the test
-vector happened to have a high `s`, which was luck. The check signs 24 of them now
-and fails unless at least one comes out high, so a future run can't pass on a lucky
-sample.
+A bug like that survives a lot of testing. It would have turned up months later as
+"encryption sometimes doesn't work", with nothing anyone could reproduce. It only
+came out now because the one test vector happened to have a high `s`, which was luck.
+The check signs 24 of them now and fails unless at least one comes out high, so a
+future run can't pass on a lucky sample.
 
-## Twice it was off, and nothing said so
+## Twice it was off, and nobody could tell
 
-**Nobody who was already a member ever published a key.** The publish ran from the
-`server:joined` handler. A client that already holds a token never goes near that.
-It sends `session:restore` on connect instead, and none of what that does is
-`server:joined`. So encryption worked for anybody who joined a server after the
-feature shipped, and for nobody who was already in one. No key left the device,
-nothing errored, and the composer correctly reported that the other side hadn't
-published anything. It was right. The server really was saying that.
+**Nobody who was already a member ever published a key.** Publishing ran from the code
+that handles joining a server. A client that already has a token never joins again.
+It reconnects instead, and reconnecting runs different code. So encryption worked for
+anyone who joined a server after the feature shipped, and for nobody who was already
+in one.
 
-**And an account on two devices had it switched off.** A peer pins two things: your
-message key, and the thumbprint of whatever vouched for it. The message key comes
-from your seed, so every device agrees on it. The signing key didn't. For an account
-it was generated fresh and randomly on each device, so a laptop and a phone signed
-into one account published two different vouchers for the same key. Whichever spoke
-last was what the server held. Every peer watched the thumbprint flip, and a flipping
-thumbprint is what a substituted key looks like, so their clients refused to encrypt.
-Correctly. The people most likely to own two devices were the ones it was quietly off
-for.
+Nothing failed. No key left the device, nothing errored, and the message box said the
+other person hadn't published a key yet, which was true. That made it look like their
+problem rather than a bug.
 
-There was a check meant to catch the first of those, and it asserted that both
-handlers *called* the publish function. Asserting a call reaches a function isn't
-asserting that the function does the thing. It reads the function now, and fails on
-any early return before the key goes out.
+**An account signed in on two devices had it switched off as well.** Your client
+remembers two things about everyone you talk to: their message key, and a fingerprint
+of the key that vouched for it. If either changes, your client stops encrypting,
+because a key that changed is what a swapped key looks like.
 
-## What a pin proves, and what it doesn't
+Your message key comes from your seed, so every device you own produces the same one.
+The signing key didn't work that way. Each device generated its own, so a laptop and
+a phone signed into one account vouched for the same message key with two different
+signatures. Whichever spoke last was what the server held, and everyone else watched
+the fingerprint flip back and forth. Their clients refused to encrypt, which is
+exactly what they should have done. The people most likely to own two devices were
+the ones it was off for.
 
-Pinning a key catches one that changed. It can't tell you the first one was ever
-right, because the server is what introduced the two of you, and no check made
-through the server gets past that.
+There was a test meant to catch the first one. It checked that both code paths called
+the publish function, and both of them did. The function returned early before
+sending anything. The test reads the function itself now, and fails if anything can
+return before the key goes out.
 
-The only thing that does is two people reading a short code to each other over
-something the server isn't on. A phone call, or standing in the same room.
+## Remembering a key only catches it changing
 
-It's built from everything each side has pinned about the other: both thumbprints and
-both message keys. Substitute any one of the four and the two codes differ, and the
-server can't do anything about that, because it never sees the comparison. The four
-are sorted before hashing so both people compute the same string without having to
-agree who goes first. Two honest people reading out different codes would decide they
-were being attacked, which is worse than no check at all.
+Remembering someone's key catches that key changing later. It can't tell you the
+first one was ever theirs, because the server is what introduced the two of you, and
+anything you check through the server has the same problem.
+
+The only way around it is for the two of you to compare a short code somewhere the
+server isn't: on the phone, or standing in the same room.
+
+The code is built from all four values involved, both message keys and both
+fingerprints. Change any one of them and the two codes come out different, and the
+server can't do anything about that, because it never sees you compare. The four are
+sorted before they're hashed, so both of you get the same code without having to
+agree who counts as first. Two honest people reading out codes that didn't match
+would conclude they were being attacked, which is worse than not checking at all.
 
 <Image src="/blog/identity-card.webp" alt="A member card open over a Gryt channel, showing Herald offline, a No account badge, and a fingerprint of eleven four-character groups under the note that names are not unique" width="2880" height="1514" />
 
-It's digits rather than words. There are already 24 words on the identity backup
-card, and eight more words next to them would read as a second recovery phrase.
-Something to keep secret and type into a box, which is the exact opposite of what
-this is.
+The code is digits rather than words. Your identity backup is already 24 words, and
+eight more words next to them would read as a second recovery phrase: something to
+keep secret and type into a box. This is the opposite. You read it out loud to
+someone.
 
 The button says "read this to them", and afterwards the card says "compared and
-matched". It says what happened rather than implying the card did anything. The mark
-goes the moment either key moves, because somebody who compared a code last year, and
-whose peer has since arrived with a new key, has verified nothing.
+matched". That's what the two of you did, rather than something Gryt is claiming to
+have checked for you. The mark disappears the moment either key changes. If you
+compared a code last year and their key has changed since, that comparison tells you
+nothing.
 
-## The warning that cried wolf
+## A warning that was almost always wrong
 
-For a while, joining a server would tell you it was showing a message key that wasn't
+For a while, joining a server could tell you it was showing a message key that wasn't
 yours, and that you should treat your direct messages as readable by it.
 
-It fired on a race. We publish our own key on join, and the first member list usually
-arrives before that lands, so the mismatch was genuinely there for about a second. It
-also never went away, because it had no dismiss and no expiry, so a one-second flash
-stayed on screen for the rest of the session. And it blamed the wrong thing. The
-usual cause wasn't a hostile server. It was signing in on a second device.
+It went off because of timing. Your client publishes its key when it joins, and the
+first member list usually arrives before that has landed, so for about a second the
+key genuinely doesn't match. The warning had no dismiss button and no expiry, so that
+one second stayed on screen for the rest of the session.
 
-It waits five seconds now, comes down the moment the keys agree, and names the second
-device first. That isn't a fix for the cause. The cause was that a second device made
-a whole new identity, and that's what the message password in
-[1.9](/changelog/1.9.0) is for.
+It also pointed at the wrong thing. A hostile server can cause this. What actually
+caused it, nearly every time, was signing in on a second device.
 
-## What this doesn't cover
+It waits five seconds now, disappears as soon as the keys agree, and mentions the
+second device first. That doesn't fix the cause. The cause was that a second device
+made a whole new identity, and the message password in [1.9](/changelog/1.9.0) is
+what fixes that.
 
-Channels aren't encrypted, and aren't pretending to be. A direct message is between
-people who chose each other. A channel is a room with a member list somebody
-administers. People join it, leave it and get removed from it, and the server has to
-hand the history to whoever arrived yesterday.
+## Channels are not encrypted
 
-So if you're hosting, the honest version is this. Your server can read what's said in
-its channels. It can't read a direct message between two of its members.
+Channels aren't encrypted, and don't claim to be. A direct message is between two
+people who picked each other. A channel is a room someone administers: people join
+it, leave it and get removed from it, and the server has to hand the history to
+whoever turned up yesterday. That's a different problem and this doesn't solve it.
+
+So if you're hosting: your server can read what's said in its channels. It can't read a direct message between two of its members.
 
 ---
 
