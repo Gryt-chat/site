@@ -10,18 +10,19 @@ tags:
   - security
 ---
 
-Direct messages arrived in 1.7 with no encryption. Every conversation had a line
-above it saying so: this isn't private, the server can read it. That was true, and I
-wanted it gone.
+Your server can't read your direct messages. It doesn't have the key. Messages are
+encrypted on your machine before they leave it, and what the server stores is
+something it has no way to open. There's no setting for this and no way to turn it
+off.
 
-Two weeks later it was. A direct message is now encrypted on your machine before it
-goes anywhere, and the server stores something it can't open. It's always on, and
-there's no setting for it.
+That wasn't true when direct messages shipped in 1.7. Every conversation had a line
+above it then, saying the server could read what was in it. That line was honest, and
+it took about two weeks to make it unnecessary.
 
-Getting there took two rounds of discovering that encryption had quietly stopped
-working for whole groups of people, with nothing on screen to say so. Both are below.
+Twice along the way, encryption stopped working for whole groups of people and
+nothing on screen said so.
 
-## What "encrypted" means here
+## How it works
 
 Every message gets its own key. That key is then encrypted separately for each person
 in the conversation, using the public key they published, and those encrypted copies
@@ -40,14 +41,14 @@ and says why.
 
 ## Half of every signature would have been rejected
 
-The desktop app used the browser's built-in crypto. The phone couldn't:
-`crypto.subtle` doesn't exist in React Native, so mobile was already using
-`@noble/curves`. Two different implementations of the same format is how you end up
-with two apps that can't read each other's messages, while both senders see their own
-text just fine. So the desktop moved to noble as well.
+The desktop app used the browser's built-in crypto. The phone can't: `crypto.subtle`
+doesn't exist in React Native, so mobile was already using `@noble/curves`. Running
+two implementations of the same format is how you get two apps that can't read each
+other's messages, with each sender seeing their own text just fine. So the desktop
+moved to noble as well.
 
-The format on the wire didn't change, so this should have been invisible. The test
-vectors failed anyway.
+Nothing about the message format changed, so this should have been invisible. The
+test vectors failed anyway.
 
 ECDSA has two valid signatures for every message: `s`, and `order - s`. Noble rejects
 the high one by default. That's a sensible default for a blockchain, where a
