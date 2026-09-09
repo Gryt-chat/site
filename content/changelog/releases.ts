@@ -76,7 +76,7 @@ export interface ReleaseLine {
 export const app: ReleaseLine[] = [
   {
     version: "1.11.5",
-    date: "2026-09-10",
+    date: "2026-09-09",
     line: "Direct messages have a space of their own, reached from a button above the servers. Gryt always says when you are in a voice call, and it stops retrying a server that is never going to answer.",
     changes: [
       {
@@ -134,6 +134,10 @@ export const app: ReleaseLine[] = [
       {
         kind: "changed",
         text: "A channel with something unread is visible in the sidebar, on a colour of its own rather than the red Gryt uses for deleting things.",
+      },
+      {
+        kind: "fixed",
+        text: "Gryt stops announcing the servers on your network as new every time it starts. Which ones this machine has already looked at is remembered on the device now, rather than against whoever was signed in at the moment you looked.",
       },
     ],
   },
