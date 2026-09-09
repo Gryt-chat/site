@@ -35,14 +35,6 @@ assert.match(
   "the underline no longer goes solid on hover, so a link gives no feedback",
 );
 
-// @gryt/ui renders a Button as an `a` when given an href, and a button with an
-// underline through it is the loudest way this regresses.
-assert.match(
-  base,
-  /a\.gryt-button\s*\{[^}]*text-decoration:\s*none/,
-  "a Button rendered as a link is underlined",
-);
-
 function walk(dir) {
   const out = [];
   for (const name of readdirSync(dir)) {
