@@ -1,28 +1,5 @@
-/**
- * Draws a GitHub social preview for every Gryt repository, at 1280x640.
- *
- * GitHub shows this image wherever a repo link is pasted — Discord, Slack, a
- * timeline. Without one it generates a grey card from the avatar and the
- * description, so twenty-two Gryt repos all looked like the same grey card.
- * These carry the repo's own name, which is the thing you are trying to tell
- * apart in a channel full of links.
- *
- * The six repos that do have a custom banner are the archived 2023-24 ones, and
- * that banner is the owl on a purple field with no text at all — handsome, and
- * indistinguishable from every sibling.
- *
- * ## Why this duplicates generate-og-image.mjs
- *
- * The glyph plumbing below is copied from it rather than shared. Extracting a
- * common module means editing that file, and this machine's sharp is built
- * without libimagequant, so re-running it rewrites all thirty-five committed
- * cards with different bytes — leaving no way to show the extraction changed
- * nothing. Copying is the honest trade until the two diverge or someone runs it
- * somewhere the output is reproducible.
- *
- * Run by hand: `yarn generate:banners`. Upload is manual — GitHub has no API
- * for the social preview, only Settings -> General -> Social preview.
- */
+/* A GitHub social preview per Gryt repo, 1280x640. Without one, every repo
+   link pastes as the same grey card. Reasoning in the commit and site#132. */
 import { mkdirSync, readFileSync } from 'fs';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
@@ -34,10 +11,8 @@ import wawoff2 from 'wawoff2';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const publicDir = join(__dirname, '..', 'public');
 const fontsDir = join(publicDir, 'fonts');
-/* Not committed — see .gitignore. A card here weighs 700KB against the 200KB
-   the site's own cards weigh, because sharp built without libimagequant falls
-   back to a worse quantiser, and that is a property of the machine rather than
-   of the card. They are upload fodder, so regenerating beats storing. */
+/* Gitignored: 700KB a card here vs the site's 200KB, because sharp without
+   libimagequant quantises worse. Upload fodder, so regenerate rather than store. */
 const outDir = join(publicDir, 'repo-banners');
 
 /* 2:1, which is what GitHub crops to. Twice the nominal 640x320 so it stays
