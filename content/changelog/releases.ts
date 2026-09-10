@@ -1308,6 +1308,11 @@ export const voice: ReleaseLine[] = [
  */
 export const images: ReleaseLine[] = [
   {
+    version: "1.2.6",
+    date: "2026-09-10",
+    line: "Housekeeping only.",
+  },
+  {
     version: "1.2.5",
     date: "2026-09-04",
     line: "Packaging only.",
