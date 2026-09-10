@@ -75,6 +75,25 @@ export interface ReleaseLine {
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.11.9",
+    date: "2026-09-10",
+    line: "The messages button now takes you back to where you were, so you can check your direct messages and come straight back.",
+    changes: [
+      {
+        kind: "new",
+        text: "Clicking the messages button while you are in your direct messages takes you back to the server and channel you came from.",
+      },
+      {
+        kind: "fixed",
+        text: "If you opened a conversation with no messages in it, going back to your direct messages later showed it again, even though it was gone from the list. Your most recent conversation opens instead.",
+      },
+      {
+        kind: "fixed",
+        text: "The Servers on your network button did nothing while your direct messages were open.",
+      },
+    ],
+  },
+  {
     version: "1.11.8",
     date: "2026-09-10",
     line: "Direct messages and servers each keep to their own view now, and opening direct messages takes you straight to your latest conversation.",
