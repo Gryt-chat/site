@@ -75,6 +75,33 @@ export interface ReleaseLine {
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.11.7",
+    date: "2026-09-10",
+    line: "Direct messages work like a place of their own now, and Gryt opens back up on the page you left it on.",
+    changes: [
+      {
+        kind: "changed",
+        text: "Direct messages are a place you go, like a server. The button beside the servers opens them, and picking a server takes you back.",
+      },
+      {
+        kind: "changed",
+        text: "Clicking somebody in the member list takes you to your conversation with them in direct messages.",
+      },
+      {
+        kind: "changed",
+        text: "A conversation nobody has written in only shows in the list while you are looking at it. Click somebody else, or go anywhere else, and it drops out until one of you writes.",
+      },
+      {
+        kind: "new",
+        text: "Gryt remembers where you were. Moving between a server and your direct messages puts you back where you left each one.",
+      },
+      {
+        kind: "new",
+        text: "Gryt opens on the page you closed it on, instead of the top server in the list.",
+      },
+    ],
+  },
+  {
     version: "1.11.6",
     date: "2026-09-10",
     line: "The note you are reading this in scrolls now, and closes when you click away. A direct message marks one badge instead of two, and on a phone the direct messages redesign finally arrives.",
@@ -685,6 +712,11 @@ export const app: ReleaseLine[] = [
  * So a reader here is usually somebody deciding whether to pull a new image.
  */
 export const server: ReleaseLine[] = [
+  {
+    version: "1.10.2",
+    date: "2026-09-10",
+    line: "Nothing changed that you would notice. It brings the image worker it ships with up to date.",
+  },
   {
     version: "1.10.1",
     date: "2026-09-10",
