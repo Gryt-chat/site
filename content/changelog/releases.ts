@@ -75,6 +75,21 @@ export interface ReleaseLine {
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.11.6",
+    date: "2026-09-10",
+    line: "A direct message marks one badge instead of two, and on a phone the direct messages redesign finally arrives.",
+    changes: [
+      {
+        kind: "fixed",
+        text: "A direct message marks one badge instead of two. It counted on the direct messages button and on the server icon it arrived at, so reading it changed both.",
+      },
+      {
+        kind: "changed",
+        text: "On a phone, tapping somebody in the member list opens your conversation with them, and direct messages have their own space reached from the channels panel. The desktop got this last release and the phone did not.",
+      },
+    ],
+  },
+  {
     version: "1.11.5",
     date: "2026-09-09",
     line: "Direct messages have a space of their own, reached from a button above the servers. Gryt always says when you are in a voice call, and it stops retrying a server that is never going to answer.",
@@ -662,6 +677,11 @@ export const app: ReleaseLine[] = [
  * So a reader here is usually somebody deciding whether to pull a new image.
  */
 export const server: ReleaseLine[] = [
+  {
+    version: "1.10.1",
+    date: "2026-09-10",
+    line: "Opening somebody's conversation no longer puts an empty one in their list. It waits until somebody writes in it.",
+  },
   {
     version: "1.10.0",
     date: "2026-09-09",
