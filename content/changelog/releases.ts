@@ -77,8 +77,16 @@ export const app: ReleaseLine[] = [
   {
     version: "1.11.6",
     date: "2026-09-10",
-    line: "A direct message marks one badge instead of two, and on a phone the direct messages redesign finally arrives.",
+    line: "The note you are reading this in scrolls now, and closes when you click away. A direct message marks one badge instead of two, and on a phone the direct messages redesign finally arrives.",
     changes: [
+      {
+        kind: "fixed",
+        text: "This note scrolls when it is longer than your screen. It used to grow past the top and the bottom of the window, taking the greeting and the Done button with it.",
+      },
+      {
+        kind: "changed",
+        text: "Clicking outside this note closes it, and you can open it again from Settings under About.",
+      },
       {
         kind: "fixed",
         text: "A direct message marks one badge instead of two. It counted on the direct messages button and on the server icon it arrived at, so reading it changed both.",
