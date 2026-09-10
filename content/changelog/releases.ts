@@ -75,6 +75,21 @@ export interface ReleaseLine {
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.11.8",
+    date: "2026-09-10",
+    line: "Direct messages and servers each keep to their own view now, and opening direct messages takes you straight to your latest conversation.",
+    changes: [
+      {
+        kind: "fixed",
+        text: "Direct messages no longer show a server's channel, and a server no longer shows your direct messages. On 1.11.7 one could turn up in the other's place, so a conversation looked like it belonged to a server.",
+      },
+      {
+        kind: "changed",
+        text: "Opening direct messages opens your most recent conversation, instead of an empty view.",
+      },
+    ],
+  },
+  {
     version: "1.11.7",
     date: "2026-09-10",
     line: "Direct messages work like a place of their own now, and Gryt opens back up on the page you left it on.",
