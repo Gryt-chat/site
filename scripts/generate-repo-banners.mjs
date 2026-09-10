@@ -22,14 +22,19 @@ const H = 640;
 
 const C = {
   field: '#6157d8',
-  owl: '#4c43b8',
-  owlEar: '#554cc6',
-  owlEye: '#8f88ea',
   title: '#fbfaff',
   sub: '#dedaff',
   label: '#eeecff',
   meta: '#e2dfff',
   rule: '#8079e4',
+};
+
+/* The big owl behind the type, recoloured below the field — same table as the OG cards. */
+const OWL_TONES = {
+  '#B5A8E6': '#5850cc',
+  '#A495E3': '#4f47c0',
+  '#7C6EC3': '#4038a4',
+  '#2E2D5F': '#332c86',
 };
 
 const PAD_X = 64;
@@ -117,24 +122,37 @@ function clamp(lines, max, maxWidth, opts) {
 
 // ------------------------------------------------------------------- the owl
 
-const OWL_GLYPH = (fill, ear, eye) => `
-  <ellipse cx="144.56" cy="321.963" rx="74.5603" ry="125.871" fill="${ear}"/>
-  <ellipse cx="368.56" cy="321.963" rx="74.5603" ry="125.871" fill="${ear}"/>
-  <ellipse cx="254.397" cy="368.463" rx="157.138" ry="186.802" fill="${fill}"/>
-  <path d="M167.009 115.118C140.552 133.557 110.621 186.471 104.474 216.135C104.474 216.135 146.164 282.678 256 282.678C365.836 282.678 409 221.266 409 216.135C409 209.721 393.897 140.773 365.836 121.532C337.776 102.29 311.319 91.8677 259.207 91.066C207.095 90.2643 193.465 96.6781 167.009 115.118Z" fill="${fill}"/>
-  <path d="M258.736 232.014C258.214 234.003 255.389 234.003 254.867 232.014L247.045 202.207C246.712 200.939 247.669 199.7 248.98 199.7L264.624 199.7C265.935 199.7 266.891 200.939 266.558 202.207L258.736 232.014Z" fill="${eye}"/>
-  <path d="M203.08 162C216.959 162 221.986 169.702 222.773 173.951C223.299 177.67 223.246 186.062 218.835 189.887C213.321 194.667 195.473 200.325 190.476 185.106C186.814 173.951 188.375 169.171 188.113 169.171C190.476 163.631 195.256 162 203.08 162Z" fill="${eye}"/>
-  <path d="M308.124 160.851C294.151 160.851 289.09 168.637 288.297 172.932C287.768 176.691 287.821 185.174 292.262 189.04C297.814 193.873 315.782 199.592 320.813 184.208C324.5 172.932 322.928 168.1 323.192 168.1C320.813 162.5 316 160.851 308.124 160.851Z" fill="${eye}"/>`;
+/* Read from public/, never inlined: an inlined copy is how the old bird survived the redraw. */
+function readMark(name, ns) {
+  const raw = readFileSync(join(publicDir, name), 'utf8');
+  const inner = raw.replace(/^[\s\S]*?<svg[^>]*>/, '').replace(/<\/svg>\s*$/, '');
+  if (!inner.trim()) throw new Error(`${name}: no drawing found`);
+  // Both files share a Figma clipPath id; namespace them so two on one card do not collide.
+  const ids = [...inner.matchAll(/id="([^"]+)"/g)].map((m) => m[1]);
+  let out = inner;
+  for (const id of ids) {
+    out = out.split(`id="${id}"`).join(`id="${ns}-${id}"`);
+    out = out.split(`url(#${id})`).join(`url(#${ns}-${id})`);
+  }
+  return out;
+}
 
-const OWL_MARK = `
-  <rect width="512" height="512" rx="256" fill="#968FF8"/>
-  <ellipse cx="144.56" cy="321.963" rx="74.5603" ry="125.871" fill="#2B303D"/>
-  <ellipse cx="368.56" cy="321.963" rx="74.5603" ry="125.871" fill="#2B303D"/>
-  <ellipse cx="254.397" cy="368.463" rx="157.138" ry="186.802" fill="#1A1D24"/>
-  <path d="M167.009 115.118C140.552 133.557 110.621 186.471 104.474 216.135C104.474 216.135 146.164 282.678 256 282.678C365.836 282.678 409 221.266 409 216.135C409 209.721 393.897 140.773 365.836 121.532C337.776 102.29 311.319 91.8677 259.207 91.066C207.095 90.2643 193.465 96.6781 167.009 115.118Z" fill="#1A1D24"/>
-  <path d="M258.736 232.014C258.214 234.003 255.389 234.003 254.867 232.014L247.045 202.207C246.712 200.939 247.669 199.7 248.98 199.7L264.624 199.7C265.935 199.7 266.891 200.939 266.558 202.207L258.736 232.014Z" fill="#CBCBCE"/>
-  <path d="M203.08 162C216.959 162 221.986 169.702 222.773 173.951C223.299 177.67 223.246 186.062 218.835 189.887C213.321 194.667 195.473 200.325 190.476 185.106C186.814 173.951 188.375 169.171 188.113 169.171C190.476 163.631 195.256 162 203.08 162Z" fill="#CBCBCE"/>
-  <path d="M308.124 160.851C294.151 160.851 289.09 168.637 288.297 172.932C287.768 176.691 287.821 185.174 292.262 189.04C297.814 193.873 315.782 199.592 320.813 184.208C324.5 172.932 322.928 168.1 323.192 168.1C320.813 162.5 316 160.851 308.124 160.851Z" fill="#CBCBCE"/>`;
+const OWL_MARK = readMark('logo.svg', 'mark');
+
+/* Recoloured by hex, so a redrawn mark with a new palette stops the run instead of drawing wrong. */
+const OWL_GLYPH = (() => {
+  let svg = readMark('logo-square.svg', 'glyph');
+  const ground = /<rect[^>]*fill="#2E2D5F"[^>]*\/>/i;
+  if (!ground.test(svg)) throw new Error('logo-square.svg: no ground rect to drop');
+  svg = svg.replace(ground, '');
+  for (const [from, to] of Object.entries(OWL_TONES)) {
+    if (!new RegExp(`fill="${from}"`, 'i').test(svg)) {
+      throw new Error(`logo-square.svg: nothing painted ${from} — retune OWL_TONES`);
+    }
+    svg = svg.replace(new RegExp(`fill="${from}"`, 'gi'), `fill="${to}"`);
+  }
+  return svg;
+})();
 
 // ---------------------------------------------------------------- the banner
 
@@ -144,12 +162,12 @@ function buildBanner({ name, description }) {
   const out = [];
 
   out.push(`<rect width="${W}" height="${H}" fill="${C.field}"/>`);
-  out.push(`<g transform="translate(560, 60) scale(${900 / 512})">${OWL_GLYPH(C.owl, C.owlEar, C.owlEye)}</g>`);
+  out.push(`<g transform="translate(660, 30) scale(${660 / 1024})">${OWL_GLYPH}</g>`);
   out.push(`<rect width="${W}" height="${H}" filter="url(#grain)" opacity="0.085"/>`);
 
   const markSize = 38;
   const labelSize = 19;
-  out.push(`<g transform="translate(${PAD_X}, ${PAD_TOP}) scale(${markSize / 512})">${OWL_MARK}</g>`);
+  out.push(`<g transform="translate(${PAD_X}, ${PAD_TOP}) scale(${markSize / 1024})">${OWL_MARK}</g>`);
   out.push(glyphs('GRYT', {
     font: fonts.mono, weight: 500, size: labelSize, tracking: 2.8,
     x: PAD_X + markSize + 14,
