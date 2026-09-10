@@ -713,6 +713,11 @@ export const app: ReleaseLine[] = [
  */
 export const server: ReleaseLine[] = [
   {
+    version: "1.10.2",
+    date: "2026-09-10",
+    line: "Nothing changed that you would notice. It brings the image worker it ships with up to date.",
+  },
+  {
     version: "1.10.1",
     date: "2026-09-10",
     line: "Opening somebody's conversation no longer puts an empty one in their list. It waits until somebody writes in it.",
