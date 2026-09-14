@@ -808,6 +808,11 @@ export const app: ReleaseLine[] = [
  */
 export const server: ReleaseLine[] = [
   {
+    version: "1.10.5",
+    date: "2026-09-14",
+    line: "A client held back by a rate limit is told the real wait before it can try again. The self-hosted downloads report the SFU and image worker versions they contain.",
+  },
+  {
     version: "1.10.4",
     date: "2026-09-14",
     line: "MakerWorld links get a preview again, and a preview that failed is tried again after a few minutes instead of an hour. A client that hits a rate limit is told how long it really has to wait.",
