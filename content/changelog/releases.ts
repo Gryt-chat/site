@@ -75,6 +75,33 @@ export interface ReleaseLine {
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.11.14",
+    date: "2026-09-14",
+    line: "Videos in chat wait for you to press play, the members list drops its grey boxes, and Check for updates stops calling being up to date an error.",
+    changes: [
+      {
+        kind: "changed",
+        text: "Videos in chat and in link previews show their thumbnail and a play button. Nothing downloads until you press it.",
+      },
+      {
+        kind: "fixed",
+        text: "A playing video no longer starts loading again when Gryt renews its sign-in token in the background.",
+      },
+      {
+        kind: "changed",
+        text: "Names in the members list sit straight on the sidebar. A row turns grey only when you hover it or focus it with the keyboard.",
+      },
+      {
+        kind: "fixed",
+        text: "On the beta channel, Check for updates said there were no published versions when you were already on the newest one. It says Gryt is up to date now.",
+      },
+      {
+        kind: "changed",
+        text: "Each server renews its token on its own schedule, instead of every server renewing at the same moment every four minutes.",
+      },
+    ],
+  },
+  {
     version: "1.11.13",
     date: "2026-09-14",
     line: "If the sound for a screen share stops being captured partway through, Gryt drops the audio track, so the people watching are not left with a silent one.",
@@ -818,6 +845,11 @@ export const app: ReleaseLine[] = [
  * So a reader here is usually somebody deciding whether to pull a new image.
  */
 export const server: ReleaseLine[] = [
+  {
+    version: "1.10.6",
+    date: "2026-09-14",
+    line: "Renewing a sign-in token no longer makes the server check the member again and reload the whole member list, unless something about that member changed.",
+  },
   {
     version: "1.10.5",
     date: "2026-09-14",
