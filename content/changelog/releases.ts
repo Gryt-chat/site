@@ -865,6 +865,11 @@ export const app: ReleaseLine[] = [
  */
 export const server: ReleaseLine[] = [
   {
+    version: "1.10.7",
+    date: "2026-09-14",
+    line: "Asking for part of an uploaded file past its end gets the part that exists, so videos no longer fail to play when a browser asks for more than the file holds.",
+  },
+  {
     version: "1.10.6",
     date: "2026-09-14",
     line: "Renewing a sign-in token no longer makes the server check the member again and reload the whole member list, unless something about that member changed.",
