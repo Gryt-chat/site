@@ -78,6 +78,12 @@ export const app: ReleaseLine[] = [
     version: "1.11.13",
     date: "2026-09-14",
     line: "If the sound for a screen share stops being captured partway through, Gryt drops the audio track, so the people watching are not left with a silent one.",
+    changes: [
+      {
+        kind: "fixed",
+        text: "When the sound for a screen share stopped being captured, the people watching kept getting a silent audio track. Gryt drops that track now.",
+      },
+    ],
   },
   {
     version: "1.11.12",
