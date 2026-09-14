@@ -75,6 +75,11 @@ export interface ReleaseLine {
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.11.13",
+    date: "2026-09-14",
+    line: "If the sound for a screen share stops being captured partway through, Gryt drops the audio track, so the people watching are not left with a silent one.",
+  },
+  {
     version: "1.11.12",
     date: "2026-09-14",
     line: "What's new now covers every release since the version you last used, screen sharing on macOS sends its sound, and Show me around starts the tour.",
