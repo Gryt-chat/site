@@ -75,6 +75,29 @@ export interface ReleaseLine {
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.11.12",
+    date: "2026-09-14",
+    line: "What's new now covers every release since the version you last used, screen sharing on macOS sends its sound, and Show me around starts the tour.",
+    changes: [
+      {
+        kind: "new",
+        text: "What's new lists every release since the version you last used, newest first. Before, it only showed the version you were on.",
+      },
+      {
+        kind: "fixed",
+        text: "Sharing your screen on macOS sent no sound, even with something playing. It does now, and if the sound cannot be captured, Gryt tells you.",
+      },
+      {
+        kind: "fixed",
+        text: "Show me around on the welcome screen did nothing. It starts the tour now.",
+      },
+      {
+        kind: "changed",
+        text: "The addresses in the advanced latency panel stay hidden until you choose to show them.",
+      },
+    ],
+  },
+  {
     version: "1.11.11",
     date: "2026-09-14",
     line: "Direct messages keep the newest conversation at the top and show each server's own icon. Hovering a server or your voice tile no longer shows an address.",
