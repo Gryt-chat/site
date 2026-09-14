@@ -75,6 +75,17 @@ export interface ReleaseLine {
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.11.16",
+    date: "2026-09-14",
+    line: "If Gryt could not reach accounts when it started, it signs you back in once they answer again, without a restart.",
+    changes: [
+      {
+        kind: "fixed",
+        text: "Opening Gryt while accounts were down left you signed out until you restarted it. Gryt now tries again in the background and signs you back in once accounts answer, on the desktop app and in the browser.",
+      },
+    ],
+  },
+  {
     version: "1.11.15",
     date: "2026-09-14",
     line: "Videos in chat play in Gryt's own player, and Gryt tells you when it cannot reach accounts instead of only saying it is taking a while.",
@@ -864,6 +875,11 @@ export const app: ReleaseLine[] = [
  * So a reader here is usually somebody deciding whether to pull a new image.
  */
 export const server: ReleaseLine[] = [
+  {
+    version: "1.10.8",
+    date: "2026-09-14",
+    line: "A file posted in a private channel or a direct message can only be opened by people who can see that conversation. Before, any member with the file's link could open it.",
+  },
   {
     version: "1.10.7",
     date: "2026-09-14",
