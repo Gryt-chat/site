@@ -75,6 +75,29 @@ export interface ReleaseLine {
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.11.11",
+    date: "2026-09-14",
+    line: "Direct messages keep the newest conversation at the top and show each server's own icon. Hovering a server or your voice tile no longer shows an address.",
+    changes: [
+      {
+        kind: "fixed",
+        text: "A conversation moves to the top of the list whenever a new message arrives. Before, only its first message did that.",
+      },
+      {
+        kind: "fixed",
+        text: "Each conversation shows its server's own icon instead of a generic planet.",
+      },
+      {
+        kind: "fixed",
+        text: "An empty conversation you had open drops out of the list when you open another one.",
+      },
+      {
+        kind: "changed",
+        text: "Hovering a server in the sidebar, or the latency on your own voice tile, no longer shows the server's address.",
+      },
+    ],
+  },
+  {
     version: "1.11.10",
     date: "2026-09-14",
     line: "Link previews and X posts that fail to load try again instead of disappearing.",
@@ -761,6 +784,11 @@ export const app: ReleaseLine[] = [
  * So a reader here is usually somebody deciding whether to pull a new image.
  */
 export const server: ReleaseLine[] = [
+  {
+    version: "1.10.4",
+    date: "2026-09-14",
+    line: "MakerWorld links get a preview again, and a preview that failed is tried again after a few minutes instead of an hour. A client that hits a rate limit is told how long it really has to wait.",
+  },
   {
     version: "1.10.3",
     date: "2026-09-14",
