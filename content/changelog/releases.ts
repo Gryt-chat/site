@@ -75,6 +75,25 @@ export interface ReleaseLine {
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.11.15",
+    date: "2026-09-14",
+    line: "Videos in chat play in Gryt's own player, and Gryt tells you when it cannot reach accounts instead of only saying it is taking a while.",
+    changes: [
+      {
+        kind: "new",
+        text: "Videos in chat and in link previews play in Gryt's own player, with the file name, size and time on top and volume that follows your chat media setting.",
+      },
+      {
+        kind: "fixed",
+        text: "If a video's link has gone stale, the player picks up a fresh one and carries on from the same spot instead of showing an error.",
+      },
+      {
+        kind: "fixed",
+        text: "Opening Gryt while accounts were down only said it was taking longer than it should. It now says it cannot reach Gryt accounts, or that you are offline, and a banner stays up until accounts answer again.",
+      },
+    ],
+  },
+  {
     version: "1.11.14",
     date: "2026-09-14",
     line: "Videos in chat wait for you to press play, the members list drops its grey boxes, and Check for updates stops calling being up to date an error.",
