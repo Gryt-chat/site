@@ -75,6 +75,21 @@ export interface ReleaseLine {
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.11.10",
+    date: "2026-09-14",
+    line: "Link previews and X posts that fail to load try again instead of disappearing.",
+    changes: [
+      {
+        kind: "fixed",
+        text: "A link preview that ran into the server's limit stayed hidden until you restarted Gryt. It now waits and then loads.",
+      },
+      {
+        kind: "fixed",
+        text: "A link preview or an X post that failed because of a hiccup on the server's side disappeared. It now tries again a couple of times first.",
+      },
+    ],
+  },
+  {
     version: "1.11.9",
     date: "2026-09-10",
     line: "The messages button now takes you back to where you were, so you can check your direct messages and come straight back.",
@@ -746,6 +761,11 @@ export const app: ReleaseLine[] = [
  * So a reader here is usually somebody deciding whether to pull a new image.
  */
 export const server: ReleaseLine[] = [
+  {
+    version: "1.10.3",
+    date: "2026-09-14",
+    line: "Opening a channel full of links no longer uses up your link preview limit, because previews the server already has do not count. A slow site no longer makes its preview fail outright. When a site stops answering, you get the last preview it gave.",
+  },
   {
     version: "1.10.2",
     date: "2026-09-10",
