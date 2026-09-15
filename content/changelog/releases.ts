@@ -75,6 +75,17 @@ export interface ReleaseLine {
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.11.17",
+    date: "2026-09-15",
+    line: "Picking a picture for a group no longer changes your own avatar to it.",
+    changes: [
+      {
+        kind: "fixed",
+        text: "Choosing a picture for a group also made it your avatar on that server. The group gets the picture now and your avatar stays as it was. On a server that has not updated yet, Gryt says the server needs an update instead.",
+      },
+    ],
+  },
+  {
     version: "1.11.16",
     date: "2026-09-14",
     line: "If Gryt could not reach accounts when it started, it signs you back in once they answer again, without a restart.",
@@ -875,6 +886,11 @@ export const app: ReleaseLine[] = [
  * So a reader here is usually somebody deciding whether to pull a new image.
  */
 export const server: ReleaseLine[] = [
+  {
+    version: "1.10.9",
+    date: "2026-09-15",
+    line: "Group pictures get their own upload, so setting one no longer replaces the uploader's avatar, and the media cleanup keeps them.",
+  },
   {
     version: "1.10.8",
     date: "2026-09-14",
