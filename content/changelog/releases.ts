@@ -86,7 +86,40 @@ export interface SecurityNotice {
 }
 
 /** Newest first. emit-changelog-json.mjs checks each one, and a bad one fails the build. */
-export const securityNotices: SecurityNotice[] = [];
+export const securityNotices: SecurityNotice[] = [
+  {
+    id: "GHSA-pwj4-mw52-f7cj",
+    surface: "server",
+    fixedIn: "1.10.15",
+    title: "Members' sign-in tokens were sent to other members",
+    url: "https://gryt.chat/blog/security-update-gryt-server-1-10-15",
+    published: "2026-09-15",
+  },
+  {
+    id: "GHSA-whvq-3x27-w5jv",
+    surface: "server",
+    fixedIn: "1.10.15",
+    title: "Channel messages reached people who could not read the channel",
+    url: "https://gryt.chat/blog/security-update-gryt-server-1-10-15",
+    published: "2026-09-15",
+  },
+  {
+    id: "GHSA-w9c7-pp72-54xg",
+    surface: "server",
+    fixedIn: "1.10.14",
+    title: "Link previews and webhook pictures could reach the server's own network",
+    url: "https://gryt.chat/blog/security-update-gryt-server-1-10-15",
+    published: "2026-09-15",
+  },
+  {
+    id: "GHSA-m3qc-p5wr-2cq9",
+    surface: "server",
+    fixedIn: "1.10.8",
+    title: "Other members could open files from private channels and direct messages",
+    url: "https://gryt.chat/blog/security-update-gryt-server-1-10-15",
+    published: "2026-09-15",
+  },
+];
 
 /**
  * The app: what you install. The desktop build and gryt.chat in a browser.
@@ -140,7 +173,7 @@ export const app: ReleaseLine[] = [
     line: "A server you host from the desktop app only accepts voice server registration from the same computer.",
     changes: [
       {
-        kind: "fixed",
+        kind: "security",
         text: "The voice server built into the desktop app took server registrations from anyone on your network. It only listens for them on the computer itself now, and calls from your network work as before.",
       },
     ],
@@ -193,6 +226,10 @@ export const app: ReleaseLine[] = [
     date: "2026-09-15",
     line: "Encrypted videos wait for you to press play, Check for updates says when GitHub did not answer, a server you host shows as starting during a call, and webhook avatars are resized.",
     changes: [
+      {
+        kind: "security",
+        text: "The server built into the desktop app is updated to 1.10.14, which stops link previews and webhook pictures from reaching addresses inside your network. Update if you host a server from the app.",
+      },
       {
         kind: "fixed",
         text: "When GitHub did not answer a check for updates, Gryt said there were no published versions. It says GitHub could not be reached now, and when to try again if GitHub gave a time.",
@@ -291,6 +328,10 @@ export const app: ReleaseLine[] = [
     date: "2026-09-14",
     line: "If Gryt could not reach accounts when it started, it signs you back in once they answer again, without a restart.",
     changes: [
+      {
+        kind: "security",
+        text: "The server built into the desktop app is updated to 1.10.8, so a file posted in a private channel or a direct message only opens for people who can see that conversation. Update if you host a server from the app.",
+      },
       {
         kind: "fixed",
         text: "Opening Gryt while accounts were down left you signed out until you restarted it. Gryt now tries again in the background and signs you back in once accounts answer, on the desktop app and in the browser.",
@@ -1091,11 +1132,39 @@ export const server: ReleaseLine[] = [
     version: "1.10.15",
     date: "2026-09-15",
     line: "Security release: channel messages only reach members who can read the channel, no member's sign-in token is sent to other members, and sign-in tokens issued before this version stop working once so clients sign in again by themselves. Update every server you run.",
+    changes: [
+      {
+        kind: "security",
+        text: "New channel messages, edits and reactions only reach people who can read the channel. Before, a connection that had not joined the server got them too, and so did members without permission to see the channel.",
+      },
+      {
+        kind: "security",
+        text: "Members no longer receive each other's sign-in tokens with the list of who is connected. Before, any member could use one to act as another member who was online, the owner included.",
+      },
+      {
+        kind: "changed",
+        text: "Sign-in tokens issued before this version stop working the first time it starts, so a copied one is useless. Apps get a new token by themselves, and people may see one reconnect.",
+      },
+      {
+        kind: "fixed",
+        text: "Saying yes to moving a guest to your account works when your account is already a member of the server. It used to move nothing.",
+      },
+    ],
   },
   {
     version: "1.10.14",
     date: "2026-09-15",
     line: "Link previews, image measuring and webhook pictures refuse every address inside the server's own network, however the address is written or wherever a redirect points, and webhook avatars are resized like member avatars. Update if you run a server.",
+    changes: [
+      {
+        kind: "security",
+        text: "Link previews, image measuring and webhook pictures refuse every address inside the server's own network, however the address is written or wherever a redirect points. Before, some of those addresses got through.",
+      },
+      {
+        kind: "fixed",
+        text: "Webhook avatars are resized like member avatars. They used to be stored at full size.",
+      },
+    ],
   },
   {
     version: "1.10.13",
@@ -1126,6 +1195,12 @@ export const server: ReleaseLine[] = [
     version: "1.10.8",
     date: "2026-09-14",
     line: "A file posted in a private channel or a direct message can only be opened by people who can see that conversation. Before, any member with the file's link could open it.",
+    changes: [
+      {
+        kind: "security",
+        text: "A file posted in a private channel or a direct message only opens for people who can see that conversation. Before, any member with the file's link could open it.",
+      },
+    ],
   },
   {
     version: "1.10.7",
