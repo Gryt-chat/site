@@ -77,7 +77,7 @@ export const app: ReleaseLine[] = [
   {
     version: "1.11.22",
     date: "2026-09-15",
-    line: "Check for updates says when GitHub did not answer, a server you host yourself shows as starting while you are in a call, the Linux desktop entry lists the Gryt link type once, and webhook avatars are resized.",
+    line: "Encrypted videos wait for you to press play, Check for updates says when GitHub did not answer, a server you host shows as starting during a call, and webhook avatars are resized.",
     changes: [
       {
         kind: "fixed",
@@ -94,6 +94,14 @@ export const app: ReleaseLine[] = [
       {
         kind: "changed",
         text: "A webhook's avatar is resized when you pick it, like a member avatar. On a server that has not updated yet, Gryt says the server needs an update first.",
+      },
+      {
+        kind: "changed",
+        text: "Videos in encrypted direct messages download and decrypt when you press play, instead of when the conversation opens.",
+      },
+      {
+        kind: "fixed",
+        text: "A video in the reports panel no longer restarts when Gryt renews its sign-in token, and the moderation buttons stay inside the dialog.",
       },
     ],
   },
