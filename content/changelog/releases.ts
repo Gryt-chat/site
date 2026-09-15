@@ -77,7 +77,7 @@ export const app: ReleaseLine[] = [
   {
     version: "1.11.22",
     date: "2026-09-15",
-    line: "Check for updates says when GitHub did not answer, a server you host yourself shows as starting while you are in a call, and the Linux desktop entry lists the Gryt link type once.",
+    line: "Check for updates says when GitHub did not answer, a server you host yourself shows as starting while you are in a call, the Linux desktop entry lists the Gryt link type once, and webhook avatars are resized.",
     changes: [
       {
         kind: "fixed",
@@ -90,6 +90,10 @@ export const app: ReleaseLine[] = [
       {
         kind: "fixed",
         text: "The Linux packages listed the gryt:// link type up to five times in their desktop entry. They list it once.",
+      },
+      {
+        kind: "changed",
+        text: "A webhook's avatar is resized when you pick it, like a member avatar. On a server that has not updated yet, Gryt says the server needs an update first.",
       },
     ],
   },
@@ -964,7 +968,7 @@ export const server: ReleaseLine[] = [
   {
     version: "1.10.14",
     date: "2026-09-15",
-    line: "Link previews, image measuring and webhook pictures refuse every address inside the server's own network, however the address is written or wherever a redirect points. Update if you run a server.",
+    line: "Link previews, image measuring and webhook pictures refuse every address inside the server's own network, however the address is written or wherever a redirect points, and webhook avatars are resized like member avatars. Update if you run a server.",
   },
   {
     version: "1.10.13",
