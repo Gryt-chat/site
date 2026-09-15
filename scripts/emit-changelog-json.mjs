@@ -7,6 +7,8 @@ import { readdirSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
+import { securityNoticeProblems } from "./security-notices.mjs";
+
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 
 // Imported rather than parsed: the lines carry quotes and apostrophes, and a
@@ -41,9 +43,24 @@ for (const surface of SURFACES) {
   }));
 }
 
+// A top-level key rather than a surface, so a client that predates it reads app and ignores the rest.
+const notices = releases.securityNotices;
+const problems = securityNoticeProblems(notices);
+if (problems.length > 0) {
+  throw new Error(`releases.ts has security notices changelog.json can't carry:\n  ${problems.join("\n  ")}`);
+}
+payload.securityNotices = notices.map(({ id, surface, fixedIn, title, url, published }) => ({
+  id,
+  surface,
+  fixedIn,
+  title,
+  url,
+  published,
+}));
+
 // public/, so vite copies it into dist and the dev server serves it too.
 const out = join(root, "public/changelog.json");
 writeFileSync(out, JSON.stringify(payload));
 
 const counts = SURFACES.map((s) => `${s} ${payload[s].length}`).join(", ");
-console.log(`changelog.json: ${counts}`);
+console.log(`changelog.json: ${counts}, security notices ${payload.securityNotices.length}`);
