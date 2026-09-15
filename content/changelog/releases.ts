@@ -96,6 +96,45 @@ export const securityNotices: SecurityNotice[] = [];
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.11.25",
+    date: "2026-09-15",
+    line: "The server built into the desktop app gets this week's security fixes, owners are told when a server needs a security update, and files saved from encrypted messages come out readable.",
+    changes: [
+      {
+        kind: "security",
+        text: "The server built into the desktop app is updated to 1.10.15, which keeps channel messages and sign-in tokens from reaching people who should not have them. Update if you host a server from the app.",
+      },
+      {
+        kind: "new",
+        text: "Owners and admins see a notice when the server they are on has a known security issue, with the version that fixes it.",
+      },
+      {
+        kind: "fixed",
+        text: "Save As, Copy Image and Download on a file in an encrypted conversation saved the encrypted copy. They save the real file now.",
+      },
+      {
+        kind: "fixed",
+        text: "With Automatic updates off, Check for Updates and starting at login still downloaded updates. They only tell you about them now.",
+      },
+      {
+        kind: "changed",
+        text: "Moving a guest to your account works when your account is already on the server, and saying no switches this device to your account there.",
+      },
+      {
+        kind: "fixed",
+        text: "Messages that arrived before a conversation was opened showed above the older ones.",
+      },
+      {
+        kind: "fixed",
+        text: "Adding a server you were already in from another address added it a second time.",
+      },
+      {
+        kind: "fixed",
+        text: "User settings cut off its pages in a narrow window, and a server you start from the app reconnects as soon as it is running.",
+      },
+    ],
+  },
+  {
     version: "1.11.24",
     date: "2026-09-15",
     line: "A server you host from the desktop app only accepts voice server registration from the same computer.",
@@ -1048,6 +1087,11 @@ export const app: ReleaseLine[] = [
  * So a reader here is usually somebody deciding whether to pull a new image.
  */
 export const server: ReleaseLine[] = [
+  {
+    version: "1.10.15",
+    date: "2026-09-15",
+    line: "Security release: channel messages only reach members who can read the channel, no member's sign-in token is sent to other members, and sign-in tokens issued before this version stop working once so clients sign in again by themselves. Update every server you run.",
+  },
   {
     version: "1.10.14",
     date: "2026-09-15",
