@@ -75,6 +75,49 @@ export interface ReleaseLine {
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.11.23",
+    date: "2026-09-15",
+    line: "The desktop app clears out old copies of its built-in server, updates land on the newest release, Enter sends on the first press, and servers you host get a Manage server item.",
+    changes: [
+      {
+        kind: "fixed",
+        text: "The desktop app kept a full copy of its built-in server for every version it had ever run, which could add up to several gigabytes. It removes the old ones now and keeps the current one and the two before it.",
+      },
+      {
+        kind: "fixed",
+        text: "If a newer release came out while an update was waiting, pressing update installed the older one and then offered the newer one. It checks first and installs the newest.",
+      },
+      {
+        kind: "fixed",
+        text: "After pasting a link with a port, such as http://192.168.50.196:3000, the first Enter added a new line instead of sending. Times like 12:30 are no longer turned into emoji either.",
+      },
+      {
+        kind: "new",
+        text: "A server this app hosts has Manage server in its menu, which opens its card in My servers with Start and Stop.",
+      },
+      {
+        kind: "fixed",
+        text: "Two Gryt apps hosting servers on one computer could end up sharing one voice server. Each gets its own ports now.",
+      },
+      {
+        kind: "fixed",
+        text: "Dialogs ran off narrow windows and pushed their buttons out of view. The prompt about moving a guest to your account is also clearer about what each choice does.",
+      },
+      {
+        kind: "fixed",
+        text: "Deleting a server you host left its entry in the server list when you had joined it by a LAN address or a .local name.",
+      },
+      {
+        kind: "changed",
+        text: "What's new shows a label on every change instead of one per group.",
+      },
+      {
+        kind: "fixed",
+        text: "A long selected option no longer stretches a dropdown past its space, and About Gryt gives the copyright as 2022 to 2026.",
+      },
+    ],
+  },
+  {
     version: "1.11.22",
     date: "2026-09-15",
     line: "Encrypted videos wait for you to press play, Check for updates says when GitHub did not answer, a server you host shows as starting during a call, and webhook avatars are resized.",
