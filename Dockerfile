@@ -44,7 +44,9 @@ RUN --mount=type=cache,target=/usr/local/share/.cache/yarn,sharing=locked \
 COPY . .
 RUN yarn build
 
-FROM nginx:alpine
+# nginx.conf is written on the build machine and copied into the final image, which
+# then has no RUN, so an arm64 image builds on an amd64 builder without emulation.
+FROM --platform=$BUILDPLATFORM alpine:3.22 AS nginx-conf
 
 # Where the release notes come from.
 #
@@ -228,8 +230,11 @@ RUN printf '%s\n' \
   '    # Nothing else lives on this host.' \
   '    location / { return 302 https://gryt.chat$request_uri; }' \
   '  }' \
-  '}' > /etc/nginx/nginx.conf
+  '}' > /nginx.conf
 
+FROM nginx:alpine
+
+COPY --from=nginx-conf /nginx.conf /etc/nginx/nginx.conf
 COPY --from=builder /app/dist /usr/share/nginx/html
 
 EXPOSE 80
