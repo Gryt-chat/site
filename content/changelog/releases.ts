@@ -75,6 +75,21 @@ export interface ReleaseLine {
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.11.20",
+    date: "2026-09-15",
+    line: "Server settings fit the window at every width, and on a phone you pick a settings page from a list instead of a squeezed sidebar.",
+    changes: [
+      {
+        kind: "fixed",
+        text: "Webhook rows ran past the edge of Server settings and cut off Create webhook. Every settings page now fits the dialog.",
+      },
+      {
+        kind: "changed",
+        text: "On a narrow window, Server settings shows a list to pick the page from instead of a sidebar that left almost no room for the page itself.",
+      },
+    ],
+  },
+  {
     version: "1.11.19",
     date: "2026-09-15",
     line: "Webhooks can post cards, and pictures load on a server you joined from Add a server without joining again.",
@@ -916,6 +931,11 @@ export const app: ReleaseLine[] = [
  * So a reader here is usually somebody deciding whether to pull a new image.
  */
 export const server: ReleaseLine[] = [
+  {
+    version: "1.10.12",
+    date: "2026-09-15",
+    line: "A request with broken JSON gets a 400 and one that is too big gets a 413, where both used to get a 500, and webhook messages are held to their 256 KB limit.",
+  },
   {
     version: "1.10.11",
     date: "2026-09-15",
