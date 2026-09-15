@@ -75,6 +75,25 @@ export interface ReleaseLine {
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.11.19",
+    date: "2026-09-15",
+    line: "Webhooks can post cards, and pictures load on a server you joined from Add a server without joining again.",
+    changes: [
+      {
+        kind: "new",
+        text: "Messages from a webhook can carry cards with a title, description, fields, images, an author and a footer.",
+      },
+      {
+        kind: "fixed",
+        text: "Joining a server from Add a server did not keep the key pictures need, so every picture on it failed to load until you joined again.",
+      },
+      {
+        kind: "fixed",
+        text: "A webhook posting under a different name was grouped under the name above it.",
+      },
+    ],
+  },
+  {
     version: "1.11.18",
     date: "2026-09-15",
     line: "A webhook's avatar saves when you pick one, instead of the settings saying it was updated when nothing changed.",
@@ -897,6 +916,11 @@ export const app: ReleaseLine[] = [
  * So a reader here is usually somebody deciding whether to pull a new image.
  */
 export const server: ReleaseLine[] = [
+  {
+    version: "1.10.11",
+    date: "2026-09-15",
+    line: "Webhooks can post up to 10 cards, with their pictures fetched once and stored on the server, and a webhook message keeps its name and avatar after a reload.",
+  },
   {
     version: "1.10.10",
     date: "2026-09-15",
