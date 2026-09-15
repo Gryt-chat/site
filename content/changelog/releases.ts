@@ -1450,6 +1450,11 @@ export const server: ReleaseLine[] = [
  */
 export const voice: ReleaseLine[] = [
   {
+    version: "1.0.66",
+    date: "2026-09-15",
+    line: "An SFU that cannot bind its control port refuses to start, instead of running and sending the servers it turns away to whatever else holds that port.",
+  },
+  {
     version: "1.0.65",
     date: "2026-09-09",
     line: "Registration moves off the SFU's public port, so a stranger can no longer point their own server at yours and use it to carry their calls, and the servers already using it keep working without a config change.",
