@@ -75,6 +75,25 @@ export interface ReleaseLine {
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.11.22",
+    date: "2026-09-15",
+    line: "Check for updates says when GitHub did not answer, a server you host yourself shows as starting while you are in a call, and the Linux desktop entry lists the Gryt link type once.",
+    changes: [
+      {
+        kind: "fixed",
+        text: "When GitHub did not answer a check for updates, Gryt said there were no published versions. It says GitHub could not be reached now, and when to try again if GitHub gave a time.",
+      },
+      {
+        kind: "fixed",
+        text: "A server you host from the app showed as reconnecting while it started if you were in a call anywhere. It shows as starting.",
+      },
+      {
+        kind: "fixed",
+        text: "The Linux packages listed the gryt:// link type up to five times in their desktop entry. They list it once.",
+      },
+    ],
+  },
+  {
     version: "1.11.21",
     date: "2026-09-15",
     line: "On a narrow window, Server settings shows the server, voice and image versions under the page picker again.",
@@ -942,6 +961,11 @@ export const app: ReleaseLine[] = [
  * So a reader here is usually somebody deciding whether to pull a new image.
  */
 export const server: ReleaseLine[] = [
+  {
+    version: "1.10.14",
+    date: "2026-09-15",
+    line: "Link previews, image measuring and webhook pictures refuse every address inside the server's own network, however the address is written or wherever a redirect points. Update if you run a server.",
+  },
   {
     version: "1.10.13",
     date: "2026-09-15",
