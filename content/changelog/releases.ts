@@ -75,6 +75,17 @@ export interface ReleaseLine {
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.11.18",
+    date: "2026-09-15",
+    line: "A webhook's avatar saves when you pick one, instead of the settings saying it was updated when nothing changed.",
+    changes: [
+      {
+        kind: "fixed",
+        text: "Picking an avatar for a webhook said Avatar updated and never saved it. It saves now, and the message only shows once it has.",
+      },
+    ],
+  },
+  {
     version: "1.11.17",
     date: "2026-09-15",
     line: "Picking a picture for a group no longer changes your own avatar to it.",
@@ -886,6 +897,11 @@ export const app: ReleaseLine[] = [
  * So a reader here is usually somebody deciding whether to pull a new image.
  */
 export const server: ReleaseLine[] = [
+  {
+    version: "1.10.10",
+    date: "2026-09-15",
+    line: "The media cleanup keeps webhook avatars. It used to delete them about half an hour after upload.",
+  },
   {
     version: "1.10.9",
     date: "2026-09-15",
