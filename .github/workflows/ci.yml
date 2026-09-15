@@ -41,6 +41,10 @@ jobs:
       # last fails the build on a page missing its metadata, so this is more than a compile.
       - run: yarn build
 
+      # The built pages in the runner's Chrome, as a visitor west of UTC and on a phone. Any
+      # React hydration error fails it, which is what #418 on every page was.
+      - run: yarn test:hydration
+
   # gryt.chat is this Dockerfile. Its own job, because the image installs
   # everything it needs and has nothing to take from the one above.
   image:

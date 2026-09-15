@@ -1,7 +1,8 @@
 import { avatarSeed, owlAvatarDataUri } from "@gryt/owl";
-import { motion, useReducedMotion } from "motion/react";
+import { motion } from "motion/react";
 import { useMemo, useState } from "react";
 
+import { usePrefersReducedMotion } from "../../lib/usePrefersReducedMotion";
 import { Clip, type ClipSet } from "../Clip";
 import { OwlDesigner } from "@gryt/ui";
 import { DEMO_NAMES } from "../../data/demoNames";
@@ -36,7 +37,7 @@ const EDITOR_SHOWS =
 const GALLERY = ["kasper", "nora", "tobias", "ida"];
 
 export function Bird() {
-  const reduced = useReducedMotion() ?? false;
+  const reduced = usePrefersReducedMotion() ?? false;
   const [touched, setTouched] = useState(false);
   const [name, setName] = useRotatingName(DEMO_NAMES, touched || reduced, "sivert");
 

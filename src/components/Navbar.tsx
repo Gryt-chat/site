@@ -6,6 +6,7 @@ import { GrytLogo } from "./GrytLogo";
 import { actions, community, navBar, reading, type SiteLink } from "../data/siteLinks";
 import { useLatestDownload } from "../lib/useLatestDownload";
 import { formatSize, storeOption } from "../lib/releases";
+import { usePathname } from "../lib/usePathname";
 import { useTravellingUnderline } from "./useTravellingUnderline";
 import styles from "./Navbar.module.css";
 
@@ -203,6 +204,7 @@ function DownloadAction() {
 export function Navbar() {
   const [open, setOpen] = useState(false);
   const location = useLocation();
+  const page = usePathname();
   const navigate = useNavigate();
   const { listRef, at, settled } = useTravellingUnderline<HTMLUListElement>(
     location.pathname,
@@ -254,7 +256,7 @@ export function Navbar() {
                   <Link
                     className={styles.navLink}
                     to={link.href}
-                    aria-current={location.pathname === link.href ? "page" : undefined}
+                    aria-current={page === link.href ? "page" : undefined}
                   >
                     {link.label}
                   </Link>
@@ -345,7 +347,7 @@ export function Navbar() {
               <nav className={styles.sheetNav}>
                 {sheetLinks.map((link) => {
                   const isActive =
-                    link.isRoute && location.pathname === link.href;
+                    link.isRoute && page === link.href;
                   return link.isRoute ? (
                     <Link
                       key={link.href}

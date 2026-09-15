@@ -6,11 +6,11 @@ import {
   grytThemeToOptions,
 } from "@gryt/theme";
 import { Avatar, Button, Chip } from "@gryt/ui";
-import { useReducedMotion } from "motion/react";
 import type { CSSProperties } from "react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { MdChevronLeft, MdChevronRight } from "react-icons/md";
 
+import { usePrefersReducedMotion } from "../../lib/usePrefersReducedMotion";
 import { Showcase } from "../Showcase";
 import { usePageTheme } from "./usePageTheme";
 import styles from "./Themes.module.css";
@@ -77,7 +77,7 @@ function Preview({ vars }: { vars: CSSProperties }) {
 }
 
 function Carousel() {
-  const reduced = useReducedMotion() ?? false;
+  const reduced = usePrefersReducedMotion() ?? false;
   // Which collection, and how far into it. Held apart because the arrows move
   // one and the timer moves the other. GRYT-1069.
   const [at, setAt] = useState({ group: 0, member: 0 });

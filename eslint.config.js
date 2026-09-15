@@ -19,5 +19,20 @@ export default defineConfig([
       ecmaVersion: 2020,
       globals: globals.browser,
     },
+    // Both answer differently on the build machine and in a browser, so a prerendered page
+    // using either fails to hydrate. GRYT-1197.
+    rules: {
+      'no-restricted-imports': ['error', {
+        paths: [{
+          name: 'motion/react',
+          importNames: ['useReducedMotion'],
+          message: "motion's useReducedMotion reads the media query on the first render, and the prerendered page can't. Use usePrefersReducedMotion from src/lib.",
+        }],
+      }],
+      'no-restricted-syntax': ['error', {
+        selector: "CallExpression[callee.property.name=/^toLocale(Date|Time)?String$/]",
+        message: "This uses the visitor's locale and time zone, and the prerendered page can't know either. Format dates with src/lib/formatDate.",
+      }],
+    },
   },
 ])

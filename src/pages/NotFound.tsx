@@ -2,6 +2,7 @@ import { Link, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import { Button } from "@gryt/ui";
 import { pageTitle } from "../lib/title";
+import { useHydrated } from "../lib/useHydrated";
 import styles from "./NotFound.module.css";
 
 /**
@@ -17,6 +18,9 @@ const DESTINATIONS = [
 
 export function NotFound() {
   const { pathname } = useLocation();
+  /* 404.html is one file served for every missing path, so the path it was prerendered
+     with is never the one in the address bar. */
+  const hydrated = useHydrated();
 
   useEffect(() => {
     document.title = pageTitle("Page not found");
@@ -28,7 +32,13 @@ export function NotFound() {
         <p className={styles.code}>404</p>
         <h1 className={styles.title}>Nothing here</h1>
         <p className={styles.body}>
-          There is no page at <code className={styles.path}>{pathname}</code>.
+          {hydrated ? (
+            <>
+              There is no page at <code className={styles.path}>{pathname}</code>.
+            </>
+          ) : (
+            "There is no page at this address."
+          )}{" "}
           It might have moved, or the link that sent you here might be wrong.
         </p>
 

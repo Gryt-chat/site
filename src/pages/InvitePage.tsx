@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { Button } from "@gryt/ui";
 import { GrytLogo } from "../components/GrytLogo";
+import { useHydrated } from "../lib/useHydrated";
 import styles from "../styles/handoff.module.css";
 
 type ServerPreview = {
@@ -58,6 +59,9 @@ export function InvitePage() {
   const host = params.get("host") || "";
   const code = params.get("code") || "";
   const valid = host.length > 0 && code.length > 0;
+  /* The prerendered page has no query string, so it cannot know the server or whether the link
+     is whole. It hydrates as the placeholder App shows while a page loads. */
+  const hydrated = useHydrated();
 
   // Read once. It cannot change while the page is open, and re-reading it in
   // render would make the first paint differ from the second.
@@ -93,6 +97,10 @@ export function InvitePage() {
     const timer = setTimeout(() => setShowChoices(true), 1500);
     return () => clearTimeout(timer);
   }, [valid, host, code, phone]);
+
+  if (!hydrated) {
+    return <main className="routePending" aria-busy="true" aria-label="Loading page" />;
+  }
 
   if (!valid) {
     return (

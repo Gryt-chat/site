@@ -1,9 +1,10 @@
 import { avatarSeed, owlAvatarColour } from "@gryt/owl";
 import { Avatar, Chip } from "@gryt/ui";
-import { motion, useReducedMotion } from "motion/react";
+import { motion } from "motion/react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 
+import { usePrefersReducedMotion } from "../../lib/usePrefersReducedMotion";
 import { Clip, type ClipSet } from "../Clip";
 import { inView, rise, stagger } from "./motion";
 import { Frame, UploadSketch } from "../sketches";
@@ -100,7 +101,7 @@ function useLevels(count: number, running: boolean) {
 }
 
 function Panel() {
-  const reduced = useReducedMotion() ?? false;
+  const reduced = usePrefersReducedMotion() ?? false;
   const [seen, setSeen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -164,7 +165,7 @@ function Panel() {
 }
 
 export function Voice() {
-  const reduced = useReducedMotion() ?? false;
+  const reduced = usePrefersReducedMotion() ?? false;
 
   return (
     <section className={styles.section} id="voice">

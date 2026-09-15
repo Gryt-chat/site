@@ -1,15 +1,10 @@
 import { Link } from 'react-router-dom'
 import { useEffect, useState, type ReactNode } from 'react'
 import { listReleases, SURFACES, type ListedRelease, type Surface } from '../lib/changelog'
+import { dayMonthYear } from '../lib/formatDate'
 import { pageTitle } from '../lib/title'
 import { Chip } from "@gryt/ui";
 import styles from './ChangelogIndex.module.css'
-
-const DATE = new Intl.DateTimeFormat('en-GB', {
-  day: 'numeric',
-  month: 'long',
-  year: 'numeric',
-})
 
 /**
  * The one kind worth marking in a list of eighty-two. New and Fixed are what a
@@ -127,7 +122,7 @@ export function ChangelogIndex() {
                         className={styles.date}
                         dateTime={new Date(release.date).toISOString()}
                       >
-                        {DATE.format(new Date(release.date))}
+                        {dayMonthYear(release.date)}
                       </time>
                     </span>
                     <span className={styles.headline}>
@@ -161,7 +156,7 @@ export function ChangelogIndex() {
                     className={styles.date}
                     dateTime={new Date(release.date).toISOString()}
                   >
-                    {DATE.format(new Date(release.date))}
+                    {dayMonthYear(release.date)}
                   </time>
                 </LineRow>
               )}

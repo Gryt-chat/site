@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
-import { motion, useReducedMotion } from "motion/react";
+import { motion } from "motion/react";
 import { Button } from "@gryt/ui";
+import { usePrefersReducedMotion } from "../../lib/usePrefersReducedMotion";
 import { inView, rise, stagger } from "./motion";
 import { sponsors } from "../../data/sponsors";
 import styles from "./Sponsors.module.css";
@@ -15,7 +16,7 @@ const OPEN_SLOTS = 2;
 const SLOTS_UNTIL = 3;
 
 export function Sponsors() {
-  const reduced = useReducedMotion() ?? false;
+  const reduced = usePrefersReducedMotion() ?? false;
 
   const recurring = sponsors
     .filter((s) => s.kind === "recurring")

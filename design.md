@@ -161,6 +161,14 @@ Only `transform` and `opacity` animate. `prefers-reduced-motion` collapses every
 spatial move to a `150ms` fade, and `src/index.css` additionally kills the
 ambient keyframe washes that the motion components cannot reach.
 
+`reduced` comes from `usePrefersReducedMotion` in `src/lib`. motion's own
+`useReducedMotion` reads the media query on the first render. With reduced
+motion on, that gave a different page from the one the build wrote, and React
+threw #418 (GRYT-1197). Lint refuses that import now. The site's hook is `null`
+until hydration is over, so the hero and `Clip` wait for a real answer. If a
+transform starts before then, `MotionConfig reducedMotion="user"` in `App.tsx`
+makes it jump straight to where it ends.
+
 ## Per-page macrostructures
 
 Each content page is built on the Hallmark shape that fits its content, not on

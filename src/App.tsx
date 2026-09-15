@@ -1,10 +1,12 @@
 import { Routes, Route, useLocation } from "react-router-dom";
 import { lazy, Suspense, useEffect } from "react";
+import { MotionConfig } from "motion/react";
 import { Navbar } from "./components/Navbar";
 import { Footer } from "./components/Footer";
 import { HomePage } from "./pages/HomePage";
 import { HOME_TITLE, pageTitle } from "./lib/title";
 import { STATIC_PAGES, ALIAS_PAGES } from "./lib/pages.mjs";
+import { usePathname } from "./lib/usePathname";
 
 const AuthCallbackPage = lazy(() => import("./pages/AuthCallbackPage").then((m) => ({ default: m.AuthCallbackPage })));
 const BlogIndex = lazy(() => import("./pages/BlogIndex").then((m) => ({ default: m.BlogIndex })));
@@ -65,11 +67,12 @@ const HASH_SETTLE_MS = 1500;
 
 function ScrollAndTitle() {
   const { pathname, hash } = useLocation();
+  const page = usePathname();
 
   useEffect(() => {
-    const title = pageTitles[pathname];
+    const title = pageTitles[page];
     if (title) document.title = title;
-  }, [pathname]);
+  }, [page]);
 
   /**
    * Scroll to the `#hash` when there is one, and to the top when there is not. React Router
@@ -146,11 +149,12 @@ function ScrollAndTitle() {
 const chromeHiddenRoutes = new Set(["/auth/callback"]);
 
 export default function App() {
-  const { pathname } = useLocation();
-  const hideChrome = chromeHiddenRoutes.has(pathname);
+  const hideChrome = chromeHiddenRoutes.has(usePathname());
 
+  // Transforms jump rather than move for a reduced-motion visitor, decided as each animation
+  // starts. The components only learn the preference a render after hydration.
   return (
-    <>
+    <MotionConfig reducedMotion="user">
       <ScrollAndTitle />
       {!hideChrome && <Navbar />}
       <Suspense fallback={<main className="routePending" aria-busy="true" aria-label="Loading page" />}>
@@ -191,6 +195,6 @@ export default function App() {
         </Routes>
       </Suspense>
       {!hideChrome && <Footer />}
-    </>
+    </MotionConfig>
   );
 }
