@@ -68,6 +68,27 @@ export interface ReleaseLine {
 }
 
 /**
+ * A published security fix. The app shows owners and admins of a server older
+ * than `fixedIn` a notice that links to `url`.
+ */
+export interface SecurityNotice {
+  /** Never reused: the app remembers a dismissal by server and id. */
+  id: string;
+  /** The component the fix is in. The app only checks `server` so far. */
+  surface: Surface;
+  /** The first release with the fix, e.g. 1.2.3 or 1.2.3-beta.4. */
+  fixedIn: string;
+  title: string;
+  /** Where to read about it. https only. */
+  url: string;
+  /** ISO date the notice went up. */
+  published: string;
+}
+
+/** Newest first. emit-changelog-json.mjs checks each one, and a bad one fails the build. */
+export const securityNotices: SecurityNotice[] = [];
+
+/**
  * The app: what you install. The desktop build and gryt.chat in a browser.
  *
  * Newest first, matching the order the page renders and the order the GitHub

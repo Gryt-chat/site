@@ -4,10 +4,13 @@
  */
 
 import assert from "node:assert/strict";
-import { execFileSync } from "node:child_process";
-import { readFileSync } from "node:fs";
+import { execFileSync, spawnSync } from "node:child_process";
+import { copyFileSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+
+import { securityNoticeProblems } from "./security-notices.mjs";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -100,7 +103,86 @@ assert.ok(
   "every app release now carries changes, so nothing exercises the fallback the client still ships",
 );
 
+/* ── the security notices the client checks servers against ─────────────── */
+
+assert.ok(Array.isArray(data.securityNotices), "changelog.json has no securityNotices array");
+assert.deepEqual(
+  data.securityNotices,
+  source.securityNotices,
+  "changelog.json and releases.ts disagree on the security notices",
+);
+assert.deepEqual(securityNoticeProblems(data.securityNotices), [], "changelog.json carries a notice that is not valid");
+
+// The list ships empty, so the rules are run against notices made up here.
+const NOTICE = {
+  id: "GHSA-aaaa-bbbb-cccc",
+  surface: "server",
+  fixedIn: "2.0.0",
+  title: "A made-up fix",
+  url: "https://gryt.chat/blog/made-up",
+  published: "2026-01-02",
+};
+
+assert.deepEqual(securityNoticeProblems([NOTICE]), [], "a well-formed notice was refused");
+assert.deepEqual(
+  securityNoticeProblems([{ ...NOTICE, id: "made-up-beta", fixedIn: "2.0.0-beta.3", surface: "voice" }]),
+  [],
+  "a prerelease fixedIn was refused",
+);
+
+const REFUSED = [
+  [{ fixedIn: "2.0" }, "a fixedIn with two parts"],
+  [{ fixedIn: "v2.0.0" }, "a fixedIn with a leading v"],
+  [{ fixedIn: "latest" }, "a fixedIn that is a word"],
+  [{ fixedIn: "2.0.0+build.1" }, "a fixedIn with build metadata"],
+  [{ url: "http://gryt.chat/blog/made-up" }, "a plain http url"],
+  [{ url: "javascript:alert(1)" }, "a javascript: url"],
+  [{ url: "gryt.chat/blog/made-up" }, "a url with no scheme"],
+  [{ url: undefined }, "a missing url"],
+  [{ surface: "mobile" }, "a surface that does not exist"],
+  [{ id: "" }, "an empty id"],
+  [{ id: "has spaces" }, "an id with spaces"],
+  [{ title: "  " }, "a blank title"],
+  [{ published: "2026-02-30" }, "a date that does not exist"],
+  [{ published: "15.09.2026" }, "a date that is not ISO"],
+];
+
+for (const [change, what] of REFUSED) {
+  assert.notDeepEqual(securityNoticeProblems([{ ...NOTICE, ...change }]), [], `${what} was let through`);
+}
+
+assert.match(
+  securityNoticeProblems([NOTICE, { ...NOTICE, fixedIn: "2.0.1" }]).join("\n"),
+  /used twice/,
+  "two notices with one id passed, so dismissing one would hide the other",
+);
+assert.notDeepEqual(securityNoticeProblems(undefined), [], "a missing list was let through");
+
+// And the emitter itself refuses, which is what fails the build before a bad notice reaches gryt.chat.
+{
+  const dir = mkdtempSync(join(tmpdir(), "changelog-json-"));
+  mkdirSync(join(dir, "scripts"));
+  mkdirSync(join(dir, "content/changelog"), { recursive: true });
+  mkdirSync(join(dir, "public"));
+  writeFileSync(join(dir, "package.json"), JSON.stringify({ type: "module" }));
+  for (const file of ["emit-changelog-json.mjs", "security-notices.mjs"]) {
+    copyFileSync(join(root, "scripts", file), join(dir, "scripts", file));
+  }
+  const bad = { ...NOTICE, url: "http://gryt.chat/blog/made-up" };
+  writeFileSync(
+    join(dir, "content/changelog/releases.ts"),
+    ["app", "server", "voice", "images"].map((s) => `export const ${s} = [];`).join("\n") +
+      `\nexport const securityNotices = ${JSON.stringify([bad])};\n`,
+  );
+
+  const run = spawnSync(process.execPath, [join(dir, "scripts/emit-changelog-json.mjs")], { encoding: "utf8" });
+  rmSync(dir, { recursive: true, force: true });
+  assert.notEqual(run.status, 0, "the emitter wrote a notice with an http url");
+  assert.match(run.stderr, /not an https address/, "the emitter failed, but not on the notice");
+}
+
 console.log(
   `changelog.json: ok, ${data.app.length} app releases, newest ${data.app[0].version}, ` +
-    `${data.app.filter((e) => e.note).length} with notes, ${grouped.length} split into kinds`,
+    `${data.app.filter((e) => e.note).length} with notes, ${grouped.length} split into kinds, ` +
+    `${data.securityNotices.length} security notices`,
 );
