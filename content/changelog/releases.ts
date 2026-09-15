@@ -77,7 +77,7 @@ export const app: ReleaseLine[] = [
   {
     version: "1.11.18",
     date: "2026-09-15",
-    line: "A webhook's avatar saves when you pick one. Before, the settings said it was updated and nothing changed.",
+    line: "A webhook's avatar saves when you pick one, instead of the settings saying it was updated when nothing changed.",
     changes: [
       {
         kind: "fixed",
