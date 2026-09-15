@@ -1504,6 +1504,11 @@ export const server: ReleaseLine[] = [
  */
 export const voice: ReleaseLine[] = [
   {
+    version: "1.0.68",
+    date: "2026-09-15",
+    line: "SFU_METRICS_HOST sets the address the metrics port listens on, the same way SFU_CONTROL_HOST does for registration. It listens on every address when unset, as before.",
+  },
+  {
     version: "1.0.67",
     date: "2026-09-15",
     line: "SFU_CONTROL_HOST sets the address the registration port listens on. It listens on every address when unset, as before.",
