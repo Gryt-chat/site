@@ -1,0 +1,106 @@
+---
+title: "Security Update: Gryt Server 1.10.15"
+description: Two security problems affected every Gryt server, and 1.10.15 fixes them. What was wrong, and how to update.
+author: Sivert
+date: 2026-09-15
+tags:
+  - security
+  - releases
+---
+
+Gryt server 1.10.15 is out, and it's a security release. If you run a Gryt server, please update it. That includes a server you host from the desktop app, which gets the fix in app 1.11.25.
+
+If you only join servers other people run, there's nothing to do beyond keeping the app updated. The fixes are in the server, so whoever runs it has to update.
+
+## What was wrong
+
+A server sent every new channel message to every connection it had open. It didn't check whether that connection had joined the server, or whether the member behind it could read the channel. So anyone who could reach your server could read new messages without joining it, invite-only or not. Members without permission to read a channel got its messages as well. Direct messages weren't affected.
+
+Every member also gets a list of who's connected. Until 1.10.15, that list carried each person's sign-in token. A token lets whoever has it act as that person on that server, so any member could act as any other member who was online, the owner included.
+
+Both go back to the earliest server releases. I found them this week while working on other parts of the server, and nobody reported them. I can't see into anybody else's server, so I can't tell you whether anyone used them on yours.
+
+## Who needs to update
+
+Anyone running a Gryt server older than 1.10.15. That means:
+
+- the Docker image, whether you run it with Docker Compose or the `gryt` CLI
+- the self-hosted Windows and Linux bundles
+- a server hosted from the desktop app, if the app is older than 1.11.25
+
+From 1.11.25 the app also tells owners and admins when the server they're on has a known security issue, and which version fixes it.
+
+## How to update
+
+### Docker Compose
+
+In the folder with your compose file:
+
+```bash
+docker compose pull
+docker compose up -d
+```
+
+### The gryt CLI
+
+Pull the new image first:
+
+```bash
+docker pull ghcr.io/gryt-chat/server:latest
+```
+
+Use `latest-beta` instead if you switched the CLI to the beta channel. Then open `gryt`, pick the server, and stop and start it with `x` and then `s`.
+
+Restarting with `r` isn't enough, even though the CLI says a restart pulls the new version. It restarts the container on the image it already has. That's a bug, and I'll fix it.
+
+### Windows or Linux bundle
+
+Download the 1.10.15 bundle for your system from the [release page](https://github.com/Gryt-chat/server/releases/tag/v1.10.15). Stop the server, unpack the new bundle, and move your `config.env` and your `data` folder into it. Then start it again.
+
+The bundles need one more change for their voice server, which is further down.
+
+### The desktop app
+
+It updates itself. It downloads the new version in the background and installs it when you quit, so quit and reopen Gryt once it says the update is ready. If you turned automatic updates off, press **download now** when Gryt tells you about 1.11.25, or get it from [the download page](/download).
+
+## Checking which version you're on
+
+- Docker: `docker compose exec server printenv SERVER_VERSION` should print `1.10.15`.
+- The CLI: pick the server and press `enter`. The version is listed there.
+- In the app: open **Server settings**. The version is under the list of pages, as Server v1.10.15.
+- The desktop app: **Settings → Updates & about** should say 1.11.25 or later. The server it hosts comes with the app.
+
+## Expect one reconnect
+
+A token that has already been copied can't be taken back. So 1.10.15 retires every sign-in token issued before it, once, the first time it starts. The apps get a new one by themselves, so you might see Gryt reconnect. Nobody has to sign in again, and it doesn't happen on later restarts.
+
+## The other fixes this week
+
+A server on 1.10.15 also has these fixes from earlier this week:
+
+- **Server 1.10.8.** A member with a file's link could open it, even when it came from a private channel or a direct message they weren't in. Before 1.8.5 you didn't have to be a member at all.
+- **Server 1.10.14.** Someone could make link previews and webhook pictures fetch addresses inside the server's own network.
+- **Desktop app 1.11.24.** The voice server built into the app accepted server registrations from anyone on your network, so they could use your computer to carry their calls.
+
+The Windows and Linux bundles run the same voice server and don't have that fix yet. Until a bundle does, add these two lines to `config.env` after moving to the 1.10.15 bundle:
+
+```bash
+SFU_CONTROL_HOST=127.0.0.1
+SFU_METRICS_HOST=127.0.0.1
+```
+
+Leave `SFU_WS_HOST` at `ws://127.0.0.1:5005`. If you changed it to your public address, change it back, or the server won't be able to register with its voice server.
+
+## The advisories
+
+- [Channel messages reached connections that never joined, and members without access to the channel](https://github.com/Gryt-chat/server/security/advisories/GHSA-whvq-3x27-w5jv)
+- [Every connected member's access token was sent to the other members](https://github.com/Gryt-chat/server/security/advisories/GHSA-pwj4-mw52-f7cj)
+- [Members could open files from private channels and direct messages they weren't in](https://github.com/Gryt-chat/server/security/advisories/GHSA-m3qc-p5wr-2cq9)
+- [Link previews and webhook pictures could reach addresses inside the server's own network](https://github.com/Gryt-chat/server/security/advisories/GHSA-w9c7-pp72-54xg)
+- [An SFU run outside a container took server registrations from other machines on the network](https://github.com/Gryt-chat/sfu/security/advisories/GHSA-4535-49gq-9pvw)
+
+Thanks to everyone who runs a Gryt server for updating, and for putting up with thirteen server releases in two days.
+
+## Reporting a security problem
+
+Email [sivert@gryt.chat](mailto:sivert@gryt.chat) rather than opening a public issue. [The security page](/security) says what's in scope and what happens after you report something.
