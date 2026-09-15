@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { Button } from "@gryt/ui";
 import { GrytLogo } from "../components/GrytLogo";
+import { useHydrated } from "../lib/useHydrated";
 import styles from "../styles/handoff.module.css";
 
 function buildDeepLink(params: URLSearchParams): string {
@@ -21,6 +22,9 @@ export function AuthCallbackPage() {
   const code = params.get("code") || "";
   const state = params.get("state") || "";
   const valid = code.length > 0 && state.length > 0;
+  /* The prerendered page has no query string, so it hydrates as a sign-in in progress, which
+     is what a real callback is. Whether this one is complete is only known after that. */
+  const hydrated = useHydrated();
 
   const [showFallback, setShowFallback] = useState(false);
 
@@ -33,7 +37,7 @@ export function AuthCallbackPage() {
     return () => clearTimeout(timer);
   }, [valid, params]);
 
-  if (!valid) {
+  if (hydrated && !valid) {
     return (
       <main className={styles.page}>
         <div className={styles.panel}>

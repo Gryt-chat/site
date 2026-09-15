@@ -1,6 +1,7 @@
-import { motion, useReducedMotion } from "motion/react";
+import { motion } from "motion/react";
 import type { ReactNode } from "react";
 
+import { usePrefersReducedMotion } from "../lib/usePrefersReducedMotion";
 import { inView, rise, stagger } from "./home/motion";
 import styles from "./Showcase.module.css";
 
@@ -41,7 +42,7 @@ export function Showcase({
   mediaCaption,
   below,
 }: ShowcaseProps) {
-  const reduced = useReducedMotion() ?? false;
+  const reduced = usePrefersReducedMotion() ?? false;
   const split = media != null && size !== "full";
 
   return (

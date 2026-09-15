@@ -1,6 +1,7 @@
 import { Button } from "@gryt/ui";
-import { motion, useReducedMotion } from "motion/react";
+import { motion } from "motion/react";
 
+import { usePrefersReducedMotion } from "../../lib/usePrefersReducedMotion";
 import { Clip, type ClipSet } from "../Clip";
 import { DownloadIcon, GlobeIcon, ServerRackIcon } from "../icons";
 import { rise, stagger } from "./motion";
@@ -31,7 +32,11 @@ const SHOWS =
   "them sharing a screen, and the chat moving in the panel beside them";
 
 export function Hero() {
-  const reduced = useReducedMotion() ?? false;
+  const prefers = usePrefersReducedMotion();
+  const reduced = prefers ?? false;
+  // Held until the preference is known, a render after hydration, so a reduced-motion visitor
+  // gets the short fade rather than the timings the prerendered page was set up with.
+  const arrive = prefers !== null;
 
   return (
     <section className={styles.hero}>
@@ -39,7 +44,7 @@ export function Hero() {
         className={styles.inner}
         variants={stagger(reduced, 0.09)}
         initial="hidden"
-        animate="shown"
+        animate={arrive ? "shown" : "hidden"}
       >
         <motion.h1 className={styles.title} variants={rise(reduced)}>
           A place to talk that belongs to you.
@@ -88,7 +93,7 @@ export function Hero() {
       <motion.figure
         className={styles.shot}
         initial={{ opacity: 0, y: reduced ? 0 : 40, scale: reduced ? 1 : 0.985 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
+        animate={arrive ? { opacity: 1, y: 0, scale: 1 } : undefined}
         transition={{
           duration: reduced ? 0.15 : 0.9,
           delay: reduced ? 0 : 0.35,

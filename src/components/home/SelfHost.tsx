@@ -1,5 +1,6 @@
-import { motion, useReducedMotion } from "motion/react";
+import { motion } from "motion/react";
 
+import { usePrefersReducedMotion } from "../../lib/usePrefersReducedMotion";
 import { Clip, type ClipSet } from "../Clip";
 import { inView, rise, stagger } from "./motion";
 import styles from "./SelfHost.module.css";
@@ -65,7 +66,7 @@ const MORE = [
 ];
 
 export function SelfHost() {
-  const reduced = useReducedMotion() ?? false;
+  const reduced = usePrefersReducedMotion() ?? false;
 
   return (
     <section className={styles.section} id="self-host">

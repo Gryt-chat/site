@@ -3,6 +3,7 @@ import { useParams, Link, Navigate } from 'react-router-dom'
 import { MdChevronLeft } from 'react-icons/md'
 import { Chip } from '@gryt/ui'
 import { getNeighbours, getPost } from '../lib/blog'
+import { monthDayYear } from '../lib/formatDate'
 import { pageTitle } from '../lib/title'
 import { LightboxImage } from '../components/Lightbox'
 import { PostNav } from '../components/PostNav'
@@ -80,11 +81,7 @@ export function BlogPost() {
           <span className={styles.author}>{frontmatter.author}</span>
           <span className={styles.dot}>·</span>
           <time dateTime={new Date(frontmatter.date).toISOString()}>
-            {new Date(frontmatter.date).toLocaleDateString('en-US', {
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric',
-            })}
+            {monthDayYear(frontmatter.date)}
           </time>
         </div>
         {frontmatter.tags && frontmatter.tags.length > 0 && (

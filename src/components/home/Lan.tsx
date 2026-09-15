@@ -1,8 +1,8 @@
 import { Avatar, Button, Chip, Surface } from "@gryt/ui";
-import { useReducedMotion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import { PiBroadcastFill } from "react-icons/pi";
 
+import { usePrefersReducedMotion } from "../../lib/usePrefersReducedMotion";
 import { Clip, type ClipSet } from "../Clip";
 import { Showcase } from "../Showcase";
 import styles from "./Lan.module.css";
@@ -38,7 +38,7 @@ const ARRIVES = {
 const ARRIVES_AFTER_MS = 1600;
 
 function Pane() {
-  const reduced = useReducedMotion() ?? false;
+  const reduced = usePrefersReducedMotion() ?? false;
   const [seen, setSeen] = useState(false);
   const [waited, setWaited] = useState(false);
   const ref = useRef<HTMLDivElement>(null);

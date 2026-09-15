@@ -1,6 +1,7 @@
-import { motion, useInView, useReducedMotion } from "motion/react";
+import { motion, useInView } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 
+import { usePrefersReducedMotion } from "../../lib/usePrefersReducedMotion";
 import githubStats from "../../data/githubStats.json";
 import { inView, rise, stagger } from "./motion";
 import styles from "./Motivation.module.css";
@@ -24,8 +25,8 @@ const FIGURES = [
 function Counter({ value, suffix }: { value: number; suffix: string }) {
   const ref = useRef<HTMLSpanElement>(null);
   const visible = useInView(ref, { once: true, margin: "-60px" });
-  const reduced = useReducedMotion() ?? false;
-  const [n, setN] = useState(reduced ? value : 0);
+  const reduced = usePrefersReducedMotion() ?? false;
+  const [n, setN] = useState(0);
 
   useEffect(() => {
     if (!visible || reduced) return;
@@ -41,16 +42,18 @@ function Counter({ value, suffix }: { value: number; suffix: string }) {
     return () => cancelAnimationFrame(id);
   }, [visible, reduced, value]);
 
+  // Derived, not the starting state: the preference lands a render after hydration, and
+  // the prerendered page counts from 0.
   return (
     <span ref={ref} className={styles.figure}>
-      {n}
+      {reduced ? value : n}
       {suffix}
     </span>
   );
 }
 
 export function Motivation() {
-  const reduced = useReducedMotion() ?? false;
+  const reduced = usePrefersReducedMotion() ?? false;
 
   return (
     <section className={styles.section} id="motivation">

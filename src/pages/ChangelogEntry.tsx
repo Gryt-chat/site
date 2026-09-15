@@ -3,6 +3,7 @@ import { useParams, Link, Navigate } from 'react-router-dom'
 import { MdChevronLeft } from 'react-icons/md'
 import { Chip } from '@gryt/ui'
 import { getAppLine, getRelease, groupChanges, KIND_LABELS } from '../lib/changelog'
+import { monthDayYear } from '../lib/formatDate'
 import { pageTitle } from '../lib/title'
 import { Clip } from '../components/Clip'
 import { LightboxImage } from '../components/Lightbox'
@@ -75,11 +76,7 @@ export function ChangelogEntry() {
         )}
         <div className={styles.meta}>
           <time dateTime={new Date(frontmatter.date).toISOString()}>
-            {new Date(frontmatter.date).toLocaleDateString('en-US', {
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric',
-            })}
+            {monthDayYear(frontmatter.date)}
           </time>
         </div>
       </header>
@@ -114,11 +111,7 @@ function LineOnly({ line }: { line: ReleaseLine }) {
         </div>
         <div className={styles.meta}>
           <time dateTime={new Date(line.date).toISOString()}>
-            {new Date(line.date).toLocaleDateString('en-US', {
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric',
-            })}
+            {monthDayYear(line.date)}
           </time>
         </div>
       </header>

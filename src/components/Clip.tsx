@@ -1,6 +1,6 @@
-import { useReducedMotion } from "motion/react";
 import { type ComponentPropsWithoutRef, useEffect, useRef } from "react";
 
+import { usePrefersReducedMotion } from "../lib/usePrefersReducedMotion";
 import styles from "./Clip.module.css";
 
 /**
@@ -29,14 +29,16 @@ interface ClipProps extends Omit<ComponentPropsWithoutRef<"video">, "children" |
  * allowed at all. `prefers-reduced-motion` gets the poster as a plain image instead.
  */
 export function Clip({ src, av1, poster, alt, className, ...props }: ClipProps) {
-  const reduced = useReducedMotion() ?? false;
+  // Null until hydration is over. The prerendered page has the video, so that is what
+  // renders until then, and nothing plays before the answer is in.
+  const reduced = usePrefersReducedMotion();
   const ref = useRef<HTMLVideoElement>(null);
 
   // Played on arrival rather than on load. Autoplaying meant every clip on the
   // page was already part way through by the time anybody scrolled to it.
   useEffect(() => {
     const el = ref.current;
-    if (!el) return;
+    if (!el || reduced === null) return;
 
     const io = new IntersectionObserver(
       ([entry]) => {

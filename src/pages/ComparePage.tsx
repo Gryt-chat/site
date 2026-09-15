@@ -1,6 +1,7 @@
-import { motion, useReducedMotion } from "motion/react";
+import { motion } from "motion/react";
 import { Card } from "@gryt/ui";
 
+import { usePrefersReducedMotion } from "../lib/usePrefersReducedMotion";
 import { PageHeader } from "../components/PageHeader";
 import { inView, rise, stagger } from "../components/home/motion";
 import styles from "./ComparePage.module.css";
@@ -150,7 +151,7 @@ function Table({
 }
 
 export function ComparePage() {
-  const reduced = useReducedMotion() ?? false;
+  const reduced = usePrefersReducedMotion() ?? false;
 
   return (
     <main className={styles.page}>

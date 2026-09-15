@@ -21,6 +21,7 @@
     "test:changelog-kinds": "node scripts/check-changelog-kinds.mjs",
     "test:link-underline": "node scripts/check-link-underline.mjs",
     "test:changelog-lines": "node --test scripts/check-changelog-lines.test.mjs",
+    "test:hydration": "node scripts/check-hydration.mjs",
     "generate:banners": "node scripts/generate-repo-banners.mjs"
   },
   "dependencies": {
