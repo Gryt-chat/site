@@ -75,6 +75,17 @@ export interface ReleaseLine {
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.11.21",
+    date: "2026-09-15",
+    line: "On a narrow window, Server settings shows the server, voice and image versions under the page picker again.",
+    changes: [
+      {
+        kind: "fixed",
+        text: "The server, voice server and image worker versions went missing from Server settings on narrow windows. They sit under the page picker now.",
+      },
+    ],
+  },
+  {
     version: "1.11.20",
     date: "2026-09-15",
     line: "Server settings fit the window at every width, and on a phone you pick a settings page from a list instead of a squeezed sidebar.",
@@ -931,6 +942,11 @@ export const app: ReleaseLine[] = [
  * So a reader here is usually somebody deciding whether to pull a new image.
  */
 export const server: ReleaseLine[] = [
+  {
+    version: "1.10.13",
+    date: "2026-09-15",
+    line: "Renaming an emoji, importing from BTTV and creating or editing a webhook accept request bodies up to 100 KB, the limit those routes always meant to have.",
+  },
   {
     version: "1.10.12",
     date: "2026-09-15",
