@@ -75,6 +75,17 @@ export interface ReleaseLine {
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.11.24",
+    date: "2026-09-15",
+    line: "A server you host from the desktop app only accepts voice server registration from the same computer.",
+    changes: [
+      {
+        kind: "fixed",
+        text: "The voice server built into the desktop app took server registrations from anyone on your network. It only listens for them on the computer itself now, and calls from your network work as before.",
+      },
+    ],
+  },
+  {
     version: "1.11.23",
     date: "2026-09-15",
     line: "The desktop app clears out old copies of its built-in server, updates land on the newest release, Enter sends on the first press, and servers you host get a Manage server item.",
@@ -1492,6 +1503,11 @@ export const server: ReleaseLine[] = [
  * about calls connecting, staying up, or costing less to carry.
  */
 export const voice: ReleaseLine[] = [
+  {
+    version: "1.0.67",
+    date: "2026-09-15",
+    line: "SFU_CONTROL_HOST sets the address the registration port listens on. It listens on every address when unset, as before.",
+  },
   {
     version: "1.0.66",
     date: "2026-09-15",
