@@ -57,7 +57,7 @@ Restarting with `r` isn't enough, even though the CLI says a restart pulls the n
 
 Download the 1.10.15 bundle for your system from the [release page](https://github.com/Gryt-chat/server/releases/tag/v1.10.15). Stop the server, unpack the new bundle, and move your `config.env` and your `data` folder into it. Then start it again.
 
-The bundles need one more change for their voice server, which is further down.
+If you move your old `config.env` over, it needs three more lines for the voice server, which are further down.
 
 ### The desktop app
 
@@ -82,12 +82,15 @@ A server on 1.10.15 also has these fixes from earlier this week:
 - **Server 1.10.14.** Someone could make link previews and webhook pictures fetch addresses inside the server's own network.
 - **Desktop app 1.11.24.** The voice server built into the app accepted server registrations from anyone on your network, so they could use your computer to carry their calls.
 
-The Windows and Linux bundles run the same voice server and don't have that fix yet. Until a bundle does, add these two lines to `config.env` after moving to the 1.10.15 bundle:
+The Windows and Linux bundles run the same voice server. The 1.10.16 bundles have the fix in their `config.env`, but a `config.env` you move over from an older bundle doesn't. Add these three lines to it:
 
 ```bash
 SFU_CONTROL_HOST=127.0.0.1
 SFU_METRICS_HOST=127.0.0.1
+METRICS_PORT=0
 ```
+
+The third turns the server's own metrics off. Left on, they can end up on port 9091 for anyone on your network to read.
 
 Leave `SFU_WS_HOST` at `ws://127.0.0.1:5005`. If you changed it to your public address, change it back, or the server won't be able to register with its voice server.
 
