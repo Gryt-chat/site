@@ -70,7 +70,7 @@ function DownloadAction() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const store = STORES.find((s) => s.os === detected && s.listing)?.listing ?? null;
+  const store = STORES.find((s) => s.os === detected && s.url) ?? null;
   const file = detected && !store ? option : null;
 
   /**
@@ -124,7 +124,7 @@ function DownloadAction() {
       <div className={styles.downloadInner} ref={inner}>
         {store || file ? (
           <div className={styles.downloadActions}>
-            {store && <StoreBadge listing={store} className={styles.badge} />}
+            {store && <StoreBadge store={store} className={styles.badge} />}
             {file && (
               <Button
                 render={<a href={file.url} download />}

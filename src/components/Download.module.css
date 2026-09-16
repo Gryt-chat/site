@@ -52,6 +52,12 @@
   margin-bottom: 48px;
 }
 
+/* With the grid gap, a quarter of the badge's height clear under it. */
+.phoneBadge {
+  --badge-height: 48px;
+  margin-bottom: 4px;
+}
+
 .phoneSoon {
   margin: 0;
   font-size: 17.5px;
@@ -100,7 +106,7 @@
   line-height: 1.3;
 }
 
-/* Microsoft asks for a quarter of the badge's height clear around it: 12px at 48. */
+/* The stores ask for a quarter of the badge's height clear around it: 12px at 48. */
 .badges {
   display: flex;
   flex-wrap: wrap;
@@ -121,17 +127,10 @@
 }
 
 .badgeCaption {
+  margin: 0;
   font-size: 13px;
   line-height: 1;
   color: var(--text-dimmer);
-}
-
-.soon {
-  margin: 4px 0 0;
-  max-width: 44ch;
-  font-size: 14px;
-  line-height: 1.55;
-  color: var(--text-dim);
 }
 
 .commands {
@@ -142,6 +141,27 @@
 /* Snippet brings its own top margin for prose; the grid gap spaces these. */
 .commands > * {
   margin: 0;
+}
+
+/* A package manager that's on its way: a Snippet's head, faded like the badges, and no command. */
+.pending {
+  display: grid;
+  gap: 12px;
+  justify-items: start;
+}
+
+.pendingCard {
+  width: 100%;
+  margin: 0;
+  padding: 11px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg-raised);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--text-dimmer);
+  opacity: 0.4;
 }
 
 /* ── The file ───────────────────────────────────────────── */

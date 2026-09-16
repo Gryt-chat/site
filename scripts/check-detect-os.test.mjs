@@ -2,16 +2,18 @@
 // .dmg or an AppImage, and /download started it on its own (GRYT-1271).
 
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import test from "node:test";
 
 import {
-  comingSoon,
   detectOS,
   downloadTarget,
   forPlatform,
   isDesktop,
   PACKAGE_MANAGERS,
+  packageManagersFor,
   STORES,
+  storesFor,
 } from "../src/lib/releases.ts";
 
 const DEVICES = [
@@ -127,19 +129,44 @@ test("?os= never hands a phone a file", () => {
 });
 
 test("the visitor's own platform comes first, and the rest keep their order", () => {
-  const live = (os) => forPlatform(STORES, os).filter((s) => s.listing).map((s) => s.os);
+  const live = (os) => forPlatform(STORES, os).filter((s) => s.url).map((s) => s.os);
   assert.deepEqual(live("windows"), ["windows", "linux"]);
   assert.deepEqual(live("linux"), ["linux", "windows"]);
 
-  const commands = (os) => forPlatform(PACKAGE_MANAGERS, os).filter((p) => p.command).map((p) => p.name);
-  assert.equal(commands("macos")[0], "Homebrew");
-  assert.deepEqual(commands("linux").slice(0, 2), ["snap", "the AUR"]);
+  const commands = (os) => forPlatform(PACKAGE_MANAGERS, os).filter((p) => p.command).map((p) => p.label);
+  assert.equal(commands("macos")[0], "Homebrew · macOS");
+  assert.deepEqual(commands("linux").slice(0, 2), ["snap · Linux", "AUR · Arch Linux"]);
 });
 
-test("a store without a listing is named in the coming-soon line, never drawn as a badge", () => {
-  for (const store of STORES.filter((s) => !s.listing)) {
-    assert.match(comingSoon("windows") ?? "", new RegExp(store.name));
+test("open stores lead the row, and a Mac or an iPhone gets only its own Apple badge", () => {
+  const row = (os) => storesFor(os).map((s) => `${s.os}${s.url ? "" : " (soon)"}`);
+  assert.deepEqual(row("windows"), ["windows", "linux", "macos (soon)", "ios (soon)", "android (soon)"]);
+  assert.deepEqual(row("linux"), ["linux", "windows", "macos (soon)", "ios (soon)", "android (soon)"]);
+  assert.deepEqual(row("macos"), ["windows", "linux", "macos (soon)", "android (soon)"]);
+  assert.deepEqual(row("ios"), ["windows", "linux", "ios (soon)", "android (soon)"]);
+  assert.deepEqual(row("android"), ["windows", "linux", "android (soon)", "macos (soon)", "ios (soon)"]);
+  assert.deepEqual(row(null), ["windows", "linux", "macos (soon)", "ios (soon)", "android (soon)"]);
+
+  const terminal = (os) => packageManagersFor(os).map((p) => p.label);
+  assert.deepEqual(terminal("windows"), ["Homebrew · macOS", "snap · Linux", "AUR · Arch Linux", "winget · Windows"]);
+  assert.deepEqual(terminal("linux"), ["snap · Linux", "AUR · Arch Linux", "Homebrew · macOS", "winget · Windows"]);
+});
+
+/* width and height size the img before it loads, so a wrong pair stretches the badge until then. */
+test("every badge file is there, drawn at its own proportions", () => {
+  for (const { badge } of STORES) {
+    const file = readFileSync(new URL(`../public${badge.src}`, import.meta.url));
+    let natural;
+    if (badge.src.endsWith(".png")) {
+      natural = { width: file.readUInt32BE(16), height: file.readUInt32BE(20) };
+    } else {
+      const root = file.toString("utf8").match(/<svg[^>]*>/)[0];
+      natural = {
+        width: Number(root.match(/\bwidth="([\d.]+)/)[1]),
+        height: Number(root.match(/\bheight="([\d.]+)/)[1]),
+      };
+    }
+    const drift = Math.abs(badge.width / badge.height - natural.width / natural.height);
+    assert.ok(drift < 0.02, `${badge.src} is ${natural.width}x${natural.height}, STORES says ${badge.width}x${badge.height}`);
   }
-  assert.match(comingSoon("ios") ?? "", /^the App Store, /);
-  assert.match(comingSoon("windows") ?? "", /^the Mac App Store, .* and winget$/);
 });

@@ -51,29 +51,29 @@ export const MS_STORE_URL = "https://apps.microsoft.com/detail/9pkpt1c2m95q";
 export const SNAP_STORE_URL = "https://snapcraft.io/gryt-chat";
 
 /** The vendor's own badge file in public/badges, drawn as it came: never recoloured or stretched. */
-export interface StoreListing {
-  url: string;
-  badge: string;
+export interface Badge {
+  src: string;
   alt: string;
   width: number;
   height: number;
 }
 
-/** `name` is how the store reads in a sentence, for the coming-soon line. */
+/** `url` is the listing. A store without one isn't open yet, and its badge is drawn faded. */
 export interface Store {
   os: OS;
-  name: string;
-  listing?: StoreListing;
+  badge: Badge;
+  url?: string;
 }
 
-/** A store gets a badge once it has a listing. Until then it's named in the coming-soon line. */
+/** Opening a store means giving it its `url`. Black badges, apart from Microsoft's. */
 export const STORES: Store[] = [
   {
     os: "windows",
-    name: "the Microsoft Store",
-    listing: {
-      url: MS_STORE_URL,
-      badge: "/badges/microsoft-store.svg",
+    url: MS_STORE_URL,
+    /* The light one from apps.microsoft.com/badge, which says light on dark. Its dark
+       badge is #202020 with a 10% black edge, and that disappears on --bg-raised. */
+    badge: {
+      src: "/badges/microsoft-store.svg",
       alt: "Download from the Microsoft Store",
       width: 161,
       height: 44,
@@ -81,27 +81,54 @@ export const STORES: Store[] = [
   },
   {
     os: "linux",
-    name: "the Snap Store",
-    /* Canonical's badge, CC BY-ND 2.0 UK, from github.com/snapcore/snap-store-badges. */
-    listing: {
-      url: SNAP_STORE_URL,
-      badge: "/badges/snap-store.svg",
+    url: SNAP_STORE_URL,
+    /* Canonical's black badge, CC BY-ND 2.0 UK, as snapcraft.io/static/images/badges/en
+       serves it. The licence is in github.com/snapcore/snap-store-badges. */
+    badge: {
+      src: "/badges/snap-store.svg",
       alt: "Get it from the Snap Store",
       width: 182,
       height: 56,
     },
   },
-  { os: "macos", name: "the Mac App Store" },
-  { os: "ios", name: "the App Store" },
-  { os: "android", name: "Google Play" },
+  {
+    os: "macos",
+    /* Apple's black badges, from developer.apple.com/app-store/marketing/guidelines under
+       its App Store Marketing Artwork License Agreement. One App Store record covers both. */
+    badge: {
+      src: "/badges/mac-app-store.svg",
+      alt: "Download on the Mac App Store",
+      width: 156,
+      height: 40,
+    },
+  },
+  {
+    os: "ios",
+    badge: {
+      src: "/badges/app-store.svg",
+      alt: "Download on the App Store",
+      width: 120,
+      height: 40,
+    },
+  },
+  {
+    os: "android",
+    /* Google's PNG from play.google.com/intl/en_us/badges, under its brand guidelines, with the
+       transparent margin trimmed. Its other files sit behind an agreement on the Partner Marketing Hub. */
+    badge: {
+      src: "/badges/google-play.png",
+      alt: "Get it on Google Play",
+      width: 564,
+      height: 168,
+    },
+  },
 ];
 
 export interface PackageManager {
   os: OS;
-  name: string;
   /** The Snippet label. */
   label: string;
-  /** Only once it installs a current build. Without one it's named in the coming-soon line. */
+  /** Only once it installs a current build. Until then it's drawn faded, as coming. */
   command?: string;
 }
 
@@ -109,14 +136,13 @@ export interface PackageManager {
 export const PACKAGE_MANAGERS: PackageManager[] = [
   {
     os: "macos",
-    name: "Homebrew",
     label: "Homebrew · macOS",
     command: "brew install --cask gryt-chat/tap/gryt-chat",
   },
-  { os: "linux", name: "snap", label: "snap · Linux", command: "sudo snap install gryt-chat" },
-  { os: "linux", name: "the AUR", label: "AUR · Arch Linux", command: "yay -S gryt-chat-bin" },
+  { os: "linux", label: "snap · Linux", command: "sudo snap install gryt-chat" },
+  { os: "linux", label: "AUR · Arch Linux", command: "yay -S gryt-chat-bin" },
   /* Gryt.GrytChat is still an open submission to winget-pkgs. */
-  { os: "windows", name: "winget", label: "winget · Windows" },
+  { os: "windows", label: "winget · Windows" },
 ];
 
 /** The visitor's own platform first, and otherwise the order given. */
@@ -124,15 +150,20 @@ export function forPlatform<T extends { os: OS }>(items: T[], os: OS | null): T[
   return [...items.filter((i) => i.os === os), ...items.filter((i) => i.os !== os)];
 }
 
-/** "the App Store, Google Play and winget": stores, then commands, each led by the visitor's own. */
-export function comingSoon(os: OS | null): string | null {
-  const names = [
-    ...forPlatform(STORES, os).filter((s) => !s.listing),
-    ...forPlatform(PACKAGE_MANAGERS, os).filter((p) => !p.command),
-  ].map((c) => c.name);
-  if (names.length === 0) return null;
-  if (names.length === 1) return names[0];
-  return `${names.slice(0, -1).join(", ")} and ${names[names.length - 1]}`;
+/** Open stores, then the rest, each led by your own. A Mac or an iPhone gets only its own
+    Apple badge; anyone else, or a page that doesn't know yet, gets both. */
+export function storesFor(os: OS | null): Store[] {
+  const apple = os === "macos" || os === "ios";
+  const shown = forPlatform(STORES, os).filter(
+    (s) => !apple || (s.os !== "macos" && s.os !== "ios") || s.os === os,
+  );
+  return [...shown.filter((s) => s.url), ...shown.filter((s) => !s.url)];
+}
+
+/** Commands that work, then the ones on their way, each led by your own platform. */
+export function packageManagersFor(os: OS | null): PackageManager[] {
+  const all = forPlatform(PACKAGE_MANAGERS, os);
+  return [...all.filter((p) => p.command), ...all.filter((p) => !p.command)];
 }
 
 const LATEST =

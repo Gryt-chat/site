@@ -6,7 +6,6 @@ import { StoreBadge } from "../components/StoreBadge";
 import { pageTitle } from "../lib/title";
 import {
   categorizeAssets,
-  comingSoon,
   downloadTarget,
   fetchLatestRelease,
   formatSize,
@@ -37,8 +36,7 @@ export function DownloadPage() {
      once it knows, so it cannot start on a guess and correct itself — that is two downloads. */
   const os = downloadTarget(useDetectedOS(), params.get("os"));
   const phone = os !== null && !isDesktop(os);
-  const store = phone ? STORES.find((s) => s.os === os && s.listing)?.listing : undefined;
-  const soon = comingSoon(os);
+  const store = phone ? STORES.find((s) => s.os === os) : undefined;
   /* Null off a Mac and in Safari, which is fine: primaryOption falls back to
      Apple silicon, and the line below tells the person which one they got. */
   const arch = useDetectedArch();
@@ -91,11 +89,11 @@ export function DownloadPage() {
         {/* aria-live so a screen reader hears the download arrive rather than
             sitting on "finding the latest build" indefinitely. */}
         <div className={styles.state} aria-live="polite">
-          {phone && store && (
+          {phone && store?.url && (
             <>
               <h1 className={styles.title}>Get Gryt for {name}</h1>
               <div className={styles.actions}>
-                <StoreBadge listing={store} className={styles.storeBadge} />
+                <StoreBadge store={store} className={styles.storeBadge} />
               </div>
               <p className={styles.hint}>
                 On a computer, this page starts the download.
@@ -103,13 +101,16 @@ export function DownloadPage() {
             </>
           )}
 
-          {phone && !store && (
+          {phone && !store?.url && (
             <>
               <h1 className={styles.title}>Gryt isn&rsquo;t on phones or tablets yet</h1>
-              <p className={styles.body}>
-                {soon && <>It&rsquo;s coming to {soon}. </>}
-                Until then, it works in your browser.
-              </p>
+              {store && (
+                <div className={styles.comingBadge}>
+                  <StoreBadge store={store} className={styles.storeBadge} />
+                  <p className={styles.hint}>Coming very soon</p>
+                </div>
+              )}
+              <p className={styles.body}>Until then, it works in your browser.</p>
               <div className={styles.actions}>
                 <Button render={<a href="https://app.gryt.chat" />} size="large">
                   Open app.gryt.chat

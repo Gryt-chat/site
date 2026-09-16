@@ -11,16 +11,16 @@ import { dayMonthYear } from "../lib/formatDate";
 import {
   ARCH_NAMES,
   categorizeAssets,
-  comingSoon,
   fetchLatestRelease,
   filesFor,
   formatSize,
-  forPlatform,
   isDesktop,
   OS_NAMES,
   PACKAGE_MANAGERS,
+  packageManagersFor,
   primaryOption,
   STORES,
+  storesFor,
   type DesktopOS,
   type Release,
 } from "../lib/releases";
@@ -61,16 +61,12 @@ export function Download() {
     [release],
   );
 
-  const stores = forPlatform(STORES, os).flatMap((s) =>
-    s.listing ? [{ os: s.os, listing: s.listing }] : [],
-  );
-  const commands = forPlatform(PACKAGE_MANAGERS, os).flatMap((p) =>
-    p.command ? [{ label: p.label, command: p.command }] : [],
-  );
-  const soon = comingSoon(os);
-  const ownStore = STORES.some((s) => s.os === os && s.listing);
-  /* A phone whose store isn't open yet is pointed at the browser instead. */
-  const waiting = phone && !ownStore;
+  const ownStore = STORES.some((s) => s.os === os && s.url);
+  /* A phone whose store isn't open yet gets that badge, faded, and the browser instead. */
+  const phoneStore = phone && !ownStore ? STORES.find((s) => s.os === os) : undefined;
+  /* The row leaves out the badge that's already above it on a phone. */
+  const stores = storesFor(os).filter((s) => s !== phoneStore);
+  const packageManagers = packageManagersFor(os);
   /* A Mac has no store open yet, so Homebrew leads there. */
   const terminalFirst = !ownStore && PACKAGE_MANAGERS.some((p) => p.os === os && p.command);
 
@@ -86,14 +82,16 @@ export function Download() {
     <div className={styles.column}>
       <h3 className={styles.columnTitle}>From a store</h3>
       <ul className={styles.badges}>
-        {stores.map(({ os: storeOS, listing }) => (
-          <li className={styles.badgeItem} key={listing.url}>
-            <StoreBadge listing={listing} className={styles.badge} />
-            <span className={styles.badgeCaption}>{OS_NAMES[storeOS]}</span>
+        {stores.map((store) => (
+          <li className={styles.badgeItem} key={store.badge.src}>
+            <StoreBadge store={store} className={styles.badge} />
+            <span className={styles.badgeCaption}>
+              {OS_NAMES[store.os]}
+              {!store.url && <> · Coming very soon</>}
+            </span>
           </li>
         ))}
       </ul>
-      {!waiting && soon && <p className={styles.soon}>Coming to {soon}.</p>}
     </div>
   );
 
@@ -101,9 +99,16 @@ export function Download() {
     <div className={styles.column}>
       <h3 className={styles.columnTitle}>From a terminal</h3>
       <div className={styles.commands}>
-        {commands.map(({ label, command }) => (
-          <Snippet key={label} label={label} code={command} shell />
-        ))}
+        {packageManagers.map(({ label, command }) =>
+          command ? (
+            <Snippet key={label} label={label} code={command} shell />
+          ) : (
+            <div className={styles.pending} key={label}>
+              <p className={styles.pendingCard}>{label}</p>
+              <p className={styles.badgeCaption}>Coming very soon</p>
+            </div>
+          ),
+        )}
       </div>
     </div>
   );
@@ -123,9 +128,10 @@ export function Download() {
           </p>
         </div>
 
-        {waiting && (
+        {phoneStore && (
           <div className={styles.phone}>
-            {soon && <p className={styles.phoneSoon}>Coming to {soon}.</p>}
+            <StoreBadge store={phoneStore} className={styles.phoneBadge} />
+            <p className={styles.phoneSoon}>Coming very soon</p>
             <p className={styles.phoneNote}>Until then, Gryt works in your browser.</p>
             <Button render={<a href={WEB_APP_URL} />} size="large">
               <GlobeIcon size={18} />

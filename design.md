@@ -773,16 +773,28 @@ That was a real bug in the underline before it was a rule.
 
 **`Download` leads with the stores.** Store badges first, then the package manager
 commands, then one file for your platform, with every other file folded under All
-files. The badges are Microsoft's and Canonical's own files in `public/badges`.
-They're 48px tall in the section and 40px in the navbar, and nothing recolours,
-stretches or animates them. Both are the light versions, because Microsoft asks
-for its light badge on a dark page.
+files. The badges are the stores' own files in `public/badges`. They're 48px tall
+in the section and 40px in the navbar, and nothing recolours, stretches or animates
+them.
 
-A store gets a badge once it has a listing in `STORES` in `src/lib/releases.ts`.
-Until then it's named in the one line under the badges, along with winget. Your
-own platform comes first, which puts Homebrew ahead of the stores on a Mac. A phone
-or a tablet never gets a file. It gets that line and a button for app.gryt.chat
-instead.
+They're black, like the mockups, apart from Microsoft's. Microsoft's dark badge is
+#202020 with a 10% black edge. On `--bg-raised` (#1a1d24) you can't see where it
+ends. Microsoft also says to use its light badge on a dark page. Apple asks for its
+black badge whenever another store's badge sits next to it. Google's badge is black.
+
+A store that isn't open yet still gets its badge, faded to 40%, with Coming very
+soon under it. It isn't a link and you can't tab to it. The fade is on the element,
+so the file stays as the store made it. To open a store, give it a `url` in
+`STORES` in `src/lib/releases.ts`.
+
+One App Store record covers iPhone and Mac. So a Mac gets the Mac App Store badge,
+an iPhone or an iPad gets the App Store one, and everyone else gets both. winget
+gets a faded card at the end of the commands until its submission is merged.
+
+Open stores come first, then the ones on their way. Each group starts with your own
+platform. Homebrew leads on a Mac, because no Mac store is open yet. A phone or a
+tablet never gets a file. It gets its own store's faded badge and a button for
+app.gryt.chat instead.
 
 **The fold is mostly air.** `Hero` opens on 152px of padding — 84px of clear
 space under the bar — and puts 108px between the buttons and the clip, because
