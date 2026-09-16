@@ -92,6 +92,17 @@ export const STORES: Store[] = [
     },
   },
   {
+    os: "linux",
+    /* The preferred black badge from flathub.org/badges, as /api/badge?svg&locale=en serves it.
+       CC0: Jakub Steiner waived all rights to it. GRYT-969 is why Gryt isn't there yet. */
+    badge: {
+      src: "/badges/flathub.svg",
+      alt: "Get it on Flathub",
+      width: 240,
+      height: 80,
+    },
+  },
+  {
     os: "macos",
     /* Apple's black badges, from developer.apple.com/app-store/marketing/guidelines under
        its App Store Marketing Artwork License Agreement. One App Store record covers both. */
@@ -122,6 +133,17 @@ export const STORES: Store[] = [
       height: 168,
     },
   },
+  {
+    os: "android",
+    /* get-it-on.svg from f-droid.org/badge, CC BY-SA 3.0 per f-droid.org/docs/Badges, with the
+       transparent margin cropped off in its viewBox. Nothing else in the file is changed. */
+    badge: {
+      src: "/badges/f-droid.svg",
+      alt: "Get it on F-Droid",
+      width: 564,
+      height: 168,
+    },
+  },
 ];
 
 export interface PackageManager {
@@ -143,27 +165,32 @@ export const PACKAGE_MANAGERS: PackageManager[] = [
   { os: "linux", label: "AUR · Arch Linux", command: "yay -S gryt-chat-bin" },
   /* Gryt.GrytChat is still an open submission to winget-pkgs. */
   { os: "windows", label: "winget · Windows" },
+  /* Neither is started. GRYT-961 tracks every store and package manager. */
+  { os: "windows", label: "Scoop · Windows" },
+  { os: "windows", label: "Chocolatey · Windows" },
 ];
 
-/** The visitor's own platform first, and otherwise the order given. */
-export function forPlatform<T extends { os: OS }>(items: T[], os: OS | null): T[] {
-  return [...items.filter((i) => i.os === os), ...items.filter((i) => i.os !== os)];
+/* One App Store record covers iPhone and Mac, so each one's visitor gets the other's badge next. */
+const APPLE_TWIN: Partial<Record<OS, OS>> = { macos: "ios", ios: "macos" };
+
+/** Your own platform first, then its Apple twin, then everyone else's. Within each, what's
+    open comes before what's coming, and otherwise the order given. Nothing is left out. */
+export function forPlatform<T extends { os: OS }>(
+  items: T[],
+  os: OS | null,
+  open: (item: T) => boolean,
+): T[] {
+  const place = (i: T) =>
+    (i.os === os ? 0 : os && i.os === APPLE_TWIN[os] ? 2 : 4) + (open(i) ? 0 : 1);
+  return [...items].sort((a, b) => place(a) - place(b));
 }
 
-/** Open stores, then the rest, each led by your own. A Mac or an iPhone gets only its own
-    Apple badge; anyone else, or a page that doesn't know yet, gets both. */
 export function storesFor(os: OS | null): Store[] {
-  const apple = os === "macos" || os === "ios";
-  const shown = forPlatform(STORES, os).filter(
-    (s) => !apple || (s.os !== "macos" && s.os !== "ios") || s.os === os,
-  );
-  return [...shown.filter((s) => s.url), ...shown.filter((s) => !s.url)];
+  return forPlatform(STORES, os, (s) => Boolean(s.url));
 }
 
-/** Commands that work, then the ones on their way, each led by your own platform. */
 export function packageManagersFor(os: OS | null): PackageManager[] {
-  const all = forPlatform(PACKAGE_MANAGERS, os);
-  return [...all.filter((p) => p.command), ...all.filter((p) => !p.command)];
+  return forPlatform(PACKAGE_MANAGERS, os, (p) => Boolean(p.command));
 }
 
 const LATEST =
@@ -221,6 +248,15 @@ export function detectOS(
 /** Whether there's a file to download for it. A phone or a tablet never gets one. */
 export function isDesktop(os: OS | null): os is DesktopOS {
   return os === "windows" || os === "macos" || os === "linux";
+}
+
+/** The id of the front page's file download. A link to /#download-file opens it. */
+export const FILE_ANCHOR = "download-file";
+
+/** Whether that section should open: closed unless a link asked for it, and closed in the
+    prerender, which has no hash. */
+export function fileAskedFor(hash: string, hydrated: boolean): boolean {
+  return hydrated && hash === `#${FILE_ANCHOR}`;
 }
 
 /** What /download fetches. `?os=` only counts on a computer, so a phone never gets a file. */
