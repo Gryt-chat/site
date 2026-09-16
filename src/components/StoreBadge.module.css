@@ -1,4 +1,4 @@
-/* Microsoft's rules forbid recolouring, stretching or animating its badge, and the
+/* Every store's rules forbid recolouring, stretching or animating its badge, and the
    Snap Store badge's licence allows no changes. So there's no hover scale or filter. */
 .badge {
   display: inline-flex;
@@ -12,6 +12,11 @@
   width: auto;
   max-width: 100%;
   object-fit: contain;
+}
+
+/* A store that isn't open yet. The fade is on the element, so the file stays as it came. */
+.soon {
+  opacity: 0.4;
 }
 
 .badge:focus-visible {
