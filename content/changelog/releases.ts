@@ -129,6 +129,25 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.11.26",
+    date: "2026-09-16",
+    line: "Gryt asks you to agree to its terms before your first message, and joining voice no longer sometimes waits 20 seconds to connect.",
+    changes: [
+      {
+        kind: "new",
+        text: "The first time you send a message, Gryt asks you to agree to the Terms of Use and the Community Guidelines. Not now keeps your draft, and you're only asked again if the terms change.",
+      },
+      {
+        kind: "fixed",
+        text: "Joining voice could sit on connecting for about 20 seconds when the voice server's connection details arrived before its call setup. Gryt holds them until the call is ready now.",
+      },
+      {
+        kind: "changed",
+        text: "The activity field in your profile asks \"What are you up to?\" instead of showing an example status.",
+      },
+    ],
+  },
+  {
     version: "1.11.25",
     date: "2026-09-15",
     line: "The server built into the desktop app gets this week's security fixes, owners are told when a server needs a security update, and files saved from encrypted messages come out readable.",
