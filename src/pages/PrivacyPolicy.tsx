@@ -1,7 +1,7 @@
 import { PageHeader } from "../components/PageHeader";
 import styles from "../styles/document.module.css";
 
-const LAST_UPDATED = "September 3, 2026";
+const LAST_UPDATED = "September 16, 2026";
 
 export function PrivacyPolicy() {
   return (
@@ -140,8 +140,7 @@ export function PrivacyPolicy() {
           data for security and reliability, for example IP addresses,
           user-agent strings, and request timestamps. The chat server on
           community.gryt.chat is the exception described above, since it writes
-          a label rather than an address. We do not use analytics or cross-site
-          tracking.
+          a label rather than an address.
         </p>
         <p>
           Our login service at auth.gryt.chat also records failed sign-in
@@ -149,6 +148,33 @@ export function PrivacyPolicy() {
           so we can tell an account locking itself out from someone working
           through a list of passwords. Successful sign-ins are not recorded this
           way, and failed ones are deleted after 30 days.
+        </p>
+
+        <h3>Cloudflare</h3>
+        <p>
+          Everything we run on gryt.chat sits behind <strong>Cloudflare</strong>:
+          the websites, the web client, and the login, bug report and chat
+          servers. Every request goes through Cloudflare first, which is how
+          those services are kept fast and protected from attacks. To do that,
+          Cloudflare handles your IP address and the other details a browser or
+          app sends with a request. What Cloudflare does with them is covered by{" "}
+          <a href="https://www.cloudflare.com/privacypolicy/">its privacy policy</a>.
+        </p>
+        <p>
+          We also use Cloudflare Web Analytics to see how the sites are doing. It
+          runs on most of our web pages, including gryt.chat, docs.gryt.chat and
+          the web client at app.gryt.chat. It counts page views and records which
+          page was viewed, the site that linked to it, the browser, operating
+          system and type of device, the country, and how quickly the page
+          loaded. We see totals, not individual visitors. Cloudflare says it uses
+          no cookies or local storage for this, and doesn't fingerprint visitors
+          by IP address or user agent. It keeps the full data for a week and a
+          sample of about a tenth after that, and we can look back six months.
+        </p>
+        <p>
+          We don't use any other analytics, and nothing on our pages tracks you
+          across other sites. The Gryt apps for desktop, Android and iOS don't
+          include Web Analytics.
         </p>
 
         <h2>What we do not collect</h2>
