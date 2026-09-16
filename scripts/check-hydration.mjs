@@ -36,9 +36,10 @@ const noted = new Set(
 );
 
 /* One of each template, without the trailing slash, because nginx adds it with a 301 and
-   that was one of the causes. The query strings are what the prerender never sees. */
+   that was one of the causes. The query strings and the hash are what the prerender never sees. */
 const PAGES = [
   "/",
+  "/#download-file",
   "/why-gryt",
   "/compare",
   "/blog",

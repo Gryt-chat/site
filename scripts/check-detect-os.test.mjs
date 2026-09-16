@@ -8,7 +8,7 @@ import test from "node:test";
 import {
   detectOS,
   downloadTarget,
-  forPlatform,
+  fileAskedFor,
   isDesktop,
   PACKAGE_MANAGERS,
   packageManagersFor,
@@ -128,28 +128,55 @@ test("?os= never hands a phone a file", () => {
   assert.equal(downloadTarget(null, "linux"), null);
 });
 
-test("the visitor's own platform comes first, and the rest keep their order", () => {
-  const live = (os) => forPlatform(STORES, os).filter((s) => s.url).map((s) => s.os);
-  assert.deepEqual(live("windows"), ["windows", "linux"]);
-  assert.deepEqual(live("linux"), ["linux", "windows"]);
+const PLATFORMS = ["windows", "macos", "linux", "ios", "android", null];
 
-  const commands = (os) => forPlatform(PACKAGE_MANAGERS, os).filter((p) => p.command).map((p) => p.label);
-  assert.equal(commands("macos")[0], "Homebrew · macOS");
-  assert.deepEqual(commands("linux").slice(0, 2), ["snap · Linux", "AUR · Arch Linux"]);
+test("every platform gets every store and every package manager", () => {
+  for (const os of PLATFORMS) {
+    assert.deepEqual(new Set(storesFor(os)), new Set(STORES), `stores for ${os}`);
+    assert.equal(storesFor(os).length, STORES.length, `stores for ${os}`);
+    assert.deepEqual(new Set(packageManagersFor(os)), new Set(PACKAGE_MANAGERS), `commands for ${os}`);
+    assert.equal(packageManagersFor(os).length, PACKAGE_MANAGERS.length, `commands for ${os}`);
+  }
 });
 
-test("open stores lead the row, and a Mac or an iPhone gets only its own Apple badge", () => {
-  const row = (os) => storesFor(os).map((s) => `${s.os}${s.url ? "" : " (soon)"}`);
-  assert.deepEqual(row("windows"), ["windows", "linux", "macos (soon)", "ios (soon)", "android (soon)"]);
-  assert.deepEqual(row("linux"), ["linux", "windows", "macos (soon)", "ios (soon)", "android (soon)"]);
-  assert.deepEqual(row("macos"), ["windows", "linux", "macos (soon)", "android (soon)"]);
-  assert.deepEqual(row("ios"), ["windows", "linux", "ios (soon)", "android (soon)"]);
-  assert.deepEqual(row("android"), ["windows", "linux", "android (soon)", "macos (soon)", "ios (soon)"]);
-  assert.deepEqual(row(null), ["windows", "linux", "macos (soon)", "ios (soon)", "android (soon)"]);
+test("your own platform leads, then its Apple twin, then what's open, then what's coming", () => {
+  const name = (s) => `${s.badge.src.replace(/^\/badges\/|\.\w+$/g, "")}${s.url ? "" : " (soon)"}`;
+  const row = (os) => storesFor(os).map(name);
+  const rest = ["flathub (soon)", "mac-app-store (soon)", "app-store (soon)", "google-play (soon)", "f-droid (soon)"];
 
-  const terminal = (os) => packageManagersFor(os).map((p) => p.label);
-  assert.deepEqual(terminal("windows"), ["Homebrew · macOS", "snap · Linux", "AUR · Arch Linux", "winget · Windows"]);
-  assert.deepEqual(terminal("linux"), ["snap · Linux", "AUR · Arch Linux", "Homebrew · macOS", "winget · Windows"]);
+  assert.deepEqual(row("windows"), ["microsoft-store", "snap-store", ...rest]);
+  assert.deepEqual(row(null), ["microsoft-store", "snap-store", ...rest]);
+  assert.deepEqual(row("linux"), ["snap-store", "flathub (soon)", "microsoft-store", ...rest.slice(1)]);
+  assert.deepEqual(row("macos"), [
+    "mac-app-store (soon)", "app-store (soon)", "microsoft-store", "snap-store",
+    "flathub (soon)", "google-play (soon)", "f-droid (soon)",
+  ]);
+  assert.deepEqual(row("ios"), [
+    "app-store (soon)", "mac-app-store (soon)", "microsoft-store", "snap-store",
+    "flathub (soon)", "google-play (soon)", "f-droid (soon)",
+  ]);
+  assert.deepEqual(row("android"), [
+    "google-play (soon)", "f-droid (soon)", "microsoft-store", "snap-store",
+    "flathub (soon)", "mac-app-store (soon)", "app-store (soon)",
+  ]);
+});
+
+test("the commands follow the same order, so Windows leads with the ones on their way", () => {
+  const terminal = (os) => packageManagersFor(os).map((p) => `${p.label}${p.command ? "" : " (soon)"}`);
+  const coming = ["winget · Windows (soon)", "Scoop · Windows (soon)", "Chocolatey · Windows (soon)"];
+
+  assert.deepEqual(terminal("windows"), [...coming, "Homebrew · macOS", "snap · Linux", "AUR · Arch Linux"]);
+  assert.deepEqual(terminal("linux"), ["snap · Linux", "AUR · Arch Linux", "Homebrew · macOS", ...coming]);
+  assert.deepEqual(terminal("macos"), ["Homebrew · macOS", "snap · Linux", "AUR · Arch Linux", ...coming]);
+  assert.deepEqual(terminal("android"), terminal("macos"));
+});
+
+test("the file download starts closed, and only a link to it opens it", () => {
+  assert.equal(fileAskedFor("", true), false);
+  assert.equal(fileAskedFor("#download", true), false);
+  assert.equal(fileAskedFor("#download-file", true), true);
+  /* The prerender and the render that hydrates it have no hash to go on. */
+  assert.equal(fileAskedFor("#download-file", false), false);
 });
 
 /* width and height size the img before it loads, so a wrong pair stretches the badge until then. */

@@ -1,6 +1,7 @@
 import { useEffect, useId, useMemo, useState } from "react";
 import { FaApple, FaLinux, FaWindows } from "react-icons/fa";
 import { MdExpandMore } from "react-icons/md";
+import { useLocation } from "react-router-dom";
 import { Alert, Button, Spinner, Switch } from "@gryt/ui";
 
 import { DownloadIcon, GlobeIcon } from "./icons";
@@ -12,6 +13,8 @@ import {
   ARCH_NAMES,
   categorizeAssets,
   fetchLatestRelease,
+  FILE_ANCHOR,
+  fileAskedFor,
   filesFor,
   formatSize,
   isDesktop,
@@ -26,6 +29,7 @@ import {
 } from "../lib/releases";
 import { useDetectedArch } from "../lib/useDetectedArch";
 import { useDetectedOS } from "../lib/useDetectedOS";
+import { useHydrated } from "../lib/useHydrated";
 
 const RELEASES_URL = "https://github.com/Gryt-chat/gryt/releases";
 const WEB_APP_URL = "https://app.gryt.chat";
@@ -42,6 +46,18 @@ export function Download() {
   const [withServer, setWithServer] = useState(false);
   const switchLabelId = useId();
   const switchHelpId = useId();
+  const filePanelId = useId();
+
+  /* Opens on arriving at the anchor, and leaving the anchor doesn't close it again. */
+  const { hash } = useLocation();
+  const hydrated = useHydrated();
+  const asked = fileAskedFor(hash, hydrated);
+  const [fileOpen, setFileOpen] = useState(asked);
+  const [wasAsked, setWasAsked] = useState(asked);
+  if (asked !== wasAsked) {
+    setWasAsked(asked);
+    if (asked) setFileOpen(true);
+  }
 
   /* Null until hydration is over, so the prerender and the first client render agree. */
   const detected = useDetectedOS();
@@ -64,7 +80,7 @@ export function Download() {
   const ownStore = STORES.some((s) => s.os === os && s.url);
   /* A phone whose store isn't open yet gets that badge, faded, and the browser instead. */
   const phoneStore = phone && !ownStore ? STORES.find((s) => s.os === os) : undefined;
-  /* The row leaves out the badge that's already above it on a phone. */
+  /* Every store, apart from the one already above the row on a phone. */
   const stores = storesFor(os).filter((s) => s !== phoneStore);
   const packageManagers = packageManagersFor(os);
   /* A Mac has no store open yet, so Homebrew leads there. */
@@ -116,7 +132,8 @@ export function Download() {
   return (
     <section className={styles.section} id="download">
       <div className={styles.box}>
-        <div className={styles.head}>
+        {/* A phone has no file, so a link asking for one lands on the top of the section. */}
+        <div className={styles.head} id={phone ? FILE_ANCHOR : undefined}>
           <p className={styles.eyebrow}>Download</p>
           <h2 className={styles.title}>
             Install it the way you install everything else.
@@ -149,139 +166,152 @@ export function Download() {
         </div>
 
         {!phone && (
-          <div className={styles.file}>
-            <h3 className={styles.columnTitle}>Or download the file</h3>
+          <div className={styles.file} id={FILE_ANCHOR}>
+            <h3 className={styles.fileHeading}>
+              <button
+                type="button"
+                className={styles.fileToggle}
+                aria-expanded={fileOpen}
+                aria-controls={filePanelId}
+                onClick={() => setFileOpen((open) => !open)}
+              >
+                <MdExpandMore className={styles.chevron} size={22} aria-hidden="true" />
+                Download the file instead
+              </button>
+            </h3>
 
-            {error && (
-              <div className={styles.fallback}>
-                <Alert severity="warning">
-                  Couldn&rsquo;t reach GitHub for the list of releases.
-                </Alert>
-                <Button
-                  render={<a href={RELEASES_URL} target="_blank" rel="noreferrer" />}
-                  tone="neutral"
-                >
-                  <DownloadIcon size={16} />
-                  View on GitHub
-                </Button>
-              </div>
-            )}
+            <div className={styles.filePanel} id={filePanelId} hidden={!fileOpen}>
+              {error && (
+                <div className={styles.fallback}>
+                  <Alert severity="warning">
+                    Couldn&rsquo;t reach GitHub for the list of releases.
+                  </Alert>
+                  <Button
+                    render={<a href={RELEASES_URL} target="_blank" rel="noreferrer" />}
+                    tone="neutral"
+                  >
+                    <DownloadIcon size={16} />
+                    View on GitHub
+                  </Button>
+                </div>
+              )}
 
-            {!error && !release && (
-              <div className={styles.loading}>
-                <Spinner size={18} />
-                Finding the latest release…
-              </div>
-            )}
+              {!error && !release && (
+                <div className={styles.loading}>
+                  <Spinner size={18} />
+                  Finding the latest release…
+                </div>
+              )}
 
-            {!error && release && !chosen && (
-              <div className={styles.fallback}>
-                <p>Nothing to download for {OS_NAMES[fileOS]} yet.</p>
-                <Button
-                  render={<a href={RELEASES_URL} target="_blank" rel="noreferrer" />}
-                  tone="neutral"
-                >
-                  <DownloadIcon size={16} />
-                  View all releases on GitHub
-                </Button>
-              </div>
-            )}
+              {!error && release && !chosen && (
+                <div className={styles.fallback}>
+                  <p>Nothing to download for {OS_NAMES[fileOS]} yet.</p>
+                  <Button
+                    render={<a href={RELEASES_URL} target="_blank" rel="noreferrer" />}
+                    tone="neutral"
+                  >
+                    <DownloadIcon size={16} />
+                    View all releases on GitHub
+                  </Button>
+                </div>
+              )}
 
-            {!error && release && chosen && grouped && (
-              <>
-                <div className={styles.fileRow}>
-                  <div className={styles.fileMain}>
-                    <Button
-                      className={styles.fileButton}
-                      render={<a href={chosen.url} download />}
-                      size="large"
-                      tone="neutral"
-                    >
-                      <DownloadIcon size={18} />
-                      Download for {OS_NAMES[fileOS]}
-                      <span className={styles.size}>{formatSize(chosen.size)}</span>
-                    </Button>
-                    <p className={styles.fileName}>{chosen.fileName}</p>
-                    {/* The chip on a Mac and the format on Linux need saying. A Windows installer doesn't. */}
-                    {fileOS !== "windows" && (
-                      <p className={styles.fileNote}>{chosen.description}</p>
+              {!error && release && chosen && grouped && (
+                <>
+                  <div className={styles.fileRow}>
+                    <div className={styles.fileMain}>
+                      <Button
+                        className={styles.fileButton}
+                        render={<a href={chosen.url} download />}
+                        size="large"
+                        tone="neutral"
+                      >
+                        <DownloadIcon size={18} />
+                        Download for {OS_NAMES[fileOS]}
+                        <span className={styles.size}>{formatSize(chosen.size)}</span>
+                      </Button>
+                      <p className={styles.fileName}>{chosen.fileName}</p>
+                      {/* The chip on a Mac and the format on Linux need saying. A Windows installer doesn't. */}
+                      {fileOS !== "windows" && (
+                        <p className={styles.fileNote}>{chosen.description}</p>
+                      )}
+                    </div>
+
+                    {full && slim && (
+                      <div className={styles.server}>
+                        <label className={styles.switchRow} id={switchLabelId}>
+                          <Switch
+                            checked={withServer}
+                            onCheckedChange={(next) => setWithServer(next === true)}
+                            aria-labelledby={switchLabelId}
+                            aria-describedby={switchHelpId}
+                          />
+                          Include the built-in server
+                        </label>
+                        <p className={styles.switchHelp} id={switchHelpId}>
+                          It lets you host a server from inside the app, so
+                          friends can join yours. You don&rsquo;t need it to join
+                          someone else&rsquo;s. It adds{" "}
+                          {formatSize(full.size - slim.size)}. Stores and package
+                          managers always include it.
+                        </p>
+                      </div>
                     )}
                   </div>
 
-                  {full && slim && (
-                    <div className={styles.server}>
-                      <label className={styles.switchRow} id={switchLabelId}>
-                        <Switch
-                          checked={withServer}
-                          onCheckedChange={(next) => setWithServer(next === true)}
-                          aria-labelledby={switchLabelId}
-                          aria-describedby={switchHelpId}
-                        />
-                        Include the built-in server
-                      </label>
-                      <p className={styles.switchHelp} id={switchHelpId}>
-                        It lets you host a server from inside the app, so
-                        friends can join yours. You don&rsquo;t need it to join
-                        someone else&rsquo;s. It adds{" "}
-                        {formatSize(full.size - slim.size)}. Stores and package
-                        managers always include it.
-                      </p>
+                  <details className={styles.all}>
+                    <summary className={styles.allSummary}>
+                      <MdExpandMore className={styles.chevron} size={20} aria-hidden="true" />
+                      All files in v{version}
+                    </summary>
+                    <div className={styles.groups}>
+                      {FILE_GROUPS.map(({ os: groupOS, icon: Icon }) => (
+                        <div className={styles.group} key={groupOS}>
+                          <h4 className={styles.groupName}>
+                            <Icon size={15} aria-hidden="true" />
+                            {OS_NAMES[groupOS]}
+                          </h4>
+                          <ul className={styles.fileList}>
+                            {filesFor(grouped[groupOS], groupOS, withServer).map((file) => (
+                              <li key={file.fileName}>
+                                <a className={styles.fileLink} href={file.url} download>
+                                  <DownloadIcon size={16} aria-hidden="true" />
+                                  <span className={styles.fileLinkName}>
+                                    <span className="sr-only">{OS_NAMES[groupOS]} </span>
+                                    {groupOS === "macos" && file.arch
+                                      ? ARCH_NAMES[file.arch]
+                                      : file.label}
+                                  </span>
+                                  <span className={styles.fileLinkSize}>
+                                    {formatSize(file.size)}
+                                  </span>
+                                </a>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      ))}
                     </div>
-                  )}
-                </div>
+                  </details>
+                </>
+              )}
 
-                <details className={styles.all}>
-                  <summary className={styles.allSummary}>
-                    <MdExpandMore className={styles.chevron} size={20} aria-hidden="true" />
-                    All files in v{version}
-                  </summary>
-                  <div className={styles.groups}>
-                    {FILE_GROUPS.map(({ os: groupOS, icon: Icon }) => (
-                      <div className={styles.group} key={groupOS}>
-                        <h4 className={styles.groupName}>
-                          <Icon size={15} aria-hidden="true" />
-                          {OS_NAMES[groupOS]}
-                        </h4>
-                        <ul className={styles.fileList}>
-                          {filesFor(grouped[groupOS], groupOS, withServer).map((file) => (
-                            <li key={file.fileName}>
-                              <a className={styles.fileLink} href={file.url} download>
-                                <DownloadIcon size={16} aria-hidden="true" />
-                                <span className={styles.fileLinkName}>
-                                  <span className="sr-only">{OS_NAMES[groupOS]} </span>
-                                  {groupOS === "macos" && file.arch
-                                    ? ARCH_NAMES[file.arch]
-                                    : file.label}
-                                </span>
-                                <span className={styles.fileLinkSize}>
-                                  {formatSize(file.size)}
-                                </span>
-                              </a>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    ))}
-                  </div>
-                </details>
-              </>
-            )}
+              {version && (
+                <p className={styles.meta}>
+                  v{version}
+                  {release?.published_at && <> · released {dayMonthYear(release.published_at)}</>}
+                  {" · "}
+                  <a href={RELEASES_URL} target="_blank" rel="noreferrer">
+                    All releases on GitHub
+                  </a>
+                </p>
+              )}
+            </div>
 
             <p className={styles.browser}>
               Or skip installing and <a href={WEB_APP_URL}>open app.gryt.chat</a>{" "}
               in a browser.
             </p>
-
-            {version && (
-              <p className={styles.meta}>
-                v{version}
-                {release?.published_at && <> · released {dayMonthYear(release.published_at)}</>}
-                {" · "}
-                <a href={RELEASES_URL} target="_blank" rel="noreferrer">
-                  All releases on GitHub
-                </a>
-              </p>
-            )}
           </div>
         )}
       </div>

@@ -8,6 +8,7 @@ import {
   categorizeAssets,
   downloadTarget,
   fetchLatestRelease,
+  FILE_ANCHOR,
   formatSize,
   isDesktop,
   OS_NAMES,
@@ -162,7 +163,7 @@ export function DownloadPage() {
               <p className={styles.hint}>
                 If nothing happened, use the button. Other builds and other
                 platforms are on the{" "}
-                <Link to="/#download">download page</Link>.
+                <Link to={`/#${FILE_ANCHOR}`}>download page</Link>.
               </p>
             </>
           )}
@@ -172,7 +173,7 @@ export function DownloadPage() {
               <h1 className={styles.title}>No {name} build yet</h1>
               <p className={styles.body}>
                 The latest release doesn't have a {name} build in it. The{" "}
-                <Link to="/#download">download page</Link> has what there is.
+                <Link to={`/#${FILE_ANCHOR}`}>download page</Link> has what there is.
               </p>
             </>
           )}
