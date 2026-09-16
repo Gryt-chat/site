@@ -1,16 +1,3 @@
-/* The one section that lifts off the page.
- *
- * It is the last thing the page asks of anybody, and somebody scrolling for a
- * download button should not have to read a heading to find it. A raised
- * surface and a rule top and bottom is enough to separate it, and it is the
- * cheap version on purpose.
- *
- * A full accent ground was built and rejected. It was unmissable and it passed
- * contrast, but on an accent ground the accent-filled Download buttons have to
- * stop being accent — so the loudest thing on the site loses its colour exactly
- * where it is most wanted. It also needed about twenty token overrides across
- * both prefixes to stop Gryt UI's components drawing themselves for a dark
- * page, which is a lot of machinery for a background. */
 .section {
   padding: 100px 24px;
   background: var(--bg-raised);
@@ -18,207 +5,373 @@
   border-bottom: 1px solid var(--border);
 }
 
-/* No border and no background of its own. A bordered panel holding bordered
-   download cards is a card inside a card, and the outer one was the wrong
-   layer: it framed the options instead of letting them sit on the page. */
-/* Centred, because this is the last thing the page asks of anybody and a
-   closing ask that sits in the left column reads like another paragraph. The
-   cards below it keep their own alignment; only the head and the tabs centre. */
 .box {
   max-width: var(--max-w);
   margin: 0 auto;
-  position: relative;
-  text-align: center;
+}
+
+.head {
+  max-width: 680px;
+  margin-bottom: 44px;
 }
 
 .eyebrow {
+  margin: 0 0 12px;
   font-size: 12px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1.5px;
   color: var(--accent);
-  margin: 0 0 12px;
 }
 
 .title {
-  margin-left: auto;
-  margin-right: auto;
-  max-width: 20ch;
+  margin: 0 0 14px;
   overflow-wrap: anywhere;
   min-width: 0;
   font-size: clamp(28px, 3.6vw, 44px);
   font-weight: 800;
   letter-spacing: -0.028em;
   line-height: 1.1;
-  margin-bottom: 14px;
   text-wrap: balance;
 }
 
-/* The lede is the section's own, not a shared .section-desc, so it can hold a
-   measure rather than inherit one. */
-.desc {
-  margin: 0 auto 34px;
+.sub {
+  margin: 0;
   max-width: 54ch;
   font-size: 17px;
   line-height: 1.65;
   color: var(--text-dim);
 }
 
-/* ── OS Tabs ────────────────────────────────────────────── */
+/* ── A phone or a tablet ────────────────────────────────── */
 
-.osTabs {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 24px;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  padding: 4px;
-  display: inline-flex;
-  position: relative;
-}
-
-/* The tabs are Gryt UI Buttons — `primary` for the selected one, `ghost` for
-   the rest — so the fill, the ink, the hover and the focus ring are the
-   component's, and the selected tab is the same accent-on-ink pair as every
-   other primary action on the site.
-
-   What is left is the corner. Gryt UI's Button is a full pill; a pill inside
-   the tab strip's own rounded rectangle leaves four crescents of card showing
-   at the ends. `--radius-sm` sits it back inside the track. */
-/* Gryt UI's Tab lays its children out itself; all this adds is the gap between
-   the platform icon and its name, which a tab with an icon in it needs and a
-   plain text tab does not. */
-.osTab {
-  display: inline-flex;
-  align-items: center;
+.phone {
+  display: grid;
   gap: 8px;
+  justify-items: start;
+  margin-bottom: 48px;
 }
 
-/* ── Coming soon badge ──────────────────────────────────── */
-
-.comingSoon {
-  font-size: 10px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  padding: 2px 6px;
-  border-radius: 4px;
-  background: var(--accent-wash-strong);
-  color: var(--accent-light);
-  line-height: 1;
+.phoneSoon {
+  margin: 0;
+  font-size: 17.5px;
+  font-weight: 800;
+  letter-spacing: -0.014em;
+  line-height: 1.3;
 }
 
-.comingSoonPanel {
-  max-width: 420px;
-  margin: 0 0 20px;
-  padding: 32px 24px;
-  border-radius: var(--radius-md);
-  border: 1px dashed var(--border);
-  background: var(--accent-wash-faint);
-  position: relative;
-}
-
-.comingSoonTitle {
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--text);
-  margin-bottom: 8px;
-}
-
-.comingSoonDesc {
-  font-size: 14px;
+.phoneNote {
+  margin: 0 0 8px;
+  font-size: 15px;
   color: var(--text-dim);
-  line-height: 1.6;
 }
 
-.comingSoonDesc a {
-  color: var(--accent);
-  text-decoration: none;
+/* ── Stores and commands ────────────────────────────────── */
+
+.channels {
+  display: grid;
+  gap: 44px;
 }
 
-.comingSoonDesc a:hover {
-  text-decoration: underline;
+@media (min-width: 900px) {
+  .channels {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    gap: 64px;
+  }
+
+  /* The commands keep the wider column when they lead. */
+  .channels[data-lead="terminal"] {
+    grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+  }
 }
 
-/* ── Download cards ─────────────────────────────────────── */
-
-.downloadList {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  max-width: 560px;
-  margin: 0 0 20px;
-  position: relative;
-}
-
-.downloadCard {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+.column {
+  display: grid;
   gap: 16px;
-  padding: 16px 20px;
-  border-radius: var(--radius-md);
-  border: 1px solid var(--border);
-  background: var(--bg-card);
-  text-decoration: none;
-  color: var(--text);
-  transition: border-color 0.18s ease-out, background-color 0.18s ease-out;
+  align-content: start;
+  min-width: 0;
 }
 
-.downloadCard:hover {
-  border-color: var(--accent);
-  background: color-mix(in oklab, var(--accent) 4%, transparent);
+.columnTitle {
+  margin: 0;
+  font-size: 17.5px;
+  font-weight: 800;
+  letter-spacing: -0.014em;
+  line-height: 1.3;
 }
 
-.cardInfo {
+/* Microsoft asks for a quarter of the badge's height clear around it: 12px at 48. */
+.badges {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 16px 20px;
+  margin: 0;
+  padding: 0;
+}
+
+.badgeItem {
+  display: grid;
+  gap: 12px;
+  justify-items: start;
+  min-width: 0;
+}
+
+.badge {
+  --badge-height: 48px;
+}
+
+.badgeCaption {
+  font-size: 13px;
+  line-height: 1;
+  color: var(--text-dimmer);
+}
+
+.soon {
+  margin: 4px 0 0;
+  max-width: 44ch;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--text-dim);
+}
+
+.commands {
+  display: grid;
+  gap: 12px;
+}
+
+/* Snippet brings its own top margin for prose; the grid gap spaces these. */
+.commands > * {
+  margin: 0;
+}
+
+/* ── The file ───────────────────────────────────────────── */
+
+.file {
+  display: grid;
+  gap: 20px;
+  margin-top: 56px;
+  padding-top: 36px;
+  border-top: 1px solid var(--border);
+}
+
+.fileRow {
+  display: grid;
+  gap: 24px;
+}
+
+@media (min-width: 860px) {
+  .fileRow {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 420px);
+    align-items: start;
+    gap: 48px;
+  }
+}
+
+.fileMain {
+  display: grid;
+  gap: 8px;
+  justify-items: start;
+  min-width: 0;
+}
+
+/* Gryt UI's neutral fill is one step off this section's ground, so it gets a hairline. */
+.fileButton {
+  box-shadow: inset 0 0 0 1px var(--border);
+}
+
+.size {
+  opacity: 0.75;
+  font-variant-numeric: tabular-nums;
+}
+
+.size::before {
+  content: "·";
+  margin: 0 8px 0 2px;
+}
+
+.fileName {
+  margin: 4px 0 0;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--text-dimmer);
+  overflow-wrap: anywhere;
+}
+
+.fileNote {
+  margin: 0;
+  max-width: 48ch;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--text-dim);
+}
+
+.server {
+  display: grid;
   gap: 2px;
 }
 
-.cardLabel {
-  font-weight: 600;
+.switchRow {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 44px;
+  width: fit-content;
   font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  user-select: none;
 }
 
-.cardDesc {
-  font-size: 12px;
-  color: var(--text-dimmer);
+/* Hangs under the label, past the switch's 40px and the 12px gap. */
+.switchHelp {
+  margin: 0;
+  padding-left: 52px;
+  max-width: 50ch;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--text-dim);
 }
 
-.cardAction {
+.all {
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.allSummary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 50px;
+  font-size: 15px;
+  font-weight: 700;
+  list-style: none;
+  cursor: pointer;
+}
+
+.allSummary::-webkit-details-marker {
+  display: none;
+}
+
+.allSummary:focus-visible {
+  outline: 2px solid var(--accent-light);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+.chevron {
+  flex: none;
+  color: var(--text-dim);
+  transition: rotate 150ms ease-out;
+}
+
+.all[open] .chevron {
+  rotate: 180deg;
+}
+
+.groups {
+  display: grid;
+  gap: 24px;
+  padding-bottom: 20px;
+}
+
+@media (min-width: 860px) {
+  .groups {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 36px;
+  }
+}
+
+.group {
+  display: grid;
+  align-content: start;
+  min-width: 0;
+}
+
+.groupName {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding-bottom: 8px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.fileList {
+  margin: 0;
+  padding: 0;
+}
+
+/* The row is the target, so it reaches past the column by the padding it adds. */
+.fileLink {
   display: flex;
   align-items: center;
   gap: 12px;
-  flex-shrink: 0;
+  width: calc(100% + 24px);
+  min-height: 44px;
+  margin-inline: -12px;
+  padding: 0 12px;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  color: var(--text);
+  white-space: nowrap;
+  transition: background-color 0.15s;
 }
 
-.cardSize {
-  font-size: 12px;
+.fileLink svg {
+  flex: none;
+  color: var(--text-dim);
+}
+
+.fileLink:hover {
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text);
+  filter: none;
+}
+
+.fileLink:focus-visible {
+  outline: 2px solid var(--accent-light);
+  outline-offset: 0;
+}
+
+.fileLinkName {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fileLinkSize {
+  margin-left: auto;
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
   color: var(--text-dimmer);
+}
+
+.browser {
+  margin: 0;
+  font-size: 15px;
+  color: var(--text-dim);
+}
+
+.meta {
+  margin: 0;
+  font-size: 13px;
+  color: var(--text-dimmer);
+}
+
+/* A link broken over two lines reads as two links. */
+.browser a,
+.meta a {
   white-space: nowrap;
 }
 
-/* The Button paints itself; the hover belongs to the card, because the card is
-   what you click. */
-.cardBtn {
-  cursor: inherit;
-  transition: opacity 0.16s ease-out;
-}
-
-.downloadCard:hover .cardBtn {
-  opacity: 0.9;
-}
-
-/* ── Loading / fallback ─────────────────────────────────── */
-
 .loading {
-  color: var(--text-dimmer);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 0;
   font-size: 14px;
-  padding: 32px 0;
-  position: relative;
+  color: var(--text-dimmer);
 }
 
 .fallback {
@@ -226,310 +379,27 @@
   flex-direction: column;
   align-items: flex-start;
   gap: 12px;
-  padding: 24px 0;
-  color: var(--text-dim);
   font-size: 14px;
-  position: relative;
+  color: var(--text-dim);
 }
 
-/* ── Version / divider / alt actions ────────────────────── */
-
-.versionNote {
-  font-size: 12px;
-  color: var(--text-dimmer);
-  margin: 8px 0 0;
-  position: relative;
-}
-
-.versionNote a {
-  color: var(--accent);
-  text-decoration: underline;
-  text-underline-offset: 2px;
-}
-
-.versionNote a:hover {
-  text-decoration: underline;
-}
-
-/* The rule is a Gryt UI Divider now, so the hairline and its colour come from
-   the component. What is left is the site's measure — it is a rule under a
-   column of downloads, not across the page. Dropping this class entirely let
-   it run the full width of the section, which is a different design. */
-.divider {
-  max-width: 560px;
-  margin: 30px 0;
-}
-
-.altActions {
-  display: flex;
-  gap: 12px;
-  justify-content: flex-start;
-  flex-wrap: wrap;
-  position: relative;
-}
-
-.note {
-  font-size: 13px;
-  color: var(--text-dimmer);
-  margin: 16px 0 0;
-  max-width: 60ch;
-  position: relative;
-}
-
-@media (max-width: 768px) {
-  .section { padding: 68px 16px; }
-}
-
-@media (max-width: 480px) {
-  .osTabs {
-    flex-direction: row;
-    width: 100%;
-    justify-content: stretch;
-  }
-
-  .osTab {
-    flex: 1;
-    justify-content: center;
-    padding: 10px 12px;
-    font-size: 13px;
-  }
-
-  .downloadCard {
-    flex-direction: column;
-    align-items: stretch;
-    text-align: left;
-  }
-
-  .cardAction {
-    justify-content: space-between;
-    margin-top: 8px;
-  }
-
-  .altActions { flex-direction: column; align-items: center; }
-  /* `.gryt-button`, not `.btn`. Gryt UI stamps that class on every Button, and
-     it is the only stable hook a CSS module has on a component whose other
-     classes are Tailwind utilities. The `.btn` this used to name went out with
-     the site's own button, and the rule went on matching nothing — stacked
-     buttons kept their content width on a phone and nothing said so. */
-  .altActions :global(.gryt-button) { width: 100%; max-width: 280px; }
-}
-
-/* The head and the tabs are centred; anything with rows in it is not. Centred
-   body text in a list of file names and sizes is unreadable. */
-/* The head and the tabs are centred; anything with rows in it is not. Centred
-   body text in a list of file names and sizes is unreadable. The list itself is
-   centred as a block, which is what stops the whole section reading as
-   left-aligned with a centred title stuck on top. */
-.downloadList,
-.comingSoonPanel,
-.fallback,
-.loading {
-  max-width: 720px;
-  margin-left: auto;
-  margin-right: auto;
-  text-align: left;
-}
-
-.card,
-.note {
-  text-align: left;
-}
-
-.altActions {
-  justify-content: center;
-}
-
-.divider {
-  max-width: 720px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.note {
-  max-width: 62ch;
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
-}
-
-/* The build picker, between the OS tabs and the list they change.
-
-   A row rather than a card: it changes what the list below offers, so it wants
-   to read as part of that list's chrome and not as another thing to download. */
-.serverToggle {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  width: fit-content;
-  max-width: 100%;
-  margin: 0 auto 20px;
-  padding: 14px 16px;
-  border-radius: var(--radius-md);
-  border: 1px solid var(--border);
-  background: var(--accent-wash-faint);
-  text-align: left;
-  cursor: pointer;
-}
-
-.serverToggleLabel {
-  display: block;
-  font-weight: 600;
-  font-size: 0.95rem;
-  cursor: pointer;
-  user-select: none;
-}
-
-.serverToggleHint {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  border: 1px solid var(--border);
-  color: var(--text-muted);
-  font-size: 0.72rem;
-  font-weight: 700;
-  cursor: help;
-}
-
-/* ── The picker ─────────────────────────────────────────── */
-
-.picker {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 14px;
-  margin-bottom: 8px;
-}
-
-.formatTabs {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  padding: 4px;
-  display: inline-flex;
-}
-
-.formatTab {
-  display: inline-flex;
-  align-items: center;
-}
-
-.formatDesc {
+.fallback p {
   margin: 0;
-  font-size: 0.9rem;
-  color: var(--text-muted);
-  text-align: center;
 }
 
-/* The size sits inside the button rather than beside it. It is part of the
-   decision, and a number floating next to a button reads as a caption for the
-   section rather than as what you are about to fetch. */
-.downloadBtnSize {
-  opacity: 0.75;
-  font-variant-numeric: tabular-nums;
-}
-
-.downloadBtnSize::before {
-  content: "·";
-  margin: 0 8px;
-}
-
-/* ── The "?" and its card ───────────────────────────────── */
-
-.serverToggleHintWrap {
-  position: relative;
-  display: inline-flex;
-}
-
-/* Shown on hover and on keyboard focus. The card is in the flow as a sibling
-   rather than a portal, so it needs a stacking context above the tabs. */
-.serverToggleHintWrap:hover .serverToggleCard,
-.serverToggleHintWrap:focus-within .serverToggleCard {
-  opacity: 1;
-  visibility: visible;
-  transform: translate(-50%, 0);
-}
-
-.serverToggleCard {
-  position: absolute;
-  bottom: calc(100% + 10px);
-  left: 50%;
-  transform: translate(-50%, 4px);
-  z-index: 20;
-
-  /* A width, so the sentence wraps. The component tooltip drew one line the
-     width of whatever was in it, which on a large screen is small type running
-     most of the viewport. */
-  width: max-content;
-  max-width: 320px;
-
-  padding: 14px 16px;
-  border-radius: var(--radius-md);
-  border: 1px solid var(--border);
-  background: var(--bg-card);
-  box-shadow: 0 12px 32px rgb(0 0 0 / 45%);
-
-  font-size: 0.95rem;
-  font-weight: 400;
-  line-height: 1.55;
-  color: var(--text);
-  text-align: left;
-
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 120ms ease, transform 120ms ease;
-}
-
-@media (max-width: 520px) {
-  .serverToggleCard {
-    max-width: 260px;
+@media (max-width: 820px) {
+  .section {
+    padding: 68px 16px;
   }
 }
 
-/* Windows' Microsoft Store recommendation, above the direct-download picker.
-   Centred and full-width like the download button it sits over, with a quiet
-   line under it so it reads as the recommended path without shouting down the
-   direct installer. */
-.storeRow {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-  margin-block: 1rem 0.25rem;
-}
-
-.storeBtn {
-  width: 100%;
-  max-width: 22rem;
-}
-
-/* Left-aligned inside a centred box: a shell command reads from its first
-   character, and Snippet's own label sits at the left of its head. */
-.pkgRow {
-  max-width: 26rem;
-  margin: 20px auto 0;
-  text-align: left;
-}
-
-.pkgNote {
-  margin: 8px 0 0;
-  font-size: 0.85rem;
-  line-height: 1.4;
-  opacity: 0.7;
-}
-
-.storeNote {
-  margin: 0;
-  max-width: 26rem;
-  text-align: center;
-  font-size: 0.85rem;
-  line-height: 1.4;
-  opacity: 0.7;
+@media (prefers-reduced-motion: reduce) {
+  .chevron {
+    transition: none;
+  }
 }
 
 /* Not a link in running text: the base layer underlines every `a`. */
-.card {
+.fileLink {
   text-decoration: none;
 }

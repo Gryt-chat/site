@@ -1,0 +1,25 @@
+/* Microsoft's rules forbid recolouring, stretching or animating its badge, and the
+   Snap Store badge's licence allows no changes. So there's no hover scale or filter. */
+.badge {
+  display: inline-flex;
+  flex: none;
+  border-radius: 6px;
+}
+
+/* Squeezed by a narrow parent, object-fit keeps the artwork's own proportions. */
+.badge img {
+  height: var(--badge-height, 48px);
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+.badge:focus-visible {
+  outline: 2px solid var(--accent-light);
+  outline-offset: 3px;
+}
+
+/* Not a link in running text: the base layer underlines every `a`. */
+.badge {
+  text-decoration: none;
+}

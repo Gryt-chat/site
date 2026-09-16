@@ -153,6 +153,10 @@
   width: 100%;
 }
 
+.storeBadge {
+  align-self: center;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .pulse {
     animation: none;

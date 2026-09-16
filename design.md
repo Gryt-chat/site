@@ -752,9 +752,11 @@ A filled pill behind each link was the easier version and would have put six
 filled shapes in a bar trying to be quiet. The accent is for rules and links.
 
 **The download button grows into its label.** It renders "Download" until the
-GitHub release call comes back, then "Download for macOS" — about seventy pixels
-wider, in a row that is right-aligned, so everything to its left jumped with it.
-The width is measured on commit and transitioned over 420ms.
+page knows your platform. Windows and Linux then get their store's badge. A Mac
+gets "Download for macOS" once the GitHub release call comes back. Each comes with
+a round arrow down to the download section. Either way it gets wider, in a row
+that's right-aligned, so everything to its left used to jump with it. The width is
+measured on commit and transitioned over 420ms.
 
 `interpolate-size: allow-keywords` is the CSS answer to this and would delete
 the measurement entirely. It is Chromium 129+ only — Firefox and Safari have not
@@ -768,6 +770,19 @@ underline and this width are written by React on commit and animated by CSS:
 `requestAnimationFrame` and `ResizeObserver` are both delivered as part of the
 rendering steps, so in a tab that is not being painted neither of them runs.
 That was a real bug in the underline before it was a rule.
+
+**`Download` leads with the stores.** Store badges first, then the package manager
+commands, then one file for your platform, with every other file folded under All
+files. The badges are Microsoft's and Canonical's own files in `public/badges`.
+They're 48px tall in the section and 40px in the navbar, and nothing recolours,
+stretches or animates them. Both are the light versions, because Microsoft asks
+for its light badge on a dark page.
+
+A store gets a badge once it has a listing in `STORES` in `src/lib/releases.ts`.
+Until then it's named in the one line under the badges, along with winget. Your
+own platform comes first, which puts Homebrew ahead of the stores on a Mac. A phone
+or a tablet never gets a file. It gets that line and a button for app.gryt.chat
+instead.
 
 **The fold is mostly air.** `Hero` opens on 152px of padding — 84px of clear
 space under the bar — and puts 108px between the buttons and the clip, because
