@@ -1129,6 +1129,17 @@ export const app: ReleaseLine[] = [
  */
 export const server: ReleaseLine[] = [
   {
+    version: "1.10.16",
+    date: "2026-09-16",
+    line: "The Windows and Linux server bundles keep their voice server's registration and metrics ports to the machine they run on, where anyone on the same network could reach them before.",
+    changes: [
+      {
+        kind: "security",
+        text: "The self-hosted bundles set SFU_CONTROL_HOST and SFU_METRICS_HOST to 127.0.0.1, so other machines on your network can't register a server with your voice server or read its metrics. They also set METRICS_PORT=0, so the server's own metrics can't take that port instead. A config.env you copy over from an older bundle needs those three lines added.",
+      },
+    ],
+  },
+  {
     version: "1.10.15",
     date: "2026-09-15",
     line: "Security release: channel messages only reach members who can read the channel, no member's sign-in token is sent to other members, and sign-in tokens issued before this version stop working once so clients sign in again by themselves. Update every server you run.",
