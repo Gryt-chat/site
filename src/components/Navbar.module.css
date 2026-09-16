@@ -314,6 +314,15 @@
 
 /* ── Responsive ─────────────────────────────────────── */
 
+/* A Mac's "Download for macOS" and the arrow need about 925px at full gaps, and the
+   bar only collapses to the menu at 900. */
+@media (max-width: 1000px) {
+  .right,
+  .links {
+    gap: 20px;
+  }
+}
+
 @media (max-width: 900px) {
   .nav {
     height: 60px;
@@ -345,52 +354,28 @@
   white-space: nowrap;
 }
 
-/* The split button: the main download, then a caret that opens the build
-   picker. One control reading as one control — the caret is joined to the
-   button with the seam flattened and a hairline between, not floated beside it. */
-.downloadGroup {
-  display: inline-flex;
-  align-items: stretch;
+/* The badge or the file, then the arrow to the download section. */
+.downloadActions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-.downloadGroup .download {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
+/* 40px, past Microsoft's 32px floor, in a 68px bar. */
+.badge {
+  --badge-height: 40px;
 }
 
-/* Both halves are the same @gryt/ui Button, so hover, active, focus ring and
-   keyboard all come from the component — this only reshapes the caret half:
-   square its inner corners to meet the label, narrow it to a handle, and cut a
-   visible split down the join.
-
-   The split is a pseudo-element, not `box-shadow` or a `border`: the Button
-   drives its own box-shadow for the states above, so overriding it here would
-   break the very hover/focus we want to keep. A 2px groove with a light edge,
-   absolutely placed on the seam, leaves the Button's own styling untouched. */
-.downloadCaret {
-  position: relative;
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-  min-width: 0;
-  padding-inline: 0.3rem;
+.allPlatforms {
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text);
 }
 
-.downloadCaret::before {
-  content: "";
-  position: absolute;
-  inset-block: 0;
-  inset-inline-start: -1px;
-  width: 2px;
-  background: rgb(0 0 0 / 0.28);
-  box-shadow: 1px 0 0 rgb(255 255 255 / 0.18);
-}
-
-/* The second line under a build in the picker: what you get, quietly, so the
-   choice is one glance rather than a paragraph. */
-.downloadHint {
-  display: block;
-  font-size: 0.78em;
-  opacity: 0.62;
+.allPlatforms:hover {
+  border-color: var(--text-dimmer);
+  background: var(--gryt-surface-hover, var(--bg-card));
+  color: var(--text);
 }
 
 /* The slot the button's width is animated on.

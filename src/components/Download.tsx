@@ -1,116 +1,54 @@
-import { useEffect, useMemo, useState } from "react";
-import { FaAndroid, FaApple, FaLinux, FaMicrosoft, FaWindows } from "react-icons/fa";
+import { useEffect, useId, useMemo, useState } from "react";
+import { FaApple, FaLinux, FaWindows } from "react-icons/fa";
+import { MdExpandMore } from "react-icons/md";
+import { Alert, Button, Spinner, Switch } from "@gryt/ui";
 
-import { DownloadIcon, ServerRackIcon } from "./icons";
+import { DownloadIcon, GlobeIcon } from "./icons";
 import { Snippet } from "./Snippet";
+import { StoreBadge } from "./StoreBadge";
 import styles from "./Download.module.css";
+import { dayMonthYear } from "../lib/formatDate";
 import {
+  ARCH_NAMES,
   categorizeAssets,
+  comingSoon,
   fetchLatestRelease,
+  filesFor,
   formatSize,
-  MS_STORE_URL,
-  type OS,
+  forPlatform,
+  isDesktop,
+  OS_NAMES,
+  PACKAGE_MANAGERS,
+  primaryOption,
+  STORES,
+  type DesktopOS,
   type Release,
 } from "../lib/releases";
 import { useDetectedArch } from "../lib/useDetectedArch";
 import { useDetectedOS } from "../lib/useDetectedOS";
-import { Alert, Button, Chip, Divider, Spinner, Switch, Tabs } from "@gryt/ui";
 
-const OS_LABELS: Record<OS, { label: string; icon: typeof FaWindows; comingSoon?: boolean }> = {
-  windows: { label: "Windows", icon: FaWindows },
-  macos: { label: "macOS", icon: FaApple },
-  linux: { label: "Linux", icon: FaLinux },
-  ios: { label: "iOS", icon: FaApple, comingSoon: true },
-  android: { label: "Android", icon: FaAndroid, comingSoon: true },
-};
+const RELEASES_URL = "https://github.com/Gryt-chat/gryt/releases";
+const WEB_APP_URL = "https://app.gryt.chat";
 
-/**
- * The platform picker is Gryt UI's `Tabs`, indicator and all. A row of buttons toggling
- * `aria-pressed` is a tab list in disguise, without arrow keys or the sliding indicator.
- */
-const OS_ORDER = ["windows", "macos", "linux", "ios", "android"] as const;
-
-/**
- * Where a one-line install exists and points at a current build. Checked before adding
- * each one, because a command that installs something ancient is worse than no command.
- */
-const PACKAGE_MANAGERS: Partial<Record<OS, { label: string; code: string; note: string }[]>> = {
-  /* The tap repo is Gryt-chat/homebrew-tap, which Homebrew addresses as
-     gryt-chat/tap — the `homebrew-` prefix is implied and the owner lowercased. */
-  macos: [
-    {
-      label: "Homebrew",
-      code: "brew install --cask gryt-chat/tap/gryt-chat",
-      note: "Updates along with the rest of your casks.",
-    },
-  ],
-  linux: [
-    {
-      label: "Snap Store",
-      code: "sudo snap install gryt-chat",
-      note: "Updates along with the rest of your snaps.",
-    },
-    {
-      label: "Arch — AUR",
-      code: "yay -S gryt-chat-bin",
-      note: "Or paru, or whichever helper you already use.",
-    },
-  ],
-  /* No windows: Gryt.GrytChat is still an open submission to winget-pkgs. */
-};
-
-function OSTabs({
-  value,
-  onChange,
-}: {
-  value: OS;
-  onChange: (os: OS) => void;
-}) {
-  return (
-    <Tabs
-      className={styles.osTabs}
-      value={value}
-      onValueChange={(next) => onChange(next as OS)}
-    >
-      <Tabs.List aria-label="Platform">
-        {OS_ORDER.map((os) => {
-          const { label, icon: Icon } = OS_LABELS[os];
-          return (
-            <Tabs.Tab className={styles.osTab} key={os} value={os}>
-              <Icon size={16} />
-              {label}
-            </Tabs.Tab>
-          );
-        })}
-        <Tabs.Indicator />
-      </Tabs.List>
-    </Tabs>
-  );
-}
-
+const FILE_GROUPS: { os: DesktopOS; icon: typeof FaWindows }[] = [
+  { os: "windows", icon: FaWindows },
+  { os: "macos", icon: FaApple },
+  { os: "linux", icon: FaLinux },
+];
 
 export function Download() {
   const [release, setRelease] = useState<Release | null>(null);
   const [error, setError] = useState(false);
-  /* Detection lands a commit after the first render, so the prerender and the hydration
-     agree and the tabs are never left with two selected. A click wins over detection. */
-  const detectedOS = useDetectedOS();
-  const [pickedOS, setPickedOS] = useState<OS | null>(null);
-  const selectedOS = pickedOS ?? detectedOS ?? "windows";
-
-  /*
-   * Off by default, so the smaller build is what somebody gets without reading anything.
-   * Nobody is stuck: this is a checkbox on the page, not a decision about the install.
-   */
   const [withServer, setWithServer] = useState(false);
+  const switchLabelId = useId();
+  const switchHelpId = useId();
 
-  /* Which package format, within the platform. Before this the page drew a button per
-     format per build, so Windows was four stacked Download buttons and Linux six. */
-  const [format, setFormat] = useState<string | null>(null);
-
-  /* Null off a Mac and in Safari. It only reorders the tabs below, so an unknown chip costs
-     nothing: both disk images are on the page, and each says which Mac it is for. */
+  /* Null until hydration is over, so the prerender and the first client render agree. */
+  const detected = useDetectedOS();
   const arch = useDetectedArch();
+  const os = detected ?? "windows";
+  const phone = detected !== null && !isDesktop(detected);
+  const fileOS: DesktopOS = isDesktop(os) ? os : "windows";
 
   useEffect(() => {
     fetchLatestRelease()
@@ -123,240 +61,223 @@ export function Download() {
     [release],
   );
 
-  const all = grouped?.[selectedOS] ?? [];
+  const stores = forPlatform(STORES, os).flatMap((s) =>
+    s.listing ? [{ os: s.os, listing: s.listing }] : [],
+  );
+  const commands = forPlatform(PACKAGE_MANAGERS, os).flatMap((p) =>
+    p.command ? [{ label: p.label, command: p.command }] : [],
+  );
+  const soon = comingSoon(os);
+  const ownStore = STORES.some((s) => s.os === os && s.listing);
+  /* A phone whose store isn't open yet is pointed at the browser instead. */
+  const waiting = phone && !ownStore;
+  /* A Mac has no store open yet, so Homebrew leads there. */
+  const terminalFirst = !ownStore && PACKAGE_MANAGERS.some((p) => p.os === os && p.command);
 
-  /*
-   * Falls back to whatever the platform has when the chosen build is not on the release. An
-   * empty list would read as "no download for your OS".
-   */
-  const matching = all.filter((opt) => opt.withServer === withServer);
-  const options = matching.length > 0 ? matching : all;
-  const hasBothBuilds = all.some((o) => o.withServer) && all.some((o) => !o.withServer);
+  const options = grouped?.[fileOS] ?? [];
+  const primary = primaryOption(options, fileOS, arch);
+  const pair = primary ? options.filter((o) => o.label === primary.label) : [];
+  const full = pair.find((o) => o.withServer);
+  const slim = pair.find((o) => !o.withServer);
+  const chosen = (withServer ? full : slim) ?? primary;
+  const version = release?.tag_name.replace(/^v/, "");
 
-  /* Ordered here rather than taken from the release, whose assets arrive alphabetically and
-     put the portable build first. A portable build cannot update itself. */
-  const FORMAT_ORDER = [
-    "Installer",
-    "Portable",
-    /* Your own chip first. An arm64 disk image does not open on an Intel Mac,
-       so this is not a preference the way Installer over Portable is. */
-    ...(arch === "x64"
-      ? ["DMG (Intel)", "DMG (Apple silicon)"]
-      : ["DMG (Apple silicon)", "DMG (Intel)"]),
-    "AppImage",
-    "Debian / Ubuntu",
-    "Fedora / RHEL",
-  ];
-
-  const formats = [...new Set(options.map((o) => o.label))].sort(
-    (a, b) => FORMAT_ORDER.indexOf(a) - FORMAT_ORDER.indexOf(b),
+  const storeColumn = (
+    <div className={styles.column}>
+      <h3 className={styles.columnTitle}>From a store</h3>
+      <ul className={styles.badges}>
+        {stores.map(({ os: storeOS, listing }) => (
+          <li className={styles.badgeItem} key={listing.url}>
+            <StoreBadge listing={listing} className={styles.badge} />
+            <span className={styles.badgeCaption}>{OS_NAMES[storeOS]}</span>
+          </li>
+        ))}
+      </ul>
+      {!waiting && soon && <p className={styles.soon}>Coming to {soon}.</p>}
+    </div>
   );
 
-  const ordered = formats
-    .map((name) => options.find((o) => o.label === name))
-    .filter((o): o is (typeof options)[number] => Boolean(o));
-
-  const chosen =
-    ordered.find((o) => o.label === format) ?? ordered[0] ?? null;
-  const version = release?.tag_name?.replace(/^v/, "");
-  const pkgs = PACKAGE_MANAGERS[selectedOS] ?? [];
+  const terminalColumn = (
+    <div className={styles.column}>
+      <h3 className={styles.columnTitle}>From a terminal</h3>
+      <div className={styles.commands}>
+        {commands.map(({ label, command }) => (
+          <Snippet key={label} label={label} code={command} shell />
+        ))}
+      </div>
+    </div>
+  );
 
   return (
     <section className={styles.section} id="download">
       <div className={styles.box}>
-        <h2 className={styles.title}>Download Gryt.</h2>
-        <OSTabs value={selectedOS} onChange={setPickedOS} />
+        <div className={styles.head}>
+          <p className={styles.eyebrow}>Download</p>
+          <h2 className={styles.title}>
+            Install it the way you install everything else.
+          </h2>
+          <p className={styles.sub}>
+            A store or a package manager keeps Gryt updated along with your
+            other apps.
+            {!phone && <> If you&rsquo;d rather have the file, it&rsquo;s at the bottom.</>}
+          </p>
+        </div>
 
-        {/* Windows leads with the Store: signed, no SmartScreen warning, and it
-            updates itself (the in-app updater stands down there). Sits above the
-            picker and outside the release-gated blocks, so it shows even while
-            GitHub is loading or rate-limited. The direct installer stays below
-            for anyone who wants a standalone .exe. */}
-        {selectedOS === "windows" && (
-          <div className={styles.storeRow}>
-            <Button
-              className={styles.storeBtn}
-              render={<a href={MS_STORE_URL} target="_blank" rel="noreferrer" />}
-              size="large"
-            >
-              <FaMicrosoft size={18} />
-              Get it from the Microsoft Store
-            </Button>
-            <p className={styles.storeNote}>
-              Recommended — signed, and it keeps itself updated through the
-              Store. Or grab the direct installer below.
-            </p>
-          </div>
-        )}
-
-        {!OS_LABELS[selectedOS].comingSoon && hasBothBuilds && (
-          <div className={styles.serverToggle}>
-            <Switch
-              checked={withServer}
-              onCheckedChange={(next) => setWithServer(next === true)}
-            />
-            {/* Clickable, because the label became a span when the tooltip
-                arrived and a span is not a label. Not a real <label> wrapping
-                the row: the "?" sits in that row too, and hovering it to read
-                the explanation should not flip the switch. */}
-            <span
-              className={styles.serverToggleLabel}
-              onClick={() => setWithServer((on) => !on)}
-            >
-              Include built in server?
-            </span>
-            {/* A card rather than @gryt/ui's Tooltip. That one draws a single
-                narrow line, which on a large screen is small type running the
-                width of the viewport — the two things that make a sentence hard
-                to read. This one has a width, so it wraps. */}
-            <span className={styles.serverToggleHintWrap}>
-              <span
-                className={styles.serverToggleHint}
-                tabIndex={0}
-                role="button"
-                aria-label="What the built in server is"
-              >
-                ?
-              </span>
-              <span className={styles.serverToggleCard} role="note">
-                Lets you host a server from inside the app, so friends can join
-                yours. Adds about 35&nbsp;MB.
-                <br />
-                <br />
-                You can still join other people&rsquo;s servers without it.
-              </span>
-            </span>
-          </div>
-        )}
-
-        {OS_LABELS[selectedOS].comingSoon && (
-          <div className={styles.comingSoonPanel}>
-            {/* The badge belongs here rather than on the tab. On the tab it made
-                two of the five platforms wider than the rest for a word you only
-                need once you have picked one. */}
-            <Chip label="In dev" tone="neutral" />
-            <p className={styles.comingSoonTitle}>
-              The {OS_LABELS[selectedOS].label} app isn&rsquo;t ready yet
-            </p>
-            <p className={styles.comingSoonDesc}>
-              It&rsquo;s being built right now, so there&rsquo;s nothing to
-              download. Until there is, Gryt runs in your phone&rsquo;s browser
-              at{" "}
-              <a href="https://app.gryt.chat" target="_blank" rel="noreferrer">
-                app.gryt.chat
-              </a>
-            </p>
-          </div>
-        )}
-
-        {!OS_LABELS[selectedOS].comingSoon && error && (
-          <div className={styles.fallback}>
-            <Alert severity="warning">
-              Couldn&rsquo;t reach GitHub for the list of releases.
-            </Alert>
-            <Button
-              render={<a href="https://github.com/Gryt-chat/gryt/releases" target="_blank" rel="noreferrer" />}
-              tone="neutral"
-            >
-              <DownloadIcon size={16} />
-              View on GitHub
+        {waiting && (
+          <div className={styles.phone}>
+            {soon && <p className={styles.phoneSoon}>Coming to {soon}.</p>}
+            <p className={styles.phoneNote}>Until then, Gryt works in your browser.</p>
+            <Button render={<a href={WEB_APP_URL} />} size="large">
+              <GlobeIcon size={18} />
+              Open app.gryt.chat
             </Button>
           </div>
         )}
 
-        {!OS_LABELS[selectedOS].comingSoon && !error && !release && (
-          <div className={styles.loading}>
-            <Spinner size={18} />
-            Finding the latest release…
-          </div>
-        )}
+        <div
+          className={styles.channels}
+          data-lead={terminalFirst ? "terminal" : "store"}
+        >
+          {terminalFirst ? terminalColumn : storeColumn}
+          {terminalFirst ? storeColumn : terminalColumn}
+        </div>
 
-        {!OS_LABELS[selectedOS].comingSoon && !error && release && chosen && (
-          <div className={styles.picker}>
-            {formats.length > 1 && (
-              <Tabs
-                className={styles.formatTabs}
-                value={chosen.label}
-                onValueChange={(next) => setFormat(String(next))}
-              >
-                <Tabs.List aria-label="Package format">
-                  {formats.map((name) => (
-                    <Tabs.Tab className={styles.formatTab} key={name} value={name}>
-                      {name}
-                    </Tabs.Tab>
-                  ))}
-                  <Tabs.Indicator />
-                </Tabs.List>
-              </Tabs>
+        {!phone && (
+          <div className={styles.file}>
+            <h3 className={styles.columnTitle}>Or download the file</h3>
+
+            {error && (
+              <div className={styles.fallback}>
+                <Alert severity="warning">
+                  Couldn&rsquo;t reach GitHub for the list of releases.
+                </Alert>
+                <Button
+                  render={<a href={RELEASES_URL} target="_blank" rel="noreferrer" />}
+                  tone="neutral"
+                >
+                  <DownloadIcon size={16} />
+                  View on GitHub
+                </Button>
+              </div>
             )}
 
-            <p className={styles.formatDesc}>{chosen.description}</p>
+            {!error && !release && (
+              <div className={styles.loading}>
+                <Spinner size={18} />
+                Finding the latest release…
+              </div>
+            )}
 
-            <Button
-              className={styles.downloadBtn}
-              render={<a href={chosen.url} download />}
-              size="large"
-            >
-              <DownloadIcon size={18} />
-              Download
-              <span className={styles.downloadBtnSize}>
-                {formatSize(chosen.size)}
-              </span>
-            </Button>
+            {!error && release && !chosen && (
+              <div className={styles.fallback}>
+                <p>Nothing to download for {OS_NAMES[fileOS]} yet.</p>
+                <Button
+                  render={<a href={RELEASES_URL} target="_blank" rel="noreferrer" />}
+                  tone="neutral"
+                >
+                  <DownloadIcon size={16} />
+                  View all releases on GitHub
+                </Button>
+              </div>
+            )}
+
+            {!error && release && chosen && grouped && (
+              <>
+                <div className={styles.fileRow}>
+                  <div className={styles.fileMain}>
+                    <Button
+                      className={styles.fileButton}
+                      render={<a href={chosen.url} download />}
+                      size="large"
+                      tone="neutral"
+                    >
+                      <DownloadIcon size={18} />
+                      Download for {OS_NAMES[fileOS]}
+                      <span className={styles.size}>{formatSize(chosen.size)}</span>
+                    </Button>
+                    <p className={styles.fileName}>{chosen.fileName}</p>
+                    {/* The chip on a Mac and the format on Linux need saying. A Windows installer doesn't. */}
+                    {fileOS !== "windows" && (
+                      <p className={styles.fileNote}>{chosen.description}</p>
+                    )}
+                  </div>
+
+                  {full && slim && (
+                    <div className={styles.server}>
+                      <label className={styles.switchRow} id={switchLabelId}>
+                        <Switch
+                          checked={withServer}
+                          onCheckedChange={(next) => setWithServer(next === true)}
+                          aria-labelledby={switchLabelId}
+                          aria-describedby={switchHelpId}
+                        />
+                        Include the built-in server
+                      </label>
+                      <p className={styles.switchHelp} id={switchHelpId}>
+                        It lets you host a server from inside the app, so
+                        friends can join yours. You don&rsquo;t need it to join
+                        someone else&rsquo;s. It adds{" "}
+                        {formatSize(full.size - slim.size)}. Stores and package
+                        managers always include it.
+                      </p>
+                    </div>
+                  )}
+                </div>
+
+                <details className={styles.all}>
+                  <summary className={styles.allSummary}>
+                    <MdExpandMore className={styles.chevron} size={20} aria-hidden="true" />
+                    All files in v{version}
+                  </summary>
+                  <div className={styles.groups}>
+                    {FILE_GROUPS.map(({ os: groupOS, icon: Icon }) => (
+                      <div className={styles.group} key={groupOS}>
+                        <h4 className={styles.groupName}>
+                          <Icon size={15} aria-hidden="true" />
+                          {OS_NAMES[groupOS]}
+                        </h4>
+                        <ul className={styles.fileList}>
+                          {filesFor(grouped[groupOS], groupOS, withServer).map((file) => (
+                            <li key={file.fileName}>
+                              <a className={styles.fileLink} href={file.url} download>
+                                <DownloadIcon size={16} aria-hidden="true" />
+                                <span className={styles.fileLinkName}>
+                                  <span className="sr-only">{OS_NAMES[groupOS]} </span>
+                                  {groupOS === "macos" && file.arch
+                                    ? ARCH_NAMES[file.arch]
+                                    : file.label}
+                                </span>
+                                <span className={styles.fileLinkSize}>
+                                  {formatSize(file.size)}
+                                </span>
+                              </a>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))}
+                  </div>
+                </details>
+              </>
+            )}
+
+            <p className={styles.browser}>
+              Or skip installing and <a href={WEB_APP_URL}>open app.gryt.chat</a>{" "}
+              in a browser.
+            </p>
+
+            {version && (
+              <p className={styles.meta}>
+                v{version}
+                {release?.published_at && <> · released {dayMonthYear(release.published_at)}</>}
+                {" · "}
+                <a href={RELEASES_URL} target="_blank" rel="noreferrer">
+                  All releases on GitHub
+                </a>
+              </p>
+            )}
           </div>
         )}
-
-        {!OS_LABELS[selectedOS].comingSoon && !error && release && options.length === 0 && (
-          <div className={styles.fallback}>
-            <p>Nothing to download for {OS_LABELS[selectedOS].label} yet.</p>
-            <Button
-              render={<a href="https://github.com/Gryt-chat/gryt/releases" target="_blank" rel="noreferrer" />}
-              tone="neutral"
-            >
-              <DownloadIcon size={16} />
-              View all releases on GitHub
-            </Button>
-          </div>
-        )}
-
-        {/* Under the download button rather than above it: somebody who came
-            here for a file should not have to read past a shell command. */}
-        {!OS_LABELS[selectedOS].comingSoon &&
-          pkgs.map((pkg) => (
-            <div className={styles.pkgRow} key={pkg.label}>
-              <Snippet label={pkg.label} code={pkg.code} shell />
-              <p className={styles.pkgNote}>{pkg.note}</p>
-            </div>
-          ))}
-
-        {!OS_LABELS[selectedOS].comingSoon && version && (
-          <p className={styles.versionNote}>
-            Latest: v{version} ·{" "}
-            <a
-              href="https://github.com/Gryt-chat/gryt/releases"
-              target="_blank"
-              rel="noreferrer"
-            >
-              All releases
-            </a>
-          </p>
-        )}
-
-        <Divider className={styles.divider} />
-
-        {/* One secondary action, and it is a different intent from the
-            buttons above: somebody who came to download may also want to run a
-            server. "Try in Browser" used to sit beside it and is the same
-            action as "Open in browser" in the navbar, three lines up the page. */}
-        <div className={styles.altActions}>
-          <Button
-            render={<a href="https://docs.gryt.chat/docs/host/quick-start" target="_blank" rel="noreferrer" />}
-            tone="neutral"
-          >
-            <ServerRackIcon size={16} />
-            Self-Host a Server
-          </Button>
-        </div>
       </div>
     </section>
   );

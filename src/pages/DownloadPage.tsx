@@ -2,14 +2,18 @@ import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { Button } from "@gryt/ui";
 import { GrytLogo } from "../components/GrytLogo";
+import { StoreBadge } from "../components/StoreBadge";
 import { pageTitle } from "../lib/title";
 import {
   categorizeAssets,
+  comingSoon,
+  downloadTarget,
   fetchLatestRelease,
   formatSize,
+  isDesktop,
   OS_NAMES,
-  parseOS,
   primaryOption,
+  STORES,
   type DownloadOption,
 } from "../lib/releases";
 import { useDetectedArch } from "../lib/useDetectedArch";
@@ -31,7 +35,10 @@ export function DownloadPage() {
   const [params] = useSearchParams();
   /* Null on the first render, on both sides of hydration. This page assigns window.location
      once it knows, so it cannot start on a guess and correct itself — that is two downloads. */
-  const os = useDetectedOS(parseOS(params.get("os")));
+  const os = downloadTarget(useDetectedOS(), params.get("os"));
+  const phone = os !== null && !isDesktop(os);
+  const store = phone ? STORES.find((s) => s.os === os && s.listing)?.listing : undefined;
+  const soon = comingSoon(os);
   /* Null off a Mac and in Safari, which is fine: primaryOption falls back to
      Apple silicon, and the line below tells the person which one they got. */
   const arch = useDetectedArch();
@@ -42,7 +49,7 @@ export function DownloadPage() {
   }, []);
 
   useEffect(() => {
-    if (!os) return;
+    if (!os || phone) return;
 
     const abort = new AbortController();
 
@@ -72,7 +79,7 @@ export function DownloadPage() {
       });
 
     return () => abort.abort();
-  }, [os, arch]);
+  }, [os, phone, arch]);
 
   const name = os ? OS_NAMES[os] : null;
 
@@ -84,7 +91,37 @@ export function DownloadPage() {
         {/* aria-live so a screen reader hears the download arrive rather than
             sitting on "finding the latest build" indefinitely. */}
         <div className={styles.state} aria-live="polite">
-          {state.kind === "resolving" && (
+          {phone && store && (
+            <>
+              <h1 className={styles.title}>Get Gryt for {name}</h1>
+              <div className={styles.actions}>
+                <StoreBadge listing={store} className={styles.storeBadge} />
+              </div>
+              <p className={styles.hint}>
+                On a computer, this page starts the download.
+              </p>
+            </>
+          )}
+
+          {phone && !store && (
+            <>
+              <h1 className={styles.title}>Gryt isn&rsquo;t on phones or tablets yet</h1>
+              <p className={styles.body}>
+                {soon && <>It&rsquo;s coming to {soon}. </>}
+                Until then, it works in your browser.
+              </p>
+              <div className={styles.actions}>
+                <Button render={<a href="https://app.gryt.chat" />} size="large">
+                  Open app.gryt.chat
+                </Button>
+              </div>
+              <p className={styles.hint}>
+                On a computer, this page starts the download.
+              </p>
+            </>
+          )}
+
+          {!phone && state.kind === "resolving" && (
             <>
               <h1 className={styles.title}>
                 {name ? `Getting Gryt for ${name}` : "Getting Gryt"}
@@ -96,7 +133,7 @@ export function DownloadPage() {
             </>
           )}
 
-          {state.kind === "starting" && (
+          {!phone && state.kind === "starting" && (
             <>
               <h1 className={styles.title}>Your download has started</h1>
               <p className={styles.body}>
@@ -129,7 +166,7 @@ export function DownloadPage() {
             </>
           )}
 
-          {state.kind === "empty" && (
+          {!phone && state.kind === "empty" && (
             <>
               <h1 className={styles.title}>No {name} build yet</h1>
               <p className={styles.body}>
@@ -139,7 +176,7 @@ export function DownloadPage() {
             </>
           )}
 
-          {state.kind === "failed" && (
+          {!phone && state.kind === "failed" && (
             <>
               <h1 className={styles.title}>Couldn't reach GitHub</h1>
               <p className={styles.body}>

@@ -1,11 +1,13 @@
 import { useState, useCallback, useEffect, useLayoutEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Button, Dialog, Menu } from "@gryt/ui";
-import { MdMenu, MdClose, MdArrowDownward, MdArrowDropDown } from "react-icons/md";
+import { Button, Dialog, IconButton, Tooltip } from "@gryt/ui";
+import { MdMenu, MdClose, MdArrowDownward } from "react-icons/md";
 import { GrytLogo } from "./GrytLogo";
+import { StoreBadge } from "./StoreBadge";
 import { actions, community, navBar, reading, type SiteLink } from "../data/siteLinks";
+import { STORES } from "../lib/releases";
+import { useDetectedOS } from "../lib/useDetectedOS";
 import { useLatestDownload } from "../lib/useLatestDownload";
-import { formatSize, storeOption } from "../lib/releases";
 import { usePathname } from "../lib/usePathname";
 import { useTravellingUnderline } from "./useTravellingUnderline";
 import styles from "./Navbar.module.css";
@@ -59,29 +61,17 @@ const sheetLinks = [
 ];
 
 /**
- * The one control on the page that does real work: it hands you the file for your platform.
- * Until the release lands, or if GitHub rate-limits, it says "Download" and scrolls.
+ * The store badge for your platform where that store is open, otherwise the file, and an arrow
+ * to every other way. Until detection and the release call land, it says "Download" and scrolls.
  */
 function DownloadAction() {
-  const { os, osName, option, options } = useLatestDownload();
+  const detected = useDetectedOS();
+  const { osName, option } = useLatestDownload();
   const location = useLocation();
   const navigate = useNavigate();
 
-  /**
-   * Windows leads with the Microsoft Store: signed, no SmartScreen warning, self-updating,
-   * and it needs no release call, so the button can show before the fetch lands.
-   */
-  const store = os === "windows" ? storeOption() : null;
-  const primary = store ?? option;
-
-  /**
-   * The two variants of the platform's primary format; slim is the deliberate default. The
-   * caret appears once both are known, so a platform shipping one build keeps a plain button.
-   */
-  const variants = option ? options.filter((o) => o.label === option.label) : [];
-  const fullBuild = variants.find((o) => o.withServer);
-  const slimBuild = variants.find((o) => !o.withServer);
-  const hasChoice = Boolean(fullBuild && slimBuild);
+  const store = STORES.find((s) => s.os === detected && s.listing)?.listing ?? null;
+  const file = detected && !store ? option : null;
 
   /**
    * The label grows when the release call lands, so the width is measured and transitioned
@@ -102,7 +92,7 @@ function DownloadAction() {
     setWidth(el.offsetWidth);
     setSettled(measured.current);
     measured.current = true;
-  }, [option, osName]);
+  }, [store, file, osName]);
 
   /**
    * And then the reflows React cannot see: the variable font finishing loading and every
@@ -132,20 +122,12 @@ function DownloadAction() {
       style={width != null ? { width } : undefined}
     >
       <div className={styles.downloadInner} ref={inner}>
-        {primary ? (
-          <div className={styles.downloadGroup}>
-            {primary.external ? (
+        {store || file ? (
+          <div className={styles.downloadActions}>
+            {store && <StoreBadge listing={store} className={styles.badge} />}
+            {file && (
               <Button
-                render={<a href={primary.url} target="_blank" rel="noopener noreferrer" />}
-                size="small"
-                className={styles.download}
-              >
-                <MdArrowDownward size={15} aria-hidden="true" />
-                <span>Get it from Microsoft Store</span>
-              </Button>
-            ) : (
-              <Button
-                render={<a href={primary.url} download />}
+                render={<a href={file.url} download />}
                 size="small"
                 className={styles.download}
               >
@@ -153,43 +135,17 @@ function DownloadAction() {
                 <span>Download for {osName}</span>
               </Button>
             )}
-            {hasChoice ? (
-              <Menu.Root>
-                <Menu.Trigger
-                  render={
-                    <Button
-                      size="small"
-                      aria-label="Choose a build"
-                      className={styles.downloadCaret}
-                    />
-                  }
-                >
-                  <MdArrowDropDown size={18} aria-hidden="true" />
-                </Menu.Trigger>
-                <Menu.Portal>
-                  <Menu.Positioner align="end" sideOffset={8}>
-                    <Menu.Popup>
-                      <Menu.Item render={<a href={slimBuild!.url} download />}>
-                        Slim · {formatSize(slimBuild!.size)}
-                        <span className={styles.downloadHint}>
-                          {store ? "direct .exe, no built-in server" : "the download, without a server"}
-                        </span>
-                      </Menu.Item>
-                      <Menu.Item render={<a href={fullBuild!.url} download />}>
-                        Full · {formatSize(fullBuild!.size)}
-                        <span className={styles.downloadHint}>
-                          {store ? "direct .exe, with the built-in server" : "host a server from the app"}
-                        </span>
-                      </Menu.Item>
-                      <Menu.Separator />
-                      <Menu.Item onClick={toSection} render={<a href="#download" />}>
-                        All builds and platforms
-                      </Menu.Item>
-                    </Menu.Popup>
-                  </Menu.Positioner>
-                </Menu.Portal>
-              </Menu.Root>
-            ) : null}
+            <Tooltip title="All platforms" side="bottom">
+              <IconButton
+                aria-label="All platforms"
+                className={styles.allPlatforms}
+                onClick={toSection}
+                render={<a href="#download" />}
+                size="small"
+              >
+                <MdArrowDownward size={18} aria-hidden="true" />
+              </IconButton>
+            </Tooltip>
           </div>
         ) : (
           <Button onClick={toSection} render={<a href="#download" />} size="small">

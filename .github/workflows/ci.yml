@@ -37,6 +37,10 @@ jobs:
       - run: yarn test:link-underline
       - run: yarn test:changelog-lines
 
+      # A phone read as a Mac or as Linux was handed a .dmg or an AppImage. Imports the
+      # TypeScript directly, which Node 22 strips without a flag.
+      - run: yarn test:detect-os
+
       # tsc -b, the image optimiser, vite build, the blog prerender and the meta check. The
       # last fails the build on a page missing its metadata, so this is more than a compile.
       - run: yarn build

@@ -11,10 +11,13 @@ export interface ReleaseAsset {
 
 export interface Release {
   tag_name: string;
+  published_at: string | null;
   assets: ReleaseAsset[];
 }
 
 export type OS = "windows" | "macos" | "linux" | "ios" | "android";
+
+export type DesktopOS = "windows" | "macos" | "linux";
 
 /** Which chip a build runs on. Only macOS ships more than one today. */
 export type Arch = "arm64" | "x64";
@@ -40,30 +43,96 @@ export interface DownloadOption {
    * only one with two, and an arm64 app does not start on an Intel Mac at all.
    */
   arch: Arch | null;
-  /**
-   * A place to send people rather than a file to hand them. The Microsoft Store is the only
-   * one: the button is a plain link, not a `download`, and there is no size to show.
-   */
-  external?: boolean;
 }
 
-/**
- * The Microsoft Store listing, which is Windows' recommended download: signed, and updated
- * through the Store. A plain https link — `ms-windows-store://` dies quietly elsewhere.
- */
+/** A plain https link. `ms-windows-store://` dies quietly anywhere but Windows. */
 export const MS_STORE_URL = "https://apps.microsoft.com/detail/9pkpt1c2m95q";
 
-export function storeOption(): DownloadOption {
-  return {
-    label: "Microsoft Store",
-    description: "Signed by Microsoft, installs and updates through the Store.",
-    url: MS_STORE_URL,
-    size: 0,
-    fileName: "",
-    withServer: true,
-    arch: null,
-    external: true,
-  };
+export const SNAP_STORE_URL = "https://snapcraft.io/gryt-chat";
+
+/** The vendor's own badge file in public/badges, drawn as it came: never recoloured or stretched. */
+export interface StoreListing {
+  url: string;
+  badge: string;
+  alt: string;
+  width: number;
+  height: number;
+}
+
+/** `name` is how the store reads in a sentence, for the coming-soon line. */
+export interface Store {
+  os: OS;
+  name: string;
+  listing?: StoreListing;
+}
+
+/** A store gets a badge once it has a listing. Until then it's named in the coming-soon line. */
+export const STORES: Store[] = [
+  {
+    os: "windows",
+    name: "the Microsoft Store",
+    listing: {
+      url: MS_STORE_URL,
+      badge: "/badges/microsoft-store.svg",
+      alt: "Download from the Microsoft Store",
+      width: 161,
+      height: 44,
+    },
+  },
+  {
+    os: "linux",
+    name: "the Snap Store",
+    /* Canonical's badge, CC BY-ND 2.0 UK, from github.com/snapcore/snap-store-badges. */
+    listing: {
+      url: SNAP_STORE_URL,
+      badge: "/badges/snap-store.svg",
+      alt: "Get it from the Snap Store",
+      width: 182,
+      height: 56,
+    },
+  },
+  { os: "macos", name: "the Mac App Store" },
+  { os: "ios", name: "the App Store" },
+  { os: "android", name: "Google Play" },
+];
+
+export interface PackageManager {
+  os: OS;
+  name: string;
+  /** The Snippet label. */
+  label: string;
+  /** Only once it installs a current build. Without one it's named in the coming-soon line. */
+  command?: string;
+}
+
+/** Every one of these installs the full build, with the server in it. */
+export const PACKAGE_MANAGERS: PackageManager[] = [
+  {
+    os: "macos",
+    name: "Homebrew",
+    label: "Homebrew · macOS",
+    command: "brew install --cask gryt-chat/tap/gryt-chat",
+  },
+  { os: "linux", name: "snap", label: "snap · Linux", command: "sudo snap install gryt-chat" },
+  { os: "linux", name: "the AUR", label: "AUR · Arch Linux", command: "yay -S gryt-chat-bin" },
+  /* Gryt.GrytChat is still an open submission to winget-pkgs. */
+  { os: "windows", name: "winget", label: "winget · Windows" },
+];
+
+/** The visitor's own platform first, and otherwise the order given. */
+export function forPlatform<T extends { os: OS }>(items: T[], os: OS | null): T[] {
+  return [...items.filter((i) => i.os === os), ...items.filter((i) => i.os !== os)];
+}
+
+/** "the App Store, Google Play and winget": stores, then commands, each led by the visitor's own. */
+export function comingSoon(os: OS | null): string | null {
+  const names = [
+    ...forPlatform(STORES, os).filter((s) => !s.listing),
+    ...forPlatform(PACKAGE_MANAGERS, os).filter((p) => !p.command),
+  ].map((c) => c.name);
+  if (names.length === 0) return null;
+  if (names.length === 1) return names[0];
+  return `${names.slice(0, -1).join(", ")} and ${names[names.length - 1]}`;
 }
 
 const LATEST =
@@ -104,11 +173,29 @@ export function fetchLatestRelease(signal?: AbortSignal): Promise<Release> {
   });
 }
 
-export function detectOS(): OS {
-  const ua = navigator.userAgent.toLowerCase();
-  if (ua.includes("win")) return "windows";
-  if (ua.includes("mac")) return "macos";
+/** Phones first: an iPhone says "like Mac OS X", and Android says "Linux". */
+export function detectOS(
+  userAgent: string = navigator.userAgent,
+  maxTouchPoints: number = navigator.maxTouchPoints,
+): OS {
+  if (/iPhone|iPad|iPod/i.test(userAgent)) return "ios";
+  if (/Android/i.test(userAgent)) return "android";
+  /* An iPad asks for the desktop site and says Macintosh. Its touch points give it away. */
+  if (/Macintosh/i.test(userAgent) && maxTouchPoints > 1) return "ios";
+  if (/Windows/i.test(userAgent)) return "windows";
+  if (/Mac/i.test(userAgent)) return "macos";
   return "linux";
+}
+
+/** Whether there's a file to download for it. A phone or a tablet never gets one. */
+export function isDesktop(os: OS | null): os is DesktopOS {
+  return os === "windows" || os === "macos" || os === "linux";
+}
+
+/** What /download fetches. `?os=` only counts on a computer, so a phone never gets a file. */
+export function downloadTarget(detected: OS | null, asked: string | null): OS | null {
+  if (!isDesktop(detected)) return detected;
+  return parseOS(asked) ?? detected;
 }
 
 /**
@@ -193,6 +280,20 @@ export function primaryOption(
   return options[0] ?? null;
 }
 
+/** One file per format in the order above, full or slim, and the other build where one is missing. */
+export function filesFor(
+  options: DownloadOption[],
+  os: OS,
+  withServer: boolean,
+): DownloadOption[] {
+  const labels = [...new Set([...PREFERRED[os], ...options.map((o) => o.label)])];
+  return labels.flatMap((label) => {
+    const matches = options.filter((o) => o.label === label);
+    const pick = matches.find((o) => o.withServer === withServer) ?? matches[0];
+    return pick ? [pick] : [];
+  });
+}
+
 export function categorizeAssets(
   assets: ReleaseAsset[],
 ): Record<OS, DownloadOption[]> {
@@ -256,7 +357,7 @@ export function categorizeAssets(
       /* All three update themselves, so no description may imply otherwise: electron-updater
          reads resources/package-type, and the AppImage gets AppImageUpdater. */
       if (name.endsWith(".appimage")) {
-        result.linux.push(option("AppImage", "Portable, works on most distros. It's the app itself, so put it somewhere it can stay. Updates replace this file in place."));
+        result.linux.push(option("AppImage", "Portable, works on most distros. It’s the app itself, so put it somewhere it can stay. Updates replace this file in place."));
       } else if (name.endsWith(".deb")) {
         result.linux.push(option("Debian / Ubuntu", ".deb package for Debian, Ubuntu and other apt-based distros."));
       } else if (name.endsWith(".rpm")) {
