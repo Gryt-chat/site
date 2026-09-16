@@ -34,21 +34,29 @@ const OS_ORDER = ["windows", "macos", "linux", "ios", "android"] as const;
  * Where a one-line install exists and points at a current build. Checked before adding
  * each one, because a command that installs something ancient is worse than no command.
  */
-const PACKAGE_MANAGERS: Partial<Record<OS, { label: string; code: string; note: string }>> = {
+const PACKAGE_MANAGERS: Partial<Record<OS, { label: string; code: string; note: string }[]>> = {
   /* The tap repo is Gryt-chat/homebrew-tap, which Homebrew addresses as
      gryt-chat/tap — the `homebrew-` prefix is implied and the owner lowercased. */
-  macos: {
-    label: "Homebrew",
-    code: "brew install --cask gryt-chat/tap/gryt-chat",
-    note: "Updates along with the rest of your casks.",
-  },
-  linux: {
-    label: "Arch — AUR",
-    code: "yay -S gryt-chat-bin",
-    note: "Or paru, or whichever helper you already use.",
-  },
-  /* No windows: Gryt.GrytChat is still an open submission to winget-pkgs, and
-     the Snap Store's stable is five minors behind the .snap here (GRYT-961). */
+  macos: [
+    {
+      label: "Homebrew",
+      code: "brew install --cask gryt-chat/tap/gryt-chat",
+      note: "Updates along with the rest of your casks.",
+    },
+  ],
+  linux: [
+    {
+      label: "Snap Store",
+      code: "sudo snap install gryt-chat",
+      note: "Updates along with the rest of your snaps.",
+    },
+    {
+      label: "Arch — AUR",
+      code: "yay -S gryt-chat-bin",
+      note: "Or paru, or whichever helper you already use.",
+    },
+  ],
+  /* No windows: Gryt.GrytChat is still an open submission to winget-pkgs. */
 };
 
 function OSTabs({
@@ -138,7 +146,6 @@ export function Download() {
     "AppImage",
     "Debian / Ubuntu",
     "Fedora / RHEL",
-    "Snap",
   ];
 
   const formats = [...new Set(options.map((o) => o.label))].sort(
@@ -152,7 +159,7 @@ export function Download() {
   const chosen =
     ordered.find((o) => o.label === format) ?? ordered[0] ?? null;
   const version = release?.tag_name?.replace(/^v/, "");
-  const pkg = PACKAGE_MANAGERS[selectedOS];
+  const pkgs = PACKAGE_MANAGERS[selectedOS] ?? [];
 
   return (
     <section className={styles.section} id="download">
@@ -314,12 +321,13 @@ export function Download() {
 
         {/* Under the download button rather than above it: somebody who came
             here for a file should not have to read past a shell command. */}
-        {!OS_LABELS[selectedOS].comingSoon && pkg && (
-          <div className={styles.pkgRow}>
-            <Snippet label={pkg.label} code={pkg.code} shell />
-            <p className={styles.pkgNote}>{pkg.note}</p>
-          </div>
-        )}
+        {!OS_LABELS[selectedOS].comingSoon &&
+          pkgs.map((pkg) => (
+            <div className={styles.pkgRow} key={pkg.label}>
+              <Snippet label={pkg.label} code={pkg.code} shell />
+              <p className={styles.pkgNote}>{pkg.note}</p>
+            </div>
+          ))}
 
         {!OS_LABELS[selectedOS].comingSoon && version && (
           <p className={styles.versionNote}>

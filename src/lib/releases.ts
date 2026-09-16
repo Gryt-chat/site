@@ -165,7 +165,7 @@ const PREFERRED: Record<OS, string[]> = {
   /* Apple silicon first because that is every Mac sold since 2020, and because
      `primaryOption` only falls back to this order when the chip is unknown. */
   macos: ["DMG (Apple silicon)", "DMG (Intel)"],
-  linux: ["AppImage", "Debian / Ubuntu", "Fedora / RHEL", "Snap"],
+  linux: ["AppImage", "Debian / Ubuntu", "Fedora / RHEL"],
   ios: [],
   android: [],
 };
@@ -261,11 +261,10 @@ export function categorizeAssets(
         result.linux.push(option("Debian / Ubuntu", ".deb package for Debian, Ubuntu and other apt-based distros."));
       } else if (name.endsWith(".rpm")) {
         result.linux.push(option("Fedora / RHEL", ".rpm package for Fedora, RHEL, openSUSE and other dnf-based distros."));
-      } else if (name.endsWith(".snap")) {
-        /* No pointer to snapcraft.io yet. The Store served 1.5.10 while releases went to
-           1.9.x, because nothing put the revisions on a channel. Fixed in GRYT-971. */
-        result.linux.push(option("Snap", "Snap package, for any distro running snapd."));
       }
+
+      /* The .snap is deliberately not offered: a snap installed from a file never updates.
+         Download.tsx gives the Snap Store command instead. */
     }
   }
 
