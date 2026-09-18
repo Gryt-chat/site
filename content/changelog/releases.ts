@@ -129,6 +129,29 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.11.28",
+    date: "2026-09-18",
+    line: "Webcams survive camera restarts, huge chat pastes become text files, and screen shares make it clear when they are still starting.",
+    changes: [
+      {
+        kind: "fixed",
+        text: "A camera could be publishing normally while everyone else stayed on a waiting tile after Gryt reacquired the device. Gryt keeps advertising the WebRTC stream ID the call is actually sending now.",
+      },
+      {
+        kind: "fixed",
+        text: "Pasting more than 4,000 characters into chat could freeze or crash the client before you could remove it. Gryt keeps the paste out of the editor and attaches the full text as pasted-text.txt instead.",
+      },
+      {
+        kind: "changed",
+        text: "Starting a screen share now shows a loading state, and other people see who is starting a share instead of a generic connecting message. If it still has not arrived after 15 seconds, the tile says whose screen is not coming through.",
+      },
+      {
+        kind: "changed",
+        text: "The video debug overlay shows more bandwidth, sender, candidate-path and RTCP details, making camera and screen-share problems easier to diagnose.",
+      },
+    ],
+  },
+  {
     version: "1.11.27",
     date: "2026-09-18",
     line: "Camera and screen shares no longer get stranded when voice signaling blips, and menus and pickers stay inside small windows.",
