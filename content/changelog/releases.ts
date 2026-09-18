@@ -129,6 +129,21 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.11.27",
+    date: "2026-09-18",
+    line: "Camera and screen shares no longer get stranded when voice signaling blips, and menus and pickers stay inside small windows.",
+    changes: [
+      {
+        kind: "fixed",
+        text: "Starting a camera or screen share while the voice signaling connection was briefly unavailable could leave the video missing for other people until you toggled it or rejoined. Gryt keeps that publish request and sends it as soon as signaling is ready.",
+      },
+      {
+        kind: "fixed",
+        text: "Selects, menus, context menus, comboboxes and autocomplete lists could run past the edge of a short or narrow window. They stay on screen and scroll now.",
+      },
+    ],
+  },
+  {
     version: "1.11.26",
     date: "2026-09-16",
     line: "Gryt asks you to agree to its terms before your first message, and joining voice no longer sometimes waits 20 seconds to connect.",
