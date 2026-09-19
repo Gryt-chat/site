@@ -129,7 +129,7 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
-    version: "1.11.28-beta.2",
+    version: "1.11.29-beta.1",
     date: "2026-09-19",
     channel: "beta",
     line: "Settings are grouped around what you are trying to change, so server, chat, voice, appearance and app controls are easier to find.",
