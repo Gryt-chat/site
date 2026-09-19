@@ -129,9 +129,34 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
-    version: "1.11.28",
-    date: "2026-09-18",
-    line: "Webcams survive camera restarts, huge chat pastes become text files, and screen shares make it clear when they are still starting.",
+    version: "1.11.28-beta.2",
+    date: "2026-09-19",
+    channel: "beta",
+    line: "Settings are grouped around what you are trying to change, so server, chat, voice, appearance and app controls are easier to find.",
+    changes: [
+      {
+        kind: "changed",
+        text: "User settings is reorganized into clearer sections: Account & security, Servers, Chat & notifications, Voice & video, Appearance, App and About.",
+      },
+      {
+        kind: "changed",
+        text: "My servers, adding-server preferences and server identities now live together under Servers. Manage server and settings search open the new locations.",
+      },
+      {
+        kind: "changed",
+        text: "Chat and notifications now share a section, AFK timeout sits with Voice, and keeping server sign-in tokens between launches sits under Security.",
+      },
+      {
+        kind: "changed",
+        text: "Support Gryt stays pinned at the bottom of settings and uses Gryt's accent across the row, so it reads as a support action rather than a warning.",
+      },
+    ],
+  },
+  {
+    version: "1.11.28-beta.1",
+    date: "2026-09-19",
+    channel: "beta",
+    line: "Webcams recover without leaving a waiting tile, huge chat pastes become text files, screen shares show when they are starting, and voice recovers more cleanly after a brief disconnect.",
     changes: [
       {
         kind: "fixed",
@@ -144,6 +169,18 @@ export const app: ReleaseLine[] = [
       {
         kind: "changed",
         text: "Starting a screen share now shows a loading state, and other people see who is starting a share instead of a generic connecting message. If it still has not arrived after 15 seconds, the tile says whose screen is not coming through.",
+      },
+      {
+        kind: "fixed",
+        text: "A call recovering from a brief disconnect keeps using the server the call is actually on, even if you are browsing another server, and the server gives reconnecting voice time to reappear before removing it.",
+      },
+      {
+        kind: "fixed",
+        text: "Changing microphones while one is still opening no longer lets the old request win, and the native app starts the platform default microphone correctly again.",
+      },
+      {
+        kind: "fixed",
+        text: "Tall dialogs stay inside a short browser window and scroll vertically instead of putting controls outside the viewport.",
       },
       {
         kind: "changed",
