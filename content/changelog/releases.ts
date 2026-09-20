@@ -129,6 +129,30 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.11.30-beta.1",
+    date: "2026-09-20",
+    channel: "beta",
+    line: "Screen sharing gets priority over webcam video, muted channels stay quiet, notification clicks open the right channel, and video debug makes dropped frames easier to diagnose.",
+    changes: [
+      {
+        kind: "changed",
+        text: "When webcam and screen share are both on, Gryt now gives the screen share higher WebRTC priority so desktop video holds up better when upload bandwidth is tight.",
+      },
+      {
+        kind: "fixed",
+        text: "Muted channels on the server you are currently viewing no longer play the message sound, raise an OS notification or increment the notification badge. Messages still stay unread in the sidebar.",
+      },
+      {
+        kind: "fixed",
+        text: "Clicking a desktop notification now opens the server and channel that message came from instead of only focusing the Gryt window.",
+      },
+      {
+        kind: "changed",
+        text: "Video Debug now shows recent inbound frame-drop and packet-loss rates, decode and processing timing, jitter-buffer and frame-assembly timing, freezes, and average encode time per frame.",
+      },
+    ],
+  },
+  {
     version: "1.11.29-beta.1",
     date: "2026-09-19",
     channel: "beta",
