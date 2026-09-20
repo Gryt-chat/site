@@ -129,6 +129,18 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.11.31-beta.1",
+    date: "2026-09-20",
+    channel: "beta",
+    line: "Settings category menus expand to their full height instead of clipping pages in the navigation rail.",
+    changes: [
+      {
+        kind: "fixed",
+        text: "Expanded settings categories, including Voice & video, no longer hide their last pages when the settings rail is short. The category keeps its full height and the rail scrolls instead.",
+      },
+    ],
+  },
+  {
     version: "1.11.30-beta.1",
     date: "2026-09-20",
     channel: "beta",
