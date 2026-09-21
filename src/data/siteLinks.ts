@@ -49,8 +49,9 @@ export const reading: SiteLink[] = [
   { label: 'Sponsors', href: '/sponsors', route: true },
 ]
 
-/** Talk to somebody. */
+/** Talk to somebody. Our own server first; Discord stays as the fallback until GRYT-1289. */
 export const community: SiteLink[] = [
+  { label: 'Our Gryt server', href: 'https://gryt.chat/community' },
   { label: 'Discord', href: 'https://gryt.chat/discord' },
   { label: 'Mastodon', href: 'https://mastodon.social/@gryt', relMe: true },
   { label: 'Bluesky', href: 'https://bsky.app/profile/gryt.chat' },

@@ -197,6 +197,9 @@ RUN printf '%s\n' \
   '    # buys nothing and is one more thing that can be wrong.' \
   '    location = /discord { return 302 https://discord.gg/Q3JKUGsnHE; }' \
   '    location = /dc { return 302 https://discord.gg/Q3JKUGsnHE; }' \
+  '    # Our own Gryt server. It is open to anyone with an account, so the link' \
+  '    # needs only its address, and there is no invite code to keep alive.' \
+  '    location = /community { return 302 /invite/?host=community.gryt.chat; }' \
   '    # Readable in a browser rather than downloaded. .sh is not in' \
   '    # mime.types, so without this it falls to default_type and arrives as' \
   '    # an attachment — which is the wrong default for a script whose whole' \
