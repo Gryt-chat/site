@@ -147,6 +147,18 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.11.34",
+    date: "2026-09-21",
+    line: "Calls through Cloudflare no longer end when Cloudflare restarts its proxy.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "voice",
+        text: "When Cloudflare restarted the proxy between you and a server's voice server, Gryt took it as the call ending on purpose. Nothing reconnected, and you dropped out of the call. It reconnects now, the same way it already did when the connection broke.",
+      },
+    ],
+  },
+  {
     version: "1.11.33",
     date: "2026-09-21",
     line: "Turning your camera off and on no longer stops your screen share reaching anyone, and the camera holds up a lot better on a slow upload. The + next to Messages starts a conversation or a group, and folders can have their own permissions.",
