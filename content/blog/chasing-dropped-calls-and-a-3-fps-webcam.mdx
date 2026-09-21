@@ -1,0 +1,122 @@
+---
+title: Chasing Dropped Calls and a 3 fps Webcam
+description: A webcam ran at 3 to 7 fps on a 74 Mbps upload, and calls dropped for no clear reason. What was behind both.
+author: Sivert
+date: 2026-09-21
+tags:
+  - webrtc
+  - voice
+  - self-hosting
+---
+
+Someone in our community had a webcam that wouldn't behave. It was sending 1080p at 3 to 7 frames a second, and Gryt's video debug overlay blamed bandwidth. Their upload was 74 Mbps, and Discord had no trouble with the same webcam.
+
+Around the same time, the app would now and then lose its connection to every server at once. Nothing in the logs said why.
+
+Neither turned out to be one bug. These are the ones I found, with numbers from before and after each fix.
+
+## What "bandwidth" meant
+
+The overlay's Avail out number is Chrome's own estimate of how much it can safely send right now. On the bad sessions it sat at about 559 kbps, and a 1080p camera doesn't fit in that. So the question was why Chrome's estimate stayed that low on a line that fast.
+
+Our SFU is the server that passes everyone's audio and video along. The first guess was that it never sent Chrome the feedback Chrome needs for that estimate. It turned out it sends about ten feedback packets a second.
+
+To measure it, I ran a throwaway server and SFU, with two guests in a voice channel, each in headless Chrome. The camera was a 1080p video file with noise in it, noisier than a real camera would be. Between the camera and the SFU sat a relay. It could add delay, jitter and packet loss, cap the rate, and count what came back. Both guests read Chrome's stats once a second.
+
+## Too many keyframes, and no round-trip time
+
+A keyframe is a whole picture. The frames between keyframes only carry what changed, so a keyframe is a lot bigger. At 559 kbps, a 1080p keyframe takes seconds to send.
+
+The SFU asked every camera and screen share for a keyframe every two seconds, on a timer of its own. In a two-minute test call the camera got 60 of those requests, and the person watching had asked for one. The stats from the webcam we were chasing fit that too: 21 requests in 238 frames, or one every 1.6 to 3.8 seconds.
+
+The SFU also reports back to the sender on what arrived. Those reports never had a round-trip time in them, because the SFU never read the sender's own reports. So for the whole call, Chrome got no round-trip time from us at all.
+
+To reproduce the stuck estimate, I capped the camera's upload at 700 kbps for the first 20 seconds, with about 60 ms of round-trip time, then lifted the cap. On the old SFU the estimate dropped to 548 kbps. In 2 of 3 runs it stayed at exactly 548 for the rest of the call, with the link wide open. The camera sat at its 30 kbps floor: 4 to 5 fps at 480x270, and nearly every frame a keyframe.
+
+With either fix on its own, or both, no run got stuck. The estimate passed 2 Mbps within two seconds of lifting the cap, and the camera went up to 2.5 Mbps at 30 fps and 1080p.
+
+The SFU now only passes on the keyframe requests from people watching, and its reports carry a round-trip time. Dropping the timer didn't slow down people who join in the middle of a stream, because their own request gets passed on. Their first frame came 252 to 303 ms after connecting, against 217 to 430 ms with the timer. Both changes shipped in SFU 1.0.69.
+
+## The microphone got most of a small budget
+
+Unless a channel set its own bitrate, the app allowed the microphone up to 510 kbps, the most the Opus audio codec can do. Chrome splits its estimate between everything you send, and it gave the microphone all it was allowed. With a 548 kbps estimate, the microphone got 510 and the camera 30. The microphone only used 74 to 84 kbps of it.
+
+The default is 64 kbps now. A channel's own bitrate still wins, and eSports mode stays at 128.
+
+## The camera was swapped for itself four times a second
+
+This one was a plain bug in the app. It re-added your camera to the call over and over: 485 times in a two-minute call, about four times a second. Each time, it swapped the camera out for itself.
+
+Every swap cost a keyframe. It also reset how Chrome scales the camera. So on a thin link, Chrome dropped frames instead of lowering the resolution. In a plain test with Chrome sending straight to Chrome through a 700 kbps cap, the camera ran at 640x360 and 31 fps. Swapping it for itself every 250 ms held it at 1920x1080 and 7 fps.
+
+Through the same 700 kbps cap, I ran the app twice without the microphone fix and this one, and twice with both. Before, the camera sent 4 and 8 fps at 480x270, and 55% and 99% of its frames were keyframes. After, it sent 29 and 30 fps at 640x360 to 960x540, and 2% were keyframes. That last 2% came from the SFU's two-second timer.
+
+On a good connection, the camera now starts at a lower resolution and Chrome raises it from there. It used to go out at 1080p straight away, because the swaps kept Chrome from scaling it. Whether it should start higher is still open.
+
+Both fixes are in app 1.11.33.
+
+## Turning the camera off and on broke screen sharing
+
+This turned up while I was testing something else. If you turned your camera on, off and on again, then shared your screen, everyone else was told your screen wasn't coming through. If you shared first and then turned the camera off and on, the camera never came back.
+
+The SFU gives each connection four slots to receive on: microphone, camera, screen and screen audio. Turning the camera off took it out of its slot. And a slot that's been used once can't be used again. So when the camera came back, it took the next free video slot. That was the screen's, so a screen share had nowhere to go.
+
+This is probably behind some of the screen shares people reported as not coming through, from somebody who'd turned their camera off and on during the call. Now the camera pauses in its slot and picks up there again. That's in 1.11.33 too.
+
+## Four hours of calls
+
+Then there were the drops. To find out where they came from, I wrote a test harness. It keeps calls and connections up for hours and writes down everything that happens to them.
+
+It runs headless browsers with a fake camera and microphone, sitting in a call. Next to them are probes: connections to the server and the SFU, from Node and from a browser page, and a health check every 10 seconds. It logs all of it with timestamps. Afterwards, each drop gets lined up with what the server, the SFU and the Cloudflare tunnel logged in the same minute.
+
+The probes went three ways at once: through a Cloudflare tunnel to a test server, straight to the same server over the local network, and to a server on the same machine as the harness. The calls ran on that last one. Calls through the tunnel are still to do, because the harness had no invite for the test server.
+
+The main run lasted four hours. Connections through the tunnel dropped six times, and the direct ones three times. Nothing dropped on the harness's own machine, and the calls there lost no audio packets.
+
+### Cloudflare restarting its proxy ended the call
+
+Twice in those four hours, Cloudflare closed an SFU connection with code 1001, "CloudFlare WebSocket proxy restarting". That's Cloudflare restarting the part of its network that holds the connection. A probe just reconnected, in two or three seconds.
+
+A call didn't. The app read a clean 1001 as the call ending on purpose, so it never reconnected. Meanwhile the SFU dropped the person and told the server. Eleven seconds later, the server took them out of voice. They stayed out until they joined again themselves. When a connection just died, with no close code, the app did reconnect, and the call was back in 1.6 seconds.
+
+Our SFU never closes a connection with 1001 itself, so a 1001 always means something in between went away. Now only a normal close ends the call. A 1001 reconnects like any other drop, and the call is back in 1.6 to 2 seconds without anyone leaving it. The fix is in app 1.11.34.
+
+### A reconnected call came back with audio only
+
+The harness found one more bug around reconnecting. When the app reconnected a call on its own, the call came back with audio only. Every camera and screen share had been switched off, and everyone's tiles waited for video that never came.
+
+The app turned your camera off whenever the call wasn't connected. That's what you want when you leave. But a call also counts as not connected for the second or two a reconnect takes. Now the camera and screen share only stop once the call has really ended. With the fix, both test guests saw both videos again 3.7 seconds after the drop. It's fixed in 1.11.35.
+
+### Our own releases
+
+Two of the drops were our own releases. When we deploy a new server or SFU, connections drop and are back within 3 to 8 seconds. Our deploys only replace the SFU when nobody's in a call on it. A call carries on through a server restart, and in a local test the audio and video never stopped. The video tiles do go blank for about six seconds while the server connection is down, though. That's still to fix.
+
+### My router drops IPv6 every 5 hours 8 minutes
+
+One drop hit only the probes going through the tunnel. The cause was my router at home, which drops its IPv6 route on a fixed timer, every 5 hours, 8 minutes and 34 seconds. It puts it back about two and a half seconds later. Everything in the house talks to Cloudflare over IPv6 when it can. So every Gryt connection from the house dies at that moment, whichever server it's to. The tunnel talks to Cloudflare over IPv4, so it didn't notice, and cloudflared logged nothing.
+
+The apps noticed at their next ping timeout, 16 seconds later, and were back in under 2 seconds. The same timer lines up with earlier drops in our servers' logs on 16 and 20 September. Gryt can't keep those connections, because the network under them has gone. If all your connections from one place drop at the same moment every few hours, check whether your router is dropping IPv6.
+
+There are two drops I can't fully explain. In one, both ends lost the connection within 18 ms of each other. So it was closed somewhere between them, in Cloudflare or on the tunnel. It was back in 0.7 seconds, and the app doesn't show a drop that short. The other was my machine losing its path to the server over the local network, and no real client connects that way.
+
+## If you host behind a Cloudflare tunnel
+
+- Keep the app updated. 1.11.34 stops a Cloudflare restart from ending the call, and 1.11.35 brings cameras and screen shares back after a reconnect. The desktop app [updates itself](https://docs.gryt.chat/docs/use/updates).
+- Update the server to 1.10.19 and the SFU to 1.0.69. With Docker Compose that's `docker compose pull` and then `docker compose up -d`, as [the docs](https://docs.gryt.chat/docs/host/docker-compose#upgrading) say. The Windows and Linux 1.10.19 bundles come with the new SFU, and if you host from the desktop app, 1.11.33 has both.
+- If UDP isn't reliable where cloudflared runs, think about running it over HTTP/2. Twice in two nights our whole tunnel went down, for 141 and then 103 seconds. Both times our internet connection had lost UDP but still carried HTTPS. Our connectors were on QUIC, which runs over UDP, and they didn't switch to HTTP/2 by themselves either time. HTTP/2 runs over TCP, so it would probably have stayed up. Set `TUNNEL_TRANSPORT_PROTOCOL=http2` in cloudflared's environment, or pass `--protocol http2`. Ours have run that way since 21 September, so it's too early to say it fixed it.
+
+## Still open
+
+- Calls through the tunnel haven't had their four hours yet.
+- Video tiles go blank for about six seconds while the server connection is down, even though the call carries on.
+- The server logs nothing when it stops for a release, so a release looks like a network drop in the logs.
+- Whether a camera should start at a higher resolution on a good connection.
+
+The harness is in the client repository under `e2e/soak`. The pull requests have the full measurements:
+
+- [sfu#47](https://github.com/Gryt-chat/sfu/pull/47): the keyframe timer and the round-trip time
+- [voice#64](https://github.com/Gryt-chat/voice/pull/64) and [client#626](https://github.com/Gryt-chat/client/pull/626): the microphone's ceiling, and the camera swapped for itself
+- [voice#63](https://github.com/Gryt-chat/voice/pull/63) and [client#625](https://github.com/Gryt-chat/client/pull/625): the camera taking the screen share's slot
+- [client#633](https://github.com/Gryt-chat/client/pull/633): the soak harness
+- [voice#65](https://github.com/Gryt-chat/voice/pull/65): Cloudflare's 1001
+- [client#635](https://github.com/Gryt-chat/client/pull/635): video after a reconnect
