@@ -3,6 +3,7 @@ import { lazy, Suspense, useEffect } from "react";
 import { MotionConfig } from "motion/react";
 import { Navbar } from "./components/Navbar";
 import { Footer } from "./components/Footer";
+import { ShaderBackground } from "./components/background/ShaderBackground";
 import { HomePage } from "./pages/HomePage";
 import { HOME_TITLE, pageTitle } from "./lib/title";
 import { STATIC_PAGES, ALIAS_PAGES } from "./lib/pages.mjs";
@@ -155,6 +156,7 @@ export default function App() {
   // starts. The components only learn the preference a render after hydration.
   return (
     <MotionConfig reducedMotion="user">
+      <ShaderBackground />
       <ScrollAndTitle />
       {!hideChrome && <Navbar />}
       <Suspense fallback={<main className="routePending" aria-busy="true" aria-label="Loading page" />}>
