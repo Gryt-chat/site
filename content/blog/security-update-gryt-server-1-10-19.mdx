@@ -1,0 +1,63 @@
+---
+title: "Security Update: Gryt Server 1.10.19"
+description: Server 1.10.19 and app 1.11.33 fix three permission problems. What was wrong, who it affects, and how to update.
+author: Sivert
+date: 2026-09-21
+tags:
+  - security
+  - releases
+---
+
+Gryt server 1.10.19 is out, and it fixes two security problems. App 1.11.33 fixes a third. If you run a Gryt server, please update it. That includes a server you host from the desktop app, which gets the fixes in app 1.11.33.
+
+None of the three lets in somebody who isn't a member of your server. Two let members get around your server's permissions. One let them join a call they'd been kept out of, and the other showed them the names of folders hidden from them. The third could open a private channel to the whole server by accident.
+
+## What was wrong
+
+**The server didn't check Join voice per channel.** A channel's permissions can take Join voice away from people who can still see the channel. The app respected that, but the server never checked it. So a member who could see the channel could still join its call by sending the request from a modified app, and hear everyone in it. The server refuses that now. This only mattered in a channel where you'd taken Join voice away from people who could still see it. The server already checked the server-wide Join voice permission, and whether somebody can see a channel at all.
+
+**Every member got every folder's name.** Since 1.11.32, the app hides a folder when you can't see any channel in it. But the server still sent the folder, name and all, to every member. A member who asked the server for the sidebar directly also got every row in it, including rows for channels hidden from them. Those rows carry a channel's id, but not its name or its messages. Now the server only sends a folder to people who can see a channel in it.
+
+**Closing a channel's settings too early set it to Everyone.** When you open a channel's settings, the app asks the server for the channel's permissions. If you closed the settings before they arrived, the app saved the channel as Everyone. On a slow connection, that could open a private channel up to the whole server. It's been that way since channels got their own permissions in app 1.9.0. From 1.11.33, closing only saves changes you made.
+
+All three came up while I was adding permissions to folders. I can't see into anybody else's server, so I can't tell you whether anyone used the first one on yours.
+
+## Who needs to update
+
+Anyone running a Gryt server older than 1.10.19. That means:
+
+- the Docker image, whether you run it with Docker Compose or the `gryt` CLI
+- the self-hosted Windows and Linux bundles
+- a server hosted from the desktop app, if the app is older than 1.11.33
+
+The third fix is in the app, so anyone who edits channel settings needs app 1.11.33 or later as well. If you only join servers other people run, keep the app updated and there's nothing else to do.
+
+## Check your private channels
+
+A channel this already happened to stays set to Everyone after you update. If your server has private channels, open each one's settings and check that **Who can use this channel** still says what you expect. On 1.11.33, opening and closing the settings doesn't change anything.
+
+## How to update
+
+The docs have the steps for each way of running a server:
+
+- Docker Compose: [Upgrading](https://docs.gryt.chat/docs/host/docker-compose#upgrading)
+- Windows or Linux bundle: download the 1.10.19 bundle for your system from [the release page](https://github.com/Gryt-chat/server/releases/tag/v1.10.19), then follow [Updating](https://docs.gryt.chat/docs/host/windows#updating). The Linux bundle updates the same way.
+- Pelican: [Updating and backups](https://docs.gryt.chat/docs/host/pelican#updating-and-backups)
+- The desktop app [updates itself](https://docs.gryt.chat/docs/use/updates). Quit and reopen Gryt once it says the update is ready.
+
+The `gryt` CLI still doesn't pull a new image when it restarts a server. Pull the image yourself, then stop and start the server, the way [the 1.10.15 post](/blog/security-update-gryt-server-1-10-15) describes.
+
+## Checking which version you're on
+
+- Docker: `docker compose exec server printenv SERVER_VERSION` should print `1.10.19`.
+- The CLI: pick the server and press `enter`. The version is listed there.
+- In the app: open **Server settings**. The version is under the list of pages, as Server v1.10.19.
+- The desktop app: **Settings → About → Updates** should say 1.11.33 or later. The server it hosts comes with the app.
+
+## Also in 1.10.18
+
+Server 1.10.18 came out earlier the same day with one more fix, so a server on 1.10.19 has it too. Behind a proxy or tunnel, the webhook URLs the server handed out started with `http://`. So a service posting to one sent the webhook's token unencrypted. With `GRYT_TRUSTED_PROXY_HOPS` set, they start with `https://` now. [The Cloudflare Tunnel guide](https://docs.gryt.chat/docs/host/cloudflare-tunnel) says what to set it to.
+
+## Reporting a security problem
+
+Email [sivert@gryt.chat](mailto:sivert@gryt.chat) rather than opening a public issue. [The security page](/security) says what's in scope and what happens after you report something.
