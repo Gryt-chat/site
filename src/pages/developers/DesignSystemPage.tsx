@@ -23,12 +23,12 @@ const ROWS: RowItem[] = [
   {
     name: "The component library",
     detail: "The two packages Gryt's interface is built from, and the tokens they share.",
-    href: `${DOCS}/ui`,
+    href: `${DOCS}/build/ui`,
   },
   {
     name: "React Native",
     detail: "@gryt/ui-native, and where a phone forces a different answer than the web got.",
-    href: `${DOCS}/ui/react-native`,
+    href: `${DOCS}/build/ui-react-native`,
   },
   {
     name: "The theme generator",

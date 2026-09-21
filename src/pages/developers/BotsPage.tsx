@@ -51,17 +51,17 @@ const ROWS: RowItem[] = [
   {
     name: "Writing a bot",
     detail: "The SDK in full: commands, events, attachments, and what a bot does when an admin says no.",
-    href: `${DOCS}/bot`,
+    href: `${DOCS}/build/bots`,
   },
   {
     name: "API reference",
     detail: "Everything @gryt/bot exports, generated from the source so it cannot drift.",
-    href: `${DOCS}/bot/api-reference`,
+    href: `${DOCS}/build/bot-api`,
   },
   {
     name: "Roles and permissions",
     detail: "The same permission set a bot is granted from. There is no separate bot permission model.",
-    href: `${DOCS}/guide/roles`,
+    href: `${DOCS}/use/roles`,
   },
 ];
 

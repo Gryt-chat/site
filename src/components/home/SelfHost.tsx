@@ -32,37 +32,37 @@ const WAYS = [
     name: "From the app",
     detail:
       "The client you downloaded is already a server. Name it, press create, read the address out. No terminal at all.",
-    href: `${DOCS}/deployment/embedded`,
+    href: `${DOCS}/host/from-the-app`,
     linkLabel: "Hosting from the app",
   },
   {
     name: "Windows",
     detail:
       "A zip, one config file and a batch script. Node.js is the only thing you have to install yourself.",
-    href: `${DOCS}/deployment/windows`,
+    href: `${DOCS}/host/windows`,
     linkLabel: "Windows guide",
   },
   {
     name: "Linux",
     detail:
       "Four commands and a server is up. The database is SQLite, so a backup is one directory. There's a catch worth reading about first.",
-    href: `${DOCS}/guide/quick-start`,
+    href: `${DOCS}/host/quick-start`,
     linkLabel: "Quick start",
   },
   {
     name: "Docker",
     detail:
       "A compose file and an .env. There's a Helm chart too, if you're the sort of person who has a cluster.",
-    href: `${DOCS}/deployment/docker-compose`,
+    href: `${DOCS}/host/docker-compose`,
     linkLabel: "Deployment docs",
   },
 ];
 
 const MORE = [
-  { label: "No domain, just an IP", href: `${DOCS}/deployment/no-domain` },
-  { label: "Behind a Cloudflare Tunnel", href: `${DOCS}/deployment/cloudflare-tunnel` },
-  { label: "Over Tailscale", href: `${DOCS}/deployment/tailscale` },
-  { label: "Monitoring", href: `${DOCS}/deployment/monitoring` },
+  { label: "No domain, just an IP", href: `${DOCS}/host/no-domain` },
+  { label: "Behind a Cloudflare Tunnel", href: `${DOCS}/host/cloudflare-tunnel` },
+  { label: "Over Tailscale", href: `${DOCS}/host/tailscale` },
+  { label: "Monitoring", href: `${DOCS}/host/monitoring` },
 ];
 
 export function SelfHost() {

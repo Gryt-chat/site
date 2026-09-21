@@ -168,9 +168,19 @@ RUN printf '%s\n' \
   '    # that does not exist. Falling back to /index.html instead meant any' \
   '    # typo answered 200 with the front page metadata: a soft 404, indexed by' \
   '    # crawlers as a duplicate of the home page.' \
+  '    #' \
+  '    # $uri/index.html, not $uri/: that 301d /blog to /blog/, and every canonical, link' \
+  '    # and sitemap entry says /blog. /blog/ still works, and its canonical says /blog.' \
   '    location / {' \
   '      add_header Cache-Control "public, max-age=600, must-revalidate";' \
-  '      try_files $uri $uri/ =404;' \
+  '      try_files $uri $uri/index.html =404;' \
+  '    }' \
+  '    # application/xml, which is what a sitemap is. mime.types would say text/xml.' \
+  '    location = /sitemap.xml {' \
+  '      types { }' \
+  '      default_type application/xml;' \
+  '      add_header Cache-Control "public, max-age=600, must-revalidate";' \
+  '      try_files $uri =404;' \
   '    }' \
   '    # Served directly rather than 301d to /auth/callback/. Before the' \
   '    # fallback changed, this path had no directory and fell through to the' \
@@ -199,7 +209,7 @@ RUN printf '%s\n' \
   '    location = /dc { return 302 https://discord.gg/Q3JKUGsnHE; }' \
   '    # Our own Gryt server. It is open to anyone with an account, so the link' \
   '    # needs only its address, and there is no invite code to keep alive.' \
-  '    location = /community { return 302 /invite/?host=community.gryt.chat; }' \
+  '    location = /community { return 302 /invite?host=community.gryt.chat; }' \
   '    # Readable in a browser rather than downloaded. .sh is not in' \
   '    # mime.types, so without this it falls to default_type and arrives as' \
   '    # an attachment — which is the wrong default for a script whose whole' \

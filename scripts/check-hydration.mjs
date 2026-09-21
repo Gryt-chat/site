@@ -35,8 +35,8 @@ const noted = new Set(
     .map((f) => f.replace(/\.mdx$/, "")),
 );
 
-/* One of each template, without the trailing slash, because nginx adds it with a 301 and
-   that was one of the causes. The query strings and the hash are what the prerender never sees. */
+/* One of each template, without the trailing slash, the way every page is linked. The query
+   strings and the hash are what the prerender never sees. */
 const PAGES = [
   "/",
   "/#download-file",
@@ -69,8 +69,8 @@ const TYPES = {
   ".map": "application/json",
 };
 
-/* The parts of the Dockerfile's nginx config a page load touches: files, a 301 to add the
-   slash, index.html in a directory, /auth/callback without the hop, and 404.html. */
+/* The parts of the Dockerfile's nginx config a page load touches: files, a directory's
+   index.html with or without the slash, /auth/callback, and 404.html. */
 function serve(req, res) {
   const url = new URL(req.url, "http://localhost");
   let path;
@@ -89,10 +89,7 @@ function serve(req, res) {
   if (path === "/auth/callback") return reply(200, file("/auth/callback/index.html"));
   if (path.endsWith("/") && isFile(file(`${path}index.html`))) return reply(200, file(`${path}index.html`));
   if (isFile(file(path))) return reply(200, file(path));
-  if (!path.endsWith("/") && isFile(file(`${path}/index.html`))) {
-    res.writeHead(301, { location: `${path}/${url.search}` });
-    return res.end();
-  }
+  if (!path.endsWith("/") && isFile(file(`${path}/index.html`))) return reply(200, file(`${path}/index.html`));
   reply(404, join(dist, "404.html"));
 }
 

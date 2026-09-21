@@ -25,22 +25,22 @@ const ROWS: RowItem[] = [
   {
     name: "Server API",
     detail: "Every REST endpoint and Socket.IO event the server answers.",
-    href: `${DOCS}/server/api-reference`,
+    href: `${DOCS}/build/server-api`,
   },
   {
     name: "The SFU protocol",
     detail: "How the voice server is spoken to, from both sides: the Gryt server's connection and a participant's.",
-    href: `${DOCS}/sfu`,
+    href: `${DOCS}/host/sfu`,
   },
   {
     name: "Identity",
     detail: "Self-signed certificates, the challenge-response, and how a server decides a key is who it says.",
-    href: `${DOCS}/server/identity`,
+    href: `${DOCS}/host/identity`,
   },
   {
     name: "Rate limiting",
     detail: "What the server does when a client goes too fast, and what a client should do about it.",
-    href: `${DOCS}/server/rate-limiting`,
+    href: `${DOCS}/host/rate-limiting`,
   },
 ];
 

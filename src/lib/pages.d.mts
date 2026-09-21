@@ -8,6 +8,10 @@ export interface StaticPage {
   path: string;
   title: string;
   description: string;
+  /** The page's "Last updated" date, YYYY-MM-DD. The sitemap's lastmod too. */
+  updated?: string;
+  /** Kept out of search and out of the sitemap, like /invite. */
+  noindex?: boolean;
 }
 
 export interface AliasPage {
@@ -18,4 +22,5 @@ export interface AliasPage {
 
 export declare const STATIC_PAGES: StaticPage[];
 export declare const ALIAS_PAGES: AliasPage[];
+export declare function lastUpdated(path: string): string;
 export declare function primaryFor(path: string): StaticPage | undefined;

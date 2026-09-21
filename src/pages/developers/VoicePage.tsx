@@ -25,17 +25,17 @@ const ROWS: RowItem[] = [
   {
     name: "Getting started",
     detail: "Wiring the engine into a React app.",
-    href: `${DOCS}/voice/getting-started`,
+    href: `${DOCS}/build/voice-getting-started`,
   },
   {
     name: "Hooks",
     detail: "The hooks and what each one returns.",
-    href: `${DOCS}/voice/hooks`,
+    href: `${DOCS}/build/voice-hooks`,
   },
   {
     name: "The seams",
     detail: "The five interfaces the engine cannot work out for itself, and which of them are wired up yet.",
-    href: `${DOCS}/voice/seams`,
+    href: `${DOCS}/build/voice-seams`,
   },
 ];
 

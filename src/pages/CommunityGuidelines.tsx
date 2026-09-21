@@ -1,7 +1,9 @@
 import { PageHeader } from "../components/PageHeader";
+import { monthDayYear } from "../lib/formatDate";
+import { lastUpdated } from "../lib/pages.mjs";
 import styles from "../styles/document.module.css";
 
-const LAST_UPDATED = "August 31, 2026";
+const LAST_UPDATED = monthDayYear(lastUpdated("community-guidelines"));
 
 export function CommunityGuidelines() {
   return (

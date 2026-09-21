@@ -30,17 +30,17 @@ const ROWS: RowItem[] = [
   {
     name: "Writing a server plugin",
     detail: "What a plugin can hear, what it can do about it, and why installing one is a bigger decision than a theme.",
-    href: `${DOCS}/server/plugins`,
+    href: `${DOCS}/build/server-plugins`,
   },
   {
     name: "Server plugin API reference",
     detail: "Every capability, event and call, generated from the source so it cannot drift.",
-    href: `${DOCS}/server/plugin-api`,
+    href: `${DOCS}/build/server-plugin-api`,
   },
   {
     name: "Plugin pairs",
     detail: "The pipe between a server plugin and the copy of itself in people's clients.",
-    href: `${DOCS}/guide/plugin-pairs`,
+    href: `${DOCS}/build/plugin-pairs`,
   },
 ];
 

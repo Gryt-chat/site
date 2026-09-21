@@ -32,7 +32,7 @@ export function BuiltPage() {
         pull request that added it, not that the code was reviewed. An addon
         runs on your machine and a server plugin runs inside somebody&rsquo;s
         server, so install ones you&rsquo;d trust the author with — the same
-        rule the <a href={`${DOCS}/client/addons`}>docs</a> give.
+        rule the <a href={`${DOCS}/build/addons`}>docs</a> give.
       </p>
 
       <Block
@@ -86,13 +86,13 @@ export function BuiltPage() {
           APIs and what a plugin is allowed to reach.
         </p>
         <div className={styles.tailLinks}>
-          <a href={`${DOCS}/client/addons`} target="_blank" rel="noreferrer">
+          <a href={`${DOCS}/build/addons`} target="_blank" rel="noreferrer">
             Writing an addon <span aria-hidden="true">→</span>
           </a>
-          <a href={`${DOCS}/server/plugins`} target="_blank" rel="noreferrer">
+          <a href={`${DOCS}/build/server-plugins`} target="_blank" rel="noreferrer">
             Server plugins <span aria-hidden="true">→</span>
           </a>
-          <a href={`${DOCS}/guide/plugin-pairs`} target="_blank" rel="noreferrer">
+          <a href={`${DOCS}/build/plugin-pairs`} target="_blank" rel="noreferrer">
             Plugin pairs <span aria-hidden="true">→</span>
           </a>
         </div>

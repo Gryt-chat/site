@@ -64,17 +64,17 @@ const ROWS: RowItem[] = [
   {
     name: "Writing an addon",
     detail: "The manifest, the API, the capabilities, and what granting one does and does not buy you.",
-    href: `${DOCS}/client/addons`,
+    href: `${DOCS}/build/addons`,
   },
   {
     name: "Addon API reference",
     detail: "Everything on the gryt object, generated from the source so it cannot drift.",
-    href: `${DOCS}/client/addon-api`,
+    href: `${DOCS}/build/addon-api`,
   },
   {
     name: "Plugin pairs",
     detail: "A client half and a server half talking to each other, and everything Gryt drops before either sees it.",
-    href: `${DOCS}/guide/plugin-pairs`,
+    href: `${DOCS}/build/plugin-pairs`,
   },
 ];
 
