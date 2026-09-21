@@ -129,6 +129,97 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.11.32",
+    date: "2026-09-21",
+    line: "Muted channels stay quiet on the server you have open, and clicking a notification takes you to its channel. You can also share an open server with just its address.",
+    changes: [
+      {
+        kind: "new",
+        text: "On an open server, anyone can copy an invite link from the server menu. The link only has the server's address in it, no code, so the server needs a public address. Opening it or pasting it into Add a server brings up that server's join dialog.",
+      },
+      {
+        kind: "new",
+        text: "If a server only takes accounts and you're signed out, the invite dialog has Sign in to join, and the invite comes back once you've signed in.",
+      },
+      {
+        kind: "new",
+        text: "Clicking a notification for a channel message opens that server and channel. It used to just bring Gryt to the front.",
+      },
+      {
+        kind: "new",
+        text: "Admins can set a channel's default notifications when they create or edit it. Automated channels default to Nothing, existing ones included. A channel's Notifications menu shows what its Default works out to. It needs a server on 1.10.18 or newer.",
+      },
+      {
+        kind: "changed",
+        text: "Settings are regrouped by what you're trying to change. My servers, Adding servers and Server identities sit together under Servers. AFK timeout moved to Voice, and keeping server sign-in tokens between launches moved to Security.",
+      },
+      {
+        kind: "changed",
+        text: "Starting a screen share shows a loading message, and other people see whose share is on its way instead of Connecting screen.",
+      },
+      {
+        kind: "changed",
+        text: "With your camera and a screen share both on, the screen share gets your upload first. When bandwidth is short, it's the camera that drops in quality.",
+      },
+      {
+        kind: "changed",
+        text: "Pasting more than 4,000 characters attaches the text as pasted-text.txt. That much text in the message box could freeze Gryt. Where you can't attach files, Gryt says it's too long and leaves the box alone.",
+      },
+      {
+        kind: "changed",
+        text: "Webhook cards have their own background now, so a hovered message doesn't show through. Clicking anywhere on one opens its link.",
+      },
+      {
+        kind: "changed",
+        text: "The video debug overlay, under App > Advanced, shows a lot more about the video you send and receive, like target bitrate, dropped frames, packet loss and the connection path.",
+      },
+      {
+        kind: "fixed",
+        text: "With Gryt in the background, the server you had open notified you about every message, muted channels included. It follows your notification settings now. At Only mentions, being mentioned raises a desktop notification, in a thread too.",
+      },
+      {
+        kind: "fixed",
+        text: "Everyone else could be stuck on a waiting tile after your camera restarted. And if you focused a tile during your second screen share in a call, the share could go blank for them. Both come through now.",
+      },
+      {
+        kind: "fixed",
+        text: "A dropped connection that's back within three seconds no longer greys out the server or says Reconnecting.",
+      },
+      {
+        kind: "fixed",
+        text: "A call that dropped while you were looking at another server tried to reconnect through that server. It reconnects to the call's own server now.",
+      },
+      {
+        kind: "fixed",
+        text: "After Gryt gave up on reconnecting a call, it could put you back in that call later, microphone on, when the server came back. A call it gives up on stays ended now.",
+      },
+      {
+        kind: "fixed",
+        text: "Picking another microphone while the first was still starting could get you the old one anyway. Leaving a call at that moment could keep the microphone open with nothing using it.",
+      },
+      {
+        kind: "fixed",
+        text: "Switching servers could open the first text channel instead of the one you last had open there.",
+      },
+      {
+        kind: "fixed",
+        text: "A folder whose channels are all hidden from you no longer shows up as an empty heading.",
+      },
+      {
+        kind: "fixed",
+        text: "When a file failed to upload, the message stayed pending and what you'd typed was gone. It's marked failed now, and your text and files go back in the box. Cancelling \"Send this without encryption?\" puts them back too.",
+      },
+      {
+        kind: "fixed",
+        text: "Tall dialogs, Add a server included, scroll inside a short window instead of running off it. An open group in the settings list no longer cuts off its last pages either.",
+      },
+      {
+        kind: "fixed",
+        text: "The server built into the desktop app is updated to 1.10.18. On a server you host, people stay in the channel through a brief drop mid-call, and switching voice channels doesn't hang anyone up.",
+      },
+    ],
+  },
+  {
     version: "1.11.31-beta.1",
     date: "2026-09-20",
     channel: "beta",
@@ -1258,6 +1349,33 @@ export const app: ReleaseLine[] = [
  * So a reader here is usually somebody deciding whether to pull a new image.
  */
 export const server: ReleaseLine[] = [
+  {
+    version: "1.10.18",
+    date: "2026-09-21",
+    line: "Behind a trusted proxy, the webhook URLs the server hands out start https://, so their tokens aren't sent unencrypted. People whose connection blips mid-call stay in the channel while they reconnect, and Automated channels default to Nothing.",
+    changes: [
+      {
+        kind: "security",
+        text: "Behind a proxy or tunnel, the webhook URL the server hands out started http://, so a service posting to it sent the webhook's token unencrypted. With GRYT_TRUSTED_PROXY_HOPS set, the URL starts https:// now.",
+      },
+      {
+        kind: "new",
+        text: "Each channel has a default notification level that members get until they pick their own. Automated channels default to Nothing, existing ones included, and admins can change it. An app too old to know about it carries on as before.",
+      },
+      {
+        kind: "fixed",
+        text: "Somebody whose connection blipped mid-call could be taken out of the channel while their app was still reconnecting. The server waits for them now.",
+      },
+      {
+        kind: "fixed",
+        text: "Switching voice channels on the same server could hang you up once you'd been in the first one for ten seconds.",
+      },
+      {
+        kind: "fixed",
+        text: "When a server's voice seats were full, somebody already in voice couldn't switch channels or reconnect, because their own seat was counted against them.",
+      },
+    ],
+  },
   {
     version: "1.10.16",
     date: "2026-09-16",
