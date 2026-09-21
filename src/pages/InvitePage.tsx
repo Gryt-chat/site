@@ -11,12 +11,18 @@ type ServerPreview = {
   members?: string;
 };
 
+/** The query both apps read. A server anyone can join is shared without a code. */
+function inviteQuery(host: string, code: string): string {
+  const query = `host=${encodeURIComponent(host)}`;
+  return code ? `${query}&code=${encodeURIComponent(code)}` : query;
+}
+
 function buildDeepLink(host: string, code: string): string {
-  return `gryt://invite?host=${encodeURIComponent(host)}&code=${encodeURIComponent(code)}`;
+  return `gryt://invite?${inviteQuery(host, code)}`;
 }
 
 function buildWebAppUrl(host: string, code: string): string {
-  return `https://app.gryt.chat/invite?host=${encodeURIComponent(host)}&code=${encodeURIComponent(code)}`;
+  return `https://app.gryt.chat/invite?${inviteQuery(host, code)}`;
 }
 
 /**
@@ -58,7 +64,8 @@ export function InvitePage() {
   const [params] = useSearchParams();
   const host = params.get("host") || "";
   const code = params.get("code") || "";
-  const valid = host.length > 0 && code.length > 0;
+  // The app asks for a code itself when the server wants one.
+  const valid = host.length > 0;
   /* The prerendered page has no query string, so it cannot know the server or whether the link
      is whole. It hydrates as the placeholder App shows while a page loads. */
   const hydrated = useHydrated();
@@ -109,7 +116,7 @@ export function InvitePage() {
           <GrytLogo size={44} className={styles.logo} />
           <h1 className={styles.title}>This invite link is incomplete</h1>
           <p className={styles.body}>
-            It is missing the server or the code, so there is nowhere to send
+            It doesn&rsquo;t say which server, so there&rsquo;s nowhere to send
             you. Ask whoever sent it for the whole link.
           </p>
           <div className={styles.actions}>
