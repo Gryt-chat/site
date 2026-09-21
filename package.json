@@ -5,13 +5,14 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "node scripts/fetch-github-stats.mjs && node scripts/fetch-releases.mjs && node scripts/check-changelog-lines.mjs && node scripts/emit-changelog-json.mjs && tsc -b && node scripts/optimize-images.mjs && vite build && vite build --ssr src/entry-server.tsx --outDir dist-ssr && node scripts/prerender-blog.mjs && node scripts/check-meta.mjs",
+    "build": "node scripts/fetch-github-stats.mjs && node scripts/fetch-releases.mjs && node scripts/check-changelog-lines.mjs && node scripts/emit-changelog-json.mjs && tsc -b && node scripts/optimize-images.mjs && vite build && vite build --ssr src/entry-server.tsx --outDir dist-ssr && node scripts/prerender-blog.mjs && node scripts/check-meta.mjs && node scripts/check-sitemap.mjs",
     "lint": "eslint .",
     "test:comment-length": "node scripts/check-comment-length.mjs",
     "test:clips": "node scripts/check-clip-playback.mjs",
     "preview": "vite preview",
     "generate:og": "node scripts/generate-og-image.mjs",
     "check:meta": "node scripts/check-meta.mjs",
+    "check:sitemap": "node scripts/check-sitemap.mjs",
     "encode:clips": "node scripts/encode-clips.mjs",
     "fetch:github-stats": "node scripts/fetch-github-stats.mjs",
     "fetch:releases": "node scripts/fetch-releases.mjs",
@@ -22,6 +23,7 @@
     "test:link-underline": "node scripts/check-link-underline.mjs",
     "test:changelog-lines": "node --test scripts/check-changelog-lines.test.mjs",
     "test:detect-os": "node --test scripts/check-detect-os.test.mjs",
+    "test:sitemap": "node --test scripts/check-sitemap.test.mjs",
     "test:hydration": "node scripts/check-hydration.mjs",
     "generate:banners": "node scripts/generate-repo-banners.mjs"
   },

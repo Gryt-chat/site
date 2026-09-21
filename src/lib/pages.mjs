@@ -3,7 +3,7 @@
  * /changelog advertised an og:image that 404'd. Plain .mjs, so node can import it.
  */
 
-/** @type {{ path: string, title: string, description: string }[]} */
+/** @type {{ path: string, title: string, description: string, updated?: string, noindex?: boolean }[]} */
 export const STATIC_PAGES = [
   {
     path: "why-gryt",
@@ -97,27 +97,32 @@ export const STATIC_PAGES = [
     title: "Terms of Use",
     description:
       "The terms covering the services we operate. Community servers set their own on top of these.",
+    updated: "2026-09-03",
   },
   {
     path: "privacy",
     title: "Privacy Policy",
     description: "How Gryt handles your data. We collect as little as we can get away with.",
+    updated: "2026-09-16",
   },
   {
     path: "community-guidelines",
     title: "Community Guidelines",
     description: "Rules and expectations for the Gryt community.",
+    updated: "2026-08-31",
   },
   {
     path: "security",
     title: "Reporting a security problem",
     description:
       "How to report a vulnerability in Gryt, what is in scope, and what we can honestly promise back.",
+    updated: "2026-08-31",
   },
   {
     path: "invite",
     title: "Invite",
     description: "Join a Gryt server with an invite link.",
+    noindex: true,
   },
   {
     path: "download",
@@ -136,6 +141,13 @@ export const ALIAS_PAGES = [
   { path: "guidelines", of: "community-guidelines" },
   { path: "security-policy", of: "security" },
 ];
+
+/** A page's "Last updated" date, which the page prints and the sitemap gives as lastmod. */
+export function lastUpdated(path) {
+  const updated = STATIC_PAGES.find((p) => p.path === path)?.updated;
+  if (!updated) throw new Error(`no updated date for /${path} in pages.mjs`);
+  return updated;
+}
 
 /** The primary page an alias stands in for, or undefined if it is not an alias. */
 export function primaryFor(path) {

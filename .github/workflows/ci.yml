@@ -41,6 +41,10 @@ jobs:
       # TypeScript directly, which Node 22 strips without a flag.
       - run: yarn test:detect-os
 
+      # The sitemap check, run against small fake sites that each break one rule. The real
+      # check runs inside `yarn build` below.
+      - run: yarn test:sitemap
+
       # tsc -b, the image optimiser, vite build, the blog prerender and the meta check. The
       # last fails the build on a page missing its metadata, so this is more than a compile.
       - run: yarn build

@@ -1,7 +1,9 @@
 import { PageHeader } from "../components/PageHeader";
+import { monthDayYear } from "../lib/formatDate";
+import { lastUpdated } from "../lib/pages.mjs";
 import styles from "../styles/document.module.css";
 
-const LAST_UPDATED = "September 3, 2026";
+const LAST_UPDATED = monthDayYear(lastUpdated("terms"));
 
 export function TermsOfUse() {
   return (

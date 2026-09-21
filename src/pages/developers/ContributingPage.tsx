@@ -17,32 +17,32 @@ const ROWS: RowItem[] = [
   {
     name: "Contributing",
     detail: "What the setup needs, how a change gets in, and what we do and do not want pull requests for.",
-    href: `${DOCS}/guide/contributing`,
+    href: `${DOCS}/about/contributing`,
   },
   {
     name: "The roadmap",
     detail: "What is planned, what is not, and roughly in what order.",
-    href: `${DOCS}/guide/roadmap`,
+    href: `${DOCS}/about/roadmap`,
   },
   {
     name: "Feature requests",
     detail: "Where an idea goes so it lands somewhere it will be read rather than in an issue that closes stale.",
-    href: `${DOCS}/guide/feature-requests`,
+    href: `${DOCS}/about/feature-requests`,
   },
   {
     name: "How Gryt is built with AI",
     detail: "Which parts an agent may touch, which need a human read, and how to audit it from the git log.",
-    href: `${DOCS}/guide/ai`,
+    href: `${DOCS}/about/ai`,
   },
   {
     name: "Architecture",
     detail: "What each of the thirteen repositories is, and which ones talk to which.",
-    href: `${DOCS}/guide/architecture`,
+    href: `${DOCS}/about/architecture`,
   },
   {
     name: "Licensing",
     detail: "AGPL-3.0 for the platform, MIT for the design-system packages. Which is which, and what each asks of you.",
-    href: `${DOCS}/guide/licensing`,
+    href: `${DOCS}/about/licensing`,
   },
 ];
 

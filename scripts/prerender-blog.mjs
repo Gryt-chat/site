@@ -99,22 +99,45 @@ const stylesFor = routeStyles({
   globalCss,
 });
 
+/* Every indexable page, added as it is written. check-sitemap.mjs holds the file to the
+   pages on disk, so a page written here without an entry fails the build. */
+const sitemap = [];
+
+const mdxFiles = readdirSync(blogContentDir).filter(f => f.endsWith('.mdx'));
+const changelogFiles = existsSync(changelogContentDir)
+  ? readdirSync(changelogContentDir).filter(f => f.endsWith('.mdx'))
+  : [];
+const lines = await import(join(__dirname, '..', 'content', 'changelog', 'releases.ts'));
+
+/** The latest of some YYYY-MM-DD dates, which sort as strings. */
+const newest = (dates) => dates.filter(Boolean).sort().at(-1);
+
+/* An index page changes when something is added to it, so it takes its newest entry's date. */
+const indexDates = {
+  blog: newest(mdxFiles.map((f) => parseFrontmatter(join(blogContentDir, f))?.date)),
+  changelog: newest([
+    ...changelogFiles.map((f) => parseFrontmatter(join(changelogContentDir, f))?.date),
+    ...[lines.app, lines.server, lines.voice, lines.images].flat().map((r) => r.date),
+  ]),
+};
+
 // --- Static pages ---
-
-
 
 for (const page of STATIC_PAGES) {
   const outDir = join(distDir, page.path);
+  const url = `${siteUrl}/${page.path}`;
   mkdirSync(outDir, { recursive: true });
   const html = renderPage(template, {
     pageTitle: page.title,
     description: page.description,
-    url: `${siteUrl}/${page.path}`,
+    url,
     ogImage: `${siteUrl}/${page.path}/og.png`,
+    noindex: page.noindex,
     html: await body(`/${page.path}`),
     styles: stylesFor.get(`/${page.path}`),
   });
   writeFileSync(join(outDir, 'index.html'), html);
+  if (!page.noindex) sitemap.push({ loc: url, lastmod: page.updated ?? indexDates[page.path] });
   console.log(`  dist/${page.path}/index.html`);
 }
 
@@ -173,8 +196,6 @@ for (const alias of ALIAS_PAGES) {
 }
 
 // --- Blog posts ---
-const mdxFiles = readdirSync(blogContentDir).filter(f => f.endsWith('.mdx'));
-
 for (const file of mdxFiles) {
   const fm = parseFrontmatter(join(blogContentDir, file));
   if (!fm?.title) continue;
@@ -192,15 +213,12 @@ for (const file of mdxFiles) {
     styles: stylesFor.get('/blog/:slug'),
   });
   writeFileSync(join(outDir, 'index.html'), html);
+  sitemap.push({ loc: `${siteUrl}/blog/${slug}`, lastmod: fm.date });
   console.log(`  dist/blog/${slug}/index.html`);
 }
 
 // Changelog entries, which get shared into chat far more than blog posts. The headline is
 // written to be exactly this preview, so use it as the description.
-const changelogFiles = existsSync(changelogContentDir)
-  ? readdirSync(changelogContentDir).filter(f => f.endsWith('.mdx'))
-  : [];
-
 for (const file of changelogFiles) {
   const fm = parseFrontmatter(join(changelogContentDir, file));
   if (!fm?.version) continue;
@@ -219,13 +237,13 @@ for (const file of changelogFiles) {
     styles: stylesFor.get('/changelog/:version'),
   });
   writeFileSync(join(outDir, 'index.html'), html);
+  sitemap.push({ loc: `${siteUrl}/changelog/${slug}`, lastmod: fm.date });
   console.log(`  dist/changelog/${slug}/index.html`);
 }
 
-/* Every app release with no note. nginx answers `try_files $uri $uri/ =404`,
+/* Every app release with no note. nginx answers `try_files $uri $uri/index.html =404`,
    and the app's modal links here for every release it shows. GRYT-1091. */
 const noted = new Set(changelogFiles.map((f) => basename(f, '.mdx')));
-const lines = await import(join(__dirname, '..', 'content', 'changelog', 'releases.ts'));
 
 for (const release of lines.app) {
   if (noted.has(release.version)) continue;
@@ -245,6 +263,7 @@ for (const release of lines.app) {
     styles: stylesFor.get('/changelog/:version'),
   });
   writeFileSync(join(outDir, 'index.html'), html);
+  sitemap.push({ loc: `${siteUrl}/changelog/${release.version}`, lastmod: release.date });
   console.log(`  dist/changelog/${release.version}/index.html`);
 }
 
@@ -256,7 +275,30 @@ for (const release of lines.app) {
     `<div id="root">${await body('/')}</div>`,
   );
   writeFileSync(join(distDir, 'index.html'), html);
+  sitemap.unshift({ loc: siteUrl });
   console.log('  dist/index.html');
+}
+
+/* The sitemaps.org format. No changefreq or priority: Google ignores both, and lastmod
+   is only set where the content carries its own date. */
+{
+  const urls = sitemap.map(({ loc, lastmod }) =>
+    [
+      '  <url>',
+      `    <loc>${escHtml(loc)}</loc>`,
+      ...(lastmod ? [`    <lastmod>${lastmod}</lastmod>`] : []),
+      '  </url>',
+    ].join('\n'),
+  );
+  const xml = [
+    '<?xml version="1.0" encoding="UTF-8"?>',
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+    ...urls,
+    '</urlset>',
+    '',
+  ].join('\n');
+  writeFileSync(join(distDir, 'sitemap.xml'), xml);
+  console.log(`  dist/sitemap.xml (${sitemap.length} pages)`);
 }
 
 console.log('Done prerendering.');

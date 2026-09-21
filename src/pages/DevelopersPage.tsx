@@ -99,7 +99,7 @@ const HELP: DevCard[] = [
     detail:
       "The roadmap, and where a feature request goes so it lands somewhere it will be read.",
     go: "Roadmap",
-    href: `${DOCS}/guide/roadmap`,
+    href: `${DOCS}/about/roadmap`,
   },
   {
     icon: PiSparkleFill,
@@ -179,7 +179,7 @@ export function DevelopersPage() {
           thirteen repositories
         </a>
         , and{" "}
-        <a href={`${DOCS}/guide/ai`} target="_blank" rel="noreferrer">
+        <a href={`${DOCS}/about/ai`} target="_blank" rel="noreferrer">
           how Gryt is built with AI
         </a>{" "}
         says which parts an agent may touch.
