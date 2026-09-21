@@ -147,6 +147,118 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.11.33",
+    date: "2026-09-21",
+    line: "Turning your camera off and on no longer stops your screen share reaching anyone, and the camera holds up a lot better on a slow upload. The + next to Messages starts a conversation or a group, and folders can have their own permissions.",
+    changes: [
+      {
+        kind: "security",
+        area: "servers",
+        text: "Closing a channel's settings before its permissions had loaded set the channel to Everyone. On a slow connection, that could open a private channel up to the whole server. Closing only saves changes you made now.",
+      },
+      {
+        kind: "security",
+        area: "self-hosting",
+        text: "The server built into the desktop app is updated to 1.10.19. It checks a channel's Join voice permission before letting anyone into its call, which only the app did before. And members no longer get the names of folders they can't see into. Update if you host a server from the app.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "The + next to Messages starts a direct message or a group. It lists the people on your servers you can message. If you're on more than one server, each row says which one the conversation will be on. It replaces New group in a conversation's header.",
+      },
+      {
+        kind: "new",
+        area: "servers",
+        text: "A + next to the server menu creates a channel or a folder. Right-click a folder for Create channel in this folder, or a channel for Create channel below. The create dialog lets you pick the folder too.",
+      },
+      {
+        kind: "new",
+        area: "servers",
+        text: "Folders can have permissions. Set them under Who can use this folder, in the folder's settings. A channel in the folder follows them until you give it its own, and Follow folder hands it back. It needs a server on 1.10.19 or newer.",
+      },
+      {
+        kind: "new",
+        area: "servers",
+        text: "Servers on 1.10.19 or newer give roles a Create groups permission. Without it you can still message people, but you can't start a group or add anyone to one.",
+      },
+      {
+        kind: "changed",
+        area: "servers",
+        text: "Create channel and Create folder left the server menu for the +, and Pin sidebar moved into the server menu. Anyone with Manage channels gets the +. The old menu items were only there for owners and admins.",
+      },
+      {
+        kind: "changed",
+        area: "voice",
+        text: "If a channel doesn't set its own bitrate, your microphone gets up to 64 kbps. It was 510, and on a slow upload that could leave your camera almost nothing. A channel's own bitrate still applies, and eSports mode stays at 128.",
+      },
+      {
+        kind: "changed",
+        area: "voice",
+        text: "On a good connection your camera may start at a lower resolution than before, and go up from there. It used to go out at 1080p straight away.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "Opening a direct message no longer lights up its server in the server list, as if you'd opened the server. The conversation's header names the server instead.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "What's new starts each release with its one-line summary. Security fixes come next, in a red block of their own, and the rest sit under headings like Voice & video and Chat.",
+      },
+      {
+        kind: "fixed",
+        area: "voice",
+        text: "If you turned your camera off and on and then shared your screen, everyone else was told your screen wasn't coming through. Sharing first and then turning the camera off and on meant the camera never came back. Both work now.",
+      },
+      {
+        kind: "fixed",
+        area: "voice",
+        text: "Gryt re-added your camera about four times a second during a call. On a slow upload each re-add cost a keyframe, and the camera could drop to a few frames a second. It only does that when the camera changes now, and the same goes for a screen share.",
+      },
+      {
+        kind: "fixed",
+        area: "voice",
+        text: "A call that reconnected on its own lost the channel's bitrate and eSports mode. It keeps them now.",
+      },
+      {
+        kind: "fixed",
+        area: "voice",
+        text: "The video debug overlay's report count always showed a dash. It counts round-trip samples now, next to the remote RTT. The RTT itself shows too once the server's voice server is on 1.0.69 or newer.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "New group made a group nobody could see. Messages only listed a conversation once somebody had written in it, and nothing opened the new group. Groups show up as soon as they're made now, and the new one opens for whoever made it.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "There was no way to open a group's settings, so nobody could rename a group, add people or leave it. A group's header has a Group settings button now.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A renamed group kept its old name in Messages, and direct message errors showed up twice.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "In a very narrow window, direct messages had no conversation list, and a long name could push Call off the edge. A conversation there has a back button to the list now, and long names get cut short. On a phone and in small windows, the list's right edge isn't cut off any more.",
+      },
+      {
+        kind: "fixed",
+        area: "servers",
+        text: "Editing a folder said Spacer settings. It says Folder settings now, and a folder's right-click menu shows its name instead of \"folder\".",
+      },
+      {
+        kind: "fixed",
+        area: "self-hosting",
+        text: "The voice server built into the desktop app is updated to 1.0.69. On a server you host, a camera that got off to a slow start no longer stays stuck at a low bitrate for the rest of the call.",
+      },
+    ],
+  },
+  {
     version: "1.11.32",
     date: "2026-09-21",
     line: "Muted channels stay quiet on the server you have open, and clicking a notification takes you to its channel. You can also share an open server with just its address.",
@@ -1501,6 +1613,37 @@ export const app: ReleaseLine[] = [
  */
 export const server: ReleaseLine[] = [
   {
+    version: "1.10.19",
+    date: "2026-09-21",
+    line: "The server now checks a channel's Join voice permission before letting anyone into its call, where only the app did before. Members also stop getting the names of folders they can't see into, and folders can have permissions of their own. Update if you run a server.",
+    changes: [
+      {
+        kind: "security",
+        text: "The server refuses a voice join when the channel's permissions take away Join voice. Before, only the app checked. Somebody who could see the channel could still join it by sending the request themselves, and hear everyone in it.",
+      },
+      {
+        kind: "security",
+        text: "The server only sends a folder, name and all, to people who can see a channel in it. Before, every member got every folder's name. Any member who asked for the sidebar's rows also got all of them, hidden channels' ids included.",
+      },
+      {
+        kind: "new",
+        text: "Folders can have permissions, with the same choices as a channel: Everyone, a template, or rules of their own. A channel in a folder follows it until somebody gives it its own. If it's dragged out to the top level, or the folder is deleted, it keeps the folder's permissions. Moving a channel into a folder with different permissions also needs Manage channels, since that changes who can see it.",
+      },
+      {
+        kind: "new",
+        text: "Starting a group, or adding somebody to one, needs the new Create groups permission. Every role that can send direct messages gets it when the server updates, so nobody loses anything.",
+      },
+      {
+        kind: "changed",
+        text: "Apps can see that a server has direct messages turned off before trying one, so New message leaves that server's people out.",
+      },
+      {
+        kind: "fixed",
+        text: "Somebody you'd blocked could still put you in a group. The server refuses that now, as it already did for a direct message.",
+      },
+    ],
+  },
+  {
     version: "1.10.18",
     date: "2026-09-21",
     line: "Behind a trusted proxy, the webhook URLs the server hands out start https://, so their tokens aren't sent unencrypted. People whose connection blips mid-call stay in the channel while they reconnect, and Automated channels default to Nothing.",
@@ -2053,6 +2196,11 @@ export const server: ReleaseLine[] = [
  * about calls connecting, staying up, or costing less to carry.
  */
 export const voice: ReleaseLine[] = [
+  {
+    version: "1.0.69",
+    date: "2026-09-21",
+    line: "After a slow start, a camera could stay stuck at a low bitrate for the rest of the call, even once the connection had room again. The SFU used to ask every camera and screen share for a keyframe every two seconds. Now it only passes on the requests viewers make. Its receiver reports also let the sender measure the round-trip time, which it uses to decide how much to send.",
+  },
   {
     version: "1.0.68",
     date: "2026-09-15",
