@@ -59,6 +59,11 @@ const areaGrouper = new Function(
 );
 const groupByArea = (changes) => areaGrouper(changes, { AREAS: releases.AREAS });
 
+const splitSecurity = new Function(
+  "changes",
+  body(lib, "export function splitSecurity(changes: Change[]): [Change[], Change[]] {", "splitSecurity"),
+);
+
 const hasSecurity = new Function(
   "release",
   body(index, "function hasSecurity(release: ListedRelease): boolean {", "hasSecurity"),
@@ -133,6 +138,18 @@ assert.deepEqual(
   "a release with no areas is split up anyway",
 );
 
+/* ── security above the areas (GRYT-1339) ────────────────────────────────── */
+
+// Security comes out on its own, and the rest keeps its order for the areas.
+assert.deepEqual(
+  splitSecurity([a("chat", "c1"), a("chat", "s1", "security"), a("voice", "v1", "new"), a(null, "s2", "security")]),
+  [
+    [a("chat", "s1", "security"), a(null, "s2", "security")],
+    [a("chat", "c1"), a("voice", "v1", "new")],
+  ],
+  "security fixes aren't split out whole, or the rest lost its order",
+);
+
 /* ── against the releases that actually exist ────────────────────────────── */
 
 const split = releases.app.filter((r) => r.changes?.length);
@@ -153,6 +170,18 @@ for (const release of split) {
     [...byArea].sort(),
     release.changes.map((c) => c.text).sort(),
     `${release.version} loses or duplicates a change when grouped by area`,
+  );
+
+  // As the page draws it: security on its own, the rest by area. Each change exactly once.
+  const [security, rest] = splitSecurity(release.changes);
+  const drawn = [
+    ...security.map((c) => c.text),
+    ...groupByArea(rest).flatMap(([, changes]) => groupChanges(changes).flatMap(([, items]) => items)),
+  ];
+  assert.deepEqual(
+    [...drawn].sort(),
+    release.changes.map((c) => c.text).sort(),
+    `${release.version} loses or repeats a change once security is drawn above the areas`,
   );
 
   const marked = hasSecurity(release);
@@ -186,9 +215,42 @@ assert.ok(
 
 // Kinds when there are kinds, the sentence when there are not.
 assert.ok(
-  entry.includes("line.changes?.length ? groupByArea(line.changes) : null"),
-  `${ENTRY} no longer falls back to the line for a release nobody split up`,
+  entry.includes("const [security, rest] = splitSecurity(line.changes ?? [])") &&
+    entry.includes("line.changes?.length ? groupByArea(rest) : null"),
+  `${ENTRY} no longer falls back to the line for a release nobody split up, or groups security under its area`,
 );
+
+// The line above everything, security included. Sivert asked for it on 2026-09-21.
+{
+  const header = entry.indexOf("{areas && <p className={styles.headline}>{line.line}</p>}");
+  const block = entry.indexOf("{security.length > 0 && (");
+  const areaList = entry.indexOf("{areas.map(([area, changes]) => (");
+  assert.ok(header > 0, `${ENTRY} doesn't draw the line on a release that was split up`);
+  assert.ok(header < block && block < areaList, `${ENTRY} doesn't draw the line, then security, then the areas`);
+  assert.ok(
+    entry.includes('<h2 className={styles.area}>Security</h2>') && entry.includes("<Kinds changes={security} />"),
+    `${ENTRY} draws security without its heading, or without its chip`,
+  );
+}
+
+// Security is the theme's danger red, on the release page and the index alike.
+assert.match(entry, /security: 'danger',/, `${ENTRY} doesn't draw the Security chip in the danger tone`);
+assert.equal(
+  (index.match(/tone="danger">\s*Security\s*<\/Chip>/g) ?? []).length,
+  2,
+  `${INDEX} marks a security release in something other than the danger tone`,
+);
+{
+  const css = readFileSync(join(root, "src/pages/ChangelogEntry.module.css"), "utf8");
+  const at = css.indexOf("\n.security {");
+  assert.ok(at >= 0, "ChangelogEntry.module.css no longer has .security");
+  const block = css.slice(at, css.indexOf("}", at));
+  assert.match(block, /background: var\(--gryt-danger-2\)/, "the security block isn't tinted with the theme's danger red");
+  assert.match(block, /var\(--gryt-danger-6\)/, "the security block has no danger-red edge");
+  assert.doesNotMatch(block, /#[0-9a-f]{3,8}\b|rgb\(/i, "the security block uses a colour of its own instead of the theme's");
+  const side = (prop) => block.match(new RegExp(`\\n\\s*${prop}: ([^;]+);`))[1].trim().split(/\s+/)[1];
+  assert.equal(side("margin"), `-${side("padding")}`, "the security block's side margin doesn't cancel its padding");
+}
 assert.ok(
   entry.includes("const headed = (areas?.length ?? 0) > 1") &&
     entry.includes("{headed && <h2 className={styles.area}>{area}</h2>}"),
@@ -210,5 +272,5 @@ assert.ok(
 
 console.log(
   `changelog kinds: ok, ${split.length} releases split, ` +
-    `${split.filter((r) => hasSecurity(r)).length} marked security, nothing lost grouping by kind or area`,
+    `${split.filter((r) => hasSecurity(r)).length} marked security, security above the areas, nothing lost or repeated`,
 );

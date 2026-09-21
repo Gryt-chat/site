@@ -50,6 +50,11 @@ export function groupByArea(changes: Change[]): [string, Change[]][] {
   ])
 }
 
+/** The security fixes, then everything else. A release's page draws the first above the areas. */
+export function splitSecurity(changes: Change[]): [Change[], Change[]] {
+  return [changes.filter((c) => c.kind === 'security'), changes.filter((c) => c.kind !== 'security')]
+}
+
 export interface ChangelogFrontmatter {
   /** Product version these notes describe, e.g. "1.4.0". */
   version: string
