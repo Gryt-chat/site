@@ -1,8 +1,8 @@
 import { lazy, type ComponentType, type LazyExoticComponent } from 'react'
 import * as lines from '../../content/changelog/releases'
-import type { Change, ChangeKind, ReleaseLine, Surface } from '../../content/changelog/releases'
+import type { Area, Change, ChangeKind, ReleaseLine, Surface } from '../../content/changelog/releases'
 
-export type { Change, ChangeKind, ReleaseLine, Surface }
+export type { Area, Change, ChangeKind, ReleaseLine, Surface }
 
 /**
  * Security leads wherever it appears: below the features it gets scrolled past.
@@ -28,6 +28,25 @@ export function groupChanges(changes: Change[]): [string, string[]][] {
   return ordered.map((kind) => [
     kind,
     changes.filter((c) => c.kind === kind).map((c) => c.text),
+  ])
+}
+
+/**
+ * The changes under their area's heading, in AREAS order. An area this build doesn't
+ * know keeps its own name, and no area at all goes last as Other, like the app's modal.
+ */
+export function groupByArea(changes: Change[]): [string, Change[]][] {
+  const named = lines.AREAS as Record<string, string>
+  const areas = [...new Set(changes.map((c) => c.area ?? ''))] as string[]
+  const ordered = [
+    ...Object.keys(named).filter((a) => areas.includes(a)),
+    ...areas.filter((a) => a !== '' && !Object.hasOwn(named, a)),
+    ...(areas.includes('') ? [''] : []),
+  ]
+
+  return ordered.map((area) => [
+    Object.hasOwn(named, area) ? named[area] : area || 'Other',
+    changes.filter((c) => (c.area ?? '') === area),
   ])
 }
 

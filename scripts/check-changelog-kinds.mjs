@@ -47,6 +47,18 @@ const grouper = new Function(
 );
 const groupChanges = (changes) => grouper(changes, KIND_ORDER);
 
+const releases = await import(join(root, "content/changelog/releases.ts"));
+
+const areaGrouper = new Function(
+  "changes",
+  "lines",
+  // Two casts here too, keeping Area's literal types out of lookups by any string.
+  body(lib, "export function groupByArea(changes: Change[]): [string, Change[]][] {", "groupByArea")
+    .replace(/ as Record<string, string>/g, "")
+    .replace(/ as string\[\]/g, ""),
+);
+const groupByArea = (changes) => areaGrouper(changes, { AREAS: releases.AREAS });
+
 const hasSecurity = new Function(
   "release",
   body(index, "function hasSecurity(release: ListedRelease): boolean {", "hasSecurity"),
@@ -81,9 +93,47 @@ assert.deepEqual(
   "an unknown kind was dropped, so a change nobody sees",
 );
 
-/* ── against the releases that actually exist ────────────────────────────── */
+/* ── the areas (GRYT-1339) ───────────────────────────────────────────────── */
 
-const releases = await import(join(root, "content/changelog/releases.ts"));
+assert.deepEqual(
+  Object.values(releases.AREAS),
+  ["Voice & video", "Chat", "Notifications", "Servers & invites", "Settings & app", "Phone", "Self-hosting"],
+  "the areas are named or ordered differently from the app's What's New, which keeps its own copy",
+);
+
+const a = (area, text, kind = "fixed") => ({ kind, ...(area ? { area } : {}), text });
+const headings = (groups) => groups.map(([label, changes]) => [label, changes.map((c) => c.text)]);
+
+// AREAS order however the release was written, with no area last as Other.
+assert.deepEqual(
+  headings(groupByArea([a(null, "loose"), a("chat", "c1"), a("voice", "v1"), a("chat", "c2")])),
+  [
+    ["Voice & video", ["v1"]],
+    ["Chat", ["c1", "c2"]],
+    ["Other", ["loose"]],
+  ],
+  "changes are not under one heading per area in AREAS order, with Other last",
+);
+
+// An area added after this built keeps its own name, after the known ones and before Other.
+assert.deepEqual(
+  headings(groupByArea([a(null, "loose"), a("bots", "b"), a("phone", "p")])),
+  [
+    ["Phone", ["p"]],
+    ["bots", ["b"]],
+    ["Other", ["loose"]],
+  ],
+  "an unknown area was dropped or put somewhere other than before Other",
+);
+
+// A release that never said where anything is: one group, so no headings.
+assert.deepEqual(
+  headings(groupByArea([a(null, "x"), a(null, "y")])),
+  [["Other", ["x", "y"]]],
+  "a release with no areas is split up anyway",
+);
+
+/* ── against the releases that actually exist ────────────────────────────── */
 
 const split = releases.app.filter((r) => r.changes?.length);
 assert.ok(split.length > 0, "no app release carries changes, so none of this is reachable");
@@ -94,6 +144,15 @@ for (const release of split) {
     [...flat].sort(),
     release.changes.map((c) => c.text).sort(),
     `${release.version} loses or duplicates a change when grouped`,
+  );
+
+  const byArea = groupByArea(release.changes).flatMap(([, changes]) =>
+    groupChanges(changes).flatMap(([, items]) => items),
+  );
+  assert.deepEqual(
+    [...byArea].sort(),
+    release.changes.map((c) => c.text).sort(),
+    `${release.version} loses or duplicates a change when grouped by area`,
   );
 
   const marked = hasSecurity(release);
@@ -127,8 +186,17 @@ assert.ok(
 
 // Kinds when there are kinds, the sentence when there are not.
 assert.ok(
-  entry.includes("line.changes?.length ? groupChanges(line.changes) : null"),
+  entry.includes("line.changes?.length ? groupByArea(line.changes) : null"),
   `${ENTRY} no longer falls back to the line for a release nobody split up`,
+);
+assert.ok(
+  entry.includes("const headed = (areas?.length ?? 0) > 1") &&
+    entry.includes("{headed && <h2 className={styles.area}>{area}</h2>}"),
+  `${ENTRY} heads a release whose changes are all in one area, or never heads one`,
+);
+assert.ok(
+  entry.includes("groupChanges(changes).map(([kind, items])"),
+  `${ENTRY} no longer groups each area's changes by kind`,
 );
 assert.ok(
   entry.includes("styles.onlyLine"),
@@ -142,5 +210,5 @@ assert.ok(
 
 console.log(
   `changelog kinds: ok, ${split.length} releases split, ` +
-    `${split.filter((r) => hasSecurity(r)).length} marked security, nothing lost in grouping`,
+    `${split.filter((r) => hasSecurity(r)).length} marked security, nothing lost grouping by kind or area`,
 );

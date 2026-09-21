@@ -86,6 +86,27 @@ for (const entry of grouped) {
   }
 }
 
+/* ── the areas the client puts headings over (GRYT-1339) ────────────────── */
+
+const AREAS = new Set(Object.keys(source.AREAS));
+
+for (const entry of grouped) {
+  for (const change of entry.changes) {
+    if (change.area === undefined) continue;
+    assert.ok(
+      AREAS.has(change.area),
+      `${entry.version} has a change in area ${JSON.stringify(change.area)}, which the app heads with the raw id`,
+    );
+  }
+}
+
+// Carried as written. An area dropped on the way out puts every change under one heading.
+assert.deepEqual(data.app[0].changes, source.app[0].changes, "the newest release's changes lost something on the way out");
+assert.ok(
+  data.app.some((e) => e.changes?.some((c) => c.area)),
+  "no app release carries an area, so What's New never draws a heading",
+);
+
 /* Both are written by hand, so a `changes` list saying less than the line does
    is how somebody stops hearing about the thing the release was for. */
 for (const entry of grouped) {
@@ -184,5 +205,6 @@ assert.notDeepEqual(securityNoticeProblems(undefined), [], "a missing list was l
 console.log(
   `changelog.json: ok, ${data.app.length} app releases, newest ${data.app[0].version}, ` +
     `${data.app.filter((e) => e.note).length} with notes, ${grouped.length} split into kinds, ` +
+    `${grouped.filter((e) => e.changes.every((c) => c.area)).length} with areas, ` +
     `${data.securityNotices.length} security notices`,
 );

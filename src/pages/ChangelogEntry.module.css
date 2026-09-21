@@ -277,8 +277,38 @@
   color: var(--text);
 }
 
+/* Every area shares one gutter, so the chips line up down the page whichever
+   kinds an area happens to have. */
+.areas {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  column-gap: 20px;
+  max-width: var(--measure);
+}
+
+.areas > .kinds {
+  grid-column: 1 / -1;
+  grid-template-columns: subgrid;
+}
+
+/* Quiet, like the footer's group labels. The chips still carry the kind. */
+.area {
+  grid-column: 1 / -1;
+  margin: 40px 0 12px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.area:first-child {
+  margin-top: 0;
+}
+
 /* Under this the gutter stops leaving room for a sentence beside it. */
 @media (max-width: 560px) {
+  .areas,
   .kinds {
     grid-template-columns: minmax(0, 1fr);
   }
