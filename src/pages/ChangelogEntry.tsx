@@ -2,14 +2,14 @@ import { Fragment, Suspense, useEffect } from 'react'
 import { useParams, Link, Navigate } from 'react-router-dom'
 import { MdChevronLeft } from 'react-icons/md'
 import { Chip } from '@gryt/ui'
-import { getAppLine, getRelease, groupByArea, groupChanges, KIND_LABELS } from '../lib/changelog'
+import { getAppLine, getRelease, groupByArea, groupChanges, KIND_LABELS, splitSecurity } from '../lib/changelog'
 import { monthDayYear } from '../lib/formatDate'
 import { pageTitle } from '../lib/title'
 import { Clip } from '../components/Clip'
 import { LightboxImage } from '../components/Lightbox'
 import styles from './ChangelogEntry.module.css'
 import type { ComponentPropsWithoutRef } from 'react'
-import type { ReleaseLine } from '../lib/changelog'
+import type { Change, ReleaseLine } from '../lib/changelog'
 
 function MdxLink({ href, ...rest }: ComponentPropsWithoutRef<'a'>) {
   if (href?.startsWith('/')) {
@@ -32,9 +32,9 @@ const components = { a: MdxLink, img: MdxImage, Clip }
  * The two kinds that change what a reader does about the release. The rest, and
  * a kind added since this built, stay neutral.
  */
-const TONES: Record<string, 'primary' | 'warning' | 'neutral'> = {
+const TONES: Record<string, 'primary' | 'danger' | 'neutral'> = {
   new: 'primary',
-  security: 'warning',
+  security: 'danger',
 }
 
 export function ChangelogEntry() {
@@ -90,12 +90,33 @@ export function ChangelogEntry() {
   )
 }
 
+/** A chip for each kind, with that kind's changes beside it. */
+function Kinds({ changes }: { changes: Change[] }) {
+  return (
+    <dl className={styles.kinds}>
+      {groupChanges(changes).map(([kind, items]) => (
+        <Fragment key={kind}>
+          <dt>
+            <Chip tone={TONES[kind] ?? 'neutral'}>{KIND_LABELS[kind] ?? kind}</Chip>
+          </dt>
+          <dd>
+            {items.map((text) => (
+              <p key={text}>{text}</p>
+            ))}
+          </dd>
+        </Fragment>
+      ))}
+    </dl>
+  )
+}
+
 /**
  * A release nobody wrote up. Same shape as the app's modal, so somebody
  * following "Read more" lands on what they have just read.
  */
 function LineOnly({ line }: { line: ReleaseLine }) {
-  const areas = line.changes?.length ? groupByArea(line.changes) : null
+  const [security, rest] = splitSecurity(line.changes ?? [])
+  const areas = line.changes?.length ? groupByArea(rest) : null
   /* A heading only earns its place when there's another one to tell it from. */
   const headed = (areas?.length ?? 0) > 1
 
@@ -111,6 +132,8 @@ function LineOnly({ line }: { line: ReleaseLine }) {
           <h1 className={styles.title}>Gryt {line.version}</h1>
           {line.channel === 'beta' && <span className={styles.beta}>Beta</span>}
         </div>
+        {/* The line above everything, security included, as in the app's modal. */}
+        {areas && <p className={styles.headline}>{line.line}</p>}
         <div className={styles.meta}>
           <time dateTime={new Date(line.date).toISOString()}>
             {monthDayYear(line.date)}
@@ -120,23 +143,16 @@ function LineOnly({ line }: { line: ReleaseLine }) {
 
       {areas ? (
         <div className={styles.areas}>
+          {security.length > 0 && (
+            <div className={styles.security}>
+              <h2 className={styles.area}>Security</h2>
+              <Kinds changes={security} />
+            </div>
+          )}
           {areas.map(([area, changes]) => (
             <Fragment key={area}>
               {headed && <h2 className={styles.area}>{area}</h2>}
-              <dl className={styles.kinds}>
-                {groupChanges(changes).map(([kind, items]) => (
-                  <Fragment key={kind}>
-                    <dt>
-                      <Chip tone={TONES[kind] ?? 'neutral'}>{KIND_LABELS[kind] ?? kind}</Chip>
-                    </dt>
-                    <dd>
-                      {items.map((text) => (
-                        <p key={text}>{text}</p>
-                      ))}
-                    </dd>
-                  </Fragment>
-                ))}
-              </dl>
+              <Kinds changes={changes} />
             </Fragment>
           ))}
         </div>

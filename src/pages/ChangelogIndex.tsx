@@ -114,7 +114,7 @@ export function ChangelogIndex() {
                         </Chip>
                       )}
                       {hasSecurity(release) && (
-                        <Chip className={styles.beta} tone="warning">
+                        <Chip className={styles.beta} tone="danger">
                           Security
                         </Chip>
                       )}
@@ -146,7 +146,7 @@ export function ChangelogIndex() {
                       </Chip>
                     )}
                     {hasSecurity(release) && (
-                      <Chip className={styles.beta} tone="warning">
+                      <Chip className={styles.beta} tone="danger">
                         Security
                       </Chip>
                     )}
