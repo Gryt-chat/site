@@ -147,6 +147,18 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.11.35",
+    date: "2026-09-21",
+    line: "Cameras and screen shares come back when a call reconnects on its own.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "voice",
+        text: "When a call reconnected on its own, it came back with audio only. Every camera and screen share had been switched off, and everyone's tiles waited for video that never came. They come back with the call now, and leaving a call still turns your camera off.",
+      },
+    ],
+  },
+  {
     version: "1.11.34",
     date: "2026-09-21",
     line: "Calls through Cloudflare no longer end when Cloudflare restarts its proxy.",
