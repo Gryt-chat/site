@@ -19,7 +19,7 @@ Neither turned out to be one bug. These are the ones I found, with numbers from 
 
 The overlay's Avail out number is Chrome's own estimate of how much it can safely send right now. On the bad sessions it sat at about 559 kbps, and a 1080p camera doesn't fit in that. So the question was why Chrome's estimate stayed that low on a line that fast.
 
-Our SFU is the server that passes everyone's audio and video along. The first guess was that it never sent Chrome the feedback Chrome needs to make that estimate. That was wrong. It sends about ten feedback packets a second.
+Our SFU is the server that passes everyone's audio and video along. The first guess was that it never sent Chrome the feedback Chrome needs for that estimate. It turned out it sends about ten feedback packets a second.
 
 To measure it, I ran a throwaway server and SFU, with two guests in a voice channel, each in headless Chrome. The camera was a 1080p video file with noise in it, noisier than a real camera would be. Between the camera and the SFU sat a relay. It could add delay, jitter and packet loss, cap the rate, and count what came back. Both guests read Chrome's stats once a second.
 
@@ -101,9 +101,9 @@ There are two drops I can't fully explain. In one, both ends lost the connection
 
 ## If you host behind a Cloudflare tunnel
 
-- **Keep the app updated.** 1.11.34 stops a Cloudflare restart from ending the call, and 1.11.35 brings cameras and screen shares back after a reconnect. The desktop app [updates itself](https://docs.gryt.chat/docs/use/updates).
-- **Update the server to 1.10.19 and the SFU to 1.0.69.** With Docker Compose that's `docker compose pull` and then `docker compose up -d`, as [the docs](https://docs.gryt.chat/docs/host/docker-compose#upgrading) say. The Windows and Linux 1.10.19 bundles come with the new SFU, and if you host from the desktop app, 1.11.33 has both.
-- **Think about running cloudflared over HTTP/2 if UDP isn't reliable where it runs.** Twice in two nights our whole tunnel went down, for 141 and then 103 seconds. Both times our internet connection had lost UDP but still carried HTTPS. Our connectors were on QUIC, which runs over UDP, and they didn't switch to HTTP/2 by themselves either time. HTTP/2 runs over TCP, so it would probably have stayed up. Set `TUNNEL_TRANSPORT_PROTOCOL=http2` in cloudflared's environment, or pass `--protocol http2`. Ours have run that way since 21 September, so it's too early to say it fixed it.
+- Keep the app updated. 1.11.34 stops a Cloudflare restart from ending the call, and 1.11.35 brings cameras and screen shares back after a reconnect. The desktop app [updates itself](https://docs.gryt.chat/docs/use/updates).
+- Update the server to 1.10.19 and the SFU to 1.0.69. With Docker Compose that's `docker compose pull` and then `docker compose up -d`, as [the docs](https://docs.gryt.chat/docs/host/docker-compose#upgrading) say. The Windows and Linux 1.10.19 bundles come with the new SFU, and if you host from the desktop app, 1.11.33 has both.
+- If UDP isn't reliable where cloudflared runs, think about running it over HTTP/2. Twice in two nights our whole tunnel went down, for 141 and then 103 seconds. Both times our internet connection had lost UDP but still carried HTTPS. Our connectors were on QUIC, which runs over UDP, and they didn't switch to HTTP/2 by themselves either time. HTTP/2 runs over TCP, so it would probably have stayed up. Set `TUNNEL_TRANSPORT_PROTOCOL=http2` in cloudflared's environment, or pass `--protocol http2`. Ours have run that way since 21 September, so it's too early to say it fixed it.
 
 ## Still open
 
