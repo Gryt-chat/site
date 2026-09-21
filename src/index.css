@@ -14,6 +14,9 @@
 @import "tailwindcss";
 @import "./styles/tokens.css";
 @source "./**/*.{ts,tsx}";
+/* Gryt UI's own classes too, so its variants land after this site's base utilities.
+   Without it the site's `.flex-col` beat the owl designer's `@3xl:flex-row` on desktop. */
+@source "../node_modules/@gryt/ui/dist/**/*.js";
 
 /* The blanket reset this file used to carry is gone, and its absence is
    load-bearing.
@@ -81,8 +84,11 @@ html { scroll-behavior: smooth; scrollbar-color: var(--border) transparent; }
 ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
 ::-webkit-scrollbar-corner { background: transparent; }
 
+/* The page colour lives on <html>, so the fixed background canvas can show through <body>. */
+html { background: var(--bg); }
+
 body {
-  background: var(--bg);
+  background: transparent;
   color: var(--text);
   font-family: var(--font);
   line-height: 1.6;

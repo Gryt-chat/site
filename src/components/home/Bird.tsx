@@ -3,7 +3,6 @@ import { motion } from "motion/react";
 import { useMemo, useState } from "react";
 
 import { usePrefersReducedMotion } from "../../lib/usePrefersReducedMotion";
-import { Clip, type ClipSet } from "../Clip";
 import { OwlDesigner } from "@gryt/ui";
 import { DEMO_NAMES } from "../../data/demoNames";
 import { useRotatingName } from "./useRotatingName";
@@ -16,22 +15,6 @@ import styles from "./Bird.module.css";
  * prop this page needed: it opens on the owl the typed name draws and follows it.
  */
 const AVATAR_DOCS = "https://docs.gryt.chat/docs/use/accounts";
-
-/**
- * The designer in the app, as the whole take: it ends on the new owl reaching a message and
- * a member list. Encoded with `--width 2200 --fps 30 --poster-at 2.4`.
- */
-const EDITOR: ClipSet = {
-  src: "/home/avatar-editor.mp4",
-  av1: "/home/avatar-editor.av1.mp4",
-  poster: "/home/avatar-editor.poster.webp",
-};
-
-const EDITOR_SHOWS =
-  "The owl designer open in the Gryt desktop app: rows of expressions, " +
-  "glasses, heads and colours being picked, Surprise me rolling a new bird, " +
-  "and the chosen owl appearing on the profile and beside a message once it " +
-  "is saved";
 
 /** Four names, four owls, drawn here rather than saved as images. */
 const GALLERY = ["kasper", "nora", "tobias", "ida"];
@@ -109,14 +92,6 @@ export function Bird() {
           </div>
         </motion.div>
 
-        <motion.figure className={styles.capture} variants={rise(reduced)}>
-          <Clip {...EDITOR} alt={EDITOR_SHOWS} width={2200} height={1212} />
-          <figcaption>
-            The same designer in the app, doing the bits this page can't. The
-            owls you've worn before, Surprise me, and a message at the end so
-            you can see the new owl actually turn up.
-          </figcaption>
-        </motion.figure>
 
         <motion.h3 className={styles.subTitle} variants={rise(reduced)}>
           Or use a picture you already have.
