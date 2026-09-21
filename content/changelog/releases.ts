@@ -33,8 +33,26 @@ export type Surface = "app" | "server" | "voice" | "images";
  */
 export type ChangeKind = "new" | "fixed" | "changed" | "security";
 
+/**
+ * The part of Gryt a change touches, as the heading it's listed under, in the
+ * order the headings are drawn. Security is a kind rather than an area.
+ */
+export const AREAS = {
+  voice: "Voice & video",
+  chat: "Chat",
+  notifications: "Notifications",
+  servers: "Servers & invites",
+  settings: "Settings & app",
+  phone: "Phone",
+  "self-hosting": "Self-hosting",
+} as const;
+
+export type Area = keyof typeof AREAS;
+
 export interface Change {
   kind: ChangeKind;
+  /** Where a reader would look for it. check-changelog-lines.mjs requires one on new app releases. */
+  area?: Area;
   /** One sentence, same voice as `line`. */
   text: string;
 }
@@ -135,86 +153,107 @@ export const app: ReleaseLine[] = [
     changes: [
       {
         kind: "new",
+        area: "servers",
         text: "On an open server, anyone can copy an invite link from the server menu. The link only has the server's address in it, no code, so the server needs a public address. Opening it or pasting it into Add a server brings up that server's join dialog.",
       },
       {
         kind: "new",
+        area: "servers",
         text: "If a server only takes accounts and you're signed out, the invite dialog has Sign in to join, and the invite comes back once you've signed in.",
       },
       {
         kind: "new",
+        area: "notifications",
         text: "Clicking a notification for a channel message opens that server and channel. It used to just bring Gryt to the front.",
       },
       {
         kind: "new",
+        area: "notifications",
         text: "Admins can set a channel's default notifications when they create or edit it. Automated channels default to Nothing, existing ones included. A channel's Notifications menu shows what its Default works out to. It needs a server on 1.10.18 or newer.",
       },
       {
         kind: "changed",
+        area: "settings",
         text: "Settings are regrouped by what you're trying to change. My servers, Adding servers and Server identities sit together under Servers. AFK timeout moved to Voice, and keeping server sign-in tokens between launches moved to Security.",
       },
       {
         kind: "changed",
+        area: "voice",
         text: "Starting a screen share shows a loading message, and other people see whose share is on its way instead of Connecting screen.",
       },
       {
         kind: "changed",
+        area: "voice",
         text: "With your camera and a screen share both on, the screen share gets your upload first. When bandwidth is short, it's the camera that drops in quality.",
       },
       {
         kind: "changed",
+        area: "chat",
         text: "Pasting more than 4,000 characters attaches the text as pasted-text.txt. That much text in the message box could freeze Gryt. Where you can't attach files, Gryt says it's too long and leaves the box alone.",
       },
       {
         kind: "changed",
+        area: "chat",
         text: "Webhook cards have their own background now, so a hovered message doesn't show through. Clicking anywhere on one opens its link.",
       },
       {
         kind: "changed",
+        area: "voice",
         text: "The video debug overlay, under App > Advanced, shows a lot more about the video you send and receive, like target bitrate, dropped frames, packet loss and the connection path.",
       },
       {
         kind: "fixed",
+        area: "notifications",
         text: "With Gryt in the background, the server you had open notified you about every message, muted channels included. It follows your notification settings now. At Only mentions, being mentioned raises a desktop notification, in a thread too.",
       },
       {
         kind: "fixed",
+        area: "voice",
         text: "Everyone else could be stuck on a waiting tile after your camera restarted. And if you focused a tile during your second screen share in a call, the share could go blank for them. Both come through now.",
       },
       {
         kind: "fixed",
+        area: "servers",
         text: "A dropped connection that's back within three seconds no longer greys out the server or says Reconnecting.",
       },
       {
         kind: "fixed",
+        area: "voice",
         text: "A call that dropped while you were looking at another server tried to reconnect through that server. It reconnects to the call's own server now.",
       },
       {
         kind: "fixed",
+        area: "voice",
         text: "After Gryt gave up on reconnecting a call, it could put you back in that call later, microphone on, when the server came back. A call it gives up on stays ended now.",
       },
       {
         kind: "fixed",
+        area: "voice",
         text: "Picking another microphone while the first was still starting could get you the old one anyway. Leaving a call at that moment could keep the microphone open with nothing using it.",
       },
       {
         kind: "fixed",
+        area: "servers",
         text: "Switching servers could open the first text channel instead of the one you last had open there.",
       },
       {
         kind: "fixed",
+        area: "servers",
         text: "A folder whose channels are all hidden from you no longer shows up as an empty heading.",
       },
       {
         kind: "fixed",
+        area: "chat",
         text: "When a file failed to upload, the message stayed pending and what you'd typed was gone. It's marked failed now, and your text and files go back in the box. Cancelling \"Send this without encryption?\" puts them back too.",
       },
       {
         kind: "fixed",
+        area: "settings",
         text: "Tall dialogs, Add a server included, scroll inside a short window instead of running off it. An open group in the settings list no longer cuts off its last pages either.",
       },
       {
         kind: "fixed",
+        area: "self-hosting",
         text: "The server built into the desktop app is updated to 1.10.18. On a server you host, people stay in the channel through a brief drop mid-call, and switching voice channels doesn't hang anyone up.",
       },
     ],
@@ -227,6 +266,7 @@ export const app: ReleaseLine[] = [
     changes: [
       {
         kind: "fixed",
+        area: "settings",
         text: "Expanded settings categories, including Voice & video, no longer hide their last pages when the settings rail is short. The category keeps its full height and the rail scrolls instead.",
       },
     ],
@@ -239,18 +279,22 @@ export const app: ReleaseLine[] = [
     changes: [
       {
         kind: "changed",
+        area: "voice",
         text: "When webcam and screen share are both on, Gryt now gives the screen share higher WebRTC priority so desktop video holds up better when upload bandwidth is tight.",
       },
       {
         kind: "fixed",
+        area: "notifications",
         text: "Muted channels on the server you are currently viewing no longer play the message sound, raise an OS notification or increment the notification badge. Messages still stay unread in the sidebar.",
       },
       {
         kind: "fixed",
+        area: "notifications",
         text: "Clicking a desktop notification now opens the server and channel that message came from instead of only focusing the Gryt window.",
       },
       {
         kind: "changed",
+        area: "voice",
         text: "Video Debug now shows recent inbound frame-drop and packet-loss rates, decode and processing timing, jitter-buffer and frame-assembly timing, freezes, and average encode time per frame.",
       },
     ],
@@ -263,18 +307,22 @@ export const app: ReleaseLine[] = [
     changes: [
       {
         kind: "changed",
+        area: "settings",
         text: "User settings is reorganized into clearer sections: Account & security, Servers, Chat & notifications, Voice & video, Appearance, App and About.",
       },
       {
         kind: "changed",
+        area: "settings",
         text: "My servers, adding-server preferences and server identities now live together under Servers. Manage server and settings search open the new locations.",
       },
       {
         kind: "changed",
+        area: "settings",
         text: "Chat and notifications now share a section, AFK timeout sits with Voice, and keeping server sign-in tokens between launches sits under Security.",
       },
       {
         kind: "changed",
+        area: "settings",
         text: "Support Gryt stays pinned at the bottom of settings and uses Gryt's accent across the row, so it reads as a support action rather than a warning.",
       },
     ],
@@ -287,30 +335,37 @@ export const app: ReleaseLine[] = [
     changes: [
       {
         kind: "fixed",
+        area: "voice",
         text: "A camera could be publishing normally while everyone else stayed on a waiting tile after Gryt reacquired the device. Gryt keeps advertising the WebRTC stream ID the call is actually sending now.",
       },
       {
         kind: "fixed",
+        area: "chat",
         text: "Pasting more than 4,000 characters into chat could freeze or crash the client before you could remove it. Gryt keeps the paste out of the editor and attaches the full text as pasted-text.txt instead.",
       },
       {
         kind: "changed",
+        area: "voice",
         text: "Starting a screen share now shows a loading state, and other people see who is starting a share instead of a generic connecting message. If it still has not arrived after 15 seconds, the tile says whose screen is not coming through.",
       },
       {
         kind: "fixed",
+        area: "voice",
         text: "A call recovering from a brief disconnect keeps using the server the call is actually on, even if you are browsing another server, and the server gives reconnecting voice time to reappear before removing it.",
       },
       {
         kind: "fixed",
+        area: "voice",
         text: "Changing microphones while one is still opening no longer lets the old request win, and the native app starts the platform default microphone correctly again.",
       },
       {
         kind: "fixed",
+        area: "settings",
         text: "Tall dialogs stay inside a short browser window and scroll vertically instead of putting controls outside the viewport.",
       },
       {
         kind: "changed",
+        area: "voice",
         text: "The video debug overlay shows more bandwidth, sender, candidate-path and RTCP details, making camera and screen-share problems easier to diagnose.",
       },
     ],
@@ -322,10 +377,12 @@ export const app: ReleaseLine[] = [
     changes: [
       {
         kind: "fixed",
+        area: "voice",
         text: "Starting a camera or screen share while the voice signaling connection was briefly unavailable could leave the video missing for other people until you toggled it or rejoined. Gryt keeps that publish request and sends it as soon as signaling is ready.",
       },
       {
         kind: "fixed",
+        area: "settings",
         text: "Selects, menus, context menus, comboboxes and autocomplete lists could run past the edge of a short or narrow window. They stay on screen and scroll now.",
       },
     ],
@@ -337,14 +394,17 @@ export const app: ReleaseLine[] = [
     changes: [
       {
         kind: "new",
+        area: "chat",
         text: "The first time you send a message, Gryt asks you to agree to the Terms of Use and the Community Guidelines. Not now keeps your draft, and you're only asked again if the terms change.",
       },
       {
         kind: "fixed",
+        area: "voice",
         text: "Joining voice could sit on connecting for about 20 seconds when the voice server's connection details arrived before its call setup. Gryt holds them until the call is ready now.",
       },
       {
         kind: "changed",
+        area: "settings",
         text: "The activity field in your profile asks \"What are you up to?\" instead of showing an example status.",
       },
     ],
@@ -356,34 +416,42 @@ export const app: ReleaseLine[] = [
     changes: [
       {
         kind: "security",
+        area: "self-hosting",
         text: "The server built into the desktop app is updated to 1.10.15, which keeps channel messages and sign-in tokens from reaching people who should not have them. Update if you host a server from the app.",
       },
       {
         kind: "new",
+        area: "self-hosting",
         text: "Owners and admins see a notice when the server they are on has a known security issue, with the version that fixes it.",
       },
       {
         kind: "fixed",
+        area: "chat",
         text: "Save As, Copy Image and Download on a file in an encrypted conversation saved the encrypted copy. They save the real file now.",
       },
       {
         kind: "fixed",
+        area: "settings",
         text: "With Automatic updates off, Check for Updates and starting at login still downloaded updates. They only tell you about them now.",
       },
       {
         kind: "changed",
+        area: "servers",
         text: "Moving a guest to your account works when your account is already on the server, and saying no switches this device to your account there.",
       },
       {
         kind: "fixed",
+        area: "chat",
         text: "Messages that arrived before a conversation was opened showed above the older ones.",
       },
       {
         kind: "fixed",
+        area: "servers",
         text: "Adding a server you were already in from another address added it a second time.",
       },
       {
         kind: "fixed",
+        area: "settings",
         text: "User settings cut off its pages in a narrow window, and a server you start from the app reconnects as soon as it is running.",
       },
     ],
@@ -395,6 +463,7 @@ export const app: ReleaseLine[] = [
     changes: [
       {
         kind: "security",
+        area: "self-hosting",
         text: "The voice server built into the desktop app took server registrations from anyone on your network. It only listens for them on the computer itself now, and calls from your network work as before.",
       },
     ],
@@ -406,38 +475,47 @@ export const app: ReleaseLine[] = [
     changes: [
       {
         kind: "fixed",
+        area: "self-hosting",
         text: "The desktop app kept a full copy of its built-in server for every version it had ever run, which could add up to several gigabytes. It removes the old ones now and keeps the current one and the two before it.",
       },
       {
         kind: "fixed",
+        area: "settings",
         text: "If a newer release came out while an update was waiting, pressing update installed the older one and then offered the newer one. It checks first and installs the newest.",
       },
       {
         kind: "fixed",
+        area: "chat",
         text: "After pasting a link with a port, such as http://192.168.50.196:3000, the first Enter added a new line instead of sending. Times like 12:30 are no longer turned into emoji either.",
       },
       {
         kind: "new",
+        area: "self-hosting",
         text: "A server this app hosts has Manage server in its menu, which opens its card in My servers with Start and Stop.",
       },
       {
         kind: "fixed",
+        area: "self-hosting",
         text: "Two Gryt apps hosting servers on one computer could end up sharing one voice server. Each gets its own ports now.",
       },
       {
         kind: "fixed",
+        area: "settings",
         text: "Dialogs ran off narrow windows and pushed their buttons out of view. The prompt about moving a guest to your account is also clearer about what each choice does.",
       },
       {
         kind: "fixed",
+        area: "self-hosting",
         text: "Deleting a server you host left its entry in the server list when you had joined it by a LAN address or a .local name.",
       },
       {
         kind: "changed",
+        area: "settings",
         text: "What's new shows a label on every change instead of one per group.",
       },
       {
         kind: "fixed",
+        area: "settings",
         text: "A long selected option no longer stretches a dropdown past its space, and About Gryt gives the copyright as 2022 to 2026.",
       },
     ],
@@ -449,30 +527,37 @@ export const app: ReleaseLine[] = [
     changes: [
       {
         kind: "security",
+        area: "self-hosting",
         text: "The server built into the desktop app is updated to 1.10.14, which stops link previews and webhook pictures from reaching addresses inside your network. Update if you host a server from the app.",
       },
       {
         kind: "fixed",
+        area: "settings",
         text: "When GitHub did not answer a check for updates, Gryt said there were no published versions. It says GitHub could not be reached now, and when to try again if GitHub gave a time.",
       },
       {
         kind: "fixed",
+        area: "self-hosting",
         text: "A server you host from the app showed as reconnecting while it started if you were in a call anywhere. It shows as starting.",
       },
       {
         kind: "fixed",
+        area: "settings",
         text: "The Linux packages listed the gryt:// link type up to five times in their desktop entry. They list it once.",
       },
       {
         kind: "changed",
+        area: "servers",
         text: "A webhook's avatar is resized when you pick it, like a member avatar. On a server that has not updated yet, Gryt says the server needs an update first.",
       },
       {
         kind: "changed",
+        area: "chat",
         text: "Videos in encrypted direct messages download and decrypt when you press play, instead of when the conversation opens.",
       },
       {
         kind: "fixed",
+        area: "servers",
         text: "A video in the reports panel no longer restarts when Gryt renews its sign-in token, and the moderation buttons stay inside the dialog.",
       },
     ],
@@ -484,6 +569,7 @@ export const app: ReleaseLine[] = [
     changes: [
       {
         kind: "fixed",
+        area: "servers",
         text: "The server, voice server and image worker versions went missing from Server settings on narrow windows. They sit under the page picker now.",
       },
     ],
@@ -495,10 +581,12 @@ export const app: ReleaseLine[] = [
     changes: [
       {
         kind: "fixed",
+        area: "servers",
         text: "Webhook rows ran past the edge of Server settings and cut off Create webhook. Every settings page now fits the dialog.",
       },
       {
         kind: "changed",
+        area: "servers",
         text: "On a narrow window, Server settings shows a list to pick the page from instead of a sidebar that left almost no room for the page itself.",
       },
     ],
@@ -510,14 +598,17 @@ export const app: ReleaseLine[] = [
     changes: [
       {
         kind: "new",
+        area: "chat",
         text: "Messages from a webhook can carry cards with a title, description, fields, images, an author and a footer.",
       },
       {
         kind: "fixed",
+        area: "servers",
         text: "Joining a server from Add a server did not keep the key pictures need, so every picture on it failed to load until you joined again.",
       },
       {
         kind: "fixed",
+        area: "chat",
         text: "A webhook posting under a different name was grouped under the name above it.",
       },
     ],
@@ -529,6 +620,7 @@ export const app: ReleaseLine[] = [
     changes: [
       {
         kind: "fixed",
+        area: "servers",
         text: "Picking an avatar for a webhook said Avatar updated and never saved it. It saves now, and the message only shows once it has.",
       },
     ],
@@ -540,6 +632,7 @@ export const app: ReleaseLine[] = [
     changes: [
       {
         kind: "fixed",
+        area: "chat",
         text: "Choosing a picture for a group also made it your avatar on that server. The group gets the picture now and your avatar stays as it was. On a server that has not updated yet, Gryt says the server needs an update instead.",
       },
     ],
@@ -551,10 +644,12 @@ export const app: ReleaseLine[] = [
     changes: [
       {
         kind: "security",
+        area: "self-hosting",
         text: "The server built into the desktop app is updated to 1.10.8, so a file posted in a private channel or a direct message only opens for people who can see that conversation. Update if you host a server from the app.",
       },
       {
         kind: "fixed",
+        area: "settings",
         text: "Opening Gryt while accounts were down left you signed out until you restarted it. Gryt now tries again in the background and signs you back in once accounts answer, on the desktop app and in the browser.",
       },
     ],
@@ -566,14 +661,17 @@ export const app: ReleaseLine[] = [
     changes: [
       {
         kind: "new",
+        area: "chat",
         text: "Videos in chat and in link previews play in Gryt's own player, with the file name, size and time on top and volume that follows your chat media setting.",
       },
       {
         kind: "fixed",
+        area: "chat",
         text: "If a video's link has gone stale, the player picks up a fresh one and carries on from the same spot instead of showing an error.",
       },
       {
         kind: "fixed",
+        area: "settings",
         text: "Opening Gryt while accounts were down only said it was taking longer than it should. It now says it cannot reach Gryt accounts, or that you are offline, and a banner stays up until accounts answer again.",
       },
     ],
@@ -585,22 +683,27 @@ export const app: ReleaseLine[] = [
     changes: [
       {
         kind: "changed",
+        area: "chat",
         text: "Videos in chat and in link previews show their thumbnail and a play button. Nothing downloads until you press it.",
       },
       {
         kind: "fixed",
+        area: "chat",
         text: "A playing video no longer starts loading again when Gryt renews its sign-in token in the background.",
       },
       {
         kind: "changed",
+        area: "servers",
         text: "Names in the members list sit straight on the sidebar. A row turns grey only when you hover it or focus it with the keyboard.",
       },
       {
         kind: "fixed",
+        area: "settings",
         text: "On the beta channel, Check for updates said there were no published versions when you were already on the newest one. It says Gryt is up to date now.",
       },
       {
         kind: "changed",
+        area: "servers",
         text: "Each server renews its token on its own schedule, instead of every server renewing at the same moment every four minutes.",
       },
     ],
@@ -612,6 +715,7 @@ export const app: ReleaseLine[] = [
     changes: [
       {
         kind: "fixed",
+        area: "voice",
         text: "When the sound for a screen share stopped being captured, the people watching kept getting a silent audio track. Gryt drops that track now.",
       },
     ],
@@ -623,18 +727,22 @@ export const app: ReleaseLine[] = [
     changes: [
       {
         kind: "new",
+        area: "settings",
         text: "What's new lists every release since the version you last used, newest first. Before, it only showed the version you were on.",
       },
       {
         kind: "fixed",
+        area: "voice",
         text: "Sharing your screen on macOS sent no sound, even with something playing. It does now, and if the sound cannot be captured, Gryt tells you.",
       },
       {
         kind: "fixed",
+        area: "settings",
         text: "Show me around on the welcome screen did nothing. It starts the tour now.",
       },
       {
         kind: "changed",
+        area: "voice",
         text: "The addresses in the advanced latency panel stay hidden until you choose to show them.",
       },
     ],
@@ -646,18 +754,22 @@ export const app: ReleaseLine[] = [
     changes: [
       {
         kind: "fixed",
+        area: "chat",
         text: "A conversation moves to the top of the list whenever a new message arrives. Before, only its first message did that.",
       },
       {
         kind: "fixed",
+        area: "chat",
         text: "Each conversation shows its server's own icon instead of a generic planet.",
       },
       {
         kind: "fixed",
+        area: "chat",
         text: "An empty conversation you had open drops out of the list when you open another one.",
       },
       {
         kind: "changed",
+        area: "servers",
         text: "Hovering a server in the sidebar, or the latency on your own voice tile, no longer shows the server's address.",
       },
     ],
@@ -669,10 +781,12 @@ export const app: ReleaseLine[] = [
     changes: [
       {
         kind: "fixed",
+        area: "chat",
         text: "A link preview that ran into the server's limit stayed hidden until you restarted Gryt. It now waits and then loads.",
       },
       {
         kind: "fixed",
+        area: "chat",
         text: "A link preview or an X post that failed because of a hiccup on the server's side disappeared. It now tries again a couple of times first.",
       },
     ],
@@ -684,14 +798,17 @@ export const app: ReleaseLine[] = [
     changes: [
       {
         kind: "new",
+        area: "chat",
         text: "Clicking the messages button while you are in your direct messages takes you back to the server and channel you came from.",
       },
       {
         kind: "fixed",
+        area: "chat",
         text: "If you opened a conversation with no messages in it, going back to your direct messages later showed it again, even though it was gone from the list. Your most recent conversation opens instead.",
       },
       {
         kind: "fixed",
+        area: "servers",
         text: "The Servers on your network button did nothing while your direct messages were open.",
       },
     ],
@@ -703,10 +820,12 @@ export const app: ReleaseLine[] = [
     changes: [
       {
         kind: "fixed",
+        area: "chat",
         text: "Direct messages no longer show a server's channel, and a server no longer shows your direct messages. On 1.11.7 one could turn up in the other's place, so a conversation looked like it belonged to a server.",
       },
       {
         kind: "changed",
+        area: "chat",
         text: "Opening direct messages opens your most recent conversation, instead of an empty view.",
       },
     ],
@@ -718,22 +837,27 @@ export const app: ReleaseLine[] = [
     changes: [
       {
         kind: "changed",
+        area: "chat",
         text: "Direct messages are a place you go, like a server. The button beside the servers opens them, and picking a server takes you back.",
       },
       {
         kind: "changed",
+        area: "chat",
         text: "Clicking somebody in the member list takes you to your conversation with them in direct messages.",
       },
       {
         kind: "changed",
+        area: "chat",
         text: "A conversation nobody has written in only shows in the list while you are looking at it. Click somebody else, or go anywhere else, and it drops out until one of you writes.",
       },
       {
         kind: "new",
+        area: "settings",
         text: "Gryt remembers where you were. Moving between a server and your direct messages puts you back where you left each one.",
       },
       {
         kind: "new",
+        area: "settings",
         text: "Gryt opens on the page you closed it on, instead of the top server in the list.",
       },
     ],
@@ -745,18 +869,22 @@ export const app: ReleaseLine[] = [
     changes: [
       {
         kind: "fixed",
+        area: "settings",
         text: "This note scrolls when it is longer than your screen. It used to grow past the top and the bottom of the window, taking the greeting and the Done button with it.",
       },
       {
         kind: "changed",
+        area: "settings",
         text: "Clicking outside this note closes it, and you can open it again from Settings under About.",
       },
       {
         kind: "fixed",
+        area: "notifications",
         text: "A direct message marks one badge instead of two. It counted on the direct messages button and on the server icon it arrived at, so reading it changed both.",
       },
       {
         kind: "changed",
+        area: "phone",
         text: "On a phone, tapping somebody in the member list opens your conversation with them, and direct messages have their own space reached from the channels panel. The desktop got this last release and the phone did not.",
       },
     ],
@@ -768,62 +896,77 @@ export const app: ReleaseLine[] = [
     changes: [
       {
         kind: "new",
+        area: "chat",
         text: "Direct messages have a space of their own, on a button above the servers. It holds every conversation you have, across every server you are on, and unread ones count on that button.",
       },
       {
         kind: "changed",
+        area: "chat",
         text: "Clicking somebody in the member list opens your conversation with them. Direct messages are no longer a category in the channel list, and one you have not read shows on that person's row.",
       },
       {
         kind: "fixed",
+        area: "voice",
         text: "The app always says when you are in a voice call. A call could get stuck reading as still connecting, and while that lasted the microphone mark on the server and the controls above your picture were both hidden. The call was up and your microphone was open the whole time.",
       },
       {
         kind: "changed",
+        area: "voice",
         text: "The microphone mark on a server says whether sound is leaving your machine, and appears for a call that is still connecting rather than only one that is up.",
       },
       {
         kind: "changed",
+        area: "servers",
         text: "Gryt gives up on a server that is not answering after about two minutes and says it is unreachable, with a button to try again. It used to retry for as long as the app was open.",
       },
       {
         kind: "changed",
+        area: "servers",
         text: "The notice that Gryt is reconnecting to a server can be dismissed, and goes on its own after six seconds.",
       },
       {
         kind: "fixed",
+        area: "settings",
         text: "Menus open where they should when the interface is scaled. The desktop app scales with Chromium's own zoom now rather than with CSS.",
       },
       {
         kind: "fixed",
+        area: "self-hosting",
         text: "A server you create keeps the name you gave it.",
       },
       {
         kind: "security",
+        area: "chat",
         text: "Gryt warns you before a second device breaks encryption with the people you talk to, and offers to carry your message key across instead.",
       },
       {
         kind: "changed",
+        area: "chat",
         text: "A message with a link no longer loads the preview until you ask for it. Reading a channel used to fetch pages from whatever sites had been linked in it.",
       },
       {
         kind: "fixed",
+        area: "chat",
         text: "A direct conversation with nothing in it no longer says the server can read it, directly under a banner saying it cannot.",
       },
       {
         kind: "fixed",
+        area: "chat",
         text: "A message arriving in a direct conversation no longer makes it jump, or turns the messages already on screen back into unreadable text.",
       },
       {
         kind: "fixed",
+        area: "chat",
         text: "Gryt says when the other person's app is sending in the clear.",
       },
       {
         kind: "changed",
+        area: "notifications",
         text: "A channel with something unread is visible in the sidebar, on a colour of its own rather than the red Gryt uses for deleting things.",
       },
       {
         kind: "fixed",
+        area: "servers",
         text: "Gryt stops announcing the servers on your network as new every time it starts. Which ones this machine has already looked at is remembered on the device now, rather than against whoever was signed in at the moment you looked.",
       },
     ],
@@ -835,10 +978,12 @@ export const app: ReleaseLine[] = [
     changes: [
       {
         kind: "fixed",
+        area: "settings",
         text: "Gryt no longer puts its window above everything else when it has something to show you. An update notice while you were in a game pulled the app in front of it.",
       },
       {
         kind: "fixed",
+        area: "settings",
         text: "The notice about what changed asks the site again when the first answer has nothing in it, and asks for a fresh copy rather than the one it already had. On 1.11.3 an app that updated before the site had rebuilt saw nothing.",
       },
     ],
@@ -850,6 +995,7 @@ export const app: ReleaseLine[] = [
     changes: [
       {
         kind: "fixed",
+        area: "settings",
         text: "The login service going down no longer signs you out. A refresh that cannot reach it waits and tries again, and only a token the service has actually turned down ends your session.",
       },
     ],
@@ -861,6 +1007,7 @@ export const app: ReleaseLine[] = [
     changes: [
       {
         kind: "fixed",
+        area: "settings",
         text: "The notice about what changed now appears. It had been reading your settings before they had loaded, so every launch decided you were a new install and said nothing.",
       },
     ],
@@ -877,18 +1024,22 @@ export const app: ReleaseLine[] = [
     changes: [
       {
         kind: "new",
+        area: "settings",
         text: "Gryt says what changed the first time you open a new version, sorted into what is new, what is fixed and anything about security.",
       },
       {
         kind: "fixed",
+        area: "voice",
         text: "Voice no longer sends your microphone twice when a connection rebuilds.",
       },
       {
         kind: "fixed",
+        area: "chat",
         text: "Messages in a thread sit in from the panel edge instead of against it.",
       },
       {
         kind: "changed",
+        area: "settings",
         text: "Links are underlined wherever they appear, rather than only under the pointer.",
       },
     ],

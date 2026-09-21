@@ -2,7 +2,7 @@ import { Fragment, Suspense, useEffect } from 'react'
 import { useParams, Link, Navigate } from 'react-router-dom'
 import { MdChevronLeft } from 'react-icons/md'
 import { Chip } from '@gryt/ui'
-import { getAppLine, getRelease, groupChanges, KIND_LABELS } from '../lib/changelog'
+import { getAppLine, getRelease, groupByArea, groupChanges, KIND_LABELS } from '../lib/changelog'
 import { monthDayYear } from '../lib/formatDate'
 import { pageTitle } from '../lib/title'
 import { Clip } from '../components/Clip'
@@ -95,7 +95,9 @@ export function ChangelogEntry() {
  * following "Read more" lands on what they have just read.
  */
 function LineOnly({ line }: { line: ReleaseLine }) {
-  const groups = line.changes?.length ? groupChanges(line.changes) : null
+  const areas = line.changes?.length ? groupByArea(line.changes) : null
+  /* A heading only earns its place when there's another one to tell it from. */
+  const headed = (areas?.length ?? 0) > 1
 
   return (
     <main className={styles.page}>
@@ -116,28 +118,35 @@ function LineOnly({ line }: { line: ReleaseLine }) {
         </div>
       </header>
 
-      {groups ? (
-        <dl className={styles.kinds}>
-          {groups.map(([kind, items]) => (
-            <Fragment key={kind}>
-              <dt>
-                <Chip tone={TONES[kind] ?? 'neutral'}>{KIND_LABELS[kind] ?? kind}</Chip>
-              </dt>
-              <dd>
-                {items.map((text) => (
-                  <p key={text}>{text}</p>
+      {areas ? (
+        <div className={styles.areas}>
+          {areas.map(([area, changes]) => (
+            <Fragment key={area}>
+              {headed && <h2 className={styles.area}>{area}</h2>}
+              <dl className={styles.kinds}>
+                {groupChanges(changes).map(([kind, items]) => (
+                  <Fragment key={kind}>
+                    <dt>
+                      <Chip tone={TONES[kind] ?? 'neutral'}>{KIND_LABELS[kind] ?? kind}</Chip>
+                    </dt>
+                    <dd>
+                      {items.map((text) => (
+                        <p key={text}>{text}</p>
+                      ))}
+                    </dd>
+                  </Fragment>
                 ))}
-              </dd>
+              </dl>
             </Fragment>
           ))}
-        </dl>
+        </div>
       ) : (
         /* Before 1.10 nobody split a release up. One sentence is all there is. */
         <p className={styles.onlyLine}>{line.line}</p>
       )}
 
       <p className={styles.noNote}>
-        {groups
+        {areas
           ? 'Nobody wrote this one up, so the list above is all of it. '
           : 'One line is all this release got. '}
         When something lands that&rsquo;s worth explaining there&rsquo;s{' '}

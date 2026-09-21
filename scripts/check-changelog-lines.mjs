@@ -5,9 +5,41 @@
 
 import assert from "node:assert/strict";
 import { existsSync, readdirSync, readFileSync } from "node:fs";
+import { resolve } from "node:path";
+import { pathToFileURL } from "node:url";
 
 const CACHE = ".cache/releases.json";
 const SOURCE = "content/changelog/releases.ts";
+
+/* ── every change says where it is ───────────────────────────────────────── */
+
+// The day areas landed. What's New files a change without one under Other.
+const AREA_REQUIRED_FROM = "2026-09-21";
+
+// Imported rather than parsed, and before the cache, so a missing area fails without the network.
+const lists = await import(pathToFileURL(resolve(SOURCE)).href);
+const areas = Object.keys(lists.AREAS ?? {});
+assert.ok(areas.length > 0, `${SOURCE} no longer exports AREAS, so no change can say where it is`);
+
+const unknownArea = [];
+const noArea = [];
+for (const [surface, list] of Object.entries(lists)) {
+  if (!Array.isArray(list)) continue;
+  for (const entry of list) {
+    for (const [i, change] of (entry.changes ?? []).entries()) {
+      const start = change.text.length > 40 ? `${change.text.slice(0, 40)}…` : change.text;
+      const which = `${surface} ${entry.version}, change ${i + 1} ("${start}")`;
+      if (change.area === undefined) {
+        if (surface === "app" && entry.date >= AREA_REQUIRED_FROM) noArea.push(which);
+      } else if (!areas.includes(change.area)) {
+        unknownArea.push(`${which}: ${JSON.stringify(change.area)}`);
+      }
+    }
+  }
+}
+
+assert.deepEqual(unknownArea, [], `changes with an area that isn't one of ${areas.join(", ")}`);
+assert.deepEqual(noArea, [], `app changes dated ${AREA_REQUIRED_FROM} or later with no area`);
 
 if (!existsSync(CACHE)) {
   console.log(`${CACHE} is not there — run \`yarn fetch:releases\` first. Skipping.`);
@@ -153,7 +185,8 @@ for (const [surface, list] of Object.entries(published)) {
 assert.deepEqual(missing, [], "releases with neither a line nor a note — the page would not list them");
 
 console.log(
-  `changelog: ${entries.length} lines across ${surfaces.length} surfaces, every date matches` +
+  `changelog: ${entries.length} lines across ${surfaces.length} surfaces, every date matches, ` +
+    `every app change from ${AREA_REQUIRED_FROM} has an area` +
     (pending.length > 0
       ? `, ${pending.map((e) => `${e.surface} ${e.version}`).join(" and ")} waiting on a release`
       : ""),

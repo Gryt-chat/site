@@ -10,34 +10,43 @@ import test from "node:test";
 
 const CHECK = new URL("check-changelog-lines.mjs", import.meta.url).pathname;
 const SURFACES = ["app", "server", "voice", "images"];
+const AREAS = { voice: "Voice & video", chat: "Chat" };
 
 const day = (offset) =>
   new Date(Date.now() + offset * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
 
 /** A directory shaped the way the check expects to be run in. */
-function fixture({ lines, releases }) {
+function fixture({ lines, releases, cache = true }) {
   const dir = mkdtempSync(join(tmpdir(), "changelog-lines-"));
   mkdirSync(join(dir, ".cache"));
   mkdirSync(join(dir, "content/changelog"), { recursive: true });
+  writeFileSync(join(dir, "package.json"), JSON.stringify({ type: "module" }));
 
-  const cache = {};
+  const published = {};
   for (const surface of SURFACES) {
-    cache[surface] = (releases[surface] ?? []).map(([version, date, prerelease = false]) => ({
+    published[surface] = (releases[surface] ?? []).map(([version, date, prerelease = false]) => ({
       tag: `v${version}`,
       date: `${date}T12:00:00Z`,
       prerelease,
     }));
   }
-  writeFileSync(join(dir, ".cache/releases.json"), JSON.stringify(cache));
+  if (cache) writeFileSync(join(dir, ".cache/releases.json"), JSON.stringify(published));
 
   const body = (surface) =>
     (lines[surface] ?? [])
-      .map(([version, date]) => `  {\n    version: "${version}",\n    date: "${date}",\n  },`)
+      .map(
+        ([version, date, changes]) =>
+          `  {\n    version: "${version}",\n    date: "${date}",\n` +
+          (changes ? `    changes: ${JSON.stringify(changes)},\n` : "") +
+          "  },",
+      )
       .join("\n");
 
   writeFileSync(
     join(dir, "content/changelog/releases.ts"),
-    SURFACES.map((s) => `export const ${s}: ReleaseLine[] = [\n${body(s)}\n];`).join("\n\n") + "\n",
+    `export const AREAS = ${JSON.stringify(AREAS)} as const;\n\n` +
+      SURFACES.map((s) => `export const ${s}: ReleaseLine[] = [\n${body(s)}\n];`).join("\n\n") +
+      "\n",
   );
 
   return dir;
@@ -156,4 +165,72 @@ test("a release with no line at all still fails", () => {
   const { code, out } = run(dir);
   assert.equal(code, 1);
   assert.match(out, /neither a line nor a note/);
+});
+
+/* ── areas (GRYT-1339) ───────────────────────────────────────────────────── */
+
+const fixed = (area) => ({ kind: "fixed", ...(area ? { area } : {}), text: "Something works now." });
+
+test("a new app change with an area passes", () => {
+  const dir = fixture({
+    lines: { app: [["1.12.0", day(0), [fixed("voice"), fixed("chat")]]] },
+    releases: { app: [["1.12.0", day(0)]] },
+  });
+  const { code, out } = run(dir);
+  assert.equal(code, 0, out);
+  assert.match(out, /has an area/);
+});
+
+test("a new app change with no area fails, and names it", () => {
+  const dir = fixture({
+    lines: { app: [["1.12.0", day(0), [fixed("voice"), fixed()]]] },
+    releases: { app: [["1.12.0", day(0)]] },
+  });
+  const { code, out } = run(dir);
+  assert.equal(code, 1);
+  assert.match(out, /with no area/);
+  assert.match(out, /app 1\.12\.0, change 2/);
+});
+
+test("an app change from before areas landed needs none", () => {
+  const dir = fixture({
+    lines: { app: [["1.11.5", "2026-09-09", [fixed()]]] },
+    releases: { app: [["1.11.5", "2026-09-09"]] },
+  });
+  assert.equal(run(dir).code, 0);
+});
+
+test("only the app has to say where a change is", () => {
+  /* What's New and the release page are the only things that group by area,
+     and both read the app. */
+  const dir = fixture({
+    lines: { server: [["1.11.0", day(0), [fixed()]]] },
+    releases: { server: [["1.11.0", day(0)]] },
+  });
+  assert.equal(run(dir).code, 0);
+});
+
+test("an area that isn't in AREAS fails, on any surface and any date", () => {
+  for (const [surface, date] of [["app", "2026-09-09"], ["server", day(0)]]) {
+    const dir = fixture({
+      lines: { [surface]: [["1.11.5", date, [fixed("voise")]]] },
+      releases: { [surface]: [["1.11.5", date]] },
+    });
+    const { code, out } = run(dir);
+    assert.equal(code, 1, `${surface}: ${out}`);
+    assert.match(out, /isn't one of voice, chat/);
+    assert.match(out, /"voise"/);
+  }
+});
+
+test("a missing area fails even with no releases fetched", () => {
+  /* Without the network the rest of the check skips, and this half needs none. */
+  const dir = fixture({
+    lines: { app: [["1.12.0", day(0), [fixed()]]] },
+    releases: {},
+    cache: false,
+  });
+  const { code, out } = run(dir);
+  assert.equal(code, 1);
+  assert.match(out, /with no area/);
 });

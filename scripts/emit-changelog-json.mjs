@@ -32,8 +32,8 @@ for (const surface of SURFACES) {
     version: entry.version,
     date: entry.date,
     line: entry.line,
-    // What each change is, where somebody has split the release up. The client
-    // groups by it; anything without it falls back to showing the line.
+    // Each change's kind and area, where somebody has split the release up. The client
+    // groups by both; anything without changes falls back to showing the line.
     ...(entry.changes?.length ? { changes: entry.changes } : {}),
     ...(entry.channel ? { channel: entry.channel } : {}),
     ...(entry.post ? { post: entry.post } : {}),
