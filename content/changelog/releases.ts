@@ -163,6 +163,43 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.11.36",
+    date: "2026-09-22",
+    line: "Video stays up when the server restarts, and your camera stays on when a call has to rebuild itself. Channels in a folder show that they follow it, and dragging a folder takes its channels with it.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "voice",
+        text: "When the server restarted during a call, every video tile went blank for three to six seconds, even though the call kept going. Your own tile was drawn as somebody else's until the server knew your new connection. The tiles stay up now.",
+      },
+      {
+        kind: "fixed",
+        area: "voice",
+        text: "If the connection to the server dropped and the call had to be rebuilt from scratch, your camera and screen share got switched off. They stay on now.",
+      },
+      {
+        kind: "changed",
+        area: "servers",
+        text: "For a channel in a folder, Who can use this channel starts with Follow the folder, and that's picked while the channel follows it. Before, it showed the folder's own setting, so a channel in an Everyone folder looked like it was set to Everyone.",
+      },
+      {
+        kind: "changed",
+        area: "servers",
+        text: "Dragging a channel into a folder makes it follow the folder. If the channel has permissions of its own, you're asked first whether to replace them.",
+      },
+      {
+        kind: "fixed",
+        area: "servers",
+        text: "When you drag a folder, its channels now move with it on screen. Before, they only caught up once you let go.",
+      },
+      {
+        kind: "changed",
+        area: "self-hosting",
+        text: "The server built into the desktop app is updated to 1.10.20, which closes connections properly when it stops.",
+      },
+    ],
+  },
+  {
     version: "1.11.35",
     date: "2026-09-21",
     line: "Cameras and screen shares come back when a call reconnects on its own.",
@@ -1652,6 +1689,21 @@ export const app: ReleaseLine[] = [
  * So a reader here is usually somebody deciding whether to pull a new image.
  */
 export const server: ReleaseLine[] = [
+  {
+    version: "1.10.20",
+    date: "2026-09-22",
+    line: "When the server stops or restarts, it closes every connection properly first, so the apps know it's a restart. The log also says which app each connection came from.",
+    changes: [
+      {
+        kind: "changed",
+        text: "Stopping the server closes every connection before it exits, taking up to 3 seconds. Apps reconnect on their own like before, and the log shows each one leaving with \"server shutting down\". Before, it logged nothing.",
+      },
+      {
+        kind: "changed",
+        text: "The server log's connect and disconnect lines say which app it was: desktop, web, iOS, Android or other. It's worked out from the app's user agent, which itself isn't logged.",
+      },
+    ],
+  },
   {
     version: "1.10.19",
     date: "2026-09-21",
