@@ -106,6 +106,22 @@ export interface SecurityNotice {
 /** Newest first. emit-changelog-json.mjs checks each one, and a bad one fails the build. */
 export const securityNotices: SecurityNotice[] = [
   {
+    id: "gryt-server-1.10.19-voice-join",
+    surface: "server",
+    fixedIn: "1.10.19",
+    title: "Members could join voice channels the app kept them out of",
+    url: "https://gryt.chat/blog/security-update-gryt-server-1-10-19",
+    published: "2026-09-21",
+  },
+  {
+    id: "gryt-server-1.10.19-folder-names",
+    surface: "server",
+    fixedIn: "1.10.19",
+    title: "Folder names reached members who couldn't see into them",
+    url: "https://gryt.chat/blog/security-update-gryt-server-1-10-19",
+    published: "2026-09-21",
+  },
+  {
     id: "GHSA-pwj4-mw52-f7cj",
     surface: "server",
     fixedIn: "1.10.15",
