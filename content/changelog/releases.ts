@@ -165,7 +165,7 @@ export const app: ReleaseLine[] = [
   {
     version: "1.11.36",
     date: "2026-09-22",
-    line: "Video stays up when the server restarts, and your camera stays on when a call has to rebuild itself. Channels in a folder show that they follow it, and dragging a folder takes its channels with it.",
+    line: "Video stays up when the server restarts, and your camera stays on when a call has to rebuild itself. Channels in a folder show that they follow it, and dragging a folder takes its channels with it. Thanks to Carlo, who sponsored Gryt back in March.",
     changes: [
       {
         kind: "fixed",
