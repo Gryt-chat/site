@@ -163,6 +163,63 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.11.38",
+    date: "2026-09-23",
+    line: "Threads stop drawing controls the server refuses, like Mark solved for everyone and a live composer on a closed thread. A delete confirm now says it's taking the thread's replies too, and the panel sits beside your conversation above 1164px instead of covering it. You can close a thread now, not only reopen one, and a message refused twice fails outright instead of sitting there forever. The image worker your desktop app runs for you answers on loopback only.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "Mark solved and the tag chips showed up for everyone, even though only the thread's author or a moderator can use either. Both are gated to those two now.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A closed thread still drew a live composer, and sending into it failed with a toast. It shows a line saying the thread is closed instead.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "Deleting a message deletes its thread's replies too, and the confirm didn't say so. It now counts them: \"This deletes the message and the 2 replies in its thread.\"",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A thread whose root message was gone left the panel blank. It says the message it started from is gone now.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "Starting a thread or a forum topic with no connection sent into a dead socket, and the composer sat disabled waiting on a reply that couldn't come. Both check the connection first now.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A closed forum topic had no way to reach it, because the topic list filtered it out. There's a Closed filter now, and a closed topic carries a chip in the list.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "From 1164px wide, the thread panel sits beside the conversation instead of covering it, and the conversation keeps its own width instead of losing it to the panel. Below that width the panel still takes the whole screen, and a half-written reply survives moving between the two.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "You can close a thread from the panel's menu now, not only reopen one. A closed thread says what closing means, since it isn't deleting anything and it can be undone.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A message refused twice sat pending forever, with its spinner never going away. It fails now and hands the text back to the composer.",
+      },
+      {
+        kind: "security",
+        area: "self-hosting",
+        text: "The image worker your desktop app runs for you answered on every address on your network instead of just your own machine. It answers on loopback only now.",
+      },
+    ],
+  },
+  {
     version: "1.11.37",
     date: "2026-09-23",
     line: "Threads keep their reply counts across a reload, and five things that were wrong with the thread panel are fixed. Hiding a conversation happens on your device now, and the server stops storing it. Messages get real headings and room to breathe, and unread and mention badges count what you'd count.",
@@ -1767,6 +1824,17 @@ export const app: ReleaseLine[] = [
  */
 export const server: ReleaseLine[] = [
   {
+    version: "1.10.22",
+    date: "2026-09-23",
+    line: "Forum topics arrive with their tags now, because thread summaries are built through one function instead of copied by hand in two places.",
+    changes: [
+      {
+        kind: "fixed",
+        text: "A thread created inside a forum arrived without its tags. thread:create and forum:topic:create each built the thread:created object by hand, and both were missing the tags field. Both call the shared builder now.",
+      },
+    ],
+  },
+  {
     version: "1.10.21",
     date: "2026-09-23",
     line: "A self-hosted bundle binds to your whole network by default instead of only to itself, so people can actually reach it. A replaced member's old connection is cut off straight away, the server's version stays hidden until somebody joins, and the app can show a channel's reply counts without opening every thread. Update if you run a server.",
@@ -2592,6 +2660,17 @@ export const voice: ReleaseLine[] = [
  * dependency bump gets a line here and would not elsewhere.
  */
 export const images: ReleaseLine[] = [
+  {
+    version: "1.2.7",
+    date: "2026-09-23",
+    line: "The health endpoint answers on loopback only by default now, instead of on every interface.",
+    changes: [
+      {
+        kind: "security",
+        text: "The health endpoint answered on every network interface, handing anyone on the same network the worker's version and its processing counters. It binds to 127.0.0.1 by default now. The Docker image still binds every interface, since Compose publishes the port and the server dials the worker from a second container.",
+      },
+    ],
+  },
   {
     version: "1.2.6",
     date: "2026-09-10",
