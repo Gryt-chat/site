@@ -165,7 +165,7 @@ export const app: ReleaseLine[] = [
   {
     version: "1.11.37",
     date: "2026-09-23",
-    line: "Threads keep their reply counts across a reload now, and the panel is fixed in a handful of places \u2014 a thread deleted elsewhere no longer closes yours, and a failed reply retries once instead of disappearing. Hiding a conversation moved to your device; the server doesn't store it anymore. Messages also get real headings and better spacing, and unread counts and mention badges are more accurate.",
+    line: "Threads keep their reply counts across a reload, and five things that were wrong with the thread panel are fixed. Hiding a conversation happens on your device now, and the server stops storing it. Messages get real headings and room to breathe, and unread and mention badges count what you'd count.",
     changes: [
       {
         kind: "changed",
@@ -1769,8 +1769,16 @@ export const server: ReleaseLine[] = [
   {
     version: "1.10.21",
     date: "2026-09-23",
-    line: "A self-hosted bundle now binds to your whole network by default instead of just itself, and this release closes a handful of smaller security gaps too.",
+    line: "A self-hosted bundle binds to your whole network by default instead of only to itself, so people can actually reach it. A replaced member's old connection is cut off straight away, the server's version stays hidden until somebody joins, and the app can show a channel's reply counts without opening every thread. Update if you run a server.",
     changes: [
+      {
+        kind: "new",
+        text: "A channel's history now carries its threads' reply counts, so the app can show them without opening each thread. An app on an older server keeps the old behaviour until the server updates.",
+      },
+      {
+        kind: "changed",
+        text: "The server no longer stores which conversations somebody has hidden. Hiding is a per-device thing in the app now, and the stored rows are cleared when this release starts.",
+      },
       {
         kind: "fixed",
         text: "A self-hosted bundle's server bound to localhost only, so nothing else on your network could reach it. It binds to every interface by default now.",
@@ -1788,7 +1796,7 @@ export const server: ReleaseLine[] = [
         text: "Replacing a member's identity left their old connection acting as them until it reconnected on its own. That connection is cut immediately now.",
       },
       {
-        kind: "security",
+        kind: "changed",
         text: "How often someone can change their status is rate limited now, so a script can't make the server broadcast the member list to everyone over and over.",
       },
       {
