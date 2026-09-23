@@ -163,6 +163,83 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.11.37",
+    date: "2026-09-23",
+    line: "Threads keep their reply counts across a reload now, and the panel is fixed in a handful of places \u2014 a thread deleted elsewhere no longer closes yours, and a failed reply retries once instead of disappearing. Hiding a conversation moved to your device; the server doesn't store it anymore. Messages also get real headings and better spacing, and unread counts and mention badges are more accurate.",
+    changes: [
+      {
+        kind: "changed",
+        area: "chat",
+        text: "Headings in a message render as real headings now, and the space between blocks scales with your chat text size instead of being fixed pixels, so a heavily formatted message doesn't turn into a grey wall. Long messages fold by line count instead of pixel height, and lists show their bullets again.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "Unread and mention counts were wrong after a reload: mentions could sit unseen with no badge to show it, and a reply inside a thread never added to its channel's count. The badge also showed whichever of the two numbers was bigger instead of the right one. All three are fixed.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A channel's reply counts now survive a reload. Before, every thread reset to \"0 replies\" until you reopened it.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "Five bugs in the thread panel: deleting any thread in the channel closed whatever thread you had open, a thread you weren't allowed to read loaded forever instead of saying so, Escape inside the composer closed the whole panel instead of just the mention list or emoji picker, a thread opened at its oldest reply instead of its newest, and a failed reply lost its text. All five are fixed, and a failed reply now retries once before handing the text back to you.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "Hiding a conversation now happens on your device instead of the server, which no longer stores it. A Hidden section under Messages lists what you've hidden, with an Undo right after you hide something.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A failed message send now puts your text back in the composer. Before, it only moved focus there and dropped what you'd written.",
+      },
+      {
+        kind: "fixed",
+        area: "voice",
+        text: "Someone's camera could get stuck showing \"Connecting video\u2026\" after their camera restarted mid-call, even though their video was already playing. It shows the video now.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "Group settings save as you go now, the same as everywhere else in Gryt. No more Save button for the picture, the name, or adding a member.",
+      },
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "The Audio and Notifications settings pages scrolled sideways at narrow widths. Fixed down to the 300px minimum Gryt supports.",
+      },
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "The settings window could push its title and close button off screen on a short display. It fits the window you have now.",
+      },
+      {
+        kind: "fixed",
+        area: "servers",
+        text: "The add-server and settings buttons in the server rail had no name for a screen reader. They're named now.",
+      },
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "If your connection gave up retrying after fifteen attempts, it stayed down for the rest of the session. Bringing the app back to the front retries it now.",
+      },
+      {
+        kind: "fixed",
+        area: "servers",
+        text: "A new channel briefly showed up twice in the sidebar before settling down. That flash is gone.",
+      },
+      {
+        kind: "changed",
+        area: "self-hosting",
+        text: "The server built into the desktop app is updated to 1.10.21, which binds to your whole network by default in self-hosted bundles and includes a handful of smaller security fixes.",
+      },
+    ],
+  },
+  {
     version: "1.11.36",
     date: "2026-09-22",
     line: "Video stays up when the server restarts, and your camera stays on when a call has to rebuild itself. Channels in a folder show that they follow it, and dragging a folder takes its channels with it. Thanks to Carlo, who sponsored Gryt back in March.",
@@ -1689,6 +1766,41 @@ export const app: ReleaseLine[] = [
  * So a reader here is usually somebody deciding whether to pull a new image.
  */
 export const server: ReleaseLine[] = [
+  {
+    version: "1.10.21",
+    date: "2026-09-23",
+    line: "A self-hosted bundle now binds to your whole network by default instead of just itself, and this release closes a handful of smaller security gaps too.",
+    changes: [
+      {
+        kind: "fixed",
+        text: "A self-hosted bundle's server bound to localhost only, so nothing else on your network could reach it. It binds to every interface by default now.",
+      },
+      {
+        kind: "fixed",
+        text: "The Add a server preview counted everyone who had ever joined a server, including people who left. It counts active members only now.",
+      },
+      {
+        kind: "fixed",
+        text: "Blocking a guest, then having them sign into an account, used to lose the block \u2014 it stayed on the guest's temporary id instead of following them to the account. Blocks carry over either way now.",
+      },
+      {
+        kind: "security",
+        text: "Replacing a member's identity left their old connection acting as them until it reconnected on its own. That connection is cut immediately now.",
+      },
+      {
+        kind: "security",
+        text: "How often someone can change their status is rate limited now, so a script can't make the server broadcast the member list to everyone over and over.",
+      },
+      {
+        kind: "fixed",
+        text: "A file loaded without an Origin header, such as an image or video tag, could get cached by the browser with no `Vary: Origin`. A later request for the same file could then get wrongly refused off that cached response. Every response carries `Vary: Origin` now, not just the ones that had one.",
+      },
+      {
+        kind: "security",
+        text: "Anyone connecting to a server's socket could read its version before joining, and a version number is enough to go looking for known holes. The version stays hidden until you've actually joined.",
+      },
+    ],
+  },
   {
     version: "1.10.20",
     date: "2026-09-22",
