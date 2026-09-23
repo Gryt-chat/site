@@ -323,11 +323,11 @@ function formatDate(date) {
 
 
 /**
- * Quantised to 64 colours. The grain defeats PNG's row filters, so a truecolour card lands
- * at a megabyte; 64 entries covers a flat field and a two-tone bird, and grains as dither.
+ * 16, not 64: past 16 some vips builds skip quantisation and hand back a 256-colour
+ * PNG four times the size, and 16 is already enough for a flat field and a two-tone bird.
  */
 async function write(svg, file) {
-  await sharp(Buffer.from(svg)).png({ palette: true, colours: 64 }).toFile(file);
+  await sharp(Buffer.from(svg)).png({ palette: true, colours: 16 }).toFile(file);
   console.log(`  ${file.slice(publicDir.length - 6)}`);
 }
 
