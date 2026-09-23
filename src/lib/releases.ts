@@ -3,6 +3,8 @@
  * purpose: two callers disagreeing about the Windows installer sends somebody the wrong file.
  */
 
+import latestRelease from "../data/latestRelease.json" with { type: "json" };
+
 export interface ReleaseAsset {
   name: string;
   browser_download_url: string;
@@ -193,41 +195,12 @@ export function packageManagersFor(os: OS | null): PackageManager[] {
   return forPlatform(PACKAGE_MANAGERS, os, (p) => Boolean(p.command));
 }
 
-const LATEST =
-  "https://api.github.com/repos/Gryt-chat/gryt/releases/latest";
-
-/**
- * One request per page load, however many things ask. GitHub allows sixty an hour per
- * address. The promise is cached rather than the result, and a failure is not cached.
- */
-let inFlight: Promise<Release> | null = null;
-
+/** Baked in at build time by scripts/fetch-latest-release.mjs, not fetched by the browser.
+ * Still async and still takes a signal, so none of its three callers needed to change. */
 export function fetchLatestRelease(signal?: AbortSignal): Promise<Release> {
-  if (inFlight) return inFlight;
-
-  // Deliberately not passing `signal` to the shared fetch: one caller unmounting must not
-  // cancel the request every other caller is waiting on. The abort is honoured per caller.
-  inFlight = fetch(LATEST)
-    .then((res) => {
-      if (!res.ok) throw new Error(`GitHub answered ${res.status}`);
-      return res.json() as Promise<Release>;
-    })
-    .catch((err) => {
-      inFlight = null;
-      throw err;
-    });
-
-  if (!signal) return inFlight;
-
-  const shared = inFlight;
   return new Promise<Release>((resolve, reject) => {
-    if (signal.aborted) return reject(new DOMException("Aborted", "AbortError"));
-    signal.addEventListener(
-      "abort",
-      () => reject(new DOMException("Aborted", "AbortError")),
-      { once: true },
-    );
-    shared.then(resolve, reject);
+    if (signal?.aborted) return reject(new DOMException("Aborted", "AbortError"));
+    resolve(latestRelease as Release);
   });
 }
 
