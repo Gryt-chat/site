@@ -165,7 +165,7 @@ export const app: ReleaseLine[] = [
   {
     version: "1.11.38",
     date: "2026-09-23",
-    line: "Threads stop drawing controls the server refuses, like Mark solved for everyone and a live composer on a closed thread. A delete confirm now says it's taking the thread's replies too, and the panel sits beside your conversation above 1164px instead of covering it. You can close a thread now, not only reopen one, and a message refused twice fails outright instead of sitting there forever. The image worker your desktop app runs for you answers on loopback only.",
+    line: "The thread panel sits beside your conversation on a wide window instead of covering it, and you can reach the messages behind it again. Threads stop offering buttons the server turns down, you can close one rather than only reopen it, and a message that fails twice hands your text back instead of sitting there.",
     changes: [
       {
         kind: "fixed",
@@ -1826,7 +1826,7 @@ export const server: ReleaseLine[] = [
   {
     version: "1.10.22",
     date: "2026-09-23",
-    line: "Forum topics arrive with their tags now, because thread summaries are built through one function instead of copied by hand in two places.",
+    line: "A forum topic arrives with its tags again. Before, a new one turned up without them until something else refreshed the list.",
     changes: [
       {
         kind: "fixed",
