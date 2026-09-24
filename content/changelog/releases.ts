@@ -163,6 +163,28 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.11.42",
+    date: "2026-09-24",
+    line: "Your camera and screen share now send only as much as the people watching actually see, and pause while nobody can see them, which saves your upload for everything else. On a phone-width window the call sheet shows the video tiles again instead of a thin strip.",
+    changes: [
+      {
+        kind: "new",
+        area: "voice",
+        text: "The app tells the voice server how big it draws each video. Your camera and screen share send at the largest size anyone is watching them at, and pause while nobody can see them, for example when everyone has the call minimized. The quality you pick in the camera and share menus is still the most they'll ever send. It needs a server on 1.10.27 or later; on older servers video works as before.",
+      },
+      {
+        kind: "fixed",
+        area: "voice",
+        text: "In a narrow window the call sheet squeezed the video tiles into a strip about 30 pixels tall. They fill the sheet now.",
+      },
+      {
+        kind: "changed",
+        area: "self-hosting",
+        text: "The server built into the desktop app is updated to 1.10.28, which no longer crashes when a file download fails partway through.",
+      },
+    ],
+  },
+  {
     version: "1.11.41",
     date: "2026-09-24",
     line: "The call bar shows what's on at a glance, and your camera and screen share each open a menu while they're live, so you can change the quality, switch source or stop. Channels only show the buttons their rules let you use, and muted channels can be hidden from the sidebar.",
@@ -1934,6 +1956,18 @@ export const app: ReleaseLine[] = [
  * So a reader here is usually somebody deciding whether to pull a new image.
  */
 export const server: ReleaseLine[] = [
+  {
+    version: "1.10.28",
+    date: "2026-09-24",
+    line: "A storage error partway through a file, emoji or server icon download used to crash the whole server. Now only that one download stops, and the error is logged.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "self-hosting",
+        text: "If storage failed in the middle of sending a file, emoji or server icon, the error had nowhere to go and took the server process down with it. Only that download is cut short now, and the error is logged.",
+      },
+    ],
+  },
   {
     version: "1.10.27",
     date: "2026-09-24",
