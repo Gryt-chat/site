@@ -163,6 +163,28 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.11.39",
+    date: "2026-09-24",
+    line: "A muted member now sees it in the chat box, with when the mute lifts, and keeps what they typed. Removing a server while its call is reconnecting now lets go of your microphone, and What's New keeps each section's heading in view.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "Sending a message while muted only showed a generic error toast. The chat box now says you're muted and, if there's an end time, when it lifts, and keeps what you typed instead of clearing it.",
+      },
+      {
+        kind: "fixed",
+        area: "voice",
+        text: "A call still reconnecting when you removed its server kept your microphone open. Removing the server now ends the call and releases the mic.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "The What's New list keeps each section's heading pinned at the top while you're reading it, with a small icon next to the name.",
+      },
+    ],
+  },
+  {
     version: "1.11.38",
     date: "2026-09-23",
     line: "The thread panel sits beside your conversation on a wide window instead of covering it, and you can reach the messages behind it again. Threads stop offering buttons the server turns down, you can close one rather than only reopen it, and a message that fails twice hands your text back instead of sitting there.",
@@ -1823,6 +1845,17 @@ export const app: ReleaseLine[] = [
  * So a reader here is usually somebody deciding whether to pull a new image.
  */
 export const server: ReleaseLine[] = [
+  {
+    version: "1.10.23",
+    date: "2026-09-24",
+    line: "Switching between two voice channels on the same server moves you properly now. The channel you left sees you go, and the new one hears you.",
+    changes: [
+      {
+        kind: "fixed",
+        text: "Switching from one voice channel to another on the same server left your socket in the old channel's room. The old channel kept hearing you and the new one didn't, even though the member list showed you in the right place. You're moved into the right room now.",
+      },
+    ],
+  },
   {
     version: "1.10.22",
     date: "2026-09-23",
