@@ -1888,6 +1888,18 @@ export const app: ReleaseLine[] = [
  */
 export const server: ReleaseLine[] = [
   {
+    version: "1.10.25",
+    date: "2026-09-24",
+    line: "The server now tells the SFU whether each member may share a camera or screen in the room they join, so SFU 1.0.70 can refuse video a channel doesn't allow. Update both if you run a server.",
+    changes: [
+      {
+        kind: "security",
+        area: "voice",
+        text: "A channel's camera and screen sharing permissions are now enforced by the SFU too. Before, a modified app could skip the server's check and send video anyway.",
+      },
+    ],
+  },
+  {
     version: "1.10.24",
     date: "2026-09-24",
     line: "Rules you set on a channel now also cover attachments, reactions, editing and deleting messages, reports, and camera and screen sharing, so some that did nothing before take effect now. Update if you run a server.",
@@ -2578,6 +2590,11 @@ export const server: ReleaseLine[] = [
  * about calls connecting, staying up, or costing less to carry.
  */
 export const voice: ReleaseLine[] = [
+  {
+    version: "1.0.70",
+    date: "2026-09-24",
+    line: "The SFU now turns away camera and screen video from anyone a channel doesn't allow to share it. Until now only the server checked, so a modified app could still send video into a room that had it turned off. It needs server 1.10.25 to know who's allowed, and with an older server it lets video through like before.",
+  },
   {
     version: "1.0.69",
     date: "2026-09-21",
