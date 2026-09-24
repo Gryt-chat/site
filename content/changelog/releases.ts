@@ -164,7 +164,7 @@ export const securityNotices: SecurityNotice[] = [
 export const app: ReleaseLine[] = [
   {
     version: "1.11.44",
-    date: "2026-09-25",
+    date: "2026-09-24",
     line: "A message you send while the server restarts now waits and goes out once it's back, instead of sitting grey until you reload.",
     changes: [
       {
@@ -2012,7 +2012,7 @@ export const app: ReleaseLine[] = [
 export const server: ReleaseLine[] = [
   {
     version: "1.10.30",
-    date: "2026-09-25",
+    date: "2026-09-24",
     line: "A message sent again after a restart no longer posts twice, and history loads in full straight after a restart. Update before the app, so resends after a restart are safe.",
     changes: [
       {
