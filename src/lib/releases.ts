@@ -195,12 +195,26 @@ export function packageManagersFor(os: OS | null): PackageManager[] {
   return forPlatform(PACKAGE_MANAGERS, os, (p) => Boolean(p.command));
 }
 
+/** A release the page can actually show. Guards against an empty {} in the baked file,
+ * which is valid JSON but has nothing to render. */
+function isUsableRelease(value: unknown): value is Release {
+  return (
+    typeof value === "object" &&
+    value !== null &&
+    typeof (value as Release).tag_name === "string" &&
+    Array.isArray((value as Release).assets)
+  );
+}
+
 /** Baked in at build time by scripts/fetch-latest-release.mjs, not fetched by the browser.
  * Still async and still takes a signal, so none of its three callers needed to change. */
 export function fetchLatestRelease(signal?: AbortSignal): Promise<Release> {
   return new Promise<Release>((resolve, reject) => {
     if (signal?.aborted) return reject(new DOMException("Aborted", "AbortError"));
-    resolve(latestRelease as Release);
+    if (!isUsableRelease(latestRelease)) {
+      return reject(new Error("latestRelease.json is empty or missing required fields"));
+    }
+    resolve(latestRelease);
   });
 }
 

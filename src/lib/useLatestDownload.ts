@@ -41,8 +41,8 @@ export function useLatestDownload(): LatestDownload {
         setOption(primaryOption(categorizeAssets(release.assets)[os], os, arch));
       })
       .catch(() => {
-        // Aborted, offline, or rate-limited. The caller falls back to a link to
-        // the releases page, which is where this was pointing before anyway.
+        // Aborted, or the baked-in file is empty. The caller falls back to a
+        // link to the releases page, which is where this was pointing anyway.
       });
 
     return () => controller.abort();
