@@ -180,10 +180,10 @@ export function DownloadPage() {
 
           {!phone && state.kind === "failed" && (
             <>
-              <h1 className={styles.title}>Couldn't reach GitHub</h1>
+              <h1 className={styles.title}>The download list isn&rsquo;t available right now</h1>
               <p className={styles.body}>
-                Gryt asks GitHub which build is the latest one, and that
-                didn't come back. It usually sorts itself out.
+                Nothing wrong with your connection. This page
+                doesn&rsquo;t have the list yet.
               </p>
               <div className={styles.actions}>
                 <Button render={<Link to="/#download" />} size="large">

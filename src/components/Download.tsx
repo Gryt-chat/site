@@ -184,7 +184,7 @@ export function Download() {
               {error && (
                 <div className={styles.fallback}>
                   <Alert severity="warning">
-                    Couldn&rsquo;t reach GitHub for the list of releases.
+                    The list of releases isn&rsquo;t available right now.
                   </Alert>
                   <Button
                     render={<a href={RELEASES_URL} target="_blank" rel="noreferrer" />}
