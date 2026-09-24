@@ -1935,6 +1935,23 @@ export const app: ReleaseLine[] = [
  */
 export const server: ReleaseLine[] = [
   {
+    version: "1.10.27",
+    date: "2026-09-24",
+    line: "Someone whose membership moves to another identity, or who signs in as someone else on the same connection, now leaves the voice call. Before, they stayed in it and could still be heard. It also ships SFU 1.0.71. Update if you run a server.",
+    changes: [
+      {
+        kind: "security",
+        area: "voice",
+        text: "Replacing or merging a member's identity took away their access but left their connection in the voice call, where they could still be heard. They're taken out of the call now.",
+      },
+      {
+        kind: "changed",
+        area: "voice",
+        text: "Ships SFU 1.0.71, which stops sending video to viewers who can't see it and tells the sender, so newer apps can send less.",
+      },
+    ],
+  },
+  {
     version: "1.10.26",
     date: "2026-09-24",
     line: "Members now get what they may do in each channel, so the app can hide what a channel doesn't allow. And a channel that allows sending messages or joining voice now lets in a role that can't do that elsewhere on the server, which it didn't before. Update if you run a server.",
@@ -2654,6 +2671,11 @@ export const server: ReleaseLine[] = [
  * about calls connecting, staying up, or costing less to carry.
  */
 export const voice: ReleaseLine[] = [
+  {
+    version: "1.0.71",
+    date: "2026-09-24",
+    line: "The SFU now listens to how big each viewer draws a video, stops sending it to anyone who can't see it, and tells the sender, so an app that supports it can send less or pause video nobody is watching. Apps that don't say anything get video exactly as before.",
+  },
   {
     version: "1.0.70",
     date: "2026-09-24",
