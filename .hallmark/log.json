@@ -1,10 +1,10 @@
 [
   {
     "date": "2026-09-25",
-    "macrostructure": "three drafts: one-answer hero / platform tabs / platform-by-format table",
+    "macrostructure": "component-scope: one clear answer (live store first, file beside it)",
     "theme": "Gryt tokens (project-locked, design.md)",
     "enrichment": "none",
-    "brief": "Download section redesign, three directions behind ?variant=a|b|c (dev only) for Sivert to pick from"
+    "brief": "Download section: stores Gryt is in lead, unreleased ones named on one line, GitHub release link; picked from three drafts"
   },
   {
     "date": "2026-09-07",

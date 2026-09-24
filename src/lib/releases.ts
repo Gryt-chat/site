@@ -60,11 +60,14 @@ export interface Badge {
   height: number;
 }
 
-/** `url` is the listing. A store without one isn't open yet, and its badge is drawn faded. */
+/** `url` is the listing. A store without one isn't open yet: it's named once, as coming later. */
 export interface Store {
   os: OS;
+  name: string;
   badge: Badge;
   url?: string;
+  /** One line on why the store beats the file, shown under its badge. */
+  why?: string;
   /** The file label that stands in until the store opens, when the release has one. */
   standIn?: string;
 }
@@ -73,7 +76,9 @@ export interface Store {
 export const STORES: Store[] = [
   {
     os: "windows",
+    name: "Microsoft Store",
     url: MS_STORE_URL,
+    why: "No security warning, and it updates itself.",
     /* The light one from apps.microsoft.com/badge, which says light on dark. Its dark
        badge is #202020 with a 10% black edge, and that disappears on --bg-raised. */
     badge: {
@@ -85,7 +90,9 @@ export const STORES: Store[] = [
   },
   {
     os: "linux",
+    name: "Snap Store",
     url: SNAP_STORE_URL,
+    why: "Installs in one step and updates itself.",
     /* Canonical's black badge, CC BY-ND 2.0 UK, as snapcraft.io/static/images/badges/en
        serves it. The licence is in github.com/snapcore/snap-store-badges. */
     badge: {
@@ -97,6 +104,7 @@ export const STORES: Store[] = [
   },
   {
     os: "linux",
+    name: "Flathub",
     /* The preferred black badge from flathub.org/badges, as /api/badge?svg&locale=en serves it.
        CC0: Jakub Steiner waived all rights to it. GRYT-969 is why Gryt isn't there yet. */
     badge: {
@@ -109,6 +117,7 @@ export const STORES: Store[] = [
   },
   {
     os: "macos",
+    name: "Mac App Store",
     /* Apple's black badges, from developer.apple.com/app-store/marketing/guidelines under
        its App Store Marketing Artwork License Agreement. One App Store record covers both. */
     badge: {
@@ -120,6 +129,7 @@ export const STORES: Store[] = [
   },
   {
     os: "ios",
+    name: "App Store",
     badge: {
       src: "/badges/app-store.svg",
       alt: "Download on the App Store",
@@ -129,6 +139,7 @@ export const STORES: Store[] = [
   },
   {
     os: "android",
+    name: "Google Play",
     /* Google's PNG from play.google.com/intl/en_us/badges, under its brand guidelines, with the
        transparent margin trimmed. Its other files sit behind an agreement on the Partner Marketing Hub. */
     badge: {
@@ -140,6 +151,7 @@ export const STORES: Store[] = [
   },
   {
     os: "android",
+    name: "F-Droid",
     /* get-it-on.svg from f-droid.org/badge, CC BY-SA 3.0 per f-droid.org/docs/Badges, with the
        transparent margin cropped off in its viewBox. Nothing else in the file is changed. */
     badge: {
@@ -153,9 +165,10 @@ export const STORES: Store[] = [
 
 export interface PackageManager {
   os: OS;
+  name: string;
   /** The Snippet label. */
   label: string;
-  /** Only once it installs a current build. Until then it's drawn faded, as coming. */
+  /** Only once it installs a current build. Until then it's named once, as coming later. */
   command?: string;
 }
 
@@ -163,39 +176,39 @@ export interface PackageManager {
 export const PACKAGE_MANAGERS: PackageManager[] = [
   {
     os: "macos",
+    name: "Homebrew",
     label: "Homebrew · macOS",
     command: "brew install --cask gryt-chat/tap/gryt-chat",
   },
-  { os: "linux", label: "snap · Linux", command: "sudo snap install gryt-chat" },
-  { os: "linux", label: "AUR · Arch Linux", command: "yay -S gryt-chat-bin" },
+  { os: "linux", name: "snap", label: "snap · Linux", command: "sudo snap install gryt-chat" },
+  { os: "linux", name: "AUR", label: "AUR · Arch Linux", command: "yay -S gryt-chat-bin" },
   /* Gryt.GrytChat is still an open submission to winget-pkgs. */
-  { os: "windows", label: "winget · Windows" },
+  { os: "windows", name: "winget", label: "winget · Windows" },
   /* Neither is started. GRYT-961 tracks every store and package manager. */
-  { os: "windows", label: "Scoop · Windows" },
-  { os: "windows", label: "Chocolatey · Windows" },
+  { os: "windows", name: "Scoop", label: "Scoop · Windows" },
+  { os: "windows", name: "Chocolatey", label: "Chocolatey · Windows" },
 ];
 
-/* One App Store record covers iPhone and Mac, so each one's visitor gets the other's badge next. */
-const APPLE_TWIN: Partial<Record<OS, OS>> = { macos: "ios", ios: "macos" };
-
-/** Your own platform first, then its Apple twin, then everyone else's. Within each, what's
-    open comes before what's coming, and otherwise the order given. Nothing is left out. */
-export function forPlatform<T extends { os: OS }>(
-  items: T[],
-  os: OS | null,
-  open: (item: T) => boolean,
-): T[] {
-  const place = (i: T) =>
-    (i.os === os ? 0 : os && i.os === APPLE_TWIN[os] ? 2 : 4) + (open(i) ? 0 : 1);
-  return [...items].sort((a, b) => place(a) - place(b));
+/** The store a platform's visitor should be sent to first, if one is open. */
+export function liveStore(os: OS | null): Store | null {
+  return STORES.find((s) => s.os === os && s.url) ?? null;
 }
 
-export function storesFor(os: OS | null): Store[] {
-  return forPlatform(STORES, os, (s) => Boolean(s.url));
+export function liveCommands(os: OS | null): PackageManager[] {
+  return PACKAGE_MANAGERS.filter((p) => p.os === os && p.command);
 }
 
-export function packageManagersFor(os: OS | null): PackageManager[] {
-  return forPlatform(PACKAGE_MANAGERS, os, (p) => Boolean(p.command));
+/** The file label to offer while a platform's store isn't open, if the release has one. */
+export function standInFor(os: OS | null): string | undefined {
+  return STORES.find((s) => s.os === os && !s.url && s.standIn)?.standIn;
+}
+
+/** Every store and package manager that isn't open yet, by name, for one quiet line. */
+export function comingLater(): string[] {
+  return [
+    ...STORES.filter((s) => !s.url).map((s) => s.name),
+    ...PACKAGE_MANAGERS.filter((p) => !p.command).map((p) => p.name),
+  ];
 }
 
 /** A release the page can actually show. Guards against an empty {} in the baked file,
@@ -240,14 +253,8 @@ export function isDesktop(os: OS | null): os is DesktopOS {
   return os === "windows" || os === "macos" || os === "linux";
 }
 
-/** The id of the front page's file download. A link to /#download-file opens it. */
+/** The id of the front page's direct download. /download links there for other builds. */
 export const FILE_ANCHOR = "download-file";
-
-/** Whether that section should open: closed unless a link asked for it, and closed in the
-    prerender, which has no hash. */
-export function fileAskedFor(hash: string, hydrated: boolean): boolean {
-  return hydrated && hash === `#${FILE_ANCHOR}`;
-}
 
 /** What /download fetches. `?os=` only counts on a computer, so a phone never gets a file. */
 export function downloadTarget(detected: OS | null, asked: string | null): OS | null {
@@ -349,6 +356,31 @@ export function filesFor(
     const pick = matches.find((o) => o.withServer === withServer) ?? matches[0];
     return pick ? [pick] : [];
   });
+}
+
+/** One format with both of its builds. Either can be missing from a release. */
+export interface Format {
+  label: string;
+  description: string;
+  slim?: DownloadOption;
+  full?: DownloadOption;
+}
+
+export function formatsFor(options: DownloadOption[], os: OS): Format[] {
+  return filesFor(options, os, false).map(({ label, description }) => {
+    const pair = options.filter((o) => o.label === label);
+    return {
+      label,
+      description,
+      slim: pair.find((o) => !o.withServer),
+      full: pair.find((o) => o.withServer),
+    };
+  });
+}
+
+/** Portable and the Flatpak bundle are the two that don't, and their descriptions say so. */
+export function updatesItself(format: Format): boolean {
+  return !/(does not|doesn.t) update itself/i.test(format.description);
 }
 
 export function categorizeAssets(

@@ -157,14 +157,6 @@
   align-self: center;
 }
 
-/* A store that isn't open yet: its faded badge, and what it's waiting on under it. */
-.comingBadge {
-  display: grid;
-  justify-items: center;
-  gap: 10px;
-  margin-top: 8px;
-}
-
 @media (prefers-reduced-motion: reduce) {
   .pulse {
     animation: none;
