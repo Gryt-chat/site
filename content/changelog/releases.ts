@@ -163,6 +163,53 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.11.41",
+    date: "2026-09-24",
+    line: "The call bar shows what's on at a glance, and your camera and screen share each open a menu while they're live, so you can change the quality, switch source or stop. Channels only show the buttons their rules let you use, and muted channels can be hidden from the sidebar.",
+    changes: [
+      {
+        kind: "changed",
+        area: "voice",
+        text: "The call bar's buttons change color and icon with what's on: red and crossed out when you're muted or deafened, green while your camera or screen share is live. A lock shows when a moderator muted you.",
+      },
+      {
+        kind: "new",
+        area: "voice",
+        text: "While your camera or screen share is on, its button opens a menu. You can change the quality without stopping, switch to another camera or window, or stop. The people watching keep seeing you the whole time.",
+      },
+      {
+        kind: "fixed",
+        area: "voice",
+        text: "Cancelling the picker while switching to another window marked your share as stopped but left the capture running. The share you had keeps going now.",
+      },
+      {
+        kind: "fixed",
+        area: "voice",
+        text: "In a very narrow window the mic and leave buttons were cut off. The call bar wraps onto two rows now.",
+      },
+      {
+        kind: "changed",
+        area: "servers",
+        text: "If a channel's rules don't let you do something, its button is gone in that channel: reactions, attachments, editing, deleting, reporting, threads, new topics, camera and screen share. A channel you can read but not post in says so where the message box would be. A camera or share you already had on keeps its button so you can turn it off.",
+      },
+      {
+        kind: "new",
+        area: "notifications",
+        text: "Muted channels can be hidden from the sidebar, from the server's right-click menu. The channel you're in, your voice channel and any channel with a mention stay. A Hidden row at the bottom of the list brings them back.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A thread reply deleted while the thread was loading could come back. It stays gone now, and a burst of thread replies over the send limit no longer leaves some of them stuck pending.",
+      },
+      {
+        kind: "changed",
+        area: "self-hosting",
+        text: "The server built into the desktop app is updated to 1.10.26, which tells the app what you may do in each channel.",
+      },
+    ],
+  },
+  {
     version: "1.11.40",
     date: "2026-09-24",
     line: "A thread reply that arrived while you were loading the thread no longer goes missing, and a burst of refused messages no longer leaves the rest of your queue stuck. Speaking rings and latency badges now survive a server restart, and a video in chat has its real shape before it loads instead of jumping around.",
@@ -1887,6 +1934,23 @@ export const app: ReleaseLine[] = [
  * So a reader here is usually somebody deciding whether to pull a new image.
  */
 export const server: ReleaseLine[] = [
+  {
+    version: "1.10.26",
+    date: "2026-09-24",
+    line: "Members now get what they may do in each channel, so the app can hide what a channel doesn't allow. And a channel that allows sending messages or joining voice now lets in a role that can't do that elsewhere on the server, which it didn't before. Update if you run a server.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "servers",
+        text: "Allowing Send messages or Join voice on a channel did nothing for a role that didn't have it server-wide, because the server-wide check came first. The channel's rule decides now.",
+      },
+      {
+        kind: "changed",
+        area: "servers",
+        text: "Each channel in the server's details now lists what the member may do there, which app 1.11.41 uses to hide the rest. Older apps ignore it.",
+      },
+    ],
+  },
   {
     version: "1.10.25",
     date: "2026-09-24",
