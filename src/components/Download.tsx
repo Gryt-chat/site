@@ -85,7 +85,8 @@ export function Download() {
   const commands = liveCommands(os);
   /* Flathub isn't open, so the release's .flatpak sits under the Snap Store until it is. */
   const standInLabel = standInFor(os);
-  const standIn = formats.find((f) => f.label === standInLabel)?.slim ?? null;
+  const standInFormat = formats.find((f) => f.label === standInLabel) ?? null;
+  const standIn = standInFormat?.slim ?? null;
   /* With no store open, a package manager is the second choice beside the file. */
   const second = store ? null : (commands[0] ?? null);
   const moreCommands = commands.filter((c) => c !== second);
@@ -196,6 +197,15 @@ export function Download() {
                       code={`flatpak install --user ~/Downloads/${standIn.fileName}`}
                       shell
                     />
+                    {standInFormat?.full && (
+                      <p className={styles.note}>
+                        Want the server in it too?{" "}
+                        <a href={standInFormat.full.url} download>
+                          Get the full Flatpak
+                        </a>{" "}
+                        ({formatSize(standInFormat.full.size)}).
+                      </p>
+                    )}
                   </div>
                 )}
               </div>
