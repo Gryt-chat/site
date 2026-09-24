@@ -163,6 +163,43 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.11.43",
+    date: "2026-09-24",
+    line: "You can mention @everyone, @here, a role or a #channel now, and notifications show names instead of the raw mention code. There's also a Flatpak for Linux.",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "Type @everyone to ping everyone who can read the channel, @here for just the people online, or @ and a role name for everyone with that role. It needs the new Mention everyone permission, which owners and admins have by default. Without it the text goes out as plain text and pings nobody.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "Type # to link a channel. Clicking the link opens it. Someone who can't see that channel gets a grey #private-channel instead, and never learns its name.",
+      },
+      {
+        kind: "new",
+        area: "notifications",
+        text: "Each server has a Suppress @everyone and @here setting, if you'd rather not be pinged by those. Channels set to Only mentions count them as mentions otherwise.",
+      },
+      {
+        kind: "fixed",
+        area: "notifications",
+        text: "A notification for someone joining showed the raw mention code instead of their name, and other notifications showed markdown symbols. They read as plain text now.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "Linux has a Flatpak now, on the download page and on every release. Install it with flatpak install --user and the file name, and do the same with the next release's file to update.",
+      },
+      {
+        kind: "changed",
+        area: "self-hosting",
+        text: "The server built into the desktop app is updated to 1.10.29, which handles the new mentions.",
+      },
+    ],
+  },
+  {
     version: "1.11.42",
     date: "2026-09-24",
     line: "Your camera and screen share now send only as much as the people watching actually see, and pause while nobody can see them, which saves your upload for everything else. On a phone-width window the call sheet shows the video tiles again instead of a thin strip.",
@@ -1956,6 +1993,23 @@ export const app: ReleaseLine[] = [
  * So a reader here is usually somebody deciding whether to pull a new image.
  */
 export const server: ReleaseLine[] = [
+  {
+    version: "1.10.29",
+    date: "2026-09-24",
+    line: "@everyone, @here, role and #channel mentions, with a new Mention everyone permission that owners and admins get by default. Update before the app so the new pings work.",
+    changes: [
+      {
+        kind: "new",
+        area: "servers",
+        text: "A new Mention everyone permission decides who can ping @everyone, @here and roles. It can be set per channel, and each role has an Anyone can mention this role switch. The server checks it, so a mention from someone without it is stored as plain text and pings nobody.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "#channel links only ever carry the channel id, so a member who can't see a channel never receives its name.",
+      },
+    ],
+  },
   {
     version: "1.10.28",
     date: "2026-09-24",
