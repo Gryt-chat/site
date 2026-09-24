@@ -228,7 +228,7 @@ assert.ok(
   assert.ok(header > 0, `${ENTRY} doesn't draw the line on a release that was split up`);
   assert.ok(header < block && block < areaList, `${ENTRY} doesn't draw the line, then security, then the areas`);
   assert.ok(
-    entry.includes('<h2 className={styles.area}>Security</h2>') && entry.includes("<Kinds changes={security} />"),
+    entry.includes('<AreaHeading label="Security" icon={PiShieldCheckFill} />') && entry.includes("<Kinds changes={security} />"),
     `${ENTRY} draws security without its heading, or without its chip`,
   );
 }
@@ -253,7 +253,7 @@ assert.equal(
 }
 assert.ok(
   entry.includes("const headed = (areas?.length ?? 0) > 1") &&
-    entry.includes("{headed && <h2 className={styles.area}>{area}</h2>}"),
+    entry.includes("{headed && <AreaHeading label={area} icon={AREA_ICONS[area] ?? OTHER_ICON} />}"),
   `${ENTRY} heads a release whose changes are all in one area, or never heads one`,
 );
 assert.ok(

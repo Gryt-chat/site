@@ -1,6 +1,17 @@
 import { Fragment, Suspense, useEffect } from 'react'
 import { useParams, Link, Navigate } from 'react-router-dom'
 import { MdChevronLeft } from 'react-icons/md'
+import {
+  PiBellFill,
+  PiChatCircleFill,
+  PiDeviceMobileFill,
+  PiDotsThreeCircleFill,
+  PiGearFill,
+  PiHardDrivesFill,
+  PiHouseFill,
+  PiMicrophoneFill,
+  PiShieldCheckFill,
+} from 'react-icons/pi'
 import { Chip } from '@gryt/ui'
 import { getAppLine, getRelease, groupByArea, groupChanges, KIND_LABELS, splitSecurity } from '../lib/changelog'
 import { monthDayYear } from '../lib/formatDate'
@@ -9,6 +20,7 @@ import { Clip } from '../components/Clip'
 import { LightboxImage } from '../components/Lightbox'
 import styles from './ChangelogEntry.module.css'
 import type { ComponentPropsWithoutRef } from 'react'
+import type { IconType } from 'react-icons'
 import type { Change, ReleaseLine } from '../lib/changelog'
 
 function MdxLink({ href, ...rest }: ComponentPropsWithoutRef<'a'>) {
@@ -35,6 +47,31 @@ const components = { a: MdxLink, img: MdxImage, Clip }
 const TONES: Record<string, 'primary' | 'danger' | 'neutral'> = {
   new: 'primary',
   security: 'danger',
+}
+
+/** One icon per area, keyed by the label `groupByArea` returns. Copied from
+    the app's WhatsNewDialog so both places mark the same area the same way. */
+const AREA_ICONS: Record<string, IconType> = {
+  'Voice & video': PiMicrophoneFill,
+  Chat: PiChatCircleFill,
+  Notifications: PiBellFill,
+  'Servers & invites': PiHardDrivesFill,
+  'Settings & app': PiGearFill,
+  Phone: PiDeviceMobileFill,
+  'Self-hosting': PiHouseFill,
+}
+
+/** For an area this build has never seen. */
+const OTHER_ICON: IconType = PiDotsThreeCircleFill
+
+/** A pinned heading with its area's icon, or the shield for Security. */
+function AreaHeading({ label, icon: Icon }: { label: string; icon: IconType }) {
+  return (
+    <h2 className={styles.area}>
+      <Icon className={styles.areaIcon} size={14} />
+      {label}
+    </h2>
+  )
 }
 
 export function ChangelogEntry() {
@@ -144,16 +181,16 @@ function LineOnly({ line }: { line: ReleaseLine }) {
       {areas ? (
         <div className={styles.areas}>
           {security.length > 0 && (
-            <div className={styles.security}>
-              <h2 className={styles.area}>Security</h2>
+            <div className={`${styles.security} ${styles.areaGroup}`}>
+              <AreaHeading label="Security" icon={PiShieldCheckFill} />
               <Kinds changes={security} />
             </div>
           )}
           {areas.map(([area, changes]) => (
-            <Fragment key={area}>
-              {headed && <h2 className={styles.area}>{area}</h2>}
+            <div key={area} className={styles.areaGroup}>
+              {headed && <AreaHeading label={area} icon={AREA_ICONS[area] ?? OTHER_ICON} />}
               <Kinds changes={changes} />
-            </Fragment>
+            </div>
           ))}
         </div>
       ) : (
