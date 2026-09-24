@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom'
-import { useEffect, useState, type ReactNode } from 'react'
+import { Link, useSearchParams } from 'react-router-dom'
+import { useEffect, type ReactNode } from 'react'
 import { listReleases, SURFACES, type ListedRelease, type Surface } from '../lib/changelog'
 import { dayMonthYear } from '../lib/formatDate'
 import { pageTitle } from '../lib/title'
@@ -36,7 +36,17 @@ function LineRow({
  * card, every other is one line. The story of a feature is a blog post.
  */
 export function ChangelogIndex() {
-  const [surface, setSurface] = useState<Surface>('app')
+  const [searchParams, setSearchParams] = useSearchParams()
+  const requested = searchParams.get('surface')
+  const surface: Surface = SURFACES.some((s) => s.id === requested) ? (requested as Surface) : 'app'
+
+  function selectSurface(next: Surface) {
+    if (next === 'app') {
+      setSearchParams({}, { replace: true })
+    } else {
+      setSearchParams({ surface: next }, { replace: true })
+    }
+  }
 
   useEffect(() => {
     document.title = pageTitle('Changelog')
@@ -70,7 +80,7 @@ export function ChangelogIndex() {
             role="tab"
             aria-selected={s.id === surface}
             className={styles.surface}
-            onClick={() => setSurface(s.id)}
+            onClick={() => selectSurface(s.id)}
           >
             <span className={styles.surfaceName}>{s.name}</span>
             <span className={styles.surfaceMeta}>
