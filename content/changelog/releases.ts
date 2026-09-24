@@ -1959,8 +1959,18 @@ export const server: ReleaseLine[] = [
   {
     version: "1.10.28",
     date: "2026-09-24",
-    line: "A storage error partway through a file, emoji or server icon download used to crash the whole server. Now only that one download stops, and the error is logged.",
+    line: "A storage error partway through a download no longer crashes the server, filesystem storage works without a bucket name, and video poster frames come from the image worker instead of an unchecked ffmpeg call. Update the server and the image worker together.",
     changes: [
+      {
+        kind: "security",
+        area: "self-hosting",
+        text: "The server no longer runs ffmpeg itself to make video poster frames. Image worker 1.2.8 makes them in its sandbox, so a server without an up-to-date worker simply shows videos without a poster.",
+      },
+      {
+        kind: "fixed",
+        area: "self-hosting",
+        text: "A server using filesystem storage with no S3_BUCKET set failed every upload. It uses a folder called gryt now.",
+      },
       {
         kind: "fixed",
         area: "self-hosting",
@@ -2899,6 +2909,21 @@ export const voice: ReleaseLine[] = [
  * dependency bump gets a line here and would not elsewhere.
  */
 export const images: ReleaseLine[] = [
+  {
+    version: "1.2.8",
+    date: "2026-09-24",
+    line: "The image worker now makes the poster frame for uploaded videos, with ffmpeg locked to a short list of formats and codecs, a memory cap and a time limit. It also stores files in the right folder when the server uses filesystem storage.",
+    changes: [
+      {
+        kind: "security",
+        text: "Video poster frames used to come from whatever ffmpeg the server found on its PATH, run on a stranger's upload with no limits. The worker makes them now, and only reads mp4, webm, mkv and mov with h264, hevc, vp8, vp9 or AV1, under a 1 GiB memory cap and a time limit. Anything else gets no poster. The image is larger because it now includes ffmpeg.",
+      },
+      {
+        kind: "fixed",
+        text: "With filesystem storage and no bucket name set, thumbnails went into a folder the server never read. The worker uses the same default folder as the server now.",
+      },
+    ],
+  },
   {
     version: "1.2.7",
     date: "2026-09-23",
