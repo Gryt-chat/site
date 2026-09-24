@@ -163,6 +163,23 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.11.44",
+    date: "2026-09-25",
+    line: "A message you send while the server restarts now waits and goes out once it's back, instead of sitting grey until you reload.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "Messages sent while a server was restarting, or cut off on the way, stayed grey until you reloaded, and some never arrived. They show as waiting for the server now, then go out once it's back, in order and only once. This covers channels, DMs and threads. It gives up after five minutes and hands the text back.",
+      },
+      {
+        kind: "changed",
+        area: "self-hosting",
+        text: "The server built into the desktop app is updated to 1.10.30.",
+      },
+    ],
+  },
+  {
     version: "1.11.43",
     date: "2026-09-24",
     line: "You can mention @everyone, @here, a role or a #channel now, and notifications show names instead of the raw mention code. There's also a Flatpak for Linux.",
@@ -1993,6 +2010,23 @@ export const app: ReleaseLine[] = [
  * So a reader here is usually somebody deciding whether to pull a new image.
  */
 export const server: ReleaseLine[] = [
+  {
+    version: "1.10.30",
+    date: "2026-09-25",
+    line: "A message sent again after a restart no longer posts twice, and history loads in full straight after a restart. Update before the app, so resends after a restart are safe.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "The server forgot which messages it had already received whenever it restarted, so a resend could post a second copy. A message's id now comes from its sender, conversation and send id, so a resend can never write it twice.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "Right after a restart, opening a conversation could show history starting from the first message sent since the restart. It loads in full now.",
+      },
+    ],
+  },
   {
     version: "1.10.29",
     date: "2026-09-24",
