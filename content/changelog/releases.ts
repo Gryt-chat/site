@@ -163,6 +163,48 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.11.40",
+    date: "2026-09-24",
+    line: "A thread reply that arrived while you were loading the thread no longer goes missing, and a burst of refused messages no longer leaves the rest of your queue stuck. Speaking rings and latency badges now survive a server restart, and a video in chat has its real shape before it loads instead of jumping around.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "voice",
+        text: "After a server restart, the speaking ring and the latency badge on someone's tile could stay blank for several seconds even though their tile came back right away. Both come back with it now.",
+      },
+      {
+        kind: "fixed",
+        area: "voice",
+        text: "Turning your camera off right as you joined a call could leave a screen share you started afterward showing the camera's video instead of its own, and turning the camera back on could then bump the share off screen. Camera and screen share each keep their own video now.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A reply that arrived in a thread while its first page was still loading could vanish once the page came in, whether it was someone else's message or your own. It stays now.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A refused message didn't say which one it was, so a burst of refusals settled the wrong rows in your retry queue and left the rest stuck pending until you reloaded. Each refusal now clears the right one.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A video in chat guessed its shape, then jumped once it started loading and again once you pressed play. It has its real shape from the start now.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "In Server settings, the version chip next to a server's version now opens that server's release notes, listing what's changed since you're on it and how to update.",
+      },
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "Check for Updates never answered on the Microsoft Store build, so pressing it sat on Checking forever. It now says the Store keeps you up to date.",
+      },
+    ],
+  },
+  {
     version: "1.11.39",
     date: "2026-09-24",
     line: "A muted member now sees it in the chat box, with when the mute lifts, and keeps what they typed. Removing a server while its call is reconnecting now lets go of your microphone, and What's New keeps each section's heading in view.",
@@ -1845,6 +1887,33 @@ export const app: ReleaseLine[] = [
  * So a reader here is usually somebody deciding whether to pull a new image.
  */
 export const server: ReleaseLine[] = [
+  {
+    version: "1.10.24",
+    date: "2026-09-24",
+    line: "A channel's permission rules now cover attachments, reactions, editing and deleting your own messages, managing messages, reports, and camera and screen sharing, not only reading, sending, and voice access. A refused message now says which one it was, so a burst of refusals doesn't leave the rest stuck. Update if you run a server.",
+    changes: [
+      {
+        kind: "changed",
+        area: "voice",
+        text: "A channel's camera and screen sharing permissions are now checked against the room itself, not just the whole server. Switching into a room that denies one turns it off without an error, so an open camera or share just stops reaching anyone there.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "A channel's permission rules now cover attachments, reactions, editing and deleting your own messages, managing other people's messages, and reports, not only reading and sending. Rules an owner set in a channel months ago that did nothing back then can take effect for the first time now, including for moderators, and an allow can open something a role lacks everywhere else.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A refused message didn't say which one it was, so a burst of refusals settled the wrong rows in the client's retry queue and left the rest stuck pending until a reload. A refusal now carries which send it was about.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "Uploaded videos now get a stored width and height, the same as images already did. Chat can show a video's real shape before it loads instead of guessing 16:9.",
+      },
+    ],
+  },
   {
     version: "1.10.23",
     date: "2026-09-24",
