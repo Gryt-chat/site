@@ -165,7 +165,7 @@ export const app: ReleaseLine[] = [
   {
     version: "1.11.39",
     date: "2026-09-24",
-    line: "A muted member now sees it in the chat box, with when the mute lifts, and keeps what they typed. Turning your camera off right as a call connects no longer takes over the screen share, and leaving a call whose server just disappeared lets go of your microphone.",
+    line: "A muted member now sees it in the chat box, with when the mute lifts, and keeps what they typed. Turning your camera off right as a call connects no longer takes over the screen share, and removing a server while its call is reconnecting now lets go of your microphone.",
     changes: [
       {
         kind: "fixed",
