@@ -139,6 +139,24 @@
   gap: 12px;
 }
 
+/* A file standing in for a store that isn't open yet, under your own platform's badges. */
+.standIn {
+  display: grid;
+  gap: 10px;
+  min-width: 0;
+}
+
+.standIn > * {
+  margin: 0;
+}
+
+.standInText {
+  max-width: 52ch;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--text-dim);
+}
+
 /* Snippet brings its own top margin for prose; the grid gap spaces these. */
 .commands > * {
   margin: 0;

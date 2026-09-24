@@ -26,6 +26,7 @@ import {
   storesFor,
   type DesktopOS,
   type Release,
+  type Store,
 } from "../lib/releases";
 import { useDetectedArch } from "../lib/useDetectedArch";
 import { useDetectedOS } from "../lib/useDetectedOS";
@@ -83,6 +84,10 @@ export function Download() {
   /* Every store, apart from the one already above the row on a phone. */
   const stores = storesFor(os).filter((s) => s !== phoneStore);
   const packageManagers = packageManagersFor(os);
+  /* Flathub isn't open, so a Linux visitor gets the release's .flatpak in its place. While
+     the release has none this is null, and the column is the badges alone, as before. */
+  const standInLabel = stores.find((s) => s.os === os && !s.url && s.standIn)?.standIn;
+  const standIn = grouped?.[fileOS].find((o) => o.label === standInLabel) ?? null;
   /* A Mac has no store open yet, so Homebrew leads there. */
   const terminalFirst = !ownStore && PACKAGE_MANAGERS.some((p) => p.os === os && p.command);
 
@@ -94,20 +99,50 @@ export function Download() {
   const chosen = (withServer ? full : slim) ?? primary;
   const version = release?.tag_name.replace(/^v/, "");
 
+  const badgeList = (list: Store[]) => (
+    <ul className={styles.badges}>
+      {list.map((store) => (
+        <li className={styles.badgeItem} key={store.badge.src}>
+          <StoreBadge store={store} className={styles.badge} />
+          <span className={styles.badgeCaption}>
+            {OS_NAMES[store.os]}
+            {!store.url && <> · Coming very soon</>}
+          </span>
+        </li>
+      ))}
+    </ul>
+  );
+
+  /* Split so the file sits under your own platform's badges rather than after Android's. */
   const storeColumn = (
     <div className={styles.column}>
       <h3 className={styles.columnTitle}>From a store</h3>
-      <ul className={styles.badges}>
-        {stores.map((store) => (
-          <li className={styles.badgeItem} key={store.badge.src}>
-            <StoreBadge store={store} className={styles.badge} />
-            <span className={styles.badgeCaption}>
-              {OS_NAMES[store.os]}
-              {!store.url && <> · Coming very soon</>}
-            </span>
-          </li>
-        ))}
-      </ul>
+      {standIn ? (
+        <>
+          {badgeList(stores.filter((s) => s.os === os))}
+          <div className={styles.standIn}>
+            <p className={styles.standInText}>
+              Until it&rsquo;s on Flathub, there&rsquo;s a{" "}
+              <a href={standIn.url} download>
+                .flatpak file
+              </a>{" "}
+              ({formatSize(standIn.size)}). Install it with:
+            </p>
+            <Snippet
+              label="Flatpak · Linux"
+              code={`flatpak install --user ~/Downloads/${standIn.fileName}`}
+              shell
+            />
+            <p className={styles.standInText}>
+              It won&rsquo;t update itself. When there&rsquo;s a new version,
+              download it and run the same command.
+            </p>
+          </div>
+          {badgeList(stores.filter((s) => s.os !== os))}
+        </>
+      ) : (
+        badgeList(stores)
+      )}
     </div>
   );
 
