@@ -165,17 +165,12 @@ export const app: ReleaseLine[] = [
   {
     version: "1.11.39",
     date: "2026-09-24",
-    line: "A muted member now sees it in the chat box, with when the mute lifts, and keeps what they typed. Turning your camera off right as a call connects no longer takes over the screen share, and removing a server while its call is reconnecting now lets go of your microphone.",
+    line: "A muted member now sees it in the chat box, with when the mute lifts, and keeps what they typed. Removing a server while its call is reconnecting now lets go of your microphone, and What's New keeps each section's heading in view.",
     changes: [
       {
         kind: "fixed",
         area: "chat",
         text: "Sending a message while muted only showed a generic error toast. The chat box now says you're muted and, if there's an end time, when it lifts, and keeps what you typed instead of clearing it.",
-      },
-      {
-        kind: "fixed",
-        area: "voice",
-        text: "Turning your camera off right before a call finished connecting could take over the screen share's video slot, so nobody watching could see the share. The camera and the share each get their own slot now.",
       },
       {
         kind: "fixed",
