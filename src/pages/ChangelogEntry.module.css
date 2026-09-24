@@ -286,15 +286,34 @@
   max-width: var(--measure);
 }
 
-.areas > .kinds {
+.areaGroup > .kinds {
   grid-column: 1 / -1;
   grid-template-columns: subgrid;
 }
 
-/* Quiet, like the footer's group labels. The chips still carry the kind. */
+/* Its own containing block, so the heading inside only pins while ITS rows are
+   on screen and is pushed off by the next area's (GRYT-1412). Plain .kinds
+   blocks with no heading (a release with one area) skip this and stay inert. */
+.areaGroup {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: subgrid;
+}
+
+/* Quiet, like the footer's group labels. The chips still carry the kind.
+   68px clears the site's fixed nav bar (--nav-height would be nicer, but
+   Navbar.module.css hardcodes the same number). */
 .area {
   grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  position: sticky;
+  top: 68px;
+  z-index: 10;
   margin: 40px 0 12px;
+  padding: 6px 0;
+  background: var(--bg);
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 1.5px;
@@ -302,8 +321,15 @@
   color: var(--text-dim);
 }
 
-.area:first-child {
+/* Only the very first group on the page, not every group's own first child
+   now that each area wraps its heading and rows in a div of its own. */
+.areaGroup:first-child > .area {
   margin-top: 0;
+}
+
+.areaIcon {
+  flex: none;
+  color: var(--accent);
 }
 
 /* Security, above the areas, in the theme's error red as a tint rather than a fill.
@@ -326,6 +352,11 @@
 
 .security > .area {
   color: var(--gryt-danger-11);
+  background: var(--gryt-danger-2);
+}
+
+.security .areaIcon {
+  color: inherit;
 }
 
 .security .kinds dt,
