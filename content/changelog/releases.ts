@@ -1890,7 +1890,7 @@ export const server: ReleaseLine[] = [
   {
     version: "1.10.24",
     date: "2026-09-24",
-    line: "A channel's permission rules now cover attachments, reactions, editing and deleting your own messages, managing messages, reports, and camera and screen sharing, not only reading, sending, and voice access. A refused message now says which one it was, so a burst of refusals doesn't leave the rest stuck. Update if you run a server.",
+    line: "Rules you set on a channel now also cover attachments, reactions, editing and deleting messages, reports, and camera and screen sharing, so some that did nothing before take effect now. Update if you run a server.",
     changes: [
       {
         kind: "changed",
