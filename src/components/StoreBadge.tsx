@@ -1,15 +1,13 @@
 import type { Store } from "../lib/releases";
 import styles from "./StoreBadge.module.css";
 
-/** A store's official badge. A link once the store is open, and faded and inert until then.
+/** A store's official badge, linking to its listing. Nothing for a store that isn't open yet.
     Set `--badge-height` to size it. */
 export function StoreBadge({ store, className }: { store: Store; className?: string }) {
   const { badge, url } = store;
   const img = <img src={badge.src} alt={badge.alt} width={badge.width} height={badge.height} />;
 
-  if (!url) {
-    return <span className={[styles.badge, styles.soon, className].filter(Boolean).join(" ")}>{img}</span>;
-  }
+  if (!url) return null;
 
   return (
     <a

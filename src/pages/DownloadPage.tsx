@@ -105,13 +105,9 @@ export function DownloadPage() {
           {phone && !store?.url && (
             <>
               <h1 className={styles.title}>Gryt isn&rsquo;t on phones or tablets yet</h1>
-              {store && (
-                <div className={styles.comingBadge}>
-                  <StoreBadge store={store} className={styles.storeBadge} />
-                  <p className={styles.hint}>Coming very soon</p>
-                </div>
-              )}
-              <p className={styles.body}>Until then, it works in your browser.</p>
+              <p className={styles.body}>
+                The phone app is in testing. Until it&rsquo;s out, Gryt works in your browser.
+              </p>
               <div className={styles.actions}>
                 <Button render={<a href="https://app.gryt.chat" />} size="large">
                   Open app.gryt.chat

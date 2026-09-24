@@ -14,11 +14,6 @@
   object-fit: contain;
 }
 
-/* A store that isn't open yet. The fade is on the element, so the file stays as it came. */
-.soon {
-  opacity: 0.4;
-}
-
 .badge:focus-visible {
   outline: 2px solid var(--accent-light);
   outline-offset: 3px;

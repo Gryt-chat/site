@@ -1,5 +1,12 @@
 [
   {
+    "date": "2026-09-25",
+    "macrostructure": "component-scope: one clear answer (live store first, file beside it)",
+    "theme": "Gryt tokens (project-locked, design.md)",
+    "enrichment": "none",
+    "brief": "Download section: stores Gryt is in lead, unreleased ones named on one line, GitHub release link; picked from three drafts"
+  },
+  {
     "date": "2026-09-07",
     "macrostructure": "Routing hub \u2014 diagram, then three card groups",
     "theme": "Gryt tokens (project-locked, design.md)",

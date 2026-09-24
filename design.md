@@ -771,10 +771,32 @@ underline and this width are written by React on commit and animated by CSS:
 rendering steps, so in a tab that is not being painted neither of them runs.
 That was a real bug in the underline before it was a rule.
 
-**`Download` leads with the stores.** Store badges first, then the package manager
-commands. The file comes last, closed, under Download the file instead. The badges
-are the stores' own files in `public/badges`. They're 48px tall in the section, and
-40px on a phone and in the navbar. Nothing recolours, stretches or animates them.
+**`Download` gives one answer.** It works out which system you're on and leads with
+that system's store, if Gryt is in one. That's the Microsoft Store on Windows and the
+Snap Store on Linux. Each badge gets one line on why it beats the file. On Windows
+there's no security warning, on Linux it's one step to install, and both update
+themselves. The file sits beside it under Or download the file, as the second choice.
+
+A Mac has no store open yet, so there the file leads as the accent button, and Homebrew
+sits beside it. On Linux the release's `.flatpak` goes under the Snap Store badge until
+Flathub opens, with the command that installs it.
+
+Under that, More ways on Windows (or Linux, or macOS) lists the other files and any
+commands that didn't make the top two. Then a row of buttons for the other systems,
+the browser and the phone, which swap the whole answer. Then one line naming
+everything that isn't out yet, and a link to the GitHub release page with GitHub's
+icon next to it.
+
+**Nothing that isn't out gets a badge.** Until September 2026 every store got its badge,
+and the closed ones were faded to 40% with Coming very soon under them. Eight were
+closed, so most of the section was faded. Now a closed store or package manager is a
+name on the Coming later line and nothing else. `StoreBadge` draws nothing for a store
+without a `url`. To open a store, give it a `url` and a `why` in `STORES` in
+`src/lib/releases.ts`. A package manager gets a `command` in `PACKAGE_MANAGERS`. Either
+one moves off the line and into the section by itself.
+
+The badges are the stores' own files in `public/badges`. They're 56px tall where they
+lead and 40px in the navbar. Nothing recolours, stretches or animates them.
 
 They're black, like the mockups, apart from Microsoft's. Microsoft's dark badge is
 #202020 with a 10% black edge. On `--bg-raised` (#1a1d24) you can't see where it
@@ -782,26 +804,12 @@ ends. Microsoft also says to use its light badge on a dark page. Apple asks for 
 black badge whenever another store's badge sits next to it. Google's, Flathub's and
 F-Droid's badges are black.
 
-Everyone sees every store. A store Gryt isn't in yet still gets its badge, faded to
-40%, with Coming very soon under it. In September 2026 that's the App Store, the Mac
-App Store, Google Play, Flathub and F-Droid. A faded badge isn't a link and you
-can't tab to it. The fade is on the element, so the file stays as the store made it.
-winget, Scoop and Chocolatey have no badge, so each gets a faded card among the
-commands instead. To open a store, give it a `url` in `STORES` in
-`src/lib/releases.ts`. A package manager gets a `command` in `PACKAGE_MANAGERS`.
+The build with the server in it is a link under the file, with its size. Stores and
+package managers always ship that build, and the link says so when a store leads.
 
-Both lists start with your own platform. On a Mac the App Store badge comes next,
-and on an iPhone the Mac App Store's, because one App Store record covers both.
-After that come the open ones, then the rest. So on Windows the commands start with
-the three faded cards. On a Mac the commands come before the stores, because no Mac
-store is open yet. The badges sit in a grid so the rows line up, two to a row on a
-phone.
-
-The file part sits behind a button. Inside are the download for your platform, the
-built-in server switch and All files. It starts closed. A link to `/#download-file`
-opens it, and that's where `/download` sends you for other builds. A phone or a
-tablet never gets a file. It gets its own store's faded badge and a button for
-app.gryt.chat instead. On a phone, `/#download-file` lands on the top of the section.
+`/download` sends you to `/#download-file` for other builds, which lands on the file. A
+phone or a tablet never gets a file. It gets app.gryt.chat and a line saying the phone
+app is in testing, and `/#download-file` lands on the top of the section.
 
 **The fold is mostly air.** `Hero` opens on 152px of padding — 84px of clear
 space under the bar — and puts 108px between the buttons and the clip, because

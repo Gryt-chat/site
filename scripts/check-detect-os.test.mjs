@@ -6,14 +6,15 @@ import { readFileSync } from "node:fs";
 import test from "node:test";
 
 import {
+  comingLater,
   detectOS,
   downloadTarget,
-  fileAskedFor,
   isDesktop,
+  liveCommands,
+  liveStore,
   PACKAGE_MANAGERS,
-  packageManagersFor,
+  standInFor,
   STORES,
-  storesFor,
 } from "../src/lib/releases.ts";
 
 const DEVICES = [
@@ -128,55 +129,27 @@ test("?os= never hands a phone a file", () => {
   assert.equal(downloadTarget(null, "linux"), null);
 });
 
-const PLATFORMS = ["windows", "macos", "linux", "ios", "android", null];
-
-test("every platform gets every store and every package manager", () => {
-  for (const os of PLATFORMS) {
-    assert.deepEqual(new Set(storesFor(os)), new Set(STORES), `stores for ${os}`);
-    assert.equal(storesFor(os).length, STORES.length, `stores for ${os}`);
-    assert.deepEqual(new Set(packageManagersFor(os)), new Set(PACKAGE_MANAGERS), `commands for ${os}`);
-    assert.equal(packageManagersFor(os).length, PACKAGE_MANAGERS.length, `commands for ${os}`);
-  }
+test("a platform leads with its store only once that store is open", () => {
+  assert.equal(liveStore("windows")?.name, "Microsoft Store");
+  assert.equal(liveStore("linux")?.name, "Snap Store");
+  for (const os of ["macos", "ios", "android", null]) assert.equal(liveStore(os), null, `store for ${os}`);
+  assert.equal(standInFor("linux"), "Flatpak");
+  assert.equal(standInFor("windows"), undefined);
 });
 
-test("your own platform leads, then its Apple twin, then what's open, then what's coming", () => {
-  const name = (s) => `${s.badge.src.replace(/^\/badges\/|\.\w+$/g, "")}${s.url ? "" : " (soon)"}`;
-  const row = (os) => storesFor(os).map(name);
-  const rest = ["flathub (soon)", "mac-app-store (soon)", "app-store (soon)", "google-play (soon)", "f-droid (soon)"];
-
-  assert.deepEqual(row("windows"), ["microsoft-store", "snap-store", ...rest]);
-  assert.deepEqual(row(null), ["microsoft-store", "snap-store", ...rest]);
-  assert.deepEqual(row("linux"), ["snap-store", "flathub (soon)", "microsoft-store", ...rest.slice(1)]);
-  assert.deepEqual(row("macos"), [
-    "mac-app-store (soon)", "app-store (soon)", "microsoft-store", "snap-store",
-    "flathub (soon)", "google-play (soon)", "f-droid (soon)",
-  ]);
-  assert.deepEqual(row("ios"), [
-    "app-store (soon)", "mac-app-store (soon)", "microsoft-store", "snap-store",
-    "flathub (soon)", "google-play (soon)", "f-droid (soon)",
-  ]);
-  assert.deepEqual(row("android"), [
-    "google-play (soon)", "f-droid (soon)", "microsoft-store", "snap-store",
-    "flathub (soon)", "mac-app-store (soon)", "app-store (soon)",
-  ]);
+test("only commands that install a current build are offered", () => {
+  const names = (os) => liveCommands(os).map((p) => p.name);
+  assert.deepEqual(names("linux"), ["snap", "AUR"]);
+  assert.deepEqual(names("macos"), ["Homebrew"]);
+  assert.deepEqual(names("windows"), []);
 });
 
-test("the commands follow the same order, so Windows leads with the ones on their way", () => {
-  const terminal = (os) => packageManagersFor(os).map((p) => `${p.label}${p.command ? "" : " (soon)"}`);
-  const coming = ["winget · Windows (soon)", "Scoop · Windows (soon)", "Chocolatey · Windows (soon)"];
-
-  assert.deepEqual(terminal("windows"), [...coming, "Homebrew · macOS", "snap · Linux", "AUR · Arch Linux"]);
-  assert.deepEqual(terminal("linux"), ["snap · Linux", "AUR · Arch Linux", "Homebrew · macOS", ...coming]);
-  assert.deepEqual(terminal("macos"), ["Homebrew · macOS", "snap · Linux", "AUR · Arch Linux", ...coming]);
-  assert.deepEqual(terminal("android"), terminal("macos"));
-});
-
-test("the file download starts closed, and only a link to it opens it", () => {
-  assert.equal(fileAskedFor("", true), false);
-  assert.equal(fileAskedFor("#download", true), false);
-  assert.equal(fileAskedFor("#download-file", true), true);
-  /* The prerender and the render that hydrates it have no hash to go on. */
-  assert.equal(fileAskedFor("#download-file", false), false);
+/* No faded badges: a store that isn't open is a name on the "Coming later" line and nothing else. */
+test("everything not open yet is named once, and everything open says why", () => {
+  const closed = [...STORES.filter((s) => !s.url), ...PACKAGE_MANAGERS.filter((p) => !p.command)];
+  assert.deepEqual(comingLater(), closed.map((x) => x.name));
+  assert.equal(new Set(comingLater()).size, comingLater().length);
+  for (const store of STORES.filter((s) => s.url)) assert.ok(store.why, `${store.name} has no why`);
 });
 
 /* width and height size the img before it loads, so a wrong pair stretches the badge until then. */
