@@ -1,4 +1,5 @@
 import { Download } from "../components/Download";
+import { DownloadDrafts } from "../components/download/DownloadDrafts";
 import { Addons } from "../components/home/Addons";
 import { Bird } from "../components/home/Bird";
 import { Emoji } from "../components/home/Emoji";
@@ -28,7 +29,7 @@ export function HomePage() {
       <Addons />
       <Motivation />
       <SelfHost />
-      <Download />
+      {import.meta.env.DEV ? <DownloadDrafts fallback={<Download />} /> : <Download />}
       <Sponsors />
     </main>
   );

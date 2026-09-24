@@ -1,0 +1,299 @@
+/* Hallmark · direction C: one table, platform by format · theme: Gryt tokens (design.md, locked) */
+
+.section {
+  padding: 100px 24px;
+  background: var(--bg-raised);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.box {
+  max-width: var(--max-w);
+  margin: 0 auto;
+}
+
+.head {
+  max-width: 680px;
+  margin-bottom: 28px;
+}
+
+.eyebrow {
+  margin: 0 0 12px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--accent);
+}
+
+.title {
+  margin: 0 0 14px;
+  overflow-wrap: anywhere;
+  min-width: 0;
+  font-size: clamp(28px, 3.6vw, 44px);
+  font-weight: 800;
+  letter-spacing: -0.028em;
+  line-height: 1.1;
+  text-wrap: balance;
+}
+
+.sub {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.65;
+  color: var(--text-dim);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.caption {
+  caption-side: top;
+  max-width: 68ch;
+  padding-bottom: 28px;
+  text-align: left;
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: var(--text-dim);
+}
+
+.caption strong {
+  color: var(--text);
+}
+
+.table th,
+.table td {
+  text-align: left;
+  vertical-align: middle;
+}
+
+.hFormat,
+.hFile {
+  padding: 0;
+  padding-bottom: 10px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--text-dimmer);
+  border-bottom: 1px solid var(--border);
+}
+
+.hFormat {
+  width: 38%;
+}
+
+.groupHead {
+  padding: 28px 0 10px;
+  font-size: 17.5px;
+  font-weight: 800;
+  letter-spacing: -0.014em;
+}
+
+.groupHead svg {
+  display: inline-block;
+  vertical-align: -2px;
+  margin-right: 10px;
+  color: var(--text-dim);
+}
+
+.mine {
+  margin-left: 12px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0;
+  color: var(--accent);
+}
+
+.group[data-mine] .groupHead svg {
+  color: var(--accent);
+}
+
+.row > * {
+  padding: 7px 16px 7px 0;
+  border-top: 1px solid var(--border);
+}
+
+.group .row:last-child > * {
+  border-bottom: 1px solid var(--border);
+}
+
+.name {
+  padding-left: 27px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.cell {
+  min-height: 44px;
+  color: var(--text-dimmer);
+}
+
+/* A cell is read by its column, so not underlined as running text is. */
+.file {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 36px;
+  font-size: 14.5px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.file svg {
+  color: var(--accent);
+}
+
+.file:hover {
+  color: var(--accent-light);
+}
+
+.file:focus-visible {
+  outline: 2px solid var(--accent-light);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+.span {
+  font-size: 14.5px;
+}
+
+.span > div {
+  margin: 0;
+}
+
+.badge {
+  --badge-height: 40px;
+}
+
+.command {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 100%;
+  min-height: 36px;
+  padding: 0 4px 0 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg);
+}
+
+.code {
+  flex: 1;
+  min-width: 0;
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.prompt {
+  color: var(--text-dimmer);
+  user-select: none;
+}
+
+.copy {
+  flex: none;
+  padding: 4px 9px;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: none;
+  color: var(--text-dim);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.copy:hover {
+  color: var(--accent-light);
+}
+
+.copy:focus-visible {
+  outline: 2px solid var(--accent-light);
+}
+
+.dim {
+  color: var(--text-dim);
+}
+
+.github {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin: 36px 0 0;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text-dim);
+}
+
+.github a {
+  font-weight: 700;
+}
+
+.githubIcon {
+  flex: none;
+  align-self: center;
+  color: var(--text);
+}
+
+@media (max-width: 820px) {
+  .section {
+    padding: 68px 16px;
+  }
+}
+
+/* Under 640 the table becomes stacked rows: name, then the two files side by side. */
+@media (max-width: 640px) {
+  .table,
+  .table tbody,
+  .table tr,
+  .table th,
+  .table td,
+  .caption {
+    display: block;
+    width: auto;
+  }
+
+  .table thead {
+    display: none;
+  }
+
+  .table .row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 16px;
+    padding: 12px 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .group .row:last-child {
+    border-bottom: 1px solid var(--border);
+  }
+
+  .row > * {
+    padding: 0;
+    border: 0;
+  }
+
+  .name {
+    grid-column: 1 / -1;
+    padding: 0 0 4px;
+  }
+
+  .span {
+    grid-column: 1 / -1;
+  }
+
+  .cell::before {
+    content: attr(data-label);
+    display: block;
+    font-size: 12px;
+    color: var(--text-dimmer);
+  }
+}

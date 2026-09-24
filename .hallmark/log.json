@@ -1,5 +1,12 @@
 [
   {
+    "date": "2026-09-25",
+    "macrostructure": "three drafts: one-answer hero / platform tabs / platform-by-format table",
+    "theme": "Gryt tokens (project-locked, design.md)",
+    "enrichment": "none",
+    "brief": "Download section redesign, three directions behind ?variant=a|b|c (dev only) for Sivert to pick from"
+  },
+  {
     "date": "2026-09-07",
     "macrostructure": "Routing hub \u2014 diagram, then three card groups",
     "theme": "Gryt tokens (project-locked, design.md)",
