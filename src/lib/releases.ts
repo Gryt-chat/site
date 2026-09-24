@@ -65,6 +65,8 @@ export interface Store {
   os: OS;
   badge: Badge;
   url?: string;
+  /** The file label that stands in until the store opens, when the release has one. */
+  standIn?: string;
 }
 
 /** Opening a store means giving it its `url`. Black badges, apart from Microsoft's. */
@@ -103,6 +105,7 @@ export const STORES: Store[] = [
       width: 240,
       height: 80,
     },
+    standIn: "Flatpak",
   },
   {
     os: "macos",
@@ -306,7 +309,7 @@ const PREFERRED: Record<OS, string[]> = {
   /* Apple silicon first because that is every Mac sold since 2020, and because
      `primaryOption` only falls back to this order when the chip is unknown. */
   macos: ["DMG (Apple silicon)", "DMG (Intel)"],
-  linux: ["AppImage", "Debian / Ubuntu", "Fedora / RHEL"],
+  linux: ["AppImage", "Debian / Ubuntu", "Fedora / RHEL", "Flatpak"],
   ios: [],
   android: [],
 };
@@ -408,7 +411,7 @@ export function categorizeAssets(
       /* The .zip is deliberately not offered: Squirrel.Mac can only update from a zip, so
          it is the updater's payload rather than a way to install. */
     } else if (name.includes("-linux-")) {
-      /* All three update themselves, so no description may imply otherwise: electron-updater
+      /* These three update themselves, so no description may imply otherwise: electron-updater
          reads resources/package-type, and the AppImage gets AppImageUpdater. */
       if (name.endsWith(".appimage")) {
         result.linux.push(option("AppImage", "Portable, works on most distros. It’s the app itself, so put it somewhere it can stay. Updates replace this file in place."));
@@ -416,6 +419,9 @@ export function categorizeAssets(
         result.linux.push(option("Debian / Ubuntu", ".deb package for Debian, Ubuntu and other apt-based distros."));
       } else if (name.endsWith(".rpm")) {
         result.linux.push(option("Fedora / RHEL", ".rpm package for Fedora, RHEL, openSUSE and other dnf-based distros."));
+      } else if (name.endsWith(".flatpak")) {
+        /* The one Linux file that doesn't update itself: a bundle has no remote to update from. */
+        result.linux.push(option("Flatpak", "Flatpak bundle. Install it with flatpak install --user. It doesn't update itself, so install the next one the same way."));
       }
 
       /* The .snap is deliberately not offered: a snap installed from a file never updates.
