@@ -3111,6 +3111,21 @@ export const voice: ReleaseLine[] = [
  */
 export const images: ReleaseLine[] = [
   {
+    version: "1.2.9",
+    date: "2026-09-25",
+    line: "The video decoder that makes poster frames now runs locked away from everything else, and the image is less than half the size.",
+    changes: [
+      {
+        kind: "security",
+        text: "ffmpeg now runs as its own user in an empty folder, with no environment, no network and no way to touch other processes. It only gets the one file it's decoding and a pipe for its output. A decoder bug in a stranger's upload can no longer reach the worker's storage or credentials.",
+      },
+      {
+        kind: "changed",
+        text: "ffmpeg is now a small build with only the formats Gryt reads, pinned and signature-checked, so the image went from about 270 MB to about 103 MB. If you set a user: for the worker in your compose file, remove it, or videos won't get posters.",
+      },
+    ],
+  },
+  {
     version: "1.2.8",
     date: "2026-09-24",
     line: "The image worker now makes the poster frame for uploaded videos, with ffmpeg locked to a short list of formats and codecs, a memory cap and a time limit. It also stores files in the right folder when the server uses filesystem storage.",
