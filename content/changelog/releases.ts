@@ -2063,6 +2063,23 @@ export const app: ReleaseLine[] = [
  */
 export const server: ReleaseLine[] = [
   {
+    version: "1.10.33",
+    date: "2026-09-25",
+    line: "Blocking someone ends your one-to-one call with them, and a channel permission taken away mid-call now takes effect straight away. It also ships SFU 1.0.72. Update if you run a server.",
+    changes: [
+      {
+        kind: "security",
+        area: "voice",
+        text: "Blocking someone during a one-to-one call ends it for both of you and cancels any ring between you. In a group call, the SFU stops sending you their audio and video.",
+      },
+      {
+        kind: "changed",
+        area: "voice",
+        text: "Taking away camera, screen sharing or speaking in a channel now applies to people already in its call: their camera or share turns off, or they're muted. Before, it only applied once they rejoined. The SFU side of this comes in a later SFU release; until then the server and the app do it on their own.",
+      },
+    ],
+  },
+  {
     version: "1.10.32",
     date: "2026-09-25",
     line: "Members can choose who may message them and who may call them, and the server enforces it. Update before the app, so the new settings take effect.",
@@ -2894,6 +2911,11 @@ export const server: ReleaseLine[] = [
  * about calls connecting, staying up, or costing less to carry.
  */
 export const voice: ReleaseLine[] = [
+  {
+    version: "1.0.72",
+    date: "2026-09-25",
+    line: "In a group call, you no longer hear or see someone you've blocked. They stay in the room, and everyone else hears them as before.",
+  },
   {
     version: "1.0.71",
     date: "2026-09-24",
