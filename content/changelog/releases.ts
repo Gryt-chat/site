@@ -163,6 +163,48 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.11.46",
+    date: "2026-09-25",
+    line: "Friends are here, updating on Windows no longer leaves you staring at nothing, and you can now see your 24 words to save them in a password manager.",
+    changes: [
+      {
+        kind: "new",
+        area: "servers",
+        text: "Add friends on a server, accept or decline requests, and remove friends. Your friends list lives only on your devices, and calls from friends now means real friends.",
+      },
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "On Windows, updating closed Gryt and showed nothing for up to a minute and a half. A small window now says Gryt is updating and will open again by itself, and the full build is back in about 15 seconds. Opening Gryt during an update no longer starts a second copy. Updates also download only what changed again, often about 25 MB instead of 130. The first update to this version still installs the old way.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "If you're signed in, you can now see your 24 words under Settings, Security, and save them in a password manager. They're the way back to your direct messages if you lose every device. If your message backup still uses the older, weaker lock, Gryt offers once to upgrade it.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "Forgotten your message password? If this device still has your key, you can now set a new one without losing anything.",
+      },
+      {
+        kind: "changed",
+        area: "voice",
+        text: "If a channel's camera, screen sharing or speaking permission is taken away while you're in its call, your camera or share turns off, or you're muted, with a note saying why.",
+      },
+      {
+        kind: "fixed",
+        area: "voice",
+        text: "When a server refuses a voice room, Gryt now says why once and stops, instead of retrying six times and blaming your network.",
+      },
+      {
+        kind: "changed",
+        area: "self-hosting",
+        text: "The server built into the desktop app is updated to 1.10.34.",
+      },
+    ],
+  },
+  {
     version: "1.11.45",
     date: "2026-09-25",
     line: "You can choose who may message you and who may call you, messages sent while a server restarts now go out once it's back, and your message password is much harder to crack.",
