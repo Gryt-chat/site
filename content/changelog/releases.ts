@@ -2063,6 +2063,23 @@ export const app: ReleaseLine[] = [
  */
 export const server: ReleaseLine[] = [
   {
+    version: "1.10.34",
+    date: "2026-09-25",
+    line: "Ships SFU 1.0.73, which applies permission changes to calls already in progress, and image worker 1.2.9, which runs the video decoder locked away. Update if you run a server.",
+    changes: [
+      {
+        kind: "changed",
+        area: "voice",
+        text: "Taking away camera, screen sharing or speaking in a channel now stops those streams on the SFU itself for people already in the call, not only in their app.",
+      },
+      {
+        kind: "security",
+        area: "self-hosting",
+        text: "The image worker's video decoder runs as its own user with no network, no environment and no access to the rest of the worker. If your compose file sets a user: for the image worker, remove it, or videos won't get posters.",
+      },
+    ],
+  },
+  {
     version: "1.10.33",
     date: "2026-09-25",
     line: "Blocking someone ends your one-to-one call with them, and a channel permission taken away mid-call now takes effect straight away. It also ships SFU 1.0.72. Update if you run a server.",
@@ -2911,6 +2928,11 @@ export const server: ReleaseLine[] = [
  * about calls connecting, staying up, or costing less to carry.
  */
 export const voice: ReleaseLine[] = [
+  {
+    version: "1.0.73",
+    date: "2026-09-25",
+    line: "When a channel's camera, screen sharing or speaking permission is taken away during a call, the SFU stops forwarding that stream within half a second, and lets it through again when it's given back, without anyone rejoining.",
+  },
   {
     version: "1.0.72",
     date: "2026-09-25",
