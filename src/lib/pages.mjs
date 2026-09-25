@@ -3,6 +3,10 @@
  * /changelog advertised an og:image that 404'd. Plain .mjs, so node can import it.
  */
 
+// Bumped whenever a card's design changes, so Discord's cache (keyed by URL) fetches
+// the new image instead of the old one. index.html carries the same number by hand.
+export const OG_IMAGE_VERSION = '2';
+
 /** @type {{ path: string, title: string, description: string, updated?: string, noindex?: boolean }[]} */
 export const STATIC_PAGES = [
   {

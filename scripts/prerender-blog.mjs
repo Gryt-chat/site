@@ -1,7 +1,7 @@
 import { readFileSync, writeFileSync, readdirSync, mkdirSync, existsSync } from 'fs';
 import { join, dirname, basename } from 'path';
 import { fileURLToPath } from 'url';
-import { STATIC_PAGES, ALIAS_PAGES } from '../src/lib/pages.mjs';
+import { STATIC_PAGES, ALIAS_PAGES, OG_IMAGE_VERSION } from '../src/lib/pages.mjs';
 import { render } from '../dist-ssr/entry-server.js';
 import { routeStyles, styleLinks } from './routeStyles.mjs';
 
@@ -131,7 +131,7 @@ for (const page of STATIC_PAGES) {
     pageTitle: page.title,
     description: page.description,
     url,
-    ogImage: `${siteUrl}/${page.path}/og.png`,
+    ogImage: `${siteUrl}/${page.path}/og.png?v=${OG_IMAGE_VERSION}`,
     noindex: page.noindex,
     html: await body(`/${page.path}`),
     styles: stylesFor.get(`/${page.path}`),
@@ -150,7 +150,7 @@ for (const alias of ALIAS_PAGES) {
     pageTitle: target.title,
     description: target.description,
     url: `${siteUrl}/${target.path}`,
-    ogImage: `${siteUrl}/${target.path}/og.png`,
+    ogImage: `${siteUrl}/${target.path}/og.png?v=${OG_IMAGE_VERSION}`,
     /* The alias path, not the target's. The canonical points at the target but the router
        matches the address bar, so the other one is markup the client throws away. */
     html: await body(`/${alias.path}`),
@@ -169,7 +169,7 @@ for (const alias of ALIAS_PAGES) {
     pageTitle: 'Signing you in',
     description: 'Completing sign-in and handing you back to the Gryt app.',
     url: `${siteUrl}/auth/callback`,
-    ogImage: `${siteUrl}/og-image.png`,
+    ogImage: `${siteUrl}/og-image.png?v=${OG_IMAGE_VERSION}`,
     noindex: true,
     html: await body('/auth/callback'),
     styles: stylesFor.get('/auth/callback'),
@@ -185,7 +185,7 @@ for (const alias of ALIAS_PAGES) {
     pageTitle: 'Page not found',
     description: 'There is nothing at this address.',
     url: `${siteUrl}/404`,
-    ogImage: `${siteUrl}/og-image.png`,
+    ogImage: `${siteUrl}/og-image.png?v=${OG_IMAGE_VERSION}`,
     noindex: true,
     /* Any path that does not match, which is what nginx serves this for. */
     html: await body('/this-path-does-not-exist'),
@@ -207,7 +207,7 @@ for (const file of mdxFiles) {
     pageTitle: fm.title,
     description: fm.description || fm.title,
     url: `${siteUrl}/blog/${slug}`,
-    ogImage: `${siteUrl}/blog/${slug}/og.png`,
+    ogImage: `${siteUrl}/blog/${slug}/og.png?v=${OG_IMAGE_VERSION}`,
     ogType: 'article',
     html: await body(`/blog/${slug}`),
     styles: stylesFor.get('/blog/:slug'),
@@ -231,7 +231,7 @@ for (const file of changelogFiles) {
     docTitleName: `${fm.version} | Changelog`,
     description: fm.headline || `What changed in Gryt ${fm.version}.`,
     url: `${siteUrl}/changelog/${slug}`,
-    ogImage: `${siteUrl}/changelog/${slug}/og.png`,
+    ogImage: `${siteUrl}/changelog/${slug}/og.png?v=${OG_IMAGE_VERSION}`,
     ogType: 'article',
     html: await body(`/changelog/${slug}`),
     styles: stylesFor.get('/changelog/:version'),
@@ -257,7 +257,7 @@ for (const release of lines.app) {
     url: `${siteUrl}/changelog/${release.version}`,
     /* The changelog's own card. A page of one-line changes is not worth a card
        each, and would mean a committed PNG per release forever. */
-    ogImage: `${siteUrl}/changelog/og.png`,
+    ogImage: `${siteUrl}/changelog/og.png?v=${OG_IMAGE_VERSION}`,
     ogType: 'article',
     html: await body(`/changelog/${release.version}`),
     styles: stylesFor.get('/changelog/:version'),

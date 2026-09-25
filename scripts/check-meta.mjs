@@ -67,8 +67,11 @@ for (const file of htmlFiles(distDir)) {
   if (!ogImage) {
     problems.push(`${rel}: no og:image`);
   } else if (ogImage.startsWith(SITE)) {
-    const asset = join(distDir, ogImage.slice(SITE.length));
-    if (!existsSync(asset)) problems.push(`${rel}: og:image 404s — ${ogImage.slice(SITE.length)}`);
+    // Cards carry a `?v=` cache-buster for Discord (which keys its embed cache by URL),
+    // so check the file the query string points at rather than a path that includes it.
+    const assetPath = ogImage.slice(SITE.length).split('?')[0];
+    const asset = join(distDir, assetPath);
+    if (!existsSync(asset)) problems.push(`${rel}: og:image 404s — ${assetPath}`);
   }
 
   // A page is either indexable with a canonical, or noindex without one.
