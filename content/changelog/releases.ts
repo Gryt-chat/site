@@ -164,18 +164,38 @@ export const securityNotices: SecurityNotice[] = [
 export const app: ReleaseLine[] = [
   {
     version: "1.11.44",
-    date: "2026-09-24",
-    line: "A message you send while the server restarts now waits and goes out once it's back, instead of sitting grey until you reload.",
+    date: "2026-09-25",
+    line: "Muted channels are silent now, direct messages show who's online, and blocking someone also stops their calls. Editing a message keeps its mentions, and server owners get a spam filter setting.",
     changes: [
+      {
+        kind: "changed",
+        area: "notifications",
+        text: "A muted channel, folder or server is completely silent: no unread count, no mention badge, no bold name, and nothing added to the server icon, the window title or the taskbar badge. Channels set to Only mentions work as before.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "Direct messages show whether the other person is online, away or offline, with a dot on each conversation and a word in the header. Group chats show how many people are online.",
+      },
+      {
+        kind: "security",
+        area: "voice",
+        text: "Blocking someone also stops their calls now. Their ring never reaches you, neither of you can join a one-to-one call with the other, and their typing indicator doesn't show. The caller's app stops trying straight away instead of retrying for half a minute.",
+      },
       {
         kind: "fixed",
         area: "chat",
-        text: "Messages sent while a server was restarting, or cut off on the way, stayed grey until you reloaded, and some never arrived. They show as waiting for the server now, then go out once it's back, in order and only once. This covers channels, DMs and threads. It gives up after five minutes and hands the text back.",
+        text: "Editing a message showed its mentions as raw link code. They show as names again, and saving without changes keeps the message exactly as it was.",
+      },
+      {
+        kind: "new",
+        area: "servers",
+        text: "Server settings have a spam filter switch and a sensitivity setting.",
       },
       {
         kind: "changed",
         area: "self-hosting",
-        text: "The server built into the desktop app is updated to 1.10.30.",
+        text: "The server built into the desktop app is updated to 1.10.31, with the spam filter and the blocking changes.",
       },
     ],
   },
@@ -2010,6 +2030,28 @@ export const app: ReleaseLine[] = [
  * So a reader here is usually somebody deciding whether to pull a new image.
  */
 export const server: ReleaseLine[] = [
+  {
+    version: "1.10.31",
+    date: "2026-09-25",
+    line: "A spam filter now times out members who flood channels or DMs, on its own, and blocking someone now covers calls and typing too. The filter is on by default at normal sensitivity. Update if you run a server.",
+    changes: [
+      {
+        kind: "new",
+        area: "servers",
+        text: "The spam filter scores repeated messages, the same text in several channels, bursts of links, invites and mentions, walls of one character, and new members messaging many people at once. DMs are judged only on how many people and conversations are involved, never on what they say. A member who trips it is timed out for 1 minute, then 10 minutes, an hour and a day for repeats in the same week. The owner, moderators and bots are never scored. It can be switched off or made more or less sensitive in server settings.",
+      },
+      {
+        kind: "security",
+        area: "voice",
+        text: "Blocking someone didn't stop them ringing you, joining a one-to-one call with you, or showing you their typing indicator. The server refuses all three now.",
+      },
+      {
+        kind: "fixed",
+        area: "voice",
+        text: "When a timeout ran out, voice stayed muted until the member reconnected. It lifts straight away now, for moderator timeouts too.",
+      },
+    ],
+  },
   {
     version: "1.10.30",
     date: "2026-09-24",
