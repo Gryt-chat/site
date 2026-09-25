@@ -2031,6 +2031,23 @@ export const app: ReleaseLine[] = [
  */
 export const server: ReleaseLine[] = [
   {
+    version: "1.10.32",
+    date: "2026-09-25",
+    line: "Members can choose who may message them and who may call them, and the server enforces it. Update before the app, so the new settings take effect.",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "Each member has a Who can send me messages setting and a Who can call me setting, as a default with an optional override per server. The server refuses DMs, group adds, rings and call joins that the setting doesn't allow, and nobody gets past it, owners and moderators included. A stricter setting also applies to conversations that are already open.",
+      },
+      {
+        kind: "changed",
+        area: "voice",
+        text: "By default only people you've written to in a one-to-one can ring you. Until friends exist, that's what \"friends\" means in the call setting.",
+      },
+    ],
+  },
+  {
     version: "1.10.31",
     date: "2026-09-25",
     line: "A spam filter now times out members who flood channels or DMs, on its own, and blocking someone now covers calls and typing too. The filter is on by default at normal sensitivity. Update if you run a server.",
