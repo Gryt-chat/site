@@ -163,6 +163,38 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.11.45",
+    date: "2026-09-25",
+    line: "You can choose who may message you and who may call you, messages sent while a server restarts now go out once it's back, and your message password is much harder to crack.",
+    changes: [
+      {
+        kind: "new",
+        area: "settings",
+        text: "Privacy settings have Who can send me messages and Who can call me, with a default for everywhere and an override per server. The app also checks every incoming message and call against them itself, so a server that ignores your choice can't get through. Anything it holds back goes in a quiet Filtered list you can open.",
+      },
+      {
+        kind: "changed",
+        area: "voice",
+        text: "By default only people you've written to in a one-to-one can ring you.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "Messages sent while a server was restarting, or cut off on the way, stayed grey until you reloaded, and some never arrived. They show as waiting for the server now, then go out once it's back, in order and only once, in channels, DMs and threads. After five minutes the app gives up and hands the text back.",
+      },
+      {
+        kind: "security",
+        area: "settings",
+        text: "The locked copy of your 24 words is now sealed with Argon2id, which makes guessing your message password far slower. A new password needs at least 12 characters, and you can save a recovery key when you set it. Your existing copy moves over the next time you unlock it, and the old one stays until the new one reads back. An older Gryt app on another device can't open the new format until it updates.",
+      },
+      {
+        kind: "changed",
+        area: "self-hosting",
+        text: "The server built into the desktop app is updated to 1.10.32.",
+      },
+    ],
+  },
+  {
     version: "1.11.44",
     date: "2026-09-25",
     line: "Muted channels are silent now, direct messages show who's online, and blocking someone also stops their calls. Editing a message keeps its mentions, and server owners get a spam filter setting.",
