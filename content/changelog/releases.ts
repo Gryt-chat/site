@@ -2065,8 +2065,13 @@ export const server: ReleaseLine[] = [
   {
     version: "1.10.34",
     date: "2026-09-25",
-    line: "Ships SFU 1.0.73, which applies permission changes to calls already in progress, and image worker 1.2.9, which runs the video decoder locked away. Update if you run a server.",
+    line: "Friends: members can send, accept and remove friend requests on your server, and \"calls from friends\" now means real friends. It also ships SFU 1.0.73, which applies permission changes to calls already in progress, and image worker 1.2.9, which runs the video decoder locked away. Update if you run a server.",
     changes: [
+      {
+        kind: "new",
+        area: "servers",
+        text: "Members can send friend requests to each other, accept or decline them, and remove friends. Friends are per server, and your full list lives only on your devices; the server keeps only the pairs between its own members, so it can enforce \"calls from friends\". Requests are rate-limited and blocked people can't send them. Until someone adds their first friend on a server, people they've written to still count as friends for calls.",
+      },
       {
         kind: "changed",
         area: "voice",
