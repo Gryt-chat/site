@@ -2195,6 +2195,28 @@ export const app: ReleaseLine[] = [
  */
 export const server: ReleaseLine[] = [
   {
+    version: "1.10.38",
+    date: "2026-09-28",
+    line: "Removing one of your devices from encrypted DMs now sticks, encrypted messages can be reported, and the health check notices a database it can't write. It also ships SFU 1.0.74.",
+    changes: [
+      {
+        kind: "security",
+        area: "servers",
+        text: "A device you remove from encrypted DMs stays removed. Before, a removed device that was still signed in registered again the next time it connected and got added back to your DMs. Now the server refuses it for good, and the app on that device wipes its encrypted messages for this server.",
+      },
+      {
+        kind: "new",
+        area: "servers",
+        text: "People can report a message from an end-to-end encrypted DM. The server can't read it, so the report carries the reporter's copy, marked unverified for moderators.",
+      },
+      {
+        kind: "fixed",
+        area: "self-hosting",
+        text: "/health said healthy when the server couldn't write its database. It now answers 503, so Docker and the gryt CLI see the problem.",
+      },
+    ],
+  },
+  {
     version: "1.10.37",
     date: "2026-09-28",
     line: "Files in end-to-end encrypted DMs are kept like any other attachment, and the server no longer sends more at once than a connection can take.",
@@ -3116,6 +3138,11 @@ export const server: ReleaseLine[] = [
  * about calls connecting, staying up, or costing less to carry.
  */
 export const voice: ReleaseLine[] = [
+  {
+    version: "1.0.74",
+    date: "2026-09-28",
+    line: "The SFU tells apps how much upload it accepts per person, if whoever runs it has set a cap, so the camera and screen share can split what's there instead of freezing.",
+  },
   {
     version: "1.0.73",
     date: "2026-09-25",
