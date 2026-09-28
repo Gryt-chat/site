@@ -2105,6 +2105,18 @@ export const app: ReleaseLine[] = [
  */
 export const server: ReleaseLine[] = [
   {
+    version: "1.10.35",
+    date: "2026-09-28",
+    line: "Groundwork for end-to-end encrypted DMs: the server can now store and pass along MLS messages between people's devices. Nothing uses it until an app update turns it on, so there's no rush to update.",
+    changes: [
+      {
+        kind: "new",
+        area: "servers",
+        text: "The server can hold each device's MLS key packages and pass encrypted group changes and messages between the devices in a DM. It can't read any of it. It only checks that people added to a DM are really in it and that blocks still apply.",
+      },
+    ],
+  },
+  {
     version: "1.10.34",
     date: "2026-09-25",
     line: "Friends: members can send, accept and remove friend requests on your server, and \"calls from friends\" now means real friends. It also ships SFU 1.0.73, which applies permission changes to calls already in progress, and image worker 1.2.9, which runs the video decoder locked away. Update if you run a server.",
