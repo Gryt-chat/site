@@ -2105,6 +2105,23 @@ export const app: ReleaseLine[] = [
  */
 export const server: ReleaseLine[] = [
   {
+    version: "1.10.37",
+    date: "2026-09-28",
+    line: "Files in end-to-end encrypted DMs are kept like any other attachment, and the server no longer sends more at once than a connection can take.",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "Files sent in an end-to-end encrypted DM stay on the server as long as the message does. The server only learns which uploads a message holds, and the files themselves stay encrypted.",
+      },
+      {
+        kind: "fixed",
+        area: "servers",
+        text: "A device with lots of waiting encrypted-DM updates no longer gets disconnected when it catches up. The server sends them in smaller batches.",
+      },
+    ],
+  },
+  {
     version: "1.10.36",
     date: "2026-09-28",
     line: "More groundwork for end-to-end encrypted DMs. The server now checks the keys devices upload and lets people publish the key that ties their devices together. When someone sends an encrypted DM, people on older apps see a line asking them to update instead of nothing.",
