@@ -2105,6 +2105,28 @@ export const app: ReleaseLine[] = [
  */
 export const server: ReleaseLine[] = [
   {
+    version: "1.10.36",
+    date: "2026-09-28",
+    line: "More groundwork for end-to-end encrypted DMs. The server now checks the keys devices upload and lets people publish the key that ties their devices together. When someone sends an encrypted DM, people on older apps see a line asking them to update instead of nothing.",
+    changes: [
+      {
+        kind: "new",
+        area: "servers",
+        text: "Members can publish the key that vouches for all their devices, and it shows up in the member list so other people's apps can check it.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "When a DM goes end-to-end encrypted, people on an app from before that see \"sent an end-to-end encrypted message. Update Gryt to read it.\" in place of each message.",
+      },
+      {
+        kind: "security",
+        area: "servers",
+        text: "The server refuses device keys that aren't signed properly or that don't match the device uploading them. Keys last 30 days, and expired ones are never handed out.",
+      },
+    ],
+  },
+  {
     version: "1.10.35",
     date: "2026-09-28",
     line: "Groundwork for end-to-end encrypted DMs: the server can now store and pass along MLS messages between people's devices. Nothing uses it until an app update turns it on, so there's no rush to update.",
