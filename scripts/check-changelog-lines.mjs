@@ -41,6 +41,18 @@ for (const [surface, list] of Object.entries(lists)) {
 assert.deepEqual(unknownArea, [], `changes with an area that isn't one of ${areas.join(", ")}`);
 assert.deepEqual(noArea, [], `app changes dated ${AREA_REQUIRED_FROM} or later with no area`);
 
+/* ── every post a release names is there ─────────────────────────────────── */
+
+const noPost = [];
+for (const [surface, list] of Object.entries(lists)) {
+  if (!Array.isArray(list)) continue;
+  for (const entry of list) {
+    if (entry.post && !existsSync(`content/blog/${entry.post}.mdx`)) noPost.push(`${surface} ${entry.version}: ${entry.post}`);
+  }
+}
+
+assert.deepEqual(noPost, [], "releases naming a blog post that isn't in content/blog");
+
 if (!existsSync(CACHE)) {
   console.log(`${CACHE} is not there — run \`yarn fetch:releases\` first. Skipping.`);
   process.exit(0);

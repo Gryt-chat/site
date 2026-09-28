@@ -13,6 +13,7 @@ import {
   PiShieldCheckFill,
 } from 'react-icons/pi'
 import { Chip } from '@gryt/ui'
+import { getPost } from '../lib/blog'
 import { getAppLine, getRelease, groupByArea, groupChanges, KIND_LABELS, splitSecurity } from '../lib/changelog'
 import { monthDayYear } from '../lib/formatDate'
 import { pageTitle } from '../lib/title'
@@ -148,10 +149,11 @@ function Kinds({ changes }: { changes: Change[] }) {
 }
 
 /**
- * A release nobody wrote up. Same shape as the app's modal, so somebody
- * following "Read more" lands on what they have just read.
+ * A release as its line and changes, which is every release without a note. Same
+ * shape as the app's modal, so "Read more" lands on what they have just read.
  */
 function LineOnly({ line }: { line: ReleaseLine }) {
+  const post = line.post ? getPost(line.post) : undefined
   const [security, rest] = splitSecurity(line.changes ?? [])
   const areas = line.changes?.length ? groupByArea(rest) : null
   /* A heading only earns its place when there's another one to tell it from. */
@@ -198,13 +200,18 @@ function LineOnly({ line }: { line: ReleaseLine }) {
         <p className={styles.onlyLine}>{line.line}</p>
       )}
 
-      <p className={styles.noNote}>
-        {areas
-          ? 'Nobody wrote this one up, so the list above is all of it. '
-          : 'One line is all this release got. '}
-        When something lands that&rsquo;s worth explaining there&rsquo;s{' '}
-        <Link to="/blog">a post about it</Link> instead.
-      </p>
+      {post ? (
+        <p className={styles.noNote}>
+          There&rsquo;s a post about this release:{' '}
+          <Link to={`/blog/${post.slug}`}>{post.frontmatter.title}</Link>.
+        </p>
+      ) : (
+        <p className={styles.noNote}>
+          {areas ? 'That’s everything in this release. ' : 'One line is all this release got. '}
+          When something lands that&rsquo;s worth explaining, there&rsquo;s{' '}
+          <Link to="/blog">a post about it</Link>.
+        </p>
+      )}
     </main>
   )
 }

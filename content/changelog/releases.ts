@@ -1,15 +1,15 @@
 /**
- * Every release, and one line saying what it did.
+ * Every release, and what it did.
  *
- * The changelog is the record; the blog is the story. A release that carried a
- * whole feature links to the post about it rather than growing a longer note,
- * because a feature does not land in one release — threads is part of 1.9.8,
- * four more merges that have not shipped, and a server half that went out in
- * 1.9.14. No single release note tells that honestly.
+ * Each release gets a `line` and a `changes` list, and that's the whole entry. A
+ * release that carried a big feature also names the blog post about it in `post`,
+ * rather than growing a longer entry. The changelog is the record and the blog is
+ * the story, and a feature rarely lands in one release anyway: threads is part of
+ * 1.9.8, four more merges, and a server half that went out in 1.9.14.
  *
- * The `.mdx` files beside this one are the releases that have real prose. Those
- * two sets are joined by version in `src/lib/changelog.ts`, so a release can
- * have a line, a note, both, or a line and a link to a post.
+ * No new `.mdx` release notes (decided 2026-09-28). The eleven beside this file
+ * are older than that, and they stay and render the way they always have.
+ * `src/lib/changelog.ts` joins them to these lines by version.
  *
  * **Lines are written, not generated.** The commit range says what changed and
  * the line says it from the reader's side. Generating one gives you the first
@@ -162,6 +162,49 @@ export const securityNotices: SecurityNotice[] = [
  * releases list comes back in.
  */
 export const app: ReleaseLine[] = [
+  {
+    version: "1.12.0",
+    date: "2026-09-28",
+    line: "Direct messages on the desktop and the web now use MLS, so a key that leaks later can't open messages from before it leaked. On a reconnect, the app also waits for the server to prove who it is before sending your sign-in token.",
+    changes: [
+      {
+        kind: "security",
+        area: "servers",
+        text: "When the app reconnected to a server, it sent your sign-in token, and anything you'd sent while offline, before the server had proved who it is. Only the first connection waited for that. Every connection waits now.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "One-to-one DMs are end-to-end encrypted with MLS once the other person has an app that can do it. Every message gets its own key, and your device deletes it after use, so a key stolen later can't open what came before. It needs a server on 1.10.35 or later. DMs from before keep opening the way they did.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "Your MLS messages are kept on the device that read them. On the web that's this browser, and clearing its site data deletes them. A new device starts with nothing from before it joined, and your 24 words don't bring that history back.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "Someone on an older app sees \"Update Gryt to read it\" in place of each MLS message. Once a DM has moved to MLS it stays there.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "Reactions, reports and link previews are off for MLS messages for now. The server has no copy of the message to attach them to, and making a preview would show it the link.",
+      },
+      {
+        kind: "fixed",
+        area: "servers",
+        text: "A server that restarted within five seconds of you connecting got refused as if it had stopped proving who it is, and Gryt stopped reconnecting to it for the rest of the session. That's fixed. The blocked entries it left under Server identity in Settings are cleared once when you update.",
+      },
+      {
+        kind: "changed",
+        area: "self-hosting",
+        text: "The server built into the desktop app is updated to 1.10.37, which passes MLS messages between devices.",
+      },
+    ],
+    post: "direct-messages-now-run-on-mls",
+  },
   {
     version: "1.11.46",
     date: "2026-09-25",
