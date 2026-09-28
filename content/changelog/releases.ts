@@ -170,7 +170,7 @@ export const app: ReleaseLine[] = [
       {
         kind: "security",
         area: "servers",
-        text: "When the app reconnected to a server, it sent your sign-in token, and anything you'd sent while offline, before the server had proved who it is. Only the first connection waited for that. Every connection waits now.",
+        text: "When the app reconnected to a server, it sent your sign-in token, and anything you'd sent while offline, before the server had proved who it is. Uploads, avatars, emoji and other requests with the token didn't wait at all. Only the first connection waited. Now every connection and every request with your token waits for the proof.",
       },
       {
         kind: "new",
@@ -181,6 +181,11 @@ export const app: ReleaseLine[] = [
         kind: "changed",
         area: "chat",
         text: "Your MLS messages are kept on the device that read them. On the web that's this browser, and clearing its site data deletes them. A new device starts with nothing from before it joined, and your 24 words don't bring that history back.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "If your keychain won't let Gryt open the messages it keeps on this device, the DM and Settings > Security say so, with Try again. There's also Clear local history on this device, which starts this device over with new keys.",
       },
       {
         kind: "changed",
