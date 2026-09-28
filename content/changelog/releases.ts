@@ -163,6 +163,48 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.12.1",
+    date: "2026-09-28",
+    line: "Reactions work in encrypted DMs, a screen share freezes far less on a slow upload, and the friend button says what it does.",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "You can react to messages in end-to-end encrypted DMs. Reactions are encrypted like the messages they're on.",
+      },
+      {
+        kind: "changed",
+        area: "voice",
+        text: "With your camera and a screen share both on, the app now splits your upload between them. On a slow connection the share froze about three times less often in our tests. Your camera may drop to a lower quality for a while to make room.",
+      },
+      {
+        kind: "changed",
+        area: "servers",
+        text: "The friend button says Add friend, Requested or Accept instead of showing only an icon. Cancelling a request asks first, and you can decline a request as well as accept it.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "What's New links to the blog post when a release has one.",
+      },
+      {
+        kind: "changed",
+        area: "servers",
+        text: "In the reports panel, a report on an encrypted DM says Close report rather than Delete, because the server has no copy of that message to delete.",
+      },
+      {
+        kind: "fixed",
+        area: "servers",
+        text: "The card that pops up when you hover a server icon no longer blocks clicks on the channel list under it.",
+      },
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "The default light appearance has enough contrast on its accent colour.",
+      },
+    ],
+  },
+  {
     version: "1.12.0",
     date: "2026-09-28",
     line: "Direct messages on the desktop and the web now use MLS, so a key that leaks later can't open messages from before it leaked. On a reconnect, the app also waits for the server to prove who it is before sending your sign-in token.",
