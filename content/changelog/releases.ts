@@ -2197,7 +2197,14 @@ export const server: ReleaseLine[] = [
   {
     version: "1.10.39",
     date: "2026-09-29",
-    line: "Ships SFU 1.0.75, which fixes a screen share that could freeze for good after your upload slowed down. Update if you run a server.",
+    line: "Links to pictures and files no longer carry a long-lived key, and it ships SFU 1.0.75, which fixes a screen share that could freeze for good after your upload slowed down. Update if you run a server.",
+    changes: [
+      {
+        kind: "security",
+        area: "servers",
+        text: "Every link to a picture or file used to carry a token that could open any upload you can see, DMs included, for 12 hours. Links are now signed for one file and last a few minutes, and the key to sign them only reaches an app after the server has proved who it is. Older apps keep working.",
+      },
+    ],
   },
   {
     version: "1.10.38",
