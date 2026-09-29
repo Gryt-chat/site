@@ -50,6 +50,9 @@ your passcode first.
 You get 60 seconds to approve. After that it runs out and the new device shows a fresh
 code. An unused code also gets swapped for a new one every five minutes.
 
+A server takes five devices per person at most. If the new one would be a sixth, the
+approval screen says which server and asks you to remove one first.
+
 After Approve there's nothing else to do. For an account, the new device signs in on its
 own, with no password and no browser. It joins your servers, and your other device adds
 it to every DM.
@@ -98,6 +101,9 @@ so your phone's camera app can't open an approval screen. The approval screen sa
 device gets your messages, your keys and your account, and shows where it is. And Gryt
 never asks you to scan a code from somebody else's device or a website.
 
+If a device gets linked anyway, your other devices tell you. They show "New device linked"
+with its name, and a Remove button right there.
+
 ## Guests too
 
 A guest's identity on each server is worked out from the seed. So the new device gets the
@@ -112,7 +118,6 @@ the sign-in step, and the relay can't tell whether you're one.
   device sends the rest, and nothing shows up twice.
 - **Backups.** Linking copies your history from one device to another. There's no backup
   of it anywhere yet.
-- **A notice on your other devices** saying a new one was linked.
 
 No dates on any of those.
 
