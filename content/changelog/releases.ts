@@ -163,6 +163,34 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.13.0-beta.2",
+    date: "2026-09-29",
+    channel: "beta",
+    line: "Beta: games that talk to Discord can show what you're playing in Gryt instead, and links to pictures and files no longer carry a long-lived key.",
+    changes: [
+      {
+        kind: "new",
+        area: "settings",
+        text: "Game activity: turn it on in Settings and games that report to Discord report to Gryt instead, with details like the mode, a timer and party size. Gryt only listens on that connection, it doesn't read your running programs. If Discord already holds it, Settings says so and Gryt takes over a few seconds after Discord quits.",
+      },
+      {
+        kind: "new",
+        area: "servers",
+        text: "A member's card shows the game they're playing, with what they're doing and for how long.",
+      },
+      {
+        kind: "security",
+        area: "servers",
+        text: "Links to pictures and files are signed for one file and last a few minutes, instead of carrying a token that could open everything you can see for 12 hours.",
+      },
+      {
+        kind: "fixed",
+        area: "self-hosting",
+        text: "The Linux AppImage builds again.",
+      },
+    ],
+  },
+  {
     version: "1.13.0-beta.1",
     date: "2026-09-29",
     channel: "beta",
