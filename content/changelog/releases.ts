@@ -163,6 +163,34 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.13.0-beta.1",
+    date: "2026-09-29",
+    channel: "beta",
+    line: "Beta: link a new device from one you already use, by QR code or a short code, and it gets your keys, your servers and your encrypted DM history.",
+    changes: [
+      {
+        kind: "new",
+        area: "settings",
+        text: "Link a device: the new device shows a QR code and a short code. Scan it with your phone or type the code on a signed-in computer, check the emoji match, and approve. The new device signs in with the same keys, joins your servers and gets your encrypted DM history.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "Your other devices tell you when a new one is linked, with Remove right there. Linking warns you first if a server already has five of your devices.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "Settings > Security lists your devices for encrypted DMs on each server. A device you remove stays removed.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "An encrypted DM sent while the server restarts waits and goes out once, instead of failing or arriving twice.",
+      },
+    ],
+  },
+  {
     version: "1.12.1",
     date: "2026-09-28",
     line: "Reactions work in encrypted DMs, a screen share freezes far less on a slow upload, and the friend button says what it does.",
