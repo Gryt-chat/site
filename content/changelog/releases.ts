@@ -163,6 +163,39 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.13.0-beta.4",
+    date: "2026-09-29",
+    channel: "beta",
+    line: "Beta: member cards are redone in your own colours, with hundreds of patterns to make one yours, and Rich Presence recognizes far more games.",
+    changes: [
+      {
+        kind: "new",
+        area: "servers",
+        text: "Member cards are redesigned in the member's own colours, with a banner, a game band, and actions like message, add friend, mention, report and block.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "Edit my card in Settings: colour, pattern, banner, pronouns, bio and a status line, with a live preview. It saves itself and reaches every server you're on.",
+      },
+      {
+        kind: "new",
+        area: "servers",
+        text: "Hundreds of patterns for a card, from tile designs to scattered owls and icons, each tunable for size, rotation, strength, fade and colour.",
+      },
+      {
+        kind: "new",
+        area: "servers",
+        text: "A member's Rich Presence card shows the game's icon, when the game reports one.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "Rich Presence now names games from Discord's full detectable-apps list, not just the smaller list Gryt curated itself.",
+      },
+    ],
+  },
+  {
     version: "1.13.0-beta.3",
     date: "2026-09-29",
     channel: "beta",
