@@ -163,6 +163,29 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.13.0-beta.3",
+    date: "2026-09-29",
+    channel: "beta",
+    line: "Beta: an optional helper can hold Discord's Rich Presence connection so Gryt and Discord both get to show what you're playing.",
+    changes: [
+      {
+        kind: "new",
+        area: "settings",
+        text: "Turn on the Gryt helper in Settings and it holds the Rich Presence connection games talk to, starting at login. It's off by default. If Discord already has that connection, the warning now offers a \"Turn on the Gryt helper\" button instead of asking you to quit Discord.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "Gryt falls back to its own Rich Presence listener whenever the helper isn't running, so turning it off doesn't lose game activity. Uninstalling Gryt removes the helper too.",
+      },
+      {
+        kind: "changed",
+        area: "self-hosting",
+        text: "The helper ships built, signed and notarized into the Mac, Windows and Linux packages. It isn't in the Mac App Store, Microsoft Store or portable Windows build.",
+      },
+    ],
+  },
+  {
     version: "1.13.0-beta.2",
     date: "2026-09-29",
     channel: "beta",
