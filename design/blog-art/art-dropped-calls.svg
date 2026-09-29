@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="896" viewBox="0 0 1600 896">
+<style>
+  .tile{fill:#232834;stroke:#333949;stroke-width:6;vector-effect:non-scaling-stroke}
+  .tile-accent{fill:#232834;stroke:#978FF8;stroke-width:6;vector-effect:non-scaling-stroke}
+  .deep{fill:#15161C}
+  .bar{fill:#333949}
+  .muted{fill:#565A6B}
+  .accent{fill:#978FF8}
+  .accent-deep{fill:#6157D8}
+  .line{fill:none;stroke:#333949;stroke-width:6;stroke-linecap:round;vector-effect:non-scaling-stroke}
+  .line-muted{fill:none;stroke:#565A6B;stroke-width:6;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+  .line-accent{fill:none;stroke:#978FF8;stroke-width:8;stroke-linecap:round;stroke-linejoin:round}
+  .dash{stroke-dasharray:2 18}
+</style>
+<g transform="translate(800 448) scale(1.11) translate(-800 -448)">
+<g transform="translate(0 45)">
+<rect class="tile" x="200" y="200" width="560" height="316" rx="28"/>
+<rect class="muted" x="400" y="316" width="120" height="84" rx="16"/>
+<path class="muted" d="M532 342 L572 318 V398 L532 374 Z" stroke="#565A6B" stroke-width="6" vector-effect="non-scaling-stroke" stroke-linejoin="round"/>
+<rect class="accent" x="200" y="560" width="34" height="46" rx="8"/>
+<rect x="250" y="563" width="28" height="40" rx="6" fill="none" stroke="#333949" stroke-width="6" vector-effect="non-scaling-stroke"/>
+<rect x="297" y="563" width="28" height="40" rx="6" fill="none" stroke="#333949" stroke-width="6" vector-effect="non-scaling-stroke"/>
+<rect x="344" y="563" width="28" height="40" rx="6" fill="none" stroke="#333949" stroke-width="6" vector-effect="non-scaling-stroke"/>
+<rect x="391" y="563" width="28" height="40" rx="6" fill="none" stroke="#333949" stroke-width="6" vector-effect="non-scaling-stroke"/>
+<rect class="accent" x="435" y="560" width="34" height="46" rx="8"/>
+<rect x="485" y="563" width="28" height="40" rx="6" fill="none" stroke="#333949" stroke-width="6" vector-effect="non-scaling-stroke"/>
+<rect x="532" y="563" width="28" height="40" rx="6" fill="none" stroke="#333949" stroke-width="6" vector-effect="non-scaling-stroke"/>
+<rect x="579" y="563" width="28" height="40" rx="6" fill="none" stroke="#333949" stroke-width="6" vector-effect="non-scaling-stroke"/>
+<rect x="626" y="563" width="28" height="40" rx="6" fill="none" stroke="#333949" stroke-width="6" vector-effect="non-scaling-stroke"/>
+<rect class="accent" x="670" y="560" width="34" height="46" rx="8"/>
+<rect x="720" y="563" width="28" height="40" rx="6" fill="none" stroke="#333949" stroke-width="6" vector-effect="non-scaling-stroke"/>
+<path class="line-accent" d="M830 358.0 L834 343.1 L838 329.1 L842 316.9 L846 307.3 L850 300.9 L854 298.1 L858 299.1 L862 303.7 L866 311.8 L870 322.7 L874 335.9 L878 350.5 L882 365.5 L886 380.1 L890 393.3 L894 404.2 L898 412.3 L902 416.9 L906 417.9 L910 415.1 L914 408.7 L918 399.1 L922 386.9 L926 372.9 L930 358.0 L934 343.1 L938 329.1 L942 316.9 L946 307.3 L950 300.9 L954 298.1 L958 299.1 L962 303.7 L966 311.8 L970 322.7 L974 335.9 L978 350.5 L982 365.5 L986 380.1 L990 393.3 L994 404.2 L998 412.3 L1002 416.9 L1006 417.9 L1010 415.1 L1014 408.7 L1018 399.1 L1022 386.9 L1026 372.9 L1030 358.0"/>
+<path class="line-muted dash" d="M1062 358 H1210"/>
+<path class="line-muted" d="M1240 358.0 L1244 343.1 L1248 329.1 L1252 316.9 L1256 307.3 L1260 300.9 L1264 298.1 L1268 299.1 L1272 303.7 L1276 311.8 L1280 322.7 L1284 335.9 L1288 350.5 L1292 365.5 L1296 380.1 L1300 393.3 L1304 404.2 L1308 412.3 L1312 416.9 L1316 417.9 L1320 415.1 L1324 408.7 L1328 399.1 L1332 386.9 L1336 372.9 L1340 358.0 L1344 343.1 L1348 329.1 L1352 316.9 L1356 307.3 L1360 300.9 L1364 298.1 L1368 299.1 L1372 303.7 L1376 311.8 L1380 322.7 L1384 335.9 L1388 350.5 L1392 365.5 L1396 380.1 L1400 393.3"/>
+</g>
+</g>
+</svg>
