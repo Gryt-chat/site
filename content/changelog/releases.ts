@@ -2338,6 +2338,19 @@ export const app: ReleaseLine[] = [
  */
 export const server: ReleaseLine[] = [
   {
+    version: "1.10.44-beta.1",
+    date: "2026-09-30",
+    channel: "beta",
+    line: "Beta: a card can say \"Using Figma\" for an app, rather than \"Playing\".",
+    changes: [
+      {
+        kind: "new",
+        area: "servers",
+        text: "Rich Presence cards can be of the \"using\" kind, for apps like Figma or VS Code that Gryt spots running. Older apps show them as playing.",
+      },
+    ],
+  },
+  {
     version: "1.10.43",
     date: "2026-09-29",
     line: "A server owner can import a Discord server's history from a DiscordChatExporter export.",
