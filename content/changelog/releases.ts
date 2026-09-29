@@ -2339,7 +2339,7 @@ export const app: ReleaseLine[] = [
 export const server: ReleaseLine[] = [
   {
     version: "1.10.44-beta.1",
-    date: "2026-09-30",
+    date: "2026-09-29",
     channel: "beta",
     line: "Beta: a card can say \"Using Figma\" for an app, rather than \"Playing\".",
     changes: [
