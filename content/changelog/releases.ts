@@ -2274,6 +2274,18 @@ export const app: ReleaseLine[] = [
  */
 export const server: ReleaseLine[] = [
   {
+    version: "1.10.41",
+    date: "2026-09-29",
+    line: "A Rich Presence card can now carry the game's Discord application id, so other members can show its icon.",
+    changes: [
+      {
+        kind: "new",
+        area: "servers",
+        text: "Rich Presence activities accept an optional application id, checked the same way as the rest of the card, so an app that sends one can show a game icon on other members' cards.",
+      },
+    ],
+  },
+  {
     version: "1.10.40",
     date: "2026-09-29",
     line: "The server can carry what game someone is playing in more detail: what they're doing, a timer and party size, for apps that send it.",
