@@ -163,6 +163,44 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.13.0-beta.7",
+    date: "2026-09-29",
+    channel: "beta",
+    line: "Beta: Gryt can spot games and apps you're running, asking once for each, and member cards come from Gryt UI with a card builder you can share from.",
+    changes: [
+      {
+        kind: "new",
+        area: "settings",
+        text: "Spot games and apps: Gryt recognises about 10,000 games and some apps by their program and asks once before showing each, with a toast that waits for your answer. Apps read \"Using Figma\". A game that reports through Rich Presence still wins.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "Name a game that no list knows, like a private Minecraft server, and suggest it for everyone.",
+      },
+      {
+        kind: "new",
+        area: "servers",
+        text: "Member cards show the game's art faintly behind the game band, served by your server so nobody's address goes to Steam or Discord.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "Edit my card opens in its own window with your card beside the controls, has Surprise me, and takes card links from the new builder at ui.gryt.chat/card.",
+      },
+      {
+        kind: "changed",
+        area: "servers",
+        text: "A card with no picture and no pattern has a shorter banner, so there's no empty block above the name.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "Addons can ask to see what's playing and to put a card on your profile, and every addon now shows how risky its permissions are. The first one is Now Playing.",
+      },
+    ],
+  },
+  {
     version: "1.13.0-beta.6",
     date: "2026-09-29",
     channel: "beta",
@@ -2337,6 +2375,19 @@ export const app: ReleaseLine[] = [
  * So a reader here is usually somebody deciding whether to pull a new image.
  */
 export const server: ReleaseLine[] = [
+  {
+    version: "1.10.44-beta.2",
+    date: "2026-09-29",
+    channel: "beta",
+    line: "Beta: the server fetches each game's art once and serves it for member cards.",
+    changes: [
+      {
+        kind: "new",
+        area: "servers",
+        text: "Game art for member cards comes from the server, fetched once from Steam or Discord and kept on disk, so members' viewers never load it from either.",
+      },
+    ],
+  },
   {
     version: "1.10.44-beta.1",
     date: "2026-09-29",
