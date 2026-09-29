@@ -163,6 +163,19 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.13.0-beta.5",
+    date: "2026-09-29",
+    channel: "beta",
+    line: "Beta: Rich Presence and the programs you add now sit together under one heading in Settings.",
+    changes: [
+      {
+        kind: "changed",
+        area: "settings",
+        text: "Settings → Profile has one \"What you're playing\" heading, with Rich Presence first and \"Programs you add\" under it.",
+      },
+    ],
+  },
+  {
     version: "1.13.0-beta.4",
     date: "2026-09-29",
     channel: "beta",
