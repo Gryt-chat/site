@@ -2195,6 +2195,11 @@ export const app: ReleaseLine[] = [
  */
 export const server: ReleaseLine[] = [
   {
+    version: "1.10.39",
+    date: "2026-09-29",
+    line: "Ships SFU 1.0.75, which fixes a screen share that could freeze for good after your upload slowed down. Update if you run a server.",
+  },
+  {
     version: "1.10.38",
     date: "2026-09-28",
     line: "Removing one of your devices from encrypted DMs now sticks, encrypted messages can be reported, and the health check notices a database it can't write. It also ships SFU 1.0.74.",
@@ -3138,6 +3143,11 @@ export const server: ReleaseLine[] = [
  * about calls connecting, staying up, or costing less to carry.
  */
 export const voice: ReleaseLine[] = [
+  {
+    version: "1.0.75",
+    date: "2026-09-29",
+    line: "A screen share that started while your upload was fast and then slowed down could stay frozen for good. The SFU was throwing away resent video packets as if they were replays. It keeps them now, so the share recovers.",
+  },
   {
     version: "1.0.74",
     date: "2026-09-28",
