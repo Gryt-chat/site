@@ -2307,6 +2307,23 @@ export const app: ReleaseLine[] = [
  */
 export const server: ReleaseLine[] = [
   {
+    version: "1.10.43",
+    date: "2026-09-29",
+    line: "A server owner can import a Discord server's history from a DiscordChatExporter export.",
+    changes: [
+      {
+        kind: "new",
+        area: "servers",
+        text: "The owner can import a DiscordChatExporter export: channels, threads, forum posts, replies, reactions, emoji and files, with the original dates and who wrote each message on Discord.",
+      },
+      {
+        kind: "new",
+        area: "servers",
+        text: "Running the same export again adds nothing, and an import cut off by a restart starts over.",
+      },
+    ],
+  },
+  {
     version: "1.10.42",
     date: "2026-09-29",
     line: "Members can style their card and add a bio, pronouns, a status line and, if they're allowed to upload, a banner.",
