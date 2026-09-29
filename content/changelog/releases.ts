@@ -2223,6 +2223,18 @@ export const app: ReleaseLine[] = [
  */
 export const server: ReleaseLine[] = [
   {
+    version: "1.10.40",
+    date: "2026-09-29",
+    line: "The server can carry what game someone is playing in more detail: what they're doing, a timer and party size, for apps that send it.",
+    changes: [
+      {
+        kind: "new",
+        area: "servers",
+        text: "A member's activity can now carry details, a state line, elapsed time, party size and up to two link buttons, with length limits and the same checks links in messages get. Older apps keep seeing the plain status line.",
+      },
+    ],
+  },
+  {
     version: "1.10.39",
     date: "2026-09-29",
     line: "Links to pictures and files no longer carry a long-lived key, and it ships SFU 1.0.75, which fixes a screen share that could freeze for good after your upload slowed down. Update if you run a server.",
