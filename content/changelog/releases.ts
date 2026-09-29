@@ -2274,6 +2274,23 @@ export const app: ReleaseLine[] = [
  */
 export const server: ReleaseLine[] = [
   {
+    version: "1.10.42",
+    date: "2026-09-29",
+    line: "Members can style their card and add a bio, pronouns, a status line and, if they're allowed to upload, a banner.",
+    changes: [
+      {
+        kind: "new",
+        area: "servers",
+        text: "Members can add a card style, a bio, pronouns and a status line, checked the same way as the rest of their profile.",
+      },
+      {
+        kind: "new",
+        area: "servers",
+        text: "A member who may upload can add a banner to their card.",
+      },
+    ],
+  },
+  {
     version: "1.10.41",
     date: "2026-09-29",
     line: "A Rich Presence card can now carry the game's Discord application id, so other members can show its icon.",
