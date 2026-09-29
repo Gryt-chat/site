@@ -163,6 +163,24 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.13.0-beta.6",
+    date: "2026-09-29",
+    channel: "beta",
+    line: "Beta: Settings shows what games send to Gryt, so you can tell whether Rich Presence is working.",
+    changes: [
+      {
+        kind: "new",
+        area: "settings",
+        text: "\"What Gryt receives\" under Rich Presence lists what games have sent, live, and says when a game like CS2 doesn't use Rich Presence at all.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "The long explanations under Rich Presence, the Gryt helper and Programs you add are folded away under \"How this works\".",
+      },
+    ],
+  },
+  {
     version: "1.13.0-beta.5",
     date: "2026-09-29",
     channel: "beta",
