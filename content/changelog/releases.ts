@@ -163,6 +163,44 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.13.0-beta.13",
+    date: "2026-09-30",
+    channel: "beta",
+    line: "Beta: click somebody to open their card, everyone has a card from the start, and cards and owls can be shared by link.",
+    changes: [
+      {
+        kind: "changed",
+        area: "chat",
+        text: "Clicking a member, or an avatar in chat, opens their card. Message is a button on the card, and clicking their picture opens it large.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "Everyone has a card from the start: until you make your own, it's worked out from your name, like your owl.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "The card editor can paste a card link, keeps the cards you used before on this device, and has Surprise me on every tab. The Styles tab is gone.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "\"Use in Gryt\" on the card builder opens the card in the app, where you see it before you save it.",
+      },
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "A portrait photo as your avatar stays round on your card. It used to stretch into an oval.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "Support Gryt in settings links to GitHub Sponsors.",
+      },
+    ],
+  },
+  {
     version: "1.13.0-beta.12",
     date: "2026-09-30",
     channel: "beta",
@@ -2490,6 +2528,18 @@ export const app: ReleaseLine[] = [
  * So a reader here is usually somebody deciding whether to pull a new image.
  */
 export const server: ReleaseLine[] = [
+  {
+    version: "1.10.46",
+    date: "2026-09-30",
+    line: "A member can keep the plain card as a choice, now that apps draw a generated card for anyone without one.",
+    changes: [
+      {
+        kind: "new",
+        area: "servers",
+        text: "The plain card can be stored as a choice. With no style at all, newer apps draw a card worked out from the member's name.",
+      },
+    ],
+  },
   {
     version: "1.10.45",
     date: "2026-09-30",
