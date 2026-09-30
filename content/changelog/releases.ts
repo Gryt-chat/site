@@ -2376,6 +2376,19 @@ export const app: ReleaseLine[] = [
  */
 export const server: ReleaseLine[] = [
   {
+    version: "1.10.44-beta.3",
+    date: "2026-09-29",
+    channel: "beta",
+    line: "Beta: game art comes from Steam only.",
+    changes: [
+      {
+        kind: "changed",
+        area: "servers",
+        text: "Game art for member cards comes from Steam only. Gryt servers don't contact Discord, so a game with no Steam page has no art.",
+      },
+    ],
+  },
+  {
     version: "1.10.44-beta.2",
     date: "2026-09-29",
     channel: "beta",
