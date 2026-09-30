@@ -163,6 +163,23 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.13.1",
+    date: "2026-09-30",
+    line: "Member cards get a cleaner game activity section and steadier controls, and the card builder starts with a new design on every visit.",
+    changes: [
+      {
+        kind: "changed",
+        area: "settings",
+        text: "Game activity no longer has its own background on member cards.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "The card builder opens with a random design, and its colour choices now use sliding tabs without moving the Surprise me button.",
+      },
+    ],
+  },
+  {
     version: "1.13.0-beta.14",
     date: "2026-09-30",
     channel: "beta",
