@@ -163,6 +163,29 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.13.0-beta.12",
+    date: "2026-09-30",
+    channel: "beta",
+    line: "Beta: the card editor offers colours from your banner, and a pattern can sit over the banner, with its own line weight and an outline for the card.",
+    changes: [
+      {
+        kind: "new",
+        area: "settings",
+        text: "With a banner, the card editor offers the banner's colours for the card, the bottom edge first, so the picture runs into the card.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "A pattern can sit in front of your banner picture or behind it, and still cover the whole card.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "Line patterns have a line weight, and the card has an outline you can make thicker or remove. These need server 1.10.45.",
+      },
+    ],
+  },
+  {
     version: "1.13.0-beta.11",
     date: "2026-09-30",
     channel: "beta",
