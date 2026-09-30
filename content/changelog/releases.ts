@@ -163,6 +163,23 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.13.2",
+    date: "2026-09-30",
+    line: "Banner changes preview on your card and wait for Save, and server roles can control who may upload one.",
+    changes: [
+      {
+        kind: "changed",
+        area: "settings",
+        text: "Choosing or removing a banner updates the card preview first. The file is sent to your servers only when you save the card.",
+      },
+      {
+        kind: "new",
+        area: "servers",
+        text: "The role editor has a separate permission for uploading member-card banners.",
+      },
+    ],
+  },
+  {
     version: "1.13.1",
     date: "2026-09-30",
     line: "Member cards get a cleaner game activity section and steadier controls, and the card builder starts with a new design on every visit.",
@@ -2563,6 +2580,18 @@ export const app: ReleaseLine[] = [
  * So a reader here is usually somebody deciding whether to pull a new image.
  */
 export const server: ReleaseLine[] = [
+  {
+    version: "1.10.48",
+    date: "2026-09-30",
+    line: "Roles can allow member-card banner uploads separately from avatar-image uploads.",
+    changes: [
+      {
+        kind: "new",
+        area: "servers",
+        text: "Banner uploads have their own role permission. Existing roles keep the access they had until an admin changes it.",
+      },
+    ],
+  },
   {
     version: "1.10.47",
     date: "2026-09-30",
