@@ -163,6 +163,23 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.13.3",
+    date: "2026-09-30",
+    line: "Thick card outlines keep banners rounded, and running games stay on your profile when Gryt restarts.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "Card banners follow the rounded corners inside thick outlines.",
+      },
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "A game that is already running stays on your profile after Gryt restarts.",
+      },
+    ],
+  },
+  {
     version: "1.13.2",
     date: "2026-09-30",
     line: "Banner changes preview on your card and wait for Save, and server roles can control who may upload one.",
