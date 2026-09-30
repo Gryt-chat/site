@@ -2468,6 +2468,23 @@ export const app: ReleaseLine[] = [
  */
 export const server: ReleaseLine[] = [
   {
+    version: "1.10.45",
+    date: "2026-09-30",
+    line: "Member cards can carry a line weight, an outline and a pattern over the banner, and the server no longer fetches game art.",
+    changes: [
+      {
+        kind: "new",
+        area: "servers",
+        text: "A card style can set a line pattern's weight, the card's outline, and whether the pattern sits in front of a banner picture. Older apps draw the card as before.",
+      },
+      {
+        kind: "changed",
+        area: "servers",
+        text: "The server no longer fetches or serves game art. The app stopped drawing it, and the art an earlier version cached is cleared on start.",
+      },
+    ],
+  },
+  {
     version: "1.10.44",
     date: "2026-09-30",
     line: "Member cards can show the game's art behind the band, and a card can say \"Using\" for an app like Figma.",
