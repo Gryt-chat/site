@@ -78,6 +78,9 @@ export function Bird() {
               nickname={name}
               followSeed
               saving={false}
+              onUseInApp={(worn) => {
+                window.location.href = "gryt://owl?worn=" + encodeURIComponent(worn);
+              }}
               onSave={(png) => {
                 // No account here to save to, so "use this owl" hands you the
                 // file. A button that says it saved and did not is worse.
