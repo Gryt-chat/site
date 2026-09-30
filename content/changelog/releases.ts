@@ -163,10 +163,43 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.13.0-beta.9",
+    date: "2026-09-30",
+    channel: "beta",
+    line: "Beta: the card editor has tabs and a Save button, everyone starts with a random card, and server owners can clear cached game art.",
+    changes: [
+      {
+        kind: "changed",
+        area: "settings",
+        text: "The card editor is in tabs with your card beside it, so there's little to scroll. Changes wait for Save, and Undo changes puts back what you had.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "Copy link in the card editor copies a link to the card builder on ui.gryt.chat. The style-code box is gone.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "If you haven't styled your card, you get a random style once. A card you've already picked is left alone.",
+      },
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "A pattern set to cover the whole card now shows on a solid colour.",
+      },
+      {
+        kind: "new",
+        area: "servers",
+        text: "Server settings show how much game art the server keeps, with a button to clear it.",
+      },
+    ],
+  },
+  {
     version: "1.13.0-beta.8",
     date: "2026-09-30",
     channel: "beta",
-    line: "Beta: the game list comes in Gryt's own format, spotted games can be removed, and server owners can clear cached game art.",
+    line: "Beta: the game list comes in Gryt's own format, and spotted games can be removed.",
     changes: [
       {
         kind: "changed",
@@ -177,11 +210,6 @@ export const app: ReleaseLine[] = [
         kind: "new",
         area: "settings",
         text: "Remove a game from the list of games Gryt has spotted. Gryt asks again the next time it sees it.",
-      },
-      {
-        kind: "new",
-        area: "servers",
-        text: "Server settings show how much game art the server keeps, with a button to clear it.",
       },
     ],
   },
