@@ -2399,6 +2399,28 @@ export const app: ReleaseLine[] = [
  */
 export const server: ReleaseLine[] = [
   {
+    version: "1.10.44",
+    date: "2026-09-30",
+    line: "Member cards can show the game's art behind the band, and a card can say \"Using\" for an app like Figma.",
+    changes: [
+      {
+        kind: "new",
+        area: "servers",
+        text: "The server fetches a game's art from Steam once, keeps it on disk and serves it for member cards, so nobody's app loads it from Steam directly.",
+      },
+      {
+        kind: "new",
+        area: "servers",
+        text: "Cached art is checked for a newer picture once a day, and people who manage the server can see how much is cached and clear it.",
+      },
+      {
+        kind: "new",
+        area: "servers",
+        text: "Rich Presence cards can be of the \"using\" kind, for apps rather than games. Older apps show them as playing.",
+      },
+    ],
+  },
+  {
     version: "1.10.44-beta.4",
     date: "2026-09-30",
     channel: "beta",
