@@ -163,6 +163,29 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.13.0-beta.11",
+    date: "2026-09-30",
+    channel: "beta",
+    line: "Beta: Surprise me rolls every part of a card, game art is gone from cards, and \"Online\" stays readable on a coloured card.",
+    changes: [
+      {
+        kind: "changed",
+        area: "settings",
+        text: "Surprise me in the card editor rolls every field, including where the colour fills, the fades, and the pattern's colour and strength.",
+      },
+      {
+        kind: "changed",
+        area: "servers",
+        text: "Cards no longer draw game art behind the band, and the server setting for clearing cached art is gone with it.",
+      },
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "The status word on a card coloured in the banner and band takes the card's text colour, so \"Online\" can be read on a green or teal card.",
+      },
+    ],
+  },
+  {
     version: "1.13.0-beta.10",
     date: "2026-09-30",
     channel: "beta",
