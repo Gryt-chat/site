@@ -163,6 +163,24 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.13.0-beta.10",
+    date: "2026-09-30",
+    channel: "beta",
+    line: "Beta: newly added games and apps get their name the same day, so Modrinth no longer shows as \"A game\".",
+    changes: [
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "A newly added game or app could show its icon with \"A game\" under it for up to a day. Gryt now reads the game list from GitHub first, so the name arrives with the icon.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "The game list that ships with the app is refreshed, so a fresh install knows Modrinth and the other recently added apps straight away.",
+      },
+    ],
+  },
+  {
     version: "1.13.0-beta.9",
     date: "2026-09-30",
     channel: "beta",
