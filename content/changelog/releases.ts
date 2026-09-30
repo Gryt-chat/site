@@ -163,6 +163,24 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.13.0-beta.14",
+    date: "2026-09-30",
+    channel: "beta",
+    line: "Beta: the card's banner can have no fade, and a thick outline no longer leaves a gap at the corners.",
+    changes: [
+      {
+        kind: "new",
+        area: "settings",
+        text: "\"No fade\" is a third choice for the banner on your card, for a hard edge. It needs server 1.10.47.",
+      },
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "A thick outline on your card no longer leaves a gap at the banner's top corners.",
+      },
+    ],
+  },
+  {
     version: "1.13.0-beta.13",
     date: "2026-09-30",
     channel: "beta",
@@ -2528,6 +2546,18 @@ export const app: ReleaseLine[] = [
  * So a reader here is usually somebody deciding whether to pull a new image.
  */
 export const server: ReleaseLine[] = [
+  {
+    version: "1.10.47",
+    date: "2026-09-30",
+    line: "The banner on a member card can have no fade.",
+    changes: [
+      {
+        kind: "new",
+        area: "servers",
+        text: "A card style can ask for no fade between the banner and the card. Older apps draw the usual fade.",
+      },
+    ],
+  },
   {
     version: "1.10.46",
     date: "2026-09-30",
