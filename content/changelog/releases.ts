@@ -163,6 +163,29 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.13.0-beta.8",
+    date: "2026-09-30",
+    channel: "beta",
+    line: "Beta: the game list comes in Gryt's own format, spotted games can be removed, and server owners can clear cached game art.",
+    changes: [
+      {
+        kind: "changed",
+        area: "settings",
+        text: "The game list comes in one file in Gryt's own format, with names and program names together, so it downloads once.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "Remove a game from the list of games Gryt has spotted. Gryt asks again the next time it sees it.",
+      },
+      {
+        kind: "new",
+        area: "servers",
+        text: "Server settings show how much game art the server keeps, with a button to clear it.",
+      },
+    ],
+  },
+  {
     version: "1.13.0-beta.7",
     date: "2026-09-29",
     channel: "beta",
@@ -2375,6 +2398,24 @@ export const app: ReleaseLine[] = [
  * So a reader here is usually somebody deciding whether to pull a new image.
  */
 export const server: ReleaseLine[] = [
+  {
+    version: "1.10.44-beta.4",
+    date: "2026-09-30",
+    channel: "beta",
+    line: "Beta: game art is checked for a newer picture once a day, and server owners can clear it.",
+    changes: [
+      {
+        kind: "changed",
+        area: "servers",
+        text: "Cached game art is checked against Steam once a day and replaced when there's a newer picture. A check with no change downloads nothing.",
+      },
+      {
+        kind: "new",
+        area: "servers",
+        text: "People who manage the server can see how much game art is cached and clear it.",
+      },
+    ],
+  },
   {
     version: "1.10.44-beta.3",
     date: "2026-09-30",
