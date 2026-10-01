@@ -163,6 +163,18 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.13.5",
+    date: "2026-10-01",
+    line: "Member cards can use any Phosphor icon, Unicode emoji, or emoji from the current server as a pattern.",
+    changes: [
+      {
+        kind: "new",
+        area: "settings",
+        text: "The card editor can search every Phosphor icon and choose Unicode or current-server emoji for scattered patterns.",
+      },
+    ],
+  },
+  {
     version: "1.13.4",
     date: "2026-10-01",
     line: "Thick card outlines follow the card colour cleanly, and banner-only colours can use every fade.",
@@ -2614,6 +2626,18 @@ export const app: ReleaseLine[] = [
  * So a reader here is usually somebody deciding whether to pull a new image.
  */
 export const server: ReleaseLine[] = [
+  {
+    version: "1.10.49",
+    date: "2026-10-01",
+    line: "Member cards can remember a chosen Unicode or server emoji as their pattern.",
+    changes: [
+      {
+        kind: "new",
+        area: "servers",
+        text: "Card styles keep the selected emoji while filtering invalid or oversized identifiers.",
+      },
+    ],
+  },
   {
     version: "1.10.48",
     date: "2026-09-30",
