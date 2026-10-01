@@ -165,12 +165,17 @@ export const app: ReleaseLine[] = [
   {
     version: "1.13.4",
     date: "2026-10-01",
-    line: "Thick card outlines follow the card colour without losing their rounded corners.",
+    line: "Thick card outlines follow the card colour cleanly, and banner-only colours can use every fade.",
     changes: [
       {
         kind: "fixed",
         area: "settings",
         text: "Thick outlines use the card colour, stay rounded, and keep a faint inner highlight.",
+      },
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "The banner fade control stays available when colour fills only the banner, and copied links remember the choice.",
       },
     ],
   },
