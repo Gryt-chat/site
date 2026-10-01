@@ -163,6 +163,18 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.13.4",
+    date: "2026-10-01",
+    line: "Thick card outlines follow the card colour without losing their rounded corners.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "Thick outlines use the card colour, stay rounded, and keep a faint inner highlight.",
+      },
+    ],
+  },
+  {
     version: "1.13.3",
     date: "2026-09-30",
     line: "Thick card outlines keep banners rounded, and running games stay on your profile when Gryt restarts.",
