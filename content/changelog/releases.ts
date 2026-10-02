@@ -164,7 +164,7 @@ export const securityNotices: SecurityNotice[] = [
 export const app: ReleaseLine[] = [
   {
     version: "1.13.5",
-    date: "2026-10-01",
+    date: "2026-10-02",
     line: "Member cards can use any Phosphor icon, Unicode emoji, or emoji from the current server as a pattern.",
     changes: [
       {
@@ -2628,7 +2628,7 @@ export const app: ReleaseLine[] = [
 export const server: ReleaseLine[] = [
   {
     version: "1.10.49",
-    date: "2026-10-01",
+    date: "2026-10-02",
     line: "Member cards can remember a chosen Unicode or server emoji as their pattern.",
     changes: [
       {
