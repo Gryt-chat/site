@@ -163,6 +163,34 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.13.6-beta.1",
+    date: "2026-10-02",
+    channel: "beta",
+    line: "Beta: card banners can be positioned before saving, kept with card presets, copied from another member, or shown as a looping MP4.",
+    changes: [
+      {
+        kind: "new",
+        area: "settings",
+        text: "Drag and zoom a still banner before saving it; animated images and MP4 videos keep their animation.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "Used card styles keep their banner on this device, and deleting one removes its local banner copy.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "Editing your own card opens the editor directly, and Cancel asks before discarding changes and restores every preview immediately.",
+      },
+      {
+        kind: "new",
+        area: "servers",
+        text: "Copy a member's card and banner into the editor, or copy their owl into the owl designer, before deciding whether to save it.",
+      },
+    ],
+  },
+  {
     version: "1.13.5",
     date: "2026-10-02",
     line: "Member cards can use any Phosphor icon, Unicode emoji, or emoji from the current server as a pattern.",
@@ -2626,6 +2654,19 @@ export const app: ReleaseLine[] = [
  * So a reader here is usually somebody deciding whether to pull a new image.
  */
 export const server: ReleaseLine[] = [
+  {
+    version: "1.10.50-beta.1",
+    date: "2026-10-02",
+    channel: "beta",
+    line: "Beta: member-card banners can be MP4 videos, within the server's file-upload size limit.",
+    changes: [
+      {
+        kind: "new",
+        area: "servers",
+        text: "Members with banner-upload permission can use a validated MP4 as their banner, up to the server's configured upload limit.",
+      },
+    ],
+  },
   {
     version: "1.10.49",
     date: "2026-10-02",
