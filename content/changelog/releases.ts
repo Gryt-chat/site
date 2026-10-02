@@ -163,6 +163,44 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.13.6-beta.1",
+    date: "2026-10-02",
+    channel: "beta",
+    line: "Beta: card banners can be positioned before saving, kept with card presets, copied from another member, or shown as a looping MP4.",
+    changes: [
+      {
+        kind: "new",
+        area: "settings",
+        text: "Drag and zoom a still banner before saving it; animated images and MP4 videos keep their animation.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "Used card styles keep their banner on this device, and deleting one removes its local banner copy.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "Editing your own card opens the editor directly, and Cancel asks before discarding changes and restores every preview immediately.",
+      },
+      {
+        kind: "new",
+        area: "servers",
+        text: "Copy a member's card and banner into the editor, or copy their owl into the owl designer, before deciding whether to save it.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "The emoji picker uses one scrollable list, with this server's custom emoji first and searchable Unicode emoji after them.",
+      },
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "Choosing an emoji pattern no longer crashes the card editor.",
+      },
+    ],
+  },
+  {
     version: "1.13.5",
     date: "2026-10-02",
     line: "Member cards can use any Phosphor icon, Unicode emoji, or emoji from the current server as a pattern.",
@@ -2627,6 +2665,24 @@ export const app: ReleaseLine[] = [
  */
 export const server: ReleaseLine[] = [
   {
+    version: "1.10.50-beta.1",
+    date: "2026-10-02",
+    channel: "beta",
+    line: "Beta: member-card banners can be MP4 videos, and new unencrypted media stays unavailable until the image worker finishes checking it.",
+    changes: [
+      {
+        kind: "new",
+        area: "servers",
+        text: "Members with banner-upload permission can use an MP4 as their banner, within the server's upload limit and the worker's processing limits.",
+      },
+      {
+        kind: "security",
+        area: "self-hosting",
+        text: "New unencrypted chat images, videos, and banners cannot be read while processing is pending or has failed. Encrypted chat attachments keep their existing opaque-file handling.",
+      },
+    ],
+  },
+  {
     version: "1.10.49",
     date: "2026-10-02",
     line: "Member cards can remember a chosen Unicode or server emoji as their pattern.",
@@ -3998,6 +4054,22 @@ export const voice: ReleaseLine[] = [
  * dependency bump gets a line here and would not elsewhere.
  */
 export const images: ReleaseLine[] = [
+  {
+    version: "1.2.10-beta.1",
+    date: "2026-10-02",
+    channel: "beta",
+    line: "Beta: the image worker re-encodes card banners and checks quarantined media before the server serves it.",
+    changes: [
+      {
+        kind: "new",
+        text: "Card banners become 960 by 384 WebP images while keeping animated frames. Static chat images are compressed when the result is smaller.",
+      },
+      {
+        kind: "changed",
+        text: "Video poster decoding uses the Docker jail or the desktop app's sandboxed decoder. Missing decoders and malformed files fail processing. A decoded poster does not sanitize the entire video or provide antivirus scanning.",
+      },
+    ],
+  },
   {
     version: "1.2.9",
     date: "2026-09-25",
