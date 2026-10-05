@@ -2712,7 +2712,7 @@ export const server: ReleaseLine[] = [
       {
         kind: "new",
         area: "servers",
-        text: "When an avatar or banner can't be processed, the person who uploaded it is told, with app 1.13.9 or later.",
+        text: "When an avatar or banner can't be processed, the person who uploaded it is told, with app 1.13.10 or later.",
       },
       {
         kind: "new",
