@@ -2644,6 +2644,18 @@ export const app: ReleaseLine[] = [
  */
 export const server: ReleaseLine[] = [
   {
+    version: "1.10.50",
+    date: "2026-10-05",
+    line: "A card's banner is stored in the card's own shape, so it looks the same after saving as it did in the editor.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "servers",
+        text: "Banners were stored wider than the card shows them, so the card cropped and enlarged them a second time. New banners are stored at 960 by 492, the card's own shape. Banners already uploaded change when they're uploaded again.",
+      },
+    ],
+  },
+  {
     version: "1.10.49",
     date: "2026-10-02",
     line: "Member cards can remember a chosen Unicode or server emoji as their pattern.",
