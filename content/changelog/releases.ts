@@ -163,6 +163,23 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.13.9",
+    date: "2026-10-05",
+    line: "A server you host from the app checks uploads in a sandbox before anyone sees them, and the Microsoft Store version no longer offers a beta switch it can't use.",
+    changes: [
+      {
+        kind: "security",
+        area: "self-hosting",
+        text: "On a server hosted from the app, new avatars, banners and chat pictures are decoded and written out fresh inside a locked-down window with no network or file access, and only that copy is served. Banner and avatar videos become short silent clips there too. Chat-video previews are made the same way, rather than with a video tool installed on your computer.",
+      },
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "In the Microsoft Store version, turning on beta releases restarted Gryt and did nothing. The Store keeps it up to date, so the switch is gone, and Settings says how to get betas instead.",
+      },
+    ],
+  },
+  {
     version: "1.13.8",
     date: "2026-10-05",
     line: "You can pick a short video as your avatar, on servers that convert video.",
@@ -2682,6 +2699,18 @@ export const app: ReleaseLine[] = [
  * So a reader here is usually somebody deciding whether to pull a new image.
  */
 export const server: ReleaseLine[] = [
+  {
+    version: "1.10.52",
+    date: "2026-10-05",
+    line: "A new avatar or banner only replaces your old one once it has been checked, so a file that fails the check no longer leaves you with a broken picture.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "servers",
+        text: "If an uploaded avatar or banner couldn't be processed, it still became yours and showed as broken, and the old one was gone. Now you keep the old one until the new one is ready, and a file that fails is thrown away.",
+      },
+    ],
+  },
   {
     version: "1.10.51",
     date: "2026-10-05",
