@@ -163,6 +163,23 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.13.8",
+    date: "2026-10-05",
+    line: "You can pick a short video as your avatar, on servers that convert video.",
+    changes: [
+      {
+        kind: "new",
+        area: "settings",
+        text: "The avatar picker in your profile takes MP4, WebM and MOV. The server turns the video into a silent clip of up to ten seconds, and it plays on your card. A server that can't convert video says so, and you can pick a picture instead.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "Each start now writes which copy of Gryt started to the log file, so it's easier to tell a Store copy and a downloaded copy apart.",
+      },
+    ],
+  },
+  {
     version: "1.13.7",
     date: "2026-10-05",
     line: "A new emoji picker in chat that lists the server's own emoji first, and cards can play a video banner or avatar.",
