@@ -2744,6 +2744,18 @@ export const app: ReleaseLine[] = [
  */
 export const server: ReleaseLine[] = [
   {
+    version: "1.10.54",
+    date: "2026-10-05",
+    line: "Emoji, server and group icons, and pictures sent by webhooks are checked by the image worker too, so the server never decodes an upload itself.",
+    changes: [
+      {
+        kind: "security",
+        area: "self-hosting",
+        text: "Emoji, server icons, group pictures, webhook avatars and pictures webhooks link to now go through the image worker's locked-down process, like every other upload. Link previews read a picture's size from its first bytes instead of opening it. Servers without the image worker work as before. Needs image worker 1.4.1.",
+      },
+    ],
+  },
+  {
     version: "1.10.53",
     date: "2026-10-05",
     line: "Every picture and video sent in chat is checked and written out again before anyone sees it.",
@@ -4178,6 +4190,17 @@ export const voice: ReleaseLine[] = [
  * dependency bump gets a line here and would not elsewhere.
  */
 export const images: ReleaseLine[] = [
+  {
+    version: "1.4.1",
+    date: "2026-10-05",
+    line: "Emoji keep their shape when the worker draws them: 128 pixels tall, up to 512 wide.",
+    changes: [
+      {
+        kind: "changed",
+        text: "A wide emoji stays wide. It's drawn 128 pixels tall at any width up to 512, the same as the server drew it before emoji moved to the worker.",
+      },
+    ],
+  },
   {
     version: "1.4.0",
     date: "2026-10-05",
