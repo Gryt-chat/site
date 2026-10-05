@@ -163,6 +163,18 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.13.6",
+    date: "2026-10-05",
+    line: "The card editor is smooth again.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "The card editor kept redrawing its pattern previews over and over, which made it slow to use. It only redraws when something changes now.",
+      },
+    ],
+  },
+  {
     version: "1.13.6-beta.1",
     date: "2026-10-02",
     channel: "beta",
