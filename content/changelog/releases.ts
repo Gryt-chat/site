@@ -163,6 +163,28 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.13.11",
+    date: "2026-10-05",
+    line: "Pictures and videos in chat show a loader while the server checks them, and hovering a server shows who's in voice.",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "A picture or video the server is still checking shows a loader in its place, and swaps in when it's ready. If it can't be used, the message says so instead.",
+      },
+      {
+        kind: "new",
+        area: "servers",
+        text: "Hovering a server in the sidebar lists who's in its voice channels. Calls in direct messages aren't shown.",
+      },
+      {
+        kind: "security",
+        area: "self-hosting",
+        text: "On a server hosted from the app, chat videos are converted inside its sandbox too, keeping their sound.",
+      },
+    ],
+  },
+  {
     version: "1.13.10",
     date: "2026-10-05",
     line: "Server owners can see how uploads are handled and switch video avatars off, and you're told when an avatar couldn't be used.",
@@ -2722,6 +2744,18 @@ export const app: ReleaseLine[] = [
  */
 export const server: ReleaseLine[] = [
   {
+    version: "1.10.53",
+    date: "2026-10-05",
+    line: "Every picture and video sent in chat is checked and written out again before anyone sees it.",
+    changes: [
+      {
+        kind: "security",
+        area: "chat",
+        text: "Chat videos now go through the image worker like pictures do, and come out as a fresh file with their sound kept. A picture or video sent with the wrong file type is recognised by its contents and checked too. Other files are still downloads, as before. Needs image worker 1.4.0.",
+      },
+    ],
+  },
+  {
     version: "1.10.52",
     date: "2026-10-05",
     line: "A new avatar or banner only replaces your old one once it has been checked, so a file that fails the check no longer leaves you with a broken picture.",
@@ -4144,6 +4178,17 @@ export const voice: ReleaseLine[] = [
  * dependency bump gets a line here and would not elsewhere.
  */
 export const images: ReleaseLine[] = [
+  {
+    version: "1.4.0",
+    date: "2026-10-05",
+    line: "Chat videos are converted to a fresh file with their sound kept, and nothing else from the upload.",
+    changes: [
+      {
+        kind: "security",
+        text: "A video sent in chat is decoded in the locked-down ffmpeg and written out again: AV1 with AAC sound, at most 1280 pixels on the long side and 30 frames a second. Only the picture and the first sound track are kept. Needs server 1.10.53.",
+      },
+    ],
+  },
   {
     version: "1.3.1",
     date: "2026-10-05",
