@@ -4084,6 +4084,29 @@ export const voice: ReleaseLine[] = [
  */
 export const images: ReleaseLine[] = [
   {
+    version: "1.3.0",
+    date: "2026-10-05",
+    line: "Avatars, banners and chat pictures are redrawn before anyone sees them, banners and avatars can be short videos, and video posters work again.",
+    changes: [
+      {
+        kind: "security",
+        text: "A new avatar, banner, emoji or chat picture is held back until the worker has decoded it and written a fresh copy, and only that copy is ever served. The decoding happens in its own locked-down process with no access to the server's files or keys. Needs server 1.10.51 or later.",
+      },
+      {
+        kind: "new",
+        text: "A banner or avatar can be a video. The worker turns it into a silent AV1 clip of at most ten seconds, at the card's own size, with a still frame for places that show a picture.",
+      },
+      {
+        kind: "fixed",
+        text: "Since 1.2.9 the locked-down ffmpeg couldn't start on some Linux hosts, so uploaded videos got no poster frame. It starts everywhere now, and the worker checks it at startup and logs the result.",
+      },
+      {
+        kind: "changed",
+        text: "Animated pictures keep their first 300 frames. A very long GIF used to come out as an avatar of several megabytes that every member had to download.",
+      },
+    ],
+  },
+  {
     version: "1.2.9",
     date: "2026-09-25",
     line: "The video decoder that makes poster frames now runs locked away from everything else, and the image is less than half the size.",
