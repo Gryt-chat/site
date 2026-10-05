@@ -163,6 +163,33 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.13.13",
+    date: "2026-10-05",
+    line: "Pictures in messages only load from the server you're on, and you can tell Gryt when it spotted the wrong game.",
+    changes: [
+      {
+        kind: "security",
+        area: "chat",
+        text: "A picture in a message only loads if it comes from the server you're on. One linked from anywhere else shows as a link, so that site can't see who read the message.",
+      },
+      {
+        kind: "new",
+        area: "servers",
+        text: "Server owners can let members use custom emoji from their other servers. It's off unless the owner turns it on, and needs a server that has the setting.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "When Gryt asks whether to show a game it spotted, Wrong game? hides it and opens the feedback form so you can say what you're actually playing.",
+      },
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "Signing back in no longer asks to move a guest to your account on servers where it's already been moved.",
+      },
+    ],
+  },
+  {
     version: "1.13.12",
     date: "2026-10-05",
     line: "Frame a banner before it goes up, get old cards back with their banners, and make a banner short.",
@@ -2775,6 +2802,19 @@ export const app: ReleaseLine[] = [
  * So a reader here is usually somebody deciding whether to pull a new image.
  */
 export const server: ReleaseLine[] = [
+  {
+    version: "1.10.56-beta.1",
+    date: "2026-10-05",
+    channel: "beta",
+    line: "Beta: owners can let members use custom emoji from their other servers.",
+    changes: [
+      {
+        kind: "new",
+        area: "servers",
+        text: "A server setting, off by default, that lets messages here show custom emoji from members' other Gryt servers. Those load from the other server, which sees who read them.",
+      },
+    ],
+  },
   {
     version: "1.10.55",
     date: "2026-10-05",
