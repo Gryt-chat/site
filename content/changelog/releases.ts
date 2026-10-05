@@ -2709,6 +2709,16 @@ export const server: ReleaseLine[] = [
         area: "servers",
         text: "If an uploaded avatar or banner couldn't be processed, it still became yours and showed as broken, and the old one was gone. Now you keep the old one until the new one is ready, and a file that fails is thrown away.",
       },
+      {
+        kind: "new",
+        area: "servers",
+        text: "When an avatar or banner can't be processed, the person who uploaded it is told, with app 1.13.9 or later.",
+      },
+      {
+        kind: "new",
+        area: "self-hosting",
+        text: "Server settings say whether uploads are checked in a sandbox on this server, and have a switch for video avatars and banners. It's on by default, and greyed out with the reason where the server can't convert video.",
+      },
     ],
   },
   {
