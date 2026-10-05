@@ -163,6 +163,28 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.13.10",
+    date: "2026-10-05",
+    line: "Server owners can see how uploads are handled and switch video avatars off, and you're told when an avatar couldn't be used.",
+    changes: [
+      {
+        kind: "new",
+        area: "servers",
+        text: "Server settings have an Uploads section. It says whether new pictures and videos are checked in a sandbox on this server, and has a switch for video avatars and banners, greyed out with the reason where the server can't convert video.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "The avatar and banner pickers only offer video where one of your servers takes it, and a video only goes to those servers. The others keep what you had.",
+      },
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "If an avatar or banner can't be processed, you're told, and your old one stays. Before, it just never showed up.",
+      },
+    ],
+  },
+  {
     version: "1.13.9",
     date: "2026-10-05",
     line: "A server you host from the app checks uploads in a sandbox before anyone sees them, and the Microsoft Store version no longer offers a beta switch it can't use.",
