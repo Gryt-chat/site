@@ -4145,6 +4145,18 @@ export const voice: ReleaseLine[] = [
  */
 export const images: ReleaseLine[] = [
   {
+    version: "1.3.1",
+    date: "2026-10-05",
+    line: "Outside Docker, the worker no longer runs whatever ffmpeg it finds on your machine.",
+    changes: [
+      {
+        kind: "security",
+        area: "self-hosting",
+        text: "Run in production without Docker, the worker used the system's ffmpeg to make chat-video previews, as your own user. It doesn't anymore, so those videos get no preview. They still play. Set GRYT_ALLOW_HOST_FFMPEG=1 if you want the old behaviour back. Docker and servers hosted from the app are unchanged.",
+      },
+    ],
+  },
+  {
     version: "1.3.0",
     date: "2026-10-05",
     line: "Avatars, banners and chat pictures are redrawn before anyone sees them, banners and avatars can be short videos, and video posters work again.",
