@@ -4100,6 +4100,10 @@ export const images: ReleaseLine[] = [
         kind: "fixed",
         text: "Since 1.2.9 the locked-down ffmpeg couldn't start on some Linux hosts, so uploaded videos got no poster frame. It starts everywhere now, and the worker checks it at startup and logs the result.",
       },
+      {
+        kind: "changed",
+        text: "Animated pictures keep their first 300 frames. A very long GIF used to come out as an avatar of several megabytes that every member had to download.",
+      },
     ],
   },
   {
