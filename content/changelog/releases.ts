@@ -163,6 +163,33 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.13.14",
+    date: "2026-10-05",
+    line: "Pictures linked from other sites wait until you load them, one message key warning instead of a stack, and Gryt can open at login on a Mac.",
+    changes: [
+      {
+        kind: "security",
+        area: "chat",
+        text: "Pictures, videos and audio linked from other sites, and the pictures on link previews, wait for you to press Load, like players already did. Always load from a site trusts it on this device, and Settings → Chat lists the sites you trust.",
+      },
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "Signing in on another device showed a message key warning for every server you're on. It's one warning now, naming the servers, with Don't warn me again if your direct messages don't need to be private from the server.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "On a Mac, Desktop settings have Open at login.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "A card's status line no longer sits in a coloured band. Only a game gets one.",
+      },
+    ],
+  },
+  {
     version: "1.13.13",
     date: "2026-10-05",
     line: "Pictures in messages only load from the server you're on, and you can tell Gryt when it spotted the wrong game.",
