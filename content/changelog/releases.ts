@@ -165,12 +165,17 @@ export const app: ReleaseLine[] = [
   {
     version: "1.13.6",
     date: "2026-10-05",
-    line: "The card editor is smooth again.",
+    line: "The card editor is smooth again, and small text on a light card can be read.",
     changes: [
       {
         kind: "fixed",
         area: "settings",
         text: "The card editor kept redrawing its pattern previews over and over, which made it slow to use. It only redraws when something changes now.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "On a card coloured all over, \"Playing\" and other small text are drawn in the card's own ink again. On a light card they had nearly disappeared.",
       },
     ],
   },
