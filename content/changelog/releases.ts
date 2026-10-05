@@ -163,6 +163,38 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.13.12",
+    date: "2026-10-05",
+    line: "Frame a banner before it goes up, get old cards back with their banners, and make a banner short.",
+    changes: [
+      {
+        kind: "new",
+        area: "settings",
+        text: "Picking a picture for your card's banner opens a crop box. Drag and zoom it, and what's in the box is what your card shows.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "The cards under Used before keep the banner they had, on this device, and picking one brings both back.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "The card editor has a Banner height choice. A short banner stays short even with a picture or a pattern. Your server needs 1.10.55 to keep it.",
+      },
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "Copying a video avatar to your other servers sends the video to the ones that take it, instead of a still.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "Pictures and videos in a thread panel swap in once the server has checked them, like they do in the channel.",
+      },
+    ],
+  },
+  {
     version: "1.13.11",
     date: "2026-10-05",
     line: "Pictures and videos in chat show a loader while the server checks them, and hovering a server shows who's in voice.",
@@ -2743,6 +2775,18 @@ export const app: ReleaseLine[] = [
  * So a reader here is usually somebody deciding whether to pull a new image.
  */
 export const server: ReleaseLine[] = [
+  {
+    version: "1.10.55",
+    date: "2026-10-05",
+    line: "Cards keep the short banner choice.",
+    changes: [
+      {
+        kind: "new",
+        area: "settings",
+        text: "A card set to a short banner in app 1.13.12 stays that way when it's saved.",
+      },
+    ],
+  },
   {
     version: "1.10.54",
     date: "2026-10-05",
