@@ -44,20 +44,13 @@ export function TermsOfUse() {
           or use our services. If you are under 18, you confirm that a parent or
           guardian has reviewed and agrees to these Terms on your behalf.
         </p>
-        <p>
-          Sixteen is the age the GDPR sets for agreeing to a service like this
-          one on your own. Some countries lower it, and Norway, where Gryt is run
-          from, allows 13. The limit is different across Europe and Gryt does not
-          ask where you are, so it uses the higher number everywhere.
-        </p>
 
         <h2>What the service is</h2>
         <p>
           Gryt Chat provides authentication and a web client that lets you
-          connect to <strong>Gryt servers</strong>. Almost every server is
-          self-hosted and run by somebody else; the content, moderation, and
-          policies of those servers are the responsibility of their operators,
-          not ours.
+          connect to <strong>Gryt servers</strong>. Each server is run by
+          whoever hosts it, and its content, moderation and policies are their
+          responsibility.
         </p>
         <p>
           We run one server ourselves, at{" "}
