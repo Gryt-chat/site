@@ -163,6 +163,28 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.13.7",
+    date: "2026-10-05",
+    line: "A new emoji picker in chat that lists the server's own emoji first, and cards can play a video banner or avatar.",
+    changes: [
+      {
+        kind: "changed",
+        area: "chat",
+        text: "Chat uses the same emoji picker as the card editor now. It's quicker to scroll, jumps between categories, and lists this server's own emoji first, then the ones you've used lately.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "With more than one server open, the picker could offer another server's custom emoji. Each server keeps its own list now.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "If a member has a video banner or avatar, it plays on their card, muted and on a loop. The member list and voice tiles show a still frame from it.",
+      },
+    ],
+  },
+  {
     version: "1.13.6",
     date: "2026-10-05",
     line: "The card editor is smooth again, and small text on a light card can be read.",
@@ -2643,6 +2665,23 @@ export const app: ReleaseLine[] = [
  * So a reader here is usually somebody deciding whether to pull a new image.
  */
 export const server: ReleaseLine[] = [
+  {
+    version: "1.10.51",
+    date: "2026-10-05",
+    line: "The server half of video banners and avatars. Nothing changes until a new image worker is out.",
+    changes: [
+      {
+        kind: "changed",
+        area: "self-hosting",
+        text: "Once the image worker supports it, new avatars, banners and chat images are held back until the worker has redrawn them, and only the redrawn copy is ever served. The image worker you're running now doesn't, so uploads work as before.",
+      },
+      {
+        kind: "new",
+        area: "servers",
+        text: "Once the image worker can convert video, members can use a short video as their banner or avatar. The worker turns it into a silent clip of up to ten seconds, at a fixed size, before anyone sees it.",
+      },
+    ],
+  },
   {
     version: "1.10.50",
     date: "2026-10-05",
