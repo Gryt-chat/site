@@ -163,6 +163,39 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.13.18-beta.1",
+    date: "2026-10-06",
+    channel: "beta",
+    line: "Beta: screen shares wait until you click Watch, a loud mic no longer clips, and you can pin messages.",
+    changes: [
+      {
+        kind: "changed",
+        area: "voice",
+        text: "When someone shares their screen, you see a tile with a Watch stream button instead of the stream. Hover a stream you're watching to stop watching it.",
+      },
+      {
+        kind: "fixed",
+        area: "voice",
+        text: "A hot mic, like one coming through a mixer, could clip on loud words. Your mic now always stays below full scale, and auto gain is off unless you turned it on yourself.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "Pin and unpin a message from its right-click menu, and open the pinned list from the header. It needs server 1.10.56-beta.2.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "The owl designer has a Copy link button, and the link previews as your owl when you paste it into a chat.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "Bug reports with logs included now carry a call's connection numbers, one line a second, so lag that has passed still shows up.",
+      },
+    ],
+  },
+  {
     version: "1.13.17",
     date: "2026-10-06",
     line: "Member cards show a shared name's number, and a card's emoji pattern no longer leaves the banner empty.",
