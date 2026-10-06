@@ -2876,6 +2876,23 @@ export const app: ReleaseLine[] = [
  */
 export const server: ReleaseLine[] = [
   {
+    version: "1.10.56",
+    date: "2026-10-06",
+    line: "Messages can be pinned, and owners can let members use custom emoji from their other servers.",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "Pin messages in a channel, or in a DM. In a channel you need Manage messages. In a DM either of you can. The app lists a conversation's pins from a button in its header.",
+      },
+      {
+        kind: "new",
+        area: "servers",
+        text: "A server setting, off by default, that lets messages here show custom emoji from members' other Gryt servers. Those load from the other server, which sees who read them.",
+      },
+    ],
+  },
+  {
     version: "1.10.56-beta.1",
     date: "2026-10-05",
     channel: "beta",
