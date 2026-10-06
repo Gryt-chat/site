@@ -163,6 +163,23 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.13.15",
+    date: "2026-10-06",
+    line: "Two members with the same name each get a short tag, and a game's card no longer drops when the presence helper starts late.",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "When two members on a server share a name, each gets a short tag after it, like Gold · 2xtQ. It shows in the member list, the @ picker, mentions and message headers. It comes from their fingerprint, so nobody can copy someone else's.",
+      },
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "With the presence helper on, a game that started alongside Gryt could lose its connection, and its card never came back. Gryt waits for the helper now.",
+      },
+    ],
+  },
+  {
     version: "1.13.14",
     date: "2026-10-05",
     line: "Pictures linked from other sites wait until you load them, one message key warning instead of a stack, and Gryt can open at login on a Mac.",
