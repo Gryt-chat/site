@@ -163,6 +163,23 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.13.17",
+    date: "2026-10-06",
+    line: "Member cards show a shared name's number, and a card's emoji pattern no longer leaves the banner empty.",
+    changes: [
+      {
+        kind: "changed",
+        area: "chat",
+        text: "When someone shares a name with another member, their card shows the number beside it too, like Gold #2.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A card whose emoji pattern used an emoji this server doesn't have showed an empty banner. It shows ✨ instead now.",
+      },
+    ],
+  },
+  {
     version: "1.13.16",
     date: "2026-10-06",
     line: "Deleting one custom emoji asks first, like deleting them all already did.",
