@@ -163,6 +163,29 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.13.18-beta.3",
+    date: "2026-10-06",
+    channel: "beta",
+    line: "Beta: jump straight to any old pin or reply, and new messages keep you at the bottom.",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "Clicking an old pin or reply opens the history right at that message, however far back it is. Scroll down to read on, or press Jump to present. It needs server 1.10.57-beta.1. Older servers still search back up to 1,000 messages.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A long message or a picture arriving could leave the chat short of the bottom. It now keeps you there whenever you were at, or just above, the bottom.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "New messages slide in quicker and more smoothly.",
+      },
+    ],
+  },
+  {
     version: "1.13.18-beta.2",
     date: "2026-10-06",
     channel: "beta",
