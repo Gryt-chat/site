@@ -165,12 +165,12 @@ export const app: ReleaseLine[] = [
   {
     version: "1.13.15",
     date: "2026-10-06",
-    line: "Two members with the same name each get a short tag, and a game's card no longer drops when the presence helper starts late.",
+    line: "Members who share a name are numbered by who joined first, and a game's card no longer drops when the presence helper starts late.",
     changes: [
       {
         kind: "new",
         area: "chat",
-        text: "When two members on a server share a name, each gets a short tag after it, like Gold · 2xtQ. It shows in the member list, the @ picker, mentions and message headers. It comes from their fingerprint, so nobody can copy someone else's.",
+        text: "When two members on a server share a name, each gets a number after it by who joined first, so the original is Gold #1 and the next is Gold #2. It shows in the member list, the @ picker, mentions and message headers, and @ pings the one you picked.",
       },
       {
         kind: "fixed",
