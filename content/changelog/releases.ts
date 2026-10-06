@@ -163,6 +163,24 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.13.18-beta.2",
+    date: "2026-10-06",
+    channel: "beta",
+    line: "Beta: clicking an old pin or reply now takes you to it, even when it's far up the history.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "Clicking a pin, or the quote on a reply, did nothing when the message was older than what had loaded. The app now loads older messages until it finds it, up to 1,000 back.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "Loading older messages while you were at the bottom of a channel could pull the view back down.",
+      },
+    ],
+  },
+  {
     version: "1.13.18-beta.1",
     date: "2026-10-06",
     channel: "beta",
