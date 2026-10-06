@@ -163,6 +163,18 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.13.16",
+    date: "2026-10-06",
+    line: "Deleting one custom emoji asks first, like deleting them all already did.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "servers",
+        text: "In Server settings, the trash button on a single emoji deleted it right away, with no undo. It asks first now.",
+      },
+    ],
+  },
+  {
     version: "1.13.15",
     date: "2026-10-06",
     line: "Members who share a name are numbered by who joined first, and a game's card no longer drops when the presence helper starts late.",
