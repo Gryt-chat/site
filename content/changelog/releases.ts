@@ -163,6 +163,48 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.13.18",
+    date: "2026-10-07",
+    line: "Pin messages and jump to any old one, screen shares wait for a click, a loud mic can't clip, and the chat glides down to new messages.",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "Pin a message from its right-click menu, and open a conversation's pins from the button in its header. In a channel you need Manage messages; in a DM either of you can.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "Clicking a pin or a reply's quote takes you to that message, however far back it is. Scroll down to read on, or press Jump to present.",
+      },
+      {
+        kind: "changed",
+        area: "voice",
+        text: "When someone shares their screen, you see a tile with a Watch stream button instead of the stream. Hover a stream to stop watching it.",
+      },
+      {
+        kind: "fixed",
+        area: "voice",
+        text: "A hot mic, like one coming through a mixer, could clip on loud words. Your mic now always stays below full scale, and auto gain is off unless you turned it on yourself.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A long message or a picture arriving could leave the chat short of the bottom. The chat now glides down to new messages, and your own message no longer flickers as it sends.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "The owl designer has a Copy link button, and the link previews as your owl when you paste it into a chat.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "Bug reports with logs included now carry a call's connection numbers, so lag that has already passed still shows up.",
+      },
+    ],
+  },
+  {
     version: "1.13.18-beta.4",
     date: "2026-10-07",
     channel: "beta",
@@ -2967,6 +3009,18 @@ export const app: ReleaseLine[] = [
  * So a reader here is usually somebody deciding whether to pull a new image.
  */
 export const server: ReleaseLine[] = [
+  {
+    version: "1.10.57",
+    date: "2026-10-07",
+    line: "The apps can open a conversation's history at any message, so an old pin or reply opens right where it is.",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "History can be fetched around a message and paged towards the present, so clicking an old pin or reply opens right there instead of loading everything in between.",
+      },
+    ],
+  },
   {
     version: "1.10.56",
     date: "2026-10-06",
