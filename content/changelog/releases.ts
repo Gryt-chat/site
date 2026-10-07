@@ -3010,6 +3010,24 @@ export const app: ReleaseLine[] = [
  */
 export const server: ReleaseLine[] = [
   {
+    version: "1.10.58-beta.1",
+    date: "2026-10-07",
+    channel: "beta",
+    line: "Servers can wake phones for mentions and direct messages.",
+    changes: [
+      {
+        kind: "new",
+        area: "notifications",
+        text: "If you turned notifications on for a server in the phone app, it can wake your phone when someone mentions you or sends you a direct message, unless you're at a screen. Channels you muted on the phone are skipped.",
+      },
+      {
+        kind: "new",
+        area: "self-hosting",
+        text: "Pushes go through push.gryt.chat, which gets a random ID and the word mention or dm, never who sent it or what it says. Set GRYT_PUSH_RELAY_URL=off to turn them off.",
+      },
+    ],
+  },
+  {
     version: "1.10.57",
     date: "2026-10-07",
     line: "The apps can open a conversation's history at any message, so an old pin or reply opens right where it is.",
