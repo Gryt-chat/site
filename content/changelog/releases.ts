@@ -163,6 +163,28 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.13.19",
+    date: "2026-10-07",
+    line: "Jump to present from wherever you've scrolled, with a count of what's new and a line showing where it starts.",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "Scroll more than two screens up and a Jump to present button floats over the chat. If messages come in while you're up there, it shows how many.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "Messages that arrive while you're scrolled up get a New line above them. It goes a few seconds after you're back at the bottom.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "Scrolling far back keeps 300 messages loaded at most, so getting back to the present loads one page instead of everything in between.",
+      },
+    ],
+  },
+  {
     version: "1.13.18",
     date: "2026-10-07",
     line: "Pin messages and jump to any old one, screen shares wait for a click, a loud mic can't clip, and the chat glides down to new messages.",
