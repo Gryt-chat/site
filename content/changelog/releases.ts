@@ -163,6 +163,23 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.13.20",
+    date: "2026-10-07",
+    line: "An open desktop no longer keeps your phone quiet once you've stepped away, and new devices pick from 668 names instead of 152.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "notifications",
+        text: "Leaving the desktop app open kept your phone from getting notifications, all day. Now the phone gets them once the Gryt window has been in the background for a minute, or you haven't touched it for five.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "A new device picks its starting name from 668 instead of 152, so two people on one server rarely end up with the same one.",
+      },
+    ],
+  },
+  {
     version: "1.13.19",
     date: "2026-10-07",
     line: "Jump to present from wherever you've scrolled, with a count of what's new and a line showing where it starts.",
