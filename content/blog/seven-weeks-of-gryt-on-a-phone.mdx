@@ -1,0 +1,108 @@
+---
+title: Seven Weeks of Gryt on a Phone
+description: Where the Gryt phone app is seven weeks in. Encrypted DMs, threads, pins, linking devices, and as of today, push notifications only your phone can read. Plus what's still missing.
+author: Sivert
+date: 2026-10-07
+image: /blog/thumb-mobile.webp
+tags:
+  - gryt
+  - mobile
+  - development
+---
+
+## Where it's at
+
+The [last phone post](/blog/gryt-on-a-phone) went up six days into building the
+app, with 156 commits and nineteen builds behind it. That was 26 August. It's 7
+October now. The repository is at 391 commits, and 179 pull requests have been
+merged since that post. The iPhone build on TestFlight is number 61, and Android
+is on build 42 on Google Play's internal track. The version number still says 0.1.1.
+
+<Image src="/blog/gryt-mobile-seven-weeks.webp" alt="Three iPhone screens side by side: a channel with six messages, reactions and a pinned message; a notification on the home screen reading 'Kari, #general · Gryt Blog Demo, Anyone up for a round tonight? I'll be in Voice Chat at nine.'; and Kari's member card open over the same channel" width="2452" height="1620" />
+
+## What's in it now
+
+Most of what landed in those seven weeks is the phone catching up with the
+desktop app.
+
+**Direct messages run on MLS**, the same as on desktop since 1.12.0. The server
+can't read them, and a key that leaks later can't open old ones. Files and
+reactions work in them too. A message sent while the server restarts waits, then
+goes out once instead of twice.
+
+**Chat** got threads and forum topics, pins, @everyone, @here, role and #channel
+mentions, a full emoji picker for reactions, and an image viewer. Unread counts
+work, and you can jump to the first unread message. Tapping an old pin or a
+reply's quote opens the history right where that message is, however far back.
+From there a **Jump to present** button floats over the chat, with a count of
+anything that came in meanwhile. There's also a **New** line above the first
+message you haven't seen.
+
+**Linking a device** is in. You scan a QR code from a device you already use,
+check that both show the same emoji, and approve it behind Face ID. Your keys and
+servers come over from the other device.
+
+**The rest**, in no particular order:
+
+- friends, and requests
+- per-person volume and push to talk
+- themes and presets, with a colour editor
+- member cards with banners, including video ones
+- server settings for invites, folders, emoji and roles
+- a short tour the first time you join a server
+
+## Notifications, as of today
+
+Push notifications went live today. A Gryt server is somebody's own machine, but
+Apple and Google only deliver notifications for an app through whoever holds that
+app's keys. So there's a
+small relay at `push.gryt.chat` in the middle. Each server gets its own random
+ID for your phone. The relay knows which phone an ID belongs to, and that's all.
+
+A notification still shows who wrote, where, and the first line, as in the
+middle picture above. When your phone signs up with a server, it makes a key
+that only it and that server have. The server locks the preview with that key.
+The relay, Apple and Google pass it along, and none of them can open it. A small
+extension in the app unlocks it on your phone just before the banner shows. If
+it can't, you get "New message" instead.
+
+Pushes follow the same notification settings as the desktop app. A channel set to
+Everything wakes the phone for every message. One set to Only mentions wakes it
+for mentions, and for @everyone unless you've muted that for the server. Encrypted DMs say
+who and where, but the text stays "New direct message", because the server can't
+read those either. With the next desktop release, an open desktop app also stops
+holding back your phone's notifications. They start once the Gryt window has been
+in the background for a minute, or you haven't touched it for five.
+
+Getting this working turned up a bug that had been in every TestFlight build since
+early September. The build server signed the app in a way that quietly dropped
+its entitlements, the permissions Apple checks, so the app wasn't allowed to
+receive pushes at all. That's fixed
+now, and the build checks for it before uploading. The same missing entitlement
+is probably why sharing to Gryt from other apps, and screen sharing, misbehaved
+in TestFlight builds. I still need to check both on a real phone.
+
+## What's missing
+
+**There's no App Store or Play Store listing yet.** Google wants a closed test with
+at least twelve testers for fourteen days in a row before it allows a public
+release, and the App Store needs its listing and a review. That's the next big
+piece of work.
+
+**Search isn't built.** The tab is there and says so, same as in August.
+
+**On Android, notifications don't show the preview yet.** They say "New message"
+or "Someone mentioned you". The preview is already in the push. The app just
+needs to open it.
+
+**Some of it needs a real phone.** The audio output picker was reported stuck on
+the loudspeaker in September, and that's still open. The share sheet and screen
+share need checking on the new build. None of this shows up on a simulator, so
+the bug report button in settings is the best way to tell me. Reports land in my
+tracker with the build number attached.
+
+## Trying it
+
+If you want in, ask on [our Gryt server](https://gryt.chat/community) or through
+[feedback.gryt.chat](https://feedback.gryt.chat), and I'll add you to TestFlight
+or the Android test.
