@@ -3032,6 +3032,19 @@ export const app: ReleaseLine[] = [
  */
 export const server: ReleaseLine[] = [
   {
+    version: "1.10.58-beta.2",
+    date: "2026-10-07",
+    channel: "beta",
+    line: "Beta: phone notifications follow your notification settings, so a channel set to All messages wakes your phone for every message.",
+    changes: [
+      {
+        kind: "changed",
+        area: "notifications",
+        text: "A channel you have at All messages on the phone now wakes it for every message, as the desktop notifies. @everyone and @here wake it too, unless you suppress them for that server. Channels at Only mentions still wake it for mentions only.",
+      },
+    ],
+  },
+  {
     version: "1.10.58-beta.1",
     date: "2026-10-07",
     channel: "beta",
