@@ -163,6 +163,24 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.13.18-beta.4",
+    date: "2026-10-07",
+    channel: "beta",
+    line: "Beta: the chat glides down to new messages, and your own message no longer flickers as it sends.",
+    changes: [
+      {
+        kind: "changed",
+        area: "chat",
+        text: "When a new message arrives while you're at the bottom, the chat slides down to it instead of jumping a whole line at once.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "Your own message faded in twice and the chat wobbled slightly as it went from sending to sent.",
+      },
+    ],
+  },
+  {
     version: "1.13.18-beta.3",
     date: "2026-10-06",
     channel: "beta",
