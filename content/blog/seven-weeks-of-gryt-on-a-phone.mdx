@@ -1,0 +1,138 @@
+---
+title: Seven Weeks of Gryt on a Phone
+description: Where the Gryt phone app is seven weeks in. Encrypted DMs, threads, pins, linking devices, and as of this week, push notifications only your phone can read. Plus what's still missing.
+author: Sivert
+date: 2026-10-08
+image: /blog/thumb-mobile.webp
+tags:
+  - gryt
+  - mobile
+  - development
+---
+
+## Where it's at
+
+The [last phone post](/blog/gryt-on-a-phone) went up six days into building the
+app, with 156 commits and nineteen builds behind it. That was 26 August. It's 8
+October now. The repository is at 391 commits, and 179 pull requests have been
+merged since that post. The iPhone build on TestFlight is number 61, and Android
+is on build 42 on Google Play's internal track. The version number still says 0.1.1.
+
+<Image src="/blog/gryt-mobile-seven-weeks.webp" alt="Three iPhone screens side by side: a channel with six messages, reactions and a pinned message; a notification on the home screen reading 'Kari, #general · Gryt Blog Demo, Anyone up for a round tonight? I'll be in Voice Chat at nine.'; and Kari's member card open over the same channel" width="2452" height="1620" />
+
+## What's in it now
+
+Most of what landed in those seven weeks is the phone catching up with the
+desktop app.
+
+**Direct messages run on MLS**, the same as on desktop since 1.12.0. The server
+can't read them, and a key that leaks later can't open old ones. Files and
+reactions work in them too. A message sent while the server restarts waits, then
+goes out once instead of twice.
+
+**Chat** got threads and forum topics, pins, @everyone, @here, role and #channel
+mentions, a full emoji picker for reactions, and an image viewer.
+
+<Image src="/blog/seven-weeks-of-gryt-on-a-phone/threads-and-forums.webp" alt="Two phones: a thread under a pinned message in #General with four replies, and a forum channel called Looking for group listing three topics tagged CS2, Deep Rock and Chill" width="1658" height="1620" />
+
+Long-press a message to react, reply, start a thread, copy it or pin it. Type @
+and it suggests names as you go.
+
+<Image src="/blog/seven-weeks-of-gryt-on-a-phone/reactions.webp" alt="Three phones: the composer suggesting Kari after typing @Ka, the long-press menu with six quick reactions above Reply, Start thread, Copy text, Pin and Report, and the full emoji picker with a search box and recently used row" width="2452" height="1620" />
+
+Unread counts
+work, and you can jump to the first unread message. Tapping an old pin or a
+reply's quote opens the history right where that message is, however far back.
+From there a **Jump to present** button floats over the chat, with a count of
+anything that came in meanwhile. There's also a **New** line above the first
+message you haven't seen.
+
+<Image src="/blog/seven-weeks-of-gryt-on-a-phone/jump-and-new.webp" alt="Two phones in #General: one scrolled back with a floating pill reading 3 new · Jump to present, and one with a thin line labelled New above two messages from Cinder" width="1658" height="1620" />
+
+**Linking a device** is in. You scan a QR code from a device you already use,
+check that both show the same emoji, and approve it behind Face ID. Your keys and
+servers come over from the other device.
+
+**The rest**, in no particular order:
+
+- friends, and requests
+- per-person volume and push to talk
+- themes and presets, with a colour editor
+- member cards with banners, including video ones
+- server settings for invites, folders, emoji and roles
+- a short tour the first time you join a server
+
+<Image src="/blog/seven-weeks-of-gryt-on-a-phone/server-and-members.webp" alt="Two phones: the server screen with an unread count on General, a forum channel, and a friend request from Puffin with Accept and Decline, and the members drawer grouped into Owner, Member and Offline with role colours" width="1658" height="1620" />
+
+<Image src="/blog/seven-weeks-of-gryt-on-a-phone/make-it-yours.webp" alt="Two phones: the card editor with a blue-green gradient card preview and colour swatches, and the theme picker with the Ember palette chosen, which turns the whole app warm brown and orange" width="1658" height="1620" />
+
+## Notifications
+
+Push notifications arrived this week, with server 1.10.58. A Gryt server is somebody's own machine, but
+Apple and Google only deliver notifications for an app through whoever holds that
+app's keys. So there's a
+small relay at `push.gryt.chat` in the middle. Each server gets its own random
+ID for your phone. The relay knows which phone an ID belongs to, and that's all.
+
+A notification still shows who wrote, where, and the first line, as in the
+middle picture above. When your phone signs up with a server, it makes a key
+that only it and that server have. The server locks the preview with that key.
+The relay, Apple and Google pass it along, and none of them can open it. A small
+extension in the app unlocks it on your phone just before the banner shows. If
+it can't, you get "New message" instead.
+
+<Image src="/blog/seven-weeks-of-gryt-on-a-phone/notifications.webp" alt="Two phones: the prompt asking Notifications from Gryt Blog Demo?, with Not now and Turn on, and the Notifications settings screen with Everything, Only mentions and Nothing, a per-server list, and a switch for when the app is closed" width="1658" height="1620" />
+
+Pushes follow the same notification settings as the desktop app. A channel set to
+Everything wakes the phone for every message. One set to Only mentions wakes it
+for mentions, and for @everyone unless you've muted that for the server. Encrypted DMs say
+who and where, but the text stays "New direct message", because the server can't
+read those either. Since desktop 1.13.20, an open desktop app also stops
+holding back your phone's notifications. They start once the Gryt window has been
+in the background for a minute, or you haven't touched it for five.
+
+Getting this working turned up a bug that had been in every TestFlight build since
+early September. The build server signed the app in a way that quietly dropped
+its entitlements, the permissions Apple checks, so the app wasn't allowed to
+receive pushes at all. That's fixed
+now, and the build checks for it before uploading. The same missing entitlement
+is probably why sharing to Gryt from other apps, and screen sharing, misbehaved
+in TestFlight builds. I still need to check both on a real phone.
+
+## What's missing
+
+**There's no App Store or Play Store listing yet,** and there won't be until the
+app is finished. Google also wants a closed test with at least twelve testers for
+fourteen days in a row before it allows a public release, and the App Store needs
+its listing and a review.
+
+**Search isn't built.** The tab is there and says so, same as in August.
+
+**On Android, notifications don't show the preview yet.** They say "New message"
+or "Someone mentioned you". The preview is already in the push. The app just
+needs to open it.
+
+**Some of it needs a real phone.** The audio output picker was reported stuck on
+the loudspeaker in September, and that's still open. The share sheet and screen
+share need checking on the new build. None of this shows up on a simulator, so
+the bug report button in settings is the best way to tell me. Reports land in my
+tracker with the build number attached.
+
+## Becoming a tester
+
+Until then, the app is on TestFlight for iPhone and in a test on Google Play for
+Android. Anyone can join:
+
+1. Ask on [our Gryt server](https://gryt.chat/community) or through
+   [feedback.gryt.chat](https://feedback.gryt.chat). Say which phone you have, and
+   send the email for your Apple ID or Google account.
+2. I add you to the test. On iPhone, Apple sends you a TestFlight invite. Install
+   the TestFlight app from the App Store and open the invite from there. On
+   Android, you get a link that signs you up on Google Play, and Gryt installs from
+   the Play Store like any other app.
+3. Sign in with your Gryt account, or start fresh, and join a server.
+4. When something breaks, use **Report a bug** in the app. It sends the build
+   number along, so I know which version you're on.
+
+Android testers help the most right now. The store needs those twelve people
+testing for two weeks before the app can go public.
