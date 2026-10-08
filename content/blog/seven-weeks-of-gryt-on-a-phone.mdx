@@ -68,7 +68,7 @@ servers come over from the other device.
 
 ## Notifications
 
-Push notifications arrived this week. They're on the beta server release now, and they'll reach everyone with the next stable one. A Gryt server is somebody's own machine, but
+Push notifications arrived this week, with server 1.10.58. A Gryt server is somebody's own machine, but
 Apple and Google only deliver notifications for an app through whoever holds that
 app's keys. So there's a
 small relay at `push.gryt.chat` in the middle. Each server gets its own random
@@ -101,10 +101,10 @@ in TestFlight builds. I still need to check both on a real phone.
 
 ## What's missing
 
-**There's no App Store or Play Store listing yet.** Google wants a closed test with
-at least twelve testers for fourteen days in a row before it allows a public
-release, and the App Store needs its listing and a review. That's the next big
-piece of work.
+**There's no App Store or Play Store listing yet,** and there won't be until the
+app is finished. Google also wants a closed test with at least twelve testers for
+fourteen days in a row before it allows a public release, and the App Store needs
+its listing and a review.
 
 **Search isn't built.** The tab is there and says so, same as in August.
 
@@ -118,8 +118,21 @@ share need checking on the new build. None of this shows up on a simulator, so
 the bug report button in settings is the best way to tell me. Reports land in my
 tracker with the build number attached.
 
-## Trying it
+## Becoming a tester
 
-If you want in, ask on [our Gryt server](https://gryt.chat/community) or through
-[feedback.gryt.chat](https://feedback.gryt.chat), and I'll add you to TestFlight
-or the Android test.
+Until then, the app is on TestFlight for iPhone and in a test on Google Play for
+Android. Anyone can join:
+
+1. Ask on [our Gryt server](https://gryt.chat/community) or through
+   [feedback.gryt.chat](https://feedback.gryt.chat). Say which phone you have, and
+   send the email for your Apple ID or Google account.
+2. I add you to the test. On iPhone, Apple sends you a TestFlight invite. Install
+   the TestFlight app from the App Store and open the invite from there. On
+   Android, you get a link that signs you up on Google Play, and Gryt installs from
+   the Play Store like any other app.
+3. Sign in with your Gryt account, or start fresh, and join a server.
+4. When something breaks, use **Report a bug** in the app. It sends the build
+   number along, so I know which version you're on.
+
+Android testers help the most right now. The store needs those twelve people
+testing for two weeks before the app can go public.

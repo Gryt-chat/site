@@ -3049,6 +3049,29 @@ export const app: ReleaseLine[] = [
  */
 export const server: ReleaseLine[] = [
   {
+    version: "1.10.58",
+    date: "2026-10-08",
+    line: "Servers can wake phones, following each person's notification settings, and the notification shows who wrote and the first line without the push service seeing it.",
+    post: "seven-weeks-of-gryt-on-a-phone",
+    changes: [
+      {
+        kind: "new",
+        area: "notifications",
+        text: "If you turned on notifications for a server in the phone app, it wakes your phone the way the desktop would notify you: every message in channels at All messages, mentions in channels at Only mentions, and direct messages. @everyone and @here count unless you suppressed them. Nothing comes while you're active at a screen.",
+      },
+      {
+        kind: "new",
+        area: "notifications",
+        text: "On iPhone, the notification shows who wrote, where, and the first line. The server locks that text with a key only your phone has, so the push service, Apple and Google can't read it. Encrypted direct messages still say New direct message, because the server can't read those either.",
+      },
+      {
+        kind: "new",
+        area: "self-hosting",
+        text: "Pushes go through push.gryt.chat, which sees a random ID per phone and the locked preview, never who sent it or what it says. Set GRYT_PUSH_RELAY_URL=off to turn pushes off.",
+      },
+    ],
+  },
+  {
     version: "1.10.58-beta.2",
     date: "2026-10-07",
     channel: "beta",
