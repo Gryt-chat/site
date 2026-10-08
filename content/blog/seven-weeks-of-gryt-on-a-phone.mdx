@@ -1,8 +1,8 @@
 ---
 title: Seven Weeks of Gryt on a Phone
-description: Where the Gryt phone app is seven weeks in. Encrypted DMs, threads, pins, linking devices, and as of today, push notifications only your phone can read. Plus what's still missing.
+description: Where the Gryt phone app is seven weeks in. Encrypted DMs, threads, pins, linking devices, and as of this week, push notifications only your phone can read. Plus what's still missing.
 author: Sivert
-date: 2026-10-07
+date: 2026-10-08
 image: /blog/thumb-mobile.webp
 tags:
   - gryt
@@ -13,7 +13,7 @@ tags:
 ## Where it's at
 
 The [last phone post](/blog/gryt-on-a-phone) went up six days into building the
-app, with 156 commits and nineteen builds behind it. That was 26 August. It's 7
+app, with 156 commits and nineteen builds behind it. That was 26 August. It's 8
 October now. The repository is at 391 commits, and 179 pull requests have been
 merged since that post. The iPhone build on TestFlight is number 61, and Android
 is on build 42 on Google Play's internal track. The version number still says 0.1.1.
@@ -66,9 +66,9 @@ servers come over from the other device.
 
 <Image src="/blog/seven-weeks-of-gryt-on-a-phone/make-it-yours.webp" alt="Two phones: the card editor with a blue-green gradient card preview and colour swatches, and the theme picker with the Ember palette chosen, which turns the whole app warm brown and orange" width="1658" height="1620" />
 
-## Notifications, as of today
+## Notifications
 
-Push notifications went live today. A Gryt server is somebody's own machine, but
+Push notifications arrived this week. They're on the beta server release now, and they'll reach everyone with the next stable one. A Gryt server is somebody's own machine, but
 Apple and Google only deliver notifications for an app through whoever holds that
 app's keys. So there's a
 small relay at `push.gryt.chat` in the middle. Each server gets its own random
@@ -87,7 +87,7 @@ Pushes follow the same notification settings as the desktop app. A channel set t
 Everything wakes the phone for every message. One set to Only mentions wakes it
 for mentions, and for @everyone unless you've muted that for the server. Encrypted DMs say
 who and where, but the text stays "New direct message", because the server can't
-read those either. With the next desktop release, an open desktop app also stops
+read those either. Since desktop 1.13.20, an open desktop app also stops
 holding back your phone's notifications. They start once the Gryt window has been
 in the background for a minute, or you haven't touched it for five.
 
