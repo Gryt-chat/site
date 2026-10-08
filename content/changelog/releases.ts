@@ -163,6 +163,28 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.13.21",
+    date: "2026-10-08",
+    line: "Channels show what they're for next to their name, and editing a channel no longer deletes its description.",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "A channel's description shows beside its name at the top of the chat. Server admins can write or change it in the channel's settings.",
+      },
+      {
+        kind: "fixed",
+        area: "servers",
+        text: "Saving a channel's settings, even just renaming it, deleted the description it was created with.",
+      },
+      {
+        kind: "changed",
+        area: "self-hosting",
+        text: "The server that comes with the desktop app is now 1.10.58, so a server hosted from the app can wake phones too.",
+      },
+    ],
+  },
+  {
     version: "1.13.20",
     date: "2026-10-07",
     line: "An open desktop no longer keeps your phone quiet once you've stepped away, and new devices pick from 668 names instead of 152.",
