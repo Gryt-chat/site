@@ -163,6 +163,18 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.13.22",
+    date: "2026-10-08",
+    line: "The quote above a reply shows names instead of the code behind a mention.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A reply to a message that mentioned someone quoted it as [@Name](mention:…). It reads @Name now, and a channel link reads #channel.",
+      },
+    ],
+  },
+  {
     version: "1.13.21",
     date: "2026-10-08",
     line: "Channels show what they're for next to their name, and editing a channel no longer deletes its description.",
