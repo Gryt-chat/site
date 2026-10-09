@@ -303,15 +303,6 @@
   cursor: pointer;
 }
 
-.drawerLabel {
-  padding: 0 12px;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: var(--accent);
-}
-
 .sheetNav {
   display: flex;
   flex-direction: column;
