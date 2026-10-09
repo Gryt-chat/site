@@ -176,25 +176,6 @@
 
 .openAppMobile:hover { background: var(--accent-wash); }
 
-/* ── Hamburger button (mobile only) ─────────────────── */
-
-.hamburger {
-  display: none;
-  align-items: center;
-  justify-content: center;
-  background: none;
-  border: none;
-  color: var(--text);
-  cursor: pointer;
-  padding: 8px;
-  border-radius: var(--radius-sm);
-  transition: background 0.15s;
-}
-
-.hamburger:hover {
-  background: rgba(255, 255, 255, 0.06);
-}
-
 /* ── Overlay ────────────────────────────────────────── */
 
 .overlay {
@@ -210,41 +191,97 @@
   to   { opacity: 1; }
 }
 
-/* ── Sheet (slide-out from right) ───────────────────── */
+/* ── Phone navigation: an edge tab and a drawer (GRYT-1708) ── */
 
-.sheet {
+/* Halfway down, or 300px up from the bottom on a phone tall enough that halfway
+   is out of a thumb's reach. In svh, so it holds still as Safari's bars move. */
+.edgeTab,
+.drawerTab {
+  --tab-top: max(calc(50svh - 48px), calc(100svh - 348px));
+}
+
+/* 44px to tap, 18px of it drawn as the drawer's edge with a grip. */
+.edgeTab {
+  display: none;
+  position: fixed;
+  right: 0;
+  top: var(--tab-top);
+  z-index: 100;
+  width: 44px;
+  height: 96px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.edgeTab::after,
+.drawerTab::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 18px;
+  box-sizing: border-box;
+  border-radius: 12px 0 0 12px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-right: 0;
+}
+
+.edgeTab::after {
+  box-shadow: -4px 0 16px rgba(0, 0, 0, 0.45);
+}
+
+.edgeTab::before,
+.drawerTab::before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  top: 30px;
+  right: 7px;
+  width: 4px;
+  height: 36px;
+  border-radius: 2px;
+  background: var(--accent);
+  opacity: 0.85;
+}
+
+.edgeTab:focus-visible::after,
+.drawerTab:focus-visible::after {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.drawer {
   position: fixed;
   top: 0;
   right: 0;
   bottom: 0;
-  /* `left: auto` is load-bearing. Gryt UI's popup sets `left-1/2`, and on a
-     fixed element with a definite width `left` wins over `right` in LTR, so
-     the sheet was anchored to the middle of the viewport rather than to its
-     right edge. */
+  /* `left: auto`, `translate` and `scale` undo Gryt UI's centring on the
+     popup; without them the drawer is pinned to the middle of the screen. */
   left: auto;
-  z-index: 201;
-  width: min(320px, 85vw);
-  background: var(--bg);
-  border-left: 1px solid var(--border);
-  display: flex;
-  flex-direction: column;
-  animation: slideIn 0.25s cubic-bezier(0.32, 0.72, 0, 1);
-  outline: none;
-
-  /* Gryt UI's Dialog.Popup centres itself with `top-1/2 left-1/2
-     -translate-x-1/2 -translate-y-1/2 scale-98`, and `translate` and `scale`
-     are their own CSS properties rather than shorthands for `transform`. So
-     the `top: 0` above did win — and the popup was still dragged up by half
-     its own height anyway, because nothing here touched `translate`. The sheet
-     was drawn from -398px to 398px in an 812px viewport, with its first five
-     links above the top of the screen and unreachable.
-
-     Nothing appeared in the console and both stylesheets were present, which
-     is the same failure GRYT-643 had one property along: a library utility the
-     site did not know it had to override. `transform` below is untouched,
-     because that is what slideIn animates. */
   translate: none;
   scale: none;
+  /* Also Gryt UI's: a height cap and a scrolling box, which clip the tab off the
+     left edge. The links scroll in `.sheetNav` instead. */
+  max-height: none;
+  max-width: none;
+  overflow: visible;
+  gap: 0;
+  z-index: 201;
+  width: min(62vw, 260px);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 12px 28px;
+  background: var(--bg-card);
+  border-left: 1px solid var(--border);
+  border-radius: 16px 0 0 16px;
+  box-shadow: -12px 0 40px rgba(0, 0, 0, 0.5);
+  animation: slideIn 0.25s cubic-bezier(0.32, 0.72, 0, 1);
+  outline: none;
 }
 
 @keyframes slideIn {
@@ -252,36 +289,34 @@
   to   { transform: translateX(0); }
 }
 
-.sheetHeader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px 20px;
-  border-bottom: 1px solid var(--border);
-}
-
-.closeBtn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: none;
-  border: none;
-  color: var(--text-dim);
+/* Off the drawer's left edge, at the height the closed tab sat. Absolute, since
+   the drawer is full height; fixed would follow the slide's transform anyway. */
+.drawerTab {
+  position: absolute;
+  left: -18px;
+  top: var(--tab-top);
+  width: 18px;
+  height: 96px;
+  padding: 0;
+  border: 0;
+  background: transparent;
   cursor: pointer;
-  padding: 8px;
-  border-radius: var(--radius-sm);
-  transition: color 0.15s, background 0.15s;
 }
 
-.closeBtn:hover {
-  color: var(--text);
-  background: rgba(255, 255, 255, 0.06);
+.drawerLabel {
+  padding: 0 12px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--accent);
 }
 
 .sheetNav {
   display: flex;
   flex-direction: column;
-  padding: 16px 12px;
+  justify-content: flex-end;
+  padding: 16px 0 12px;
   gap: 2px;
   flex: 1;
   overflow-y: auto;
@@ -308,9 +343,12 @@
 }
 
 .sheetFooter {
-  padding: 16px 20px;
+  padding: 12px 0 0;
   border-top: 1px solid var(--border);
 }
+
+/* Only on a phone, where it stands in for the bar's own Download. */
+.mobileDownload { display: none; }
 
 /* ── Responsive ─────────────────────────────────────── */
 
@@ -329,21 +367,13 @@
     padding: 0 16px;
   }
 
-  /* The whole right-hand group goes, not each child: the sheet carries every
+  /* The whole right-hand group goes, not each child: the drawer carries every
      one of them, and an emptied-out flex box would still eat the auto margin
-     the hamburger needs. */
+     the Download button needs. */
   .right { display: none; }
 
-  /* The bar carries its own surface now, so the hamburger no longer needs one
-     of its own — it used to be a floating pill because there was nothing
-     behind it. 44px square, which is the floor. */
-  .hamburger {
-    display: flex;
-    margin-left: auto;
-    min-width: 44px;
-    min-height: 44px;
-    border-radius: var(--radius-sm);
-  }
+  .edgeTab { display: block; }
+  .mobileDownload { display: inline-flex; margin-left: auto; }
 }
 
 /* The live download button.
@@ -406,6 +436,7 @@
 /* @gryt/ui's tab indicator is `motion-reduce:transition-none`, and this is the
    same mark doing the same job. It still moves — it just arrives. */
 @media (prefers-reduced-motion: reduce) {
+  .drawer { animation: none; }
   .underline[data-settled] {
     transition: opacity 100ms ease-out;
   }
@@ -414,6 +445,7 @@
 /* Not a link in running text: the base layer underlines every `a`. */
 .brand,
 .links .navLink,
-.openApp {
+.openApp,
+.sheetLink {
   text-decoration: none;
 }
