@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect, useLayoutEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button, Dialog, IconButton, Tooltip } from "@gryt/ui";
-import { MdMenu, MdClose, MdArrowDownward } from "react-icons/md";
+import { MdArrowDownward } from "react-icons/md";
 import { GrytLogo } from "./GrytLogo";
 import { StoreBadge } from "./StoreBadge";
 import { actions, community, navBar, reading, type SiteLink } from "../data/siteLinks";
@@ -266,39 +266,38 @@ export function Navbar() {
           </div>
         </div>
 
-        {/* Mobile hamburger */}
+        {/* On a phone the bar keeps the logo and one action. Everything else
+            is in the drawer, opened from a tab on the right edge (GRYT-1708). */}
+        <Button
+          className={styles.mobileDownload}
+          onClick={scrollToDownload}
+          render={<a href="#download" />}
+          size="small"
+        >
+          Download
+        </Button>
+
         <Dialog.Root open={open} onOpenChange={setOpen}>
+          {/* A tap opens it, never a swipe: one from the screen edge is the
+              phone's own back or forward. Drawn as the drawer's edge peeking in. */}
           <Dialog.Trigger
-            aria-label="Open menu"
-            className={styles.hamburger}
+            aria-label="Menu"
+            className={styles.edgeTab}
             render={<button type="button" />}
-          >
-            <MdMenu size={22} />
-          </Dialog.Trigger>
+          />
 
           <Dialog.Portal>
             <Dialog.Backdrop className={styles.overlay} />
-            <Dialog.Popup className={styles.sheet} aria-label="Navigation">
-              <div className={styles.sheetHeader}>
-                <Link
-                  to="/"
-                  className={styles.brand}
-                  onClick={(e) => {
-                    handleBrandClick(e);
-                    close();
-                  }}
-                >
-                  <GrytLogo size={28} />
-                  Gryt
-                </Link>
-                <Dialog.Close
-                  aria-label="Close menu"
-                  className={styles.closeBtn}
-                  render={<button type="button" />}
-                >
-                  <MdClose size={22} />
-                </Dialog.Close>
-              </div>
+            <Dialog.Popup className={styles.drawer} aria-label="Navigation">
+              {/* The same tab, now on the drawer's edge, so the way out is
+                  where the way in was. */}
+              <Dialog.Close
+                aria-label="Close menu"
+                className={styles.drawerTab}
+                render={<button type="button" />}
+              />
+
+              <span className={styles.drawerLabel}>Gryt</span>
 
               <nav className={styles.sheetNav}>
                 {sheetLinks.map((link) => {
