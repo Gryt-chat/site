@@ -297,8 +297,6 @@ export function Navbar() {
                 render={<button type="button" />}
               />
 
-              <span className={styles.drawerLabel}>Gryt</span>
-
               <nav className={styles.sheetNav}>
                 {sheetLinks.map((link) => {
                   const isActive =
