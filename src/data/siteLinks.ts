@@ -78,6 +78,7 @@ export const legal: SiteLink[] = [
   { label: 'Terms of use', href: '/terms', route: true },
   { label: 'Guidelines', href: '/community-guidelines', route: true },
   { label: 'Security', href: '/security', route: true },
+  { label: 'AI policy', href: 'https://docs.gryt.chat/docs/about/ai' },
   { label: 'Business inquiries', href: 'mailto:business@gryt.chat' },
 ]
 
