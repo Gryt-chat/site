@@ -41,6 +41,7 @@ const PAGES = [
   "/",
   "/#download-file",
   "/why-gryt",
+  "/features",
   "/compare",
   "/blog",
   `/blog/${firstDir("blog")}`,

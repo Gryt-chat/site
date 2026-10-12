@@ -573,10 +573,14 @@ not grow back here.
 there used to cover embedded, Compose, Helm, LAN discovery and tunnels, which is
 a deployment guide inside a trust page. It is a paragraph and a link now.
 
-The navbar carries **Why Gryt? · Developers · Self-hosting · Docs** plus the two
-buttons, and that is its limit. `Compared` moved to the sheet and the footer to
-make room: it is a page you read once while weighing Gryt against something
-else, and the two audience pages are where a whole kind of visitor should land.
+The navbar carries **Why Gryt? · Features · Developers · Self-hosting** plus the
+two buttons, and that is its limit. `Compared` moved to the sheet and the footer to
+make room: it is a page you read once while weighing Gryt against something else,
+and the two audience pages are where a whole kind of visitor should land. Features
+took Docs' place on 2026-10-12 (GRYT-1720). Five links didn't fit next to
+"Download for macOS" at 1024px, and Docs is another site anyway, so it lives in
+the sheet and the footer now. The Thumb takes over below 1000px, up from 900,
+because the four links and "Open in browser" wrapped at 901.
 
 ## Drawings where a capture will go
 
@@ -701,7 +705,7 @@ the repository still claim eleven and twelve presets.
 left, the four links and the two actions on the right, and the whole middle
 empty.
 
-68px tall, 60 under 900px, on a blurred `--bg` at 82% with a hairline under it,
+68px tall, 60 under 1000px, on a blurred `--bg` at 82% with a hairline under it,
 **from the first pixel**. There is no scroll state and no scroll listener.
 
 **The surface runs the viewport; the contents sit on `--max-w` and a 24px
@@ -720,6 +724,18 @@ Two shapes came before all of that: the most-copied nav on the web, and then a
 floating pill that fixed the sameness and was transparent until 24px of scroll —
 nearly invisible at the top of the page, which is the only place a first-time
 visitor sees it. Nav archetype N9, picked from five candidates on 2026-08-28.
+
+**On a phone, the bar's links go behind the Thumb.** That's Sivert's name for
+it, and it's the name in the code too (`.thumb`, `.drawerThumb`). It's a small
+tab stuck to the right edge of the screen, 18px drawn with a 4×36 accent grip,
+inside a 44×96 tap area. It sits halfway down, or 300px up from the bottom on a
+phone tall enough that halfway is out of reach, in `svh` so it holds still while
+Safari's bars move.
+
+A tap opens the drawer, never a swipe, because a swipe from the edge is the
+phone's own back gesture. The drawer comes in from the right with its links at
+the bottom, where your thumb already is, and the same tab sits on its edge to
+close it. The top bar keeps only the wordmark and Download. Added in GRYT-1708.
 
 **One underline for the row, not one per link.** It parks under the page you
 are on, travels to whatever you hover or tab to, and returns when you leave —

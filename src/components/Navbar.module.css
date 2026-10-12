@@ -191,17 +191,17 @@
   to   { opacity: 1; }
 }
 
-/* ── Phone navigation: an edge tab and a drawer (GRYT-1708) ── */
+/* ── Phone navigation: the Thumb and its drawer (GRYT-1708) ── */
 
 /* Halfway down, or 300px up from the bottom on a phone tall enough that halfway
    is out of a thumb's reach. In svh, so it holds still as Safari's bars move. */
-.edgeTab,
-.drawerTab {
+.thumb,
+.drawerThumb {
   --tab-top: max(calc(50svh - 48px), calc(100svh - 348px));
 }
 
 /* 44px to tap, 18px of it drawn as the drawer's edge with a grip. */
-.edgeTab {
+.thumb {
   display: none;
   position: fixed;
   right: 0;
@@ -215,8 +215,8 @@
   cursor: pointer;
 }
 
-.edgeTab::after,
-.drawerTab::after {
+.thumb::after,
+.drawerThumb::after {
   content: "";
   position: absolute;
   top: 0;
@@ -230,12 +230,12 @@
   border-right: 0;
 }
 
-.edgeTab::after {
+.thumb::after {
   box-shadow: -4px 0 16px rgba(0, 0, 0, 0.45);
 }
 
-.edgeTab::before,
-.drawerTab::before {
+.thumb::before,
+.drawerThumb::before {
   content: "";
   position: absolute;
   z-index: 1;
@@ -248,8 +248,8 @@
   opacity: 0.85;
 }
 
-.edgeTab:focus-visible::after,
-.drawerTab:focus-visible::after {
+.thumb:focus-visible::after,
+.drawerThumb:focus-visible::after {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
@@ -291,7 +291,7 @@
 
 /* Off the drawer's left edge, at the height the closed tab sat. Absolute, since
    the drawer is full height; fixed would follow the slide's transform anyway. */
-.drawerTab {
+.drawerThumb {
   position: absolute;
   left: -18px;
   top: var(--tab-top);
@@ -343,16 +343,16 @@
 
 /* ── Responsive ─────────────────────────────────────── */
 
-/* A Mac's "Download for macOS" and the arrow need about 925px at full gaps, and the
-   bar only collapses to the menu at 900. */
-@media (max-width: 1000px) {
+/* With Features in the bar, "Download for macOS" needs about 950px at tight gaps, so the
+   gaps tighten below 1100 and the Thumb takes over at 1000. */
+@media (max-width: 1100px) {
   .right,
   .links {
     gap: 20px;
   }
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1000px) {
   .nav {
     height: 60px;
     padding: 0 16px;
@@ -363,7 +363,7 @@
      the Download button needs. */
   .right { display: none; }
 
-  .edgeTab { display: block; }
+  .thumb { display: block; }
   .mobileDownload { display: inline-flex; margin-left: auto; }
 }
 
