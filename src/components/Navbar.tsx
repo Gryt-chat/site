@@ -4,7 +4,7 @@ import { Button, Dialog, IconButton, Tooltip } from "@gryt/ui";
 import { MdArrowDownward } from "react-icons/md";
 import { GrytLogo } from "./GrytLogo";
 import { StoreBadge } from "./StoreBadge";
-import { actions, community, navBar, reading, type SiteLink } from "../data/siteLinks";
+import { actions, community, getGoing, navBar, reading, type SiteLink } from "../data/siteLinks";
 import { STORES } from "../lib/releases";
 import { useDetectedOS } from "../lib/useDetectedOS";
 import { useLatestDownload } from "../lib/useLatestDownload";
@@ -50,6 +50,7 @@ const asNav = (l: SiteLink) => ({
 const sheetLinks = [
   ...navLinks,
   ...[
+    pick(getGoing, "Docs"),
     pick(reading, "Compared"),
     pick(reading, "Blog"),
     pick(reading, "Changelog"),

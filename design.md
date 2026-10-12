@@ -573,12 +573,14 @@ not grow back here.
 there used to cover embedded, Compose, Helm, LAN discovery and tunnels, which is
 a deployment guide inside a trust page. It is a paragraph and a link now.
 
-The navbar carries **Why Gryt? · Features · Developers · Self-hosting · Docs**
-plus the two buttons, and that is its limit. `Compared` moved to the sheet and the
-footer to make room: it is a page you read once while weighing Gryt against
-something else, and the two audience pages are where a whole kind of visitor
-should land. Features joined on 2026-10-12 (GRYT-1720) because it's the page
-somebody asking "what does it do?" wants, and the bar still fits at 1000px.
+The navbar carries **Why Gryt? · Features · Developers · Self-hosting** plus the
+two buttons, and that is its limit. `Compared` moved to the sheet and the footer to
+make room: it is a page you read once while weighing Gryt against something else,
+and the two audience pages are where a whole kind of visitor should land. Features
+took Docs' place on 2026-10-12 (GRYT-1720). Five links didn't fit next to
+"Download for macOS" at 1024px, and Docs is another site anyway, so it lives in
+the sheet and the footer now. The Thumb takes over below 1000px, up from 900,
+because the four links and "Open in browser" wrapped at 901.
 
 ## Drawings where a capture will go
 
@@ -703,7 +705,7 @@ the repository still claim eleven and twelve presets.
 left, the four links and the two actions on the right, and the whole middle
 empty.
 
-68px tall, 60 under 900px, on a blurred `--bg` at 82% with a hairline under it,
+68px tall, 60 under 1000px, on a blurred `--bg` at 82% with a hairline under it,
 **from the first pixel**. There is no scroll state and no scroll listener.
 
 **The surface runs the viewport; the contents sit on `--max-w` and a 24px

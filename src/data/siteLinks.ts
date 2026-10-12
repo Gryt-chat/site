@@ -85,10 +85,10 @@ export const legal: SiteLink[] = [
 ]
 
 /**
- * What the bar carries, as opposed to the sheet and the footer. Five, and at its limit —
- * six links plus two buttons is a directory. "Compared" came out for the audience pages.
+ * What the bar carries, as opposed to the sheet and the footer. Four, and at its limit.
+ * "Compared" came out for the audience pages, and Docs for Features; both are in the sheet.
  */
-export const navBar: SiteLink[] = [whyGryt, features, developers, selfHosting, docs]
+export const navBar: SiteLink[] = [whyGryt, features, developers, selfHosting]
 
 /** The two the whole site is for. Buttons, never text links. */
 export const actions = {

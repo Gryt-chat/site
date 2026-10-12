@@ -343,16 +343,16 @@
 
 /* ── Responsive ─────────────────────────────────────── */
 
-/* A Mac's "Download for macOS" and the arrow need about 925px at full gaps, and the
-   bar only collapses to the menu at 900. */
-@media (max-width: 1000px) {
+/* With Features in the bar, "Download for macOS" needs about 950px at tight gaps, so the
+   gaps tighten below 1100 and the Thumb takes over at 1000. */
+@media (max-width: 1100px) {
   .right,
   .links {
     gap: 20px;
   }
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1000px) {
   .nav {
     height: 60px;
     padding: 0 16px;
