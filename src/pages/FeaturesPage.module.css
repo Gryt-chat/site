@@ -1,0 +1,351 @@
+/* Hallmark · macrostructure: release timeline · tone: product · anchor hue: periwinkle */
+
+.page {
+  --nav-h: 68px;
+  --chips-h: 64px;
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 120px 24px 96px;
+  display: flex;
+  flex-direction: column;
+  gap: 56px;
+}
+
+.page :global(header) {
+  margin-bottom: 0;
+}
+
+.page a {
+  color: var(--accent-light);
+}
+
+.page a:hover {
+  color: var(--accent-hover);
+}
+
+/* One row that scrolls sideways, so its height is fixed and the version heading
+   below can stick right under it. */
+.chips {
+  position: sticky;
+  top: var(--nav-h);
+  z-index: 2;
+  display: flex;
+  gap: 8px;
+  height: var(--chips-h);
+  align-items: center;
+  margin-inline: -24px;
+  padding: 0 24px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  background: var(--bg);
+}
+
+.chips::-webkit-scrollbar {
+  display: none;
+}
+
+.chip {
+  flex: none;
+  min-height: 40px;
+  padding: 0 16px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.chip:hover {
+  border-color: var(--text-dimmer);
+}
+
+.chip[aria-pressed="true"] {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-ink);
+}
+
+.chip:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ── What we're working on ── */
+
+.next {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 28px;
+  border-radius: 24px;
+  border: 1px solid color-mix(in oklab, var(--accent) 30%, var(--border));
+  background: var(--accent-wash-soft);
+}
+
+.nextTitle {
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: -0.016em;
+  margin-bottom: 6px;
+}
+
+.nextSub {
+  font-size: 15px;
+  color: var(--text-dim);
+}
+
+.nextGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+  gap: 16px;
+}
+
+.nextCard {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 18px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+}
+
+.nextCard[data-status="progress"] {
+  border-color: color-mix(in oklab, var(--accent) 55%, var(--border));
+}
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  min-height: 26px;
+  padding: 0 10px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 700;
+  background: var(--accent-wash-strong);
+  color: var(--accent-light);
+}
+
+.nextCard[data-status="progress"] .status {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+/* ── Release lines ── */
+
+.line {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Sticks under the chips, so on a long line you can still see which version
+   you're in. */
+.lineHead {
+  position: sticky;
+  top: calc(var(--nav-h) + var(--chips-h));
+  z-index: 1;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px 16px;
+  flex-wrap: wrap;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+}
+
+.lineHeadStacked {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.lineTitle {
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.014em;
+}
+
+.lineMeta {
+  font-size: 14px;
+  color: var(--text-dimmer);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+  gap: 20px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  background: var(--bg-raised);
+  overflow: hidden;
+}
+
+.shot {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-card);
+}
+
+.cardBody {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 18px 18px 20px;
+  flex: 1;
+}
+
+.cardMeta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.card .cardMeta {
+  justify-content: flex-start;
+}
+
+.month {
+  display: inline-flex;
+  align-items: center;
+  min-height: 26px;
+  padding: 0 10px;
+  border-radius: 999px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.area {
+  font-size: 13px;
+  color: var(--text-dimmer);
+}
+
+.cardTitle {
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.cardText {
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--text-dim);
+}
+
+.postLink {
+  margin-top: auto;
+  padding-top: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+/* ── Before 1.0 ── */
+
+.timeline {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.milestone {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 20px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.milestone:last-child {
+  border-bottom: 0;
+}
+
+.when {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--accent);
+  padding-top: 2px;
+}
+
+.what {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.what .postLink {
+  margin-top: 0;
+  padding-top: 2px;
+}
+
+.milestoneTitle {
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.missing {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 28px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background: var(--bg-raised);
+}
+
+.missingTitle {
+  font-size: 22px;
+  font-weight: 800;
+}
+
+@media (max-width: 900px) {
+  .page {
+    --nav-h: 60px;
+  }
+}
+
+/* On a phone the chips scroll away and only the version heading sticks. */
+@media (max-width: 700px) {
+  .page {
+    gap: 44px;
+  }
+
+  .chips {
+    position: static;
+  }
+
+  .lineHead {
+    top: var(--nav-h);
+    box-shadow: 0 8px 16px -12px rgba(0, 0, 0, 0.8);
+  }
+
+  .lineTitle {
+    font-size: 24px;
+  }
+
+  .next,
+  .missing {
+    padding: 20px;
+  }
+
+  .milestone {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+}

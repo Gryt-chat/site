@@ -80,6 +80,12 @@ export const STATIC_PAGES = [
     description: "Posts about building Gryt, written by the one person building it.",
   },
   {
+    path: "features",
+    title: "Features",
+    description:
+      "Everything in Gryt and the release it came in, from what we're building now back to 2022.",
+  },
+  {
     path: "compare",
     title: "Gryt vs Discord and TeamSpeak",
     description:

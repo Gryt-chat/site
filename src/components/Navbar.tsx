@@ -267,7 +267,7 @@ export function Navbar() {
         </div>
 
         {/* On a phone the bar keeps the logo and one action. Everything else
-            is in the drawer, opened from a tab on the right edge (GRYT-1708). */}
+            is in the drawer, opened from the Thumb on the right edge (GRYT-1708). */}
         <Button
           className={styles.mobileDownload}
           onClick={scrollToDownload}
@@ -282,7 +282,7 @@ export function Navbar() {
               phone's own back or forward. Drawn as the drawer's edge peeking in. */}
           <Dialog.Trigger
             aria-label="Menu"
-            className={styles.edgeTab}
+            className={styles.thumb}
             render={<button type="button" />}
           />
 
@@ -293,7 +293,7 @@ export function Navbar() {
                   where the way in was. */}
               <Dialog.Close
                 aria-label="Close menu"
-                className={styles.drawerTab}
+                className={styles.drawerThumb}
                 render={<button type="button" />}
               />
 

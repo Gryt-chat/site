@@ -13,6 +13,7 @@ const AuthCallbackPage = lazy(() => import("./pages/AuthCallbackPage").then((m) 
 const BlogIndex = lazy(() => import("./pages/BlogIndex").then((m) => ({ default: m.BlogIndex })));
 const BlogPost = lazy(() => import("./pages/BlogPost").then((m) => ({ default: m.BlogPost })));
 const BuiltPage = lazy(() => import("./pages/BuiltPage").then((m) => ({ default: m.BuiltPage })));
+const FeaturesPage = lazy(() => import("./pages/FeaturesPage").then((m) => ({ default: m.FeaturesPage })));
 const ComparePage = lazy(() => import("./pages/ComparePage").then((m) => ({ default: m.ComparePage })));
 const BotsPage = lazy(() => import("./pages/developers/BotsPage").then((m) => ({ default: m.BotsPage })));
 const AddonsPage = lazy(() => import("./pages/developers/AddonsPage").then((m) => ({ default: m.AddonsPage })));
@@ -165,6 +166,7 @@ export default function App() {
           <Route path="/why-gryt" element={<WhyGryt />} />
           <Route path="/blog" element={<BlogIndex />} />
           <Route path="/blog/:slug" element={<BlogPost />} />
+          <Route path="/features" element={<FeaturesPage />} />
           <Route path="/compare" element={<ComparePage />} />
           <Route path="/developers" element={<DevelopersPage />} />
           <Route path="/developers/bots" element={<BotsPage />} />
