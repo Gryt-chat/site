@@ -63,7 +63,7 @@ export const featureLines: FeatureLine[] = [
     version: '1.13',
     features: [
       { area: 'you', month: 'Oct 2026', title: 'Member cards', text: 'Colours, patterns, a banner, a bio and a status line, the same on every server.', image: '/features/member-card.webp' },
-      { area: 'you', month: 'Oct 2026', title: 'Game activity', text: 'Games that report to Discord report to Gryt too, with the game’s art on your card.' },
+      { area: 'you', month: 'Oct 2026', title: 'Game activity', text: 'Games that report to Discord report to Gryt too, with the game’s art on your card.', image: '/features/game-activity.webp' },
       { area: 'privacy', month: 'Sep 2026', title: 'Link a new device', text: 'Scan a QR code or type a short code, and your keys move over without a server holding them.', image: '/features/link-device.webp' },
       { area: 'chat', month: 'Oct 2026', title: 'Pinned messages', text: 'Pin from the message menu, and jump to an old pin however far back it is.', image: '/features/pinned-messages.webp' },
       { area: 'voice', month: 'Oct 2026', title: 'Watch when you want to', text: 'A screen share waits until you click Watch, so nobody downloads video they didn’t ask for.', image: '/features/watch.webp' },
@@ -89,13 +89,13 @@ export const featureLines: FeatureLine[] = [
   {
     version: '1.10',
     features: [
-      { area: 'chat', month: 'Sep 2026', title: 'Threads and forums', text: 'Reply in a thread without leaving the channel, or run a channel as a forum of topics.', post: 'threads-plugins-and-forty-seven-themes' },
+      { area: 'chat', month: 'Sep 2026', title: 'Threads and forums', text: 'Reply in a thread without leaving the channel, or run a channel as a forum of topics.', post: 'threads-plugins-and-forty-seven-themes', image: '/features/threads.webp' },
     ],
   },
   {
     version: '1.9',
     features: [
-      { area: 'servers', month: 'Sep 2026', title: 'Folders and channel permissions', text: 'Group channels in folders, and decide who sees or speaks in each.', post: 'from-four-roles-to-a-permission-system' },
+      { area: 'servers', month: 'Sep 2026', title: 'Folders and channel permissions', text: 'Group channels in folders, and decide who sees or speaks in each.', post: 'from-four-roles-to-a-permission-system', image: '/features/folders.webp' },
       { area: 'servers', month: 'Sep 2026', title: 'Plugins', text: 'A server can run plugins, and anyone can see what it runs before joining.', image: '/features/plugins.webp' },
       { area: 'privacy', month: 'Sep 2026', title: 'Blocking', text: 'Block someone and their messages and calls stop.', image: '/features/blocking.webp' },
     ],
@@ -103,7 +103,7 @@ export const featureLines: FeatureLine[] = [
   {
     version: '1.7',
     features: [
-      { area: 'privacy', month: 'Aug 2026', title: 'Encrypted direct messages', text: 'Messages and their files are encrypted before they leave, so the server stores what it can’t read.', post: 'the-server-cant-read-your-direct-messages' },
+      { area: 'privacy', month: 'Aug 2026', title: 'Encrypted direct messages', text: 'Messages and their files are encrypted before they leave, so the server stores what it can’t read.', post: 'the-server-cant-read-your-direct-messages', image: '/features/encrypted-dm.webp' },
     ],
   },
   {
@@ -111,7 +111,7 @@ export const featureLines: FeatureLine[] = [
     features: [
       { area: 'servers', month: 'Aug 2026', title: 'Roles and permissions', text: 'Each role carries its own permissions, and some are earned over time.', image: '/features/roles.webp' },
       { area: 'servers', month: 'Aug 2026', title: 'Bots', text: 'A Bots tab, a BOT tag nobody can fake, and a switch for whether bots may knock.', image: '/features/bots.webp' },
-      { area: 'voice', month: 'Aug 2026', title: 'Share the sound of one app', text: 'A screen share can carry the audio from the apps you pick, and a hotkey can be a mouse button.' },
+      { area: 'voice', month: 'Aug 2026', title: 'Share the sound of one app', text: 'A screen share can carry the audio from the apps you pick, and a hotkey can be a mouse button.', image: '/features/hotkeys.webp' },
       { area: 'you', month: 'Aug 2026', title: 'Owls', text: 'Everyone gets an owl from their name, and you can dress yours up.', post: 'designing-your-own-owl' },
       { area: 'privacy', month: 'Aug 2026', title: 'An account is optional', text: 'Join with a guest identity that fits in a password manager.', post: 'your-guest-identity-now-fits-in-a-password-manager' },
       { area: 'you', month: 'Aug 2026', title: 'Group direct messages', text: 'Talk to a few people at once, and call them from there.', image: '/features/group-dms.webp' },
@@ -121,7 +121,7 @@ export const featureLines: FeatureLine[] = [
   {
     version: '1.5',
     features: [
-      { area: 'servers', month: 'Aug 2026', title: 'Many servers at once', text: 'Join servers from inside the app, and find them on your network.', post: 'download-host-play' },
+      { area: 'servers', month: 'Aug 2026', title: 'Many servers at once', text: 'Join servers from inside the app, and find them on your network.', post: 'download-host-play', image: '/blog/gryt-server-browser.webp' },
       { area: 'you', month: 'Aug 2026', title: 'Themes', text: 'Built-in themes, or build your own at ui.gryt.chat and share it as a link.', post: 'threads-plugins-and-forty-seven-themes' },
     ],
   },
@@ -141,7 +141,7 @@ export const featureLines: FeatureLine[] = [
     version: '1.1',
     features: [
       { area: 'voice', month: 'Mar 2026', title: 'Hardware encoding', text: 'NVENC, AMF and QuickSync do the encoding, and video is sent in layers for slow connections.', post: 'hardware-codecs-svc-and-persistent-storage' },
-      { area: 'voice', month: 'Mar 2026', title: 'Native screen capture', text: 'Screens and windows captured directly, up to 4K and 240 fps.' },
+      { area: 'voice', month: 'Mar 2026', title: 'Native screen capture', text: 'Screens and windows captured directly, up to 4K and 240 fps.', image: '/features/native-capture.webp' },
       { area: 'servers', month: 'Mar 2026', title: 'Webhooks', text: 'Post into a channel from anything that can send a web request.', image: '/features/webhooks.webp' },
       { area: 'hosting', month: 'Mar 2026', title: 'LAN party mode', text: 'Find servers on your network and let people in without invite codes.', post: '131-users-and-a-lan-party' },
     ],
