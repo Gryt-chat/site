@@ -38,6 +38,9 @@
   overflow-x: auto;
   scrollbar-width: none;
   background: var(--bg);
+  /* The fill runs to the screen edges, so cards don't show past it in the gutters. */
+  box-shadow: 0 0 0 100vmax var(--bg);
+  clip-path: inset(0 -100vmax);
 }
 
 .chips::-webkit-scrollbar {
@@ -156,6 +159,14 @@
   flex-wrap: wrap;
   padding: 12px 0;
   border-bottom: 1px solid var(--border);
+}
+
+/* Full-width fill behind the heading; the border stays on the column. */
+.lineHead::before {
+  content: "";
+  position: absolute;
+  inset: 0 calc(50% - 50vw);
+  z-index: -1;
   background: var(--bg);
 }
 
@@ -332,6 +343,9 @@
 
   .lineHead {
     top: var(--nav-h);
+  }
+
+  .lineHead::before {
     box-shadow: 0 8px 16px -12px rgba(0, 0, 0, 0.8);
   }
 
