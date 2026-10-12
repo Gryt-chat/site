@@ -67,7 +67,7 @@ export const featureLines: FeatureLine[] = [
       { area: 'privacy', month: 'Sep 2026', title: 'Link a new device', text: 'Scan a QR code or type a short code, and your keys move over without a server holding them.', image: '/features/link-device.webp' },
       { area: 'chat', month: 'Oct 2026', title: 'Pinned messages', text: 'Pin from the message menu, and jump to an old pin however far back it is.', image: '/features/pinned-messages.webp' },
       { area: 'voice', month: 'Oct 2026', title: 'Watch when you want to', text: 'A screen share waits until you click Watch, so nobody downloads video they didn’t ask for.', image: '/features/watch.webp' },
-      { area: 'phone', month: 'Oct 2026', title: 'Private push notifications', text: 'Previews are encrypted on the server and only your phone can read them.', post: 'seven-weeks-of-gryt-on-a-phone' },
+      { area: 'phone', month: 'Oct 2026', title: 'Private push notifications', text: 'Previews are encrypted on the server and only your phone can read them.', post: 'seven-weeks-of-gryt-on-a-phone', image: '/features/push.webp' },
     ],
   },
   {
@@ -110,7 +110,7 @@ export const featureLines: FeatureLine[] = [
     version: '1.6',
     features: [
       { area: 'servers', month: 'Aug 2026', title: 'Roles and permissions', text: 'Each role carries its own permissions, and some are earned over time.', image: '/features/roles.webp' },
-      { area: 'servers', month: 'Aug 2026', title: 'Bots', text: 'A Bots tab, a BOT tag nobody can fake, and a switch for whether bots may knock.' },
+      { area: 'servers', month: 'Aug 2026', title: 'Bots', text: 'A Bots tab, a BOT tag nobody can fake, and a switch for whether bots may knock.', image: '/features/bots.webp' },
       { area: 'voice', month: 'Aug 2026', title: 'Share the sound of one app', text: 'A screen share can carry the audio from the apps you pick, and a hotkey can be a mouse button.' },
       { area: 'you', month: 'Aug 2026', title: 'Owls', text: 'Everyone gets an owl from their name, and you can dress yours up.', post: 'designing-your-own-owl' },
       { area: 'privacy', month: 'Aug 2026', title: 'An account is optional', text: 'Join with a guest identity that fits in a password manager.', post: 'your-guest-identity-now-fits-in-a-password-manager' },
@@ -128,7 +128,7 @@ export const featureLines: FeatureLine[] = [
   {
     version: '1.3',
     features: [
-      { area: 'chat', month: 'Aug 2026', title: 'Your own emoji', text: 'Upload them, import a ZIP or pull a set from emoji.gg, animated ones too.' },
+      { area: 'chat', month: 'Aug 2026', title: 'Your own emoji', text: 'Upload them, import a ZIP or pull a set from emoji.gg, animated ones too.', image: '/features/custom-emoji.webp' },
     ],
   },
   {
