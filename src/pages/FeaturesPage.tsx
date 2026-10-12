@@ -122,7 +122,7 @@ export function FeaturesPage() {
           </div>
           <div className={styles.grid}>
             {line.features.map((f) => {
-              const image = f.post ? getPost(f.post)?.frontmatter.image : undefined;
+              const image = f.image ?? (f.post ? getPost(f.post)?.frontmatter.image : undefined);
               return (
                 <article key={f.title} className={styles.card}>
                   {image && (
