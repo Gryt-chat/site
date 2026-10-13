@@ -163,6 +163,18 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.13.34",
+    date: "2026-10-13",
+    line: "In Compact, the time comes after the message instead of a gap in front of every name.",
+    changes: [
+      {
+        kind: "changed",
+        area: "chat",
+        text: "Compact used to keep a column in front of each name for a time you only saw on hover. The time now shows after the message all the time, the same way it does on a line like \"joined the server\".",
+      },
+    ],
+  },
+  {
     version: "1.13.33",
     date: "2026-10-13",
     line: "The reaction bar and the right-click menu offer the same emojis.",
