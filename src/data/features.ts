@@ -149,7 +149,7 @@ export const featureLines: FeatureLine[] = [
   {
     version: '1.0',
     features: [
-      { area: 'hosting', month: 'Mar 2026', title: 'The first public release', text: 'Desktop apps for Windows, Mac and Linux, the web client, and a server you can run with Docker or a Windows .exe.', post: 'windows-server-is-here' },
+      { area: 'hosting', month: 'Mar 2026', title: 'The first public release', text: 'Desktop apps for Windows, Mac and Linux, the web client, and a server you can run with Docker or a Windows .exe. The server already capped how fast anyone could send messages.', post: 'windows-server-is-here' },
     ],
   },
 ]
