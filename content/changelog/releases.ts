@@ -163,6 +163,28 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.13.23",
+    date: "2026-10-13",
+    line: "Messages come in three styles now, and yours can sit on the right.",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "You can pick how messages look under Appearance → Messages in settings. Cozy is how they've always looked, Compact puts each one on a single line, and Bubbles gives each its own bubble.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "Your own messages can sit on the right, like they do in most phone chat apps.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "The bar that shows up when you hover a message sits at its top corner and stays off the text. It has four quick reactions, more reactions, reply and a ⋯ button. Threads, pin, edit, copy, report and delete moved into the ⋯ menu, the same one a right-click opens.",
+      },
+    ],
+  },
+  {
     version: "1.13.22",
     date: "2026-10-08",
     line: "The quote above a reply shows names instead of the code behind a mention.",
