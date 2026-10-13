@@ -163,6 +163,18 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.13.25",
+    date: "2026-10-13",
+    line: "Pointing at someone in the member list shows their card behind their name.",
+    changes: [
+      {
+        kind: "changed",
+        area: "servers",
+        text: "Hovering someone in the member list fills their row with their card, its banner, colours and pattern, in place of the grey highlight. The list itself stays plain.",
+      },
+    ],
+  },
+  {
     version: "1.13.24",
     date: "2026-10-13",
     line: "A bigger emoji picker with proper category icons, and a hover bar that's easier to hit.",
