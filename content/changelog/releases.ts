@@ -163,6 +163,23 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.13.31",
+    date: "2026-10-13",
+    line: "The reaction bar sits right above the message you point at, in every style.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "In Lines and Compact the bar for reacting and replying sat at the far edge of the chat, a long way from a short message. It now sits just above the message's end, like it does in Bubbles.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A message with one big picture lights up only as wide as the picture, and messages get the same padding on every side.",
+      },
+    ],
+  },
+  {
     version: "1.13.30",
     date: "2026-10-13",
     line: "Click a picture and the lightbox opens on it with the rest of that message beside it, with zoom and a darker backdrop.",
