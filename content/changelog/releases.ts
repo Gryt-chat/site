@@ -163,6 +163,33 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.13.24",
+    date: "2026-10-13",
+    line: "A bigger emoji picker with proper category icons, and a hover bar that's easier to hit.",
+    changes: [
+      {
+        kind: "changed",
+        area: "chat",
+        text: "The emoji picker is bigger, with larger emoji, a row of category icons down the side, and the name of whatever you're pointing at along the bottom. Press Enter in the search to pick the first match.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "The emoji picker's categories showed as dots. They show icons now.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "The bar that shows up when you hover a message has bigger buttons, and the highlight behind a message is only as wide as its text.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "Messages sat right against the scrollbar, and on a short bubble the hover bar ran off the left of the chat. Both have room now.",
+      },
+    ],
+  },
+  {
     version: "1.13.23",
     date: "2026-10-13",
     line: "Messages come in three styles now, and yours can sit on the right.",
