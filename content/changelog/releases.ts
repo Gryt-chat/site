@@ -163,6 +163,19 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.13.27-beta.1",
+    date: "2026-10-13",
+    channel: "beta",
+    line: "Beta: polls. Make one from the + next to the message box.",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "Make a poll from + then Poll: up to ten options you can drag into order, one answer or several, anonymous or not, which roles can answer, and when it ends. Click an option to vote or change your vote, and point at one to see who picked it. Needs a server on 1.11.0, which is on the beta channel.",
+      },
+    ],
+  },
+  {
     version: "1.13.26",
     date: "2026-10-13",
     line: "Pictures go out as a grid, and you can drag files into order before sending.",
