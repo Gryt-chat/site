@@ -163,6 +163,23 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.13.32",
+    date: "2026-10-13",
+    line: "A message's corners follow the picture or card inside it, with the same edge all the way round.",
+    changes: [
+      {
+        kind: "changed",
+        area: "chat",
+        text: "The background behind a message has the same padding on every side, and its corners are rounded to match whatever sits in them, so a picture or card gets an even edge.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A webhook card no longer has extra space on its right, and a message that starts with a picture has no gap above it.",
+      },
+    ],
+  },
+  {
     version: "1.13.31",
     date: "2026-10-13",
     line: "The reaction bar sits right above the message you point at, in every style.",
