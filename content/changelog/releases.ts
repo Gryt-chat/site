@@ -163,6 +163,43 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.13.26",
+    date: "2026-10-13",
+    line: "Pictures go out as a grid, and you can drag files into order before sending.",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "Two or more pictures in a message show as a grid, with a +N tile when there are more than four. Files sit two to a row underneath.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "Drag the files waiting in the message box left and right to change the order they're sent in.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "The message box has a round + button with one Attach files item, and the emoji button sits on the right.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "In Cozy the hover bar sits at the top right of a message instead of covering the text or a link preview. Compact puts it in the corner too, and only shows the time while you point at the message.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A reply's quote shows emoji, custom emoji and smileys like :D the way the message does.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "When a picture or file can't be uploaded, the unsent message goes away instead of hanging around, and the error says what to tell whoever runs the server.",
+      },
+    ],
+  },
+  {
     version: "1.13.25",
     date: "2026-10-13",
     line: "Pointing at someone in the member list shows their card behind their name.",
