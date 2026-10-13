@@ -163,6 +163,28 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.13.30",
+    date: "2026-10-13",
+    line: "Click a picture and the lightbox opens on it with the rest of that message beside it, with zoom and a darker backdrop.",
+    changes: [
+      {
+        kind: "changed",
+        area: "chat",
+        text: "The lightbox shows every picture and video in the message. The arrows, the left and right keys, or the strip of thumbnails along the bottom move between them, and the top bar says who sent it and when.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "Zoom a picture up to 800% with the buttons, the + and - keys, the scroll wheel or a double click, and drag to look around. 0 fits it back.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "The backdrop behind the lightbox is darker and blurred, so the chat gets out of the way.",
+      },
+    ],
+  },
+  {
     version: "1.13.29",
     date: "2026-10-13",
     line: "Webhook cards read properly in Compact, and the reaction bar opens only from the message itself.",
