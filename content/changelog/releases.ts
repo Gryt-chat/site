@@ -172,6 +172,11 @@ export const app: ReleaseLine[] = [
         area: "chat",
         text: "Make a poll from + then Poll: up to ten options you can drag into order, one answer or several, anonymous or not, which roles can answer, and when it ends. Click an option to vote or change your vote, and point at one to see who picked it. Needs a server on 1.11.0.",
       },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "With Rich Presence on, a game Gryt has no name for gets one the next day. Gryt sends us only its app number, and the game list picks the name up from there.",
+      },
     ],
   },
   {
