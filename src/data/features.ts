@@ -55,6 +55,9 @@ export const upcoming: UpcomingFeature[] = [
   { area: 'chat', status: 'Planned', title: 'Message search', text: 'Search a channel or a whole server.' },
   { area: 'servers', status: 'Planned', title: 'Events', text: 'Schedule a game night and let people say they’re coming.' },
   { area: 'hosting', status: 'Planned', title: 'Official hosting partners', text: 'Rent a Gryt server from a host we know, if you’d rather not run one.' },
+  { area: 'servers', status: 'Planned', title: 'A plugin store', text: 'Browse plugins from the app, see what each one asks to do, and install one on your server without a restart.' },
+  { area: 'you', status: 'Planned', title: 'Now Playing', text: 'Show what you’re listening to, from your computer or by connecting Spotify.' },
+  { area: 'servers', status: 'Planned', title: 'Bots in their own list', text: 'Bots sit in a section of their own at the bottom of the member list, online or offline.' },
 ]
 
 /** Newest line first. 1.4 and 1.8 never had a stable release, so they aren't here. */
