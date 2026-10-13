@@ -163,6 +163,23 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.13.33",
+    date: "2026-10-13",
+    line: "The reaction bar and the right-click menu offer the same emojis.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "The bar you get when pointing at a message and the menu you get from right-clicking it both show the four reactions you use most, in the same order. The menu used to show the four you used last.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "The menu from the bar's ... button skips the row of emojis, since the bar already showed them.",
+      },
+    ],
+  },
+  {
     version: "1.13.32",
     date: "2026-10-13",
     line: "A message's corners follow the picture or card inside it, with the same edge all the way round.",
