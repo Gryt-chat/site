@@ -65,6 +65,7 @@ export const featureLines: FeatureLine[] = [
   {
     version: '1.13',
     features: [
+      { area: 'chat', month: 'Oct 2026', title: 'Polls', text: 'Ask a question with up to ten answers, one or several, anonymous if you like, and pick which roles can answer.' },
       { area: 'chat', month: 'Oct 2026', title: 'Lines, compact or bubbles', text: 'Pick how messages look, and which side your own sit on.' },
       { area: 'chat', month: 'Oct 2026', title: 'Pictures in a grid', text: 'Several pictures arrive as one grid, and you can drag files into order before sending.' },
       { area: 'chat', month: 'Oct 2026', title: 'Emoji from your other servers', text: 'Use a custom emoji from any server you’re on, where the server allows it.' },
