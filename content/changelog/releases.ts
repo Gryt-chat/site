@@ -3255,6 +3255,18 @@ export const app: ReleaseLine[] = [
  */
 export const server: ReleaseLine[] = [
   {
+    version: "1.11.1",
+    date: "2026-10-13",
+    line: "Older apps now show a poll's question and a line asking to update Gryt.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "On a desktop app from 1.11.19 to 1.13.26, or a phone build from before polls, a poll showed up as an empty message. Those apps now get the question and a line saying to update Gryt to see it and vote, and that includes polls that are already saved.",
+      },
+    ],
+  },
+  {
     version: "1.11.0",
     date: "2026-10-13",
     line: "Polls, and uploads kept on the server's own disk with no S3 or MinIO left.",
