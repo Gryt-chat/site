@@ -89,6 +89,7 @@ export const featureLines: FeatureLine[] = [
   {
     version: '1.10',
     features: [
+      { area: 'chat', month: 'Sep 2026', title: 'Mini mode', text: 'Make the window small and it turns into one channel’s chat, to keep beside a game.', image: '/features/mini-mode.webp' },
       { area: 'chat', month: 'Sep 2026', title: 'Threads and forums', text: 'Reply in a thread without leaving the channel, or run a channel as a forum of topics.', post: 'threads-plugins-and-forty-seven-themes', image: '/features/threads.webp' },
     ],
   },
