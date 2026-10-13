@@ -163,6 +163,33 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.13.29",
+    date: "2026-10-13",
+    line: "Webhook cards read properly in Compact, and the reaction bar opens only from the message itself.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "In Compact, a webhook card like Gryt Git's squeezed down to a few letters wide. It gets its full width again.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "The bar for reacting and replying opens when you point at the message itself, not at the empty space beside it.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "Opening a channel with lots of reactions no longer leaves you just above the bottom.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "A message this version can't show, like something a newer Gryt or a plugin sent, says so instead of showing nothing.",
+      },
+    ],
+  },
+  {
     version: "1.13.28",
     date: "2026-10-13",
     line: "Pictures sit in squares that fill the width, and the reaction bar stays in one place.",
