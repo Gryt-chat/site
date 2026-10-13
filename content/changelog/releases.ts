@@ -166,7 +166,7 @@ export const app: ReleaseLine[] = [
     version: "1.13.27-beta.1",
     date: "2026-10-13",
     channel: "beta",
-    line: "Beta: polls. Make one from the + next to the message box.",
+    line: "Beta: polls, made from the + next to the message box.",
     changes: [
       {
         kind: "new",
