@@ -3144,6 +3144,18 @@ export const app: ReleaseLine[] = [
  */
 export const server: ReleaseLine[] = [
   {
+    version: "1.10.59",
+    date: "2026-10-13",
+    line: "A bot's messages show the BOT tag as soon as they arrive, not only after a reload.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A bot's new messages, edits and forum posts arrived without the BOT tag next to its name. The tag only showed after a reload.",
+      },
+    ],
+  },
+  {
     version: "1.10.58",
     date: "2026-10-08",
     line: "Servers can wake phones, following each person's notification settings, and the notification shows who wrote and the first line without the push service seeing it.",
