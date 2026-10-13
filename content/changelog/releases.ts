@@ -163,6 +163,18 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.13.34",
+    date: "2026-10-13",
+    line: "In Compact, the time in front of each message is always shown.",
+    changes: [
+      {
+        kind: "changed",
+        area: "chat",
+        text: "Compact kept a column in front of each name for a time you only saw when you pointed at the message. The time now always shows there, and the column is only as wide as your clock needs.",
+      },
+    ],
+  },
+  {
     version: "1.13.33",
     date: "2026-10-13",
     line: "The reaction bar and the right-click menu offer the same emojis.",
