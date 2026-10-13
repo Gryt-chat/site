@@ -65,8 +65,14 @@ export const featureLines: FeatureLine[] = [
   {
     version: '1.13',
     features: [
+      { area: 'chat', month: 'Oct 2026', title: 'Lines, compact or bubbles', text: 'Pick how messages look, and which side your own sit on.' },
+      { area: 'chat', month: 'Oct 2026', title: 'Pictures in a grid', text: 'Several pictures arrive as one grid, and you can drag files into order before sending.' },
+      { area: 'chat', month: 'Oct 2026', title: 'Emoji from your other servers', text: 'Use a custom emoji from any server you’re on, where the server allows it.' },
+      { area: 'chat', month: 'Oct 2026', title: 'Back to where you were', text: 'Jump to the present from anywhere, with a line marking what came in while you scrolled.' },
+      { area: 'you', month: 'Oct 2026', title: 'Video avatars and banners', text: 'Pick a short video as your avatar or banner. Where it can’t play, a still stands in.' },
+      { area: 'privacy', month: 'Oct 2026', title: 'Ask before loading other sites', text: 'Pictures and files from other sites wait for you to say yes, so a link can’t tell anyone you looked.' },
       { area: 'you', month: 'Oct 2026', title: 'Member cards', text: 'Colours, patterns, a banner, a bio and a status line, the same on every server.', image: '/features/member-card.webp' },
-      { area: 'you', month: 'Oct 2026', title: 'Game activity', text: 'Games that report to Discord report to Gryt too, with the game’s art on your card.', image: '/features/game-activity.webp' },
+      { area: 'you', month: 'Oct 2026', title: 'Game activity', text: 'Games that report to Discord report to Gryt too, and Gryt can spot the rest, and apps like Figma, by their program. It asks before showing each one.', image: '/features/game-activity.webp' },
       { area: 'privacy', month: 'Sep 2026', title: 'Link a new device', text: 'Scan a QR code or type a short code, and your keys move over without a server holding them.', image: '/features/link-device.webp' },
       { area: 'chat', month: 'Oct 2026', title: 'Pinned messages', text: 'Pin from the message menu, and jump to an old pin however far back it is.', image: '/features/pinned-messages.webp' },
       { area: 'voice', month: 'Oct 2026', title: 'Watch when you want to', text: 'A screen share waits until you click Watch, so nobody downloads video they didn’t ask for.', image: '/features/watch.webp' },
@@ -76,12 +82,14 @@ export const featureLines: FeatureLine[] = [
   {
     version: '1.12',
     features: [
+      { area: 'phone', month: 'Sep 2026', title: 'Most of the desktop on a phone', text: 'Threads, forums, friends, themes, unread counts and server settings, on iPhone and Android.' },
       { area: 'privacy', month: 'Sep 2026', title: 'Direct messages on MLS', text: 'A key that leaks later can’t open messages from before it leaked.', post: 'direct-messages-now-run-on-mls' },
     ],
   },
   {
     version: '1.11',
     features: [
+      { area: 'privacy', month: 'Sep 2026', title: 'Who can message or call you', text: 'Anyone on the server, friends, or nobody, for messages and calls apart, and the server holds to it too.' },
       { area: 'you', month: 'Sep 2026', title: 'Friends', text: 'Add friends on a server, accept or decline requests, and see who’s online.', image: '/features/friends.webp' },
       { area: 'chat', month: 'Sep 2026', title: 'Mentions for everyone, roles and channels', text: 'Ping @everyone, @here, a role or a #channel. A server can turn the big pings off.', image: '/features/mentions.webp' },
       { area: 'servers', month: 'Sep 2026', title: 'Spam filter', text: 'Turn it on and set how sensitive it is.', image: '/features/spam-filter.webp' },
@@ -99,6 +107,9 @@ export const featureLines: FeatureLine[] = [
   {
     version: '1.9',
     features: [
+      { area: 'chat', month: 'Sep 2026', title: 'Notifications your way', text: 'Desktop notifications, and how loud each server, folder and channel is, down to muted and hidden.' },
+      { area: 'servers', month: 'Sep 2026', title: 'Reports to your moderators', text: 'Report a message or a person, and a server’s moderators see it in their own settings.' },
+      { area: 'servers', month: 'Sep 2026', title: 'Roles that come with an invite', text: 'Tie a role to an invite link, so whoever uses it starts with that role.' },
       { area: 'servers', month: 'Sep 2026', title: 'Folders and channel permissions', text: 'Group channels in folders, and decide who sees or speaks in each.', post: 'from-four-roles-to-a-permission-system', image: '/features/folders.webp' },
       { area: 'servers', month: 'Sep 2026', title: 'Plugins', text: 'A server can run plugins, and anyone can see what it runs before joining.', image: '/features/plugins.webp' },
       { area: 'privacy', month: 'Sep 2026', title: 'Blocking', text: 'Block someone and their messages and calls stop.', image: '/features/blocking.webp' },
@@ -125,6 +136,10 @@ export const featureLines: FeatureLine[] = [
   {
     version: '1.5',
     features: [
+      { area: 'servers', month: 'Aug 2026', title: 'Moderation', text: 'Kick, ban and mute, a mute that stops typing too, and removing everything somebody posted.' },
+      { area: 'servers', month: 'Aug 2026', title: 'Who can join', text: 'Open to anyone, by invite, or by asking, with a moderator answering each request.' },
+      { area: 'privacy', month: 'Aug 2026', title: 'Servers prove who they are', text: 'Gryt remembers each server’s key and refuses one that changes, so nobody can stand in for it.' },
+      { area: 'voice', month: 'Aug 2026', title: 'A camera that follows your face', text: 'Center my face keeps you in the middle of your tile, done on your own computer.' },
       { area: 'servers', month: 'Aug 2026', title: 'Many servers at once', text: 'Join servers from inside the app, and find them on your network.', post: 'download-host-play', image: '/blog/gryt-server-browser.webp' },
       { area: 'you', month: 'Aug 2026', title: 'Themes', text: 'Built-in themes, or build your own at ui.gryt.chat and share it as a link.', post: 'threads-plugins-and-forty-seven-themes' },
     ],
