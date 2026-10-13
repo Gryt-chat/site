@@ -3181,6 +3181,29 @@ export const app: ReleaseLine[] = [
  */
 export const server: ReleaseLine[] = [
   {
+    version: "1.11.0-beta.1",
+    date: "2026-10-13",
+    channel: "beta",
+    line: "Beta: polls, and uploads stored on the server's own disk with no S3 or MinIO left.",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "Polls in channels: a question with up to ten options, one answer or several, anonymous or not, an end time, and optionally only some roles allowed to answer. Totals update live, and you can change or take back your vote.",
+      },
+      {
+        kind: "changed",
+        area: "self-hosting",
+        text: "Uploads are stored on disk under DATA_DIR and nowhere else. A server that was still set up for S3 or MinIO copies its bucket over on its first start, checks every file, and leaves the bucket as it was. If the copy fails, it doesn't start.",
+      },
+      {
+        kind: "fixed",
+        area: "self-hosting",
+        text: "A server with no storage settings at all takes uploads on disk instead of refusing them, and a failed upload says what to tell whoever runs the server.",
+      },
+    ],
+  },
+  {
     version: "1.10.59",
     date: "2026-10-13",
     line: "A bot's messages show the BOT tag as soon as they arrive, not only after a reload.",
@@ -4747,6 +4770,18 @@ export const voice: ReleaseLine[] = [
  * dependency bump gets a line here and would not elsewhere.
  */
 export const images: ReleaseLine[] = [
+  {
+    version: "1.5.0-beta.1",
+    date: "2026-10-13",
+    channel: "beta",
+    line: "Beta: the media worker reads and writes uploads on disk only, like the server.",
+    changes: [
+      {
+        kind: "changed",
+        text: "S3 support is gone. A worker that still has S3 settings ignores them and uses the server's data folder, where server 1.11.0 copies the old bucket.",
+      },
+    ],
+  },
   {
     version: "1.4.1",
     date: "2026-10-05",
