@@ -163,6 +163,23 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.13.28",
+    date: "2026-10-13",
+    line: "Pictures sit in squares that fill the width, and the reaction bar stays in one place.",
+    changes: [
+      {
+        kind: "changed",
+        area: "chat",
+        text: "Two or more pictures show as equal squares, as many across as there's room for, each cropped to fill. Three pictures no longer come out at three different sizes.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "In Cozy and Compact, the bar for reacting and replying always sits just above the message at the edge of the chat, instead of moving beside short messages.",
+      },
+    ],
+  },
+  {
     version: "1.13.27",
     date: "2026-10-13",
     line: "Polls, made from the + next to the message box.",
