@@ -3369,6 +3369,18 @@ export const app: ReleaseLine[] = [
  */
 export const server: ReleaseLine[] = [
   {
+    version: "1.11.2",
+    date: "2026-10-14",
+    line: "The last S3 leftovers are gone from how the server stores uploads.",
+    changes: [
+      {
+        kind: "changed",
+        area: "self-hosting",
+        text: "Uploads, emoji and the server icon all use one folder under DATA_DIR, called gryt unless S3_BUCKET names it. A server that came over from S3 keeps its old bucket's name as the folder, so nothing moves.",
+      },
+    ],
+  },
+  {
     version: "1.11.2-beta.1",
     date: "2026-10-14",
     channel: "beta",
