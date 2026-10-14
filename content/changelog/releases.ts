@@ -163,6 +163,18 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.13.35",
+    date: "2026-10-14",
+    line: "Compact in the mini window gives the text the whole width.",
+    changes: [
+      {
+        kind: "changed",
+        area: "chat",
+        text: "In the mini window, Compact puts the time and name at the start of the first line and lets the text wrap back under them, so a long message no longer runs down a narrow column on the right. A bigger window keeps the column of times.",
+      },
+    ],
+  },
+  {
     version: "1.13.34",
     date: "2026-10-13",
     line: "In Compact, the time in front of each message is always shown.",
