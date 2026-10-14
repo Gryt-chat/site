@@ -163,6 +163,18 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.13.36",
+    date: "2026-10-14",
+    line: "Pointing at a reaction shows who reacted straight away.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "Pointing at the emoji in a reaction showed only the emoji's name, and who reacted turned up only once you moved off it a little. It shows who reacted right away now, under the emoji itself instead of its :code: name.",
+      },
+    ],
+  },
+  {
     version: "1.13.35",
     date: "2026-10-14",
     line: "Compact in the mini window gives the text the whole width, and join lines line up with the messages.",
