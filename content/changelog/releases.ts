@@ -170,7 +170,7 @@ export const app: ReleaseLine[] = [
       {
         kind: "fixed",
         area: "chat",
-        text: "Pointing at the emoji in a reaction showed only the emoji's name, and who reacted turned up only once you moved off it a little. It shows who reacted right away now.",
+        text: "Pointing at the emoji in a reaction showed only the emoji's name, and who reacted turned up only once you moved off it a little. It shows who reacted right away now, under the emoji itself instead of its :code: name.",
       },
     ],
   },
