@@ -52,7 +52,6 @@ export const upcoming: UpcomingFeature[] = [
   { area: 'phone', status: 'In progress', title: 'Phone apps in the stores', text: 'Public on the App Store and Google Play, not just for testers.' },
   { area: 'servers', status: 'In progress', title: 'Move from Discord', text: 'An import bot and a bridge, so a community can move without losing its history.' },
   { area: 'privacy', status: 'Planned', title: 'Encrypted private channels', text: 'The same encryption as direct messages, for small private groups.' },
-  { area: 'chat', status: 'Planned', title: 'Message search', text: 'Search a channel or a whole server.' },
   { area: 'servers', status: 'Planned', title: 'Events', text: 'Schedule a game night and let people say they’re coming.' },
   { area: 'hosting', status: 'Planned', title: 'Official hosting partners', text: 'Rent a Gryt server from a host we know, if you’d rather not run one.' },
   { area: 'servers', status: 'Planned', title: 'A plugin store', text: 'Browse plugins from the app, see what each one asks to do, and install one on your server without a restart.' },
@@ -62,6 +61,12 @@ export const upcoming: UpcomingFeature[] = [
 
 /** Newest line first. 1.4 and 1.8 never had a stable release, so they aren't here. */
 export const featureLines: FeatureLine[] = [
+  {
+    version: '1.14',
+    features: [
+      { area: 'chat', month: 'Oct 2026', title: 'Search', text: 'Ctrl+K searches messages and file names beside the chat. Narrow it by person, channel, date, or whether there’s a picture, link or file.' },
+    ],
+  },
   {
     version: '1.13',
     features: [
