@@ -163,6 +163,23 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.14.0-beta.1",
+    date: "2026-10-14",
+    channel: "beta",
+    line: "Beta: search messages and file names with Ctrl+K.",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "Ctrl+K, or the magnifier in the channel header, opens search beside the chat. Pick a result and the chat opens at that message, and the results stay open so you can go through several.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "Type from:, in:, has:, before: or after: to narrow it down, and switch between Messages and Files. It needs the server to be on 1.12 or newer.",
+      },
+    ],
+  },  {
     version: "1.13.36",
     date: "2026-10-14",
     line: "Pointing at a reaction shows who reacted straight away.",
@@ -3369,6 +3386,28 @@ export const app: ReleaseLine[] = [
  */
 export const server: ReleaseLine[] = [
   {
+    version: "1.12.0-beta.1",
+    date: "2026-10-14",
+    channel: "beta",
+    line: "Beta: channel messages and file names can be searched.",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "The server can search the messages in every text channel you can read, with or without accents, so skal finds skål. Direct messages and voice-channel text aren't searched.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "It also searches file names, and narrows results by who sent them, the channel, the date, or whether they have a picture, a link or a file.",
+      },
+      {
+        kind: "changed",
+        area: "self-hosting",
+        text: "The first start after updating builds a search index over every message once, so a big server takes a little longer to come up that one time.",
+      },
+    ],
+  },  {
     version: "1.11.2",
     date: "2026-10-14",
     line: "The last S3 leftovers are gone from how the server stores uploads.",
