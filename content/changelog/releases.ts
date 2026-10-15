@@ -187,7 +187,7 @@ export const app: ReleaseLine[] = [
       },
       {
         kind: "new",
-        area: "security",
+        area: "chat",
         text: "When someone's key changes, their card shows the new code. Compare it with them somewhere other than Gryt, and if it matches, trust it and the conversation is encrypted again.",
       },
       {
