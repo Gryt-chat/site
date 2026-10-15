@@ -169,13 +169,28 @@ export const app: ReleaseLine[] = [
     version: "1.14.0-beta.4",
     date: "2026-10-15",
     channel: "beta",
-    line: "Beta: What's new lays out its list properly again.",
+    line: "Beta: What's new lays out its list properly again, and the hide buttons in Messages work.",
     image: "/whats-new/dm-space.webp",
     changes: [
       {
         kind: "fixed",
         area: "settings",
         text: "In beta.3 every change in What's new sat in a tall box of its own. They're plain rows again.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "The button beside Messages hides the list straight away, even with the pointer still on it. Hide channels in a server does too.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "The panel beside a conversation slides shut and open instead of vanishing, and Hide conversation asks first.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "A message you open from search, a pin or a reply keeps a steady outline for five seconds instead of flashing. Opening the next one moves it.",
       },
     ],
   },
