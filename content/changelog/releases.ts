@@ -166,6 +166,20 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.14.0-beta.3",
+    date: "2026-10-15",
+    channel: "beta",
+    line: "Beta: What's new shows a picture of what a release changed.",
+    image: "/whats-new/dm-space.webp",
+    changes: [
+      {
+        kind: "new",
+        area: "settings",
+        text: "When a release has a picture, What's new shows it under the greeting. Click it to read the blog post, if the release has one.",
+      },
+    ],
+  },
+  {
     version: "1.14.0-beta.2",
     date: "2026-10-15",
     channel: "beta",
