@@ -187,6 +187,11 @@ export const app: ReleaseLine[] = [
       },
       {
         kind: "new",
+        area: "security",
+        text: "When someone's key changes, their card shows the new code. Compare it with them somewhere other than Gryt, and if it matches, trust it and the conversation is encrypted again.",
+      },
+      {
+        kind: "new",
         area: "chat",
         text: "When someone adds a person to a group, everyone in it sees who added whom, and what the new person can read from before. It needs the server on 1.12.0-beta.2 or newer.",
       },
