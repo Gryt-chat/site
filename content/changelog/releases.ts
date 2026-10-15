@@ -163,6 +163,39 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.14.0-beta.2",
+    date: "2026-10-15",
+    channel: "beta",
+    line: "Beta: direct messages get their own space, redrawn from top to bottom.",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "Messages sits above your servers and holds every conversation from every server in one list, newest first. Pin the people you talk to most and drag them into order. Pins stay on this device.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "The panel beside a conversation shows the person's own card, with what's pinned and shared underneath. Groups show their members there, and New message and New group share one dialog.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "A message that went out unencrypted gets a small red dot. Click Not encrypted in the header to see why and what you can do, ask them to update, or stop marking messages in that conversation.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "When someone adds a person to a group, everyone in it sees who added whom, and what the new person can read from before. It needs the server on 1.12.0-beta.2 or newer.",
+      },
+      {
+        kind: "changed",
+        area: "servers",
+        text: "A server that can't be reached keeps its header and says Can't reach it, with Try now and Check the connection. It opens anyway, and short drops no longer pop up a message each time.",
+      },
+    ],
+  },
+  {
     version: "1.14.0-beta.1",
     date: "2026-10-14",
     channel: "beta",
@@ -3385,6 +3418,19 @@ export const app: ReleaseLine[] = [
  * So a reader here is usually somebody deciding whether to pull a new image.
  */
 export const server: ReleaseLine[] = [
+  {
+    version: "1.12.0-beta.2",
+    date: "2026-10-15",
+    channel: "beta",
+    line: "Beta: a group says who added whom.",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "Adding someone to a group posts a line everyone in it can see, naming who added whom.",
+      },
+    ],
+  },
   {
     version: "1.12.0-beta.1",
     date: "2026-10-14",
