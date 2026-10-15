@@ -166,6 +166,25 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.14.0-beta.5",
+    date: "2026-10-15",
+    channel: "beta",
+    line: "Beta: search finds messages in every conversation you've read, not only the newest kind of direct message.",
+    image: "/whats-new/dm-space.webp",
+    changes: [
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "Search in Messages found nothing in groups, or in a direct message that isn't on the newest encryption yet. It now finds what this device has opened there, kept encrypted on the device.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A message deleted while Gryt was closed leaves search and the list's preview the next time you open its conversation.",
+      },
+    ],
+  },
+  {
     version: "1.14.0-beta.4",
     date: "2026-10-15",
     channel: "beta",
