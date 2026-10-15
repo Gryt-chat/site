@@ -83,7 +83,8 @@ export interface ReleaseLine {
   changes?: Change[];
   /** Slug of the blog post telling this release's story, where there is one. */
   post?: string;
-  /** A picture for the app's What's new, path under public/. Defaults to the post's image. */
+  /** A picture for the app's What's new, under public/. Defaults to the post's image. The modal
+      is about 414px wide, so crop to the one feature rather than a whole window. */
   image?: string;
 }
 
@@ -165,10 +166,25 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.14.0-beta.3",
+    date: "2026-10-15",
+    channel: "beta",
+    line: "Beta: What's new shows a picture of what a release changed.",
+    image: "/whats-new/dm-space.webp",
+    changes: [
+      {
+        kind: "new",
+        area: "settings",
+        text: "When a release has a picture, What's new shows it under the greeting. Click it to read the blog post, if the release has one.",
+      },
+    ],
+  },
+  {
     version: "1.14.0-beta.2",
     date: "2026-10-15",
     channel: "beta",
     line: "Beta: direct messages get their own space, redrawn from top to bottom.",
+    image: "/whats-new/dm-space.webp",
     changes: [
       {
         kind: "new",
@@ -184,6 +200,11 @@ export const app: ReleaseLine[] = [
         kind: "changed",
         area: "chat",
         text: "A message that went out unencrypted gets a small red dot. Click Not encrypted in the header to see why and what you can do, ask them to update, or stop marking messages in that conversation.",
+      },
+      {
+        kind: "security",
+        area: "chat",
+        text: "When someone's key changes, their card shows the new code. Compare it with them somewhere other than Gryt, and if it matches, trust it and the conversation is encrypted again.",
       },
       {
         kind: "new",
