@@ -186,7 +186,7 @@ export const app: ReleaseLine[] = [
         text: "A message that went out unencrypted gets a small red dot. Click Not encrypted in the header to see why and what you can do, ask them to update, or stop marking messages in that conversation.",
       },
       {
-        kind: "new",
+        kind: "security",
         area: "chat",
         text: "When someone's key changes, their card shows the new code. Compare it with them somewhere other than Gryt, and if it matches, trust it and the conversation is encrypted again.",
       },
