@@ -166,6 +166,29 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.14.0-beta.6",
+    date: "2026-10-15",
+    channel: "beta",
+    line: "Beta: your devices have names, and the Microsoft Store version says when there's an update.",
+    changes: [
+      {
+        kind: "changed",
+        area: "settings",
+        text: "A new device names itself, like \"Gryt beta on Windows PC\" or \"Chrome on macOS\", and on a server running 1.12.0-beta.3 or newer the others show their names too. One install on three servers is one \"New device linked\", not three.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "Each device says when it was last used, and \"Remove devices not used in 30 days\" clears out old ones on every server at once.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "The Microsoft Store version tells you when an update is out, with a button that opens Gryt in the Store. The Store can take a day or two to have it.",
+      },
+    ],
+  },
+  {
     version: "1.14.0-beta.5",
     date: "2026-10-15",
     channel: "beta",
