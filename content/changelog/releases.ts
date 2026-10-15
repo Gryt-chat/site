@@ -83,7 +83,8 @@ export interface ReleaseLine {
   changes?: Change[];
   /** Slug of the blog post telling this release's story, where there is one. */
   post?: string;
-  /** A picture for the app's What's new, path under public/. Defaults to the post's image. */
+  /** A picture for the app's What's new, under public/. Defaults to the post's image. The modal
+      is about 414px wide, so crop to the one feature rather than a whole window. */
   image?: string;
 }
 
