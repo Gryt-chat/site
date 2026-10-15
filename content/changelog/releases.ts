@@ -169,6 +169,7 @@ export const app: ReleaseLine[] = [
     date: "2026-10-15",
     channel: "beta",
     line: "Beta: direct messages get their own space, redrawn from top to bottom.",
+    image: "/whats-new/dm-space.webp",
     changes: [
       {
         kind: "new",
