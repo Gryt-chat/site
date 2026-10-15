@@ -3,7 +3,7 @@
  * reads it to say what changed the first time somebody opens a new version.
  */
 
-import { readdirSync, writeFileSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -24,6 +24,18 @@ const notes = new Set(
 
 const SURFACES = ["app", "server", "voice", "images"];
 
+/** The release's own picture, else its post's, as an absolute URL; the client is another origin. */
+function imageFor(entry) {
+  let path = entry.image;
+  if (!path && entry.post) {
+    const mdx = readFileSync(join(root, `content/blog/${entry.post}.mdx`), "utf8");
+    path = /^---\n[\s\S]*?^image:\s*(\S+)\s*$[\s\S]*?^---$/m.exec(mdx)?.[1];
+  }
+  if (!path) return undefined;
+  if (!existsSync(join(root, "public", path))) throw new Error(`${entry.version}: ${path} is not in public/`);
+  return `https://gryt.chat${path}`;
+}
+
 const payload = { generated: new Date().toISOString() };
 for (const surface of SURFACES) {
   const list = releases[surface];
@@ -37,6 +49,7 @@ for (const surface of SURFACES) {
     ...(entry.changes?.length ? { changes: entry.changes } : {}),
     ...(entry.channel ? { channel: entry.channel } : {}),
     ...(entry.post ? { post: entry.post } : {}),
+    ...(imageFor(entry) ? { image: imageFor(entry) } : {}),
     // Whether /changelog/<version> has prose to read, so a caller can decide
     // between linking there and linking at the index.
     ...(surface === "app" && notes.has(entry.version) ? { note: true } : {}),
