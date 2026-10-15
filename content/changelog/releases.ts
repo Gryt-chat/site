@@ -192,6 +192,21 @@ export const app: ReleaseLine[] = [
         area: "chat",
         text: "A message you open from search, a pin or a reply keeps a steady outline for five seconds instead of flashing. Opening the next one moves it.",
       },
+      {
+        kind: "fixed",
+        area: "voice",
+        text: "In a call with someone, your chat with them stays open beside the call. The info panel steps aside while the call lasts.",
+      },
+      {
+        kind: "changed",
+        area: "voice",
+        text: "Open another conversation during a call and the call moves to the green button in the rail. Open its conversation again to bring it back.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "Leave group asks first, and Pinned only shows in a conversation that has pins.",
+      },
     ],
   },
   {
