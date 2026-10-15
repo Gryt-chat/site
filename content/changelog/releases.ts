@@ -166,6 +166,20 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.14.0-beta.4",
+    date: "2026-10-15",
+    channel: "beta",
+    line: "Beta: What's new lays out its list properly again.",
+    image: "/whats-new/dm-space.webp",
+    changes: [
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "In beta.3 every change in What's new sat in a tall box of its own. They're plain rows again.",
+      },
+    ],
+  },
+  {
     version: "1.14.0-beta.3",
     date: "2026-10-15",
     channel: "beta",
