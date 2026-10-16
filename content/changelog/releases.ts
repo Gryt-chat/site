@@ -166,6 +166,74 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.14.0-beta.7",
+    date: "2026-10-16",
+    channel: "beta",
+    line: "Beta: server admin in one place, Settings in three groups, and new icons.",
+    changes: [
+      {
+        kind: "changed",
+        area: "servers",
+        text: "Server settings has everything for running a server: its pages sit under General, People, Channels, Moderation, Integrations and Hosting. Reports moved in from their own window, and a server this app runs gets a Hosting page with its start, stop and address controls. The server menu shows the waiting reports on Server settings.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "Settings is grouped under You, App and Servers, and Profile opens on your name and picture again.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "Channels have a search button in their header, like direct messages. It starts in that channel, and removing the chip searches the whole server.",
+      },
+      {
+        kind: "new",
+        area: "notifications",
+        text: "The server menu has the same Notifications choices as a server's right-click, and Settings › Notifications lists every channel and folder you've set differently.",
+      },
+      {
+        kind: "changed",
+        area: "servers",
+        text: "Hide channels sits next to Hide members in a channel's ⋯ menu, \"What this server runs\" is called Plugins, and a new folder asks for its name before it's made.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "New icons: a teardrop for chats and direct messages, its own icon for pinned messages, and a dozen others. Leaving a voice channel looks like leaving, and only a call shows a phone to hang up.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "Your own message shows straight away, without fading in or dimming while it sends.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A direct message to somebody whose key changed failed with \"Their keys couldn't be checked\". You're now told their key changed, and asked to check it on their card before sending.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "Pinned messages no longer says Loading… forever on a server that doesn't answer.",
+      },
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "Addons load from manifest.json, as the docs and examples say. They only loaded from addon.json before, which still works.",
+      },
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "Dialogs, tooltips and menus keep clear of the desktop title bar, and text on purple buttons is dark enough to read.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "You can take the welcome tour again from Settings › About, and it ends on our official server.",
+      },
+    ],
+  },
+  {
     version: "1.14.0-beta.6",
     date: "2026-10-15",
     channel: "beta",
