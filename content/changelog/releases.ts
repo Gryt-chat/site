@@ -204,7 +204,7 @@ export const app: ReleaseLine[] = [
       {
         kind: "changed",
         area: "chat",
-        text: "Your own message shows straight away, without fading in or dimming while it sends.",
+        text: "Every message fades in as it arrives, your own included, and yours no longer dims while it sends.",
       },
       {
         kind: "fixed",
