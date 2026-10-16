@@ -85,6 +85,14 @@ export function AddonsPage() {
       title="Client addons"
       lede="An addon is a folder you drop in. A theme is CSS and goes into the page. A plugin is JavaScript and does not: it gets a worker of its own, and one object in it."
     >
+      <p className={styles.blockNote}>
+        To install one, open Settings in the desktop app, then Addons, then
+        Open Addons Folder. Drop the addon&rsquo;s folder in and Gryt picks it
+        up without a restart. Turn it on from its card, and for a plugin, tick
+        each permission it asks for. Every addon folder has a{" "}
+        <code>manifest.json</code> saying what it is.
+      </p>
+
       <Snippet label="addonWorker.ts" code={PLUGIN_API} />
 
       <p className={styles.blockNote}>
