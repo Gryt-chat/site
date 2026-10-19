@@ -3596,6 +3596,24 @@ export const app: ReleaseLine[] = [
  */
 export const server: ReleaseLine[] = [
   {
+    version: "1.12.0-beta.4",
+    date: "2026-10-19",
+    channel: "beta",
+    line: "Beta: only friends can start a direct message with you, unless you change it.",
+    changes: [
+      {
+        kind: "changed",
+        area: "chat",
+        text: "Who can start a direct message with you is Friends by default now, like calls. Until you have a friend on a server, anyone you've written to one-to-one there still counts. If you already picked something in Settings › Privacy, it stays. An app from before this sends its own old default, so it lets anyone through until it updates.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "The server tells the app who'd take a new direct message or group add from you, so it can leave everybody else out of the list when you pick people.",
+      },
+    ],
+  },
+  {
     version: "1.12.0-beta.2",
     date: "2026-10-15",
     channel: "beta",
