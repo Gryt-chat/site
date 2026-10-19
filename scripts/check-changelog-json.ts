@@ -10,18 +10,19 @@ import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
+import type { ChangelogJson, EmittedLine } from "./emit-changelog-json.ts";
 import { securityNoticeProblems } from "./security-notices.ts";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 
 // Built here rather than read off disk, so this passes or fails on the emitter
 // rather than on whatever a previous build happened to leave behind.
-execFileSync(process.execPath, [join(root, "scripts/emit-changelog-json.mjs")], {
+execFileSync(process.execPath, [join(root, "scripts/emit-changelog-json.ts")], {
   stdio: "pipe",
 });
-const data = JSON.parse(readFileSync(join(root, "public/changelog.json"), "utf8"));
+const data: ChangelogJson = JSON.parse(readFileSync(join(root, "public/changelog.json"), "utf8"));
 
-for (const surface of ["app", "server", "voice", "images"]) {
+for (const surface of ["app", "server", "voice", "images"] as const) {
   assert.ok(Array.isArray(data[surface]), `changelog.json has no ${surface} array`);
   assert.ok(data[surface].length > 0, `${surface} is empty`);
 }
@@ -45,7 +46,7 @@ assert.deepEqual(
 
 // The source is what the site renders; the JSON is the same data for everyone
 // else. They drifting apart is the failure this file exists for.
-const source = await import(join(root, "content/changelog/releases.ts"));
+const source: typeof import("../content/changelog/releases.ts") = await import(join(root, "content/changelog/releases.ts"));
 assert.equal(
   data.app.length,
   source.app.length,
@@ -62,7 +63,9 @@ assert.ok(withNote, "no app release is marked as having a note, but the .mdx fil
 
 const KINDS = new Set(["new", "fixed", "changed", "security"]);
 
-const grouped = data.app.filter((e) => e.changes);
+const grouped = data.app.filter(
+  (e): e is EmittedLine & Required<Pick<EmittedLine, "changes">> => Boolean(e.changes),
+);
 assert.ok(
   grouped.length > 0,
   "no app release carries changes, so the modal falls back to one row for every version",
@@ -151,7 +154,7 @@ assert.deepEqual(
   "a prerelease fixedIn was refused",
 );
 
-const REFUSED = [
+const REFUSED: [Partial<Record<string, string | undefined>>, string][] = [
   [{ fixedIn: "2.0" }, "a fixedIn with two parts"],
   [{ fixedIn: "v2.0.0" }, "a fixedIn with a leading v"],
   [{ fixedIn: "latest" }, "a fixedIn that is a word"],
@@ -186,7 +189,7 @@ assert.notDeepEqual(securityNoticeProblems(undefined), [], "a missing list was l
   mkdirSync(join(dir, "content/changelog"), { recursive: true });
   mkdirSync(join(dir, "public"));
   writeFileSync(join(dir, "package.json"), JSON.stringify({ type: "module" }));
-  for (const file of ["emit-changelog-json.mjs", "security-notices.ts"]) {
+  for (const file of ["emit-changelog-json.ts", "security-notices.ts"]) {
     copyFileSync(join(root, "scripts", file), join(dir, "scripts", file));
   }
   const bad = { ...NOTICE, url: "http://gryt.chat/blog/made-up" };
@@ -196,7 +199,7 @@ assert.notDeepEqual(securityNoticeProblems(undefined), [], "a missing list was l
       `\nexport const securityNotices = ${JSON.stringify([bad])};\n`,
   );
 
-  const run = spawnSync(process.execPath, [join(dir, "scripts/emit-changelog-json.mjs")], { encoding: "utf8" });
+  const run = spawnSync(process.execPath, [join(dir, "scripts/emit-changelog-json.ts")], { encoding: "utf8" });
   rmSync(dir, { recursive: true, force: true });
   assert.notEqual(run.status, 0, "the emitter wrote a notice with an http url");
   assert.match(run.stderr, /not an https address/, "the emitter failed, but not on the notice");

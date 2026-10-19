@@ -6,7 +6,7 @@ import { readdir, stat } from "fs/promises";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const publicDir = join(__dirname, "..", "public");
 
-// The front page hero is a clip now — `client-live.*` from `scripts/encode-clips.mjs` — and
+// The front page hero is a clip now — `client-live.*` from `scripts/encode-clips.ts` — and
 // `Clip` carries its own poster, so there is nothing left for this step to resize.
 
 const previewSrc = join(publicDir, "preview.png");

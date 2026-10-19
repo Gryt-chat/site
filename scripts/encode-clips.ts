@@ -22,7 +22,7 @@ const flag = <D,>(n: string, d: D): string | D => {
 
 if (!source || !name) {
   console.error(
-    "usage: node scripts/encode-clips.mjs <source> <name> [--width 1440] " +
+    "usage: node scripts/encode-clips.ts <source> <name> [--width 1440] " +
       "[--fps 30] [--av1-crf 34] [--h264-crf 20] [--start 0] [--duration n] " +
       "[--poster-at n]",
   );

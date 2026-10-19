@@ -5,6 +5,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import type { Change, ReleaseLine } from "../content/changelog/releases.ts";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const LIB = "src/lib/changelog.ts";
@@ -16,7 +17,7 @@ const index = readFileSync(join(root, INDEX), "utf8");
 const entry = readFileSync(join(root, ENTRY), "utf8");
 
 /** Everything from `opener` to the brace that closes the block it opens. */
-function body(text, opener, what) {
+function body(text: string, opener: string, what: string) {
   const at = text.indexOf(opener);
   assert.ok(at >= 0, `no longer has ${what}`);
   const start = at + opener.length - 1;
@@ -45,9 +46,12 @@ const grouper = new Function(
     .replace(/ as string\[\]/g, "")
     .replace(/ as string/g, ""),
 );
-const groupChanges = (changes) => grouper(changes, KIND_ORDER);
+/** A change as the checks write them, a made-up kind included. */
+type LooseChange = { kind: string; area?: string; text: string };
 
-const releases = await import(join(root, "content/changelog/releases.ts"));
+const groupChanges = (changes: LooseChange[]): [string, string[]][] => grouper(changes, KIND_ORDER);
+
+const releases: typeof import("../content/changelog/releases.ts") = await import(join(root, "content/changelog/releases.ts"));
 
 const areaGrouper = new Function(
   "changes",
@@ -57,17 +61,19 @@ const areaGrouper = new Function(
     .replace(/ as Record<string, string>/g, "")
     .replace(/ as string\[\]/g, ""),
 );
-const groupByArea = (changes) => areaGrouper(changes, { AREAS: releases.AREAS });
+const groupByArea = (changes: LooseChange[]): [string, LooseChange[]][] => areaGrouper(changes, { AREAS: releases.AREAS });
 
-const splitSecurity = new Function(
+const splitter = new Function(
   "changes",
   body(lib, "export function splitSecurity(changes: Change[]): [Change[], Change[]] {", "splitSecurity"),
 );
 
-const hasSecurity = new Function(
+const securityCheck = new Function(
   "release",
   body(index, "function hasSecurity(release: ListedRelease): boolean {", "hasSecurity"),
 );
+const splitSecurity = (changes: LooseChange[]): [LooseChange[], LooseChange[]] => splitter(changes);
+const hasSecurity = (release: ReleaseLine): boolean => securityCheck(release);
 
 /* ── the grouping ────────────────────────────────────────────────────────── */
 
@@ -106,8 +112,8 @@ assert.deepEqual(
   "the areas are named or ordered differently from the app's What's New, which keeps its own copy",
 );
 
-const a = (area, text, kind = "fixed") => ({ kind, ...(area ? { area } : {}), text });
-const headings = (groups) => groups.map(([label, changes]) => [label, changes.map((c) => c.text)]);
+const a = (area: string | null, text: string, kind = "fixed"): LooseChange => ({ kind, ...(area ? { area } : {}), text });
+const headings = (groups: [string, LooseChange[]][]) => groups.map(([label, changes]) => [label, changes.map((c) => c.text)]);
 
 // AREAS order however the release was written, with no area last as Other.
 assert.deepEqual(
@@ -152,7 +158,7 @@ assert.deepEqual(
 
 /* ── against the releases that actually exist ────────────────────────────── */
 
-const split = releases.app.filter((r) => r.changes?.length);
+const split = releases.app.filter((r): r is ReleaseLine & { changes: Change[] } => Boolean(r.changes?.length));
 assert.ok(split.length > 0, "no app release carries changes, so none of this is reachable");
 
 for (const release of split) {
@@ -248,7 +254,7 @@ assert.equal(
   assert.match(block, /background: var\(--gryt-danger-2\)/, "the security block isn't tinted with the theme's danger red");
   assert.match(block, /var\(--gryt-danger-6\)/, "the security block has no danger-red edge");
   assert.doesNotMatch(block, /#[0-9a-f]{3,8}\b|rgb\(/i, "the security block uses a colour of its own instead of the theme's");
-  const side = (prop) => block.match(new RegExp(`\\n\\s*${prop}: ([^;]+);`))[1].trim().split(/\s+/)[1];
+  const side = (prop: string) => block.match(new RegExp(`\\n\\s*${prop}: ([^;]+);`))?.[1].trim().split(/\s+/)[1];
   assert.equal(side("margin"), `-${side("padding")}`, "the security block's side margin doesn't cancel its padding");
 }
 assert.ok(
