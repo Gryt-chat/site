@@ -166,6 +166,24 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.14.0-beta.8",
+    date: "2026-10-19",
+    channel: "beta",
+    line: "Beta: only friends can start a direct message with you, and pickers skip people who'd say no.",
+    changes: [
+      {
+        kind: "changed",
+        area: "settings",
+        text: "Who can send you messages is Friends by default now, like calls. Until you have a friend on a server, anyone you've written to one-to-one there still counts. If you already picked something in Settings › Privacy, it stays.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "New message and a group's Add people leave out anyone who wouldn't take a direct message from you, so you don't find out after picking them. It needs the server on 1.12.0-beta.4 or newer.",
+      },
+    ],
+  },
+  {
     version: "1.14.0-beta.7",
     date: "2026-10-16",
     channel: "beta",
