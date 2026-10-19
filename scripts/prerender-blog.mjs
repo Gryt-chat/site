@@ -1,9 +1,9 @@
 import { readFileSync, writeFileSync, readdirSync, mkdirSync, existsSync } from 'fs';
 import { join, dirname, basename } from 'path';
 import { fileURLToPath } from 'url';
-import { STATIC_PAGES, ALIAS_PAGES, OG_IMAGE_VERSION } from '../src/lib/pages.mjs';
+import { STATIC_PAGES, ALIAS_PAGES, OG_IMAGE_VERSION } from '../src/lib/pages.ts';
 import { render } from '../dist-ssr/entry-server.js';
-import { routeStyles, styleLinks } from './routeStyles.mjs';
+import { routeStyles, styleLinks } from './routeStyles.ts';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const distDir = join(__dirname, '..', 'dist');
@@ -99,7 +99,7 @@ const stylesFor = routeStyles({
   globalCss,
 });
 
-/* Every indexable page, added as it is written. check-sitemap.mjs holds the file to the
+/* Every indexable page, added as it is written. check-sitemap.ts holds the file to the
    pages on disk, so a page written here without an entry fails the build. */
 const sitemap = [];
 

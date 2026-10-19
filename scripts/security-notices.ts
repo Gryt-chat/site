@@ -9,7 +9,7 @@ const VERSION = /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(-[0-9A-Za-z-]+(\.[0-9
 /** A GHSA id or a slug. The app stores it in a dismissal key, so nothing fancy. */
 const ID = /^[A-Za-z0-9][A-Za-z0-9._-]{0,79}$/;
 
-function isHttps(value) {
+function isHttps(value: unknown) {
   if (typeof value !== "string") return false;
   try {
     return new URL(value).protocol === "https:";
@@ -19,17 +19,17 @@ function isHttps(value) {
 }
 
 /** A real calendar day, so 2026-02-30 is refused rather than rolled into March. */
-function isIsoDate(value) {
+function isIsoDate(value: unknown) {
   if (typeof value !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
   const parsed = new Date(`${value}T00:00:00Z`);
   return !Number.isNaN(parsed.getTime()) && parsed.toISOString().slice(0, 10) === value;
 }
 
 /** Everything wrong with the list, one line each. Empty means it can ship. */
-export function securityNoticeProblems(notices) {
+export function securityNoticeProblems(notices: unknown) {
   if (!Array.isArray(notices)) return ["securityNotices is not an array"];
 
-  const problems = [];
+  const problems: string[] = [];
   const ids = new Set();
 
   notices.forEach((notice, index) => {

@@ -12,7 +12,7 @@ const LATEST = "https://api.github.com/repos/Gryt-chat/gryt/releases/latest";
 /** Long enough for a slow morning, short enough not to stall a release. */
 const TIMEOUT_MS = 8000;
 
-function keepExisting(why) {
+function keepExisting(why: string) {
   let current = "unreadable";
   try {
     current = String(JSON.parse(readFileSync(OUT, "utf8")).tag_name);
@@ -48,7 +48,7 @@ try {
       const release = {
         tag_name: body.tag_name,
         published_at: body.published_at ?? null,
-        assets: body.assets.map((asset) => ({
+        assets: body.assets.map((asset: { name: string; browser_download_url: string; size: number }) => ({
           name: asset.name,
           browser_download_url: asset.browser_download_url,
           size: asset.size,

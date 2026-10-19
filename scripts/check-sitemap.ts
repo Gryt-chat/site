@@ -9,8 +9,8 @@ import { fileURLToPath } from "node:url";
 const SITE = "https://gryt.chat";
 
 /** Every index.html under `dir`, relative to `root`. */
-function pages(dir, root = dir) {
-  const out = [];
+function pages(dir: string, root = dir): string[] {
+  const out: string[] = [];
   for (const entry of readdirSync(dir)) {
     const full = join(dir, entry);
     if (statSync(full).isDirectory()) out.push(...pages(full, root));
@@ -19,7 +19,7 @@ function pages(dir, root = dir) {
   return out;
 }
 
-function head(html) {
+function head(html: string) {
   return {
     canonical: html.match(/<link rel="canonical" href="([^"]*)"/)?.[1],
     noindex: /<meta name="robots" content="[^"]*noindex/.test(html),
@@ -27,7 +27,7 @@ function head(html) {
 }
 
 /** What is wrong with the sitemap and robots.txt in `distDir`, as sentences. Empty is clean. */
-export function sitemapProblems(distDir) {
+export function sitemapProblems(distDir: string) {
   const sitemapFile = join(distDir, "sitemap.xml");
   if (!existsSync(sitemapFile)) return ["sitemap.xml was not written"];
 
@@ -43,7 +43,7 @@ export function sitemapProblems(distDir) {
   }));
   if (entries.length === 0) problems.push("sitemap.xml lists no pages");
 
-  const listed = new Set();
+  const listed = new Set<string>();
   for (const { loc, lastmod } of entries) {
     if (!loc) {
       problems.push("an entry in sitemap.xml has no <loc>");
@@ -103,6 +103,6 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     for (const p of problems) console.error(`  ${p}`);
     process.exit(1);
   }
-  const count = readFileSync(join(distDir, "sitemap.xml"), "utf8").match(/<url>/g).length;
+  const count = readFileSync(join(distDir, "sitemap.xml"), "utf8").match(/<url>/g)?.length ?? 0;
   console.log(`check-sitemap: ${count} pages, each one on disk under its own canonical, and robots.txt points at the file.`);
 }

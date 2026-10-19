@@ -18,7 +18,7 @@ const REPOS = "https://api.github.com/orgs/Gryt-chat/repos?type=public&per_page=
 /** Long enough for a slow morning, short enough not to stall a release. */
 const TIMEOUT_MS = 8000;
 
-function keepExisting(why) {
+function keepExisting(why: string) {
   let current = "unreadable";
   try {
     current = String(JSON.parse(readFileSync(OUT, "utf8")).publicRepos);

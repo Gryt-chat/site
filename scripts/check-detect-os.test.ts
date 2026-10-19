@@ -16,6 +16,9 @@ import {
   standInFor,
   STORES,
 } from "../src/lib/releases.ts";
+import type { OS } from "../src/lib/releases.ts";
+
+const ALL: (OS | null)[] = ["windows", "macos", "linux", "ios", "android", null];
 
 const DEVICES = [
   {
@@ -116,7 +119,7 @@ test("the build machine's own user agent is not a phone", () => {
 
 test("only Windows, macOS and Linux have a file to download", () => {
   assert.deepEqual(
-    ["windows", "macos", "linux", "ios", "android", null].map(isDesktop),
+    ALL.map(isDesktop),
     [true, true, true, false, false, false],
   );
 });
@@ -132,13 +135,13 @@ test("?os= never hands a phone a file", () => {
 test("a platform leads with its store only once that store is open", () => {
   assert.equal(liveStore("windows")?.name, "Microsoft Store");
   assert.equal(liveStore("linux")?.name, "Snap Store");
-  for (const os of ["macos", "ios", "android", null]) assert.equal(liveStore(os), null, `store for ${os}`);
+  for (const os of ["macos", "ios", "android", null] satisfies (OS | null)[]) assert.equal(liveStore(os), null, `store for ${os}`);
   assert.equal(standInFor("linux"), "Flatpak");
   assert.equal(standInFor("windows"), undefined);
 });
 
 test("only commands that install a current build are offered", () => {
-  const names = (os) => liveCommands(os).map((p) => p.name);
+  const names = (os: OS) => liveCommands(os).map((p) => p.name);
   assert.deepEqual(names("linux"), ["snap", "AUR"]);
   assert.deepEqual(names("macos"), ["Homebrew"]);
   assert.deepEqual(names("windows"), []);
@@ -160,10 +163,10 @@ test("every badge file is there, drawn at its own proportions", () => {
     if (badge.src.endsWith(".png")) {
       natural = { width: file.readUInt32BE(16), height: file.readUInt32BE(20) };
     } else {
-      const root = file.toString("utf8").match(/<svg[^>]*>/)[0];
+      const root = file.toString("utf8").match(/<svg[^>]*>/)?.[0] ?? "";
       natural = {
-        width: Number(root.match(/\bwidth="([\d.]+)/)[1]),
-        height: Number(root.match(/\bheight="([\d.]+)/)[1]),
+        width: Number(root.match(/\bwidth="([\d.]+)/)?.[1]),
+        height: Number(root.match(/\bheight="([\d.]+)/)?.[1]),
       };
     }
     const drift = Math.abs(badge.width / badge.height - natural.width / natural.height);

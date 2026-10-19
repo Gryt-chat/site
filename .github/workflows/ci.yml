@@ -22,6 +22,9 @@ jobs:
 
       - run: yarn lint
 
+      # The scripts, pages.ts and the lint config. `tsc -b` in the build covers src only.
+      - run: npx tsc -p scripts
+
       # No comment runs past two lines. The script carries the list of paths still
       # to be swept, and that list only ever shrinks.
       - run: yarn test:comment-length

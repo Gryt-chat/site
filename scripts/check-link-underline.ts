@@ -12,7 +12,7 @@ const src = join(root, "src");
 const base = readFileSync(join(src, "index.css"), "utf8");
 
 /** The `a` rule inside `@layer base`, from its brace to the one that closes it. */
-function baseRule(name) {
+function baseRule(name: string) {
   const at = base.indexOf(`\n  ${name} {`);
   assert.ok(at >= 0, `index.css no longer has a base-layer rule for ${name}`);
   return base.slice(at, base.indexOf("\n  }", at));
@@ -35,7 +35,7 @@ assert.match(
   "the underline no longer goes solid on hover, so a link gives no feedback",
 );
 
-function walk(dir) {
+function walk(dir: string): string[] {
   const out = [];
   for (const name of readdirSync(dir)) {
     const full = join(dir, name);
