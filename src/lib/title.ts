@@ -1,5 +1,5 @@
 /**
- * Document titles: every page reads `<name> | Gryt`. `scripts/prerender-blog.mjs` has its
+ * Document titles: every page reads `<name> | Gryt`. `scripts/prerender-blog.ts` has its
  * own copy of `SITE_NAME` and `pageTitle` for the static HTML — change one, change both.
  */
 

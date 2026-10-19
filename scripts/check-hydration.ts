@@ -3,9 +3,11 @@
 
 import { spawn } from "node:child_process";
 import { createReadStream, existsSync, mkdtempSync, readdirSync, rmSync, statSync } from "node:fs";
-import { createServer } from "node:http";
+import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
+import type { AddressInfo } from "node:net";
 import { tmpdir } from "node:os";
 import { delimiter, dirname, extname, join, normalize, sep } from "node:path";
+import type { Readable, Writable } from "node:stream";
 import { fileURLToPath } from "node:url";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
@@ -18,12 +20,19 @@ if (!existsSync(join(dist, "index.html"))) {
 
 /* Two visitors, each unlike the build machine. West of UTC with reduced motion broke the
    dates and the front page; a phone takes the invite page's other branch. */
-const PROFILES = [
+interface Profile {
+  name: string;
+  timezone: string;
+  reducedMotion?: boolean;
+  phone?: boolean;
+}
+
+const PROFILES: Profile[] = [
   { name: "los-angeles, reduced motion", timezone: "America/Los_Angeles", reducedMotion: true },
   { name: "tokyo, phone", timezone: "Asia/Tokyo", phone: true },
 ];
 
-const firstDir = (dir, skip = () => false) =>
+const firstDir = (dir: string, skip: (name: string) => boolean = () => false) =>
   readdirSync(join(dist, dir), { withFileTypes: true })
     .filter((d) => d.isDirectory() && !skip(d.name))
     .map((d) => d.name)
@@ -57,7 +66,7 @@ const PAGES = [
   "/this-page-does-not-exist",
 ];
 
-const TYPES = {
+const TYPES: Record<string, string> = {
   ".html": "text/html; charset=utf-8",
   ".js": "text/javascript",
   ".css": "text/css",
@@ -72,17 +81,17 @@ const TYPES = {
 
 /* The parts of the Dockerfile's nginx config a page load touches: files, a directory's
    index.html with or without the slash, /auth/callback, and 404.html. */
-function serve(req, res) {
-  const url = new URL(req.url, "http://localhost");
+function serve(req: IncomingMessage, res: ServerResponse) {
+  const url = new URL(req.url ?? "/", "http://localhost");
   let path;
   try {
     path = decodeURIComponent(url.pathname);
   } catch {
     path = url.pathname;
   }
-  const file = (p) => normalize(join(dist, p));
-  const isFile = (p) => p.startsWith(dist + sep) && existsSync(p) && statSync(p).isFile();
-  const reply = (status, p) => {
+  const file = (p: string) => normalize(join(dist, p));
+  const isFile = (p: string) => p.startsWith(dist + sep) && existsSync(p) && statSync(p).isFile();
+  const reply = (status: number, p: string) => {
     res.writeHead(status, { "content-type": TYPES[extname(p)] ?? "application/octet-stream" });
     createReadStream(p).pipe(res);
   };
@@ -116,8 +125,8 @@ if (!chromePath) {
 }
 
 const server = createServer(serve);
-await new Promise((resolve) => server.listen(0, "127.0.0.1", resolve));
-const origin = `http://127.0.0.1:${server.address().port}`;
+await new Promise<void>((resolve) => server.listen(0, "127.0.0.1", resolve));
+const origin = `http://127.0.0.1:${(server.address() as AddressInfo).port}`;
 
 const profileDir = mkdtempSync(join(tmpdir(), "check-hydration-"));
 const chrome = spawn(
@@ -166,11 +175,24 @@ for (const signal of ["SIGINT", "SIGTERM", "SIGHUP"]) {
 
 /* CDP over the pipe: JSON messages separated by a NUL byte, written to fd 3 and read from
    fd 4. No port, so there is no other browser to attach to by mistake. */
-const toChrome = chrome.stdio[3];
-const fromChrome = chrome.stdio[4];
+const toChrome = chrome.stdio[3] as Writable;
+const fromChrome = chrome.stdio[4] as Readable;
+
+/** An event from Chrome, down to the fields visit() reads. */
+interface CdpEvent {
+  method: string;
+  sessionId?: string;
+  params: {
+    exceptionDetails?: { exception?: { description?: string }; text: string };
+    type?: string;
+    args?: { value?: unknown; description?: string }[];
+    requestId?: string;
+  };
+}
+
 let nextId = 0;
-const pending = new Map();
-const listeners = new Set();
+const pending = new Map<number, { resolve: (result: unknown) => void; reject: (error: Error) => void; method: string }>();
+const listeners = new Set<(event: CdpEvent) => void>();
 let buffered = "";
 
 fromChrome.on("data", (chunk) => {
@@ -182,6 +204,7 @@ fromChrome.on("data", (chunk) => {
     if (message.id !== undefined) {
       const call = pending.get(message.id);
       pending.delete(message.id);
+      if (!call) continue;
       if (message.error) call.reject(new Error(`${call.method}: ${message.error.message}`));
       else call.resolve(message.result);
     } else {
@@ -194,32 +217,35 @@ chrome.on("exit", (code) => {
   for (const call of pending.values()) call.reject(new Error(`Chrome exited with ${code}`));
 });
 
-function send(method, params = {}, sessionId) {
+/** One CDP call. `T` is the result's shape for that method, which Chrome doesn't type for us. */
+function send<T = object>(method: string, params: object = {}, sessionId?: string): Promise<T> {
   const id = ++nextId;
   toChrome.write(`${JSON.stringify({ id, method, params, sessionId })}\0`);
-  return new Promise((resolve, reject) => pending.set(id, { resolve, reject, method }));
+  return new Promise<T>((resolve, reject) =>
+    pending.set(id, { resolve: resolve as (result: unknown) => void, reject, method }),
+  );
 }
 
-const describe = (arg) => (arg.value !== undefined ? String(arg.value) : (arg.description ?? ""));
+const describe = (arg: { value?: unknown; description?: string }) => (arg.value !== undefined ? String(arg.value) : (arg.description ?? ""));
 const HYDRATION = /Minified React error #(418|419|421|422|423|425)\b|hydrat/i;
 const PHONE_UA =
   "Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.0 Mobile/15E148 Safari/604.1";
 
-async function visit(page, profile) {
-  const { targetId } = await send("Target.createTarget", { url: "about:blank" });
-  const { sessionId } = await send("Target.attachToTarget", { targetId, flatten: true });
-  const errors = [];
-  const inflight = new Set();
+async function visit(page: string, profile: Profile) {
+  const { targetId } = await send<{ targetId: string }>("Target.createTarget", { url: "about:blank" });
+  const { sessionId } = await send<{ sessionId: string }>("Target.attachToTarget", { targetId, flatten: true });
+  const errors: string[] = [];
+  const inflight = new Set<string | undefined>();
   let lastActivity = Date.now();
   let loaded = false;
 
-  const listener = ({ method, params, sessionId: from }) => {
+  const listener = ({ method, params, sessionId: from }: CdpEvent) => {
     if (from !== sessionId) return;
     if (method === "Runtime.exceptionThrown") {
       const details = params.exceptionDetails;
-      errors.push(details.exception?.description ?? details.text);
+      errors.push(details?.exception?.description ?? details?.text ?? "");
     } else if (method === "Runtime.consoleAPICalled" && params.type === "error") {
-      errors.push(params.args.map(describe).join(" "));
+      errors.push((params.args ?? []).map(describe).join(" "));
     } else if (method === "Network.requestWillBeSent" && params.type !== "Media") {
       inflight.add(params.requestId);
       lastActivity = Date.now();
@@ -261,7 +287,7 @@ async function visit(page, profile) {
       await new Promise((resolve) => setTimeout(resolve, 50));
     }
 
-    const { result } = await send(
+    const { result } = await send<{ result: { value: string } }>(
       "Runtime.evaluate",
       { expression: "location.pathname + location.search", returnByValue: true },
       sessionId,
@@ -274,7 +300,7 @@ async function visit(page, profile) {
 }
 
 const jobs = PROFILES.flatMap((profile) => PAGES.map((page) => ({ page, profile })));
-const results = [];
+const results: Awaited<ReturnType<typeof visit>>[] = [];
 let cursor = 0;
 
 try {
@@ -287,7 +313,7 @@ try {
     }),
   );
 } catch (error) {
-  console.error(`check-hydration: ${error.message}`);
+  console.error(`check-hydration: ${error instanceof Error ? error.message : String(error)}`);
   cleanUp();
   process.exit(1);
 }

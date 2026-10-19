@@ -3,16 +3,16 @@
  * `font-family` against installed fonts, so every string is emitted as glyph outlines.
  */
 import sharp from 'sharp';
-import * as fontkit from 'fontkit';
-import wawoff2 from 'wawoff2';
+import type { Font } from 'fontkit';
+import { baselineOffset, clamp, glyphs, loadFonts, wrap } from './glyphs.ts';
 import { join, dirname, basename } from 'path';
 import { fileURLToPath } from 'url';
 import { existsSync, readFileSync, readdirSync, mkdirSync } from 'fs';
+import { dayMonthYear } from '../src/lib/formatDate.ts';
 import { STATIC_PAGES } from '../src/lib/pages.ts';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const publicDir = join(__dirname, '..', 'public');
-const fontsDir = join(publicDir, 'fonts');
 const blogContentDir = join(__dirname, '..', 'content', 'blog');
 const changelogContentDir = join(__dirname, '..', 'content', 'changelog');
 
@@ -47,94 +47,14 @@ const PAD_X = 60;
 const PAD_TOP = 58;
 const PAD_BOTTOM = 58;
 
-// ---------------------------------------------------------------- typography
-
-const fonts = {};
-
-async function loadFonts() {
-  const load = async (file) => {
-    const ttf = Buffer.from(await wawoff2.decompress(readFileSync(join(fontsDir, file))));
-    return fontkit.create(ttf);
-  };
-  fonts.sans = await load('AtkinsonHyperlegibleNextVF-Variable.woff2');
-  fonts.mono = await load('AtkinsonHyperlegibleMonoVF-Variable.woff2');
-}
-
-/** Where the baseline sits inside a line box, per the CSS half-leading model. */
-function baselineOffset(font, size, lineHeight) {
-  const { ascent, descent, unitsPerEm } = font;
-  const contentHeight = ((ascent - descent) / unitsPerEm) * size;
-  return (lineHeight - contentHeight) / 2 + (ascent / unitsPerEm) * size;
-}
-
-function measure(text, { font, weight, size, tracking = 0 }) {
-  const run = font.getVariation({ wght: weight }).layout(text);
-  const scale = size / font.unitsPerEm;
-  return run.advanceWidth * scale + tracking * Math.max(0, run.glyphs.length - 1);
-}
-
-/**
- * One string as glyph outlines. `y` is the baseline, not the top of the line.
- * The inner scale flips Y because font outlines are drawn with Y pointing up.
- */
-function glyphs(text, { font, weight, size, tracking = 0, x, y, fill, anchor = 'start' }) {
-  const run = font.getVariation({ wght: weight }).layout(text);
-  const scale = size / font.unitsPerEm;
-  const trackUnits = tracking / scale;
-
-  let cursor = 0;
-  const parts = [];
-  run.glyphs.forEach((glyph, i) => {
-    const pos = run.positions[i];
-    const d = glyph.path.toSVG();
-    if (d) {
-      const dx = (cursor + (pos.xOffset || 0)).toFixed(1);
-      const dy = (pos.yOffset || 0).toFixed(1);
-      parts.push(`<path transform="translate(${dx},${dy})" d="${d}"/>`);
-    }
-    cursor += pos.xAdvance + trackUnits;
-  });
-
-  const width = run.advanceWidth * scale + tracking * Math.max(0, run.glyphs.length - 1);
-  const left = anchor === 'end' ? x - width : x;
-  return `<g transform="translate(${left.toFixed(1)},${y.toFixed(1)}) scale(${scale},${-scale})" fill="${fill}">${parts.join('')}</g>`;
-}
-
-function wrap(text, maxWidth, opts) {
-  const words = text.split(' ');
-  const lines = [];
-  let line = '';
-  for (const word of words) {
-    const next = line ? `${line} ${word}` : word;
-    if (line && measure(next, opts) > maxWidth) {
-      lines.push(line);
-      line = word;
-    } else {
-      line = next;
-    }
-  }
-  if (line) lines.push(line);
-  return lines;
-}
-
-/**
- * Cuts a wrapped block to `max` lines. A description that stops mid-sentence reads as a bug,
- * so the last kept line loses words until an ellipsis fits after it.
- */
-function clamp(lines, max, maxWidth, opts) {
-  if (lines.length <= max) return lines;
-  const kept = lines.slice(0, max);
-  const words = kept[max - 1].split(' ');
-  while (words.length > 1 && measure(`${words.join(' ')}…`, opts) > maxWidth) words.pop();
-  kept[max - 1] = `${words.join(' ').replace(/[,;:]$/, '')}…`;
-  return kept;
-}
-
 /**
  * Display type is sized to the copy: a long title at the size a short one wants is the most
  * reliable way to make a card look automated, so the size steps down to fit three lines.
  */
-function fitTitle(text, { maxWidth, sizes, font, weight, tracking, maxLines }) {
+function fitTitle(
+  text: string,
+  { maxWidth, sizes, font, weight, tracking, maxLines }: { maxWidth: number; sizes: number[]; font: Font; weight: number; tracking: number; maxLines: number },
+) {
   for (const size of sizes) {
     const lines = wrap(text, maxWidth, { font, weight, size, tracking: tracking * size });
     if (lines.length <= maxLines) return { size, lines };
@@ -150,7 +70,7 @@ function fitTitle(text, { maxWidth, sizes, font, weight, tracking, maxLines }) {
  * copies were missed and every card kept the old bird. `logo.svg` is the round mark.
  */
 
-function readMark(name, ns) {
+function readMark(name: string, ns: string) {
   const raw = readFileSync(join(publicDir, name), 'utf8');
   const inner = raw.replace(/^[\s\S]*?<svg[^>]*>/, '').replace(/<\/svg>\s*$/, '');
   if (!inner.trim()) throw new Error(`${name}: no drawing found`);
@@ -197,15 +117,18 @@ const OWL_GLYPH = (() => {
 
 // ------------------------------------------------------------------ the card
 
-function escXml(s) {
-  return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-}
-
 /**
  * One card: a label beside the mark, the title, an optional sentence under it, and the two
  * meta strings. `stat` sets the title as a figure, which is what a version number wants.
  */
-function buildCard({ label, title, sub, metaLeft, metaRight, stat = false }) {
+function buildCard({
+  label,
+  title,
+  sub,
+  metaLeft,
+  metaRight,
+  stat = false,
+}: { label: string; title: string; sub?: string; metaLeft?: string; metaRight?: string; stat?: boolean }) {
   const out = [];
 
   // The field, the mark bleeding off the right, and a film of grain over both.
@@ -303,11 +226,11 @@ function buildCard({ label, title, sub, metaLeft, metaRight, stat = false }) {
 
 // -------------------------------------------------------------------- content
 
-function parseFrontmatter(filePath) {
+function parseFrontmatter(filePath: string): Record<string, string> | null {
   const raw = readFileSync(filePath, 'utf-8');
   const match = raw.match(/^---\n([\s\S]*?)\n---/);
   if (!match) return null;
-  const fm = {};
+  const fm: Record<string, string> = {};
   for (const line of match[1].split('\n')) {
     const m = line.match(/^(\w+):\s*(.+)/);
     if (m) fm[m[1]] = m[2].replace(/^["']|["']$/g, '');
@@ -315,9 +238,8 @@ function parseFrontmatter(filePath) {
   return fm;
 }
 
-function formatDate(date) {
-  if (!date) return '';
-  return new Date(date).toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' });
+function formatDate(date?: string) {
+  return date ? dayMonthYear(date) : '';
 }
 
 
@@ -326,12 +248,12 @@ function formatDate(date) {
  * 16, not 64: past 16 some vips builds skip quantisation and hand back a 256-colour
  * PNG four times the size, and 16 is already enough for a flat field and a two-tone bird.
  */
-async function write(svg, file) {
+async function write(svg: string, file: string) {
   await sharp(Buffer.from(svg)).png({ palette: true, colours: 16 }).toFile(file);
   console.log(`  ${file.slice(publicDir.length - 6)}`);
 }
 
-await loadFonts();
+const fonts = await loadFonts();
 
 // Homepage
 await write(buildCard({

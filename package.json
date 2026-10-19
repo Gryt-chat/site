@@ -5,12 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "node scripts/fetch-github-stats.ts && node scripts/fetch-releases.ts && node scripts/fetch-latest-release.ts && node scripts/check-changelog-lines.ts && node scripts/emit-changelog-json.ts && tsc -b && node scripts/optimize-images.ts && vite build && vite build --ssr src/entry-server.tsx --outDir dist-ssr && node scripts/prerender-blog.mjs && node scripts/check-meta.ts && node scripts/check-sitemap.ts",
+    "build": "node scripts/fetch-github-stats.ts && node scripts/fetch-releases.ts && node scripts/fetch-latest-release.ts && node scripts/check-changelog-lines.ts && node scripts/emit-changelog-json.ts && tsc -b && node scripts/optimize-images.ts && vite build && vite build --ssr src/entry-server.tsx --outDir dist-ssr && node scripts/prerender-blog.ts && node scripts/check-meta.ts && node scripts/check-sitemap.ts",
     "lint": "eslint --flag unstable_native_nodejs_ts_config .",
     "test:comment-length": "node scripts/check-comment-length.ts",
     "test:clips": "node scripts/check-clip-playback.ts",
     "preview": "vite preview",
-    "generate:og": "node scripts/generate-og-image.mjs",
+    "generate:og": "node scripts/generate-og-image.ts",
     "check:meta": "node scripts/check-meta.ts",
     "check:sitemap": "node scripts/check-sitemap.ts",
     "encode:clips": "node scripts/encode-clips.ts",
@@ -25,8 +25,8 @@
     "test:changelog-lines": "node --test scripts/check-changelog-lines.test.ts",
     "test:detect-os": "node --test scripts/check-detect-os.test.ts",
     "test:sitemap": "node --test scripts/check-sitemap.test.ts",
-    "test:hydration": "node scripts/check-hydration.mjs",
-    "generate:banners": "node scripts/generate-repo-banners.mjs"
+    "test:hydration": "node scripts/check-hydration.ts",
+    "generate:banners": "node scripts/generate-repo-banners.ts"
   },
   "dependencies": {
     "@gryt/owl": "^0.6.0",
