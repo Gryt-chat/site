@@ -8,21 +8,32 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
 
-const CHECK = new URL("check-changelog-lines.mjs", import.meta.url).pathname;
+const CHECK = new URL("check-changelog-lines.ts", import.meta.url).pathname;
 const SURFACES = ["app", "server", "voice", "images"];
 const AREAS = { voice: "Voice & video", chat: "Chat" };
 
-const day = (offset) =>
+const day = (offset: number) =>
   new Date(Date.now() + offset * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
 
 /** A directory shaped the way the check expects to be run in. */
-function fixture({ lines, releases, cache = true }) {
+type Line = [version: string, date: string, changes?: object[]];
+type Published = [version: string, date: string, prerelease?: boolean];
+
+function fixture({
+  lines,
+  releases,
+  cache = true,
+}: {
+  lines: Partial<Record<string, Line[]>>;
+  releases: Partial<Record<string, Published[]>>;
+  cache?: boolean;
+}) {
   const dir = mkdtempSync(join(tmpdir(), "changelog-lines-"));
   mkdirSync(join(dir, ".cache"));
   mkdirSync(join(dir, "content/changelog"), { recursive: true });
   writeFileSync(join(dir, "package.json"), JSON.stringify({ type: "module" }));
 
-  const published = {};
+  const published: Record<string, { tag: string; date: string; prerelease: boolean }[]> = {};
   for (const surface of SURFACES) {
     published[surface] = (releases[surface] ?? []).map(([version, date, prerelease = false]) => ({
       tag: `v${version}`,
@@ -32,7 +43,7 @@ function fixture({ lines, releases, cache = true }) {
   }
   if (cache) writeFileSync(join(dir, ".cache/releases.json"), JSON.stringify(published));
 
-  const body = (surface) =>
+  const body = (surface: string) =>
     (lines[surface] ?? [])
       .map(
         ([version, date, changes]) =>
@@ -53,11 +64,12 @@ function fixture({ lines, releases, cache = true }) {
 }
 
 /** Runs the check in that directory, the way the build does. */
-function run(dir) {
+function run(dir: string) {
   try {
     return { code: 0, out: execFileSync("node", [CHECK], { cwd: dir, encoding: "utf8" }) };
   } catch (e) {
-    return { code: e.status, out: `${e.stdout ?? ""}${e.stderr ?? ""}` };
+    const failed = e as { status: number; stdout?: string; stderr?: string };
+    return { code: failed.status, out: `${failed.stdout ?? ""}${failed.stderr ?? ""}` };
   }
 }
 
@@ -169,7 +181,7 @@ test("a release with no line at all still fails", () => {
 
 /* ── areas (GRYT-1339) ───────────────────────────────────────────────────── */
 
-const fixed = (area) => ({ kind: "fixed", ...(area ? { area } : {}), text: "Something works now." });
+const fixed = (area?: string) => ({ kind: "fixed", ...(area ? { area } : {}), text: "Something works now." });
 
 test("a new app change with an area passes", () => {
   const dir = fixture({

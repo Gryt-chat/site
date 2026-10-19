@@ -7,13 +7,30 @@ import { existsSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
+import type { ReleaseLine, SecurityNotice, Surface } from "../content/changelog/releases.ts";
 import { securityNoticeProblems } from "./security-notices.ts";
+
+/** One release as changelog.json carries it. */
+export interface EmittedLine {
+  version: string;
+  date: string;
+  line: string;
+  changes?: ReleaseLine["changes"];
+  channel?: string;
+  post?: string;
+  image?: string;
+  note?: boolean;
+}
+
+export type ChangelogJson = { generated: string } & Record<Surface, EmittedLine[]> & {
+  securityNotices: Pick<SecurityNotice, "id" | "surface" | "fixedIn" | "title" | "url" | "published">[];
+};
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 
 // Imported rather than parsed: the lines carry quotes and apostrophes, and a
 // regex over them is a way to ship a truncated sentence without noticing.
-const releases = await import(join(root, "content/changelog/releases.ts"));
+const releases: typeof import("../content/changelog/releases.ts") = await import(join(root, "content/changelog/releases.ts"));
 
 /** Versions with real prose beside the line. Only the app has them. */
 const notes = new Set(
@@ -22,10 +39,10 @@ const notes = new Set(
     .map((name) => name.replace(/\.mdx$/, "")),
 );
 
-const SURFACES = ["app", "server", "voice", "images"];
+const SURFACES: Surface[] = ["app", "server", "voice", "images"];
 
 /** The release's own picture, else its post's, as an absolute URL; the client is another origin. */
-function imageFor(entry) {
+function imageFor(entry: ReleaseLine) {
   let path = entry.image;
   if (!path && entry.post) {
     const mdx = readFileSync(join(root, `content/blog/${entry.post}.mdx`), "utf8");
@@ -36,11 +53,12 @@ function imageFor(entry) {
   return `https://gryt.chat${path}`;
 }
 
-const payload = { generated: new Date().toISOString() };
+const generated = new Date().toISOString();
+const lines: Partial<Record<Surface, EmittedLine[]>> = {};
 for (const surface of SURFACES) {
   const list = releases[surface];
   if (!Array.isArray(list)) throw new Error(`releases.ts no longer exports ${surface}`);
-  payload[surface] = list.map((entry) => ({
+  lines[surface] = list.map((entry) => ({
     version: entry.version,
     date: entry.date,
     line: entry.line,
@@ -62,18 +80,22 @@ const problems = securityNoticeProblems(notices);
 if (problems.length > 0) {
   throw new Error(`releases.ts has security notices changelog.json can't carry:\n  ${problems.join("\n  ")}`);
 }
-payload.securityNotices = notices.map(({ id, surface, fixedIn, title, url, published }) => ({
-  id,
-  surface,
-  fixedIn,
-  title,
-  url,
-  published,
-}));
+const payload = {
+  generated,
+  ...lines,
+  securityNotices: notices.map(({ id, surface, fixedIn, title, url, published }) => ({
+    id,
+    surface,
+    fixedIn,
+    title,
+    url,
+    published,
+  })),
+};
 
 // public/, so vite copies it into dist and the dev server serves it too.
 const out = join(root, "public/changelog.json");
 writeFileSync(out, JSON.stringify(payload));
 
-const counts = SURFACES.map((s) => `${s} ${payload[s].length}`).join(", ");
+const counts = SURFACES.map((s) => `${s} ${payload[s]?.length}`).join(", ");
 console.log(`changelog.json: ${counts}, security notices ${payload.securityNotices.length}`);
