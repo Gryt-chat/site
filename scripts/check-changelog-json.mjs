@@ -10,7 +10,7 @@ import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { securityNoticeProblems } from "./security-notices.mjs";
+import { securityNoticeProblems } from "./security-notices.ts";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -186,7 +186,7 @@ assert.notDeepEqual(securityNoticeProblems(undefined), [], "a missing list was l
   mkdirSync(join(dir, "content/changelog"), { recursive: true });
   mkdirSync(join(dir, "public"));
   writeFileSync(join(dir, "package.json"), JSON.stringify({ type: "module" }));
-  for (const file of ["emit-changelog-json.mjs", "security-notices.mjs"]) {
+  for (const file of ["emit-changelog-json.mjs", "security-notices.ts"]) {
     copyFileSync(join(root, "scripts", file), join(dir, "scripts", file));
   }
   const bad = { ...NOTICE, url: "http://gryt.chat/blog/made-up" };

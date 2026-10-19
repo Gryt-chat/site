@@ -8,7 +8,7 @@ import wawoff2 from 'wawoff2';
 import { join, dirname, basename } from 'path';
 import { fileURLToPath } from 'url';
 import { existsSync, readFileSync, readdirSync, mkdirSync } from 'fs';
-import { STATIC_PAGES } from '../src/lib/pages.mjs';
+import { STATIC_PAGES } from '../src/lib/pages.ts';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const publicDir = join(__dirname, '..', 'public');

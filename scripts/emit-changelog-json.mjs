@@ -7,7 +7,7 @@ import { existsSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { securityNoticeProblems } from "./security-notices.mjs";
+import { securityNoticeProblems } from "./security-notices.ts";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 

@@ -6,7 +6,7 @@ import { Footer } from "./components/Footer";
 import { ShaderBackground } from "./components/background/ShaderBackground";
 import { HomePage } from "./pages/HomePage";
 import { HOME_TITLE, pageTitle } from "./lib/title";
-import { STATIC_PAGES, ALIAS_PAGES } from "./lib/pages.mjs";
+import { STATIC_PAGES, ALIAS_PAGES } from "./lib/pages";
 import { usePathname } from "./lib/usePathname";
 
 const AuthCallbackPage = lazy(() => import("./pages/AuthCallbackPage").then((m) => ({ default: m.AuthCallbackPage })));

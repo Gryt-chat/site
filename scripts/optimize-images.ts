@@ -1,5 +1,5 @@
 import sharp from "sharp";
-import { join, dirname, basename, relative } from "path";
+import { join, dirname, relative } from "path";
 import { fileURLToPath } from "url";
 import { readdir, stat } from "fs/promises";
 
@@ -25,7 +25,7 @@ console.log(
   `  preview-sm.webp  ${sm.width}x${sm.height}  ${(sm.size / 1024).toFixed(1)} KB`,
 );
 
-async function findPngs(dir) {
+async function findPngs(dir: string): Promise<string[]> {
   const entries = await readdir(dir, { withFileTypes: true });
   const files = [];
   for (const entry of entries) {

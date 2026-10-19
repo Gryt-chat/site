@@ -1,14 +1,30 @@
 /**
  * The one list of static pages. It existed in three places and drifted, which is how
- * /changelog advertised an og:image that 404'd. Plain .mjs, so node can import it.
+ * /changelog advertised an og:image that 404'd. Node imports it with types stripped.
  */
+
+export interface StaticPage {
+  /** Path without a leading slash, e.g. "why-gryt". */
+  path: string;
+  title: string;
+  description: string;
+  /** The page's "Last updated" date, YYYY-MM-DD. The sitemap's lastmod too. */
+  updated?: string;
+  /** Kept out of search and out of the sitemap, like /invite. */
+  noindex?: boolean;
+}
+
+export interface AliasPage {
+  path: string;
+  /** The `path` of the StaticPage this one stands in for. */
+  of: string;
+}
 
 // Bumped whenever a card's design changes, so Discord's cache (keyed by URL) fetches
 // the new image instead of the old one. index.html carries the same number by hand.
 export const OG_IMAGE_VERSION = '2';
 
-/** @type {{ path: string, title: string, description: string, updated?: string, noindex?: boolean }[]} */
-export const STATIC_PAGES = [
+export const STATIC_PAGES: StaticPage[] = [
   {
     path: "why-gryt",
     title: "Why Gryt?",
@@ -145,7 +161,7 @@ export const STATIC_PAGES = [
  * Routes that render an existing page under a second URL: their own directory so nginx can
  * serve them without an SPA catch-all, with a canonical pointing at the primary.
  */
-export const ALIAS_PAGES = [
+export const ALIAS_PAGES: AliasPage[] = [
   { path: "privacy-policy", of: "privacy" },
   { path: "terms-of-use", of: "terms" },
   { path: "guidelines", of: "community-guidelines" },
@@ -153,14 +169,14 @@ export const ALIAS_PAGES = [
 ];
 
 /** A page's "Last updated" date, which the page prints and the sitemap gives as lastmod. */
-export function lastUpdated(path) {
+export function lastUpdated(path: string): string {
   const updated = STATIC_PAGES.find((p) => p.path === path)?.updated;
-  if (!updated) throw new Error(`no updated date for /${path} in pages.mjs`);
+  if (!updated) throw new Error(`no updated date for /${path} in pages.ts`);
   return updated;
 }
 
 /** The primary page an alias stands in for, or undefined if it is not an alias. */
-export function primaryFor(path) {
+export function primaryFor(path: string): StaticPage | undefined {
   const alias = ALIAS_PAGES.find((a) => a.path === path);
   return alias ? STATIC_PAGES.find((p) => p.path === alias.of) : undefined;
 }

@@ -5,7 +5,7 @@
 import { readFileSync, existsSync, readdirSync, statSync } from "fs";
 import { join, dirname, relative } from "path";
 import { fileURLToPath } from "url";
-import { routeStyles } from "./routeStyles.mjs";
+import { routeStyles } from "./routeStyles.ts";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const distDir = join(__dirname, "..", "dist");
@@ -25,7 +25,7 @@ const stylesFor = routeStyles({
  * `developers/contributing/index.html` back to the route. Only the static routes resolve;
  * a blog post comes back undefined, which the route it was rendered from covers.
  */
-function routeOf(rel) {
+function routeOf(rel: string) {
   return "/" + rel.replace(/\/index\.html$/, "").replace(/^index\.html$/, "");
 }
 
@@ -35,7 +35,7 @@ if (!existsSync(distDir)) {
 }
 
 /** Every index.html plus 404.html, at any depth. */
-function htmlFiles(dir) {
+function htmlFiles(dir: string): string[] {
   const out = [];
   for (const entry of readdirSync(dir)) {
     const full = join(dir, entry);
@@ -46,7 +46,7 @@ function htmlFiles(dir) {
 }
 
 const problems = [];
-const attr = (html, re) => html.match(re)?.[1];
+const attr = (html: string, re: RegExp) => html.match(re)?.[1];
 
 for (const file of htmlFiles(distDir)) {
   const rel = relative(distDir, file);

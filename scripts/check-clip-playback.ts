@@ -10,7 +10,7 @@ const SOURCE = "src/components/Clip.tsx";
 const source = readFileSync(SOURCE, "utf8");
 
 /** The text between the parens of `new IntersectionObserver(` , brace-matched. */
-function observerArguments(text) {
+function observerArguments(text: string) {
   const open = text.indexOf("new IntersectionObserver(");
   assert.notEqual(
     open,
@@ -28,7 +28,7 @@ function observerArguments(text) {
 }
 
 /** The first argument on its own: from the arrow's `{` to the brace that closes it. */
-function firstArgument(text) {
+function firstArgument(text: string) {
   const start = text.indexOf("{", text.indexOf("=>"));
   let depth = 0;
   for (let i = start; i < text.length; i++) {
@@ -42,7 +42,7 @@ const callback = firstArgument(observerArguments(source));
 
 /** A video that records what was asked of it. */
 function fakeVideo() {
-  const calls = [];
+  const calls: string[] = [];
   return {
     calls,
     play: () => {
@@ -54,7 +54,7 @@ function fakeVideo() {
 }
 
 // The callback closes over `el`, which is the only thing it touches outside itself.
-const run = (el, entry) => new Function("el", `return (${callback});`)(el)([entry]);
+const run = (el: object, entry: object) => new Function("el", `return (${callback});`)(el)([entry]);
 
 const arriving = fakeVideo();
 run(arriving, { isIntersecting: true });
