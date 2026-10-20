@@ -166,6 +166,24 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.14.0-beta.9",
+    date: "2026-10-20",
+    channel: "beta",
+    line: "Beta: eSports mode gets about 30 ms quicker.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "voice",
+        text: "eSports mode said it turned off all audio processing, but the compressor, limiter and clipper kept running and added about 20 ms. They're off now.",
+      },
+      {
+        kind: "fixed",
+        area: "voice",
+        text: "eSports mode now sends voice in 10 ms pieces instead of 20, as it was meant to. That's about 9 ms less delay, for a bit more bandwidth.",
+      },
+    ],
+  },
+  {
     version: "1.14.0-beta.8",
     date: "2026-10-19",
     channel: "beta",
