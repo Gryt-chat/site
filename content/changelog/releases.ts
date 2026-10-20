@@ -166,6 +166,19 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.14.0-beta.11",
+    date: "2026-10-20",
+    channel: "beta",
+    line: "Beta: with every voice effect off, your voice skips the audio processing entirely.",
+    changes: [
+      {
+        kind: "changed",
+        area: "voice",
+        text: "If noise suppression, auto gain and the compressor are off, the gate is at 0 or you use push-to-talk, and mic volume is at 100%, your microphone goes out as it is. That's about 15 ms quicker. Turn any of them back on and they work as before.",
+      },
+    ],
+  },
+  {
     version: "1.14.0-beta.10",
     date: "2026-10-20",
     channel: "beta",
