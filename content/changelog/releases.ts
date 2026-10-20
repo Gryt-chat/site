@@ -166,6 +166,34 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.14.0-beta.12",
+    date: "2026-10-20",
+    channel: "beta",
+    line: "Beta: voice goes over Gryt's own connection instead of WebRTC, and gets there sooner.",
+    changes: [
+      {
+        kind: "new",
+        area: "voice",
+        text: "When the server supports it, your voice now travels over Gryt's own voice connection instead of WebRTC. In our tests it reached the other person 20 to 30 ms sooner, and it sounds clearer: 192 kbps, or 256 in stereo when your mic really is stereo. It's experimental. Where the server doesn't offer it, the call stays on WebRTC like before.",
+      },
+      {
+        kind: "new",
+        area: "voice",
+        text: "People still on WebRTC keep hearing you, and you keep hearing them.",
+      },
+      {
+        kind: "fixed",
+        area: "voice",
+        text: "People on the new connection get the speaking ring and the glow behind their picture, and the volume you set for someone applies to them too.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "Settings › Audio starts with a voice preset: Best quality, Low latency or eSports, each with what it costs in delay. The compressor, auto gain, the limiter and the volume slider say what they cost too.",
+      },
+    ],
+  },
+  {
     version: "1.14.0-beta.11",
     date: "2026-10-20",
     channel: "beta",
