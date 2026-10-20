@@ -166,6 +166,19 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.14.0-beta.13",
+    date: "2026-10-20",
+    channel: "beta",
+    line: "Beta: the new voice connection works where WebTransport doesn't.",
+    changes: [
+      {
+        kind: "new",
+        area: "voice",
+        text: "If your browser doesn't have WebTransport, or your network blocks the UDP it needs, voice now goes over a normal web connection to the server instead of falling back to WebRTC. It can add a little delay on a bad network, but you stay on the same voice as everyone else.",
+      },
+    ],
+  },
+  {
     version: "1.14.0-beta.12",
     date: "2026-10-20",
     channel: "beta",
