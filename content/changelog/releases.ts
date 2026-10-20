@@ -166,6 +166,19 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.14.0-beta.10",
+    date: "2026-10-20",
+    channel: "beta",
+    line: "Beta: voice no longer gets slower after a reconnect.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "voice",
+        text: "After a reconnect, from a server restart, a network blip or a laptop waking up, your voice reached everyone 5 to 40 ms later than before, and stayed that way until you left the call. Each connection now starts fresh.",
+      },
+    ],
+  },
+  {
     version: "1.14.0-beta.9",
     date: "2026-10-20",
     channel: "beta",
