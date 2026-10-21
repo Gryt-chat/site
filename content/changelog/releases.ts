@@ -166,6 +166,39 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.14.0-beta.14",
+    date: "2026-10-21",
+    channel: "beta",
+    line: "Beta: on a Mac, voice runs on the phone's engine, and calls show measured round trips.",
+    changes: [
+      {
+        kind: "new",
+        area: "voice",
+        text: "On a Mac, voice now runs in a small program of its own, on the same engine as the phone, instead of inside the app's browser engine. Your audio skips Chromium completely, and Mac speakers get Apple's echo cancellation. Windows and Linux still use the browser path for now.",
+      },
+      {
+        kind: "new",
+        area: "voice",
+        text: "On the new voice connection, each person's tile shows the round trip to them through the server, measured by a tiny ping inside the voice stream. Hover it to see how much of their audio is waiting to play on your side.",
+      },
+      {
+        kind: "changed",
+        area: "voice",
+        text: "Beta now defaults to the Low latency voice preset, with noise reduction, the compressor and the gate off. If you've never changed those settings, that includes you. Pick Best quality in Sound & video if background noise gets through.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "The profile menu shows which account you're signed in with, and has Use another account. It signs you out and asks for a login, even when your browser is still signed in.",
+      },
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "Settings search finds things by the words people actually type, like keycloak, ptt or dark mode, and copes with small typos.",
+      },
+    ],
+  },
+  {
     version: "1.14.0-beta.13",
     date: "2026-10-20",
     channel: "beta",
