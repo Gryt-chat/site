@@ -166,6 +166,54 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.14.0-beta.15",
+    date: "2026-10-21",
+    channel: "beta",
+    line: "Beta: several pictures in a message show one at a time, and each channel keeps what you were typing.",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "Two or more pictures in a message now sit in a small gallery instead of a grid. Swipe or use the arrows to move through them, and click one to open it full size.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "Each channel and DM keeps its own unsent message, pictures included. Switch away and it's still there when you come back. Channel drafts also survive closing the app.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "The picture viewer is new. It opens out of the picture you clicked, and you can swipe, zoom with the wheel or two fingers, and copy or save with the buttons at the top.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "Link previews now show their picture and site icon even with automatic link embeds turned off. Your server fetches them, so the linked site never sees your IP address. This needs a server on 1.12.0-beta.7 or newer.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "Your name and picture follow the first server in your sidebar, so every server you join starts out with the same profile.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "A line break in a message leaves a small gap, so short lines don't run together.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "Typing @ no longer shows a broken image for someone whose picture won't load. You see their owl instead.",
+      },
+      {
+        kind: "fixed",
+        area: "servers",
+        text: "The question about whether you used to be a guest on a server only comes up after you've actually joined as one.",
+      },
+    ],
+  },
+  {
     version: "1.14.0-beta.14",
     date: "2026-10-21",
     channel: "beta",
