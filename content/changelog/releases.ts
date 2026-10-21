@@ -3793,6 +3793,29 @@ export const app: ReleaseLine[] = [
  */
 export const server: ReleaseLine[] = [
   {
+    version: "1.12.0-beta.8",
+    date: "2026-10-21",
+    channel: "beta",
+    line: "Beta: a message can carry 50 files, and an iPhone photo gets a clear answer.",
+    changes: [
+      {
+        kind: "changed",
+        area: "chat",
+        text: "A message can carry up to 50 files, up from 10. Each file still has its own size limit.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A HEIC photo from an iPhone is refused with \"HEIC photos aren't supported yet. Send it as a JPEG or PNG.\" instead of being called corrupt. The phone app now sends library photos as JPEG anyway.",
+      },
+      {
+        kind: "fixed",
+        area: "phone",
+        text: "Coming back to the phone app could show \"You do not have permission to read this channel\" when you had it. The server now tells the app to try again a moment later, and the app does.",
+      },
+    ],
+  },
+  {
     version: "1.12.0-beta.7",
     date: "2026-10-21",
     channel: "beta",
