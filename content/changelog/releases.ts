@@ -166,6 +166,19 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.14.0-beta.17",
+    date: "2026-10-21",
+    channel: "beta",
+    line: "Beta: swipe down to close the picture viewer.",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "Swipe a picture down to close the viewer, the way you would on a phone. Its buttons and keys also wait until a picture has finished opening or closing.",
+      },
+    ],
+  },
+  {
     version: "1.14.0-beta.16",
     date: "2026-10-21",
     channel: "beta",
