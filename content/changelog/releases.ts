@@ -3732,6 +3732,19 @@ export const app: ReleaseLine[] = [
  */
 export const server: ReleaseLine[] = [
   {
+    version: "1.12.0-beta.7",
+    date: "2026-10-21",
+    channel: "beta",
+    line: "Beta: link previews get their picture and icon from your server.",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "The server now fetches a link preview's picture and the site's icon itself and hands them to the app. The linked site only ever sees the server, so the app shows them without asking, and nobody can collect your IP address by posting a link to a site they run. Players like YouTube and Spotify still load from their own sites, behind Load link embeds automatically.",
+      },
+    ],
+  },
+  {
     version: "1.12.0-beta.4",
     date: "2026-10-19",
     channel: "beta",
