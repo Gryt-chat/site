@@ -166,6 +166,19 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.14.0-beta.16",
+    date: "2026-10-21",
+    channel: "beta",
+    line: "Beta: a picture in a message gallery opens out of the message into the viewer.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "Pictures in a message gallery now fill their box, and clicking one opens the viewer out of exactly what you clicked. Before, a picture of a different shape sat between empty bands and the viewer seemed to appear from nowhere.",
+      },
+    ],
+  },
+  {
     version: "1.14.0-beta.15",
     date: "2026-10-21",
     channel: "beta",
