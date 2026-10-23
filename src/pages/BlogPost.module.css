@@ -246,3 +246,32 @@
 .back {
   text-decoration: none;
 }
+
+/* Booktabs-style: a rule above and below, captions sit above as "Table N:". */
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0.5rem 0 1.5rem;
+  font-size: 0.95rem;
+  border-top: 2px solid var(--text-dim);
+  border-bottom: 2px solid var(--text-dim);
+  font-variant-numeric: tabular-nums;
+}
+
+.prose th,
+.prose td {
+  padding: 0.55rem 0.75rem;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+  vertical-align: top;
+}
+
+.prose th {
+  color: var(--text-dim);
+  font-weight: 600;
+  border-bottom-color: var(--text-dim);
+}
+
+.prose tbody tr:last-child td {
+  border-bottom: none;
+}

@@ -244,6 +244,27 @@ What the pass changed, and what to keep doing:
 why he built this, it already sounds like him, and it only needed its
 contractions putting back.
 
+## Technical blog posts are short papers
+
+Decided 2026-10-23. A post about how something was built, measured or fixed is
+written as a short paper, IMRaD, the way Sivert's master's and bachelor's theses
+are laid out. Personal posts, roundups and security advisories stay as they are.
+
+- **Front:** a metadata block (Title, Date, Author: Sivert Gullberg Hansen,
+  Keywords), then an **Abstract**: the problem, how it was found or measured,
+  the result in numbers, what's left. Someone who reads only that gets the post.
+- **Sections are numbered.** 1 Introduction, ending in the questions the post
+  answers. 2 Background when the reader needs it. 3 Method (or Design, for a
+  post with nothing measured). 4 Results. 5 Discussion, with Limitations and
+  Future work. 6 Conclusion, answering the questions from the introduction in order.
+- **Figures** carry "Figure N:" in a caption below. **Tables** carry "Table N:"
+  above. The text names every one of them before it appears.
+- **References** are numbered, cited as [1] in the text, with a link. Our own PRs
+  count. Raw data and long procedures go in lettered appendices.
+- **The voice above still applies.** The structure is a paper's; the sentences
+  are still plain and spoken. Every number, version and caveat survives a
+  restructure unchanged.
+
 ## What the content pages must share
 
 - The token set, verbatim. No page-local colours, no second accent.
