@@ -1,206 +1,196 @@
 {
- "tag_name": "v1.14.0",
- "published_at": "2026-10-23T09:00:47Z",
+ "tag_name": "v1.11.36",
+ "published_at": "2026-09-22T11:38:55Z",
  "assets": [
   {
-   "name": "Gryt-Chat-1.14.0-linux-amd64-slim.deb",
-   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.14.0/Gryt-Chat-1.14.0-linux-amd64-slim.deb",
-   "size": 95096440
+   "name": "Gryt-Chat-1.11.36-linux-amd64-slim.deb",
+   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.11.36/Gryt-Chat-1.11.36-linux-amd64-slim.deb",
+   "size": 90387324
   },
   {
-   "name": "Gryt-Chat-1.14.0-linux-amd64-slim.snap",
-   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.14.0/Gryt-Chat-1.14.0-linux-amd64-slim.snap",
-   "size": 102932480
+   "name": "Gryt-Chat-1.11.36-linux-amd64-slim.snap",
+   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.11.36/Gryt-Chat-1.11.36-linux-amd64-slim.snap",
+   "size": 97738752
   },
   {
-   "name": "Gryt-Chat-1.14.0-linux-amd64.deb",
-   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.14.0/Gryt-Chat-1.14.0-linux-amd64.deb",
-   "size": 147049288
+   "name": "Gryt-Chat-1.11.36-linux-amd64.deb",
+   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.11.36/Gryt-Chat-1.11.36-linux-amd64.deb",
+   "size": 142409952
   },
   {
-   "name": "Gryt-Chat-1.14.0-linux-amd64.snap",
-   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.14.0/Gryt-Chat-1.14.0-linux-amd64.snap",
-   "size": 140836864
+   "name": "Gryt-Chat-1.11.36-linux-amd64.snap",
+   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.11.36/Gryt-Chat-1.11.36-linux-amd64.snap",
+   "size": 135778304
   },
   {
-   "name": "Gryt-Chat-1.14.0-linux-x86_64-slim.AppImage",
-   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.14.0/Gryt-Chat-1.14.0-linux-x86_64-slim.AppImage",
-   "size": 121912257
+   "name": "Gryt-Chat-1.11.36-linux-x86_64-slim.AppImage",
+   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.11.36/Gryt-Chat-1.11.36-linux-x86_64-slim.AppImage",
+   "size": 115904730
   },
   {
-   "name": "Gryt-Chat-1.14.0-linux-x86_64-slim.flatpak",
-   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.14.0/Gryt-Chat-1.14.0-linux-x86_64-slim.flatpak",
-   "size": 86807560
+   "name": "Gryt-Chat-1.11.36-linux-x86_64-slim.rpm",
+   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.11.36/Gryt-Chat-1.11.36-linux-x86_64-slim.rpm",
+   "size": 80749309
   },
   {
-   "name": "Gryt-Chat-1.14.0-linux-x86_64-slim.rpm",
-   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.14.0/Gryt-Chat-1.14.0-linux-x86_64-slim.rpm",
-   "size": 84446157
+   "name": "Gryt-Chat-1.11.36-linux-x86_64.AppImage",
+   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.11.36/Gryt-Chat-1.11.36-linux-x86_64.AppImage",
+   "size": 157296309
   },
   {
-   "name": "Gryt-Chat-1.14.0-linux-x86_64.AppImage",
-   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.14.0/Gryt-Chat-1.14.0-linux-x86_64.AppImage",
-   "size": 163172455
+   "name": "Gryt-Chat-1.11.36-linux-x86_64.rpm",
+   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.11.36/Gryt-Chat-1.11.36-linux-x86_64.rpm",
+   "size": 114452693
   },
   {
-   "name": "Gryt-Chat-1.14.0-linux-x86_64.flatpak",
-   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.14.0/Gryt-Chat-1.14.0-linux-x86_64.flatpak",
-   "size": 118600968
+   "name": "Gryt-Chat-1.11.36-mac-arm64-slim.dmg",
+   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.11.36/Gryt-Chat-1.11.36-mac-arm64-slim.dmg",
+   "size": 109689955
   },
   {
-   "name": "Gryt-Chat-1.14.0-linux-x86_64.rpm",
-   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.14.0/Gryt-Chat-1.14.0-linux-x86_64.rpm",
-   "size": 118071777
+   "name": "Gryt-Chat-1.11.36-mac-arm64-slim.dmg.blockmap",
+   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.11.36/Gryt-Chat-1.11.36-mac-arm64-slim.dmg.blockmap",
+   "size": 114865
   },
   {
-   "name": "Gryt-Chat-1.14.0-mac-arm64-slim.dmg",
-   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.14.0/Gryt-Chat-1.14.0-mac-arm64-slim.dmg",
-   "size": 116165050
+   "name": "Gryt-Chat-1.11.36-mac-arm64-slim.zip",
+   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.11.36/Gryt-Chat-1.11.36-mac-arm64-slim.zip",
+   "size": 106117767
   },
   {
-   "name": "Gryt-Chat-1.14.0-mac-arm64-slim.dmg.blockmap",
-   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.14.0/Gryt-Chat-1.14.0-mac-arm64-slim.dmg.blockmap",
-   "size": 121911
+   "name": "Gryt-Chat-1.11.36-mac-arm64-slim.zip.blockmap",
+   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.11.36/Gryt-Chat-1.11.36-mac-arm64-slim.zip.blockmap",
+   "size": 111388
   },
   {
-   "name": "Gryt-Chat-1.14.0-mac-arm64-slim.zip",
-   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.14.0/Gryt-Chat-1.14.0-mac-arm64-slim.zip",
-   "size": 112320915
+   "name": "Gryt-Chat-1.11.36-mac-arm64.dmg",
+   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.11.36/Gryt-Chat-1.11.36-mac-arm64.dmg",
+   "size": 150177105
   },
   {
-   "name": "Gryt-Chat-1.14.0-mac-arm64-slim.zip.blockmap",
-   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.14.0/Gryt-Chat-1.14.0-mac-arm64-slim.zip.blockmap",
-   "size": 117811
+   "name": "Gryt-Chat-1.11.36-mac-arm64.dmg.blockmap",
+   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.11.36/Gryt-Chat-1.11.36-mac-arm64.dmg.blockmap",
+   "size": 158014
   },
   {
-   "name": "Gryt-Chat-1.14.0-mac-arm64.dmg",
-   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.14.0/Gryt-Chat-1.14.0-mac-arm64.dmg",
-   "size": 156537833
+   "name": "Gryt-Chat-1.11.36-mac-arm64.zip",
+   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.11.36/Gryt-Chat-1.11.36-mac-arm64.zip",
+   "size": 145823248
   },
   {
-   "name": "Gryt-Chat-1.14.0-mac-arm64.dmg.blockmap",
-   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.14.0/Gryt-Chat-1.14.0-mac-arm64.dmg.blockmap",
-   "size": 165594
+   "name": "Gryt-Chat-1.11.36-mac-arm64.zip.blockmap",
+   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.11.36/Gryt-Chat-1.11.36-mac-arm64.zip.blockmap",
+   "size": 145234
   },
   {
-   "name": "Gryt-Chat-1.14.0-mac-arm64.zip",
-   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.14.0/Gryt-Chat-1.14.0-mac-arm64.zip",
-   "size": 151892642
+   "name": "Gryt-Chat-1.11.36-mac-x64-slim.dmg",
+   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.11.36/Gryt-Chat-1.11.36-mac-x64-slim.dmg",
+   "size": 117236273
   },
   {
-   "name": "Gryt-Chat-1.14.0-mac-arm64.zip.blockmap",
-   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.14.0/Gryt-Chat-1.14.0-mac-arm64.zip.blockmap",
-   "size": 151029
+   "name": "Gryt-Chat-1.11.36-mac-x64-slim.dmg.blockmap",
+   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.11.36/Gryt-Chat-1.11.36-mac-x64-slim.dmg.blockmap",
+   "size": 123199
   },
   {
-   "name": "Gryt-Chat-1.14.0-mac-x64-slim.dmg",
-   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.14.0/Gryt-Chat-1.14.0-mac-x64-slim.dmg",
-   "size": 123856230
+   "name": "Gryt-Chat-1.11.36-mac-x64-slim.zip",
+   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.11.36/Gryt-Chat-1.11.36-mac-x64-slim.zip",
+   "size": 113635466
   },
   {
-   "name": "Gryt-Chat-1.14.0-mac-x64-slim.dmg.blockmap",
-   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.14.0/Gryt-Chat-1.14.0-mac-x64-slim.dmg.blockmap",
-   "size": 130867
+   "name": "Gryt-Chat-1.11.36-mac-x64-slim.zip.blockmap",
+   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.11.36/Gryt-Chat-1.11.36-mac-x64-slim.zip.blockmap",
+   "size": 119654
   },
   {
-   "name": "Gryt-Chat-1.14.0-mac-x64-slim.zip",
-   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.14.0/Gryt-Chat-1.14.0-mac-x64-slim.zip",
-   "size": 119974442
+   "name": "Gryt-Chat-1.11.36-mac-x64.dmg",
+   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.11.36/Gryt-Chat-1.11.36-mac-x64.dmg",
+   "size": 157732775
   },
   {
-   "name": "Gryt-Chat-1.14.0-mac-x64-slim.zip.blockmap",
-   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.14.0/Gryt-Chat-1.14.0-mac-x64-slim.zip.blockmap",
-   "size": 126263
+   "name": "Gryt-Chat-1.11.36-mac-x64.dmg.blockmap",
+   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.11.36/Gryt-Chat-1.11.36-mac-x64.dmg.blockmap",
+   "size": 165578
   },
   {
-   "name": "Gryt-Chat-1.14.0-mac-x64.dmg",
-   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.14.0/Gryt-Chat-1.14.0-mac-x64.dmg",
-   "size": 164223737
+   "name": "Gryt-Chat-1.11.36-mac-x64.zip",
+   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.11.36/Gryt-Chat-1.11.36-mac-x64.zip",
+   "size": 153340953
   },
   {
-   "name": "Gryt-Chat-1.14.0-mac-x64.dmg.blockmap",
-   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.14.0/Gryt-Chat-1.14.0-mac-x64.dmg.blockmap",
-   "size": 173207
+   "name": "Gryt-Chat-1.11.36-mac-x64.zip.blockmap",
+   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.11.36/Gryt-Chat-1.11.36-mac-x64.zip.blockmap",
+   "size": 152466
   },
   {
-   "name": "Gryt-Chat-1.14.0-mac-x64.zip",
-   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.14.0/Gryt-Chat-1.14.0-mac-x64.zip",
-   "size": 159546215
+   "name": "Gryt-Chat-1.11.36-win-x64-portable.exe",
+   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.11.36/Gryt-Chat-1.11.36-win-x64-portable.exe",
+   "size": 132336630
   },
   {
-   "name": "Gryt-Chat-1.14.0-mac-x64.zip.blockmap",
-   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.14.0/Gryt-Chat-1.14.0-mac-x64.zip.blockmap",
-   "size": 160365
+   "name": "Gryt-Chat-1.11.36-win-x64-slim-portable.exe",
+   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.11.36/Gryt-Chat-1.11.36-win-x64-slim-portable.exe",
+   "size": 96474652
   },
   {
-   "name": "Gryt-Chat-1.14.0-win-x64-portable.exe",
-   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.14.0/Gryt-Chat-1.14.0-win-x64-portable.exe",
-   "size": 136650586
+   "name": "Gryt-Chat-1.11.36-win-x64-slim.exe",
+   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.11.36/Gryt-Chat-1.11.36-win-x64-slim.exe",
+   "size": 96690484
   },
   {
-   "name": "Gryt-Chat-1.14.0-win-x64-slim-portable.exe",
-   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.14.0/Gryt-Chat-1.14.0-win-x64-slim-portable.exe",
-   "size": 100939774
+   "name": "Gryt-Chat-1.11.36-win-x64-slim.exe.blockmap",
+   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.11.36/Gryt-Chat-1.11.36-win-x64-slim.exe.blockmap",
+   "size": 102225
   },
   {
-   "name": "Gryt-Chat-1.14.0-win-x64-slim.exe",
-   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.14.0/Gryt-Chat-1.14.0-win-x64-slim.exe",
-   "size": 101160202
+   "name": "Gryt-Chat-1.11.36-win-x64.exe",
+   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.11.36/Gryt-Chat-1.11.36-win-x64.exe",
+   "size": 132552467
   },
   {
-   "name": "Gryt-Chat-1.14.0-win-x64-slim.exe.blockmap",
-   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.14.0/Gryt-Chat-1.14.0-win-x64-slim.exe.blockmap",
-   "size": 106147
-  },
-  {
-   "name": "Gryt-Chat-1.14.0-win-x64.exe",
-   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.14.0/Gryt-Chat-1.14.0-win-x64.exe",
-   "size": 136871017
-  },
-  {
-   "name": "Gryt-Chat-1.14.0-win-x64.exe.blockmap",
-   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.14.0/Gryt-Chat-1.14.0-win-x64.exe.blockmap",
-   "size": 136882
+   "name": "Gryt-Chat-1.11.36-win-x64.exe.blockmap",
+   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.11.36/Gryt-Chat-1.11.36-win-x64.exe.blockmap",
+   "size": 133616
   },
   {
    "name": "latest-linux.yml",
-   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.14.0/latest-linux.yml",
-   "size": 717
+   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.11.36/latest-linux.yml",
+   "size": 722
   },
   {
    "name": "latest-mac.yml",
-   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.14.0/latest-mac.yml",
-   "size": 837
+   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.11.36/latest-mac.yml",
+   "size": 843
   },
   {
    "name": "latest.yml",
-   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.14.0/latest.yml",
-   "size": 354
+   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.11.36/latest.yml",
+   "size": 357
   },
   {
    "name": "manifest.json",
-   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.14.0/manifest.json",
-   "size": 830
+   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.11.36/manifest.json",
+   "size": 832
   },
   {
    "name": "SHA256SUMS.txt",
-   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.14.0/SHA256SUMS.txt",
-   "size": 3866
+   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.11.36/SHA256SUMS.txt",
+   "size": 3683
   },
   {
    "name": "slim-linux.yml",
-   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.14.0/slim-linux.yml",
-   "size": 735
+   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.11.36/slim-linux.yml",
+   "size": 740
   },
   {
    "name": "slim-mac.yml",
-   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.14.0/slim-mac.yml",
-   "size": 862
+   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.11.36/slim-mac.yml",
+   "size": 868
   },
   {
    "name": "slim.yml",
-   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.14.0/slim.yml",
-   "size": 364
+   "browser_download_url": "https://github.com/Gryt-chat/gryt/releases/download/v1.11.36/slim.yml",
+   "size": 366
   }
  ]
 }
