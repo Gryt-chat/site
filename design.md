@@ -246,9 +246,10 @@ contractions putting back.
 
 ## Technical blog posts are short papers
 
-Decided 2026-10-23. A post about how something was built, measured or fixed is
-written as a short paper, IMRaD, the way Sivert's master's and bachelor's theses
-are laid out. Personal posts, roundups and security advisories stay as they are.
+Decided 2026-10-23. A post that measures something, or investigates why something
+broke, is written as a short paper, IMRaD, the way Sivert's master's and bachelor's
+theses are laid out. Feature posts, personal posts, roundups and security advisories
+stay casual, even when they're technical.
 
 - **Front:** a metadata block (Title, Date, Author: Sivert Gullberg Hansen,
   Keywords), then an **Abstract**: the problem, how it was found or measured,
