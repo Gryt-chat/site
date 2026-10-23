@@ -1,6 +1,6 @@
-import { useState, useCallback, type ComponentPropsWithoutRef } from 'react'
-import { Dialog } from '@gryt/ui'
-import { MdClose } from 'react-icons/md'
+import { useRef, useState, type ComponentPropsWithoutRef } from 'react'
+import { Lightbox } from 'react-motion-lightbox'
+import 'react-motion-lightbox/styles.css'
 import styles from './Lightbox.module.css'
 
 export function LightboxImage({
@@ -8,40 +8,38 @@ export function LightboxImage({
   alt,
   ...rest
 }: ComponentPropsWithoutRef<'img'>) {
+  const thumb = useRef<HTMLImageElement>(null)
   const [open, setOpen] = useState(false)
 
-  const handleKeyDown = useCallback(
-    (e: React.KeyboardEvent) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault()
-        setOpen(true)
-      }
-    },
-    [],
-  )
-
   return (
-    <Dialog.Root open={open} onOpenChange={setOpen}>
-      <Dialog.Trigger
+    <>
+      <img
+        {...rest}
+        ref={thumb}
+        src={src}
+        alt={alt}
         className={styles.thumbnail}
-        onKeyDown={handleKeyDown}
-        render={<img alt={alt} src={src} {...rest} />}
+        role="button"
+        tabIndex={0}
+        onClick={() => setOpen(true)}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault()
+            setOpen(true)
+          }
+        }}
       />
-
-      <Dialog.Portal>
-        <Dialog.Backdrop className={styles.overlay} />
-        <Dialog.Popup className={styles.content} aria-label={alt || 'Image'}>
-          <img src={src} alt={alt} className={styles.fullImage} />
-          {alt && <p className={styles.caption}>{alt}</p>}
-          <Dialog.Close
-            aria-label="Close"
-            className={styles.close}
-            render={<button type="button" />}
-          >
-            <MdClose size={24} />
-          </Dialog.Close>
-        </Dialog.Popup>
-      </Dialog.Portal>
-    </Dialog.Root>
+      {src && (
+        <Lightbox
+          className={styles.lightbox}
+          items={[{ kind: 'image', src, alt }]}
+          index={0}
+          open={open}
+          onClose={() => setOpen(false)}
+          origin={() => thumb.current}
+          caption={(item) => item.alt}
+        />
+      )}
+    </>
   )
 }
