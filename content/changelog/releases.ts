@@ -3806,6 +3806,18 @@ export const app: ReleaseLine[] = [
  */
 export const server: ReleaseLine[] = [
   {
+    version: "1.12.1",
+    date: "2026-10-23",
+    line: "Link previews refuse Brotli, so Node's October Brotli bug can't reach a server hosted from the desktop app.",
+    changes: [
+      {
+        kind: "security",
+        area: "self-hosting",
+        text: "When it fetches a link preview, a picture or webhook media, the server only accepts gzip or deflate and refuses a Brotli body. Node's October security release fixed a way to run code through Brotli decompression, and a server hosted from the desktop app runs on Electron's Node, which doesn't have that fix yet.",
+      },
+    ],
+  },
+  {
     version: "1.12.0",
     date: "2026-10-23",
     line: "The October Node.js security fixes, plus search, friends-only direct messages and link preview pictures from your server.",
