@@ -174,6 +174,19 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.15.0-beta.6",
+    date: "2026-10-23",
+    channel: "beta",
+    line: "Beta: a device of yours gets into an encrypted DM by itself, even with your other devices closed.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A device that isn't in one of your encrypted DMs yet now joins it by itself, using what your other devices left on the server for that. Before, it had to wait until you or the other person opened Gryt on a device that was already in. It only asks to be added if it can't join this way.",
+      },
+    ],
+  },
+  {
     version: "1.15.0-beta.5",
     date: "2026-10-23",
     channel: "beta",
