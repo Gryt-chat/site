@@ -174,6 +174,44 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.15.0-beta.1",
+    date: "2026-10-23",
+    channel: "beta",
+    line: "Beta: formatting shows in the message box as you type, and Gryt asks before you ping everyone.",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "Bold, italics, headings, lists, quotes and code look the way they'll be sent while you're still typing them. Select some text and a format bar comes up with a button for each, plus links.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "Before a message with @everyone or @here goes out, Gryt tells you how many people it'll notify and waits for you to confirm.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "Web and email addresses turn into links as you type them.",
+      },
+      {
+        kind: "new",
+        area: "voice",
+        text: "With the experimental voice connection on, Advanced settings has a voice quality slider from 96 to 192 kbps. Turn it down on phone data or weak Wi-Fi.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "The buttons for reacting and replying sit above a message again, so they don't cover its text or links. They only show while you're pointing at the message.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "In a message with several pictures, the ones peeking in at the sides stay filled while a picture slides across.",
+      },
+    ],
+  },
+  {
     version: "1.14.0",
     date: "2026-10-23",
     line: "Direct messages get their own space, and Ctrl+K searches your messages and files.",
