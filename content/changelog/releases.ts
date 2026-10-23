@@ -5604,6 +5604,11 @@ export const server: ReleaseLine[] = [
  */
 export const voice: ReleaseLine[] = [
   {
+    version: "1.0.76",
+    date: "2026-10-23",
+    line: "The voice server can offer Gryt's experimental new voice connection, which skips WebRTC for voice. Apps with it switched on use it, over UDP or over a WebSocket when UDP doesn't get through, and everyone else stays on WebRTC. If you host your own, it needs ICE_ADVERTISE_IP, and UDP 4433 open for the fast path; with the port closed it uses the WebSocket. AUDIO_TRANSPORT_PORT changes the port, and 0 turns it off.",
+  },
+  {
     version: "1.0.75",
     date: "2026-09-29",
     line: "A screen share that started while your upload was fast and then slowed down could stay frozen for good. The SFU was throwing away resent video packets as if they were replays. It keeps them now, so the share recovers.",
