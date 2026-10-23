@@ -174,6 +174,24 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.15.0-beta.2",
+    date: "2026-10-23",
+    channel: "beta",
+    line: "Beta: the experimental voice connection stops sending your voice twice when everyone in the call is on it.",
+    changes: [
+      {
+        kind: "changed",
+        area: "voice",
+        text: "On the experimental voice connection, your voice also went out over WebRTC so people without it could hear you. Now that copy only goes while someone in the call needs it, so your voice goes up once instead of twice. It needs a server on 1.12.2-beta.1 or newer.",
+      },
+      {
+        kind: "changed",
+        area: "voice",
+        text: "A channel's max bitrate now caps the experimental voice connection too. You send whichever is lower, your voice quality setting or the channel's limit, but never below 96 kbps.",
+      },
+    ],
+  },
+  {
     version: "1.15.0-beta.1",
     date: "2026-10-23",
     channel: "beta",
