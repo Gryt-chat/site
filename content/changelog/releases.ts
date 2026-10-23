@@ -109,6 +109,14 @@ export interface SecurityNotice {
 /** Newest first. emit-changelog-json.mjs checks each one, and a bad one fails the build. */
 export const securityNotices: SecurityNotice[] = [
   {
+    id: "gryt-server-1.12.1-node-brotli",
+    surface: "server",
+    fixedIn: "1.12.1",
+    title: "Link previews could hand the server a hostile Brotli body",
+    url: "https://gryt.chat/blog/security-update-gryt-server-1-12-1",
+    published: "2026-10-23",
+  },
+  {
     id: "gryt-server-1.10.19-voice-join",
     surface: "server",
     fixedIn: "1.10.19",

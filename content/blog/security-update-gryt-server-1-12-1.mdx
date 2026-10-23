@@ -1,0 +1,51 @@
+---
+title: "Security Update: Node.js and Gryt Server 1.12.1"
+description: Node's October security release fixed a way to run code through Brotli. How it reaches a Gryt server, and how to update yours.
+author: Sivert
+date: 2026-10-23
+image: /blog/art-security-1-10-19.webp
+tags:
+  - security
+  - releases
+---
+
+On 21 October, Node.js put out a security release with ten fixes. The worst one is in Brotli decompression: a crafted Brotli stream could make Node run code it was never given. The fixed versions are Node 22.23.4 and 24.22.1.
+
+Gryt's server runs on Node, so this one is ours too. If you run a Gryt server, please update it.
+
+## How it reaches a Gryt server
+
+A Gryt server decompresses something a stranger controls in one place. When somebody posts a link, the server fetches the page to build a preview, and the same goes for oEmbed players, preview pictures and the pictures webhooks send. Whoever runs the linked site picks how its answer is compressed, and before 1.12.1 the server would decode Brotli if the site sent it.
+
+So anybody who could post a link on your server could point it at a site of their own that sends a hostile Brotli body. Requests sent to the server itself aren't affected. It refuses compressed request bodies other than gzip and deflate, and always has.
+
+I don't know of anyone using this against a Gryt server.
+
+## What changed
+
+- The Docker images run on Node 22.23.4. That's server 1.12.0, media worker 1.5.1, and the reports and push services.
+- Server 1.12.1 only accepts gzip or deflate when it fetches a link preview, and refuses a Brotli body even when a site sends one anyway. A site that serves nothing but Brotli gets no preview.
+- App 1.14.0 hosts server 1.12.1. A server hosted from the desktop app runs on the Node that comes inside Electron, and no Electron release has the Brotli fix yet. Refusing Brotli keeps the bug out of reach until it does, and the app will move to a fixed Electron once there is one.
+
+## Who needs to update
+
+- **Docker**, with Docker Compose or the `gryt` CLI: pull the new image. 1.12.0 already has the fixed Node, and 1.12.1 adds the Brotli refusal.
+- **The self-hosted Windows and Linux bundles** run on the Node you installed yourself. Update Node to 22.23.4 or later, from [nodejs.org](https://nodejs.org/), and update the bundle to 1.12.1 from [the release page](https://github.com/Gryt-chat/server/releases/tag/v1.12.1).
+- **A server hosted from the desktop app**: update the app to 1.14.0. It [updates itself](https://docs.gryt.chat/docs/use/updates), so quit and reopen Gryt once it says the update is ready.
+
+If you only join servers other people run, there's nothing to do.
+
+The docs have the steps for each way of running a server: [Docker Compose](https://docs.gryt.chat/docs/host/docker-compose#upgrading), [Windows](https://docs.gryt.chat/docs/host/windows#updating) (Linux works the same way) and [Pelican](https://docs.gryt.chat/docs/host/pelican#updating-and-backups). The `gryt` CLI still doesn't pull a new image when it restarts a server, so pull it yourself first, the way [the 1.10.15 post](/blog/security-update-gryt-server-1-10-15) describes.
+
+## Checking which version you're on
+
+- Docker: `docker compose exec server node -v` should print `v22.23.4` or later, and `docker compose exec server printenv SERVER_VERSION` should print `1.12.1`.
+- A bundle: `node --version` should say `v22.23.4` or later.
+- In the app: open **Server settings**. The version is under the list of pages.
+- The desktop app: **Settings → About → Updates** should say 1.14.0 or later.
+
+Owners and admins of a server older than 1.12.1 also get a notice in the app now, with a link here.
+
+## Reporting a security problem
+
+Email [sivert@gryt.chat](mailto:sivert@gryt.chat) rather than opening a public issue. [The security page](/security) says what's in scope and what happens after you report something.
