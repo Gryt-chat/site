@@ -42,8 +42,8 @@ export function Footer() {
       <div className={styles.signoff}>
         <GrytLogo size={44} />
         <p className={styles.line}>
-          Made by one person, in the open, since 2022. Every part of it is a
-          repo you can go and read, and it always will be.
+          Made by one person since 2021, and in the open since 2022. Every part
+          of it is a repo you can go and read, and it always will be.
         </p>
         <div className={styles.actions}>
           <Button render={<a href="https://app.gryt.chat" />} size="large">
