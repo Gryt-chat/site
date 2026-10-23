@@ -15,14 +15,14 @@ const OUT_DIR = join(__dirname, "..", "public", "home");
 
 const args = process.argv.slice(2);
 const [source, name] = args;
-const flag = (n, d) => {
+const flag = <D,>(n: string, d: D): string | D => {
   const i = args.indexOf(`--${n}`);
   return i === -1 ? d : args[i + 1];
 };
 
 if (!source || !name) {
   console.error(
-    "usage: node scripts/encode-clips.mjs <source> <name> [--width 1440] " +
+    "usage: node scripts/encode-clips.ts <source> <name> [--width 1440] " +
       "[--fps 30] [--av1-crf 34] [--h264-crf 20] [--start 0] [--duration n] " +
       "[--poster-at n]",
   );
@@ -55,7 +55,7 @@ mkdirSync(OUT_DIR, { recursive: true });
  */
 const scale = `scale='min(${width},iw)':-2:flags=lanczos`;
 
-const ff = (label, out, extra, seek = trim) => {
+const ff = (label: string, out: string, extra: string[], seek = trim) => {
   const target = join(OUT_DIR, out);
   process.stdout.write(`  ${label} -> public/home/${out} `);
   execFileSync("ffmpeg", ["-y", ...seek, "-i", source, "-vf", scale, ...extra, target], {

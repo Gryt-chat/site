@@ -1,12 +1,12 @@
 import sharp from "sharp";
-import { join, dirname, basename, relative } from "path";
+import { join, dirname, relative } from "path";
 import { fileURLToPath } from "url";
 import { readdir, stat } from "fs/promises";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const publicDir = join(__dirname, "..", "public");
 
-// The front page hero is a clip now — `client-live.*` from `scripts/encode-clips.mjs` — and
+// The front page hero is a clip now — `client-live.*` from `scripts/encode-clips.ts` — and
 // `Clip` carries its own poster, so there is nothing left for this step to resize.
 
 const previewSrc = join(publicDir, "preview.png");
@@ -25,7 +25,7 @@ console.log(
   `  preview-sm.webp  ${sm.width}x${sm.height}  ${(sm.size / 1024).toFixed(1)} KB`,
 );
 
-async function findPngs(dir) {
+async function findPngs(dir: string): Promise<string[]> {
   const entries = await readdir(dir, { withFileTypes: true });
   const files = [];
   for (const entry of entries) {

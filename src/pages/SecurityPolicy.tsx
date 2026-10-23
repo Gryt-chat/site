@@ -1,6 +1,6 @@
 import { PageHeader } from "../components/PageHeader";
 import { monthDayYear } from "../lib/formatDate";
-import { lastUpdated } from "../lib/pages.mjs";
+import { lastUpdated } from "../lib/pages";
 import styles from "../styles/document.module.css";
 
 const LAST_UPDATED = monthDayYear(lastUpdated("security"));

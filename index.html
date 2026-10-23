@@ -8,7 +8,7 @@
     <meta name="keywords" content="voice chat, WebRTC, self-hosted, open source, real-time communication, video chat, text chat" />
 
     <!-- Open Graph. og-image.png?v=2 must match OG_IMAGE_VERSION in -->
-    <!-- src/lib/pages.mjs, bumped so Discord refetches a changed card. -->
+    <!-- src/lib/pages.ts, bumped so Discord refetches a changed card. -->
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Gryt | Voice, Text & Video Chat" />
     <meta property="og:description" content="Gryt is open-source voice, video and text chat. Download the app and you can make your own server right from it. Build your client." />
@@ -25,6 +25,31 @@
     <meta name="twitter:title" content="Gryt | Voice, Text & Video Chat" />
     <meta name="twitter:description" content="Open-source voice, video and text chat. The app you download can host your server too." />
     <meta name="twitter:image" content="https://gryt.chat/og-image.png?v=2" />
+
+    <!-- For search engines and AI answers, which read this rather than guess Gryt's age from its press. -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Gryt",
+        "alternateName": "Gryt Chat",
+        "url": "https://gryt.chat",
+        "description": "Open-source voice, video and text chat you can host yourself. A Discord alternative, in development since May 2022.",
+        "applicationCategory": "CommunicationApplication",
+        "operatingSystem": "Windows, macOS, Linux, Web",
+        "dateCreated": "2022-05",
+        "license": "https://www.gnu.org/licenses/agpl-3.0.html",
+        "isAccessibleForFree": true,
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+        "author": { "@type": "Person", "name": "Sivert Gullberg Hansen", "url": "https://gullberg.no" },
+        "sameAs": [
+          "https://github.com/Gryt-chat/gryt",
+          "https://apps.microsoft.com/detail/9pkpt1c2m95q",
+          "https://snapcraft.io/gryt-chat",
+          "https://docs.gryt.chat"
+        ]
+      }
+    </script>
 
     <link rel="icon" type="image/svg+xml" href="/logo.svg" />
 

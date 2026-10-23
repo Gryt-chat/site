@@ -83,6 +83,9 @@ export interface ReleaseLine {
   changes?: Change[];
   /** Slug of the blog post telling this release's story, where there is one. */
   post?: string;
+  /** A picture for the app's What's new, under public/. Defaults to the post's image. The modal
+      is about 414px wide, so crop to the one feature rather than a whole window. */
+  image?: string;
 }
 
 /**
@@ -162,6 +165,423 @@ export const securityNotices: SecurityNotice[] = [
  * releases list comes back in.
  */
 export const app: ReleaseLine[] = [
+  {
+    version: "1.14.0-beta.17",
+    date: "2026-10-21",
+    channel: "beta",
+    line: "Beta: swipe down to close the picture viewer.",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "Swipe a picture down to close the viewer, the way you would on a phone. Its buttons and keys also wait until a picture has finished opening or closing.",
+      },
+    ],
+  },
+  {
+    version: "1.14.0-beta.16",
+    date: "2026-10-21",
+    channel: "beta",
+    line: "Beta: a picture in a message gallery opens out of the message into the viewer.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "Pictures in a message gallery now fill their box, and clicking one opens the viewer out of exactly what you clicked. Before, a picture of a different shape sat between empty bands and the viewer seemed to appear from nowhere.",
+      },
+    ],
+  },
+  {
+    version: "1.14.0-beta.15",
+    date: "2026-10-21",
+    channel: "beta",
+    line: "Beta: several pictures in a message show one at a time, and each channel keeps what you were typing.",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "Two or more pictures in a message now sit in a small gallery instead of a grid. Swipe or use the arrows to move through them, and click one to open it full size.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "Each channel and DM keeps its own unsent message, pictures included. Switch away and it's still there when you come back. Channel drafts also survive closing the app.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "The picture viewer is new. It opens out of the picture you clicked, and you can swipe, zoom with the wheel or two fingers, and copy or save with the buttons at the top.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "Link previews now show their picture and site icon even with automatic link embeds turned off. Your server fetches them, so the linked site never sees your IP address. This needs a server on 1.12.0-beta.7 or newer.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "Your name and picture follow the first server in your sidebar, so every server you join starts out with the same profile.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "A line break in a message leaves a small gap, so short lines don't run together.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "Typing @ no longer shows a broken image for someone whose picture won't load. You see their owl instead.",
+      },
+      {
+        kind: "fixed",
+        area: "servers",
+        text: "The question about whether you used to be a guest on a server only comes up after you've actually joined as one.",
+      },
+    ],
+  },
+  {
+    version: "1.14.0-beta.14",
+    date: "2026-10-21",
+    channel: "beta",
+    line: "Beta: on a Mac, voice runs on the phone's engine, and calls show measured round trips.",
+    changes: [
+      {
+        kind: "new",
+        area: "voice",
+        text: "On a Mac, voice now runs in a small program of its own, on the same engine as the phone, instead of inside the app's browser engine. Your audio skips Chromium completely, and Mac speakers get Apple's echo cancellation. Windows and Linux still use the browser path for now.",
+      },
+      {
+        kind: "new",
+        area: "voice",
+        text: "On the new voice connection, each person's tile shows the round trip to them through the server, measured by a tiny ping inside the voice stream. Hover it to see how much of their audio is waiting to play on your side.",
+      },
+      {
+        kind: "changed",
+        area: "voice",
+        text: "Beta now defaults to the Low latency voice preset, with noise reduction, the compressor and the gate off. If you've never changed those settings, that includes you. Pick Best quality in Sound & video if background noise gets through.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "The profile menu shows which account you're signed in with, and has Use another account. It signs you out and asks for a login, even when your browser is still signed in.",
+      },
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "Settings search finds things by the words people actually type, like keycloak, ptt or dark mode, and copes with small typos.",
+      },
+    ],
+  },
+  {
+    version: "1.14.0-beta.13",
+    date: "2026-10-20",
+    channel: "beta",
+    line: "Beta: the new voice connection works where WebTransport doesn't.",
+    changes: [
+      {
+        kind: "new",
+        area: "voice",
+        text: "If your browser doesn't have WebTransport, or your network blocks the UDP it needs, voice now goes over a normal web connection to the server instead of falling back to WebRTC. It can add a little delay on a bad network, but you stay on the same voice as everyone else.",
+      },
+    ],
+  },
+  {
+    version: "1.14.0-beta.12",
+    date: "2026-10-20",
+    channel: "beta",
+    line: "Beta: voice goes over Gryt's own connection instead of WebRTC, and gets there sooner.",
+    changes: [
+      {
+        kind: "new",
+        area: "voice",
+        text: "When the server supports it, your voice now travels over Gryt's own voice connection instead of WebRTC. In our tests it reached the other person 20 to 30 ms sooner, and it sounds clearer: 192 kbps, or 256 in stereo when your mic really is stereo. It's experimental. Where the server doesn't offer it, the call stays on WebRTC like before.",
+      },
+      {
+        kind: "new",
+        area: "voice",
+        text: "People still on WebRTC keep hearing you, and you keep hearing them.",
+      },
+      {
+        kind: "fixed",
+        area: "voice",
+        text: "People on the new connection get the speaking ring and the glow behind their picture, and the volume you set for someone applies to them too.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "Settings › Audio starts with a voice preset: Best quality, Low latency or eSports, each with what it costs in delay. The compressor, auto gain, the limiter and the volume slider say what they cost too.",
+      },
+    ],
+  },
+  {
+    version: "1.14.0-beta.11",
+    date: "2026-10-20",
+    channel: "beta",
+    line: "Beta: with every voice effect off, your voice skips the audio processing entirely.",
+    changes: [
+      {
+        kind: "changed",
+        area: "voice",
+        text: "If noise suppression, auto gain and the compressor are off, the gate is at 0 or you use push-to-talk, and mic volume is at 100%, your microphone goes out as it is. That's about 15 ms quicker. Turn any of them back on and they work as before.",
+      },
+    ],
+  },
+  {
+    version: "1.14.0-beta.10",
+    date: "2026-10-20",
+    channel: "beta",
+    line: "Beta: voice no longer gets slower after a reconnect.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "voice",
+        text: "After a reconnect, from a server restart, a network blip or a laptop waking up, your voice reached everyone 5 to 40 ms later than before, and stayed that way until you left the call. Each connection now starts fresh.",
+      },
+    ],
+  },
+  {
+    version: "1.14.0-beta.9",
+    date: "2026-10-20",
+    channel: "beta",
+    line: "Beta: eSports mode gets about 30 ms quicker.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "voice",
+        text: "eSports mode said it turned off all audio processing, but the compressor, limiter and clipper kept running and added about 20 ms. They're off now.",
+      },
+      {
+        kind: "fixed",
+        area: "voice",
+        text: "eSports mode now sends voice in 10 ms pieces instead of 20, as it was meant to. That's about 9 ms less delay, for a bit more bandwidth.",
+      },
+    ],
+  },
+  {
+    version: "1.14.0-beta.8",
+    date: "2026-10-19",
+    channel: "beta",
+    line: "Beta: only friends can start a direct message with you, and pickers skip people who'd say no.",
+    changes: [
+      {
+        kind: "changed",
+        area: "settings",
+        text: "Who can send you messages is Friends by default now, like calls. Until you have a friend on a server, anyone you've written to one-to-one there still counts. If you already picked something in Settings › Privacy, it stays.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "New message and a group's Add people leave out anyone who wouldn't take a direct message from you, so you don't find out after picking them. It needs the server on 1.12.0-beta.4 or newer.",
+      },
+    ],
+  },
+  {
+    version: "1.14.0-beta.7",
+    date: "2026-10-16",
+    channel: "beta",
+    line: "Beta: server admin in one place, Settings in three groups, and new icons.",
+    changes: [
+      {
+        kind: "changed",
+        area: "servers",
+        text: "Server settings has everything for running a server: its pages sit under General, People, Channels, Moderation, Integrations and Hosting. Reports moved in from their own window, and a server this app runs gets a Hosting page with its start, stop and address controls. The server menu shows the waiting reports on Server settings.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "Settings is grouped under You, App and Servers, and Profile opens on your name and picture again.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "Channels have a search button in their header, like direct messages. It starts in that channel, and removing the chip searches the whole server.",
+      },
+      {
+        kind: "new",
+        area: "notifications",
+        text: "The server menu has the same Notifications choices as a server's right-click, and Settings › Notifications lists every channel and folder you've set differently.",
+      },
+      {
+        kind: "changed",
+        area: "servers",
+        text: "Hide channels sits next to Hide members in a channel's ⋯ menu, \"What this server runs\" is called Plugins, and a new folder asks for its name before it's made.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "New icons: a teardrop for chats and direct messages, its own icon for pinned messages, and a dozen others. Leaving a voice channel looks like leaving, and only a call shows a phone to hang up.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "Every message fades in as it arrives, your own included, and yours no longer dims while it sends.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A direct message to somebody whose key changed failed with \"Their keys couldn't be checked\". You're now told their key changed, and asked to check it on their card before sending.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "Pinned messages no longer says Loading… forever on a server that doesn't answer.",
+      },
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "Addons load from manifest.json, as the docs and examples say. They only loaded from addon.json before, which still works.",
+      },
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "Dialogs, tooltips and menus keep clear of the desktop title bar, and text on purple buttons is dark enough to read.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "You can take the welcome tour again from Settings › About, and it ends on our official server.",
+      },
+    ],
+  },
+  {
+    version: "1.14.0-beta.6",
+    date: "2026-10-15",
+    channel: "beta",
+    line: "Beta: your devices have names, and the Microsoft Store version says when there's an update.",
+    changes: [
+      {
+        kind: "changed",
+        area: "settings",
+        text: "A new device names itself, like \"Gryt beta on Windows PC\" or \"Chrome on macOS\", and on a server running 1.12.0-beta.3 or newer the others show their names too. One install on three servers is one \"New device linked\", not three.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "Each device says when it was last used, and \"Remove devices not used in 30 days\" clears out old ones on every server at once.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "The Microsoft Store version tells you when an update is out, with a button that opens Gryt in the Store. The Store can take a day or two to have it.",
+      },
+    ],
+  },
+  {
+    version: "1.14.0-beta.5",
+    date: "2026-10-15",
+    channel: "beta",
+    line: "Beta: search finds messages in every conversation you've read, not only the newest kind of direct message.",
+    image: "/whats-new/dm-space.webp",
+    changes: [
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "Search in Messages found nothing in groups, or in a direct message that isn't on the newest encryption yet. It now finds what this device has opened there, kept encrypted on the device.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A message deleted while Gryt was closed leaves search and the list's preview the next time you open its conversation.",
+      },
+    ],
+  },
+  {
+    version: "1.14.0-beta.4",
+    date: "2026-10-15",
+    channel: "beta",
+    line: "Beta: What's new lays out its list properly again, and the hide buttons in Messages work.",
+    image: "/whats-new/dm-space.webp",
+    changes: [
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "In beta.3 every change in What's new sat in a tall box of its own. They're plain rows again.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "The button beside Messages hides the list straight away, even with the pointer still on it. Hide channels in a server does too.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "The panel beside a conversation slides shut and open instead of vanishing, and Hide conversation asks first.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "A message you open from search, a pin or a reply keeps a steady outline for five seconds instead of flashing. Opening the next one moves it.",
+      },
+      {
+        kind: "fixed",
+        area: "voice",
+        text: "In a call with someone, your chat with them stays open beside the call. The info panel steps aside while the call lasts.",
+      },
+      {
+        kind: "changed",
+        area: "voice",
+        text: "Open another conversation during a call and the call moves to the green button in the rail. Open its conversation again to bring it back.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "Leave group asks first, and Pinned only shows in a conversation that has pins.",
+      },
+    ],
+  },
+  {
+    version: "1.14.0-beta.3",
+    date: "2026-10-15",
+    channel: "beta",
+    line: "Beta: What's new shows a picture of what a release changed.",
+    image: "/whats-new/dm-space.webp",
+    changes: [
+      {
+        kind: "new",
+        area: "settings",
+        text: "When a release has a picture, What's new shows it under the greeting. Click it to read the blog post, if the release has one.",
+      },
+    ],
+  },
+  {
+    version: "1.14.0-beta.2",
+    date: "2026-10-15",
+    channel: "beta",
+    line: "Beta: direct messages get their own space, redrawn from top to bottom.",
+    image: "/whats-new/dm-space.webp",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "Messages sits above your servers and holds every conversation from every server in one list, newest first. Pin the people you talk to most and drag them into order. Pins stay on this device.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "The panel beside a conversation shows the person's own card, with what's pinned and shared underneath. Groups show their members there, and New message and New group share one dialog.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "A message that went out unencrypted gets a small red dot. Click Not encrypted in the header to see why and what you can do, ask them to update, or stop marking messages in that conversation.",
+      },
+      {
+        kind: "security",
+        area: "chat",
+        text: "When someone's key changes, their card shows the new code. Compare it with them somewhere other than Gryt, and if it matches, trust it and the conversation is encrypted again.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "When someone adds a person to a group, everyone in it sees who added whom, and what the new person can read from before. It needs the server on 1.12.0-beta.2 or newer.",
+      },
+      {
+        kind: "changed",
+        area: "servers",
+        text: "A server that can't be reached keeps its header and says Can't reach it, with Try now and Check the connection. It opens anyway, and short drops no longer pop up a message each time.",
+      },
+    ],
+  },
   {
     version: "1.14.0-beta.1",
     date: "2026-10-14",
@@ -3386,6 +3806,130 @@ export const app: ReleaseLine[] = [
  */
 export const server: ReleaseLine[] = [
   {
+    version: "1.12.1",
+    date: "2026-10-23",
+    line: "Link previews refuse Brotli, so Node's October Brotli bug can't reach a server hosted from the desktop app.",
+    changes: [
+      {
+        kind: "security",
+        area: "self-hosting",
+        text: "When it fetches a link preview, a picture or webhook media, the server only accepts gzip or deflate and refuses a Brotli body. Node's October security release fixed a way to run code through Brotli decompression, and a server hosted from the desktop app runs on Electron's Node, which doesn't have that fix yet.",
+      },
+    ],
+  },
+  {
+    version: "1.12.0",
+    date: "2026-10-23",
+    line: "The October Node.js security fixes, plus search, friends-only direct messages and link preview pictures from your server.",
+    changes: [
+      {
+        kind: "security",
+        area: "self-hosting",
+        text: "The Docker image runs on Node.js 22.23.4, which fixes the ten issues in Node's October security release, one of them a way to run code on the server through Brotli decompression. Pull the new image and restart.",
+      },
+      {
+        kind: "new",
+        text: "The server can search the messages in every text channel you can read, with or without accents, so skal finds skål. It also searches file names, and narrows results by who sent them, the channel, the date, or whether they have a picture, a link or a file.",
+      },
+      {
+        kind: "changed",
+        area: "self-hosting",
+        text: "The first start after updating builds a search index over every message once, so a big server takes a little longer to come up that one time.",
+      },
+      {
+        kind: "changed",
+        text: "Who can start a direct message with you is Friends by default now, like calls. Until you have a friend on a server, anyone you've written to one-to-one there still counts. If you already picked something in Settings › Privacy, it stays.",
+      },
+      {
+        kind: "new",
+        text: "The server fetches a link preview's picture and the site's icon itself and hands them to the app, so the linked site only ever sees the server.",
+      },
+      {
+        kind: "new",
+        text: "Adding someone to a group posts a line everyone in it can see, naming who added whom.",
+      },
+      {
+        kind: "changed",
+        text: "A message can carry up to 50 files, up from 10. Each file still has its own size limit.",
+      },
+      {
+        kind: "fixed",
+        text: "A HEIC photo from an iPhone is refused with \"HEIC photos aren't supported yet. Send it as a JPEG or PNG.\" instead of being called corrupt.",
+      },
+      {
+        kind: "fixed",
+        text: "Coming back to the phone app could show \"You do not have permission to read this channel\" when you had it. The server now tells the app to try again a moment later.",
+      },
+    ],
+  },
+  {
+    version: "1.12.0-beta.8",
+    date: "2026-10-21",
+    channel: "beta",
+    line: "Beta: a message can carry 50 files, and an iPhone photo gets a clear answer.",
+    changes: [
+      {
+        kind: "changed",
+        area: "chat",
+        text: "A message can carry up to 50 files, up from 10. Each file still has its own size limit.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A HEIC photo from an iPhone is refused with \"HEIC photos aren't supported yet. Send it as a JPEG or PNG.\" instead of being called corrupt. The phone app now sends library photos as JPEG anyway.",
+      },
+      {
+        kind: "fixed",
+        area: "phone",
+        text: "Coming back to the phone app could show \"You do not have permission to read this channel\" when you had it. The server now tells the app to try again a moment later, and the app does.",
+      },
+    ],
+  },
+  {
+    version: "1.12.0-beta.7",
+    date: "2026-10-21",
+    channel: "beta",
+    line: "Beta: link previews get their picture and icon from your server.",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "The server now fetches a link preview's picture and the site's icon itself and hands them to the app. The linked site only ever sees the server, so the app shows them without asking, and nobody can collect your IP address by posting a link to a site they run. Players like YouTube and Spotify still load from their own sites, behind Load link embeds automatically.",
+      },
+    ],
+  },
+  {
+    version: "1.12.0-beta.4",
+    date: "2026-10-19",
+    channel: "beta",
+    line: "Beta: only friends can start a direct message with you, unless you change it.",
+    changes: [
+      {
+        kind: "changed",
+        area: "chat",
+        text: "Who can start a direct message with you is Friends by default now, like calls. Until you have a friend on a server, anyone you've written to one-to-one there still counts. If you already picked something in Settings › Privacy, it stays. An app from before this sends its own old default, so it lets anyone through until it updates.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "The server tells the app who'd take a new direct message or group add from you, so it can leave everybody else out of the list when you pick people.",
+      },
+    ],
+  },
+  {
+    version: "1.12.0-beta.2",
+    date: "2026-10-15",
+    channel: "beta",
+    line: "Beta: a group says who added whom.",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "Adding someone to a group posts a line everyone in it can see, naming who added whom.",
+      },
+    ],
+  },
+  {
     version: "1.12.0-beta.1",
     date: "2026-10-14",
     channel: "beta",
@@ -5056,6 +5600,18 @@ export const voice: ReleaseLine[] = [
  * dependency bump gets a line here and would not elsewhere.
  */
 export const images: ReleaseLine[] = [
+  {
+    version: "1.5.1",
+    date: "2026-10-23",
+    line: "The media worker runs on Node.js 22.23.4, with the October security fixes.",
+    changes: [
+      {
+        kind: "security",
+        area: "self-hosting",
+        text: "The Docker image runs on Node.js 22.23.4, which fixes the ten issues in Node's October security release. Pull the new image and restart.",
+      },
+    ],
+  },
   {
     version: "1.5.0",
     date: "2026-10-13",

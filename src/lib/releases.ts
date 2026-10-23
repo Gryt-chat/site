@@ -222,7 +222,7 @@ function isUsableRelease(value: unknown): value is Release {
   );
 }
 
-/** Baked in at build time by scripts/fetch-latest-release.mjs, not fetched by the browser.
+/** Baked in at build time by scripts/fetch-latest-release.ts, not fetched by the browser.
  * Still async and still takes a signal, so none of its three callers needed to change. */
 export function fetchLatestRelease(signal?: AbortSignal): Promise<Release> {
   return new Promise<Release>((resolve, reject) => {

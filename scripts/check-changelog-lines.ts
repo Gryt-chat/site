@@ -59,7 +59,7 @@ if (!existsSync(CACHE)) {
 }
 
 /** Published releases per surface, newest first, as {tag, date, prerelease}. */
-const published = JSON.parse(readFileSync(CACHE, "utf8"));
+const published: Record<string, { tag: string; date: string; prerelease: boolean }[]> = JSON.parse(readFileSync(CACHE, "utf8"));
 
 if (Array.isArray(published)) {
   console.log(`${CACHE} only holds the app — run \`yarn fetch:releases\` again. Skipping.`);
@@ -76,7 +76,7 @@ assert.deepEqual(
   "the surfaces in the source and in the cache are not the same set",
 );
 
-const entries = [];
+const entries: { surface: string; version: string; date: string }[] = [];
 for (const [, surface, body] of surfaces) {
   for (const m of body.matchAll(/version: "([^"]+)",\s*\n\s*date: "([^"]+)"/g)) {
     entries.push({ surface, version: m[1], date: m[2] });
@@ -91,9 +91,12 @@ const byVersion = new Map(
   ]),
 );
 
+/** The published release a line names, if there is one. */
+const releasedAs = (e: { surface: string; version: string }) => byVersion.get(e.surface)?.get(e.version);
+
 /** 1.2.3 and 1.2.3-beta.4, low to high, with a release above its own betas. */
-function compare(a, b) {
-  const parse = (v) => {
+function compare(a: string, b: string): number {
+  const parse = (v: string) => {
     const [core, pre] = v.split("-");
     return {
       nums: core.split(".").map(Number),
@@ -134,20 +137,20 @@ const newest = new Map(
 
 /* Above everything published means the release has not happened yet, which is
    the normal order now: a release refuses to start without a line (GRYT-1107). */
-function ahead(entry) {
+function ahead(entry: { surface: string; version: string }) {
   const top = newest.get(entry.surface);
-  return top === null || compare(entry.version, top) > 0;
+  return top == null || compare(entry.version, top) > 0;
 }
 
 const DAY = 24 * 60 * 60 * 1000;
-const stale = (entry) => Date.now() - Date.parse(`${entry.date}T00:00:00Z`) > 2 * DAY;
+const stale = (entry: { date: string }) => Date.now() - Date.parse(`${entry.date}T00:00:00Z`) > 2 * DAY;
 
 /* ── every line names a release that happened, or one about to ───────────── */
 
-const pending = entries.filter((e) => !byVersion.get(e.surface).has(e.version) && ahead(e));
+const pending = entries.filter((e) => !releasedAs(e) && ahead(e));
 
 const invented = entries
-  .filter((e) => !byVersion.get(e.surface).has(e.version) && !ahead(e))
+  .filter((e) => !releasedAs(e) && !ahead(e))
   .map((e) => `${e.surface} ${e.version}`);
 
 assert.deepEqual(invented, [], "lines naming a version that was never released");
@@ -163,8 +166,8 @@ assert.deepEqual(abandoned, [], "lines written ahead of a release that never hap
 /* ── every date is the release's own ─────────────────────────────────────── */
 
 const wrong = entries
-  .filter((e) => byVersion.get(e.surface).has(e.version))
-  .map((e) => ({ ...e, released: byVersion.get(e.surface).get(e.version).date.slice(0, 10) }))
+  .filter((e) => releasedAs(e))
+  .map((e) => ({ ...e, released: releasedAs(e)?.date.slice(0, 10) }))
   .filter((e) => e.released !== e.date)
   .map((e) => `${e.surface} ${e.version}: line says ${e.date}, released ${e.released}`);
 

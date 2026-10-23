@@ -164,7 +164,7 @@ RUN printf '%s\n' \
   '    # rather than a re-download.' \
   '    #' \
   '    # Every real route is prerendered into a directory by' \
-  '    # scripts/prerender-blog.mjs, so a path that does not resolve is a path' \
+  '    # scripts/prerender-blog.ts, so a path that does not resolve is a path' \
   '    # that does not exist. Falling back to /index.html instead meant any' \
   '    # typo answered 200 with the front page metadata: a soft 404, indexed by' \
   '    # crawlers as a duplicate of the home page.' \

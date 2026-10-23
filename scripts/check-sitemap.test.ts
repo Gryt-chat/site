@@ -3,13 +3,13 @@ import assert from "node:assert/strict";
 import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { sitemapProblems } from "./check-sitemap.mjs";
+import { sitemapProblems } from "./check-sitemap.ts";
 
-const canonical = (url) => `<head><link rel="canonical" href="${url}" /></head>`;
+const canonical = (url: string) => `<head><link rel="canonical" href="${url}" /></head>`;
 const noindex = '<head><meta name="robots" content="noindex" /></head>';
 
 /** A small dist: two pages, an alias of one, a noindex page, a sitemap and robots.txt. */
-function site({ pages = {}, locs, robots } = {}) {
+function site({ pages = {}, locs, robots }: { pages?: Record<string, string>; locs?: string[]; robots?: string } = {}) {
   const dir = mkdtempSync(join(tmpdir(), "check-sitemap-"));
   const files = {
     "index.html": canonical("https://gryt.chat"),
@@ -33,7 +33,7 @@ function site({ pages = {}, locs, robots } = {}) {
   return dir;
 }
 
-function problemsIn(options) {
+function problemsIn(options?: Parameters<typeof site>[0]) {
   const dir = site(options);
   try {
     return sitemapProblems(dir);

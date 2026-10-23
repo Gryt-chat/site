@@ -11,11 +11,14 @@ const LAZY = /const\s+(\w+)\s*=\s*lazy\(\s*\(\)\s*=>\s*import\(\s*["']([^"']+)["
 /** `<Route path="/x" element={<Name />} />` */
 const ROUTE = /<Route\s+path=["']([^"']+)["']\s+element=\{<(\w+)\s*\/>\}/g;
 
+/** The parts of Vite's build manifest this reads. */
+type Manifest = Record<string, { css?: string[]; imports?: string[] }>;
+
 /**
  * Every CSS file a manifest entry pulls in, including through its imports. Depth-first with
  * a seen set: two routes sharing `PageHeader` would walk it twice, and a cycle would loop.
  */
-function cssFor(manifest, key, seen = new Set()) {
+function cssFor(manifest: Manifest, key: string | undefined, seen = new Set<string>()): string[] {
   if (!key || seen.has(key)) return [];
   seen.add(key);
 
@@ -33,17 +36,17 @@ function cssFor(manifest, key, seen = new Set()) {
  * Route path to the stylesheets it needs, as `/assets/…` URLs. The global stylesheet is left
  * out: it is already in the template, and asking twice is a second request.
  */
-export function routeStyles({ appSource, manifestPath, globalCss }) {
+export function routeStyles({ appSource, manifestPath, globalCss }: { appSource: string; manifestPath: string; globalCss: string }) {
   const app = readFileSync(appSource, "utf-8");
 
-  const moduleFor = new Map();
+  const moduleFor = new Map<string, string>();
   for (const [, name, spec] of app.matchAll(LAZY)) {
     /* `./pages/Foo` as written in App.tsx becomes `src/pages/Foo.tsx`, which is
        how Vite keys the manifest. The extension is not in the import. */
     moduleFor.set(name, spec.replace(/^\.\//, "src/") + ".tsx");
   }
 
-  let manifest;
+  let manifest: Manifest;
   try {
     manifest = JSON.parse(readFileSync(manifestPath, "utf-8"));
   } catch {
@@ -54,7 +57,7 @@ export function routeStyles({ appSource, manifestPath, globalCss }) {
     );
   }
 
-  const byRoute = new Map();
+  const byRoute = new Map<string, string[]>();
   for (const [, path, name] of app.matchAll(ROUTE)) {
     const key = moduleFor.get(name);
     if (!key) continue;
@@ -70,7 +73,7 @@ export function routeStyles({ appSource, manifestPath, globalCss }) {
 }
 
 /** The `<link>` tags for a route, ready to go into the head. */
-export function styleLinks(files) {
+export function styleLinks(files: string[]) {
   return files
     .map((href) => `\n    <link rel="stylesheet" crossorigin href="${href}">`)
     .join("");

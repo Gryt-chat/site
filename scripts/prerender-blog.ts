@@ -1,21 +1,24 @@
 import { readFileSync, writeFileSync, readdirSync, mkdirSync, existsSync } from 'fs';
 import { join, dirname, basename } from 'path';
-import { fileURLToPath } from 'url';
-import { STATIC_PAGES, ALIAS_PAGES, OG_IMAGE_VERSION } from '../src/lib/pages.mjs';
-import { render } from '../dist-ssr/entry-server.js';
-import { routeStyles, styleLinks } from './routeStyles.mjs';
+import { fileURLToPath, pathToFileURL } from 'url';
+import { STATIC_PAGES, ALIAS_PAGES, OG_IMAGE_VERSION } from '../src/lib/pages.ts';
+import { routeStyles, styleLinks } from './routeStyles.ts';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
+// The SSR build of src/entry-server.tsx, which only exists once `vite build --ssr` has run.
+const { render }: { render: (url: string) => Promise<string> } = await import(
+  pathToFileURL(join(__dirname, '..', 'dist-ssr', 'entry-server.js')).href
+);
 const distDir = join(__dirname, '..', 'dist');
 const blogContentDir = join(__dirname, '..', 'content', 'blog');
 const changelogContentDir = join(__dirname, '..', 'content', 'changelog');
 const siteUrl = 'https://gryt.chat';
 
-function parseFrontmatter(filePath) {
+function parseFrontmatter(filePath: string): Record<string, string> | null {
   const raw = readFileSync(filePath, 'utf-8');
   const match = raw.match(/^---\n([\s\S]*?)\n---/);
   if (!match) return null;
-  const fm = {};
+  const fm: Record<string, string> = {};
   for (const line of match[1].split('\n')) {
     const m = line.match(/^(\w+):\s*(.+)/);
     if (m) fm[m[1]] = m[2].replace(/^["']|["']$/g, '');
@@ -23,7 +26,7 @@ function parseFrontmatter(filePath) {
   return fm;
 }
 
-function escHtml(s) {
+function escHtml(s: string) {
   return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
@@ -33,7 +36,7 @@ const siteName = 'Gryt';
  * `<title>` gets the ` | Gryt` suffix and `og:title` stays bare: the card already says Gryt,
  * and Discord truncates. `src/lib/title.ts` carries the same rule — change one, change both.
  */
-function docTitle(name) {
+function docTitle(name: string) {
   return `${name} | ${siteName}`;
 }
 
@@ -41,17 +44,29 @@ function docTitle(name) {
  * The page, rendered, as the string inside `<div id="root">`. React's markup goes in whole:
  * the `<!--$-->` markers are how hydration finds its Suspense boundaries.
  */
-async function body(route) {
+async function body(route: string) {
   try {
     return await render(route);
   } catch (err) {
     /* A page that will not render is a page that would ship as a shell, which
        is the state this is meant to end. Fail the build and say which one. */
-    throw new Error(`could not prerender ${route}: ${err.message}`, { cause: err });
+    throw new Error(`could not prerender ${route}: ${err instanceof Error ? err.message : String(err)}`, { cause: err });
   }
 }
 
-function renderPage(template, { pageTitle, docTitleName, description, url, ogImage, ogType, noindex, html: rendered, styles }) {
+interface PageOptions {
+  pageTitle: string;
+  docTitleName?: string;
+  description: string;
+  url: string;
+  ogImage: string;
+  ogType?: string;
+  noindex?: boolean;
+  html: string;
+  styles?: string[];
+}
+
+function renderPage(template: string, { pageTitle, docTitleName, description, url, ogImage, ogType, noindex, html: rendered, styles }: PageOptions) {
   // The responsive hero preload belongs only to the homepage. This template is
   // copied for every static route, where preloading it would waste bandwidth.
   let html = template.replace(/\s*<link[^>]*data-home-preload[^>]*>/, '');
@@ -99,7 +114,7 @@ const stylesFor = routeStyles({
   globalCss,
 });
 
-/* Every indexable page, added as it is written. check-sitemap.mjs holds the file to the
+/* Every indexable page, added as it is written. check-sitemap.ts holds the file to the
    pages on disk, so a page written here without an entry fails the build. */
 const sitemap = [];
 
@@ -107,13 +122,13 @@ const mdxFiles = readdirSync(blogContentDir).filter(f => f.endsWith('.mdx'));
 const changelogFiles = existsSync(changelogContentDir)
   ? readdirSync(changelogContentDir).filter(f => f.endsWith('.mdx'))
   : [];
-const lines = await import(join(__dirname, '..', 'content', 'changelog', 'releases.ts'));
+const lines: typeof import('../content/changelog/releases.ts') = await import(join(__dirname, '..', 'content', 'changelog', 'releases.ts'));
 
 /** The latest of some YYYY-MM-DD dates, which sort as strings. */
-const newest = (dates) => dates.filter(Boolean).sort().at(-1);
+const newest = (dates: (string | undefined)[]) => dates.filter(Boolean).sort().at(-1);
 
 /* An index page changes when something is added to it, so it takes its newest entry's date. */
-const indexDates = {
+const indexDates: Record<string, string | undefined> = {
   blog: newest(mdxFiles.map((f) => parseFrontmatter(join(blogContentDir, f))?.date)),
   changelog: newest([
     ...changelogFiles.map((f) => parseFrontmatter(join(changelogContentDir, f))?.date),
