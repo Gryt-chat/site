@@ -14,10 +14,10 @@ This month we finally got the courage to try the other thing: our own connection
 with our own Opus build and our own jitter buffer. In every test we've run it's been
 faster. Over the internet it cut about 27 ms off a call.
 
-It's in the beta now. Beta builds use it by default, and the stable app has a switch
-for it under Settings, General, Advanced. You also need a server on the beta channel,
-because the stable ones don't offer it yet. On a stable server the switch does
-nothing for now, and the call stays on WebRTC. A few things are still missing, and
+It's experimental, but you can try it today. Beta builds use it by default, and the
+stable app has a switch for it under Settings, General, Advanced. The voice server
+has to offer it too, which it does from version 1.0.76. On an older one the switch
+does nothing, and the call stays on WebRTC. A few things are still missing, and
 they're listed further down.
 
 ## Why bother
@@ -128,8 +128,8 @@ it.
 
 ## What doesn't work yet
 
-- **Stable servers.** Only servers on the beta channel offer the new connection. On
-  any other server the call stays on WebRTC, like before.
+- **Older voice servers.** A voice server older than 1.0.76 doesn't offer the new
+  connection, so calls there stay on WebRTC, like before.
 - **Android.** The engine runs on the iPhone, in TestFlight builds for now. Android
   phones stay on WebRTC until it's built there too.
 - **Mixed calls, one way.** Someone on an older app version can't hear people on the
@@ -163,6 +163,6 @@ sessions per IP address.
 ## What's next
 
 The plan is to drop WebRTC voice entirely. The new connection becomes the default for
-everyone, then the WebRTC microphone goes. Before that, Android needs the engine, the
-stable servers need to offer it, and the lost-packet work above needs doing. If
-you're on the beta, you're already using it, and we'd love to hear how it sounds.
+everyone, then the WebRTC microphone goes. Before that, Android needs the engine, and the
+lost-packet work above needs doing. If you're on the beta, or you've flipped the
+switch, you're already using it, and we'd love to hear how it sounds.
