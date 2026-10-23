@@ -1,0 +1,167 @@
+---
+title: We Built Our Own Voice Connection
+description: Gryt's beta skips WebRTC for voice and gets there 20 to 30 ms sooner. How we measured it, and what's left.
+author: Sivert
+date: 2026-10-23
+tags:
+  - voice
+  - latency
+  - webrtc
+---
+
+Gryt's voice has always gone over WebRTC, like almost every voice app in a browser.
+This month we finally got the courage to try the other thing: our own connection,
+with our own Opus build and our own jitter buffer. In every test we've run it's been
+faster. Over the internet it cut about 27 ms off a call.
+
+It's in the beta now. Beta builds use it by default, and the stable app has a switch
+for it under Settings, General, Advanced. You also need a server on the beta channel,
+because the stable ones don't offer it yet. A few things are still missing, and
+they're listed further down.
+
+## Why bother
+
+My girlfriend and I use Gryt every day, on cables to the same router, and the voice
+still felt a bit slow sometimes. So I wanted to know where the time actually went.
+
+The test we ended up with is simple. The sender's microphone is swapped for a beep, a
+1 kHz tone every three seconds. The listener notes when it hears each one. When both
+run on the same machine they share a clock, so there's nothing to sync. We also
+listen in at a few points along the way, so the total can be split into stages.
+
+## Where the time went
+
+On one machine, with nothing in between, Gryt's WebRTC path took about 50 to 64 ms
+from mic to speaker. Some of that was ours to fix:
+
+- eSports mode still ran the compressor, limiter and clipper. That's 6, 6 and 4 ms.
+- eSports mode asked for 10 ms audio frames, but in the wrong half of the handshake,
+  so Chrome kept using 20.
+- Reconnecting reused the same audio track, and every reconnect left the call a bit
+  slower until you left voice. That was the "it gets laggier the longer we talk"
+  we'd noticed at home.
+- Turning everything off now really takes it out of the chain. With no processing,
+  the raw microphone goes straight out.
+
+Those fixes shipped in betas earlier this month. But some of it wasn't ours to fix.
+Chrome's own jitter buffer sat at about 30 ms whatever we asked for, and getting
+audio into and out of WebRTC cost another 12 or so.
+
+## What we built instead
+
+Opus itself was never the slow part. It can work in 2.5 ms frames and costs a
+fraction of a millisecond to encode. The waiting is in the buffers around it. So we
+kept Opus and replaced everything around it:
+
+- **Opus in WebAssembly**, built from the official libopus source, set to its
+  lowest-delay mode with 2.5 ms frames.
+- **An AudioWorklet** that encodes and decodes on the audio thread. The gate, volume,
+  auto gain, compressor and limiter are plain code in there, with no lookahead.
+- **WebTransport** to the voice server, with each packet sent as a datagram. Nothing
+  gets resent, because a late packet is no use to anyone.
+- **Our own jitter buffer**, sized from the jitter it actually sees. After a burst it
+  drains back down instead of staying big.
+- **The voice server** forwards each packet to everyone else in the room and puts
+  the sender's id in front. It takes that id from the session, never from the
+  packet.
+
+In a browser without WebTransport, or on a network that blocks the UDP it needs, the
+same packets go over a normal WebSocket to the voice server instead. It's slower on a
+bad network, but you're still on the same voice as everyone else.
+
+On the phone and in the Mac desktop app it goes one step further. A small engine in
+C does the capture, the Opus and the playback itself, and talks to the voice server
+over plain UDP. On a Mac, the round trip through the sound system alone went from
+13.3 ms in Chrome to 3.3 ms in the engine. Video and screen sharing stay on WebRTC
+everywhere. Only voice moved.
+
+## The numbers
+
+All medians, with the beep test above. Each run is a few minutes long.
+
+| Where | WebRTC | Our connection |
+|---|---|---|
+| One machine, local voice server | 105 ms | 80 ms |
+| Both clients on the Mac, voice server on another box on the LAN | 94 ms | 79 ms |
+| Over the internet, out through our VPS and back | 102 ms | 75 ms |
+| Two machines on one router, voice server in the house (round trip) | 174 ms | 133 ms |
+
+The last row is a round trip. Two machines don't share a clock, so the second one
+plays whatever it hears straight back, and the first times its own beep coming home.
+That's the setup my girlfriend and I actually use. Over WebRTC the beep took 174 ms
+there and back. Over our connection it took 133, or 121 once we asked the browser
+for its smallest audio buffer. Call it 20 to 25 ms each way.
+
+These totals include our own measuring, which costs 20 to 40 ms by itself: spotting a
+beep means listening for a moment first. Both columns pay that, so the gap between
+them is the real part. Counting only from when the beep leaves the sender to when
+it's heard, the internet run was 79 ms on WebRTC and 52 on ours.
+
+Over the internet, WebRTC's jitter buffer also kept stretching and squeezing the
+audio to keep up. Ours didn't have to fill in a single gap in that run.
+
+We checked the boring parts too. Mute let no beeps through, and push to talk only let
+them through while the key was held. Switching microphones mid-call kept the voice
+going. Killing the voice server mid-call brought both people back on the new
+connection about 8 seconds later, with no extra delay afterwards.
+
+## How it sounds, and what it costs
+
+It sends 192 kbps, or 256 when your microphone really is stereo. Gryt's WebRTC voice
+was 64 kbps mono by default. In a listening test with a song, 96 was the lowest that held up,
+128 was great, and 192 sounded the same as the original. A recording of a real call
+on the new connection came out at the original's level and very clear. A mono
+microphone gains nothing from the stereo part.
+
+The catch is data. To keep the delay down it sends 400 small packets a second, and
+the headers on those cost about 190 kbps by themselves. So at the default you upload
+about 380 kbps, which is a lot more than WebRTC used. That's why there's a voice
+quality setting from 96 to 192 kbps, on the desktop under Advanced and on the phone
+under Voice & video. Turn it down on phone data or weak Wi-Fi. If a channel has a max
+bitrate, you send whichever is lower, but never below 96.
+
+For a while your voice also went out over WebRTC as well, so people without the new
+connection could still hear you. That meant uploading it twice. With the newest beta
+app and server, the WebRTC copy only goes while someone in the call actually needs
+it.
+
+## What doesn't work yet
+
+- **Stable servers.** Only servers on the beta channel offer the new connection. On
+  any other server the call stays on WebRTC, like before.
+- **Android.** The engine runs on the iPhone, in TestFlight builds for now. Android
+  phones stay on WebRTC until it's built there too.
+- **Mixed calls, one way.** Someone on an older app version can't hear people on the
+  phone or the Mac engine, because those don't send a WebRTC copy at all.
+- **The Mac App Store version** can't ship the C engine, so it uses the browser
+  version of the new connection.
+- **Lost packets.** A packet that doesn't arrive is filled in by Opus, which you can
+  hear on a really bad connection. We want each packet to carry a small copy of the
+  one before it, so one lost packet can be rebuilt from the next without adding
+  delay.
+- **Self-hosting.** The voice server needs one more UDP port open, 4433 by default.
+  If it's closed, voice goes over the WebSocket instead.
+
+## Is it safe
+
+It's a new public endpoint, so we treated it like one. In the browser, audio is
+encrypted with TLS 1.3 as part of QUIC, the same way WebRTC encrypts it with DTLS. The
+voice server's certificate is short-lived and pinned: the app gets its fingerprint
+over the connection it already trusts, so it can't be swapped in between. The C
+engine's UDP is sealed with ChaCha20-Poly1305 under a key that comes over that same
+trusted connection, and anything replayed is thrown away.
+
+To get in at all you need a one-time ticket, which the voice server only hands out
+after you've joined the room. It's gone after 30 seconds or one use. The voice server
+checks the size of every packet, caps how fast one person can send, and never takes
+the sender's id from the packet.
+
+Still on the list before it's the default: fuzzing the packet path, and a cap on
+sessions per IP address.
+
+## What's next
+
+The plan is to drop WebRTC voice entirely. The new connection becomes the default for
+everyone, then the WebRTC microphone goes. Before that, Android needs the engine, the
+stable servers need to offer it, and the lost-packet work above needs doing. If
+you're on the beta, you're already using it, and we'd love to hear how it sounds.
