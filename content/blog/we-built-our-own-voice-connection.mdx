@@ -103,13 +103,6 @@ All medians, with the beep test above. Each run is a few minutes long.
 | One machine, local voice server | 105 ms | 80 ms |
 | Both clients on the Mac, voice server on another box on the LAN | 94 ms | 79 ms |
 | Over the internet, out through our VPS and back | 102 ms | 75 ms |
-| Two machines on one router, voice server in the house (round trip) | 174 ms | 133 ms |
-
-The last row is a round trip. Two machines don't share a clock, so the second one
-plays whatever it hears straight back, and the first times its own beep coming home.
-That's the setup my girlfriend and I actually use. Over WebRTC the beep took 174 ms
-there and back. Over our connection it took 133, or 121 once we asked the browser
-for its smallest audio buffer. Call it 20 to 25 ms each way.
 
 These totals include our own measuring, which costs 20 to 40 ms by itself: spotting a
 beep means listening for a moment first. Both columns pay that, so the gap between
@@ -126,13 +119,33 @@ connection about 8 seconds later, with no extra delay afterwards.
 
 ## How it compares
 
-**These charts show dummy numbers.** The real ones come from measuring every app the
-same way, on the same Mac and through each platform's own servers, and they'll replace
-these before the post goes out.
+**These charts show dummy numbers.** The real ones replace them before the post goes
+out.
+
+We measured what you actually get with each app, not only the tech underneath: how
+long my voice takes to reach my girlfriend's ears, one way, on the setups people
+really use. Gryt, TeamSpeak and Mumble can run on a server in your own house, so they
+get a LAN chart. Discord, Zoom and Meet can't be self-hosted, so their voice always
+goes out over the internet and back, and that's part of their number. Everything gets
+an internet chart, with the self-hosted ones going through a server out on the
+internet like theirs.
 
 <LatencyBars
-  title="Mic to ear on one machine, median with p95"
-  caption="Each app's two clients on one Mac, in a call through that platform's servers. Lower is better."
+  title="On a LAN: my mic to her ear, median with p95"
+  caption="Server in the house, two PCs on the same router. Only apps you can host yourself can do this."
+  placeholder
+  rows={[
+    { label: "Gryt (new, Mac app)", median: 30, p95: 38, ours: true },
+    { label: "Gryt (new)", median: 42, p95: 50, ours: true },
+    { label: "Mumble", median: 55, p95: 70 },
+    { label: "TeamSpeak", median: 65, p95: 85 },
+    { label: "Gryt (old, WebRTC)", median: 80, p95: 100, ours: true },
+  ]}
+/>
+
+<LatencyBars
+  title="Over the internet: my mic to her ear, median with p95"
+  caption="Gryt, TeamSpeak and Mumble through a server on the internet; Discord, Zoom and Meet through their own. Lower is better."
   placeholder
   rows={[
     { label: "Gryt (new, Mac app)", median: 45, p95: 55, ours: true },
@@ -147,7 +160,7 @@ these before the post goes out.
 />
 
 <LatencySpread
-  title="Every click, one dot each"
+  title="Over the internet, every click"
   caption="About 100 clicks per app. The line is the median. A tight cluster means steady delay; a long tail means the occasional late word."
   placeholder
   rows={[
