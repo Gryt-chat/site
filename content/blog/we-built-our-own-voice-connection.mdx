@@ -66,6 +66,24 @@ kept Opus and replaced everything around it:
   the sender's id in front. It takes that id from the session, never from the
   packet.
 
+<VoicePath
+  caption="The same beep, mic to ear on one machine. Totals are medians; marked steps show their measured cost, and dashed boxes are steps that side doesn't do. The dots run at 1/40 speed."
+  webrtcMs={105}
+  oursMs={80}
+  rows={[
+    { webrtc: { text: "Microphone" }, ours: { text: "Microphone" } },
+    { webrtc: { text: "Web Audio graph", ms: 13, slow: true }, ours: { text: "Effects in the worklet", ms: 0 } },
+    { webrtc: { text: "In and out of WebRTC", ms: 12, slow: true }, ours: null },
+    { webrtc: { text: "Opus, 10-20 ms frames", slow: true }, ours: { text: "Opus, 2.5 ms frames" } },
+    { webrtc: { text: "RTP over DTLS and ICE" }, ours: { text: "Datagram, WebTransport" } },
+    { webrtc: { text: "Voice server" }, ours: { text: "Voice server" } },
+    { webrtc: { text: "Chrome's jitter buffer", ms: 30, slow: true }, ours: { text: "Our jitter buffer" } },
+    { webrtc: { text: "Stretches audio to catch up" }, ours: null },
+    { webrtc: { text: "Decode in WebRTC" }, ours: { text: "Decode in the worklet" } },
+    { webrtc: { text: "Speaker" }, ours: { text: "Speaker" } },
+  ]}
+/>
+
 In a browser without WebTransport, or on a network that blocks the UDP it needs, the
 same packets go over a normal WebSocket to the voice server instead. It's slower on a
 bad network, but you're still on the same voice as everyone else.
@@ -80,7 +98,7 @@ everywhere. Only voice moved.
 
 All medians, with the beep test above. Each run is a few minutes long.
 
-| Where | WebRTC | Our connection |
+| Where | Gryt (old, WebRTC) | Gryt (new) |
 |---|---|---|
 | One machine, local voice server | 105 ms | 80 ms |
 | Both clients on the Mac, voice server on another box on the LAN | 94 ms | 79 ms |
@@ -105,6 +123,44 @@ We checked the boring parts too. Mute let no beeps through, and push to talk onl
 them through while the key was held. Switching microphones mid-call kept the voice
 going. Killing the voice server mid-call brought both people back on the new
 connection about 8 seconds later, with no extra delay afterwards.
+
+## How it compares
+
+**These charts show dummy numbers.** The real ones come from measuring every app the
+same way, on the same Mac and through each platform's own servers, and they'll replace
+these before the post goes out.
+
+<LatencyBars
+  title="Mic to ear on one machine, median with p95"
+  caption="Each app's two clients on one Mac, in a call through that platform's servers. Lower is better."
+  placeholder
+  rows={[
+    { label: "Gryt (new, Mac app)", median: 45, p95: 55, ours: true },
+    { label: "Gryt (new)", median: 60, p95: 72, ours: true },
+    { label: "Mumble", median: 70, p95: 90 },
+    { label: "TeamSpeak", median: 85, p95: 110 },
+    { label: "Gryt (old, WebRTC)", median: 95, p95: 120, ours: true },
+    { label: "Discord", median: 110, p95: 140 },
+    { label: "Google Meet", median: 140, p95: 180 },
+    { label: "Zoom", median: 150, p95: 190 },
+  ]}
+/>
+
+<LatencySpread
+  title="Every click, one dot each"
+  caption="About 100 clicks per app. The line is the median. A tight cluster means steady delay; a long tail means the occasional late word."
+  placeholder
+  rows={[
+    { label: "Gryt (new, Mac app)", median: 45, p95: 55, ours: true },
+    { label: "Gryt (new)", median: 60, p95: 72, ours: true },
+    { label: "Mumble", median: 70, p95: 90 },
+    { label: "TeamSpeak", median: 85, p95: 110 },
+    { label: "Gryt (old, WebRTC)", median: 95, p95: 120, ours: true },
+    { label: "Discord", median: 110, p95: 140 },
+    { label: "Google Meet", median: 140, p95: 180 },
+    { label: "Zoom", median: 150, p95: 190 },
+  ]}
+/>
 
 ## How it sounds, and what it costs
 
