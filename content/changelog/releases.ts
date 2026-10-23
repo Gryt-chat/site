@@ -174,6 +174,19 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.15.0-beta.4",
+    date: "2026-10-23",
+    channel: "beta",
+    line: "Beta: the picture gallery in messages runs on the same code as Gryt's lightbox.",
+    changes: [
+      {
+        kind: "changed",
+        area: "chat",
+        text: "The gallery you swipe through in a message with several pictures now uses the lightbox package's own gallery, instead of a copy of it inside Gryt. It should look and feel the same. If swiping feels off, tell us.",
+      },
+    ],
+  },
+  {
     version: "1.15.0-beta.3",
     date: "2026-10-23",
     channel: "beta",
