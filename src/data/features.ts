@@ -50,7 +50,7 @@ export interface Milestone {
 /** In progress first, then planned. No dates, on purpose. */
 export const upcoming: UpcomingFeature[] = [
   { area: 'phone', status: 'In progress', title: 'Phone apps in the stores', text: 'Public on the App Store and Google Play, not just for testers.' },
-  { area: 'servers', status: 'In progress', title: 'Move from Discord', text: 'An import bot and a bridge, so a community can move without losing its history.' },
+  { area: 'servers', status: 'In progress', title: 'Move from Discord', text: 'A bot that imports a server for you, and a bridge so both sides can talk while a community moves.' },
   { area: 'privacy', status: 'Planned', title: 'Encrypted private channels', text: 'The same encryption as direct messages, for small private groups.' },
   { area: 'servers', status: 'Planned', title: 'Events', text: 'Schedule a game night and let people say they’re coming.' },
   { area: 'hosting', status: 'Planned', title: 'Official hosting partners', text: 'Rent a Gryt server from a host we know, if you’d rather not run one.' },
@@ -70,6 +70,7 @@ export const featureLines: FeatureLine[] = [
       { area: 'chat', month: 'Oct 2026', title: 'A picture gallery and viewer', text: 'Several pictures sit in a gallery, and the viewer opens out of the one you clicked.' },
       { area: 'privacy', month: 'Oct 2026', title: 'Previews through your server', text: 'Link previews get their picture from your server, so the linked site never sees your IP address.' },
       { area: 'you', month: 'Oct 2026', title: 'Named devices', text: 'Each device has a name and says when it was last used, and old ones go in one click.' },
+      { area: 'you', month: 'Oct 2026', title: 'One profile to start from', text: 'Your name and picture follow the first server in your sidebar, so a server you join starts out with the same profile.' },
     ],
   },
   {
@@ -80,6 +81,9 @@ export const featureLines: FeatureLine[] = [
       { area: 'chat', month: 'Oct 2026', title: 'Pictures in a grid', text: 'Several pictures arrive as one grid, and you can drag files into order before sending.' },
       { area: 'chat', month: 'Oct 2026', title: 'Emoji from your other servers', text: 'Use a custom emoji from any server you’re on, where the server allows it.' },
       { area: 'chat', month: 'Oct 2026', title: 'Back to where you were', text: 'Jump to the present from anywhere, with a line marking what came in while you scrolled.' },
+      { area: 'chat', month: 'Oct 2026', title: 'Channel descriptions', text: 'A channel says what it’s for, beside its name at the top of the chat.', image: '/features/channel-description.webp' },
+      { area: 'chat', month: 'Oct 2026', title: 'Two people, one name', text: 'Members who share a name get a number by who joined first, and @ pings the one you picked.', image: '/features/same-name.webp' },
+      { area: 'voice', month: 'Oct 2026', title: 'Who’s talking, from the sidebar', text: 'Point at a server in the sidebar to see who’s in its voice channels.', image: '/features/voice-hover.webp' },
       { area: 'you', month: 'Oct 2026', title: 'Video avatars and banners', text: 'Pick a short video as your avatar or banner. Where it can’t play, a still stands in.' },
       { area: 'privacy', month: 'Oct 2026', title: 'Ask before loading other sites', text: 'Pictures and files from other sites wait for you to say yes, so a link can’t tell anyone you looked.' },
       { area: 'you', month: 'Oct 2026', title: 'Member cards', text: 'Colours, patterns, a banner, a bio and a status line, the same on every server.', image: '/features/member-card.webp' },
@@ -95,17 +99,28 @@ export const featureLines: FeatureLine[] = [
     features: [
       { area: 'phone', month: 'Sep 2026', title: 'Most of the desktop on a phone', text: 'Threads, forums, friends, themes, unread counts and server settings, on iPhone and Android.' },
       { area: 'privacy', month: 'Sep 2026', title: 'Direct messages on MLS', text: 'A key that leaks later can’t open messages from before it leaked.', post: 'direct-messages-now-run-on-mls' },
+      { area: 'phone', month: 'Sep 2026', title: 'Volume and push to talk on the phone', text: 'Turn one person up or down in a call. With push to talk on, you hold the mute button to talk.' },
+      { area: 'hosting', month: 'Sep 2026', title: 'Bring your Discord history', text: 'Import a DiscordChatExporter export, with channels, threads, replies, reactions, emoji and files, and the original dates.' },
     ],
   },
   {
     version: '1.11',
     features: [
       { area: 'privacy', month: 'Sep 2026', title: 'Who can message or call you', text: 'Anyone on the server, friends, or nobody, for messages and calls apart, and the server holds to it too.' },
+      { area: 'privacy', month: 'Sep 2026', title: 'Your 24 words', text: 'They get you back into your direct messages if you lose every device. Find them under Settings, Security, and keep them in a password manager.' },
       { area: 'you', month: 'Sep 2026', title: 'Friends', text: 'Add friends on a server, accept or decline requests, and see who’s online.', image: '/features/friends.webp' },
       { area: 'chat', month: 'Sep 2026', title: 'Mentions for everyone, roles and channels', text: 'Ping @everyone, @here, a role or a #channel. A server can turn the big pings off.', image: '/features/mentions.webp' },
       { area: 'servers', month: 'Sep 2026', title: 'Spam filter', text: 'Turn it on and set how sensitive it is.', image: '/features/spam-filter.webp' },
       { area: 'voice', month: 'Sep 2026', title: 'Video at the size you watch it', text: 'Video goes out at the size of the biggest tile anyone has open, and stops when nobody’s looking.', post: 'chasing-dropped-calls-and-a-3-fps-webcam' },
       { area: 'chat', month: 'Sep 2026', title: 'What’s new, in the app', text: 'Gryt tells you what changed the first time you open a new version.', post: 'gryt-tells-you-what-changed' },
+      { area: 'chat', month: 'Sep 2026', title: 'Online in DMs', text: 'A dot on each conversation says whether they’re online, away or offline. Groups say how many are on.', image: '/features/online-in-dms.webp' },
+      { area: 'voice', month: 'Sep 2026', title: 'Change a share without stopping it', text: 'Switch the quality, the camera or the window while people keep watching.' },
+      { area: 'servers', month: 'Sep 2026', title: 'Invite links for open servers', text: 'Anyone can copy a link from the server menu, and opening it brings up the join dialog.', image: '/features/invite-link.webp' },
+      { area: 'chat', month: 'Sep 2026', title: 'Hide muted channels', text: 'Muted channels can leave the sidebar. One with a mention for you stays.' },
+      { area: 'servers', month: 'Sep 2026', title: 'Cards from webhooks', text: 'A webhook message can carry cards with a title, fields, pictures, an author and a footer.', image: '/features/webhook-cards.webp' },
+      { area: 'chat', month: 'Sep 2026', title: 'A video player of our own', text: 'Videos in chat and in link previews play in Gryt’s player, with the name, size and length on top.', image: '/features/video-player.webp' },
+      { area: 'chat', month: 'Sep 2026', title: 'Back where you left off', text: 'Gryt opens where you closed it, and remembers where you were on each server and in your messages.' },
+      { area: 'hosting', month: 'Sep 2026', title: 'Security notices', text: 'Owners and admins see when their server has a known security issue, and which version fixes it.', image: '/features/security-notice.webp' },
     ],
   },
   {
@@ -113,6 +128,7 @@ export const featureLines: FeatureLine[] = [
     features: [
       { area: 'chat', month: 'Sep 2026', title: 'Mini mode', text: 'Make the window small and it turns into one channel’s chat, to keep beside a game.', image: '/features/mini-mode.webp' },
       { area: 'chat', month: 'Sep 2026', title: 'Threads and forums', text: 'Reply in a thread without leaving the channel, or run a channel as a forum of topics.', post: 'threads-plugins-and-forty-seven-themes', image: '/features/threads.webp' },
+      { area: 'chat', month: 'Sep 2026', title: 'Mark as read', text: 'Mark a channel, a folder or a whole server as read.', image: '/features/mark-as-read.webp' },
     ],
   },
   {
@@ -124,6 +140,8 @@ export const featureLines: FeatureLine[] = [
       { area: 'servers', month: 'Sep 2026', title: 'Folders and channel permissions', text: 'Group channels in folders, and decide who sees or speaks in each.', post: 'from-four-roles-to-a-permission-system', image: '/features/folders.webp' },
       { area: 'servers', month: 'Sep 2026', title: 'Plugins', text: 'A server can run plugins, and anyone can see what it runs before joining.', image: '/features/plugins.webp' },
       { area: 'privacy', month: 'Sep 2026', title: 'Blocking', text: 'Block someone and their messages and calls stop.', image: '/features/blocking.webp' },
+      { area: 'servers', month: 'Sep 2026', title: 'More than one role', text: 'A member can hold several roles, and the member list groups and colours names by them.', image: '/features/more-roles.webp' },
+      { area: 'chat', month: 'Sep 2026', title: 'Your reactions to hand', text: 'The reactions you use most sit on the bar that shows when you point at a message.', image: '/features/reactions.webp' },
     ],
   },
   {
@@ -142,6 +160,7 @@ export const featureLines: FeatureLine[] = [
       { area: 'privacy', month: 'Aug 2026', title: 'An account is optional', text: 'Join with a guest identity that fits in a password manager.', post: 'your-guest-identity-now-fits-in-a-password-manager' },
       { area: 'you', month: 'Aug 2026', title: 'Group direct messages', text: 'Talk to a few people at once, and call them from there.', image: '/features/group-dms.webp' },
       { area: 'phone', month: 'Aug 2026', title: 'Gryt on a phone', text: 'Chat, voice, video and screen sharing on iPhone and Android, in testing.', post: 'gryt-on-a-phone' },
+      { area: 'voice', month: 'Aug 2026', title: 'A doctor for voice', text: 'The Doctor places a real call and tells you which hop is broken.' },
     ],
   },
   {
@@ -174,6 +193,7 @@ export const featureLines: FeatureLine[] = [
       { area: 'voice', month: 'Mar 2026', title: 'Native screen capture', text: 'Screens and windows captured directly, up to 4K and 240 fps.', image: '/features/native-capture.webp' },
       { area: 'servers', month: 'Mar 2026', title: 'Webhooks', text: 'Post into a channel from anything that can send a web request.', image: '/features/webhooks.webp' },
       { area: 'hosting', month: 'Mar 2026', title: 'LAN party mode', text: 'Find servers on your network and let people in without invite codes.', post: '131-users-and-a-lan-party' },
+      { area: 'hosting', month: 'Mar 2026', title: 'Update notices', text: 'A server tells you when there’s an update to take.' },
     ],
   },
   {
