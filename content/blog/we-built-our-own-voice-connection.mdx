@@ -44,6 +44,16 @@ from mic to speaker. Some of that was ours to fix:
 - Turning everything off now really takes it out of the chain. With no processing,
   the raw microphone goes straight out.
 
+<LatencyBars
+  title="Delay eSports mode still added"
+  caption="Compressor 6 ms, limiter 6 ms, clipper 4 ms, each timed alone in an OfflineAudioContext, to the sample."
+  ordered
+  rows={[
+    { label: "Before the fix", median: 16 },
+    { label: "After the fix", median: 0, ours: true },
+  ]}
+/>
+
 Those fixes shipped in betas earlier this month. But some of it wasn't ours to fix.
 Chrome's own jitter buffer sat at about 30 ms whatever we asked for, and getting
 audio into and out of WebRTC cost another 12 or so.
@@ -53,6 +63,16 @@ audio into and out of WebRTC cost another 12 or so.
 Opus itself was never the slow part. It can work in 2.5 ms frames and costs a
 fraction of a millisecond to encode. The waiting is in the buffers around it. So we
 kept Opus and replaced everything around it:
+
+<LatencyBars
+  title="How long each side waits to fill one audio frame"
+  caption="Opus can't send a frame until it's full, so the frame size is a delay paid on every packet."
+  rows={[
+    { label: "WebRTC, default", median: 20 },
+    { label: "WebRTC, eSports mode", median: 10 },
+    { label: "Gryt (new)", median: 2.5, ours: true },
+  ]}
+/>
 
 - **Opus in WebAssembly**, built from the official libopus source, set to its
   lowest-delay mode with 2.5 ms frames.
@@ -94,20 +114,42 @@ over plain UDP. On a Mac, the round trip through the sound system alone went fro
 13.3 ms in Chrome to 3.3 ms in the engine. Video and screen sharing stay on WebRTC
 everywhere. Only voice moved.
 
+<LatencyBars
+  title="A Mac's sound system, out and back in"
+  caption="Timed to the sample through a virtual cable, so it's the software path alone."
+  rows={[
+    { label: "Chrome", median: 13.3 },
+    { label: "Chrome, smallest buffer", median: 8 },
+    { label: "Gryt's engine", median: 3.3, ours: true },
+  ]}
+/>
+
 ## The numbers
 
 All medians, with the beep test above. Each run is a few minutes long.
 
-| Where | Gryt (old, WebRTC) | Gryt (new) |
-|---|---|---|
-| One machine, local voice server | 105 ms | 80 ms |
-| Both clients on the Mac, voice server on another box on the LAN | 94 ms | 79 ms |
-| Over the internet, out through our VPS and back | 102 ms | 75 ms |
+<LatencyPairs
+  title="Mic to ear, medians"
+  rows={[
+    { label: "One machine, local voice server", old: 105, new: 80 },
+    { label: "Both clients on the Mac, voice server on another box on the LAN", old: 94, new: 79 },
+    { label: "Over the internet, out through our VPS and back", old: 102, new: 75 },
+  ]}
+/>
 
 These totals include our own measuring, which costs 20 to 40 ms by itself: spotting a
 beep means listening for a moment first. Both columns pay that, so the gap between
 them is the real part. Counting only from when the beep leaves the sender to when
 it's heard, the internet run was 79 ms on WebRTC and 52 on ours.
+
+<LatencyBars
+  title="Over the internet, from the beep leaving to it being heard"
+  caption="The same run as above, without the time our own measuring takes."
+  rows={[
+    { label: "Gryt (old, WebRTC)", median: 79 },
+    { label: "Gryt (new)", median: 52, ours: true },
+  ]}
+/>
 
 Over the internet, WebRTC's jitter buffer also kept stretching and squeezing the
 audio to keep up. Ours didn't have to fill in a single gap in that run.

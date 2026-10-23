@@ -18,6 +18,8 @@ interface ChartProps {
   rows: LatencyRow[]
   /** Dummy data until GRYT-1857's measurements land: stamped on the chart so it can't pass for real. */
   placeholder?: boolean
+  /** Keep the rows in the order given, for a before and after; otherwise fastest first. */
+  ordered?: boolean
 }
 
 const WIDTH = 640
@@ -28,7 +30,7 @@ const ROW = 34
 // A round step that gives four or five ticks, so the axis reads 0, 50, 100 rather than 56.25.
 function scaleMax(rows: LatencyRow[]): number {
   const top = Math.max(...rows.flatMap((r) => [r.p95 ?? r.median, ...(r.samples ?? [])]))
-  const step = [10, 20, 25, 50, 100, 200].find((s) => top / s <= 5) ?? 500
+  const step = [1, 2, 5, 10, 20, 25, 50, 100, 200].find((s) => top / s <= 5) ?? 500
   return Math.ceil(top / step) * step
 }
 
@@ -55,7 +57,7 @@ function Frame({ title, caption, placeholder, height, label, children }: ChartPr
 
 function Axis({ max, height }: { max: number; height: number }) {
   const x = (v: number) => LABEL + (v / max) * (WIDTH - LABEL - RIGHT)
-  const step = [10, 20, 25, 50, 100, 200].find((s) => max / s <= 5) ?? 500
+  const step = [1, 2, 5, 10, 20, 25, 50, 100, 200].find((s) => max / s <= 5) ?? 500
   const ticks = Array.from({ length: max / step + 1 }, (_, i) => i * step)
   return (
     <g>
@@ -71,7 +73,7 @@ function Axis({ max, height }: { max: number; height: number }) {
 
 /** Fastest first: a median bar per row, a p95 whisker, and the median written at the end. */
 export function LatencyBars(props: ChartProps) {
-  const rows = [...props.rows].sort((a, b) => a.median - b.median)
+  const rows = props.ordered ? props.rows : [...props.rows].sort((a, b) => a.median - b.median)
   const max = scaleMax(rows)
   const height = rows.length * ROW + 30
   const x = (v: number) => LABEL + (v / max) * (WIDTH - LABEL - RIGHT)
@@ -139,5 +141,59 @@ export function LatencySpread(props: ChartProps) {
         )
       })}
     </Frame>
+  )
+}
+
+interface Pair {
+  label: string
+  old: number
+  new: number
+}
+
+/** Gryt (old) and Gryt (new) side by side for each setup, with the setup written above its pair. */
+export function LatencyPairs({ title, caption, rows }: { title: string; caption?: string; rows: Pair[] }) {
+  const max = scaleMax(rows.map((r) => ({ label: r.label, median: Math.max(r.old, r.new) })))
+  const GROUP = 78
+  const height = rows.length * GROUP + 30
+  const left = 20
+  const x = (v: number) => left + (v / max) * (WIDTH - left - RIGHT)
+  const label = rows.map((r) => `${r.label}: old ${r.old} ms, new ${r.new} ms`).join('; ')
+  return (
+    <Frame title={title} caption={caption} rows={[]} height={height} label={`${title}: ${label}`}>
+      <PairAxis max={max} height={height} left={left} />
+      {rows.map((r, i) => {
+        const y = i * GROUP + 4
+        return (
+          <g key={r.label}>
+            <text x={left} y={y + 10} className={styles.label}>{r.label}</text>
+            {[
+              { v: r.old, cls: styles.bar, name: 'Gryt (old)', dy: 18 },
+              { v: r.new, cls: styles.barOurs, name: 'Gryt (new)', dy: 44 },
+            ].map((b) => (
+              <g key={b.name}>
+                <rect x={left} y={y + b.dy} width={x(b.v) - left} height={22} rx={5} className={b.cls} />
+                <text x={x(b.v) + 8} y={y + b.dy + 11} dominantBaseline="middle" className={styles.value}>{`${b.name}  ${b.v} ms`}</text>
+              </g>
+            ))}
+          </g>
+        )
+      })}
+    </Frame>
+  )
+}
+
+function PairAxis({ max, height, left }: { max: number; height: number; left: number }) {
+  const x = (v: number) => left + (v / max) * (WIDTH - left - RIGHT)
+  const step = [1, 2, 5, 10, 20, 25, 50, 100, 200].find((s) => max / s <= 5) ?? 500
+  const ticks = Array.from({ length: max / step + 1 }, (_, i) => i * step)
+  return (
+    <g>
+      {ticks.map((t) => (
+        <g key={t}>
+          <line x1={x(t)} x2={x(t)} y1={16} y2={height - 22} className={styles.grid} />
+          <text x={x(t)} y={height - 6} textAnchor="middle" className={styles.tick}>{`${t} ms`}</text>
+        </g>
+      ))}
+    </g>
   )
 }
