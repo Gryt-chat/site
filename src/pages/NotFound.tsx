@@ -29,6 +29,7 @@ export function NotFound() {
   return (
     <main className={styles.page}>
       <div className={styles.panel}>
+        <img className={styles.owl} src="/owl-hardhat.svg" alt="" width={120} height={120} />
         <p className={styles.code}>404</p>
         <h1 className={styles.title}>Nothing here</h1>
         <p className={styles.body}>

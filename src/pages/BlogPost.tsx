@@ -1,5 +1,6 @@
 import { lazy, Suspense, useEffect } from 'react'
-import { useParams, Link, Navigate } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
+import { NotFound } from './NotFound'
 import { MdChevronLeft } from 'react-icons/md'
 import { Chip } from '@gryt/ui'
 import { getNeighbours, getPost } from '../lib/blog'
@@ -53,7 +54,7 @@ export function BlogPost() {
     }
   }, [post])
 
-  if (!post) return <Navigate to="/blog" replace />
+  if (!post) return <NotFound />
 
   const { frontmatter, Component } = post
   const { older, newer } = getNeighbours(post.slug)
