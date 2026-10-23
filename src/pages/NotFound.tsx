@@ -1,5 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { useEffect } from "react";
+import { owlAvatarDataUri } from "@gryt/owl";
 import { Button } from "@gryt/ui";
 import { pageTitle } from "../lib/title";
 import { useHydrated } from "../lib/useHydrated";
@@ -16,6 +17,14 @@ const DESTINATIONS = [
   { to: "/changelog", label: "Changelog" },
 ];
 
+const BUILDER_OWL = owlAvatarDataUri("gryt", {
+  size: 96,
+  palette: "violet",
+  tint: { head: "amber" },
+  cornerRadius: 1,
+  wearing: { expression: null, eyewear: null, head: "hat-hardhat", neck: null, body: null, held: null, back: null },
+});
+
 export function NotFound() {
   const { pathname } = useLocation();
   /* 404.html is one file served for every missing path, so the path it was prerendered
@@ -29,6 +38,7 @@ export function NotFound() {
   return (
     <main className={styles.page}>
       <div className={styles.panel}>
+        <img className={styles.owl} src={BUILDER_OWL} alt="" width={96} height={96} />
         <p className={styles.code}>404</p>
         <h1 className={styles.title}>Nothing here</h1>
         <p className={styles.body}>
