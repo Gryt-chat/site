@@ -174,6 +174,19 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.15.0-beta.3",
+    date: "2026-10-23",
+    channel: "beta",
+    line: "Beta: the experimental voice connection switch works right away, no restart needed.",
+    changes: [
+      {
+        kind: "changed",
+        area: "voice",
+        text: "Turning the experimental voice connection on or off in Advanced settings takes effect straight away. If you're in a call, Gryt rejoins it on the new connection, with a short drop like a reconnect.",
+      },
+    ],
+  },
+  {
     version: "1.15.0-beta.2",
     date: "2026-10-23",
     channel: "beta",
