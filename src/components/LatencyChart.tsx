@@ -20,6 +20,8 @@ interface ChartProps {
   placeholder?: boolean
   /** Keep the rows in the order given, for a before and after; otherwise fastest first. */
   ordered?: boolean
+  /** Figure number, written in front of the caption below the chart. */
+  figure?: number
 }
 
 const WIDTH = 640
@@ -42,15 +44,24 @@ function Stamp({ height }: { height: number }) {
   )
 }
 
-function Frame({ title, caption, placeholder, height, label, children }: ChartProps & { height: number; label: string; children: React.ReactNode }) {
+export function FigureCaption({ figure, title, caption, className }: { figure?: number; title: string; caption?: string; className: string }) {
+  return (
+    <figcaption className={className}>
+      {figure ? <strong>{`Figure ${figure}: `}</strong> : null}
+      <strong>{title}.</strong>
+      {caption ? ` ${caption}` : null}
+    </figcaption>
+  )
+}
+
+function Frame({ title, caption, placeholder, figure, height, label, children }: ChartProps & { height: number; label: string; children: React.ReactNode }) {
   return (
     <figure className={styles.figure}>
-      <figcaption className={styles.title}>{title}</figcaption>
       <svg viewBox={`0 0 ${WIDTH} ${height}`} className={styles.svg} role="img" aria-label={label}>
         {children}
         {placeholder ? <Stamp height={height} /> : null}
       </svg>
-      {caption ? <p className={styles.caption}>{caption}</p> : null}
+      <FigureCaption figure={figure} title={title} caption={caption} className={styles.caption} />
     </figure>
   )
 }
@@ -151,7 +162,7 @@ interface Pair {
 }
 
 /** Gryt (old) and Gryt (new) side by side for each setup, with the setup written above its pair. */
-export function LatencyPairs({ title, caption, rows }: { title: string; caption?: string; rows: Pair[] }) {
+export function LatencyPairs({ title, caption, figure, rows }: { title: string; caption?: string; figure?: number; rows: Pair[] }) {
   const max = scaleMax(rows.map((r) => ({ label: r.label, median: Math.max(r.old, r.new) })))
   const GROUP = 78
   const height = rows.length * GROUP + 30
@@ -159,7 +170,7 @@ export function LatencyPairs({ title, caption, rows }: { title: string; caption?
   const x = (v: number) => left + (v / max) * (WIDTH - left - RIGHT)
   const label = rows.map((r) => `${r.label}: old ${r.old} ms, new ${r.new} ms`).join('; ')
   return (
-    <Frame title={title} caption={caption} rows={[]} height={height} label={`${title}: ${label}`}>
+    <Frame title={title} caption={caption} figure={figure} rows={[]} height={height} label={`${title}: ${label}`}>
       <PairAxis max={max} height={height} left={left} />
       {rows.map((r, i) => {
         const y = i * GROUP + 4

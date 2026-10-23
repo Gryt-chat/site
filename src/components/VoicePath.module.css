@@ -16,6 +16,10 @@
   margin-top: 0.5rem;
 }
 
+.caption strong {
+  color: var(--text);
+}
+
 .head,
 .headOurs {
   font-size: 12px;

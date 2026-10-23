@@ -1,3 +1,4 @@
+import { FigureCaption } from './LatencyChart'
 import styles from './VoicePath.module.css'
 
 /** One side of a step. Null leaves a dashed gap: that side doesn't do this step at all. */
@@ -19,7 +20,9 @@ interface Props {
   /** Measured medians, mic to ear, in ms. They set how long each dot takes overall. */
   webrtcMs: number
   oursMs: number
+  title: string
   caption?: string
+  figure?: number
 }
 
 const W = 400
@@ -78,7 +81,7 @@ function Cell({ step, x, y, ours }: { step: Step | null; x: number; y: number; o
 }
 
 /** WebRTC's steps beside ours, gaps where a side skips a step, a dot running down each at measured pace. */
-export function VoicePath({ rows, webrtcMs, oursMs, caption }: Props) {
+export function VoicePath({ rows, webrtcMs, oursMs, title, caption, figure }: Props) {
   const height = TOP + rows.length * STEP + 30
   const cycle = (Math.max(webrtcMs, oursMs) * SLOWMO) / 1000 + PAUSE_S
   const css =
@@ -114,7 +117,7 @@ export function VoicePath({ rows, webrtcMs, oursMs, caption }: Props) {
           </g>
         ))}
       </svg>
-      {caption ? <figcaption className={styles.caption}>{caption}</figcaption> : null}
+      <FigureCaption figure={figure} title={title} caption={caption} className={styles.caption} />
     </figure>
   )
 }
