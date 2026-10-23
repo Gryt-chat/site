@@ -209,14 +209,14 @@ for (const release of releases.app.filter((r) => !r.changes?.length)) {
 
 /* ── the three-way branch on the entry page ──────────────────────────────── */
 
-// Prose wins, then the line, then nowhere to go. Redirecting first sends every
-// release without a note back to the index, which is where it came from.
+// Prose wins, then the line, then the 404. Giving up first sends every release
+// without a note to the 404, though it has a page.
 const lineAt = entry.indexOf("if (!release && line) return <LineOnly line={line} />");
-const redirectAt = entry.indexOf('return <Navigate to="/changelog" replace />');
+const redirectAt = entry.indexOf("if (!release) return <NotFound />");
 assert.ok(lineAt > 0, `${ENTRY} no longer gives a release without a note a page`);
 assert.ok(
   redirectAt > lineAt,
-  `${ENTRY} redirects before it looks for a line, so only noted releases get a page`,
+  `${ENTRY} gives up before it looks for a line, so only noted releases get a page`,
 );
 
 // Kinds when there are kinds, the sentence when there are not.
