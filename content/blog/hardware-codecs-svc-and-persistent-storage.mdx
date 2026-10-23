@@ -11,40 +11,109 @@ tags:
   - desktop
 ---
 
-## What is in this update
+**Title:** Hardware codecs, SVC, and why your settings kept disappearing\
+**Date:** 2 March 2026\
+**Author:** Sivert Gullberg Hansen\
+**Keywords:** WebRTC, H.264, AV1, scalable video coding, SFU, Electron, localStorage
 
-This update touches three separate areas that shipped within days of each other: hardware-accelerated codec selection, SVC layer-aware forwarding in the SFU, and a fix for the desktop app silently losing all your data between restarts.
+## Abstract
 
-## The codec problem
+Three changes shipped within days of each other. Screen sharing used whatever codec
+the browser picked, usually VP9, which consumer GPUs almost never encode in hardware,
+so the CPU did all the work. It now prefers H.264, which the GPU encodes, and lets
+you pick AV1 or VP9 instead. Second, the SFU used to send every viewer the same
+packets, so one viewer on a bad connection set off keyframe requests that hurt
+everyone. With three temporal layers in one stream, it now sends each viewer 7.5, 15
+or 30 fps depending on their bandwidth. Third, the desktop app sometimes lost every
+setting and sign-in between restarts, because Electron's `localStorage` is tied to an
+origin that can change. Every entry is now backed by a file in the userData
+directory, without touching the code that reads and writes it.
 
-When Gryt first got screen sharing, it used whatever codec the browser picked. That usually meant VP9. It's a fine codec and it compresses well, but consumer GPUs almost never hardware-encode it, so your CPU was doing all the work. Share a game at 1080p 30fps and you could feel it.
+## 1 Introduction
 
-The fix was easy once I understood what was going on. WebRTC lets you tell the browser which codec you'd rather have, with `setCodecPreferences` on the transceiver. Put H.264 first and the browser negotiates H.264 and hands the encoding to your GPU: NVENC on NVIDIA, Quick Sync on Intel, AMF on AMD. CPU usage drops to nearly nothing.
+This post answers three questions:
 
-But H.264 isn't always the best choice. AV1 compresses a lot better at the same bitrate, and newer GPUs (RTX 40 series, Intel Arc, AMD RX 7000+) can hardware-encode it. So instead of hardcoding H.264, you get to pick: Auto (H.264), H.264, VP9, or AV1. Auto checks what your browser supports with `RTCRtpSender.getCapabilities("video")` and goes for H.264, because everything can play it. If you know your hardware does AV1, switch to it and get better quality for the same bandwidth.
+1. **Why did screen sharing load the CPU so much**, and how do we get it onto the GPU?
+2. **How can one stream serve viewers on very different connections** without the
+   worst one dragging down the rest?
+3. **Why did the desktop app lose its data between restarts?**
 
-One codec isn't on the list: H.265/HEVC. It's everywhere in video streaming, but WebRTC doesn't support it and the browser APIs won't let you negotiate it. AV1 does the same job with better compression and browsers that actually support it, so nothing is lost.
+## 2 Background
 
-All of this sits behind an "Advanced" toggle in the screen share dialog. The defaults are good, so most people never open it. But if you want to change the codec, the bitrate or the degradation preference, it's there.
+### 2.1 Codecs and hardware
 
-## Gaming mode
+When Gryt first got screen sharing, it used whatever codec the browser picked. That
+usually meant VP9. It's a fine codec and it compresses well, but consumer GPUs almost
+never hardware-encode it, so your CPU was doing all the work. Share a game at 1080p
+30fps and you could feel it.
 
-Alongside the codec work, I added a "Gaming mode" toggle (on by default) that bundles several encoder hints for fast-moving content:
+WebRTC lets you tell the browser which codec you'd rather have, with
+`setCodecPreferences` on the transceiver [1]. Put H.264 first and the browser
+negotiates H.264 and hands the encoding to your GPU: NVENC on NVIDIA, Quick Sync on
+Intel, AMF on AMD.
 
-- **Cursor hiding.** The cursor is stripped from the capture, so nobody watching sees a frozen cursor sitting over a game that hides it
-- **Content hint.** Set to "motion" instead of "detail", which tells the encoder to keep the framerate up rather than the sharpness
-- **Degradation preference.** Set to "maintain-framerate" so WebRTC drops resolution before framerate when bandwidth is tight
-- **Bitrate boost.** A 1.5x multiplier on the auto-estimated bitrate (capped at 20 Mbps) to give the encoder more headroom
+### 2.2 Scalable video coding
 
-For a presentation or anything text-heavy, turn gaming mode off and it goes back to resolution first. For games and video the difference is big.
+Scalable Video Coding [2] lets the encoder produce temporal layers within a single
+stream. With L1T3, the encoder outputs three frame rate tiers in one RTP stream. A
+receiver can drop the upper layers and still decode clean frames at a lower rate.
 
-## SVC: one stream, multiple quality levels
+### 2.3 Storage in Electron
 
-Scalable Video Coding lets the encoder produce temporal layers within a single stream. With L1T3 (the default), the encoder outputs three framerate tiers in one RTP stream:
+The desktop app stores authentication tokens, theme settings, server configurations
+and other preferences in `localStorage`. In Electron that storage is origin-bound,
+tied to the specific `http://127.0.0.1:port` URL the app loads. If that port changes,
+or the Chromium profile gets reset, or storage is cleared during an update,
+everything is gone.
 
-- **T0**: Base layer at 7.5 fps
-- **T0 + T1**: 15 fps
-- **T0 + T1 + T2**: Full 30 fps
+## 3 Design
+
+### 3.1 Codec selection
+
+Table 1 has the codecs you can pick from. Auto checks what your browser supports
+with `RTCRtpSender.getCapabilities("video")` and goes for H.264, because everything
+can play it. If you know your hardware does AV1, switch to it and get better quality
+for the same bandwidth.
+
+**Table 1:** The codecs on offer.
+
+| Choice | What it does |
+|---|---|
+| Auto | H.264 if the browser supports it |
+| H.264 | Hardware-encoded on nearly every GPU, plays everywhere |
+| VP9 | Compresses well, but almost always encoded on the CPU |
+| AV1 | Compresses a lot better at the same bitrate; hardware-encoded on RTX 40 series, Intel Arc and AMD RX 7000+ |
+
+One codec isn't on the list: H.265/HEVC. It's everywhere in video streaming, but
+WebRTC doesn't support it and the browser APIs won't let you negotiate it. AV1 does
+the same job with better compression, in browsers that actually support it.
+
+All of this sits behind an "Advanced" toggle in the screen share dialog. The defaults
+are good, so most people never open it. But if you want to change the codec, the
+bitrate or the degradation preference, it's there.
+
+### 3.2 Gaming mode
+
+Alongside the codec work, I added a "Gaming mode" toggle, on by default, that bundles
+the encoder hints in Table 2 for fast-moving content. For a presentation or anything
+text-heavy, turn it off and it goes back to resolution first.
+
+**Table 2:** What gaming mode sets.
+
+| Setting | Value | Why |
+|---|---|---|
+| Cursor | Stripped from the capture | Nobody watching sees a frozen cursor over a game that hides it |
+| Content hint | `motion` instead of `detail` | Tells the encoder to keep the frame rate up rather than the sharpness |
+| Degradation preference | `maintain-framerate` | WebRTC drops resolution before frame rate when bandwidth is tight |
+| Bitrate | 1.5x the estimate, capped at 20 Mbps | Gives the encoder more headroom |
+
+### 3.3 Layer-aware forwarding in the SFU
+
+Figure 1 shows one L1T3 stream going out to three viewers. The SFU parses the
+Dependency Descriptor RTP header extension [3] on each incoming packet to find out
+which temporal layer it belongs to. For each receiver, it decides how many layers to
+forward based on that receiver's available bandwidth, read from its REMB feedback [4].
+Table 3 has the thresholds.
 
 <Mermaid chart={`
 flowchart TD
@@ -65,52 +134,108 @@ flowchart TD
   sfu --> C
 `} />
 
-The SFU parses the Dependency Descriptor RTP header extension on each incoming packet to figure out which temporal layer it belongs to. For each receiver, it decides how many layers to forward based on that receiver's available bandwidth. Someone on a fast connection gets the full 30 fps. Someone on a slow connection gets 7.5 fps instead of a pixelated mess.
+**Figure 1:** One stream, three viewers. The SFU forwards each one only the layers its
+bandwidth can take.
 
-Before SVC, the SFU did blind byte-copy relay, so every receiver got identical packets regardless of their bandwidth. If one viewer had a bad connection, they would experience packet loss, which triggers PLI (Picture Loss Indication) requests back to the sender, which forces keyframes, which hurts quality for everyone. With SVC, constrained viewers just get fewer temporal layers. Clean frames, no packet loss storms, no impact on other viewers.
+**Table 3:** Layers forwarded by the viewer's estimated bandwidth.
 
-The adaptation happens automatically. The SFU reads REMB (Receiver Estimated Maximum Bitrate) feedback from each viewer and adjusts their temporal layer subscription:
+| Viewer's bandwidth | Layers | Frame rate |
+|---|---|---|
+| Below 1 Mbps | T0 | 7.5 fps |
+| Below 3 Mbps | T0 + T1 | 15 fps |
+| Above 3 Mbps | T0 + T1 + T2 | 30 fps |
 
-- Below 1 Mbps: T0 only (7.5 fps)
-- Below 3 Mbps: T0 + T1 (15 fps)
-- Above 3 Mbps: All layers (30 fps)
+Before SVC, the SFU did blind byte-copy relay, so every receiver got identical packets
+regardless of their bandwidth. A viewer with a bad connection got packet loss, which
+triggers PLI (Picture Loss Indication) requests back to the sender, which forces
+keyframes, which hurts quality for everyone. With SVC, constrained viewers just get
+fewer temporal layers. Clean frames, no packet loss storms, no impact on other
+viewers.
 
-There's also a `set_layer` WebSocket event for manual control, which could drive a quality picker later.
+There's also a `set_layer` WebSocket event for manual control, which could drive a
+quality picker later.
 
-### Performance impact
+### 3.4 A file behind localStorage
 
-On the client side: none. Hardware encoders (NVENC, Quick Sync, AMF) support temporal SVC natively for VP9, AV1, and H.264. The encoder does the same amount of work whether SVC is on or off.
+The fix was to stop relying on `localStorage` as the source of truth. The desktop app
+now backs every `localStorage` entry with a JSON file, `gryt-global.json`, in the
+Electron userData directory [5]. That directory survives updates and reinstalls.
 
-On the SFU side: parsing the 3-byte Dependency Descriptor header per RTP packet adds nanoseconds of overhead. The per-receiver fanout replaces one `Write()` call with N `Write()` calls, but the total I/O is the same. Memory overhead is one lightweight track object per receiver per video track. In a 10-person room with 2 video tracks, that's 20 extra objects, which is negligible.
+On startup, before React even renders, the app loads the file store over IPC and
+restores everything into `localStorage`. Then it patches `localStorage.setItem` and
+`localStorage.removeItem` so that every future write is synced to the file as it
+happens. The file store is the source of truth, and `localStorage` is a fast
+in-memory cache in front of it.
 
-Where SVC actually *saves* something is downstream bandwidth. Instead of pushing 30 fps at somebody who can't take it, and causing retransmits and congestion, the SFU sends each viewer only what they can absorb.
+On first launch after the update, a one-time migration copies all existing
+`localStorage` entries into the file store. If you already had data in
+`localStorage`, it's kept. If `localStorage` was empty but the file store had data
+from a previous session, it gets restored.
 
-## The disappearing data bug
+None of the code that reads or writes `localStorage` changed. The theme hook, the auth
+module, the token storage and the settings system all call `localStorage.getItem` and
+`localStorage.setItem` exactly as before.
 
-This one was frustrating to track down and probably affected more users than I realized.
+## 4 What it costs
 
-The desktop app stores authentication tokens, theme settings, server configurations, and other preferences in `localStorage`. This works fine most of the time. But `localStorage` in Electron is origin-bound, tied to the specific `http://127.0.0.1:port` URL that the app loads. If for any reason that port changes, or the Chromium profile gets reset, or storage is cleared during an update, everything is gone. You are signed out, your servers are missing, your settings are back to defaults.
+These are worked out from the design, not measured.
 
-The annoying part is that it didn't fail consistently. It could work for weeks and then silently lose everything on the next launch. The kind of bug that makes you doubt yourself, because you can't reproduce it on demand.
+On the client: nothing. Hardware encoders (NVENC, Quick Sync, AMF) support temporal
+SVC natively for VP9, AV1 and H.264. The encoder does the same amount of work whether
+SVC is on or off.
 
-The fix was to stop relying on `localStorage` as the source of truth. The desktop app now backs every `localStorage` entry with a JSON file (`gryt-global.json`) in the Electron userData directory, the same directory that survives across updates and reinstalls.
+On the SFU: parsing the 3-byte Dependency Descriptor header per RTP packet adds
+nanoseconds of overhead. The per-receiver fanout replaces one `Write()` call with N
+`Write()` calls, but the total I/O is the same. Memory overhead is one lightweight
+track object per receiver per video track. In a 10-person room with 2 video tracks,
+that's 20 extra objects.
 
-On startup, before React even renders, the app loads the file store via IPC and restores everything into `localStorage`. Then it patches `localStorage.setItem` and `localStorage.removeItem` so that every future write is automatically synced to the file in real time. The file store is the source of truth; `localStorage` is just a fast in-memory cache.
+Where SVC actually saves something is downstream bandwidth. Instead of pushing 30 fps
+at somebody who can't take it, and causing retransmits and congestion, the SFU sends
+each viewer only what they can absorb.
 
-On first launch after the update, a one-time migration runs that copies all existing `localStorage` entries into the file store. If you already had data in `localStorage` from before, it's preserved. If `localStorage` was empty but the file store had data from a previous session, it gets restored. Either way, nothing is lost.
+## 5 Discussion
 
-The best part: zero changes to any of the existing code that reads or writes `localStorage`. The theme hook, the auth module, the token storage and the settings system all continue to call `localStorage.getItem` and `localStorage.setItem` exactly as before. The patching layer handles the persistence transparently.
+### 5.1 Limitations
 
-## What comes next
+- SVC here is temporal only. A viewer on a slow connection gets fewer frames at the
+  same resolution.
+- H.265/HEVC can't be offered, since WebRTC won't negotiate it.
+- The storage bug didn't fail consistently. It could work for weeks and then lose
+  everything on the next launch, so the fix couldn't be checked against an on-demand
+  reproduction.
 
-These three features set the stage for a few things I have been wanting to build:
+### 5.2 Future work
 
-- A quality selector UI for incoming streams, powered by the `set_layer` event
-- Spatial SVC (L2T3, L3T3) for resolution scaling in addition to framerate scaling
-- End-to-end encryption via SFrame / insertable streams, which pairs well with the per-receiver track model
+- A quality selector for incoming streams, driven by the `set_layer` event
+- Spatial SVC (L2T3, L3T3), for scaling resolution as well as frame rate
+- End-to-end encryption with SFrame [6] and insertable streams, which pairs well with
+  the per-receiver track model
 
-For now, screen sharing is faster, it adapts to each viewer's bandwidth, and your settings stop disappearing.
+## 6 Conclusion
 
----
+**Why did screen sharing load the CPU?** The browser picked VP9, which consumer GPUs
+rarely encode. Preferring H.264 moves the work to the GPU, and AV1 is there for
+hardware that has it.
 
-If you want to dig into the implementation details, the [SFU documentation](https://docs.gryt.chat/docs/host/sfu) covers the Dependency Descriptor parser and layer-aware forwarding, and [Performance Tuning](https://docs.gryt.chat/docs/use/troubleshooting) has the full screen share settings reference. Questions or feedback? Come hang out on [our Gryt server](https://gryt.chat/community) or [Discord](https://gryt.chat/discord).
+**How can one stream serve very different viewers?** By sending three temporal layers
+in one stream and letting the SFU forward each viewer only what its bandwidth allows,
+so a bad connection no longer sets off keyframes for everyone.
+
+**Why did the desktop app lose its data?** Electron's `localStorage` is tied to an
+origin that can change. A file in the userData directory is now the source of truth.
+
+The [SFU documentation](https://docs.gryt.chat/docs/host/sfu) covers the Dependency
+Descriptor parser and layer-aware forwarding, and
+[Performance Tuning](https://docs.gryt.chat/docs/use/troubleshooting) has the full
+screen share settings reference. Questions or feedback? Come hang out on
+[our Gryt server](https://gryt.chat/community) or [Discord](https://gryt.chat/discord).
+
+## References
+
+1. W3C. *WebRTC: Real-Time Communication in Browsers*, `setCodecPreferences`. https://www.w3.org/TR/webrtc/
+2. W3C. *Scalable Video Coding (SVC) Extension for WebRTC.* https://www.w3.org/TR/webrtc-svc/
+3. Alliance for Open Media. *RTP Payload Format for AV1*, Dependency Descriptor. https://aomediacodec.github.io/av1-rtp-spec/
+4. Alvestrand, H. *RTCP message for Receiver Estimated Maximum Bitrate.* https://datatracker.ietf.org/doc/html/draft-alvestrand-rmcat-remb
+5. Electron. *app.getPath('userData').* https://www.electronjs.org/docs/latest/api/app
+6. Omara, E. et al. *Secure Frame (SFrame).* RFC 9605. https://www.rfc-editor.org/rfc/rfc9605
