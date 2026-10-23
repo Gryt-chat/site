@@ -66,7 +66,7 @@ security and what doesn't work yet, and Section 8 sums up.
 
 A browser call usually works like this. The microphone feeds a Web Audio graph,
 where effects such as noise gates and compressors run. WebRTC [1] then encodes the
-audio with Opus, sends it as RTP inside DTLS over a route ICE has found, and hands it
+audio with Opus, sends it as RTP [2] inside DTLS over a route ICE has found, and hands it
 to the voice server. On the other side, Chrome's jitter buffer holds packets for a
 moment so they can be played back evenly, decodes them, and stretches or squeezes the
 audio when it falls behind.
