@@ -174,6 +174,29 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.15.0-beta.5",
+    date: "2026-10-23",
+    channel: "beta",
+    line: "Beta: encrypted DMs say when one of your devices is left out, and how to fix it.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A device that isn't in an encrypted DM yet asks the other side's apps to add it, and says so above the message box with an Ask again button. Before, its messages failed and the other person's never showed up.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A device that made its own encryption key, instead of being linked to your other devices, now says so in every encrypted DM. It offers Link this device, or Use this device's key instead if you can't link it. Before, people's apps could trust one of your devices and quietly turn away the rest.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "Encrypted DMs take up to 100 of your devices instead of 5. If you ever reach the limit, the DM tells you to remove an old device in Settings.",
+      },
+    ],
+  },
+  {
     version: "1.15.0-beta.4",
     date: "2026-10-23",
     channel: "beta",
