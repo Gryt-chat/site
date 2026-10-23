@@ -174,6 +174,159 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.14.0",
+    date: "2026-10-23",
+    line: "Direct messages get their own space, and Ctrl+K searches your messages and files.",
+    post: "direct-messages-redrawn",
+    changes: [
+      {
+        kind: "security",
+        area: "settings",
+        text: "A server you host from the desktop app now runs server 1.12.1, which refuses Brotli when it fetches link previews. Electron doesn't have Node's October Brotli fix yet, and this keeps that bug out of reach.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "Messages sits above your servers and holds every conversation from every server in one list, newest first. Pin the people you talk to most and drag them into order. Pins stay on this device.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "The panel beside a conversation shows the person's own card, with what's pinned and shared underneath. Groups show their members there, and New message and New group share one dialog.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "Ctrl+K, or the magnifier in a channel's header, searches messages and file names beside the chat. Type from:, in:, has:, before: or after: to narrow it down. It needs the server on 1.12 or newer.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "Two or more pictures in a message sit in a small gallery. The picture viewer is new too: it opens out of the picture you clicked, and you can swipe, zoom, copy or save, and swipe down to close it.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "Each channel and DM keeps its own unsent message, pictures included. Channel drafts also survive closing the app.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "Link previews show their picture and site icon even with automatic link embeds turned off. Your server fetches them, so the linked site never sees your IP address. This needs the server on 1.12 or newer.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "When someone adds a person to a group, everyone in it sees who added whom, and what the new person can read from before.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "A message that went out unencrypted gets a small red dot. Click Not encrypted in the header to see why and what you can do.",
+      },
+      {
+        kind: "security",
+        area: "chat",
+        text: "When someone's key changes, their card shows the new code, and you're asked to check it before sending. Compare it with them somewhere other than Gryt, and if it matches, trust it and the conversation is encrypted again.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "Who can send you messages is Friends by default now, like calls. Until you have a friend on a server, anyone you've written to one-to-one there still counts. If you already picked something in Settings › Privacy, it stays.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "New message and a group's Add people leave out anyone who wouldn't take a direct message from you.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "New icons, messages fade in as they arrive, and a line break leaves a small gap so short lines don't run together.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "Search in Messages finds what this device has opened in groups and older direct messages, and a message deleted while Gryt was closed leaves search the next time you open its conversation.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "Pinned messages no longer says Loading… forever on a server that doesn't answer, and typing @ shows someone's owl instead of a broken picture.",
+      },
+      {
+        kind: "changed",
+        area: "servers",
+        text: "Server settings has everything for running a server, under General, People, Channels, Moderation, Integrations and Hosting. Reports moved in from their own window.",
+      },
+      {
+        kind: "changed",
+        area: "servers",
+        text: "A server that can't be reached keeps its header and says Can't reach it, with Try now and Check the connection.",
+      },
+      {
+        kind: "fixed",
+        area: "servers",
+        text: "The question about whether you used to be a guest on a server only comes up after you've actually joined as one.",
+      },
+      {
+        kind: "new",
+        area: "notifications",
+        text: "The server menu has the same Notifications choices as a server's right-click, and Settings › Notifications lists every channel and folder you've set differently.",
+      },
+      {
+        kind: "changed",
+        area: "voice",
+        text: "Settings › Audio starts with a voice preset: Best quality, Low latency or eSports, each with what it costs in delay. With every voice effect off, your microphone skips the audio processing, which is about 15 ms quicker.",
+      },
+      {
+        kind: "fixed",
+        area: "voice",
+        text: "eSports mode really turns the compressor, limiter and clipper off now, and sends voice in 10 ms pieces. That's about 30 ms quicker.",
+      },
+      {
+        kind: "fixed",
+        area: "voice",
+        text: "After a reconnect your voice no longer reaches everyone 5 to 40 ms later than before.",
+      },
+      {
+        kind: "new",
+        area: "voice",
+        text: "Settings › General › Advanced has a switch for Gryt's new voice connection, which skips WebRTC and on a Mac uses the phone's voice engine. It's experimental and off by default, and the connection part needs a server that supports it.",
+      },
+      {
+        kind: "changed",
+        area: "voice",
+        text: "In a call with someone, your chat with them stays open beside the call. Open another conversation and the call moves to the green button in the rail.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "Settings is grouped under You, App and Servers. The profile menu shows which account you're signed in with and has Use another account, and settings search copes with words like ptt and small typos.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "Your devices have names and say when they were last used, and \"Remove devices not used in 30 days\" clears out old ones on every server at once.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "Your name and picture follow the first server in your sidebar, so every server you join starts out with the same profile.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "What's new can show a picture of what a release changed, you can take the welcome tour again from Settings › About, and the Microsoft Store version says when there's an update.",
+      },
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "Addons load from manifest.json, as the docs say, and dialogs and menus keep clear of the desktop title bar.",
+      },
+    ],
+  },
+  {
     version: "1.14.0-beta.17",
     date: "2026-10-21",
     channel: "beta",
