@@ -3806,6 +3806,51 @@ export const app: ReleaseLine[] = [
  */
 export const server: ReleaseLine[] = [
   {
+    version: "1.12.0",
+    date: "2026-10-23",
+    line: "The October Node.js security fixes, plus search, friends-only direct messages and link preview pictures from your server.",
+    changes: [
+      {
+        kind: "security",
+        area: "self-hosting",
+        text: "The Docker image runs on Node.js 22.23.4, which fixes the ten issues in Node's October security release, one of them a way to run code on the server through Brotli decompression. Pull the new image and restart.",
+      },
+      {
+        kind: "new",
+        text: "The server can search the messages in every text channel you can read, with or without accents, so skal finds skål. It also searches file names, and narrows results by who sent them, the channel, the date, or whether they have a picture, a link or a file.",
+      },
+      {
+        kind: "changed",
+        area: "self-hosting",
+        text: "The first start after updating builds a search index over every message once, so a big server takes a little longer to come up that one time.",
+      },
+      {
+        kind: "changed",
+        text: "Who can start a direct message with you is Friends by default now, like calls. Until you have a friend on a server, anyone you've written to one-to-one there still counts. If you already picked something in Settings › Privacy, it stays.",
+      },
+      {
+        kind: "new",
+        text: "The server fetches a link preview's picture and the site's icon itself and hands them to the app, so the linked site only ever sees the server.",
+      },
+      {
+        kind: "new",
+        text: "Adding someone to a group posts a line everyone in it can see, naming who added whom.",
+      },
+      {
+        kind: "changed",
+        text: "A message can carry up to 50 files, up from 10. Each file still has its own size limit.",
+      },
+      {
+        kind: "fixed",
+        text: "A HEIC photo from an iPhone is refused with \"HEIC photos aren't supported yet. Send it as a JPEG or PNG.\" instead of being called corrupt.",
+      },
+      {
+        kind: "fixed",
+        text: "Coming back to the phone app could show \"You do not have permission to read this channel\" when you had it. The server now tells the app to try again a moment later.",
+      },
+    ],
+  },
+  {
     version: "1.12.0-beta.8",
     date: "2026-10-21",
     channel: "beta",
@@ -5543,6 +5588,18 @@ export const voice: ReleaseLine[] = [
  * dependency bump gets a line here and would not elsewhere.
  */
 export const images: ReleaseLine[] = [
+  {
+    version: "1.5.1",
+    date: "2026-10-23",
+    line: "The media worker runs on Node.js 22.23.4, with the October security fixes.",
+    changes: [
+      {
+        kind: "security",
+        area: "self-hosting",
+        text: "The Docker image runs on Node.js 22.23.4, which fixes the ten issues in Node's October security release. Pull the new image and restart.",
+      },
+    ],
+  },
   {
     version: "1.5.0",
     date: "2026-10-13",
