@@ -174,6 +174,34 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.15.0-beta.7",
+    date: "2026-10-24",
+    channel: "beta",
+    line: "Beta: encrypted DMs that got stuck work again, and a new device asks once to be approved.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "An encrypted DM could get stuck for everyone in it when somebody's new device joined after all their other devices had been removed from it. Sending then failed for good. That device now asks to be added instead. And a device whose copy of a DM got stuck drops it and joins again, so DMs that broke this way start working.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "Some encrypted DMs turned away every new device after one of your old devices had been removed from them. New devices get in now.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "A new device whose key isn't your account's asks once, in one window, to be approved from another of your devices. Before, every encrypted DM showed its own notice about it.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "Setting up a message password now says what the password is for. It no longer says your messages are locked for good.",
+      },
+    ],
+  },
+  {
     version: "1.15.0-beta.6",
     date: "2026-10-23",
     channel: "beta",
