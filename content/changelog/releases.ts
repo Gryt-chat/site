@@ -174,6 +174,49 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.15.0-beta.8",
+    date: "2026-10-24",
+    channel: "beta",
+    line: "Beta: no more message password, your 24 words as a file or a code, and old messages can come back.",
+    changes: [
+      {
+        kind: "changed",
+        area: "settings",
+        text: "The message password is gone. Gryt no longer keeps a password-locked copy of your key on your account, since anyone who got hold of the server's database could keep guessing that password. A device that has your key removes the old copy by itself. Your devices and your 24 words are how a new device gets your key now.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "Your 24 words can be saved as a file, or shown as a code you scan with the phone when you set it up.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "When someone's key changes and you've checked it's really them, you can send them your copy of your conversation. Their app shows those messages as shared by you.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "A device you set up from your 24 words can bring your messages over from one of your other devices, under Settings.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "A changed key on someone's card now has \"It's not them\" as well, and you can undo trusting a new key.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "New devices are named after the computer they're on, so your device list says \"Sivert's MacBook Pro\" instead of \"Mac\".",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "An encrypted DM where every device that was in it is gone gets started over, so it works again instead of waiting for someone who'll never come back.",
+      },
+    ],
+  },
+  {
     version: "1.15.0-beta.7",
     date: "2026-10-24",
     channel: "beta",
