@@ -174,6 +174,19 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.15.0-beta.9",
+    date: "2026-10-24",
+    channel: "beta",
+    line: "Beta: a Mac gets your key from iCloud Keychain, like your iPhone does.",
+    changes: [
+      {
+        kind: "new",
+        area: "settings",
+        text: "On a Mac, Gryt keeps your key in iCloud Keychain, the same place the iPhone app keeps it. So a Mac signed in to the same Apple ID as your iPhone gets your key when you install Gryt, without approving it from another device or typing your 24 words.",
+      },
+    ],
+  },
+  {
     version: "1.15.0-beta.8",
     date: "2026-10-24",
     channel: "beta",
