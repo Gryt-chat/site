@@ -174,6 +174,49 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.15.0-beta.10",
+    date: "2026-10-25",
+    channel: "beta",
+    line: "Beta: approve a new device with one scan from your phone, and only your own devices can change your key.",
+    changes: [
+      {
+        kind: "new",
+        area: "settings",
+        text: "A new computer shows a code to scan. Point your phone's camera at it, Gryt opens and asks \"Is this your computer?\", and you check four pictures match before you tap Approve. The phone also gets a notification when a device asks, so you don't have to go looking.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "Only one of your own devices can change the key your account uses on a server. If a server still has an older key for you, the device that holds it is asked to hand over to the key your other servers use. Someone who only has your password can't swap your key anymore.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "\"Start fresh\" is now \"Lost everything?\", for when you've lost every device and your 24 words. Your new key takes over after 30 days, and until then any of your devices is asked \"Was this you?\" and can stop it. The people you message see that your key is being reset.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "Your devices has its own page in Settings, with the device list, Link a device and your 24 words. The device that makes your key asks you once to save the 24 words.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "A message you write in a DM before this device has been added to it now waits and sends itself once it's in, instead of failing. The lines above the message box say what's going on and what to do, rather than just that something isn't set up.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "Clicking a friend request notification opens their card, with Accept and Decline right there.",
+      },
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "Linking a fresh install no longer warns that you've already used Gryt on this device.",
+      },
+    ],
+  },
+  {
     version: "1.15.0-beta.9",
     date: "2026-10-24",
     channel: "beta",
