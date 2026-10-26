@@ -174,6 +174,24 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.15.0-beta.11",
+    date: "2026-10-26",
+    channel: "beta",
+    line: "Beta: the Microsoft Store version stops offering betas, and the key warning says what's actually going on.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "The Microsoft Store version could say a new beta was out, which the Store can't install. Store versions now only hear about stable releases.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "The warning about a server having a different key for you no longer says each device makes its own key, which stopped being true. It says to approve this device from one that has your key.",
+      },
+    ],
+  },
+  {
     version: "1.15.0-beta.10",
     date: "2026-10-25",
     channel: "beta",
