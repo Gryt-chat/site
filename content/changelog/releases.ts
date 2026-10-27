@@ -174,6 +174,24 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.15.0-beta.14",
+    date: "2026-10-27",
+    channel: "beta",
+    line: "Beta: putting a popped-out call back no longer closes Gryt on Windows, and the pop-out can be moved.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "voice",
+        text: "On Windows, putting a popped-out call back into Gryt closed the whole app. It doesn't anymore.",
+      },
+      {
+        kind: "fixed",
+        area: "voice",
+        text: "You can drag the pop-out around by its title bar, and its ✕ closes it and puts the call back.",
+      },
+    ],
+  },
+  {
     version: "1.15.0-beta.13",
     date: "2026-10-27",
     channel: "beta",
