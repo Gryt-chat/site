@@ -174,6 +174,84 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.15.0-beta.13",
+    date: "2026-10-27",
+    channel: "beta",
+    line: "Beta: unread counts survive a restart, and a round of fixes for sharing windows and the camera.",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "The server remembers how far you've read in each channel, so unread counts survive a restart and follow you to another device. It needs server 1.12.2-beta.8 or newer.",
+      },
+      {
+        kind: "new",
+        area: "voice",
+        text: "Camera quality has two more choices: Native sends what your camera gives, and Custom lets you pick the size and frame rate yourself.",
+      },
+      {
+        kind: "changed",
+        area: "voice",
+        text: "Tiles stay between 16:9 and 9:16, so a share or camera isn't stretched into a thin strip. The grip settles on the nearest size when you let go of it.",
+      },
+      {
+        kind: "changed",
+        area: "voice",
+        text: "Face centering glides to your face instead of jumping.",
+      },
+      {
+        kind: "changed",
+        area: "voice",
+        text: "The last line of the mic and headset menus is now Open audio settings, and it looks like a link.",
+      },
+      {
+        kind: "fixed",
+        area: "voice",
+        text: "A shared window only ever sends its own sound, never the rest of your computer's, and Gryt's own windows share with no sound so they don't echo.",
+      },
+      {
+        kind: "fixed",
+        area: "voice",
+        text: "Stopping your first shared window keeps the others running, and you can turn sound on for a window you shared without it.",
+      },
+      {
+        kind: "fixed",
+        area: "voice",
+        text: "The quality you pick for one shared window no longer changes your default, and the sound badge on your share follows the sound switch.",
+      },
+      {
+        kind: "fixed",
+        area: "voice",
+        text: "The share picker names each screen with its number and size, instead of the same name for all of them.",
+      },
+      {
+        kind: "fixed",
+        area: "voice",
+        text: "The camera you picked is still picked after a restart, and the camera list shows one you plug in while it's open.",
+      },
+      {
+        kind: "fixed",
+        area: "voice",
+        text: "The camera preview and menu open above the camera button, and the preview runs at the frame rate you'll send.",
+      },
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "A mic, speaker or camera with no name shows as Microphone 1, Speaker 1 or Camera 1 instead of a string of letters and numbers.",
+      },
+      {
+        kind: "fixed",
+        area: "servers",
+        text: "Linking a new device shows one New device linked notice, however many servers you're on.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "When a voice channel's chat can't be reached, you get one notice about it instead of three.",
+      },
+    ],
+  },
+  {
     version: "1.15.0-beta.12",
     date: "2026-10-27",
     channel: "beta",
