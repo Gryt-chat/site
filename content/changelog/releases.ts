@@ -174,6 +174,89 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.15.0-beta.12",
+    date: "2026-10-27",
+    channel: "beta",
+    line: "Beta: the new voice view. The call sits beside the chat, you size it with a grip, and you can share several windows at once.",
+    changes: [
+      {
+        kind: "new",
+        area: "voice",
+        text: "Clicking a voice channel opens the call beside the chat you were reading, so joining never takes you away from it. A grip between them sizes the call: one camera wide, about two thirds, the whole middle, or hidden. Click it to step through, or drag it, and it snaps to each size.",
+      },
+      {
+        kind: "new",
+        area: "voice",
+        text: "Tiles fill the call with no empty space. Screen shares get the most room, then cameras, then everyone else.",
+      },
+      {
+        kind: "new",
+        area: "voice",
+        text: "Mic, headset and camera have a small arrow beside them. The mic's picks your microphone and noise suppression, the headset's picks your speakers, and the camera's picks the camera, quality and centering. The camera shows you a preview before anyone else sees you.",
+      },
+      {
+        kind: "new",
+        area: "voice",
+        text: "Share several windows at once. The picker shows every window, and each one you pick gets its own quality and sound. While you share, the share button opens a list where you can change or stop each window, or add another.",
+      },
+      {
+        kind: "new",
+        area: "voice",
+        text: "Someone else's share shows up as a Watch tile with the window's name, and nothing is sent to you until you press Watch. A share you watch has its own volume, Stop watching and fullscreen.",
+      },
+      {
+        kind: "new",
+        area: "voice",
+        text: "Messages in the call's chat pop up as bubbles on the sender's tile. Hover one to reply, react or open it in the chat. With the call hidden, they peek out from the person's row in the channel list instead.",
+      },
+      {
+        kind: "new",
+        area: "voice",
+        text: "With the call hidden, people's cameras show as small live dots in the channel list. Hover one for a bigger look.",
+      },
+      {
+        kind: "new",
+        area: "voice",
+        text: "A fullscreen button in the corner of the call, and a pop-out that puts the call in a small window of its own, which can stay on top of a game.",
+      },
+      {
+        kind: "changed",
+        area: "voice",
+        text: "With the call hidden, its controls sit in the rail on the left as plain toggles. The voice channel you're in gets a tinted card, and the chat you're reading keeps the accent.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "In a narrow window the member list folds to small faces, then the channel list folds to icons, and below 820px the call is either full or hidden. Widen the window and everything comes back.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "Screen share quality, frame rate, codec and bitrate are in Settings, and the picker remembers the quality you chose for each app.",
+      },
+      {
+        kind: "changed",
+        area: "voice",
+        text: "Your camera centers your face when it starts, and checks every few seconds after that.",
+      },
+      {
+        kind: "fixed",
+        area: "voice",
+        text: "Your own mirrored camera tile is framed on the right side.",
+      },
+      {
+        kind: "fixed",
+        area: "servers",
+        text: "Error toasts say what happened in plain words, and joining tries once more by itself when the server's join challenge has gone stale.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "Pictures in a message are a square grid again, and the lightbox shows them at their own size.",
+      },
+    ],
+  },
+  {
     version: "1.15.0-beta.11",
     date: "2026-10-26",
     channel: "beta",
@@ -5810,6 +5893,11 @@ export const server: ReleaseLine[] = [
  * about calls connecting, staying up, or costing less to carry.
  */
 export const voice: ReleaseLine[] = [
+  {
+    version: "1.0.77",
+    date: "2026-10-27",
+    line: "Someone sharing several windows at once gets a separate screen stream for each, so the people watching can pick which ones to watch.",
+  },
   {
     version: "1.0.76",
     date: "2026-10-23",
