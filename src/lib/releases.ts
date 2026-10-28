@@ -78,7 +78,7 @@ export const STORES: Store[] = [
     os: "windows",
     name: "Microsoft Store",
     url: MS_STORE_URL,
-    perks: ["Signed", "Updates itself"],
+    perks: ["Signed"],
     /* The light one from apps.microsoft.com/badge, which says light on dark. Its dark
        badge is #202020 with a 10% black edge, and that disappears on --bg-raised. */
     badge: {
@@ -92,7 +92,7 @@ export const STORES: Store[] = [
     os: "linux",
     name: "Snap Store",
     url: SNAP_STORE_URL,
-    perks: ["One step", "Updates itself"],
+    perks: ["One step"],
     /* Canonical's black badge, CC BY-ND 2.0 UK, as snapcraft.io/static/images/badges/en
        serves it. The licence is in github.com/snapcore/snap-store-badges. */
     badge: {

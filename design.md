@@ -813,12 +813,12 @@ system's own logo (Windows, macOS, Linux, iPhone, Android, Browser), and yours i
 picked already. Under them, the one answer for that pick:
 
 - A computer with an open store (Windows, Linux) gets the store badge as the lead,
-  with its perks as green chips (Signed, Updates itself), then one line: "or download
+  with its perk as a green chip (Signed, or One step for snap), then one line: "or download
   the installer (96 MB)". The store is signed, so it skips the security warning the
   file gets. A Mac has no store yet, so it gets Download for macOS as the accent
   button, with the chip and size on the line under it.
 - Under that, two folded sections: Other files (the built-in server build and every
-  other format, one row each with its size) and Install from the terminal (the
+  other format, one row each with its size; Portable and the Flatpak file say they don't update themselves) and Install from the terminal (the
   package-manager commands that work today). Then one line: version, date, All files
   on GitHub.
 - iPhone gets the TestFlight button. Android gets the three test steps as numbered

@@ -16,6 +16,7 @@ import {
   isDesktop,
   liveCommands,
   liveStore,
+  updatesItself,
   OS_NAMES,
   primaryOption,
   type DesktopOS,
@@ -79,8 +80,10 @@ export function Download() {
   const primaryPick = os && grouped ? primaryOption(grouped[os], os, arch) : null;
   const primary = formats.find((f) => f.label === primaryPick?.label) ?? null;
   const files = [
-    ...(primary?.full ? [{ name: `${primary.label} with built-in server`, ...primary.full }] : []),
-    ...formats.filter((f) => f !== primary && f.slim).map((f) => ({ name: f.label, ...f.slim! })),
+    ...(primary?.full ? [{ name: `${primary.label} with built-in server`, updates: true, ...primary.full }] : []),
+    ...formats
+      .filter((f) => f !== primary && f.slim)
+      .map((f) => ({ name: f.label, updates: updatesItself(f), ...f.slim! })),
   ];
   const store = liveStore(os);
   const commands = liveCommands(os);
@@ -182,6 +185,7 @@ export function Download() {
                     {files.map((f) => (
                       <a key={f.name} className={styles.fileRow} href={f.url} download>
                         <span className={styles.fileName}>{f.name}</span>
+                        {!f.updates && <span className={styles.foldHint}>Doesn&rsquo;t update itself</span>}
                         <span className={styles.foldHint}>{formatSize(f.size)}</span>
                         <DownloadIcon size={18} />
                       </a>
