@@ -812,11 +812,14 @@ That was a real bug in the underline before it was a rule.
 system's own logo (Windows, macOS, Linux, iPhone, Android, Browser), and yours is
 picked already. Under them, the one answer for that pick:
 
-- A computer gets Download for its system as the accent button, and With built-in
-  server under it as the neutral one. A Mac then gets a line naming its chip, since
-  that's the one thing its download can get wrong. Then one line of facts (version,
-  date, the format on Linux, both sizes), Other files as inline links (the Intel DMG,
-  .deb, .rpm, Portable), the package-manager commands that work today, and All files
+- A computer with an open store (Windows, Linux) gets the store badge as the lead,
+  with its perks as green chips (Signed, Updates itself), then one line: "or download
+  the installer (96 MB)". The store is signed, so it skips the security warning the
+  file gets. A Mac has no store yet, so it gets Download for macOS as the accent
+  button, with the chip and size on the line under it.
+- Under that, two folded sections: Other files (the built-in server build and every
+  other format, one row each with its size) and Install from the terminal (the
+  package-manager commands that work today). Then one line: version, date, All files
   on GitHub.
 - iPhone gets the TestFlight button. Android gets the three test steps as numbered
   cards, each with its own button. `#phone-test` opens whichever phone you're on and
@@ -826,14 +829,16 @@ picked already. Under them, the one answer for that pick:
 Store badges, Coming later and the Flatpak stand-in went in the A2 redesign
 (2026-10-28), on "simple is best". The other files and the commands came back the same
 day as two quiet lines, because the arch and the format are what people need to see.
+The badges came back later that day as the lead (T1), with the files and commands
+folded, because the store is the signed build and the section had become text heavy.
 
 **Nothing that isn't out gets a badge.** Until September 2026 every store got its badge,
 and the closed ones were faded to 40% with Coming very soon under them. Eight were
 closed, so most of the section was faded. `StoreBadge` draws nothing for a store
-without a `url`, and the badges now show only in the navbar and on `/download`. To open
-a store, give it a `url` and a `why` in `STORES` in `src/lib/releases.ts`.
+without a `url`. To open
+a store, give it a `url` and its `perks` in `STORES` in `src/lib/releases.ts`.
 
-The badges are the stores' own files in `public/badges`. They're 56px tall where they
+The badges are the stores' own files in `public/badges`. They're 64px tall where they
 lead and 40px in the navbar. Nothing recolours, stretches or animates them.
 
 They're black, like the mockups, apart from Microsoft's. Microsoft's dark badge is

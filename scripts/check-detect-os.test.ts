@@ -152,7 +152,7 @@ test("everything not open yet is named once, and everything open says why", () =
   const closed = [...STORES.filter((s) => !s.url), ...PACKAGE_MANAGERS.filter((p) => !p.command)];
   assert.deepEqual(comingLater(), closed.map((x) => x.name));
   assert.equal(new Set(comingLater()).size, comingLater().length);
-  for (const store of STORES.filter((s) => s.url)) assert.ok(store.why, `${store.name} has no why`);
+  for (const store of STORES.filter((s) => s.url)) assert.ok(store.perks?.length, `${store.name} has no perks`);
 });
 
 /* width and height size the img before it loads, so a wrong pair stretches the badge until then. */

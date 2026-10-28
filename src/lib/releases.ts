@@ -66,8 +66,8 @@ export interface Store {
   name: string;
   badge: Badge;
   url?: string;
-  /** One line on why the store beats the file, shown under its badge. */
-  why?: string;
+  /** Why the store beats the file, as short chips under its badge. */
+  perks?: string[];
   /** The file label that stands in until the store opens, when the release has one. */
   standIn?: string;
 }
@@ -78,7 +78,7 @@ export const STORES: Store[] = [
     os: "windows",
     name: "Microsoft Store",
     url: MS_STORE_URL,
-    why: "No security warning, and it updates itself.",
+    perks: ["Signed", "Updates itself"],
     /* The light one from apps.microsoft.com/badge, which says light on dark. Its dark
        badge is #202020 with a 10% black edge, and that disappears on --bg-raised. */
     badge: {
@@ -92,7 +92,7 @@ export const STORES: Store[] = [
     os: "linux",
     name: "Snap Store",
     url: SNAP_STORE_URL,
-    why: "Installs in one step and updates itself.",
+    perks: ["One step", "Updates itself"],
     /* Canonical's black badge, CC BY-ND 2.0 UK, as snapcraft.io/static/images/badges/en
        serves it. The licence is in github.com/snapcore/snap-store-badges. */
     badge: {

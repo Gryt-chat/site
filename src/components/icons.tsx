@@ -1,5 +1,9 @@
 export {
+  MdCheck as CheckIcon,
+  MdChevronRight as CaretIcon,
   MdCode as OpenSourceIcon,
+  MdInsertDriveFile as FileIcon,
+  MdTerminal as TerminalIcon,
   MdDownload as DownloadIcon,
   MdLanguage as GlobeIcon,
   MdGridView as MultiServerIcon,

@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { FaAndroid, FaApple, FaGithub, FaLinux, FaWindows } from "react-icons/fa";
 import { Alert, Button, Spinner } from "@gryt/ui";
 
-import { DownloadIcon, GlobeIcon } from "./icons";
+import { CaretIcon, CheckIcon, DownloadIcon, FileIcon, GlobeIcon, TerminalIcon } from "./icons";
 import { Snippet } from "./Snippet";
 import { StoreBadge } from "./StoreBadge";
 import styles from "./Download.module.css";
@@ -78,20 +78,13 @@ export function Download() {
   const formats = os && grouped ? formatsFor(grouped[os], os) : [];
   const primaryPick = os && grouped ? primaryOption(grouped[os], os, arch) : null;
   const primary = formats.find((f) => f.label === primaryPick?.label) ?? null;
-  const others = formats.filter((f) => f !== primary && f.slim);
+  const files = [
+    ...(primary?.full ? [{ name: `${primary.label} with built-in server`, ...primary.full }] : []),
+    ...formats.filter((f) => f !== primary && f.slim).map((f) => ({ name: f.label, ...f.slim! })),
+  ];
   const store = liveStore(os);
   const commands = liveCommands(os);
   const version = release?.tag_name.replace(/^v/, "");
-
-  const facts = (size: string) =>
-    [
-      version && `v${version}`,
-      release?.published_at && dayMonthYear(release.published_at),
-      os === "linux" && primary?.label,
-      size,
-    ]
-      .filter(Boolean)
-      .join(" · ");
 
   return (
     <section className={styles.section} id="download">
@@ -138,60 +131,89 @@ export function Download() {
 
           {os && primary?.slim && (
             <>
-              <div className={styles.buttons}>
-                <Button className={styles.leadButton} render={<a href={primary.slim.url} download />} size="large">
-                  <DownloadIcon size={22} />
-                  Download for {OS_NAMES[os]}
-                </Button>
-                {primary.full && (
-                  <Button
-                    className={styles.secondButton}
-                    render={<a href={primary.full.url} download />}
-                    size="large"
-                    tone="neutral"
-                  >
-                    <DownloadIcon size={18} />
-                    With built-in server
-                  </Button>
+              <div className={styles.lead}>
+                {store ? (
+                  <>
+                    <StoreBadge store={store} className={styles.storeBadge} />
+                    {store.perks && (
+                      <ul className={styles.perks}>
+                        {store.perks.map((p) => (
+                          <li key={p}>
+                            <CheckIcon size={14} />
+                            {p}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                    <p className={styles.fallback}>
+                      or{" "}
+                      <a href={primary.slim.url} download>
+                        download the {primary.label === "Installer" ? "installer" : primary.label}
+                      </a>{" "}
+                      ({formatSize(primary.slim.size)})
+                    </p>
+                  </>
+                ) : (
+                  <>
+                    <Button className={styles.leadButton} render={<a href={primary.slim.url} download />} size="large">
+                      <DownloadIcon size={22} />
+                      Download for {OS_NAMES[os]}
+                    </Button>
+                    {/* The chip is the one thing a Mac download can get wrong, so it's said outright. */}
+                    <p className={styles.fallback}>
+                      {os === "macos" ? `${primary.description} · ` : ""}
+                      {formatSize(primary.slim.size)}
+                    </p>
+                  </>
                 )}
               </div>
-              {/* The chip is the one thing a Mac download can get wrong, so it's said outright. */}
-              {os === "macos" && <p className={styles.chip}>{primary.description}.</p>}
-              <p className={styles.facts}>
-                {facts(
-                  primary.full
-                    ? `${formatSize(primary.slim.size)} (${formatSize(primary.full.size)} with server)`
-                    : formatSize(primary.slim.size),
-                )}
-              </p>
-              {others.length > 0 && (
-                <p className={styles.facts}>
-                  Other files:{" "}
-                  {others.map((f, i) => (
-                    <span key={f.label}>
-                      {i > 0 && " · "}
-                      <a href={f.slim!.url} download>
-                        {f.label}
+
+              <div className={styles.folds}>
+                {files.length > 0 && (
+                  <details className={styles.fold}>
+                    <summary>
+                      <FileIcon size={18} />
+                      <span className={styles.foldTitle}>Other files</span>
+                      <span className={styles.foldHint}>
+                        {files.length} {files.length === 1 ? "file" : "files"}
+                      </span>
+                      <CaretIcon size={16} />
+                    </summary>
+                    {files.map((f) => (
+                      <a key={f.name} className={styles.fileRow} href={f.url} download>
+                        <span className={styles.fileName}>{f.name}</span>
+                        <span className={styles.foldHint}>{formatSize(f.size)}</span>
+                        <DownloadIcon size={18} />
                       </a>
-                      , {formatSize(f.slim!.size)}
-                    </span>
-                  ))}
-                </p>
-              )}
-              {store && (
-                <div className={styles.store}>
-                  <StoreBadge store={store} className={styles.storeBadge} />
-                  {store.why && <p className={styles.facts}>{store.why}</p>}
-                </div>
-              )}
-              {commands.length > 0 && (
-                <div className={styles.commands}>
-                  {commands.map((c) => (
-                    <Snippet key={c.label} label={c.label} code={c.command!} shell />
-                  ))}
-                </div>
-              )}
-              <GitHubLink />
+                    ))}
+                  </details>
+                )}
+                {commands.length > 0 && (
+                  <details className={styles.fold}>
+                    <summary>
+                      <TerminalIcon size={18} />
+                      <span className={styles.foldTitle}>Install from the terminal</span>
+                      <span className={styles.foldHint}>{commands.map((c) => c.name).join(" · ")}</span>
+                      <CaretIcon size={16} />
+                    </summary>
+                    <div className={styles.commands}>
+                      {commands.map((c) => (
+                        <Snippet key={c.label} label={c.label} code={c.command!} shell />
+                      ))}
+                    </div>
+                  </details>
+                )}
+              </div>
+
+              <p className={styles.facts}>
+                {[version && `v${version}`, release?.published_at && dayMonthYear(release.published_at)]
+                  .filter(Boolean)
+                  .join(" · ")}{" "}
+                ·{" "}
+                <a href={LATEST_URL} target="_blank" rel="noreferrer">
+                  All files on GitHub
+                </a>
+              </p>
             </>
           )}
 
