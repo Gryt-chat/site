@@ -174,6 +174,19 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.15.0-beta.15",
+    date: "2026-10-28",
+    channel: "beta",
+    line: "Beta: a picture opens out of its thumbnail again, instead of flying in from the bottom of the screen.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "Opening a picture in chat showed it huge and low on the screen, then shrank it into place. It opens out of its thumbnail again.",
+      },
+    ],
+  },
+  {
     version: "1.15.0-beta.14",
     date: "2026-10-27",
     channel: "beta",
