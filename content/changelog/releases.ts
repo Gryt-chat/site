@@ -190,13 +190,8 @@ export const app: ReleaseLine[] = [
     version: "1.15.0-beta.14",
     date: "2026-10-27",
     channel: "beta",
-    line: "Beta: putting a popped-out call back no longer closes Gryt on Windows, and the pop-out can be moved.",
+    line: "Beta: the pop-out can be moved, and its ✕ puts the call back.",
     changes: [
-      {
-        kind: "fixed",
-        area: "voice",
-        text: "On Windows, putting a popped-out call back into Gryt closed the whole app. It doesn't anymore.",
-      },
       {
         kind: "fixed",
         area: "voice",
