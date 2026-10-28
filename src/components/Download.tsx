@@ -241,6 +241,7 @@ export function Download() {
           <>
             {/* #testing posts link here, so the steps live in one place. */}
             <div className={styles.lead} id="phone-test">
+              {detected !== "android" && (
               <div className={styles.choice}>
                 <h3 className={styles.choiceTitle}>iPhone</h3>
                 <Button render={<a href={TESTFLIGHT_URL} />} size="large" className={styles.leadButton}>
@@ -250,6 +251,8 @@ export function Download() {
                   It asks you to install TestFlight from the App Store first if you don&rsquo;t have it.
                 </p>
               </div>
+              )}
+              {detected !== "ios" && (
               <div className={styles.choice}>
                 <h3 className={styles.choiceTitle}>Android</h3>
                 <ol className={styles.steps}>
@@ -266,6 +269,7 @@ export function Download() {
                   </li>
                 </ol>
               </div>
+              )}
             </div>
             <p className={styles.note}>
               Something broken? Use Report a bug in the app, so the logs come with it. Or skip the
