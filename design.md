@@ -808,29 +808,26 @@ underline and this width are written by React on commit and animated by CSS:
 rendering steps, so in a tab that is not being painted neither of them runs.
 That was a real bug in the underline before it was a rule.
 
-**`Download` gives one answer.** It works out which system you're on and leads with
-that system's store, if Gryt is in one. That's the Microsoft Store on Windows and the
-Snap Store on Linux. Each badge gets one line on why it beats the file. On Windows
-there's no security warning, on Linux it's one step to install, and both update
-themselves. The file sits beside it under Or download the file, as the second choice.
+**`Download` is pick your system, then press one button.** Six pills with each
+system's own logo (Windows, macOS, Linux, iPhone, Android, Browser), and yours is
+picked already. Under them, the one answer for that pick:
 
-A Mac has no store open yet, so there the file leads as the accent button, and Homebrew
-sits beside it. On Linux the release's `.flatpak` goes under the Snap Store badge until
-Flathub opens, with the command that installs it.
+- A computer gets Download for its system as the accent button, and With built-in
+  server under it as the neutral one. Then one line of facts (version, date, the
+  format where it isn't Windows, both sizes) and All files on GitHub.
+- iPhone gets the TestFlight button. Android gets the three test steps as numbered
+  cards, each with its own button. `#phone-test` opens whichever phone you're on and
+  scrolls to it, and the #testing posts link there.
+- Browser gets Open app.gryt.chat.
 
-Under that, More ways on Windows (or Linux, or macOS) lists the other files and any
-commands that didn't make the top two. Then a row of buttons for the other systems,
-the browser and the phone, which swap the whole answer. Then one line naming
-everything that isn't out yet, and a link to the GitHub release page with GitHub's
-icon next to it.
+Store badges, More ways, Coming later and the Flatpak stand-in went in the A2 redesign
+(2026-10-28), on "simple is best". Every other file is on the GitHub release page.
 
 **Nothing that isn't out gets a badge.** Until September 2026 every store got its badge,
 and the closed ones were faded to 40% with Coming very soon under them. Eight were
-closed, so most of the section was faded. Now a closed store or package manager is a
-name on the Coming later line and nothing else. `StoreBadge` draws nothing for a store
-without a `url`. To open a store, give it a `url` and a `why` in `STORES` in
-`src/lib/releases.ts`. A package manager gets a `command` in `PACKAGE_MANAGERS`. Either
-one moves off the line and into the section by itself.
+closed, so most of the section was faded. `StoreBadge` draws nothing for a store
+without a `url`, and the badges now show only in the navbar and on `/download`. To open
+a store, give it a `url` and a `why` in `STORES` in `src/lib/releases.ts`.
 
 The badges are the stores' own files in `public/badges`. They're 56px tall where they
 lead and 40px in the navbar. Nothing recolours, stretches or animates them.
@@ -841,12 +838,11 @@ ends. Microsoft also says to use its light badge on a dark page. Apple asks for 
 black badge whenever another store's badge sits next to it. Google's, Flathub's and
 F-Droid's badges are black.
 
-The build with the server in it is a link under the file, with its size. Stores and
-package managers always ship that build, and the link says so when a store leads.
+The build with the server in it is the second button, With built-in server. Its size
+is on the facts line. Stores and package managers always ship that build.
 
-`/download` sends you to `/#download-file` for other builds, which lands on the file. A
-phone or a tablet never gets a file. It gets app.gryt.chat and a line saying the phone
-app is in testing, and `/#download-file` lands on the top of the section.
+`/download` sends you to `/#download-file` for other builds, which lands on the answer
+under the pills.
 
 **The fold is mostly air.** `Hero` opens on 152px of padding — 84px of clear
 space under the bar — and puts 108px between the buttons and the clip, because
