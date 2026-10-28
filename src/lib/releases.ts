@@ -182,8 +182,7 @@ export const PACKAGE_MANAGERS: PackageManager[] = [
   },
   { os: "linux", name: "snap", label: "snap · Linux", command: "sudo snap install gryt-chat" },
   { os: "linux", name: "AUR", label: "AUR · Arch Linux", command: "yay -S gryt-chat-bin" },
-  /* Gryt.GrytChat is still an open submission to winget-pkgs. */
-  { os: "windows", name: "winget", label: "winget · Windows" },
+  { os: "windows", name: "winget", label: "winget · Windows", command: "winget install Gryt.GrytChat" },
   /* Neither is started. GRYT-961 tracks every store and package manager. */
   { os: "windows", name: "Scoop", label: "Scoop · Windows" },
   { os: "windows", name: "Chocolatey", label: "Chocolatey · Windows" },
