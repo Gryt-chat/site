@@ -31,6 +31,10 @@ import { useDetectedOS } from "../lib/useDetectedOS";
 
 const LATEST_URL = "https://github.com/Gryt-chat/gryt/releases/latest";
 const WEB_APP_URL = "https://app.gryt.chat";
+const TESTFLIGHT_URL = "https://testflight.apple.com/join/6sckEEFx";
+const PLAY_GROUP_URL = "https://groups.google.com/g/gryt-testers";
+const PLAY_OPT_IN_URL = "https://play.google.com/apps/testing/chat.gryt.mobile";
+const PLAY_URL = "https://play.google.com/store/apps/details?id=chat.gryt.mobile";
 
 type Pick = DesktopOS | "web" | "phone";
 
@@ -66,6 +70,14 @@ export function Download() {
   const phone = detected !== null && !isDesktop(detected);
   const pick: Pick = chosen ?? (phone ? "phone" : isDesktop(detected) ? detected : "windows");
   const os = pick === "web" || pick === "phone" ? null : pick;
+
+  /* The steps only render on the Phone tab, so the browser can't scroll to them on load by itself. */
+  useEffect(() => {
+    if (window.location.hash !== "#phone-test") return;
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- the prerender has no hash, so it can't be initial state
+    setChosen("phone");
+    setTimeout(() => document.getElementById("phone-test")?.scrollIntoView(), 0);
+  }, []);
 
   useEffect(() => {
     fetchLatestRelease()
@@ -171,7 +183,7 @@ export function Download() {
           {pick === "phone" && (
             <p className={styles.sub}>
               The phone app is in testing, so it isn&rsquo;t in the App Store or on Google
-              Play yet. Until it is, Gryt works in your phone&rsquo;s browser.
+              Play yet. You can join the test, or use Gryt in your phone&rsquo;s browser.
             </p>
           )}
         </div>
@@ -225,6 +237,41 @@ export function Download() {
                   </div>
                 )}
           </div>
+        ) : pick === "phone" ? (
+          <>
+            {/* #testing posts link here, so the steps live in one place. */}
+            <div className={styles.lead} id="phone-test">
+              <div className={styles.choice}>
+                <h3 className={styles.choiceTitle}>iPhone</h3>
+                <Button render={<a href={TESTFLIGHT_URL} />} size="large" className={styles.leadButton}>
+                  Join the test in TestFlight
+                </Button>
+                <p className={styles.note}>
+                  It asks you to install TestFlight from the App Store first if you don&rsquo;t have it.
+                </p>
+              </div>
+              <div className={styles.choice}>
+                <h3 className={styles.choiceTitle}>Android</h3>
+                <ol className={styles.steps}>
+                  <li>
+                    Join the <a href={PLAY_GROUP_URL}>gryt-testers group</a> with the Google account
+                    on your phone. No email needed.
+                  </li>
+                  <li>
+                    <a href={PLAY_OPT_IN_URL}>Opt in to the test</a>.
+                  </li>
+                  <li>
+                    <a href={PLAY_URL}>Install Gryt from Google Play</a>. It won&rsquo;t show up in a
+                    Play search, and the link can take a few minutes to work after you opt in.
+                  </li>
+                </ol>
+              </div>
+            </div>
+            <p className={styles.note}>
+              Something broken? Use Report a bug in the app, so the logs come with it. Or skip the
+              install and <a href={WEB_APP_URL}>open app.gryt.chat</a>.
+            </p>
+          </>
         ) : (
           <div className={styles.lead}>
             <Button render={<a href={WEB_APP_URL} />} size="large" className={styles.leadButton}>
