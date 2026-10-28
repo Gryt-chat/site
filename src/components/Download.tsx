@@ -3,6 +3,7 @@ import { FaAndroid, FaApple, FaGithub, FaLinux, FaWindows } from "react-icons/fa
 import { Alert, Button, Spinner } from "@gryt/ui";
 
 import { DownloadIcon, GlobeIcon } from "./icons";
+import { Snippet } from "./Snippet";
 import styles from "./Download.module.css";
 import { dayMonthYear } from "../lib/formatDate";
 import {
@@ -12,6 +13,7 @@ import {
   formatsFor,
   formatSize,
   isDesktop,
+  liveCommands,
   OS_NAMES,
   primaryOption,
   type DesktopOS,
@@ -74,13 +76,15 @@ export function Download() {
   const formats = os && grouped ? formatsFor(grouped[os], os) : [];
   const primaryPick = os && grouped ? primaryOption(grouped[os], os, arch) : null;
   const primary = formats.find((f) => f.label === primaryPick?.label) ?? null;
+  const others = formats.filter((f) => f !== primary && f.slim);
+  const commands = liveCommands(os);
   const version = release?.tag_name.replace(/^v/, "");
 
   const facts = (size: string) =>
     [
       version && `v${version}`,
       release?.published_at && dayMonthYear(release.published_at),
-      os !== "windows" && primary?.label,
+      os === "linux" && primary?.label,
       size,
     ]
       .filter(Boolean)
@@ -148,6 +152,8 @@ export function Download() {
                   </Button>
                 )}
               </div>
+              {/* The chip is the one thing a Mac download can get wrong, so it's said outright. */}
+              {os === "macos" && <p className={styles.chip}>{primary.description}.</p>}
               <p className={styles.facts}>
                 {facts(
                   primary.full
@@ -155,6 +161,27 @@ export function Download() {
                     : formatSize(primary.slim.size),
                 )}
               </p>
+              {others.length > 0 && (
+                <p className={styles.facts}>
+                  Other files:{" "}
+                  {others.map((f, i) => (
+                    <span key={f.label}>
+                      {i > 0 && " · "}
+                      <a href={f.slim!.url} download>
+                        {f.label}
+                      </a>
+                      , {formatSize(f.slim!.size)}
+                    </span>
+                  ))}
+                </p>
+              )}
+              {commands.length > 0 && (
+                <div className={styles.commands}>
+                  {commands.map((c) => (
+                    <Snippet key={c.label} label={c.label} code={c.command!} shell />
+                  ))}
+                </div>
+              )}
               <GitHubLink />
             </>
           )}
