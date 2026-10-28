@@ -113,6 +113,8 @@ function DownloadAction() {
       navigate("/#download");
       return;
     }
+    // In the address bar too, so a reload or a shared link lands here.
+    navigate({ hash: "#download" }, { replace: true });
     document.getElementById("download")?.scrollIntoView({ behavior: "smooth" });
   };
 
@@ -176,6 +178,7 @@ export function Navbar() {
         navigate("/#download");
         return;
       }
+      navigate({ hash: "#download" }, { replace: true });
       document.getElementById("download")?.scrollIntoView({ behavior: "smooth" });
     },
     [location.pathname, navigate],

@@ -813,15 +813,19 @@ system's own logo (Windows, macOS, Linux, iPhone, Android, Browser), and yours i
 picked already. Under them, the one answer for that pick:
 
 - A computer gets Download for its system as the accent button, and With built-in
-  server under it as the neutral one. Then one line of facts (version, date, the
-  format where it isn't Windows, both sizes) and All files on GitHub.
+  server under it as the neutral one. A Mac then gets a line naming its chip, since
+  that's the one thing its download can get wrong. Then one line of facts (version,
+  date, the format on Linux, both sizes), Other files as inline links (the Intel DMG,
+  .deb, .rpm, Portable), the package-manager commands that work today, and All files
+  on GitHub.
 - iPhone gets the TestFlight button. Android gets the three test steps as numbered
   cards, each with its own button. `#phone-test` opens whichever phone you're on and
   scrolls to it, and the #testing posts link there.
 - Browser gets Open app.gryt.chat.
 
-Store badges, More ways, Coming later and the Flatpak stand-in went in the A2 redesign
-(2026-10-28), on "simple is best". Every other file is on the GitHub release page.
+Store badges, Coming later and the Flatpak stand-in went in the A2 redesign
+(2026-10-28), on "simple is best". The other files and the commands came back the same
+day as two quiet lines, because the arch and the format are what people need to see.
 
 **Nothing that isn't out gets a badge.** Until September 2026 every store got its badge,
 and the closed ones were faded to 40% with Coming very soon under them. Eight were
