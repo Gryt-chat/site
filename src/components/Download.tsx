@@ -4,6 +4,7 @@ import { Alert, Button, Spinner } from "@gryt/ui";
 
 import { DownloadIcon, GlobeIcon } from "./icons";
 import { Snippet } from "./Snippet";
+import { StoreBadge } from "./StoreBadge";
 import styles from "./Download.module.css";
 import { dayMonthYear } from "../lib/formatDate";
 import {
@@ -14,6 +15,7 @@ import {
   formatSize,
   isDesktop,
   liveCommands,
+  liveStore,
   OS_NAMES,
   primaryOption,
   type DesktopOS,
@@ -77,6 +79,7 @@ export function Download() {
   const primaryPick = os && grouped ? primaryOption(grouped[os], os, arch) : null;
   const primary = formats.find((f) => f.label === primaryPick?.label) ?? null;
   const others = formats.filter((f) => f !== primary && f.slim);
+  const store = liveStore(os);
   const commands = liveCommands(os);
   const version = release?.tag_name.replace(/^v/, "");
 
@@ -174,6 +177,12 @@ export function Download() {
                     </span>
                   ))}
                 </p>
+              )}
+              {store && (
+                <div className={styles.store}>
+                  <StoreBadge store={store} className={styles.storeBadge} />
+                  {store.why && <p className={styles.facts}>{store.why}</p>}
+                </div>
               )}
               {commands.length > 0 && (
                 <div className={styles.commands}>

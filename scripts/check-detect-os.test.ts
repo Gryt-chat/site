@@ -144,7 +144,7 @@ test("only commands that install a current build are offered", () => {
   const names = (os: OS) => liveCommands(os).map((p) => p.name);
   assert.deepEqual(names("linux"), ["snap", "AUR"]);
   assert.deepEqual(names("macos"), ["Homebrew"]);
-  assert.deepEqual(names("windows"), []);
+  assert.deepEqual(names("windows"), ["winget"]);
 });
 
 /* No faded badges: a store that isn't open is a name on the "Coming later" line and nothing else. */

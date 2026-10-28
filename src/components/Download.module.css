@@ -125,6 +125,18 @@
 }
 
 /* A Snippet sizes to its command otherwise, and Homebrew's is wider than a phone. */
+.store {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.storeBadge {
+  --badge-height: 48px;
+}
+
 .commands {
   display: grid;
   gap: 8px;
