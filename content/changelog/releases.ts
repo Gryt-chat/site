@@ -174,6 +174,24 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.15.0-beta.16",
+    date: "2026-10-29",
+    channel: "beta",
+    line: "Beta: the server's name opens its menu, and a DM's side panel shows the person in one row with search right under it.",
+    changes: [
+      {
+        kind: "changed",
+        area: "servers",
+        text: "Click the server's name to open its menu. Invites, notifications, creating channels and settings, and leaving are in groups of their own, and the + and ⋮ next to the name are gone.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "In a DM, the side panel shows the other person in one row, with Full card for the rest. Search in this chat sits right under it.",
+      },
+    ],
+  },
+  {
     version: "1.15.0-beta.15",
     date: "2026-10-28",
     channel: "beta",
