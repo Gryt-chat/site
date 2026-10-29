@@ -100,7 +100,7 @@ export const featureLines: FeatureLine[] = [
       { area: 'phone', month: 'Sep 2026', title: 'Most of the desktop on a phone', text: 'Threads, forums, friends, themes, unread counts and server settings, on iPhone and Android.' },
       { area: 'privacy', month: 'Sep 2026', title: 'Direct messages on MLS', text: 'A key that leaks later can’t open messages from before it leaked.', post: 'direct-messages-now-run-on-mls' },
       { area: 'phone', month: 'Sep 2026', title: 'Volume and push to talk on the phone', text: 'Turn one person up or down in a call. With push to talk on, you hold the mute button to talk.' },
-      { area: 'hosting', month: 'Sep 2026', title: 'Bring your Discord history', text: 'Import a DiscordChatExporter export, with channels, threads, replies, reactions, emoji and files, and the original dates.' },
+      { area: 'hosting', month: 'Sep 2026', title: 'Bring your Discord history', text: 'Whoever runs the server can import a DiscordChatExporter export through the server’s API, with channels, threads, replies, reactions, emoji, files and the original dates. There’s no screen for it yet.' },
     ],
   },
   {
