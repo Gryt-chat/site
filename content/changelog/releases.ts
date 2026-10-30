@@ -174,6 +174,34 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.15.0-beta.17",
+    date: "2026-10-30",
+    channel: "beta",
+    line: "Beta: a DM's side panel shows the person's own card behind them, and you stay signed in if auth is down when Gryt starts.",
+    changes: [
+      {
+        kind: "changed",
+        area: "chat",
+        text: "In a DM, the side panel uses the card the other person made as its background, and their avatar moves if it's animated.",
+      },
+      {
+        kind: "changed",
+        area: "profile",
+        text: "The card editor can suggest colours from your avatar, and its pattern tiles have names.",
+      },
+      {
+        kind: "changed",
+        area: "profile",
+        text: "Icons on cards and in the Mention menu are rounder and match the voice controls.",
+      },
+      {
+        kind: "fixed",
+        area: "account",
+        text: "You stay signed in if the sign-in service is down when Gryt starts.",
+      },
+    ],
+  },
+  {
     version: "1.15.0-beta.16",
     date: "2026-10-29",
     channel: "beta",
