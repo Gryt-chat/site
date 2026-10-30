@@ -186,17 +186,17 @@ export const app: ReleaseLine[] = [
       },
       {
         kind: "changed",
-        area: "profile",
+        area: "settings",
         text: "The card editor can suggest colours from your avatar, and its pattern tiles have names.",
       },
       {
         kind: "changed",
-        area: "profile",
+        area: "settings",
         text: "Icons on cards and in the Mention menu are rounder and match the voice controls.",
       },
       {
         kind: "fixed",
-        area: "account",
+        area: "settings",
         text: "You stay signed in if the sign-in service is down when Gryt starts.",
       },
     ],
