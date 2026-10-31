@@ -176,7 +176,7 @@ export const app: ReleaseLine[] = [
   {
     version: "1.15.0",
     date: "2026-10-31",
-    line: "A new voice view with several shared windows, your Discord DMs brought over, and an easier way to approve a new device.",
+    line: "The call sits beside your chat, you can share several windows at once, and you can bring your Discord DMs over.",
     changes: [
       {
         kind: "new",
@@ -271,7 +271,7 @@ export const app: ReleaseLine[] = [
       {
         kind: "changed",
         area: "settings",
-        text: "Only one of your own devices can change the key your account uses on a server. \"Start fresh\" is now \"Lost everything?\": your new key takes over after 30 days, and until then any of your devices can stop it.",
+        text: "Only one of your own devices can change the key your account uses on a server. \"Start fresh\" is now \"Lost everything?\". Your new key takes over after 30 days, and until then any of your devices can stop it.",
       },
       {
         kind: "changed",
@@ -4658,7 +4658,7 @@ export const server: ReleaseLine[] = [
   {
     version: "1.12.2",
     date: "2026-10-31",
-    line: "Read positions, voice channels with their own chat, and the device and key rules behind the 1.15 app.",
+    line: "The server remembers where you've read up to, new voice channels get their own chat, and the device and key rules the 1.15 app needs are in.",
     changes: [
       {
         kind: "new",
@@ -4673,17 +4673,17 @@ export const server: ReleaseLine[] = [
       {
         kind: "new",
         area: "self-hosting",
-        text: "Threads carry who replied last and which reply solved a topic.",
+        text: "Threads say who replied last and which reply solved a topic.",
       },
       {
         kind: "changed",
         area: "self-hosting",
-        text: "Encrypted DMs take up to 100 devices per person. Devices not seen within the retention window expire, and a DM nobody is left in gets a new group.",
+        text: "Encrypted DMs take up to 100 devices per person. Devices not seen within the retention window expire, and a DM with nobody left in it starts over.",
       },
       {
         kind: "changed",
         area: "self-hosting",
-        text: "Only the current key can hand a server over to another key. Resetting a key with no device and no words takes 30 days, and a phone gets a push when a device asks to be approved.",
+        text: "Only your current key can move a server to another key. Resetting a key with no device and no words takes 30 days, and a phone gets a push when a device asks to be approved.",
       },
       {
         kind: "changed",
@@ -4693,7 +4693,7 @@ export const server: ReleaseLine[] = [
       {
         kind: "changed",
         area: "self-hosting",
-        text: "Avatars are encoded at AVIF quality 75 instead of 50, and a push's sealed preview names the conversation and message.",
+        text: "Avatars are encoded at AVIF quality 75 instead of 50, and the encrypted preview in a push says which conversation and message it's for.",
       },
       {
         kind: "fixed",
