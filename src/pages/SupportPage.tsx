@@ -1,66 +1,25 @@
-import { useEffect, useState } from "react";
+import { type ReactNode, useEffect, useState } from "react";
+import {
+  PiDownloadSimple,
+  PiLinkBreak,
+  PiMagnifyingGlass,
+  PiMicrophone,
+  PiSpeakerSlash,
+} from "react-icons/pi";
 
-import { Block, LinkRows, type RowItem } from "../components/LinkRows";
-import { PageHeader } from "../components/PageHeader";
-import { DOCS_SEARCH_URL, toSupportResults, type DocsHit } from "../lib/supportSearch";
+import { DOCS_SEARCH_URL, toSupportResults, type DocsHit, type SupportResult } from "../lib/supportSearch";
 import { pageTitle } from "../lib/title";
-import styles from "../styles/audience.module.css";
-import own from "./SupportPage.module.css";
+import styles from "./SupportPage.module.css";
 
 const TROUBLESHOOTING = "https://docs.gryt.chat/docs/use/troubleshooting";
 const MIN_QUERY_LENGTH = 2;
 const SEARCH_DELAY_MS = 200;
-
-const COMMON: RowItem[] = [
-  {
-    name: "I can't invite a friend",
-    detail: "Links that only work on your network, refused codes and missing permissions.",
-    href: `${TROUBLESHOOTING}#invite-issues`,
-  },
-  {
-    name: "Nobody can hear anyone",
-    detail: "Chat works, but voice doesn't. Usually a closed UDP port or a wrong address.",
-    href: `${TROUBLESHOOTING}#people-connect-and-chat-but-nobody-can-hear-anyone`,
-  },
-  {
-    name: "My microphone doesn't work",
-    detail: "Permissions, and picking the right input device.",
-    href: `${TROUBLESHOOTING}#microphone-not-working`,
-  },
-  {
-    name: "I can't connect to a server",
-    detail: "Connection errors, wrong clocks and unrecognised servers.",
-    href: `${TROUBLESHOOTING}#connection-issues`,
-  },
-  {
-    name: "The app won't install or open",
-    detail: "Windows SmartScreen, macOS warnings and Linux AppImages.",
-    href: `${TROUBLESHOOTING}#installation-warnings`,
-  },
-  {
-    name: "Is Gryt down?",
-    detail: "Check sign-in, the hosted servers and the web client.",
-    href: "https://status.gryt.chat",
-  },
-];
-
-const PEOPLE: RowItem[] = [
-  {
-    name: "Our Gryt server",
-    detail: "Ask in the community server. Screenshots and error messages help a lot.",
-    href: "https://gryt.chat/community",
-  },
-  {
-    name: "Feedback",
-    detail: "Report a bug or ask for something new.",
-    href: "https://feedback.gryt.chat",
-  },
-];
+const SUGGESTIONS = ["invite link", "microphone", "open ports"];
 
 type SearchState =
   | { kind: "idle" }
   | { kind: "loading" }
-  | { kind: "done"; results: RowItem[] }
+  | { kind: "done"; results: SupportResult[] }
   | { kind: "failed" };
 
 function useDocsSearch(query: string): SearchState {
@@ -93,6 +52,33 @@ function useDocsSearch(query: string): SearchState {
   return answer?.query === query ? answer.state : { kind: "loading" };
 }
 
+function ProblemCard({
+  anchor,
+  title,
+  text,
+  icon,
+  className,
+  children,
+}: {
+  anchor: string;
+  title: string;
+  text: string;
+  icon?: ReactNode;
+  className?: string;
+  children?: ReactNode;
+}) {
+  return (
+    <a className={`${styles.card} ${className ?? ""}`} href={`${TROUBLESHOOTING}#${anchor}`} target="_blank" rel="noreferrer">
+      {icon && <span className={styles.cardIcon} aria-hidden="true">{icon}</span>}
+      {children}
+      <div>
+        <h3 className={styles.cardTitle}>{title}</h3>
+        <p className={styles.cardText}>{text}</p>
+      </div>
+    </a>
+  );
+}
+
 export function SupportPage() {
   const [query, setQuery] = useState("");
   const search = useDocsSearch(query.trim());
@@ -103,46 +89,135 @@ export function SupportPage() {
 
   return (
     <main className={styles.page}>
-      <PageHeader
-        eyebrow="Support"
-        title="What's going wrong?"
-        lede="Search the docs, or start with the problems people run into most."
-      />
-
-      <section className={own.search}>
-        <label className={own.label} htmlFor="support-search">
-          Search the docs
-        </label>
-        <div className={own.field}>
-          <input
-            id="support-search"
-            className={own.input}
-            type="search"
-            value={query}
-            onChange={(event) => setQuery(event.target.value)}
-            placeholder="invite link doesn't work"
-            autoComplete="off"
-          />
-        </div>
-
-        <p className={own.status} role="status">
-          {search.kind === "loading" && "Searching…"}
-          {search.kind === "done" && search.results.length === 0 && (
-            <>No results. Try fewer words, or ask us below.</>
-          )}
-          {search.kind === "failed" && (
-            <>
-              Search isn&rsquo;t working right now. You can still read{" "}
-              <a href={TROUBLESHOOTING}>Troubleshooting</a>
-              .
-            </>
-          )}
+      <section className={styles.hero}>
+        <img className={styles.owl} src="/logo.svg" alt="The Gryt owl" width={96} height={96} />
+        <h1 className={styles.title}>Stuck? Let&rsquo;s get you talking again.</h1>
+        <p className={styles.lede}>
+          Tell us what&rsquo;s going wrong, or pick the closest match below. If that doesn&rsquo;t fix it, ask us.
         </p>
-        {search.kind === "done" && search.results.length > 0 && <LinkRows items={search.results} />}
+
+        <div className={styles.search}>
+          <label className={styles.label} htmlFor="support-search">
+            Search the help pages
+          </label>
+          <div className={styles.field}>
+            <PiMagnifyingGlass className={styles.fieldIcon} size={22} aria-hidden="true" />
+            <input
+              id="support-search"
+              className={styles.input}
+              type="search"
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+              placeholder="My friend can't join my server"
+              autoComplete="off"
+            />
+          </div>
+
+          {search.kind === "idle" && (
+            <div className={styles.tries}>
+              <span>Try</span>
+              {SUGGESTIONS.map((suggestion) => (
+                <button key={suggestion} type="button" className={styles.try} onClick={() => setQuery(suggestion)}>
+                  {suggestion}
+                </button>
+              ))}
+            </div>
+          )}
+
+          <div role="status">
+            {search.kind === "loading" && <p className={styles.status}>Searching…</p>}
+            {search.kind === "done" && search.results.length === 0 && (
+              <p className={styles.status}>No results. Try fewer words, or ask us below.</p>
+            )}
+            {search.kind === "failed" && (
+              <p className={styles.status}>
+                Search isn&rsquo;t working right now. You can still read{" "}
+                <a href={TROUBLESHOOTING}>Troubleshooting</a>.
+              </p>
+            )}
+          </div>
+
+          {search.kind === "done" && search.results.length > 0 && (
+            <ul className={styles.results}>
+              {search.results.map((result) => (
+                <li key={result.href}>
+                  <a className={styles.result} href={result.href} target="_blank" rel="noreferrer">
+                    <span className={styles.resultName}>{result.name}</span>
+                    <span className={styles.resultPage}>{result.page}</span>
+                    {result.detail && <span className={styles.resultDetail}>{result.detail}</span>}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
       </section>
 
-      <Block heading="Common problems" items={COMMON} />
-      <Block heading="Ask a person" items={PEOPLE} />
+      <section aria-labelledby="support-common">
+        <h2 id="support-common" className={styles.heading}>
+          What people ask about most
+        </h2>
+        <div className={styles.cards}>
+          <ProblemCard
+            className={styles.cardFeature}
+            anchor="invite-issues"
+            title="I can't invite a friend"
+            text="Does your link look like this? That address only works on your own network. Here's the fix, and what to do if a code gets refused."
+          >
+            <div className={styles.example}>
+              gryt.chat/invite?host=<span className={styles.exampleHost}>192.168.1.20</span>:5000
+            </div>
+          </ProblemCard>
+          <ProblemCard
+            className={styles.cardWide}
+            anchor="people-connect-and-chat-but-nobody-can-hear-anyone"
+            icon={<PiSpeakerSlash size={30} />}
+            title="Nobody can hear anyone"
+            text="Chat works but voice doesn't. It's usually a closed port."
+          />
+          <ProblemCard
+            anchor="microphone-not-working"
+            icon={<PiMicrophone size={30} />}
+            title="My mic doesn't work"
+            text="Permissions and picking the right device."
+          />
+          <ProblemCard
+            anchor="connection-issues"
+            icon={<PiLinkBreak size={30} />}
+            title="I can't connect"
+            text="Connection errors, wrong clocks and servers it doesn't recognise."
+          />
+          <ProblemCard
+            anchor="installation-warnings"
+            icon={<PiDownloadSimple size={30} />}
+            title="The app won't install"
+            text="Warnings on Windows and macOS, and Linux AppImages."
+          />
+        </div>
+        <p className={styles.statusLine}>
+          Everything down at once? <a href="https://status.gryt.chat">Check the status page</a>.
+        </p>
+      </section>
+
+      <section className={styles.ask} aria-labelledby="support-ask">
+        <div className={styles.askBody}>
+          <h2 id="support-ask" className={styles.askTitle}>
+            Still stuck? Ask us.
+          </h2>
+          <p className={styles.askText}>
+            A person reads every question. Gryt&rsquo;s a small project, so a reply can take a little while. Tell us
+            what you tried and what it said. A screenshot helps a lot.
+          </p>
+        </div>
+        <div className={styles.askLinks}>
+          <a className={styles.primary} href="https://gryt.chat/community">
+            Ask in our Gryt server
+          </a>
+          <a className={styles.secondary} href="https://feedback.gryt.chat">
+            Report a bug
+          </a>
+        </div>
+      </section>
     </main>
   );
 }

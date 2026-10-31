@@ -7,6 +7,9 @@ export interface DocsHit {
 
 export interface SupportResult {
   name: string;
+  /** The docs page the section is on. */
+  page: string;
+  /** Empty when the match was the heading itself. */
   detail: string;
   href: string;
 }
@@ -44,12 +47,11 @@ export function toSupportResults(hits: DocsHit[]): SupportResult[] {
     .sort((a, b) => rank(a.hit) - rank(b.hit) || a.index - b.index)
     .slice(0, MAX_RESULTS)
     .map(({ hit }) => {
-      const name = sectionName(hit.url);
       const text = plainText(hit.content);
       return {
-        name,
-        // A heading hit's text is the section name again, so say which page it's on.
-        detail: text === name ? sectionName(hit.url.split("#")[0]) : text,
+        name: hit.type === "text" ? sectionName(hit.url) : text,
+        page: sectionName(hit.url.split("#")[0]),
+        detail: hit.type === "text" ? text : "",
         href: `${DOCS_ORIGIN}${hit.url}`,
       };
     });

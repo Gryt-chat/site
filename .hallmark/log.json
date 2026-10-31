@@ -1,5 +1,12 @@
 [
   {
+    "date": "2026-10-31",
+    "macrostructure": "Bento Grid",
+    "theme": "Gryt tokens (project-locked, design.md)",
+    "enrichment": "none",
+    "brief": "/support: welcoming search first, problem cards with a real invite link, ask a person; approved on a design canvas"
+  },
+  {
     "date": "2026-09-25",
     "macrostructure": "component-scope: one clear answer (live store first, file beside it)",
     "theme": "Gryt tokens (project-locked, design.md)",
