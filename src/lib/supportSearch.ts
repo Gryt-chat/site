@@ -135,6 +135,41 @@ export const SUPPORT_PAGES: { title: string; href: string; detail: string; kind:
     kind: "guide",
     words: ["account", "guest", "sign", "signup", "login", "email", "password", "register", "identity", "device", "lost"],
   },
+  {
+    title: "Use voice and push-to-talk",
+    href: "/support/voice-basics",
+    detail: "Join a channel, mute, push-to-talk and screen share.",
+    kind: "guide",
+    words: ["voice", "channel", "mute", "deafen", "push", "talk", "ptt", "esports", "latency", "codec", "share", "screen", "start"],
+  },
+  {
+    title: "Set up roles",
+    href: "/support/roles",
+    detail: "Decide who can talk, moderate and read.",
+    kind: "guide",
+    words: ["role", "roles", "permission", "permissions", "admin", "moderator", "mod", "owner", "kick", "ban", "member", "rank"],
+  },
+  {
+    title: "Use threads",
+    href: "/support/threads",
+    detail: "Keep long conversations out of the channel.",
+    kind: "guide",
+    words: ["thread", "threads", "reply", "replies", "solved", "forum", "topic", "conversation"],
+  },
+  {
+    title: "Add custom emojis",
+    href: "/support/custom-emojis",
+    detail: "Upload your own images and use them in chat.",
+    kind: "guide",
+    words: ["emoji", "emojis", "emote", "emotes", "custom", "shortcode", "upload", "gif", "sticker"],
+  },
+  {
+    title: "Back up your server",
+    href: "/support/back-up-a-server",
+    detail: "Everything lives in one folder, with one trap to avoid.",
+    kind: "guide",
+    words: ["backup", "backups", "restore", "move", "moving", "migrate", "data", "database", "copy", "lose"],
+  },
 ];
 
 /** Our own pages answer in everyday words, which the docs search can miss: "no sound" finds nothing useful there. */

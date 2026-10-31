@@ -181,6 +181,31 @@ export const STATIC_PAGES: StaticPage[] = [
     description: "No, not to try Gryt. Here's what a guest can do, what an account adds, and how to choose.",
   },
   {
+    path: "support/voice-basics",
+    title: "Use voice and push-to-talk",
+    description: "Join a voice channel, mute or deafen yourself, set up push-to-talk, and share your screen.",
+  },
+  {
+    path: "support/roles",
+    title: "Set up roles",
+    description: "Decide who can talk, moderate and read on your server, and promote regulars automatically.",
+  },
+  {
+    path: "support/threads",
+    title: "Use threads",
+    description: "Keep a long conversation out of the main channel, see what's new, and mark a question as solved.",
+  },
+  {
+    path: "support/custom-emojis",
+    title: "Add custom emojis",
+    description: "Upload your own images, name them, and use them in chat on your server.",
+  },
+  {
+    path: "support/back-up-a-server",
+    title: "Back up your server",
+    description: "Everything lives in one folder. Here's the one trap that makes a copy worthless.",
+  },
+  {
     path: "blog",
     title: "Blog",
     description: "Posts about building Gryt, written by the one person building it.",
