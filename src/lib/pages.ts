@@ -161,6 +161,26 @@ export const STATIC_PAGES: StaticPage[] = [
     description: "Old Windows versions can't update themselves, and an old install can reset your profile. Both take one fresh install.",
   },
   {
+    path: "support/host-a-server",
+    title: "Host a server from the app",
+    description: "The app you downloaded is also a server. Make one in under a minute, then let friends in.",
+  },
+  {
+    path: "support/join-a-server",
+    title: "Join a server",
+    description: "Open an invite link or add a server by its address. You don't need an account for many servers.",
+  },
+  {
+    path: "support/make-an-invite",
+    title: "Make an invite",
+    description: "Create an invite link, choose how many people can use it, and let people on your network in without one.",
+  },
+  {
+    path: "support/account-or-guest",
+    title: "Do I need an account?",
+    description: "No, not to try Gryt. Here's what a guest can do, what an account adds, and how to choose.",
+  },
+  {
     path: "blog",
     title: "Blog",
     description: "Posts about building Gryt, written by the one person building it.",
