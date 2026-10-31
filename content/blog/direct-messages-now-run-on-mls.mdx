@@ -10,35 +10,10 @@ tags:
   - security
 ---
 
-**Title:** Direct messages now run on MLS\
-**Date:** 28 September 2026\
-**Author:** Sivert Gullberg Hansen\
-**Keywords:** MLS, RFC 9420, forward secrecy, end-to-end encryption, multi-device
+From 1.12.0, a direct message on the desktop app and on gryt.chat goes over MLS. The
+server still can't read it. Now a key stolen later can't read it either.
 
-## Abstract
-
-Since 1.7, Gryt's direct messages have been encrypted on your machine, but all of it
-rested on one key derived from your 24 words. It was the same on every device and
-never changed, so anyone who got it could open every DM you'd ever received. From
-1.12.0, DMs on the desktop app and on gryt.chat run on MLS (RFC 9420). Every message
-gets its own key, deleted once it's read, so a key that leaks tomorrow can't open
-yesterday. Each device is its own member, tied to you by a person key that other
-people's apps pin, so the server can't slip in a device of its own. The cost is that
-history lives on the devices that read it, and a new device starts empty. Group DMs,
-private channels, history transfer and a device list are still to come.
-
-## 1 Introduction
-
-From 1.12.0 [1], a direct message on the desktop app and on gryt.chat goes over MLS.
-The server still can't read it. Now a key stolen later can't read it either.
-
-This post answers three questions:
-
-1. **What was missing from the old encryption?**
-2. **What does MLS change**, for you and for the server?
-3. **What isn't covered yet?**
-
-## 2 Background: what sealed DMs already did
+## What sealed DMs already did
 
 Since 1.7, a DM has been encrypted on your machine before it leaves, and the server
 stores something it can't open. [The server can't read your direct
@@ -47,35 +22,17 @@ it all rested on one key. Your DM key came from your 24 words. It was the same o
 device, and it never changed. Anyone who got hold of it could open every DM you'd ever
 received, for as long as the server kept them.
 
-MLS [2] is the IETF's standard for group messaging. It was built for this case: lots
-of devices, a server that passes messages along and can't read them, and keys that
-keep changing.
+## A key that leaks tomorrow doesn't open yesterday
 
-## 3 Design
-
-Table 1 puts the two schemes side by side. The sections after it go through each row.
-
-**Table 1:** Sealed DMs before 1.12.0, and MLS.
-
-| | Before | MLS |
-|---|---|---|
-| Message keys | One key from your 24 words, forever | A new key per message, deleted once read |
-| A key stolen later | Opens every DM the server kept | Opens nothing already sent |
-| Your devices | All the same key | Each one a separate member with its own key |
-| History on a new device | Fetched from the server and decrypted | Starts empty |
-| What your 24 words bring back | Every DM | Your identity, so new messages reach you |
-
-### 3.1 Forward secrecy
-
-A key that leaks tomorrow doesn't open yesterday. That's what forward secrecy means.
-Under MLS every message gets its own key, and your device deletes it once the message
-is decrypted. There's no way to work an old key out from a newer one.
+That's what forward secrecy means. Under MLS every message gets its own key, and your
+device deletes it once the message is decrypted. There's no way to work an old key
+out from a newer one.
 
 So say somebody copies the server's disk today, and next month they get a key off one
 of your devices. They might read what arrives after that. They can't read the messages
 already on that disk, because the keys for those are gone, from your device as well.
 
-### 3.2 Your history lives on your device
+## Your history lives on your device
 
 If nobody keeps the old keys, the server can't send you your history again and have
 you decrypt it. So your device keeps what it already read.
@@ -89,7 +46,12 @@ you decrypt it. So your device keeps what it already read.
 A new device, or a new browser, starts a conversation with nothing from before it
 joined. It gets new messages from then on.
 
-### 3.3 Every device is its own member
+It also changes what your 24 words are for. Before, they were the way back to all of
+your DMs if you lost every device. Now they bring back your identity, so new messages
+still reach you, but not the history of an MLS conversation. That history is on the
+devices that read it.
+
+## Every device is its own member
 
 Under the old scheme your laptop and your phone were the same key. Under MLS each of
 your devices is a separate member of the conversation, with a key it made itself that
@@ -102,7 +64,7 @@ they refuse any device it didn't sign. So the server can't slip a device of its 
 into your DMs. The sixty-digit comparison code covers the person key too, and if you
 compared codes with somebody before, that still counts.
 
-### 3.4 Old apps, and old messages
+## Old apps, and old messages
 
 If somebody's app is from before 1.12.0, it can't read MLS messages. They see
 "sent an end-to-end encrypted message. Update Gryt to read it." in place of each one.
@@ -112,46 +74,27 @@ conversation back to the old scheme.
 
 If the other person has no device that can do MLS yet, or the server is older than
 1.10.35, the conversation stays on the old sealing. So nobody ends up worse off than
-before. DMs sent before the switch keep opening the old way, with the key from your 24
-words. That code stays.
+before.
 
-### 3.5 Implementation
+DMs sent before the switch keep opening the old way, with the key from your 24 words.
+That code stays.
 
-Gryt uses ts-mls [3], pinned to one exact version in @gryt/crypto [4]. The desktop
-app, the web client and the phone all pin the same one, because two different versions
-can reject each other's messages. Every CI run checks it against the MLS working
-group's test vectors for RFC 9420 [5], so a version bump that breaks the format fails
-before it ships.
-
-## 4 What the server still sees
+## What the server still sees
 
 The server's job now is to pass MLS messages along between devices. It still knows:
 
 - who talks to whom, and when each message goes out
 - how many devices each person has on that server
-- which uploads a message holds, so it keeps the files as long as the message. The
-  files themselves are encrypted, and it doesn't see what's in them or what they're
-  called.
+- which uploads a message holds, so it keeps the files as long as the message. The files
+  themselves are encrypted, and it doesn't see what's in them or what they're called.
 
 It keeps MLS messages for 30 days, so a device that's been offline for a while can
 catch up. A host can make that shorter. A device away for longer than that misses what
 was sent in between.
 
-## 5 Discussion
+## What isn't covered yet
 
-### 5.1 Why MLS
-
-MLS handles adding and removing devices, which is the hard part. And it'll carry group
-DMs and private channels later, so there's no second design to write. I'd rather use
-something a lot of people have already picked apart than invent my own.
-
-MLS differs from Signal [6] in one way. Every message is signed by the device that
-sent it, so somebody you write to can prove to a third person that you wrote it.
-Signal is built so they can't.
-
-### 5.2 Limitations and what isn't covered yet
-
-This is the first part. Still to come, with no dates on any of them:
+This is the first part. Still to come:
 
 - **Group DMs.** They're sealed the old way for now.
 - **Private channels.** They aren't encrypted at all yet.
@@ -162,33 +105,38 @@ This is the first part. Still to come, with no dates on any of them:
 - **Moving history to a new device, and backing it up.** Both are planned. Until then
   a new device starts empty.
 - **A list of your devices,** so you can remove one you've lost.
-- **The phone.** Encrypted DMs on the phone work, and they're in internal testing.
-  They'll come with the next phone build. Until then, a phone shows "Update Gryt to
-  read it" for an MLS message.
 
-## 6 Conclusion
+No dates on any of those.
 
-**What was missing?** Forward secrecy. One key from your 24 words opened every DM, on
-every device, forever.
+## The phone
 
-**What does MLS change?** Every message has its own key that's deleted once read, and
-every device is its own member, vouched for by a person key others pin. History now
-lives on your devices instead of being fetchable from the server, and your 24 words
-bring back your identity rather than your old messages.
+Encrypted DMs on the phone work, and they're in internal testing. They'll come with the
+next phone build. Until then, a phone shows "Update Gryt to read it" for an MLS
+message.
 
-**What isn't covered yet?** Group DMs, private channels, reactions and reports, link
-previews, moving history, a device list, and the phone build.
+## Why MLS
 
-The code is in [client](https://github.com/Gryt-chat/client),
+MLS is [RFC 9420](https://www.rfc-editor.org/rfc/rfc9420), the IETF's standard for
+group messaging. It was built for this case: lots of devices, a server that passes
+messages along and can't read them, and keys that keep changing. It handles adding and
+removing devices, which is the hard part. And it'll carry group DMs and private
+channels later, so there's no second design to write. I'd rather use something a lot
+of people have already picked apart than invent my own.
+
+MLS differs from Signal in one way. Every message is signed by the device that sent it,
+so somebody you write to can prove to a third person that you wrote it. Signal is built
+so they can't.
+
+Gryt uses [ts-mls](https://github.com/LukaJCB/ts-mls), pinned to one exact version
+in [@gryt/crypto](https://github.com/Gryt-chat/crypto). The desktop app, the web
+client and the phone all pin the same one, because two different versions can reject
+each other's messages. Every CI run checks it against the MLS working group's test
+vectors for RFC 9420, so a version bump that breaks the format fails before it ships.
+
+---
+
+[1.12.0](/changelog/1.12.0) is the release this shipped in. The code is in
+[client](https://github.com/Gryt-chat/client),
 [server](https://github.com/Gryt-chat/server) and
 [@gryt/crypto](https://github.com/Gryt-chat/crypto), and [the security
 page](https://docs.gryt.chat/docs/about/security) has the details.
-
-## References
-
-1. Gryt changelog. [1.12.0](/changelog/1.12.0).
-2. Barnes, R. et al. *The Messaging Layer Security (MLS) Protocol.* RFC 9420. https://www.rfc-editor.org/rfc/rfc9420
-3. ts-mls. https://github.com/LukaJCB/ts-mls
-4. Gryt. *@gryt/crypto.* https://github.com/Gryt-chat/crypto
-5. MLS working group. *Test vectors.* https://github.com/mlswg/mls-implementations
-6. Signal. *Technical documentation.* https://signal.org/docs/
