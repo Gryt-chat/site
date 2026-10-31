@@ -136,6 +136,31 @@ export const STATIC_PAGES: StaticPage[] = [
     description: "Your screen share is picking up Gryt's own audio. Here's the fix for each computer.",
   },
   {
+    path: "support/server-clock",
+    title: "It says the server's clock is wrong",
+    description: "The server's clock is off by more than a minute. Whoever runs the server can fix it in a couple of commands.",
+  },
+  {
+    path: "support/server-identity",
+    title: "It says Server identity not recognised",
+    description: "The server has a different key than when you first joined. Check before you trust it.",
+  },
+  {
+    path: "support/after-server-restart",
+    title: "The server restarted and things look odd",
+    description: "A short reconnect message and a blip in voice is normal. Here's what to expect when a server restarts.",
+  },
+  {
+    path: "support/my-server-wont-start",
+    title: "My own server won't start or nobody can reach it",
+    description: "Commands to check a Gryt server running in Docker or Kubernetes, and what each failure usually means.",
+  },
+  {
+    path: "support/app-updates",
+    title: "The app won't update or forgets my profile",
+    description: "Old Windows versions can't update themselves, and an old install can reset your profile. Both take one fresh install.",
+  },
+  {
     path: "blog",
     title: "Blog",
     description: "Posts about building Gryt, written by the one person building it.",

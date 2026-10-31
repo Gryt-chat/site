@@ -33,6 +33,11 @@ const InstallPage = lazy(() => import("./pages/support/InstallPage").then((m) =>
 const VoiceWontStartPage = lazy(() => import("./pages/support/VoiceWontStartPage").then((m) => ({ default: m.VoiceWontStartPage })));
 const SoundProblemsPage = lazy(() => import("./pages/support/SoundProblemsPage").then((m) => ({ default: m.SoundProblemsPage })));
 const ScreenShareEchoPage = lazy(() => import("./pages/support/ScreenShareEchoPage").then((m) => ({ default: m.ScreenShareEchoPage })));
+const ServerClockPage = lazy(() => import("./pages/support/ServerClockPage").then((m) => ({ default: m.ServerClockPage })));
+const ServerIdentityPage = lazy(() => import("./pages/support/ServerIdentityPage").then((m) => ({ default: m.ServerIdentityPage })));
+const ServerRestartPage = lazy(() => import("./pages/support/ServerRestartPage").then((m) => ({ default: m.ServerRestartPage })));
+const ServerWontStartPage = lazy(() => import("./pages/support/ServerWontStartPage").then((m) => ({ default: m.ServerWontStartPage })));
+const AppUpdatesPage = lazy(() => import("./pages/support/AppUpdatesPage").then((m) => ({ default: m.AppUpdatesPage })));
 const ChangelogIndex = lazy(() => import("./pages/ChangelogIndex").then((m) => ({ default: m.ChangelogIndex })));
 const ChangelogEntry = lazy(() => import("./pages/ChangelogEntry").then((m) => ({ default: m.ChangelogEntry })));
 const SponsorsPage = lazy(() => import("./pages/SponsorsPage").then((m) => ({ default: m.SponsorsPage })));
@@ -196,6 +201,11 @@ export default function App() {
           <Route path="/support/voice-wont-start" element={<VoiceWontStartPage />} />
           <Route path="/support/sound-problems" element={<SoundProblemsPage />} />
           <Route path="/support/screen-share-echo" element={<ScreenShareEchoPage />} />
+          <Route path="/support/server-clock" element={<ServerClockPage />} />
+          <Route path="/support/server-identity" element={<ServerIdentityPage />} />
+          <Route path="/support/after-server-restart" element={<ServerRestartPage />} />
+          <Route path="/support/my-server-wont-start" element={<ServerWontStartPage />} />
+          <Route path="/support/app-updates" element={<AppUpdatesPage />} />
           <Route path="/sponsors" element={<SponsorsPage />} />
           <Route path="/changelog" element={<ChangelogIndex />} />
           <Route path="/changelog/:version" element={<ChangelogEntry />} />
