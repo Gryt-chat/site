@@ -451,26 +451,28 @@
   resolved "https://registry.yarnpkg.com/@floating-ui/utils/-/utils-0.2.12.tgz#afefe785949f16ac4cdd1e695935a321572dd56a"
   integrity sha512-HpCo8tmWzLVad5s2d19EhAz5zqrrQ6s69qd6moPMQvkOuSwDT1YgRfWSVuc4ennqrgv3OHppiOGMQ7oC13yIww==
 
-"@gryt/owl@^0.6.0":
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/@gryt/owl/-/owl-0.6.0.tgz#7efa4a1c28884e71cdac3316c9db01dc5c21c08e"
-  integrity sha512-2T+YiP8ds8Z3dfkNd2GgaCQyknp0OPmxwC6yAwMsmRG8blGlakd7bdaEoeuUYnlXNgWt+Ssc5ZAE2r/4pMSqaA==
+"@gryt/owl@^0.7.0":
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/@gryt/owl/-/owl-0.7.0.tgz#730a4f9fc3b355dd3629e1bce1d8af71e765ff75"
+  integrity sha512-Bi+xkPjEnvdjGvqV+nYGLYCtlEG5ZkeUZNmGA1KK7U5Gu350mGrpCB5k+h+hss8BbHt5kfX15PDoNHKVoUOevA==
 
-"@gryt/theme@^0.12.0":
-  version "0.12.0"
-  resolved "https://registry.yarnpkg.com/@gryt/theme/-/theme-0.12.0.tgz#e73de4e6d2c632aa5ee8b9af0cbca1af0efebddc"
-  integrity sha512-MGiwgvk5VTqFNsAxrt/e7TFRGnOy/oCN5FpOa5eYjKivZyZHFstL5sLXL7fkNRPNxGBn+Xg87427ZvuzrCiSxQ==
+"@gryt/theme@^0.13.0":
+  version "0.13.0"
+  resolved "https://registry.yarnpkg.com/@gryt/theme/-/theme-0.13.0.tgz#640f3049b53cfe427f0067cfc5faeffbd04d36aa"
+  integrity sha512-7CW/wBKZFL1bfk5xQcJtvdoD+rbCvmHeA0U2uTQMQ9gfXAvIbPx7GL+TjMYYouTtLdJ/OKFARK+NXuS0RaBveg==
 
-"@gryt/ui@^0.37.4":
-  version "0.37.4"
-  resolved "https://registry.yarnpkg.com/@gryt/ui/-/ui-0.37.4.tgz#972c59ab2aaf926b12c7b9c9bd3d4105a97d9014"
-  integrity sha512-bxbVGPUj1cEWPYjYesaAI/KBiw+b5bMWOEIAAkwhgwe3gGC0QlH+6Qi2wPGxrmuqOdv2vtUCzZjoTp2nuMhvIQ==
+"@gryt/ui@^0.46.0":
+  version "0.46.0"
+  resolved "https://registry.yarnpkg.com/@gryt/ui/-/ui-0.46.0.tgz#403d56ccd2a19786b22747e5101356f449bcc08e"
+  integrity sha512-s4rcdxajDpoBOkojphvQJStq9fz+9flj48bujyWXwfMnM67pjUZMgn6RmoSPzmn9Awps87mF8tB1c4TmKTn1Tw==
   dependencies:
     "@base-ui/react" "^1.7.0"
-    "@gryt/owl" "^0.6.0"
-    "@gryt/theme" "^0.12.0"
+    "@gryt/owl" "^0.7.0"
+    "@gryt/theme" "^0.13.0"
     "@phosphor-icons/react" "^2.1.10"
+    "@tanstack/react-virtual" "^3.13.12"
     clsx "^2.1.1"
+    gemoji "^8.1.0"
     tailwind-merge "^3.4.0"
 
 "@humanfs/core@^0.19.2":
@@ -1049,6 +1051,18 @@
     "@tailwindcss/node" "4.3.3"
     "@tailwindcss/oxide" "4.3.3"
     tailwindcss "4.3.3"
+
+"@tanstack/react-virtual@^3.13.12":
+  version "3.14.24"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-virtual/-/react-virtual-3.14.24.tgz#cec5ccdf118449b357d0cd956dc6737756e88f6c"
+  integrity sha512-JoNsByXR68fNlB2NZuT3bSk8uYBxuOWl6YNJ7djTrw7IMwBWuaOtffxj/TcuMa80WmL6byb+80i1NEM/8Qmocw==
+  dependencies:
+    "@tanstack/virtual-core" "3.19.9"
+
+"@tanstack/virtual-core@3.19.9":
+  version "3.19.9"
+  resolved "https://registry.yarnpkg.com/@tanstack/virtual-core/-/virtual-core-3.19.9.tgz#12ab5f5b2561ec2c44510bd72f190c5225dcda8f"
+  integrity sha512-Syiaf3w69dFyYv4o2mqJ1/2VtBJTNq5Hu5cVXfnzOuJKFpUojukQR13ZW+5NvdMJM7GFHeNPmveMNhoIubiFyA==
 
 "@tybys/wasm-util@^0.10.2", "@tybys/wasm-util@^0.10.3":
   version "0.10.3"
@@ -2452,6 +2466,11 @@ fsevents@~2.3.2, fsevents@~2.3.3:
   version "2.3.3"
   resolved "https://registry.yarnpkg.com/fsevents/-/fsevents-2.3.3.tgz#cac6407785d03675a2a5e1a5305c697b347d90d6"
   integrity sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==
+
+gemoji@^8.1.0:
+  version "8.1.0"
+  resolved "https://registry.yarnpkg.com/gemoji/-/gemoji-8.1.0.tgz#3d47a26e569c51efa95198822a6f483d7a7ae600"
+  integrity sha512-HA4Gx59dw2+tn+UAa7XEV4ufUKI4fH1KgcbenVA9YKSj1QJTT0xh5Mwv5HMFNN3l2OtUe3ZIfuRwSyZS5pLIWw==
 
 gensync@^1.0.0-beta.2:
   version "1.0.0-beta.2"
