@@ -99,6 +99,10 @@ export function Step({ title, children }: { title: string; children: ReactNode }
   );
 }
 
+export function Screenshot({ src, alt }: { src: string; alt: string }) {
+  return <img className={styles.screenshot} src={src} alt={alt} loading="lazy" />;
+}
+
 export function Notes({ children }: { children: ReactNode }) {
   return <div className={styles.notes}>{children}</div>;
 }
