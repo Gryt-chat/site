@@ -174,6 +174,148 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.15.0",
+    date: "2026-10-31",
+    line: "The call sits beside your chat, you can share several windows at once, and you can bring your Discord DMs over.",
+    changes: [
+      {
+        kind: "new",
+        area: "voice",
+        text: "Clicking a voice channel opens the call beside the chat you were reading. A grip between them sizes the call, from one camera wide to the whole middle or hidden, and tiles fill the space with shares first, then cameras, then everyone else.",
+      },
+      {
+        kind: "new",
+        area: "voice",
+        text: "Share several windows at once. Each one gets its own quality and sound, a shared window only sends its own sound, and viewers get a Watch tile for each with its name and volume. Nothing is sent to them until they press Watch.",
+      },
+      {
+        kind: "new",
+        area: "voice",
+        text: "Mic, headset and camera have a small arrow beside them for picking devices, and the camera shows you a preview first. Camera quality adds Native and Custom.",
+      },
+      {
+        kind: "new",
+        area: "voice",
+        text: "Messages in the call's chat pop up as bubbles on the sender's tile. Hover one to reply, react or open it in the chat.",
+      },
+      {
+        kind: "new",
+        area: "voice",
+        text: "A fullscreen button, and a pop-out that puts the call in a small window of its own, which can stay on top of a game. With the call hidden, its controls sit in the rail and cameras show as small live dots in the channel list.",
+      },
+      {
+        kind: "new",
+        area: "voice",
+        text: "Your camera can center your face when it starts and keep checking every few seconds.",
+      },
+      {
+        kind: "new",
+        area: "voice",
+        text: "The experimental voice connection switch works right away, sends your voice once when everyone in the call is on it, and has a quality slider from 96 to 192 kbps. It needs server 1.12.2 or newer.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "Import your Discord DMs in a DM's side panel. Ask Discord for your data, drop the .zip in and pick the chat. Your side comes across encrypted with its files and original dates, and a receipt lists any files that didn't make it, so you can try them again.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "Hover the time on an imported message to see when the server received it. Its date is what your package says.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "Bold, italics, headings, lists, quotes and code show in the message box as you type, with a format bar when you select text. Web and email addresses turn into links.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "Before a message with @everyone or @here goes out, Gryt tells you how many people it'll notify and waits for you to confirm.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "Unread counts survive a restart and follow you to another device. It needs server 1.12.2 or newer.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "In a DM, the side panel uses the card the other person made as its background, with search right under them.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "A new computer shows a code to scan. Point your phone's camera at it, check that four pictures match and tap Approve. The phone also gets a notification when a device asks.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "On a Mac, Gryt keeps your key in iCloud Keychain, so a Mac on the same Apple ID as your iPhone gets it when you install Gryt.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "Your devices has its own page in Settings. Your 24 words can be saved as a file or shown as a code to scan, and a device set up from them can bring your messages over from another of your devices.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "When someone's key changes and you've checked it's really them, you can send them your copy of your conversation. Their app shows those messages as shared by you. A changed key also has \"It's not them\", and you can undo trusting one.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "The message password is gone. Gryt no longer keeps a password-locked copy of your key on your account, since anyone who got hold of the server's database could keep guessing that password. A device that has your key removes the old copy by itself.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "Only one of your own devices can change the key your account uses on a server. \"Start fresh\" is now \"Lost everything?\". Your new key takes over after 30 days, and until then any of your devices can stop it.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "A device of yours joins an encrypted DM by itself, even with your other devices closed, and a DM takes up to 100 of your devices instead of 5. A message you write before it's in waits and sends itself.",
+      },
+      {
+        kind: "changed",
+        area: "servers",
+        text: "Click the server's name to open its menu, with invites, notifications, channels, settings and leaving in groups of their own.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "In a narrow window the member list folds to small faces, the channel list folds to icons, and below 820px the call is either full or hidden.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "Pictures in a message are a square grid again, and the lightbox shows them at their own size.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "Encrypted DMs that got stuck after a device was removed, or after every device in them was gone, work again.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "The buttons for reacting and replying sit above a message again, so they don't cover its text or links.",
+      },
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "You stay signed in if the sign-in service is down when Gryt starts, and the Microsoft Store version no longer offers betas it can't install.",
+      },
+      {
+        kind: "fixed",
+        area: "servers",
+        text: "Error toasts say what happened in plain words, and joining tries once more by itself when the server's join challenge has gone stale.",
+      },
+    ],
+  },
+  {
     version: "1.15.0-beta.19",
     date: "2026-10-31",
     channel: "beta",
@@ -4513,6 +4655,53 @@ export const app: ReleaseLine[] = [
  * So a reader here is usually somebody deciding whether to pull a new image.
  */
 export const server: ReleaseLine[] = [
+  {
+    version: "1.12.2",
+    date: "2026-10-31",
+    line: "The server remembers where you've read up to, new voice channels get their own chat, and the device and key rules the 1.15 app needs are in.",
+    changes: [
+      {
+        kind: "new",
+        area: "self-hosting",
+        text: "The server remembers how far each person has read in a conversation, and counts unread in channels they haven't opened from when they joined.",
+      },
+      {
+        kind: "new",
+        area: "self-hosting",
+        text: "New voice channels get their own text chat by default, and a voice client can announce several shared windows, each with its name.",
+      },
+      {
+        kind: "new",
+        area: "self-hosting",
+        text: "Threads say who replied last and which reply solved a topic.",
+      },
+      {
+        kind: "changed",
+        area: "self-hosting",
+        text: "Encrypted DMs take up to 100 devices per person. Devices not seen within the retention window expire, and a DM with nobody left in it starts over.",
+      },
+      {
+        kind: "changed",
+        area: "self-hosting",
+        text: "Only your current key can move a server to another key. Resetting a key with no device and no words takes 30 days, and a phone gets a push when a device asks to be approved.",
+      },
+      {
+        kind: "changed",
+        area: "self-hosting",
+        text: "Chat uploads go up to 300 a minute per person, so a big Discord import doesn't sit waiting on the limit.",
+      },
+      {
+        kind: "changed",
+        area: "self-hosting",
+        text: "Avatars are encoded at AVIF quality 75 instead of 50, and the encrypted preview in a push says which conversation and message it's for.",
+      },
+      {
+        kind: "fixed",
+        area: "self-hosting",
+        text: "The member list goes out again when someone's voice stream changes.",
+      },
+    ],
+  },
   {
     version: "1.12.1",
     date: "2026-10-23",
