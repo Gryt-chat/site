@@ -107,6 +107,34 @@ export const SUPPORT_PAGES: { title: string; href: string; detail: string; kind:
     kind: "problem",
     words: ["update", "updates", "updating", "upgrade", "version", "profile", "resets", "forgets", "settings", "stuck"],
   },
+  {
+    title: "Host a server from the app",
+    href: "/support/host-a-server",
+    detail: "The app is also a server. Make one in under a minute.",
+    kind: "guide",
+    words: ["host", "hosting", "create", "make", "own", "new", "server", "start", "lan", "party", "run"],
+  },
+  {
+    title: "Join a server",
+    href: "/support/join-a-server",
+    detail: "Use an invite link, or add a server by its address.",
+    kind: "guide",
+    words: ["join", "joining", "add", "enter", "address", "friend", "link", "first", "get", "started"],
+  },
+  {
+    title: "Make an invite",
+    href: "/support/make-an-invite",
+    detail: "Create a link, limit its uses, or open up to your network.",
+    kind: "guide",
+    words: ["invite", "invites", "create", "make", "code", "share", "link", "lan", "limit", "revoke", "expiry"],
+  },
+  {
+    title: "Do I need an account?",
+    href: "/support/account-or-guest",
+    detail: "Not to try it. Here's how to choose between guest and account.",
+    kind: "guide",
+    words: ["account", "guest", "sign", "signup", "login", "email", "password", "register", "identity", "device", "lost"],
+  },
 ];
 
 /** Our own pages answer in everyday words, which the docs search can miss: "no sound" finds nothing useful there. */
