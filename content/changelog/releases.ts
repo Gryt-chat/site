@@ -174,6 +174,29 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.15.0-beta.18",
+    date: "2026-10-31",
+    channel: "beta",
+    line: "Beta: your old unencrypted DM messages now move onto encryption by themselves, once the DM's key has shown it works.",
+    changes: [
+      {
+        kind: "changed",
+        area: "chat",
+        text: "Once a message from the other person has opened on your device, your old text messages in that DM get sent again encrypted, and the unencrypted copies come off the server. Whoever runs the server may already have read or backed up the old ones. Messages with files, polls or pins stay as they are.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "Hover the time on a moved message to see when it says it was sent and when the server received this copy.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "Hovering the red dot on an unencrypted message now shows what it means.",
+      },
+    ],
+  },
+  {
     version: "1.15.0-beta.17",
     date: "2026-10-30",
     channel: "beta",
