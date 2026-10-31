@@ -42,7 +42,7 @@
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-icons": "^5.5.0",
-    "react-motion-lightbox": "0.7.1",
+    "react-motion-lightbox": "0.9.1",
     "react-router-dom": "^7.13.0",
     "remark-frontmatter": "^5.0.0",
     "remark-gfm": "^4.0.1",
