@@ -8,7 +8,7 @@ import {
   PiSpeakerSlash,
 } from "react-icons/pi";
 
-import { DOCS_SEARCH_URL, toSupportResults, type DocsHit, type SupportResult } from "../lib/supportSearch";
+import { DOCS_SEARCH_URL, matchSupportPages, toSupportResults, type DocsHit, type SupportResult } from "../lib/supportSearch";
 import { pageTitle } from "../lib/title";
 import styles from "./SupportPage.module.css";
 
@@ -90,6 +90,7 @@ function ProblemCard({
 export function SupportPage() {
   const [query, setQuery] = useState("");
   const search = useDocsSearch(query.trim());
+  const results = [...matchSupportPages(query), ...(search.kind === "done" ? search.results : [])];
 
   useEffect(() => {
     document.title = pageTitle("Support");
@@ -134,7 +135,7 @@ export function SupportPage() {
 
           <div role="status">
             {search.kind === "loading" && <p className={styles.status}>Searching…</p>}
-            {search.kind === "done" && search.results.length === 0 && (
+            {search.kind === "done" && results.length === 0 && (
               <p className={styles.status}>No results. Try fewer words, or ask us below.</p>
             )}
             {search.kind === "failed" && (
@@ -145,17 +146,26 @@ export function SupportPage() {
             )}
           </div>
 
-          {search.kind === "done" && search.results.length > 0 && (
+          {search.kind !== "idle" && results.length > 0 && (
             <ul className={styles.results}>
-              {search.results.map((result) => (
-                <li key={result.href}>
-                  <a className={styles.result} href={result.href} target="_blank" rel="noreferrer">
+              {results.map((result) => {
+                const body = (
+                  <>
                     <span className={styles.resultName}>{result.name}</span>
                     <span className={styles.resultPage}>{result.page}</span>
                     {result.detail && <span className={styles.resultDetail}>{result.detail}</span>}
-                  </a>
-                </li>
-              ))}
+                  </>
+                );
+                return (
+                  <li key={result.href}>
+                    {result.href.startsWith("/") ? (
+                      <Link className={styles.result} to={result.href}>{body}</Link>
+                    ) : (
+                      <a className={styles.result} href={result.href} target="_blank" rel="noreferrer">{body}</a>
+                    )}
+                  </li>
+                );
+              })}
             </ul>
           )}
         </div>
