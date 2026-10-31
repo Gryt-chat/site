@@ -194,6 +194,11 @@ export const app: ReleaseLine[] = [
         area: "chat",
         text: "When an import finishes, a receipt lists any files that didn't come over and why, and you can try those again.",
       },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "Old unencrypted DM messages no longer move onto encryption by themselves. It's off until we're sure it's safe. Anything already moved stays as it is.",
+      },
     ],
   },
   {
