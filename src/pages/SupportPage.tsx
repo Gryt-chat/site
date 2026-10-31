@@ -178,25 +178,25 @@ export function SupportPage() {
           </ProblemCard>
           <ProblemCard
             className={styles.cardWide}
-            to={`${TROUBLESHOOTING}#people-connect-and-chat-but-nobody-can-hear-anyone`}
+            to="/support/nobody-can-hear-anyone"
             icon={<PiSpeakerSlash size={30} />}
             title="Nobody can hear anyone"
             text="Chat works but voice doesn't. It's usually a closed port."
           />
           <ProblemCard
-            to={`${TROUBLESHOOTING}#microphone-not-working`}
+            to="/support/microphone"
             icon={<PiMicrophone size={30} />}
             title="My mic doesn't work"
             text="Permissions and picking the right device."
           />
           <ProblemCard
-            to={`${TROUBLESHOOTING}#connection-issues`}
+            to="/support/cant-connect"
             icon={<PiLinkBreak size={30} />}
             title="I can't connect"
             text="Connection errors, wrong clocks and servers it doesn't recognise."
           />
           <ProblemCard
-            to={`${TROUBLESHOOTING}#installation-warnings`}
+            to="/support/install"
             icon={<PiDownloadSimple size={30} />}
             title="The app won't install"
             text="Warnings on Windows and macOS, and Linux AppImages."
