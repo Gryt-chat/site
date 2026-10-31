@@ -8,7 +8,8 @@ import {
   PiSpeakerSlash,
 } from "react-icons/pi";
 
-import { DOCS_SEARCH_URL, matchSupportPages, toSupportResults, type DocsHit, type SupportResult } from "../lib/supportSearch";
+import { DOCS_SEARCH_URL, matchSupportPages, SUPPORT_PAGES, toSupportResults, type DocsHit, type SupportResult } from "../lib/supportSearch";
+import { Block, LinkRows } from "../components/LinkRows";
 import { pageTitle } from "../lib/title";
 import styles from "./SupportPage.module.css";
 
@@ -84,6 +85,18 @@ function ProblemCard({
     <Link className={classes} to={to}>{body}</Link>
   ) : (
     <a className={classes} href={to} target="_blank" rel="noreferrer">{body}</a>
+  );
+}
+
+function MoreHelp() {
+  const more = SUPPORT_PAGES.slice(5).map((page) => ({ ...page, name: page.title }));
+  const problems = more.filter((page) => page.kind === "problem");
+  const guides = more.filter((page) => page.kind === "guide");
+  return (
+    <>
+      {problems.length > 0 && <Block heading="Other problems"><LinkRows items={problems} /></Block>}
+      {guides.length > 0 && <Block heading="How to do things"><LinkRows items={guides} /></Block>}
+    </>
   );
 }
 
@@ -216,6 +229,8 @@ export function SupportPage() {
           Everything down at once? <a href="https://status.gryt.chat">Check the status page</a>.
         </p>
       </section>
+
+      <MoreHelp />
 
       <section className={styles.ask} aria-labelledby="support-ask">
         <div className={styles.askBody}>

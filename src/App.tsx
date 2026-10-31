@@ -30,6 +30,9 @@ const NoVoicePage = lazy(() => import("./pages/support/NoVoicePage").then((m) =>
 const MicrophonePage = lazy(() => import("./pages/support/MicrophonePage").then((m) => ({ default: m.MicrophonePage })));
 const CantConnectPage = lazy(() => import("./pages/support/CantConnectPage").then((m) => ({ default: m.CantConnectPage })));
 const InstallPage = lazy(() => import("./pages/support/InstallPage").then((m) => ({ default: m.InstallPage })));
+const VoiceWontStartPage = lazy(() => import("./pages/support/VoiceWontStartPage").then((m) => ({ default: m.VoiceWontStartPage })));
+const SoundProblemsPage = lazy(() => import("./pages/support/SoundProblemsPage").then((m) => ({ default: m.SoundProblemsPage })));
+const ScreenShareEchoPage = lazy(() => import("./pages/support/ScreenShareEchoPage").then((m) => ({ default: m.ScreenShareEchoPage })));
 const ChangelogIndex = lazy(() => import("./pages/ChangelogIndex").then((m) => ({ default: m.ChangelogIndex })));
 const ChangelogEntry = lazy(() => import("./pages/ChangelogEntry").then((m) => ({ default: m.ChangelogEntry })));
 const SponsorsPage = lazy(() => import("./pages/SponsorsPage").then((m) => ({ default: m.SponsorsPage })));
@@ -190,6 +193,9 @@ export default function App() {
           <Route path="/support/microphone" element={<MicrophonePage />} />
           <Route path="/support/cant-connect" element={<CantConnectPage />} />
           <Route path="/support/install" element={<InstallPage />} />
+          <Route path="/support/voice-wont-start" element={<VoiceWontStartPage />} />
+          <Route path="/support/sound-problems" element={<SoundProblemsPage />} />
+          <Route path="/support/screen-share-echo" element={<ScreenShareEchoPage />} />
           <Route path="/sponsors" element={<SponsorsPage />} />
           <Route path="/changelog" element={<ChangelogIndex />} />
           <Route path="/changelog/:version" element={<ChangelogEntry />} />
