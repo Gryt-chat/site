@@ -26,6 +26,10 @@ const DevelopersPage = lazy(() => import("./pages/DevelopersPage").then((m) => (
 const SelfHostingPage = lazy(() => import("./pages/SelfHostingPage").then((m) => ({ default: m.SelfHostingPage })));
 const SupportPage = lazy(() => import("./pages/SupportPage").then((m) => ({ default: m.SupportPage })));
 const InviteFriendPage = lazy(() => import("./pages/support/InviteFriendPage").then((m) => ({ default: m.InviteFriendPage })));
+const NoVoicePage = lazy(() => import("./pages/support/NoVoicePage").then((m) => ({ default: m.NoVoicePage })));
+const MicrophonePage = lazy(() => import("./pages/support/MicrophonePage").then((m) => ({ default: m.MicrophonePage })));
+const CantConnectPage = lazy(() => import("./pages/support/CantConnectPage").then((m) => ({ default: m.CantConnectPage })));
+const InstallPage = lazy(() => import("./pages/support/InstallPage").then((m) => ({ default: m.InstallPage })));
 const ChangelogIndex = lazy(() => import("./pages/ChangelogIndex").then((m) => ({ default: m.ChangelogIndex })));
 const ChangelogEntry = lazy(() => import("./pages/ChangelogEntry").then((m) => ({ default: m.ChangelogEntry })));
 const SponsorsPage = lazy(() => import("./pages/SponsorsPage").then((m) => ({ default: m.SponsorsPage })));
@@ -182,6 +186,10 @@ export default function App() {
           <Route path="/self-hosting" element={<SelfHostingPage />} />
           <Route path="/support" element={<SupportPage />} />
           <Route path="/support/invite-a-friend" element={<InviteFriendPage />} />
+          <Route path="/support/nobody-can-hear-anyone" element={<NoVoicePage />} />
+          <Route path="/support/microphone" element={<MicrophonePage />} />
+          <Route path="/support/cant-connect" element={<CantConnectPage />} />
+          <Route path="/support/install" element={<InstallPage />} />
           <Route path="/sponsors" element={<SponsorsPage />} />
           <Route path="/changelog" element={<ChangelogIndex />} />
           <Route path="/changelog/:version" element={<ChangelogEntry />} />

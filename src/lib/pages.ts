@@ -101,6 +101,26 @@ export const STATIC_PAGES: StaticPage[] = [
     description: "Your invite link might only work on your own network. Here's how to fix it, and what to do if a code gets refused.",
   },
   {
+    path: "support/nobody-can-hear-anyone",
+    title: "Nobody can hear anyone",
+    description: "Chat works but voice doesn't. It's usually a closed port, and whoever runs the server can fix it.",
+  },
+  {
+    path: "support/microphone",
+    title: "My mic doesn't work",
+    description: "Work through mute, your input device, permissions and the noise gate.",
+  },
+  {
+    path: "support/cant-connect",
+    title: "I can't connect to a server",
+    description: "Check the address, then what the error message says.",
+  },
+  {
+    path: "support/install",
+    title: "The app won't install or open",
+    description: "Warnings on Windows and macOS, and Linux AppImages that won't start.",
+  },
+  {
     path: "blog",
     title: "Blog",
     description: "Posts about building Gryt, written by the one person building it.",
