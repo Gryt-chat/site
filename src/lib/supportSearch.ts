@@ -14,36 +14,63 @@ export interface SupportResult {
   href: string;
 }
 
-const SUPPORT_PAGES = [
+/** The first five are the cards on /support; everything after them is listed below the cards. */
+export const SUPPORT_PAGES: { title: string; href: string; detail: string; kind: "problem" | "guide"; words: string[] }[] = [
   {
     title: "I can't invite a friend",
     href: "/support/invite-a-friend",
     detail: "Links that only work on your network, refused codes and missing permissions.",
+    kind: "problem",
     words: ["invite", "invitation", "link", "code", "friend", "join", "refused", "expired", "uses"],
   },
   {
     title: "Nobody can hear anyone",
     href: "/support/nobody-can-hear-anyone",
     detail: "Chat works, but voice doesn't.",
+    kind: "problem",
     words: ["hear", "sound", "audio", "voice", "silent", "port", "ports", "udp", "nobody"],
   },
   {
     title: "My mic doesn't work",
     href: "/support/microphone",
     detail: "Mute, your input device, permissions and the noise gate.",
+    kind: "problem",
     words: ["mic", "microphone", "mute", "muted", "echo", "quiet", "input", "noise", "headset"],
   },
   {
     title: "I can't connect to a server",
     href: "/support/cant-connect",
     detail: "Wrong addresses, servers that are down and error messages.",
+    kind: "problem",
     words: ["connect", "connecting", "connection", "error", "offline", "identity", "clock", "timeout", "down", "address"],
   },
   {
     title: "The app won't install or open",
     href: "/support/install",
     detail: "Warnings on Windows and macOS, and Linux AppImages.",
+    kind: "problem",
     words: ["install", "installer", "download", "open", "smartscreen", "windows", "macos", "mac", "linux", "appimage", "launch"],
+  },
+  {
+    title: "Joining voice hangs, then blames my network",
+    href: "/support/voice-wont-start",
+    detail: "Nothing happens for 15 seconds, then a message about your network.",
+    kind: "problem",
+    words: ["hang", "hangs", "stuck", "seconds", "network", "join", "joining", "stun", "dns", "adguard", "pihole", "nextdns", "voice"],
+  },
+  {
+    title: "Voice sounds bad",
+    href: "/support/sound-problems",
+    detail: "Echo, cut-off words, pumping volume or audio dropping out.",
+    kind: "problem",
+    words: ["echo", "bad", "quality", "cut", "cuts", "cutting", "robotic", "pump", "volume", "loud", "drop", "dropping", "feedback"],
+  },
+  {
+    title: "People hear themselves when I share my screen",
+    href: "/support/screen-share-echo",
+    detail: "Your screen share is picking up Gryt's own audio.",
+    kind: "problem",
+    words: ["screen", "share", "screenshare", "sharing", "themselves", "twice", "double", "own", "voice"],
   },
 ];
 

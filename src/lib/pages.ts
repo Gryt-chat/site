@@ -121,6 +121,21 @@ export const STATIC_PAGES: StaticPage[] = [
     description: "Warnings on Windows and macOS, and Linux AppImages that won't start.",
   },
   {
+    path: "support/voice-wont-start",
+    title: "Joining voice hangs, then blames my network",
+    description: "You click a voice channel, nothing happens for 15 seconds, then a network message. It's usually DNS filtering.",
+  },
+  {
+    path: "support/sound-problems",
+    title: "Voice sounds bad",
+    description: "Echo, words cut off, volume going up and down, or audio dropping out. Here's what each one usually means.",
+  },
+  {
+    path: "support/screen-share-echo",
+    title: "People hear themselves when I share my screen",
+    description: "Your screen share is picking up Gryt's own audio. Here's the fix for each computer.",
+  },
+  {
     path: "blog",
     title: "Blog",
     description: "Posts about building Gryt, written by the one person building it.",

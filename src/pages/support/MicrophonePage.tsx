@@ -15,14 +15,14 @@ export function MicrophonePage() {
             Look at the mute button in Gryt, then any mute switch on your headset.
           </Step>
           <Step title="Pick the right microphone">
-            Open the audio settings in Gryt and check the right device is selected. If you have more than one, try
+            Go to <strong>Settings → Audio</strong> and check the right device is selected. If you have more than one, try
             another.
           </Step>
           <Step title="Allow the microphone">
             In a browser, check that the site is allowed to use your mic. Voice also needs a page on HTTPS.
           </Step>
           <Step title="Check the noise gate">
-            If you&rsquo;re connected but quiet parts cut out, lower the noise gate in the audio settings.
+            If the meter next to the slider moves but nobody hears you, the noise gate is probably set too high. Lower it in <strong>Settings → Audio</strong>.
           </Step>
         </Steps>
 
