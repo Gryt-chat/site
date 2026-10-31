@@ -3643,10 +3643,10 @@ react-icons@^5.5.0:
   resolved "https://registry.yarnpkg.com/react-icons/-/react-icons-5.7.0.tgz#8969db00968ffdfc57fdc2ec9dd1ed88e35b3de9"
   integrity sha512-LBLy340Rzqy6+/yVhZKT3B/QpP1BZaesGqasf09HPOBzRarcDIFH0WwXlXQfE7q7ipxK4MSiC5DIBWURCny6fw==
 
-react-motion-lightbox@0.7.1:
-  version "0.7.1"
-  resolved "https://registry.yarnpkg.com/react-motion-lightbox/-/react-motion-lightbox-0.7.1.tgz#81358786a1767c149fb3d647de2ead2dd36c5e24"
-  integrity sha512-vpKlrfLDzFY2dVH+iiA4mLJyaAXY2HK04xYUdPercpt3/IQPRMD6DhLlLE8pX4oeW1yYqAlForffAi9UjAof5Q==
+react-motion-lightbox@0.9.1:
+  version "0.9.1"
+  resolved "https://registry.yarnpkg.com/react-motion-lightbox/-/react-motion-lightbox-0.9.1.tgz#40b22f054b268917ce55781a9a1b2a475dfc507d"
+  integrity sha512-iYgeKPvg/NbR5OKiwE+CoDRvuW2lKUJr/Y0Bam1Kq4xiZLGGpdp2Px0mtpO8OO+9mC4jakwyuToVxsH6c+SEYw==
 
 react-refresh@^0.18.0:
   version "0.18.0"

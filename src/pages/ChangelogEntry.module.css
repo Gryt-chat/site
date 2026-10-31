@@ -198,6 +198,7 @@
 
 .prose img {
   cursor: zoom-in;
+  margin: 0 auto;
 }
 
 /* A clip is never drawn larger than it was recorded, even though the pictures

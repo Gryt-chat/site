@@ -6,6 +6,7 @@ import { Chip } from '@gryt/ui'
 import { getNeighbours, getPost } from '../lib/blog'
 import { monthDayYear } from '../lib/formatDate'
 import { pageTitle } from '../lib/title'
+import { PiArrowSquareOut } from 'react-icons/pi'
 import { LightboxImage } from '../components/Lightbox'
 import { PostNav } from '../components/PostNav'
 import styles from './BlogPost.module.css'
@@ -15,7 +16,13 @@ function MdxLink({ href, ...rest }: ComponentPropsWithoutRef<'a'>) {
   if (href?.startsWith('/')) {
     return <Link to={href} {...rest} />
   }
-  return <a href={href} {...rest} target="_blank" rel="noreferrer" />
+  const { children, ...link } = rest
+  return (
+    <a href={href} {...link} target="_blank" rel="noreferrer">
+      {children}
+      <PiArrowSquareOut aria-label="opens in a new tab" className={styles.externalIcon} />
+    </a>
+  )
 }
 
 function MdxImage(props: ComponentPropsWithoutRef<'img'>) {
@@ -68,11 +75,20 @@ export function BlogPost() {
 
       <header className={styles.header}>
         {frontmatter.image && (
-          <img
+          <LightboxImage
             src={frontmatter.image}
             alt={frontmatter.title}
             className={styles.heroImage}
           />
+        )}
+        {frontmatter.tags && frontmatter.tags.length > 0 && (
+          <div className={styles.tags}>
+            {frontmatter.tags.map((tag) => (
+              <Chip key={tag} tone="primary">
+                {tag}
+              </Chip>
+            ))}
+          </div>
         )}
         <h1 className={styles.title}>{frontmatter.title}</h1>
         {frontmatter.description && (
@@ -85,15 +101,6 @@ export function BlogPost() {
             {monthDayYear(frontmatter.date)}
           </time>
         </div>
-        {frontmatter.tags && frontmatter.tags.length > 0 && (
-          <div className={styles.tags}>
-            {frontmatter.tags.map((tag) => (
-              <Chip key={tag} tone="primary">
-                {tag}
-              </Chip>
-            ))}
-          </div>
-        )}
       </header>
 
       <div className={styles.prose}>
