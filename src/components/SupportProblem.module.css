@@ -1,0 +1,288 @@
+/* Hallmark · macrostructure: Narrative Workflow · tone: warm, plain · anchor hue: periwinkle
+ * theme: Gryt tokens (design.md) · enrichment: none · nav and footer: site chrome */
+
+.page {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 96px 24px 96px;
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+/* Back, choice and button links are read by their shape, so none carries the underline. */
+.back {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.title {
+  margin: 12px 0 0;
+  font-size: clamp(36px, 5.4vw, 52px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.06;
+  text-wrap: balance;
+}
+
+.lede {
+  margin: 16px 0 0;
+  font-size: 19px;
+  color: var(--text-dim);
+}
+
+.choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.choice {
+  flex: 1 1 200px;
+  display: flex;
+  align-items: center;
+  min-height: 56px;
+  padding: 10px 16px;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--text);
+  text-decoration: none;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  transition: border-color 0.2s;
+}
+
+.choice:hover {
+  color: var(--text);
+  border-color: var(--accent);
+}
+
+.back:focus-visible,
+.choice:focus-visible,
+.primary:focus-visible,
+.secondary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.section {
+  margin-top: 56px;
+  scroll-margin-top: 88px;
+}
+
+.heading {
+  margin: 0;
+  font-size: clamp(25px, 3vw, 32px);
+  font-weight: 800;
+  letter-spacing: -0.024em;
+  line-height: 1.15;
+  text-wrap: balance;
+}
+
+.intro,
+.body {
+  margin: 12px 0 0;
+}
+
+.intro,
+.note p,
+.stepBody p,
+.messageFix {
+  color: var(--text-dim);
+}
+
+.intro strong,
+.note strong,
+.stepBody strong {
+  color: var(--text);
+}
+
+.code {
+  margin: 16px 0 0;
+  padding: 16px;
+  font-family: var(--font-mono);
+  font-size: 15px;
+  line-height: 1.8;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.mark {
+  font-weight: 500;
+  color: var(--accent-light);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.steps {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin: 28px 0 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: step;
+}
+
+.step {
+  display: flex;
+  gap: 16px;
+  counter-increment: step;
+}
+
+.step::before {
+  content: counter(step);
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  font-weight: 800;
+  color: var(--accent-ink);
+  background: var(--accent);
+  border-radius: 18px;
+}
+
+.stepBody {
+  min-width: 0;
+}
+
+.stepTitle {
+  margin: 4px 0 0;
+  font-size: 19px;
+  font-weight: 800;
+  letter-spacing: -0.014em;
+  line-height: 1.3;
+}
+
+.stepBody p {
+  margin: 6px 0 0;
+}
+
+.notes {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 28px;
+}
+
+.note {
+  padding: 16px 18px;
+  font-size: 16px;
+  background: var(--bg-raised);
+  border-radius: 12px;
+}
+
+.noteTitle {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 800;
+}
+
+.note p {
+  margin: 4px 0 0;
+}
+
+.messages {
+  margin: 16px 0 0;
+  border-top: 1px solid var(--border);
+}
+
+.message {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.messageText {
+  font-weight: 700;
+}
+
+.messageFix {
+  margin: 0;
+  font-size: 16px;
+}
+
+.ask {
+  margin-top: 56px;
+  padding: 28px;
+  background: color-mix(in oklab, var(--accent) 24%, var(--bg));
+  border-radius: 16px;
+}
+
+.askTitle {
+  margin: 0;
+  font-size: clamp(24px, 3vw, 30px);
+  font-weight: 800;
+  letter-spacing: -0.024em;
+  line-height: 1.12;
+}
+
+.askText {
+  margin: 10px 0 0;
+  color: var(--text);
+}
+
+.askLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.primary,
+.secondary {
+  display: inline-flex;
+  align-items: center;
+  min-height: 48px;
+  padding: 0 20px;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+  border-radius: 12px;
+}
+
+.primary {
+  color: var(--accent-ink);
+  background: var(--accent);
+}
+
+.primary:hover {
+  color: var(--accent-ink);
+  background: var(--accent-light);
+}
+
+.secondary {
+  color: var(--text);
+  border: 1px solid color-mix(in oklab, var(--accent) 60%, var(--bg));
+}
+
+.secondary:hover {
+  color: var(--text);
+  border-color: var(--accent-light);
+}
+
+@media (max-width: 480px) {
+  .page {
+    padding-top: 80px;
+  }
+
+  .ask {
+    padding: 24px;
+  }
+
+  .primary,
+  .secondary {
+    justify-content: center;
+    width: 100%;
+  }
+}

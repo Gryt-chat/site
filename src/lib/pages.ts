@@ -96,6 +96,11 @@ export const STATIC_PAGES: StaticPage[] = [
     description: "Stuck on something in Gryt? Search the docs, check the common problems, or ask a person.",
   },
   {
+    path: "support/invite-a-friend",
+    title: "I can't invite a friend",
+    description: "Your invite link might only work on your own network. Here's how to fix it, and what to do if a code gets refused.",
+  },
+  {
     path: "blog",
     title: "Blog",
     description: "Posts about building Gryt, written by the one person building it.",

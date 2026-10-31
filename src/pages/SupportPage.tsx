@@ -1,4 +1,5 @@
 import { type ReactNode, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import {
   PiDownloadSimple,
   PiLinkBreak,
@@ -53,29 +54,36 @@ function useDocsSearch(query: string): SearchState {
 }
 
 function ProblemCard({
-  anchor,
+  to,
   title,
   text,
   icon,
   className,
   children,
 }: {
-  anchor: string;
+  to: string;
   title: string;
   text: string;
   icon?: ReactNode;
   className?: string;
   children?: ReactNode;
 }) {
-  return (
-    <a className={`${styles.card} ${className ?? ""}`} href={`${TROUBLESHOOTING}#${anchor}`} target="_blank" rel="noreferrer">
+  const classes = `${styles.card} ${className ?? ""}`;
+  const body = (
+    <>
       {icon && <span className={styles.cardIcon} aria-hidden="true">{icon}</span>}
       {children}
       <div>
         <h3 className={styles.cardTitle}>{title}</h3>
         <p className={styles.cardText}>{text}</p>
       </div>
-    </a>
+    </>
+  );
+
+  return to.startsWith("/") ? (
+    <Link className={classes} to={to}>{body}</Link>
+  ) : (
+    <a className={classes} href={to} target="_blank" rel="noreferrer">{body}</a>
   );
 }
 
@@ -160,7 +168,7 @@ export function SupportPage() {
         <div className={styles.cards}>
           <ProblemCard
             className={styles.cardFeature}
-            anchor="invite-issues"
+            to="/support/invite-a-friend"
             title="I can't invite a friend"
             text="Does your link look like this? That address only works on your own network. Here's the fix, and what to do if a code gets refused."
           >
@@ -170,25 +178,25 @@ export function SupportPage() {
           </ProblemCard>
           <ProblemCard
             className={styles.cardWide}
-            anchor="people-connect-and-chat-but-nobody-can-hear-anyone"
+            to={`${TROUBLESHOOTING}#people-connect-and-chat-but-nobody-can-hear-anyone`}
             icon={<PiSpeakerSlash size={30} />}
             title="Nobody can hear anyone"
             text="Chat works but voice doesn't. It's usually a closed port."
           />
           <ProblemCard
-            anchor="microphone-not-working"
+            to={`${TROUBLESHOOTING}#microphone-not-working`}
             icon={<PiMicrophone size={30} />}
             title="My mic doesn't work"
             text="Permissions and picking the right device."
           />
           <ProblemCard
-            anchor="connection-issues"
+            to={`${TROUBLESHOOTING}#connection-issues`}
             icon={<PiLinkBreak size={30} />}
             title="I can't connect"
             text="Connection errors, wrong clocks and servers it doesn't recognise."
           />
           <ProblemCard
-            anchor="installation-warnings"
+            to={`${TROUBLESHOOTING}#installation-warnings`}
             icon={<PiDownloadSimple size={30} />}
             title="The app won't install"
             text="Warnings on Windows and macOS, and Linux AppImages."
