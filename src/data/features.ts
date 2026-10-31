@@ -62,6 +62,22 @@ export const upcoming: UpcomingFeature[] = [
 /** Newest line first. 1.4 and 1.8 never had a stable release, so they aren't here. */
 export const featureLines: FeatureLine[] = [
   {
+    version: '1.15',
+    features: [
+      { area: 'voice', month: 'Oct 2026', title: 'The call beside your chat', text: 'Clicking a voice channel opens the call next to what you were reading, and a grip sizes it.' },
+      { area: 'voice', month: 'Oct 2026', title: 'Share several windows', text: 'Each window gets its own quality, sound and Watch tile.' },
+      { area: 'voice', month: 'Oct 2026', title: 'Pop-out and fullscreen', text: 'Put the call in a small window that can stay on top of a game, or fill the screen.' },
+      { area: 'voice', month: 'Oct 2026', title: 'Bubbles on the tile', text: 'Messages in the call’s chat pop up on the sender’s tile, ready to reply to.' },
+      { area: 'chat', month: 'Oct 2026', title: 'Bring your Discord DMs', text: 'Drop in Discord’s data package and your side of a chat comes across encrypted, with its files and dates.' },
+      { area: 'chat', month: 'Oct 2026', title: 'Formatting as you type', text: 'The message box shows bold, lists, quotes and code as they’ll be sent, with a format bar.' },
+      { area: 'chat', month: 'Oct 2026', title: 'A check before @everyone', text: 'Gryt says how many people a ping will notify and waits for you.' },
+      { area: 'chat', month: 'Oct 2026', title: 'Unread that follows you', text: 'Unread counts survive a restart and carry over to your other devices.' },
+      { area: 'you', month: 'Oct 2026', title: 'Approve a device with a scan', text: 'Point your phone at the code on a new computer, check four pictures match and tap Approve.' },
+      { area: 'you', month: 'Oct 2026', title: 'Your key in iCloud Keychain', text: 'A Mac on your Apple ID gets your key from iCloud Keychain, like your iPhone does.' },
+      { area: 'privacy', month: 'Oct 2026', title: 'No more message password', text: 'The server no longer keeps a password-locked copy of your key, so nobody can sit and guess it.' },
+    ],
+  },
+  {
     version: '1.14',
     features: [
       { area: 'chat', month: 'Oct 2026', title: 'A space for direct messages', text: 'Every conversation from every server in one list, with the person’s card beside it. Pin the people you talk to most.', post: 'direct-messages-redrawn' },
