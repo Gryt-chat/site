@@ -24,14 +24,16 @@ function sectionName(url: string): string {
 }
 
 function plainText(content: string): string {
-  return content.replace(/[`*_]/g, "").replace(/\s+/g, " ").trim();
+  // The endpoint wraps matched words in <mark>.
+  return content.replace(/<\/?mark>/g, "").replace(/[`*_]/g, "").replace(/\s+/g, " ").trim();
 }
 
 /** Help for people using or hosting Gryt first. The API reference answers a different question. */
 export function toSupportResults(hits: DocsHit[]): SupportResult[] {
   const seen = new Set<string>();
+  const sections = new Set(hits.filter((hit) => hit.url.includes("#")).map((hit) => hit.url.split("#")[0]));
   const unique = hits.filter((hit) => {
-    if (seen.has(hit.url) || hit.url.startsWith("/docs/build")) return false;
+    if (seen.has(hit.url) || hit.url.startsWith("/docs/build") || sections.has(hit.url)) return false;
     seen.add(hit.url);
     return true;
   });

@@ -25,6 +25,19 @@ test("names the page when the snippet would repeat the section", () => {
   assert.equal(result.detail, "Troubleshooting");
 });
 
+test("removes the highlight tags the endpoint adds", () => {
+  const [result] = toSupportResults([hit("/docs/use/troubleshooting#x", "Invalid <mark>invite</mark> code.")]);
+  assert.equal(result.detail, "Invalid invite code.");
+});
+
+test("drops a page when one of its sections matched", () => {
+  const results = toSupportResults([
+    hit("/docs/use/troubleshooting", "Troubleshooting"),
+    hit("/docs/use/troubleshooting#invite-issues", "Invite issues"),
+  ]);
+  assert.deepEqual(results.map((r) => r.name), ["Invite issues"]);
+});
+
 test("puts help for using Gryt before hosting guides", () => {
   const results = toSupportResults([hit("/docs/host/windows"), hit("/docs/use/faq")]);
   assert.deepEqual(results.map((r) => r.name), ["Faq", "Windows"]);
