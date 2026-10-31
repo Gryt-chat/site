@@ -174,6 +174,29 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.15.0-beta.19",
+    date: "2026-10-31",
+    channel: "beta",
+    line: "Beta: bring your Discord DMs over. Your side of a chat comes across encrypted, with its files and original dates, from Discord's own data package.",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "Import from Discord in a DM's side panel. Ask Discord for your data, drop the .zip in, and pick the chat. It's still a beta, so please report anything that looks wrong.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "Hover the time on an imported message to see when the server received it. Its date is what your package says.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "When an import finishes, a receipt lists any files that didn't come over and why, and you can try those again.",
+      },
+    ],
+  },
+  {
     version: "1.15.0-beta.18",
     date: "2026-10-31",
     channel: "beta",
