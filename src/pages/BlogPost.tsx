@@ -11,7 +11,22 @@ import { PostNav } from '../components/PostNav'
 import styles from './BlogPost.module.css'
 import type { ComponentPropsWithoutRef } from 'react'
 
+// A citation scrolls to its reference on this page and flashes it, rather than opening a tab.
+function jumpTo(id: string) {
+  const el = document.getElementById(id)
+  if (!el) return
+  const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  el.scrollIntoView({ behavior: still ? 'auto' : 'smooth', block: 'center' })
+  el.classList.remove(styles.flash)
+  void el.offsetWidth
+  el.classList.add(styles.flash)
+  history.replaceState(null, '', `#${id}`)
+}
+
 function MdxLink({ href, ...rest }: ComponentPropsWithoutRef<'a'>) {
+  if (href?.startsWith('#')) {
+    return <a href={href} {...rest} onClick={(e) => { e.preventDefault(); jumpTo(href.slice(1)) }} />
+  }
   if (href?.startsWith('/')) {
     return <Link to={href} {...rest} />
   }

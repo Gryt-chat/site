@@ -275,3 +275,20 @@
 .prose tbody tr:last-child td {
   border-bottom: none;
 }
+
+.flash {
+  animation: flash 1.6s ease-out;
+  border-radius: 6px;
+}
+
+@keyframes flash {
+  0%,
+  30% {
+    background: var(--accent-wash);
+    box-shadow: 0 0 0 4px var(--accent-wash);
+  }
+  100% {
+    background: transparent;
+    box-shadow: 0 0 0 4px transparent;
+  }
+}

@@ -260,7 +260,9 @@ are laid out. Personal posts, roundups and security advisories stay as they are.
 - **Figures** carry "Figure N:" in a caption below. **Tables** carry "Table N:"
   above. The text names every one of them before it appears.
 - **References** are numbered, cited as [1] in the text, with a link. Our own PRs
-  count. Raw data and long procedures go in lettered appendices.
+  count. `scripts/rehype-citations.ts` turns each [n] into a link to its item,
+  but only in a post with a "References" heading. Raw data and long procedures
+  go in lettered appendices.
 - **The voice above still applies.** The structure is a paper's; the sentences
   are still plain and spoken. Every number, version and caveat survives a
   restructure unchanged.
