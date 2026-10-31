@@ -19,7 +19,7 @@ export function HostServerPage() {
       </ProblemSection>
       <ProblemSection id="friends" title="Let people in">
         <Notes>
-          <Note title="On the same network?">Leave <strong>Discoverable on LAN</strong> on, and people running Gryt on your network will see it appear. You may need to allow the ports through your firewall.</Note>
+          <Note title="On the same network?">Leave <strong>Let others on my network find it</strong> ticked, and people running Gryt on your network will see it appear. You may need to allow the ports through your firewall.</Note>
           <Note title="Somewhere else?">Forward the ports listed in <strong>Settings → My servers → Open these ports</strong>, then <Link to="/support/make-an-invite">send an invite</Link>. Gryt has no relay, so people connect straight to you.</Note>
           <Note title="Want it always on?">The server only runs while the app does. Hosting on an always-on machine is covered in <Link to="/self-hosting">self-hosting</Link>.</Note>
         </Notes>

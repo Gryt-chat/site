@@ -14,8 +14,8 @@ export function JoinServerPage() {
       </ProblemSection>
       <ProblemSection id="address" title="If you have an address">
         <Steps>
-          <Step title="Open Add Server">Click <strong>Add Server</strong> in the app.</Step>
-          <Step title="Type the address">It looks like <code>gryt.example.com</code> or <code>192.168.1.100:5000</code>. Gryt tells you whether you need an account before you try.</Step>
+          <Step title="Click the + in the server rail">Then choose <strong>Join with an invite</strong>.</Step>
+          <Step title="Type the address">Put it in <strong>Invite or server address</strong>. It looks like <code>gryt.example.com</code> or <code>192.168.1.100:5000</code>. Gryt tells you whether you need an account before you try.</Step>
           <Step title="Add an invite code if it asks">Most servers are invite-only. Ask whoever runs it for a link.</Step>
         </Steps>
         <Notes>

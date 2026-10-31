@@ -15,7 +15,7 @@ export function ServerIdentityPage() {
       <ProblemSection id="fix" title="What to do">
         <Steps>
           <Step title="Ask whoever runs the server">Ask whether they rebuilt or moved it. Don&rsquo;t unblock it until you know.</Step>
-          <Step title="Compare the keys">They can find the key in the server&rsquo;s startup log, using the command below. You can see yours in <strong>Settings → You → Server identities</strong>.</Step>
+          <Step title="Compare the keys">They can find the key in the server&rsquo;s startup log, using the command below. You can see yours in <strong>Settings → Server identities</strong>.</Step>
           <Step title="Unblock it if they match">Unblock the server on that screen and reconnect. If they don&rsquo;t match, something else is answering at that address, so leave it blocked.</Step>
         </Steps>
         <Code>{'docker compose logs server | grep "identity key"'}</Code>

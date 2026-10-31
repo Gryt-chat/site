@@ -42,6 +42,11 @@ const HostServerPage = lazy(() => import("./pages/support/HostServerPage").then(
 const JoinServerPage = lazy(() => import("./pages/support/JoinServerPage").then((m) => ({ default: m.JoinServerPage })));
 const MakeInvitePage = lazy(() => import("./pages/support/MakeInvitePage").then((m) => ({ default: m.MakeInvitePage })));
 const AccountOrGuestPage = lazy(() => import("./pages/support/AccountOrGuestPage").then((m) => ({ default: m.AccountOrGuestPage })));
+const VoiceBasicsPage = lazy(() => import("./pages/support/VoiceBasicsPage").then((m) => ({ default: m.VoiceBasicsPage })));
+const RolesPage = lazy(() => import("./pages/support/RolesPage").then((m) => ({ default: m.RolesPage })));
+const ThreadsPage = lazy(() => import("./pages/support/ThreadsPage").then((m) => ({ default: m.ThreadsPage })));
+const EmojisPage = lazy(() => import("./pages/support/EmojisPage").then((m) => ({ default: m.EmojisPage })));
+const BackupPage = lazy(() => import("./pages/support/BackupPage").then((m) => ({ default: m.BackupPage })));
 const ChangelogIndex = lazy(() => import("./pages/ChangelogIndex").then((m) => ({ default: m.ChangelogIndex })));
 const ChangelogEntry = lazy(() => import("./pages/ChangelogEntry").then((m) => ({ default: m.ChangelogEntry })));
 const SponsorsPage = lazy(() => import("./pages/SponsorsPage").then((m) => ({ default: m.SponsorsPage })));
@@ -214,6 +219,11 @@ export default function App() {
           <Route path="/support/join-a-server" element={<JoinServerPage />} />
           <Route path="/support/make-an-invite" element={<MakeInvitePage />} />
           <Route path="/support/account-or-guest" element={<AccountOrGuestPage />} />
+          <Route path="/support/voice-basics" element={<VoiceBasicsPage />} />
+          <Route path="/support/roles" element={<RolesPage />} />
+          <Route path="/support/threads" element={<ThreadsPage />} />
+          <Route path="/support/custom-emojis" element={<EmojisPage />} />
+          <Route path="/support/back-up-a-server" element={<BackupPage />} />
           <Route path="/sponsors" element={<SponsorsPage />} />
           <Route path="/changelog" element={<ChangelogIndex />} />
           <Route path="/changelog/:version" element={<ChangelogEntry />} />

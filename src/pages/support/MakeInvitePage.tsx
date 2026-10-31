@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-import { Note, Notes, ProblemSection, Step, Steps, SupportProblem } from "../../components/SupportProblem";
+import { Screenshot, Note, Notes, ProblemSection, Step, Steps, SupportProblem } from "../../components/SupportProblem";
 
 export function MakeInvitePage() {
   return (
@@ -12,9 +12,13 @@ export function MakeInvitePage() {
       <ProblemSection id="make" title="Make the link">
         <Steps>
           <Step title="Open Invites">Go to <strong>Server settings → Invites</strong>.</Step>
-          <Step title="Choose the limits">Set how many times it can be used and when it expires, then press <strong>Create invite</strong>.</Step>
+          <Step title="Choose the limits">Fill in <strong>Max uses</strong> and <strong>Expires (hours)</strong> if you want limits, then press <strong>Create invite</strong>. <strong>Max uses</strong> starts at 1, so raise it or turn on <strong>Infinite uses</strong> for more than one person.</Step>
           <Step title="Copy it and send it">Your invite appears in the list. Revoke it there if you change your mind.</Step>
         </Steps>
+        <Screenshot
+          src="/support/make-an-invite/invites.webp"
+          alt="The Invites tab in Server settings, with fields for max uses, expiry, a custom code and a note, and a Create invite button"
+        />
       </ProblemSection>
       <ProblemSection id="options" title="Other ways in">
         <Notes>
