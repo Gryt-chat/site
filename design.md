@@ -185,6 +185,7 @@ the front page's rhythm. Recorded here so the next run does not re-pick blind:
 | `/developers` | Routing hub — one diagram, three card groups | it is a front door onto seven pages and four destinations elsewhere; see below |
 | `/developers/*` | Index-First, with worked examples | each one is a worked example and then grouped rows that leave for the docs |
 | `/self-hosting` | Index-First, with worked examples | the tail is grouped rows that leave for the docs; the top half runs and installs things |
+| `/support` | Bento Grid, search first | somebody arrives stuck and picks the closest match; the one card budget here shows a real invite link |
 | `/sponsors` | Index-First | the page is a list of people |
 | `/privacy`, `/terms`, `/community-guidelines` | Long Document | they are documents |
 | `/invite` | none, component-scope | an app screen with states, not a page |

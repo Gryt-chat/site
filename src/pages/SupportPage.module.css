@@ -1,32 +1,85 @@
+/* Hallmark · macrostructure: Bento Grid · tone: warm, plain · anchor hue: periwinkle
+ * theme: Gryt tokens (design.md) · enrichment: none · nav and footer: site chrome */
+
+.page {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 104px 24px 96px;
+}
+
+.hero {
+  max-width: 760px;
+  margin: 0 auto;
+  padding-bottom: 56px;
+  text-align: center;
+}
+
+.owl {
+  display: block;
+  margin: 0 auto 22px;
+}
+
+.title {
+  margin: 0;
+  font-size: clamp(38px, 6vw, 60px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  text-wrap: balance;
+}
+
+.lede {
+  max-width: 34em;
+  margin: 18px auto 0;
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--text-dim);
+}
+
 .search {
-  margin-top: 40px;
+  margin-top: 32px;
+  text-align: left;
 }
 
 .label {
   display: block;
+  margin-bottom: 8px;
   font-size: 14px;
   font-weight: 700;
   color: var(--text-dim);
 }
 
 .field {
-  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 64px;
+  padding: 0 20px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
   transition: border-color 0.2s;
 }
 
-/* The rule under the field is the focus ring, as on the owl playground. */
+/* The field's border is the focus ring: the input inside has no shape of its own. */
 .field:focus-within {
-  border-bottom-color: var(--accent);
+  border-color: var(--accent);
+}
+
+.fieldIcon {
+  flex: none;
+  color: var(--accent-light);
 }
 
 .input {
-  width: 100%;
+  flex: 1;
+  min-width: 0;
+  min-height: 44px;
   font: inherit;
-  font-size: 19px;
+  font-size: 18px;
   color: var(--text);
   background: none;
   border: 0;
-  padding: 10px 0;
 }
 
 .input::placeholder {
@@ -37,10 +90,275 @@
   outline: none;
 }
 
+.tries {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 14px;
+  font-size: 15px;
+  color: var(--text-dim);
+}
+
+.try {
+  min-height: 44px;
+  padding: 0 14px;
+  font: inherit;
+  font-size: 15px;
+  color: var(--text);
+  white-space: nowrap;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.try:hover {
+  border-color: var(--accent);
+}
+
+.try:focus-visible,
+.card:focus-visible,
+.result:focus-visible,
+.primary:focus-visible,
+.secondary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
 .status {
-  min-height: 24px;
-  margin: 12px 0 0;
+  margin: 14px 0 0;
   font-size: 15px;
   line-height: 1.6;
   color: var(--text-dim);
+}
+
+.results {
+  margin: 14px 0 0;
+  padding: 0;
+  list-style: none;
+  text-align: left;
+  border-top: 1px solid var(--border);
+}
+
+.results > li {
+  border-bottom: 1px solid var(--border);
+}
+
+/* A row is read by its shape. An underline through it makes the list worse. */
+.result {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 2px 12px;
+  padding: 14px 4px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.resultName {
+  flex: 1 1 300px;
+  min-width: 0;
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: -0.014em;
+  transition: color 0.2s;
+}
+
+.result:hover {
+  color: inherit;
+}
+
+.result:hover .resultName {
+  color: var(--accent-light);
+}
+
+.resultPage {
+  font-size: 14px;
+  color: var(--text-dim);
+}
+
+.resultDetail {
+  flex: 1 1 100%;
+  min-width: 0;
+  font-size: 15px;
+  color: var(--text-dim);
+}
+
+.heading {
+  margin: 0 0 18px;
+  font-size: clamp(22px, 2.4vw, 30px);
+  font-weight: 800;
+  letter-spacing: -0.024em;
+  line-height: 1.12;
+  text-wrap: balance;
+}
+
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+/* The whole card is the link, so it needs no underline. */
+.card {
+  flex: 1 1 240px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+  padding: 24px;
+  color: inherit;
+  text-decoration: none;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  transition: border-color 0.2s;
+}
+
+.card:hover {
+  color: inherit;
+  border-color: var(--accent);
+}
+
+.cardFeature {
+  flex: 2 1 420px;
+}
+
+.cardWide {
+  flex: 1 1 280px;
+}
+
+.cardIcon {
+  color: var(--accent-light);
+}
+
+.example {
+  padding: 14px 16px;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--text-dim);
+  overflow-wrap: anywhere;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.exampleHost {
+  font-weight: 500;
+  color: var(--accent-light);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.cardTitle {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.014em;
+  line-height: 1.3;
+}
+
+.cardFeature .cardTitle {
+  font-size: 21px;
+}
+
+.cardText {
+  margin: 6px 0 0;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text-dim);
+}
+
+.statusLine {
+  margin: 16px 0 0;
+  font-size: 15px;
+  color: var(--text-dim);
+}
+
+.ask {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 24px 40px;
+  margin-top: 56px;
+  padding: 32px;
+  background: color-mix(in oklab, var(--accent) 24%, var(--bg));
+  border-radius: 16px;
+}
+
+.askBody {
+  flex: 1 1 380px;
+  min-width: 0;
+}
+
+.askTitle {
+  margin: 0;
+  font-size: clamp(24px, 3vw, 34px);
+  font-weight: 800;
+  letter-spacing: -0.024em;
+  line-height: 1.12;
+}
+
+.askText {
+  margin: 10px 0 0;
+  line-height: 1.6;
+  color: var(--text);
+}
+
+.askLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* Buttons are read by their shape, so neither carries the base link underline. */
+.primary,
+.secondary {
+  display: inline-flex;
+  align-items: center;
+  min-height: 48px;
+  padding: 0 20px;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+  border-radius: 12px;
+}
+
+.primary {
+  color: var(--accent-ink);
+  background: var(--accent);
+}
+
+.primary:hover {
+  color: var(--accent-ink);
+  background: var(--accent-light);
+}
+
+.secondary {
+  color: var(--text);
+  border: 1px solid color-mix(in oklab, var(--accent) 60%, var(--bg));
+}
+
+.secondary:hover {
+  color: var(--text);
+  border-color: var(--accent-light);
+}
+
+@media (max-width: 480px) {
+  .page {
+    padding-top: 88px;
+  }
+
+  .ask {
+    padding: 24px;
+  }
+
+  .primary,
+  .secondary {
+    justify-content: center;
+    width: 100%;
+  }
 }

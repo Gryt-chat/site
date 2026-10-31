@@ -14,15 +14,19 @@ test("drops the API reference and repeated sections", () => {
   assert.deepEqual(results, [
     {
       name: "Invite issues",
+      page: "Troubleshooting",
       detail: "first",
       href: "https://docs.gryt.chat/docs/use/troubleshooting#invite-issues",
     },
   ]);
 });
 
-test("names the page when the snippet would repeat the section", () => {
-  const [result] = toSupportResults([hit("/docs/use/troubleshooting#invite-issues", "Invite issues")]);
-  assert.equal(result.detail, "Troubleshooting");
+test("uses a matched heading as the name, with its punctuation", () => {
+  const [result] = toSupportResults([
+    { type: "heading", content: "My friend can't <mark>connect</mark>", url: "/docs/use/troubleshooting#x" },
+  ]);
+  assert.equal(result.name, "My friend can't connect");
+  assert.equal(result.detail, "");
 });
 
 test("removes the highlight tags the endpoint adds", () => {
