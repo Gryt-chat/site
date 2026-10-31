@@ -38,6 +38,7 @@ export const getGoing: SiteLink[] = [
   developers,
   built,
   docs,
+  { label: 'Support', href: '/support', route: true },
   roadmap,
 ]
 
