@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 
-import { toSupportResults, type DocsHit } from "../src/lib/supportSearch.ts";
+import { matchSupportPages, toSupportResults, type DocsHit } from "../src/lib/supportSearch.ts";
 
 const hit = (url: string, content = "text"): DocsHit => ({ type: "text", content, url });
 
@@ -52,4 +52,10 @@ test("removes markdown from the snippet and stops at eight", () => {
   const results = toSupportResults(hits);
   assert.equal(results.length, 8);
   assert.equal(results[0].detail, "server:invite now");
+});
+
+test("finds our own pages from everyday words", () => {
+  assert.equal(matchSupportPages("no sound")[0]?.href, "/support/nobody-can-hear-anyone");
+  assert.equal(matchSupportPages("I CANT INVITE A FRIEND TO MY SERVER")[0]?.href, "/support/invite-a-friend");
+  assert.deepEqual(matchSupportPages("asdfqwerzz"), []);
 });

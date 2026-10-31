@@ -14,6 +14,51 @@ export interface SupportResult {
   href: string;
 }
 
+const SUPPORT_PAGES = [
+  {
+    title: "I can't invite a friend",
+    href: "/support/invite-a-friend",
+    detail: "Links that only work on your network, refused codes and missing permissions.",
+    words: ["invite", "invitation", "link", "code", "friend", "join", "refused", "expired", "uses"],
+  },
+  {
+    title: "Nobody can hear anyone",
+    href: "/support/nobody-can-hear-anyone",
+    detail: "Chat works, but voice doesn't.",
+    words: ["hear", "sound", "audio", "voice", "silent", "port", "ports", "udp", "nobody"],
+  },
+  {
+    title: "My mic doesn't work",
+    href: "/support/microphone",
+    detail: "Mute, your input device, permissions and the noise gate.",
+    words: ["mic", "microphone", "mute", "muted", "echo", "quiet", "input", "noise", "headset"],
+  },
+  {
+    title: "I can't connect to a server",
+    href: "/support/cant-connect",
+    detail: "Wrong addresses, servers that are down and error messages.",
+    words: ["connect", "connecting", "connection", "error", "offline", "identity", "clock", "timeout", "down", "address"],
+  },
+  {
+    title: "The app won't install or open",
+    href: "/support/install",
+    detail: "Warnings on Windows and macOS, and Linux AppImages.",
+    words: ["install", "installer", "download", "open", "smartscreen", "windows", "macos", "mac", "linux", "appimage", "launch"],
+  },
+];
+
+/** Our own pages answer in everyday words, which the docs search can miss: "no sound" finds nothing useful there. */
+export function matchSupportPages(query: string): SupportResult[] {
+  const terms = query.toLowerCase().match(/[a-z0-9]+/g) ?? [];
+  return SUPPORT_PAGES.map((page) => ({
+    page,
+    score: terms.filter((term) => page.words.includes(term)).length,
+  }))
+    .filter((match) => match.score > 0)
+    .sort((a, b) => b.score - a.score)
+    .map(({ page }) => ({ name: page.title, page: "Support", detail: page.detail, href: page.href }));
+}
+
 const DOCS_ORIGIN = "https://docs.gryt.chat";
 const MAX_RESULTS = 8;
 
