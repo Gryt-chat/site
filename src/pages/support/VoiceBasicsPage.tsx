@@ -17,7 +17,7 @@ export function VoiceBasicsPage() {
         </Notes>
       </ProblemSection>
       <ProblemSection id="ptt" title="Push-to-talk">
-        <Body>Choose it in <strong>Settings → Audio</strong>. You only send sound while you hold the key. In the desktop app it works while Gryt is in the background. In a browser, the Gryt window has to be in focus.</Body>
+        <Body>Choose <strong>Push to talk</strong> in <strong>Settings → Audio</strong>. You only send sound while you hold the key. In the desktop app it works while Gryt is in the background. In a browser, the Gryt window has to be in focus.</Body>
       </ProblemSection>
       <ProblemSection id="share" title="Sharing your screen">
         <Body>Leave the codec on Auto unless you have a reason not to. Auto uses H.264, which nearly every graphics card can handle. If people hear themselves, <Link to="/support/screen-share-echo">here&rsquo;s the fix</Link>.</Body>

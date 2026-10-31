@@ -12,7 +12,7 @@ export function MakeInvitePage() {
       <ProblemSection id="make" title="Make the link">
         <Steps>
           <Step title="Open Invites">Go to <strong>Server settings → Invites</strong>.</Step>
-          <Step title="Choose the limits">Set how many times it can be used and when it expires, then press <strong>Create invite</strong>.</Step>
+          <Step title="Choose the limits">Fill in <strong>Max uses</strong> and <strong>Expires (hours)</strong> if you want limits, then press <strong>Create invite</strong>.</Step>
           <Step title="Copy it and send it">Your invite appears in the list. Revoke it there if you change your mind.</Step>
         </Steps>
       </ProblemSection>

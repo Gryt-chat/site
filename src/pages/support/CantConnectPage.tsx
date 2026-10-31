@@ -18,7 +18,7 @@ export function CantConnectPage() {
       <ProblemSection id="steps" title="It just won't connect">
         <Steps>
           <Step title="Check the address">
-            Click <strong>Add Server</strong> and type it again. It looks like <code>gryt.example.com</code> or{" "}
+            Click the <strong>+</strong> in the server rail, choose <strong>Join with an invite</strong> and type it again. It looks like <code>gryt.example.com</code> or{" "}
             <code>192.168.1.100:5000</code>. A <code>192.168.</code> address only works on the same network as the
             server.
           </Step>

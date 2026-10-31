@@ -8,7 +8,7 @@ export function ThreadsPage() {
       askText="Tell us what you tried and what it said. A screenshot helps a lot. Blur any invite code first."
     >
       <ProblemSection id="start" title="Start a thread">
-        <Body>Hover a message in a channel and click the reply-in-thread icon. The thread opens in a panel, with that message at the top. You can&rsquo;t start one from a direct message.</Body>
+        <Body>Hover a message in a channel and click the thread icon. The thread opens in a panel, with that message at the top. You can&rsquo;t start one from a direct message.</Body>
       </ProblemSection>
       <ProblemSection id="follow" title="Keep up with one">
         <Body>A message with a thread shows its number of replies, and you can click that to open it. A separate badge shows how many you haven&rsquo;t read and how many mention you. Mentions also show up on the channel.</Body>
