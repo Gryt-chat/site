@@ -1,0 +1,38 @@
+import assert from "node:assert/strict";
+import { test } from "node:test";
+
+import { toSupportResults, type DocsHit } from "../src/lib/supportSearch.ts";
+
+const hit = (url: string, content = "text"): DocsHit => ({ type: "text", content, url });
+
+test("drops the API reference and repeated sections", () => {
+  const results = toSupportResults([
+    hit("/docs/build/server-api#administration"),
+    hit("/docs/use/troubleshooting#invite-issues", "first"),
+    hit("/docs/use/troubleshooting#invite-issues", "second"),
+  ]);
+  assert.deepEqual(results, [
+    {
+      name: "Invite issues",
+      detail: "first",
+      href: "https://docs.gryt.chat/docs/use/troubleshooting#invite-issues",
+    },
+  ]);
+});
+
+test("names the page when the snippet would repeat the section", () => {
+  const [result] = toSupportResults([hit("/docs/use/troubleshooting#invite-issues", "Invite issues")]);
+  assert.equal(result.detail, "Troubleshooting");
+});
+
+test("puts help for using Gryt before hosting guides", () => {
+  const results = toSupportResults([hit("/docs/host/windows"), hit("/docs/use/faq")]);
+  assert.deepEqual(results.map((r) => r.name), ["Faq", "Windows"]);
+});
+
+test("removes markdown from the snippet and stops at eight", () => {
+  const hits = Array.from({ length: 10 }, (_, i) => hit(`/docs/use/page-${i}`, "`server:invite`  **now**"));
+  const results = toSupportResults(hits);
+  assert.equal(results.length, 8);
+  assert.equal(results[0].detail, "server:invite now");
+});

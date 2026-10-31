@@ -25,6 +25,7 @@
     "test:changelog-lines": "node --test scripts/check-changelog-lines.test.ts",
     "test:detect-os": "node --test scripts/check-detect-os.test.ts",
     "test:sitemap": "node --test scripts/check-sitemap.test.ts",
+    "test:support-search": "node --test scripts/check-support-search.test.ts",
     "test:hydration": "node scripts/check-hydration.ts",
     "generate:banners": "node scripts/generate-repo-banners.ts"
   },

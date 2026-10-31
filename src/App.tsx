@@ -24,6 +24,7 @@ const DesignSystemPage = lazy(() => import("./pages/developers/DesignSystemPage"
 const ContributingPage = lazy(() => import("./pages/developers/ContributingPage").then((m) => ({ default: m.ContributingPage })));
 const DevelopersPage = lazy(() => import("./pages/DevelopersPage").then((m) => ({ default: m.DevelopersPage })));
 const SelfHostingPage = lazy(() => import("./pages/SelfHostingPage").then((m) => ({ default: m.SelfHostingPage })));
+const SupportPage = lazy(() => import("./pages/SupportPage").then((m) => ({ default: m.SupportPage })));
 const ChangelogIndex = lazy(() => import("./pages/ChangelogIndex").then((m) => ({ default: m.ChangelogIndex })));
 const ChangelogEntry = lazy(() => import("./pages/ChangelogEntry").then((m) => ({ default: m.ChangelogEntry })));
 const SponsorsPage = lazy(() => import("./pages/SponsorsPage").then((m) => ({ default: m.SponsorsPage })));
@@ -178,6 +179,7 @@ export default function App() {
           <Route path="/developers/contributing" element={<ContributingPage />} />
           <Route path="/built" element={<BuiltPage />} />
           <Route path="/self-hosting" element={<SelfHostingPage />} />
+          <Route path="/support" element={<SupportPage />} />
           <Route path="/sponsors" element={<SponsorsPage />} />
           <Route path="/changelog" element={<ChangelogIndex />} />
           <Route path="/changelog/:version" element={<ChangelogEntry />} />

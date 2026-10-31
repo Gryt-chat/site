@@ -1,0 +1,46 @@
+.search {
+  margin-top: 40px;
+}
+
+.label {
+  display: block;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-dim);
+}
+
+.field {
+  border-bottom: 1px solid var(--border);
+  transition: border-color 0.2s;
+}
+
+/* The rule under the field is the focus ring, as on the owl playground. */
+.field:focus-within {
+  border-bottom-color: var(--accent);
+}
+
+.input {
+  width: 100%;
+  font: inherit;
+  font-size: 19px;
+  color: var(--text);
+  background: none;
+  border: 0;
+  padding: 10px 0;
+}
+
+.input::placeholder {
+  color: var(--text-dimmer);
+}
+
+.input:focus {
+  outline: none;
+}
+
+.status {
+  min-height: 24px;
+  margin: 12px 0 0;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text-dim);
+}

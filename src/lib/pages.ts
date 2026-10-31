@@ -91,6 +91,11 @@ export const STATIC_PAGES: StaticPage[] = [
       "How to run a Gryt server, from the app on your desk to a Helm chart, and what you get to decide once it is up.",
   },
   {
+    path: "support",
+    title: "Support",
+    description: "Stuck on something in Gryt? Search the docs, check the common problems, or ask a person.",
+  },
+  {
     path: "blog",
     title: "Blog",
     description: "Posts about building Gryt, written by the one person building it.",
