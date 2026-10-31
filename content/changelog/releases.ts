@@ -177,6 +177,7 @@ export const app: ReleaseLine[] = [
     version: "1.15.0",
     date: "2026-10-31",
     line: "The call sits beside your chat, you can share several windows at once, and you can bring your Discord DMs over.",
+    post: "gryt-1-15-the-call-beside-your-chat",
     changes: [
       {
         kind: "new",

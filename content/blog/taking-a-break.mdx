@@ -1,0 +1,110 @@
+---
+title: I'm Taking a Break
+description: I'm taking two or three weeks off from Monday 2 November, and here's how to tell me if something breaks.
+author: Sivert
+date: 2026-11-01
+image: /blog/ingy/beach01.webp
+tags:
+  - announcement
+---
+
+I'm tired. So I'm taking a break from Monday 2 November. It'll be two or three weeks, depending on how much I manage to rest.
+
+Gryt is run by one person, and I've barely stopped since August. I also have a full-time job, and a second project, [Auto Tournament](https://autotournament.gg), which does automated tournament hosting. So I mostly sit in the evenings after work, writing and planning features and fixes. I don't have that much free time anymore with these big projects, and my job obviously comes first.
+
+Since I got back in August, here's what's shipped:
+
+- 3,693 merged pull requests
+- 293 stable updates: 144 for the app, 102 for the server, 30 for voice and 17 for images
+- 96 betas on top of that
+- 60 phone builds
+- at least 195 bug fixes
+- at least 143 new features
+- 134 changes and redesigns
+- 49 security fixes
+
+That's less than three months. Those numbers don't say much on their own, so here's what they were.
+
+**Voice and video.** There's a [new voice view](/blog/gryt-1-15-the-call-beside-your-chat), with the call beside your chat and a grip to size it, plus fullscreen and a pop-out that stays on top of a game. You can share several windows at once, each with its own quality and sound, or share the sound of just one app. A share waits until you press Watch, and you can change its quality or window without stopping it. Video goes out at the size people are actually watching it. Messages pop up as bubbles on the sender's tile, the camera can keep your face centered, and the Doctor places a real call and tells you which hop is broken.
+
+**A new voice transport.** This one's under the hood. We've started on our own voice connection that skips WebRTC, with plain encrypted UDP and a WebSocket to fall back on. It's experimental and off by default, under Settings → General → Advanced.
+
+**Direct messages.** They're encrypted now, first with our own setup and then [on MLS](/blog/direct-messages-now-run-on-mls), so a key that leaks later can't open older messages. They got [their own space](/blog/direct-messages-redrawn), with every conversation in one list and the person's card beside it. Group DMs came along too, plus calls, pins, online dots and rules for who can message or call you. And you can bring your [Discord DMs](/blog/bring-your-discord-dms-to-gryt) over.
+
+**Chat.** [Threads and forums](/blog/threads-plugins-and-forty-seven-themes). Polls. Message search on Ctrl+K. Pinned messages. Drafts that wait for you. Formatting as you type. Mentions for everyone, roles and channels, with a check before a big ping. Custom emoji, from any of your servers. A picture gallery, a viewer and a video player of our own. Three message layouts. Mini mode, for keeping one channel beside a game. Unread counts that follow you between devices.
+
+**Servers.** Roles and permissions, more than one role per member, roles that come with an invite, and folders with channel permissions. Moderation, reports and a spam filter. Open, invite-only or ask-to-join. Bots, plugins and webhook cards. Server owners get told when their server has a known security issue, and whoever runs a server can import a Discord export through its API.
+
+**Devices and your key.** Link a new device with a code, and approve it by scanning with your phone. Your 24 words get you back in if you lose everything. A Mac can get your key from iCloud Keychain. The message password is gone, and servers now have to prove who they are.
+
+**You.** Guest identities, so an account is optional. Everyone got an owl. Member cards with colours, patterns, banners and video avatars. Friends. Themes you can build and share. Game activity.
+
+**Privacy.** Previews come through your server, so the linked site never sees your IP address. Pictures from other sites wait for you to say yes. Blocking. Push notifications only your phone can read.
+
+**The phone.** Gryt went from nothing to chat, voice, video and screen sharing on iPhone and Android, then [most of the desktop app](/blog/seven-weeks-of-gryt-on-a-phone) on top: threads, forums, friends, themes, unread counts and server settings. It's still in testing, on its way to the stores.
+
+**Redesigns.** The voice view, the direct messages space, member cards, the message box, the server menu, settings for your devices, and the owl itself. A lot of what you see today looks nothing like it did in August.
+
+And the 195 bug fixes and 49 security fixes I've counted are in the [changelog](/changelog), if you want to read them all.
+
+So you might understand why I need a break now. Quite a lot has shipped, and our backlog has lost a lot of weight during those three months of daily work.
+
+I've been at this since 2022, and all the features above have been sitting in a backlog since then. Almost everything about Gryt was thought through years ago. It's nice to finally blow the dust off them and move them to Done.
+
+![Gryt's task board in Vikunja, with To-Do, Doing, Review and Done columns full of cards](/blog/break-backlog.webp)
+
+## The drawing at the top
+
+By the way, the drawing at the top of this post is by Ingy. She's drawing an animation we're releasing soon, our very first promotion of Gryt, every frame by hand. It's about how many Discord clones have appeared lately, and how most of them are made in a day or two.
+
+<div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px' }}>
+  <Image src="/blog/ingy/beach12.webp" alt="A Discord clone built in one day" />
+  <Image src="/blog/ingy/beach13.webp" alt="Gryt, unimpressed" />
+  <Image src="/blog/ingy/beach11.webp" alt="Gryt, tired" />
+</div>
+
+Gryt is the opposite. We're taking it slow and steady. We prioritise security, and that's why we're not as fast as the alternatives.
+
+## But why don't you just use AI?
+
+We do use AI. The details are [in this post](/blog/nothing-security-relevant-ships-unread), but here's the short version.
+
+We don't rely entirely on it to write our functionality. A lot of it is designed by hand first. Then a plan gets written: the functionality, what talks to what, how it talks, and all the important bits and bobs.
+
+When that plan is done, I give it to a high intelligence agent, which generates a result for me to review. I review it in pieces, usually while the agent is working. Once I approve, a PR is created and merged.
+
+The core of Gryt is review-required. For those repos, I have to read the code line by line in the PR before I merge it.
+
+All code that's copiloted by AI is marked in the commits, as always. You can read the PRs or the commit history to see which parts are touched by me alone and which by an agent. No code is touched purely by an agent without me reviewing it.
+
+Before AI got to where it is today, where it can decompile software and games, write highly complex functions and rewrite entire systems in one go, you couldn't really use it for anything complex. So I had to write the code by hand, and that's why the core is review-required. AI is quite advanced now and can sometimes be flawless, but I still don't trust it entirely.
+
+I think this is where AI is going, and it leaves us with a huge responsibility. We can't get lazy because an AI can build a full system, or because "the AI can do it so easily". Any code that ships is my responsibility. Gryt is free forever, and that doesn't mean I take it any less seriously. That's the difference from the alternatives that rely purely on AI to fix their own mistakes.
+
+## While I'm away
+
+I won't ship much or answer quickly. Servers and the apps keep running like normal.
+
+[1.15](/blog/gryt-1-15-the-call-beside-your-chat) is out just before I go. It's a big release, so if something breaks, I'd like to hear about it.
+
+## How to report a bug
+
+The report form is inside the app.
+
+**On the desktop or the web:** click your avatar in the bottom left and choose **Report a bug**.
+
+![The menu above the avatar, with Settings, Give feedback, Report a bug and Sign in](/blog/report-a-bug-menu.webp)
+
+It's also under **Settings → About**.
+
+**On the phone:** open the **You** tab and tap **Report a bug**.
+
+Write what happened and what you were doing when it did. Open **What gets sent with this** to see exactly what goes with it. There's a box you can tick to include the app's recent logs, which makes a bug easier to find.
+
+![The Report a bug form, with a sample report and the list of what gets sent with it](/blog/report-a-bug.webp)
+
+**Give feedback** sits right next to it, for ideas and things you'd change.
+
+Reports still come in while I'm away, and I'll read them when I'm back.
+
+Rome wasn't built in a day, and neither is Gryt.
