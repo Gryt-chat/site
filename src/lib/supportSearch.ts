@@ -72,6 +72,41 @@ export const SUPPORT_PAGES: { title: string; href: string; detail: string; kind:
     kind: "problem",
     words: ["screen", "share", "screenshare", "sharing", "themselves", "twice", "double", "own", "voice"],
   },
+  {
+    title: "It says the server's clock is wrong",
+    href: "/support/server-clock",
+    detail: "The server's clock is off by more than a minute.",
+    kind: "problem",
+    words: ["clock", "time", "ntp", "wrong", "timedatectl", "chrony"],
+  },
+  {
+    title: "It says Server identity not recognised",
+    href: "/support/server-identity",
+    detail: "The server has a different key than when you first joined.",
+    kind: "problem",
+    words: ["identity", "recognised", "recognized", "key", "pinned", "fingerprint", "blocked", "unblock"],
+  },
+  {
+    title: "The server restarted and things look odd",
+    href: "/support/after-server-restart",
+    detail: "A reconnect message and a short blip in voice are normal.",
+    kind: "problem",
+    words: ["restart", "restarted", "reconnect", "reconnecting", "unknown", "member", "list", "stale", "blip"],
+  },
+  {
+    title: "My own server won't start or nobody can reach it",
+    href: "/support/my-server-wont-start",
+    detail: "Checks for a server in Docker or Kubernetes.",
+    kind: "problem",
+    words: ["docker", "kubernetes", "k8s", "container", "containers", "pod", "pods", "compose", "websocket", "sfu", "cors", "health", "logs", "memory"],
+  },
+  {
+    title: "The app won't update or forgets my profile",
+    href: "/support/app-updates",
+    detail: "Old Windows versions need one manual install.",
+    kind: "problem",
+    words: ["update", "updates", "updating", "upgrade", "version", "profile", "resets", "forgets", "settings", "stuck"],
+  },
 ];
 
 /** Our own pages answer in everyday words, which the docs search can miss: "no sound" finds nothing useful there. */
