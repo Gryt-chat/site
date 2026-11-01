@@ -174,6 +174,18 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.15.2",
+    date: "2026-11-01",
+    line: "Paste a draft into the message box and it shows the way it'll send.",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "Pasted Markdown shows formatted right away: numbered and nested lists, bold, quotes and code. A paste inside a code block stays as it is.",
+      },
+    ],
+  },
+  {
     version: "1.15.1",
     date: "2026-11-01",
     line: "Numbered lists and nested lists in the message box, and a keyboard way out of it.",
