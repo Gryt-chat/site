@@ -69,7 +69,7 @@ export const featureLines: FeatureLine[] = [
       { area: 'voice', month: 'Oct 2026', title: 'Pop-out and fullscreen', text: 'Put the call in a small window that can stay on top of a game, or fill the screen.' },
       { area: 'voice', month: 'Oct 2026', title: 'Bubbles on the tile', text: 'Messages in the call’s chat pop up on the sender’s tile, ready to reply to.' },
       { area: 'chat', month: 'Oct 2026', title: 'Bring your Discord DMs', text: 'Drop in Discord’s data package and your side of a chat comes across encrypted, with its files and dates.' },
-      { area: 'chat', month: 'Oct 2026', title: 'Formatting as you type', text: 'The message box shows bold, lists, quotes and code as they’ll be sent, with a format bar.' },
+      { area: 'chat', month: 'Oct 2026', title: 'Formatting as you type', text: 'The message box shows bold, lists, quotes and code as they’ll be sent, pasted or typed, with a format bar.' },
       { area: 'chat', month: 'Oct 2026', title: 'A check before @everyone', text: 'Gryt says how many people a ping will notify and waits for you.' },
       { area: 'chat', month: 'Oct 2026', title: 'Unread that follows you', text: 'Unread counts survive a restart and carry over to your other devices.' },
       { area: 'you', month: 'Oct 2026', title: 'Approve a device with a scan', text: 'Point your phone at the code on a new computer, check four pictures match and tap Approve.' },
