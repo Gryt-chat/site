@@ -174,6 +174,28 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.15.3",
+    date: "2026-11-01",
+    line: "A pill points at unread channels you've scrolled past, and Cancel takes one click while editing.",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "When a channel with something new is scrolled out of the list, a pill at the top or bottom says so and takes you there.",
+      },
+      {
+        kind: "fix",
+        area: "chat",
+        text: "Cancelling an edit takes one click. The message box used to shrink under the press and the click missed.",
+      },
+      {
+        kind: "change",
+        area: "chat",
+        text: "Sent messages are spaced the way the message box draws them, two or more link previews sit side by side when there's room, and the box grows and shrinks more slowly.",
+      },
+    ],
+  },
+  {
     version: "1.15.2",
     date: "2026-11-01",
     line: "Paste a draft into the message box and it shows the way it'll send.",
