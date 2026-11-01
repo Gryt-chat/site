@@ -61,12 +61,11 @@ export function Download() {
   const pick: Pick = chosen ?? detected ?? "windows";
   const os = pick !== "web" && isDesktop(pick) ? pick : null;
 
-  /* The steps only render on a phone's pick, so the browser can't scroll to them on load by itself. */
+  /* The steps only render on a phone's pick, so the link has to open that pick. */
   useEffect(() => {
     if (window.location.hash !== "#phone-test") return;
     // eslint-disable-next-line react-hooks/set-state-in-effect -- the prerender has no hash, so it can't be initial state
     setChosen((current) => current ?? (detected === "ios" ? "ios" : "android"));
-    setTimeout(() => document.getElementById("phone-test")?.scrollIntoView(), 0);
   }, [detected]);
 
   useEffect(() => {
@@ -91,7 +90,7 @@ export function Download() {
 
   return (
     <section className={styles.section} id="download">
-      <div className={styles.box}>
+      <div className={styles.box} id="phone-test">
         <p className={styles.eyebrow}>Download</p>
         <h2 className={styles.title}>Get Gryt</h2>
 
@@ -229,7 +228,7 @@ export function Download() {
                   Join the test in TestFlight
                 </Button>
               </div>
-              <p className={styles.facts} id="phone-test">
+              <p className={styles.facts}>
                 In testing. It asks you to install TestFlight first if you don&rsquo;t have it.
               </p>
             </>
@@ -238,7 +237,7 @@ export function Download() {
           {pick === "android" && (
             <>
               <p className={styles.stepsTitle}>Android test, three steps</p>
-              <ol className={styles.steps} id="phone-test">
+              <ol className={styles.steps}>
                 {ANDROID_STEPS.map((step, i) => (
                   <li key={step.title} className={styles.step}>
                     <span className={styles.stepNumber} aria-hidden="true">
