@@ -4713,6 +4713,18 @@ export const app: ReleaseLine[] = [
  */
 export const server: ReleaseLine[] = [
   {
+    version: "1.12.4",
+    date: "2026-11-01",
+    line: "The friend list now includes each person's picture.",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "Friends and friend requests come with the person's picture, so the phone can show it for someone on another server.",
+      },
+    ],
+  },
+  {
     version: "1.12.3",
     date: "2026-11-01",
     line: "Join lines no longer count as unread.",
