@@ -1,0 +1,184 @@
+---
+title: One Key for All Your Devices
+description: My first plan for encrypted DMs worked on paper and fell apart on real devices. Here's what replaced it.
+author: Sivert
+date: 2026-10-26
+image: /blog/one-key-for-all-your-devices/phone-ask.webp
+tags:
+  - encryption
+  - privacy
+  - security
+---
+
+**Title:** One key for all your devices\
+**Date:** 26 October 2026\
+**Author:** Sivert Gullberg Hansen\
+**Keywords:** end-to-end encryption, MLS, device linking, key handover, iCloud Keychain
+
+## Abstract
+
+Direct messages in Gryt have been end-to-end encrypted since September, and since
+1.12 they run on MLS, so every message gets its own key. That part held up. The
+trouble was everything around it: how a new phone or computer gets your key, what
+happens when it can't, and who's allowed to change it. Each device quietly made a
+key of its own, so one account could turn into three people. A password-locked copy
+of your key sat on the server, where anyone with the database could keep guessing.
+And one account could have a different key on each server. This post goes through
+what broke, what I tried, and the model Gryt uses now: one key per account, new
+devices approved by one you already have, and only your own devices can ever change
+that key. Nobody has to remember a password for it. It also shows the sketches I
+drew with Claude while working it out, because the screens are where most of the
+mistakes were.
+
+## 1 Introduction
+
+I've been working on encrypted DMs for a few months now, and for a while it felt
+like every fix turned up the next problem. My first plan worked when I tested it on
+one computer. It stopped working the moment I used Gryt the way people actually do:
+a desktop, a phone, a browser at work, a new laptop.
+
+None of that time was wasted. Every one of those problems told me something about
+what the design had to guarantee, and the version in beta now is built on them.
+
+## 2 Where it started
+
+DMs shipped unencrypted in 1.7, with a line in every conversation saying the server
+could read them. Two weeks later they were encrypted on your machine [1]. That first
+design used one key made from your 24 words, for everything, forever. If that key
+ever leaked, every DM the server had stored could be opened.
+
+1.12 moved DMs to MLS [2], the IETF standard for group messaging. Every message gets
+its own key, deleted once it's been decrypted, so a key stolen later can't open old
+messages. MLS also handles adding and removing devices, which is the part this post
+is about.
+
+## 3 What went wrong
+
+### 3.1 Every device made its own key
+
+In MLS each device is a member of the conversation. Gryt then needs to know which
+devices belong to which person. Early on, every device simply made its own identity
+the first time it needed one. So my desktop, my phone and my browser were three
+different "me"s, and the apps of the people I talked to had to decide which one to
+trust.
+
+It showed up as a bug report from myself. My desktop said a DM with Sable was
+encrypted, but every message failed with "this device hasn't been added yet", and
+her replies never arrived. Only a device that's already in a conversation can add
+another one, and nothing was adding mine.
+
+### 3.2 A password on the server
+
+To get your key onto a new device without another device around, Gryt kept a copy
+of it on your account, locked with a message password. It's a common approach, and
+I talked myself into it. But it means the server holds something that unlocks your
+account. Anyone who gets that database can try passwords for as long as they like,
+and most people's passwords don't survive that. It's gone now, and devices that
+still had a copy deleted it themselves.
+
+### 3.3 A different key on each server
+
+The last one I found while testing a fresh Mac in October. My account used my
+iPhone's key on one server and my old Mac's key on another, left over from before
+any of this was tidied up. The new Mac got approved on one and was stuck on the
+other, and the only way out was a button called "Start fresh". Worse, that button
+meant anyone signed in to my account could replace my key, and my contacts would
+only see a warning.
+
+## 4 How it works now
+
+### 4.1 One key, many devices
+
+Your account has one key. The first device you use makes it, and no other device
+ever makes its own. Every other device gets that key from one you already have.
+
+On an iPhone or a Mac, the key also rides along in iCloud Keychain, end to end
+encrypted by Apple. On Android it goes in your Google backup. So a new Apple device
+signed in to the same Apple ID often has your key before you've done anything.
+
+### 4.2 New devices are approved
+
+On a new computer, Gryt shows a code. You point your phone's camera at it, Gryt
+opens and asks "Is this your Mac?", and both screens show the same four pictures.
+If they match, you approve with Face ID, and your phone hands the key over, along
+with your older messages.
+
+![A sketch of the new-computer window: "Approve this computer from your iPhone", a QR code with "Point your iPhone's camera here", and buttons for "My iPhone isn't here" and "How does this work?". Underneath it says servers and channels work right away, and only DMs wait for this](/blog/one-key-for-all-your-devices/scene-new-computer.webp)
+
+![A phone sketch: "Is this your Mac?", Gryt on macOS near Gjøvik, four emoji to compare, and "Yes, approve" or "No, they're different"](/blog/one-key-for-all-your-devices/phone-ask.webp)
+
+The pictures are a check that you're approving the device in front of you, and not
+one somebody else started. A request also reaches your phone as a notification, so
+you don't have to go looking for it.
+
+### 4.3 Only your key can change your key
+
+This is the rule that fixed 3.3. A server now refuses to change the key your account
+uses unless the current key signs off on it. When a server still has an older key
+for you, the device that holds it gets one question, "Your iPhone's key will take
+over on this server. Approve?", and signs a short note saying so. A note like that
+can only come from one of your devices, or from your 24 words.
+
+Someone who only has your password can't make one, so they can't swap your key on a
+server you use. The worst they can do is sign in and ask, and your phone asks you
+first.
+
+### 4.4 When you've lost everything
+
+If you've lost every device and your 24 words, there's still a way back, and it's
+slow on purpose. You ask for a reset, and your new key only takes over after 30
+days. Until then, every device of yours that's left is asked "Was this you?" and
+can stop it, and the people you talk to see that your key is being reset. Thirty
+days is long enough that a thief can't finish one while you're on holiday.
+
+![A sketch of the "Lost your iPhone?" window, explaining what removing it does: it's signed out and taken out of every DM, your other devices carry on, and if you find it again you approve it like a new phone](/blog/one-key-for-all-your-devices/lost-phone.webp)
+
+### 4.5 Messages that wait
+
+One small thing that used to look broken: writing in a DM before your new device has
+been added to it. It used to fail with "try again in a bit". Now the message waits,
+says so, and sends itself once the device is in.
+
+![A sketch of a DM with Pimby on a new Mac. The message "hey pimby" says "Sends when Pimby's app lets this Mac in", and a note explains the Mac is new to the chat and gets added by itself](/blog/one-key-for-all-your-devices/dm-waiting.webp)
+
+## 5 The sketches
+
+The pictures in this post are sketches I drew with Claude on a canvas, before
+building anything, because the screens kept turning out to be where
+the design was wrong. Writing "a device asks to be approved" is easy. Drawing the
+window someone sees on a new computer at eleven at night makes you notice it says
+"another device" when it should say "your iPhone", or that it asks a question
+nobody can answer.
+
+That's how Gryt uses AI in general [3]. Claude helped draft these screens and much
+of the code behind them. Anything that touches your keys only merges after I've
+read the whole diff myself.
+
+## 6 What this doesn't protect against
+
+- **Your Apple ID or Google account.** If someone has your Gryt password and your
+  Apple ID, they get your key from iCloud Keychain. That's the same trade-off as
+  Apple's own Messages, and your Apple ID is the lock there.
+- **An unlocked phone in someone else's hand.** Approving asks for Face ID or your
+  passcode, which helps, but it can't help if they have both.
+- **Whoever runs the server.** They can change rows in their own database. Your
+  contacts' apps still remember your old key and warn about the change, but they
+  only warn. The real fix is a public, append-only log of account keys
+  that every app checks, often called key transparency. That's next.
+- **A server you've never joined.** Someone with your password can still join a
+  server you're not on, as you. None of your contacts are there, and the key log
+  above covers this too.
+
+## 7 What's next
+
+All of this is in the beta now: app 1.15.0-beta.10, server 1.12.2-beta.6 and the
+latest phone builds. Once it's held up on real devices it goes to everyone. After
+that, the key log from section 6, and a way to keep your history in a locked box on
+a server you choose, so a new device can have everything even when your phone is
+off.
+
+## References
+
+1. Sivert Gullberg Hansen. [The server can't read your direct messages](/blog/the-server-cant-read-your-direct-messages). 9 September 2026.
+2. Barnes, R. et al. *The Messaging Layer Security (MLS) Protocol.* RFC 9420. https://www.rfc-editor.org/rfc/rfc9420
+3. Gryt docs. [How Gryt uses AI](https://docs.gryt.chat/docs/about/ai).
