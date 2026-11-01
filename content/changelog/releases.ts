@@ -174,6 +174,28 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.15.1",
+    date: "2026-11-01",
+    line: "Numbered lists and nested lists in the message box, and a keyboard way out of it.",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "The format bar has a numbered list button. In a list, Tab makes a second level and Shift+Tab takes it back out.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "Typing ->, <- or => turns into an arrow as you type.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "Tab and Escape now leave the message box. Tab used to put you straight back in it.",
+      },
+    ],
+  },
+  {
     version: "1.15.0",
     date: "2026-10-31",
     line: "The call sits beside your chat, you can share several windows at once, and you can bring your Discord DMs over.",
@@ -4656,6 +4678,18 @@ export const app: ReleaseLine[] = [
  * So a reader here is usually somebody deciding whether to pull a new image.
  */
 export const server: ReleaseLine[] = [
+  {
+    version: "1.12.3",
+    date: "2026-11-01",
+    line: "Join lines no longer count as unread.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "self-hosting",
+        text: "Since 1.12.2, a channel showed an unread badge for \"joined the server\" lines, including your own, even when nobody had written anything.",
+      },
+    ],
+  },
   {
     version: "1.12.2",
     date: "2026-10-31",
