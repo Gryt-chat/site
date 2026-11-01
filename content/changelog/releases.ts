@@ -184,12 +184,12 @@ export const app: ReleaseLine[] = [
         text: "When a channel with something new is scrolled out of the list, a pill at the top or bottom says so and takes you there.",
       },
       {
-        kind: "fix",
+        kind: "fixed",
         area: "chat",
         text: "Cancelling an edit takes one click. The message box used to shrink under the press and the click missed.",
       },
       {
-        kind: "change",
+        kind: "changed",
         area: "chat",
         text: "Sent messages are spaced the way the message box draws them, two or more link previews sit side by side when there's room, and the box grows and shrinks more slowly.",
       },
