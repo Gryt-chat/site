@@ -174,6 +174,33 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.15.4",
+    date: "2026-11-02",
+    line: "A thread can fill the whole chat area, and you can start one from the message hover bar.",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "Threads open in a side panel and can expand to fill the chat area. Each channel remembers the thread you had open.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "The hover bar on a message has a button that starts a thread.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "A thread with no replies yet doesn't show a replies line under its message.",
+      },
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "The sidebar no longer shows your full email address, so it won't end up on a stream.",
+      },
+    ],
+  },
+  {
     version: "1.15.3",
     date: "2026-11-01",
     line: "A pill points at unread channels you've scrolled past, and Cancel takes one click while editing.",
@@ -4712,6 +4739,18 @@ export const app: ReleaseLine[] = [
  * So a reader here is usually somebody deciding whether to pull a new image.
  */
 export const server: ReleaseLine[] = [
+  {
+    version: "1.12.5",
+    date: "2026-11-02",
+    line: "The server keeps running when mDNS can't send.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "self-hosting",
+        text: "A failed mDNS send used to crash the server. Now it stays up.",
+      },
+    ],
+  },
   {
     version: "1.12.4",
     date: "2026-11-01",

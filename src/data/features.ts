@@ -64,6 +64,7 @@ export const featureLines: FeatureLine[] = [
   {
     version: '1.15',
     features: [
+      { area: 'chat', month: 'Nov 2026', title: 'Threads that fill the chat', text: 'Expand a thread from its panel to the whole chat area. Each channel remembers the one you had open.' },
       { area: 'voice', month: 'Oct 2026', title: 'The call beside your chat', text: 'Clicking a voice channel opens the call next to what you were reading, and a grip sizes it.' },
       { area: 'voice', month: 'Oct 2026', title: 'Share several windows', text: 'Each window gets its own quality, sound and Watch tile.' },
       { area: 'voice', month: 'Oct 2026', title: 'Pop-out and fullscreen', text: 'Put the call in a small window that can stay on top of a game, or fill the screen.' },
