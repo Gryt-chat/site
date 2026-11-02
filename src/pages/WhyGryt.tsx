@@ -25,36 +25,41 @@ export function WhyGryt() {
       <header className={styles.head}>
         <h1 className={styles.title}>Why Gryt?</h1>
         <p className={styles.sub}>
-          The questions people actually ask before they trust a chat app. Some
-          of the answers aren't flattering. They're still the answers.
+          The questions people ask before they trust a chat app, with honest
+          answers, including the ones that don&rsquo;t make us look good.
         </p>
       </header>
 
       <Answer q="What is Gryt, and what is it not?">
         <p>
-          Voice, video and text chat, with screen sharing and file sharing,
-          that you run yourself. That&rsquo;s the normal way to use Gryt. It
-          isn&rsquo;t a fallback for people who don&rsquo;t trust the hosted
-          one. Your community&rsquo;s stuff sits on machines you control, and
-          you can read the code, fork it, or send a change back.
+          An app for voice, video and text chat, with screen sharing and file
+          sharing. It&rsquo;s a lot like Discord, except that every community
+          runs on its own server. You can run a server yourself, on your own
+          computer or a machine you rent, or join one somebody else runs.
+          We run one too, if you just want to try it.
         </p>
         <p>
-          It isn&rsquo;t trying to grow. No ads, no tracking, nothing built to
-          keep you scrolling. Which also means nobody is selling it to you
-          except the people already using it.
+          Your community&rsquo;s messages and files live on its server. The
+          code is open, so you can read it, change it, or send a change back.
+        </p>
+        <p>
+          We aren&rsquo;t chasing growth. There are no ads, no tracking, and
+          nothing built to keep you scrolling. There&rsquo;s no sales pitch
+          either, so you&rsquo;ll mostly hear about Gryt from people who already
+          use it.
         </p>
       </Answer>
 
       <Answer q="Do I need an account?">
         <p>
-          No. Download Gryt and you already have one. Your device makes a
-          keypair and never sends it anywhere. You don&rsquo;t sign up for
+          No. Download Gryt and you can join as a guest. Your device makes its
+          own key and never sends it anywhere. You don&rsquo;t sign up for
           anything, and there&rsquo;s nothing in it we could trace back to
           you.
         </p>
         <p>
-          And that isn&rsquo;t a cut-down mode. A guest signs the same
-          challenge an account does, and can own a server with the same roles.
+          Guests get the full app. A guest proves who they are the same way an
+          account does, and can own a server with the same roles.
           Your app makes a separate key for every server you join, so two
           servers can&rsquo;t work out they&rsquo;re talking to the same
           person.
@@ -66,18 +71,17 @@ export function WhyGryt() {
         </p>
         <p>
           It also makes a ban stick. You can ban a guest, but a guest who wants
-          back in makes a new keypair in about two seconds. So servers that take
-          guests lean on the door instead: invites, approval, or LAN only.
-          That&rsquo;s a real trade-off, and it&rsquo;s the one to understand
-          before you turn guests on. The rest is in the{" "}
+          back in can make a new key in about two seconds. So servers that allow
+          guests control who gets in instead, with invites, approval, or by only
+          letting in people on the same local network. Keep that in mind before
+          you turn guests on. The rest is in the{" "}
           <a href={DOCS_ACCOUNTS_URL} target="_blank" rel="noreferrer">
             docs
           </a>
           .
         </p>
         <p>
-          If you use the hosted web client at <code>app.gryt.chat</code>,
-          the{" "}
+          If you use Gryt in your browser at <code>app.gryt.chat</code>, the{" "}
           <Link to="/privacy">Privacy Policy</Link> covers what we hold.
         </p>
       </Answer>
@@ -92,19 +96,18 @@ export function WhyGryt() {
           uploads, logs. If you host it yourself, that&rsquo;s you.
         </p>
         <p>
-          <strong>The connection.</strong> WebRTC encrypts the audio and video
-          on the way with DTLS-SRTP. Voice goes through an SFU so it can reach
-          everyone at once, so the SFU is on the path too. The server owner runs
-          that as well.
+          <strong>The connection.</strong> Audio and video are encrypted on
+          the way (WebRTC does this with DTLS-SRTP). Voice goes through a voice
+          server, called an SFU, so it can reach everyone at once. That puts the
+          SFU on the path too, and the server owner runs that as well.
         </p>
         <p>
-          <strong>Us, and only if you ask.</strong> A guest identity
-          doesn&rsquo;t touch anything of ours. The certificate is signed by the
-          key it describes, and no server calls us to check it. Signing in
-          changes that. Login goes through <code>auth.gryt.chat</code>, and a
-          separate identity service at <code>id.gryt.chat</code> hands out the
-          certificates servers check. Both are in the repo, and you can run both
-          yourself.
+          <strong>Us, but only if you sign in.</strong> As a guest, you
+          don&rsquo;t use anything of ours. Your identity is signed by your own
+          key, and no server calls us to check it. Signing in changes that.
+          Login goes through <code>auth.gryt.chat</code>, and a separate
+          service at <code>id.gryt.chat</code> gives you the certificate that
+          servers check. Both are open source, and you can run both yourself.
         </p>
       </Answer>
 
@@ -116,14 +119,14 @@ export function WhyGryt() {
           on.
         </p>
         <p>
-          Getting to it from outside your own network means opening a port
-          either way. A{" "}
+          If people need to join from outside your own network, you&rsquo;ll
+          have to open a port, whichever way you run it. A{" "}
           <a href={DOCS_TUNNEL_URL} target="_blank" rel="noreferrer">
             Cloudflare Tunnel
           </a>{" "}
-          handles the HTTPS and WebSocket side without opening those. But voice
-          is WebRTC over UDP, and a tunnel can&rsquo;t carry that. It&rsquo;s
-          one port, not a range, and it has to be reachable directly.
+          can carry the chat side without opening anything. But voice runs over
+          UDP, and a tunnel can&rsquo;t carry that. So voice needs one port, not
+          a range, and it has to be reachable directly.
         </p>
         <p>
           <Link to="/self-hosting">Self-hosting</Link> has the how, in more
@@ -133,10 +136,10 @@ export function WhyGryt() {
 
       <Answer q="How does it fit together?">
         <p>
-          The server handles rooms, chat and uploads. The SFU moves the voice
-          and video around. Storage and the database are their own pieces, so
-          you can run the lot on your own machines. The dotted lines are the
-          ones a guest never uses.
+          The server handles rooms, chat and uploads. The SFU passes voice and
+          video between people. Storage and the database are separate pieces,
+          and you can run all of it on your own machines. A guest never uses the
+          dotted lines.
         </p>
         <div className={styles.diagram}>
           <Frame label="Voice goes straight from the client to the voice server, over UDP. Nothing in between carries it, and that's the one a tunnel can't do for you.">
@@ -156,12 +159,11 @@ export function WhyGryt() {
 
       <Answer q="Can I run this for a private group?">
         <p>
-          Yes, and that&rsquo;s what most people do. One server for a
-          community, a team, or a group of friends. Starting one from the
-          desktop app takes a name and a button. One that should still be there
-          tomorrow is a single command on Linux. On a shared network, servers
-          announce themselves and show up in the app without anyone typing an
-          address.
+          Yes, and that&rsquo;s what most people do: one server for a community,
+          a team, or a group of friends. Starting one from the desktop app takes
+          a name and a button. If it needs to stay up when your computer&rsquo;s
+          off, it&rsquo;s a single command on Linux. On a shared network, servers
+          show up in the app without anyone typing an address.
         </p>
       </Answer>
 
