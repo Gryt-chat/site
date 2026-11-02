@@ -150,10 +150,16 @@ export function WhyGryt() {
 
       <Answer q="Can a server admin read my messages?">
         <p>
-          If the server stores them, yes. That&rsquo;s true of Gryt and every
-          other self-hosted chat system, and anyone claiming otherwise about
-          theirs is worth a second look. The difference is you get to pick who
+          In a channel, yes. The server stores channel messages as they are, so
+          whoever runs it can read them. The difference is you get to pick who
           runs it. Or run it yourself.
+        </p>
+        <p>
+          Direct messages and group chats are encrypted on your device, files
+          included, so the server can&rsquo;t read them. It can still see who
+          you talk to and when. A message can go out unencrypted if someone
+          hasn&rsquo;t got a usable key yet, and the app marks it with a red dot.
+          Older messages from before encryption may still be readable too.
         </p>
       </Answer>
 
