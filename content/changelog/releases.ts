@@ -174,6 +174,44 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.15.5-beta.3",
+    date: "2026-11-03",
+    channel: "beta",
+    line: "Beta: a device waiting for your key says which device it's waiting for, and when you last used it.",
+    changes: [
+      {
+        kind: "changed",
+        area: "chat",
+        text: "A device waiting to be approved for DMs says which of your devices has the key, when you last used it, and the date it takes over by itself if nobody answers.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "If none of your devices with the key has been on that server for 30 days, the new one takes over right away. People you message are still asked to check it's you.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "The buttons on a DM key problem now match what the line says, and \"Check their key\" opens the pictures to compare instead of a page of details.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "Picking a sound plays it, and the play button sits next to the picker.",
+      },
+      {
+        kind: "changed",
+        area: "voice",
+        text: "A DM has one call button. Turn the camera on once you're in the call.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "The person card in a DM's info panel scrolls instead of being cut off.",
+      },
+    ],
+  },
+  {
     version: "1.15.5-beta.2",
     date: "2026-11-03",
     channel: "beta",
