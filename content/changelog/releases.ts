@@ -174,6 +174,29 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.15.6-beta.1",
+    date: "2026-11-03",
+    channel: "beta",
+    line: "Beta: sound previews play at the volume you set, and the ringtone changes live as you drag.",
+    changes: [
+      {
+        kind: "changed",
+        area: "notifications",
+        text: "Picking a sound plays it, and letting go of the volume slider plays it again at the new level. The ringtone keeps playing while you drag, so you hear the level change. The separate play button is gone.",
+      },
+      {
+        kind: "changed",
+        area: "notifications",
+        text: "The message sound follows its volume slider the same way the other sounds do. It used to play louder than the slider said, so its default is now 60%, about as loud as before.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "When you say no to a device asking for your DM key, only that device shows it, not every device on your account that's waiting.",
+      },
+    ],
+  },
+  {
     version: "1.15.5",
     date: "2026-11-03",
     line: "Calls ring, you can pick your own sounds, and bots are easier to manage.",
