@@ -174,6 +174,39 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.15.5-beta.2",
+    date: "2026-11-03",
+    channel: "beta",
+    line: "Beta: calls ring, and you can pick your message sound and ringtone.",
+    changes: [
+      {
+        kind: "new",
+        area: "voice",
+        text: "When somebody calls you, Gryt plays a ringtone until you answer or decline, flashes in the taskbar, and shows a notification if the app isn't in front.",
+      },
+      {
+        kind: "new",
+        area: "notifications",
+        text: "Settings → Notifications has a ringtone and a sound picker: six ringtones and seven message sounds to choose from, or your own file.",
+      },
+      {
+        kind: "new",
+        area: "servers",
+        text: "A bot that's already in can ask for more permissions. It shows up in Server settings → Bots with what it has ticked and greyed out, and the new ones to approve.",
+      },
+      {
+        kind: "new",
+        area: "servers",
+        text: "The red count on Server settings includes bots waiting for an answer, not just reports.",
+      },
+      {
+        kind: "new",
+        area: "servers",
+        text: "If you saved a server by its home network address and it isn't answering, Gryt offers to connect through its public address, when the server has one.",
+      },
+    ],
+  },
+  {
     version: "1.15.5-beta.1",
     date: "2026-11-03",
     channel: "beta",
