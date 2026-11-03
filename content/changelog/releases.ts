@@ -204,6 +204,11 @@ export const app: ReleaseLine[] = [
         area: "servers",
         text: "If you saved a server by its home network address and it isn't answering, Gryt offers to connect through its public address, when the server has one.",
       },
+      {
+        kind: "fixed",
+        area: "servers",
+        text: "The number on the Discover badge sits in the middle of it.",
+      },
     ],
   },
   {
