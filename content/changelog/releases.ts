@@ -4740,6 +4740,24 @@ export const app: ReleaseLine[] = [
  */
 export const server: ReleaseLine[] = [
   {
+    version: "1.12.6-beta.1",
+    date: "2026-11-03",
+    channel: "beta",
+    line: "Beta: owners can see who's in voice, their latency and the voice server's numbers, and let an AI read them.",
+    changes: [
+      {
+        kind: "new",
+        area: "self-hosting",
+        text: "A new owner-only permission, See diagnostics, shows who's in each voice channel, whether they're muted, their latency and jitter, and the voice server's live numbers. Owners can give it to a bot, which is how gryt-mcp lets an AI help debug a server.",
+      },
+      {
+        kind: "new",
+        area: "self-hosting",
+        text: "SFU_METRICS_URL tells the server where the voice server's metrics are. The self-hosted bundle sets it for you.",
+      },
+    ],
+  },
+  {
     version: "1.12.5",
     date: "2026-11-02",
     line: "The server keeps running when mDNS can't send.",
