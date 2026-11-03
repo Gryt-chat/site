@@ -174,6 +174,19 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.15.5-beta.4",
+    date: "2026-11-03",
+    channel: "beta",
+    line: "Beta: groundwork for sign-ins that need one of your own devices. You won't notice a difference yet.",
+    changes: [
+      {
+        kind: "changed",
+        area: "settings",
+        text: "When you sign in, the app now proves it holds your account's key, and Gryt writes down that it did. Later, a new device signing in with only a password will need approval from one of your devices or your 24 words.",
+      },
+    ],
+  },
+  {
     version: "1.15.5-beta.3",
     date: "2026-11-03",
     channel: "beta",
