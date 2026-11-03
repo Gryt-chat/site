@@ -64,6 +64,12 @@ export const featureLines: FeatureLine[] = [
   {
     version: '1.15',
     features: [
+      { area: 'voice', month: 'Nov 2026', title: 'Calls that ring', text: 'A call plays a ringtone until you answer, flashes the taskbar and shows a notification when Gryt is in the background.' },
+      { area: 'you', month: 'Nov 2026', title: 'Your own sounds', text: 'Pick a ringtone and a message sound from the ones Gryt ships, or use your own file.' },
+      { area: 'servers', month: 'Nov 2026', title: 'Bots ask before they get more', text: 'A bot that wants more permissions waits in Server settings until an admin approves the new ones.' },
+      { area: 'hosting', month: 'Nov 2026', title: 'Diagnostics for owners', text: 'See who’s in voice, their latency and the voice server’s numbers, or hand that to a bot so an AI can help debug.' },
+      { area: 'servers', month: 'Nov 2026', title: 'Home server, away from home', text: 'A server saved by its LAN address offers its public one when you’re somewhere else.' },
+      { area: 'chat', month: 'Nov 2026', title: 'Thread replies reach the thread', text: 'A reply wakes the phones of the people who wrote in that thread, and nobody else.' },
       { area: 'chat', month: 'Nov 2026', title: 'Threads that fill the chat', text: 'Expand a thread from its panel to the whole chat area. Each channel remembers the one you had open.' },
       { area: 'voice', month: 'Oct 2026', title: 'The call beside your chat', text: 'Clicking a voice channel opens the call next to what you were reading, and a grip sizes it.' },
       { area: 'voice', month: 'Oct 2026', title: 'Share several windows', text: 'Each window gets its own quality, sound and Watch tile.' },
