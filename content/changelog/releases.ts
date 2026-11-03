@@ -4773,6 +4773,29 @@ export const app: ReleaseLine[] = [
  */
 export const server: ReleaseLine[] = [
   {
+    version: "1.12.6-beta.2",
+    date: "2026-11-03",
+    channel: "beta",
+    line: "Beta: thread replies reach the people in the thread, and a bot can ask for more.",
+    changes: [
+      {
+        kind: "new",
+        area: "notifications",
+        text: "A reply in a thread wakes the phones of everyone who wrote in that thread, and nobody else, so starting a support thread doesn't ping the whole server.",
+      },
+      {
+        kind: "new",
+        area: "servers",
+        text: "A bot that's already in can ask for more permissions. It keeps what it has, and the new ones wait in Server settings → Bots until an admin answers.",
+      },
+      {
+        kind: "changed",
+        area: "self-hosting",
+        text: "Without SFU_METRICS_URL, the server looks for the voice server's numbers on port 9091 of the host in SFU_WS_HOST, so a normal Docker setup needs no extra config.",
+      },
+    ],
+  },
+  {
     version: "1.12.6-beta.1",
     date: "2026-11-03",
     channel: "beta",
