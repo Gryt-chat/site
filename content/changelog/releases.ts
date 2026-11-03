@@ -4773,7 +4773,7 @@ export const app: ReleaseLine[] = [
  */
 export const server: ReleaseLine[] = [
   {
-    version: "1.12.6-beta.2",
+    version: "1.12.7-beta.1",
     date: "2026-11-03",
     channel: "beta",
     line: "Beta: thread replies reach the people in the thread, and a bot can ask for more.",
