@@ -209,6 +209,11 @@ export const app: ReleaseLine[] = [
         area: "chat",
         text: "The person card in a DM's info panel scrolls instead of being cut off.",
       },
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "Searching settings finds the advanced ones too, like the overlay.",
+      },
     ],
   },
   {
