@@ -174,6 +174,39 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.15.5-beta.1",
+    date: "2026-11-03",
+    channel: "beta",
+    line: "Beta: bots are easier to tell apart, and approving one says Approve.",
+    changes: [
+      {
+        kind: "changed",
+        area: "servers",
+        text: "A bot waiting in Server settings → Bots has Approve and Decline buttons instead of \"Let it in with 5\" and \"Turn away\".",
+      },
+      {
+        kind: "changed",
+        area: "servers",
+        text: "Each answered bot shows the start of its id and when it knocked and was answered, so two bots with the same name can be told apart.",
+      },
+      {
+        kind: "new",
+        area: "servers",
+        text: "The role editor has a See diagnostics permission, for who's in voice, their latency and the voice server's numbers. Only the owner has it to begin with.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "The BOT tag on a member card was almost invisible on some card colours. It's readable on all of them now.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "When two people share a name, the typing line shows which one with their #2.",
+      },
+    ],
+  },
+  {
     version: "1.15.4",
     date: "2026-11-02",
     line: "A thread can fill the whole chat area, and you can start one from the message hover bar.",
