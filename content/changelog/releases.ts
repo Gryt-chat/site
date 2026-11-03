@@ -177,7 +177,7 @@ export const app: ReleaseLine[] = [
     version: "1.15.5-beta.4",
     date: "2026-11-03",
     channel: "beta",
-    line: "Beta: groundwork for sign-ins that need one of your own devices. You won't notice a difference yet.",
+    line: "Beta: the app proves it holds your key when you sign in, the first step toward sign-ins that need one of your own devices.",
     changes: [
       {
         kind: "changed",
