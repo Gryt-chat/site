@@ -4793,6 +4793,11 @@ export const server: ReleaseLine[] = [
         area: "self-hosting",
         text: "Without SFU_METRICS_URL, the server looks for the voice server's numbers on port 9091 of the host in SFU_WS_HOST, so a normal Docker setup needs no extra config.",
       },
+      {
+        kind: "new",
+        area: "self-hosting",
+        text: "A server with EXTERNAL_HOST set tells its members that address, so the app can offer it when someone saved the server by its LAN address and is away from home.",
+      },
     ],
   },
   {
