@@ -174,6 +174,78 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.15.5",
+    date: "2026-11-03",
+    line: "Calls ring, you can pick your own sounds, and bots are easier to manage.",
+    changes: [
+      {
+        kind: "new",
+        area: "voice",
+        text: "When somebody calls you, Gryt plays a ringtone until you answer or decline, flashes in the taskbar, and shows a notification if the app isn't in front.",
+      },
+      {
+        kind: "new",
+        area: "notifications",
+        text: "Settings \u2192 Notifications has a ringtone and a sound picker: six ringtones and seven message sounds, or your own file. Picking one plays it.",
+      },
+      {
+        kind: "new",
+        area: "servers",
+        text: "A bot that's already in can ask for more permissions. It shows up in Server settings \u2192 Bots with what it has and the new ones to approve, and the red count on Server settings includes bots waiting for an answer.",
+      },
+      {
+        kind: "changed",
+        area: "servers",
+        text: "A bot waiting in Server settings \u2192 Bots has Approve and Decline buttons, and each answered bot shows the start of its id and when it knocked, so two bots with the same name can be told apart.",
+      },
+      {
+        kind: "new",
+        area: "servers",
+        text: "The role editor has a See diagnostics permission, for who's in voice, their latency and the voice server's numbers. Only the owner has it to begin with.",
+      },
+      {
+        kind: "new",
+        area: "servers",
+        text: "If you saved a server by its home network address and it isn't answering, Gryt offers to connect through its public address, when the server has one.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "A device waiting to be approved for DMs says which of your devices has the key, when you last used it, and the date it takes over by itself if nobody answers. If none of your devices with the key has been on that server for 30 days, it takes over right away.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "When you sign in, the app proves it holds your account's key, and Gryt writes down that it did. Later, a new device signing in with only a password will need approval from one of your devices or your 24 words.",
+      },
+      {
+        kind: "changed",
+        area: "voice",
+        text: "A DM has one call button. Turn the camera on once you're in the call.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "The buttons on a DM key problem match what the line says, and \"Check their key\" opens the pictures to compare.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "The person card in a DM's info panel scrolls instead of being cut off, the BOT tag is readable on every card colour, and the typing line shows #2 when two people share a name.",
+      },
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "Searching settings finds the advanced ones too, like the overlay.",
+      },
+      {
+        kind: "fixed",
+        area: "servers",
+        text: "The number on the Discover badge sits in the middle of it.",
+      },
+    ],
+  },
+  {
     version: "1.15.5-beta.4",
     date: "2026-11-03",
     channel: "beta",
@@ -4866,6 +4938,43 @@ export const app: ReleaseLine[] = [
  * So a reader here is usually somebody deciding whether to pull a new image.
  */
 export const server: ReleaseLine[] = [
+  {
+    version: "1.12.7",
+    date: "2026-11-03",
+    line: "Owners can see voice diagnostics, thread replies reach the people in the thread, and a bot can ask for more.",
+    changes: [
+      {
+        kind: "new",
+        area: "self-hosting",
+        text: "A new owner-only permission, See diagnostics, shows who's in each voice channel, whether they're muted, their latency and jitter, and the voice server's live numbers. Owners can give it to a bot, which is how gryt-mcp lets an AI help debug a server.",
+      },
+      {
+        kind: "new",
+        area: "self-hosting",
+        text: "SFU_METRICS_URL tells the server where the voice server's metrics are. Without it, the server looks on port 9091 of the host in SFU_WS_HOST, so a normal Docker setup needs no extra config.",
+      },
+      {
+        kind: "new",
+        area: "notifications",
+        text: "A reply in a thread wakes the phones of everyone who wrote in that thread, and nobody else.",
+      },
+      {
+        kind: "new",
+        area: "servers",
+        text: "A bot that's already in can ask for more permissions. It keeps what it has, and the new ones wait in Server settings \u2192 Bots until an admin answers.",
+      },
+      {
+        kind: "new",
+        area: "self-hosting",
+        text: "A server with EXTERNAL_HOST set tells its members that address, so the app can offer it when someone saved the server by its LAN address and is away from home.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "A device asking for your DM key is remembered even when it goes offline. If none of your devices with the key has been on the server for 30 days, the new one takes over right away.",
+      },
+    ],
+  },
   {
     version: "1.12.7-beta.1",
     date: "2026-11-03",
