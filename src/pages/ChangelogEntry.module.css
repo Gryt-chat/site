@@ -278,6 +278,12 @@
   color: var(--text);
 }
 
+.kinds dd p.thanks {
+  margin-top: 6px;
+  font-style: italic;
+  color: var(--text-dim);
+}
+
 /* Every area shares one gutter, so the chips line up down the page whichever
    kinds an area happens to have. */
 .areas {
