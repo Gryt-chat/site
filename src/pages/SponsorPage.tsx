@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { PageHeader } from "../components/PageHeader";
 import { pageTitle } from "../lib/title";
 import styles from "./SponsorPage.module.css";
-import { SPONSOR_TIERS, SPONSOR_URL, sponsorUrl } from "../data/sponsorTiers";
+import { ONCE_TIER, SPONSOR_TIERS, SPONSOR_URL, sponsorUrl, type SponsorTier } from "../data/sponsorTiers";
 
 /** How to sponsor Gryt. The people who have are on /sponsors. */
 export function SponsorPage() {
@@ -38,31 +38,58 @@ export function SponsorPage() {
 
       <section className={styles.block}>
         <h2 className={styles.blockHeading}>What you get</h2>
-        <ul className={styles.tiers}>
-          {/* Only tiers whose id we know link to checkout; a link that lands somewhere else is worse than none. */}
+        <p className={styles.blockNote}>
+          Every monthly pack includes the ones before it. Everyone who pays is
+          listed on the <Link to="/sponsors">sponsors page</Link>.
+        </p>
+        <ul className={styles.packs}>
           {SPONSOR_TIERS.map((t) => (
-            <li key={t.amount}>
-              {t.tierId ? (
-                <a className={styles.amount} href={sponsorUrl(t.tierId)} target="_blank" rel="noreferrer">
-                  {t.amount}
-                </a>
-              ) : (
-                <span className={styles.amount}>{t.amount}</span>
-              )}
-              <span className={styles.gets}>{t.gets}</span>
+            <li key={t.amount} className={t.tierId ? styles.packPicked : styles.pack}>
+              <span className={styles.amount}>{t.amount}</span>
+              <h3 className={styles.packTitle}>{t.title}</h3>
+              {t.example && <Example tier={t} />}
+              <p className={styles.gets}>{t.gets}</p>
+              <a
+                className={t.tierId ? styles.pick : styles.ghost}
+                href={sponsorUrl(t.tierId)}
+                target="_blank"
+                rel="noreferrer"
+              >
+                Sponsor {t.amount}
+              </a>
             </li>
           ))}
         </ul>
-        <p className={styles.footnote}>
-          Money has also come in through Ko-fi and straight to me, which the
-          tiers don't cover. Anyone who sent something is listed on
-          the <Link to="/sponsors">sponsors page</Link> the same way, and
-          nothing goes up without asking first.
-        </p>
+        <div className={styles.once}>
+          <div className={styles.onceText}>
+            <span className={styles.amount}>{ONCE_TIER.amount}</span>
+            <p className={styles.gets}>{ONCE_TIER.gets}</p>
+            <Example tier={ONCE_TIER} />
+          </div>
+          <a className={styles.ghost} href={SPONSOR_URL} target="_blank" rel="noreferrer">
+            Sponsor once
+          </a>
+        </div>
         <p className={styles.more}>
           <Link to="/sponsors">See who's sponsored so far</Link>
         </p>
       </section>
     </main>
+  );
+}
+
+function Example({ tier }: { tier: SponsorTier }) {
+  const e = tier.example;
+  if (!e) return null;
+  const badge = e.src.endsWith(".svg");
+  return (
+    <img
+      className={badge ? undefined : styles.shot}
+      src={e.src}
+      alt={e.alt}
+      width={e.width}
+      height={e.height}
+      loading="lazy"
+    />
   );
 }
