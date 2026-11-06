@@ -53,6 +53,66 @@
 
 .block { margin-top: 72px; }
 
+/* ── Costs ────────────────────────────────────────────── */
+
+.costs {
+  margin-top: 72px;
+  padding: 28px;
+  border-radius: var(--radius-lg);
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+}
+
+.costList { margin: 20px 0 0; font-size: 15.5px; }
+
+.costRow,
+.costTotal {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 11px 0;
+  border-top: 1px solid var(--border);
+}
+
+.costTotal { border-bottom: 1px solid var(--border); font-weight: 800; }
+
+.costList dd {
+  margin: 0;
+  font-family: var(--font-mono);
+  color: var(--accent-light);
+  white-space: nowrap;
+}
+
+.costTotal dd { color: var(--text); }
+
+.covered {
+  margin-top: 24px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  font-size: 14.5px;
+  color: var(--text-dim);
+}
+
+.coveredAmount { font-family: var(--font-mono); color: var(--accent-light); white-space: nowrap; }
+
+.bar {
+  margin-top: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--border);
+  overflow: hidden;
+}
+
+.bar > div { height: 100%; background: var(--accent); }
+
+.costNote {
+  margin: 20px 0 0;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--text-dim);
+}
+
 .blockHeading {
   font-size: clamp(22px, 2.4vw, 30px);
   font-weight: 800;
@@ -186,6 +246,7 @@
   .page { padding: 96px 16px 72px; }
   .cta { min-height: 68px; font-size: 22px; }
   .block { margin-top: 56px; }
+  .costs { margin-top: 56px; padding: 20px; }
 }
 
 /* Not links in running text: the base layer underlines every `a`. */
