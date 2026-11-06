@@ -40,7 +40,10 @@ export function SponsorPage() {
 
       <section className={styles.costs}>
         <h2 className={styles.blockHeading}>What it costs to run</h2>
-        <p className={styles.blockNote}>Rough numbers, per year, in US dollars.</p>
+        <p className={styles.costHead}>
+          <span>Rough numbers, in US dollars</span>
+          <span>Yearly</span>
+        </p>
         <dl className={styles.costList}>
           {RUNNING_COSTS.map((c) => (
             <div key={c.what} className={styles.costRow}>
