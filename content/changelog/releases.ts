@@ -176,6 +176,29 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.15.6-beta.3",
+    date: "2026-11-06",
+    channel: "beta",
+    line: "Beta: What's new groups a version's betas into one entry and thanks whoever found a bug, and stuck link previews give up.",
+    changes: [
+      {
+        kind: "changed",
+        area: "settings",
+        text: "What's new shows all the betas of one version as a single entry, with each change under its area's heading.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "When somebody found a bug or asked for a change, What's new thanks them by name, in a line under the change.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A link preview whose server never answers stops showing as loading after a while and goes away, instead of staying a grey card.",
+      },
+    ],
+  },
+  {
     version: "1.15.6-beta.2",
     date: "2026-11-06",
     channel: "beta",
