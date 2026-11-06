@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { PageHeader } from "../components/PageHeader";
 import { pageTitle } from "../lib/title";
 import styles from "./SponsorPage.module.css";
+import { COVERED_BY_SPONSORS_USD, RUNNING_COSTS } from "../data/runningCosts";
 import { ONCE_TIER, SPONSOR_TIERS, SPONSOR_URL, sponsorUrl, type SponsorTier } from "../data/sponsorTiers";
 
 /** How to sponsor Gryt. The people who have are on /sponsors. */
@@ -11,6 +12,8 @@ export function SponsorPage() {
     document.title = pageTitle("Sponsor Gryt");
   }, []);
 
+  const total = Math.round(RUNNING_COSTS.reduce((sum, c) => sum + c.usd, 0) / 100) * 100;
+
   return (
     <main className={styles.page}>
       <PageHeader
@@ -18,11 +21,10 @@ export function SponsorPage() {
         title="Help pay for Gryt"
         lede={
           <>
-            It pays for a domain, the box the auth stack runs on, and the
-            Apple and Windows signing certificates that stop the installer
-            warning people off their own download. That's the whole list.
-            There's nothing to buy inside Gryt, and nothing held back for the
-            people who pay.
+            Gryt runs on an enterprise-grade AMD EPYC server, with a handful of
+            paid services around it. Code-signing certificates keep Windows and
+            macOS from warning people off the installer. There's nothing to buy
+            inside Gryt, and nothing held back for the people who pay.
           </>
         }
       />
@@ -35,6 +37,42 @@ export function SponsorPage() {
         Sponsor Gryt
       </a>
       <p className={styles.ctaNote}>On GitHub Sponsors. Monthly, or once.</p>
+
+      <section className={styles.costs}>
+        <h2 className={styles.blockHeading}>What it costs to run</h2>
+        <p className={styles.costHead}>
+          <span>In US dollars</span>
+          <span>Yearly</span>
+        </p>
+        <dl className={styles.costList}>
+          {RUNNING_COSTS.map((c) => (
+            <div key={c.what} className={styles.costRow}>
+              <dt>{c.what}</dt>
+              <dd>{usd(c.usd)}</dd>
+            </div>
+          ))}
+          <div className={styles.costTotal}>
+            <dt>About</dt>
+            <dd>{usd(total)}</dd>
+          </div>
+        </dl>
+        <div className={styles.covered}>
+          <span>Covered by monthly sponsors</span>
+          <span className={styles.coveredAmount}>
+            {usd(COVERED_BY_SPONSORS_USD)} of {usd(total)}
+          </span>
+        </div>
+        <div
+          className={styles.bar}
+          role="progressbar"
+          aria-label="Share of yearly costs covered by monthly sponsors"
+          aria-valuemin={0}
+          aria-valuemax={total}
+          aria-valuenow={COVERED_BY_SPONSORS_USD}
+        >
+          <div style={{ width: `${Math.min(100, (COVERED_BY_SPONSORS_USD / total) * 100)}%` }} />
+        </div>
+      </section>
 
       <section className={styles.block}>
         <h2 className={styles.blockHeading}>What you get</h2>
@@ -92,4 +130,8 @@ function Example({ tier }: { tier: SponsorTier }) {
       loading="lazy"
     />
   );
+}
+
+function usd(n: number) {
+  return "$" + String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
