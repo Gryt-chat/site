@@ -177,7 +177,7 @@ export const app: ReleaseLine[] = [
     version: "1.15.6-beta.2",
     date: "2026-11-06",
     channel: "beta",
-    line: "Beta: a forum topic with a mention shows the person's name, not a string of code. Thanks to Leo from the community server for finding it!",
+    line: "Beta: forum previews and search results show a mention as the person's name, a bug Leo from the community server found.",
     changes: [
       {
         kind: "fixed",
