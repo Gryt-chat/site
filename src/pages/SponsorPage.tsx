@@ -72,10 +72,6 @@ export function SponsorPage() {
         >
           <div style={{ width: `${Math.min(100, (COVERED_BY_SPONSORS_USD / total) * 100)}%` }} />
         </div>
-        <p className={styles.costNote}>
-          The server and the test devices get used for other things too, so
-          these numbers lean high.
-        </p>
       </section>
 
       <section className={styles.block}>
