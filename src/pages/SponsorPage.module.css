@@ -60,43 +60,122 @@
   margin: 0;
 }
 
-.tiers {
-  margin: 22px 0 0;
+.blockNote {
+  margin: 10px 0 0;
+  max-width: 60ch;
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--text-dim);
+}
+
+.packs {
+  margin: 24px 0 0;
   padding: 0;
   list-style: none;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 12px;
 }
 
-.tiers li {
+.pack,
+.packPicked {
   display: flex;
-  gap: 8px 20px;
-  padding: 12px 0;
-  border-top: 1px solid var(--border);
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 24px;
+  border-radius: var(--radius-lg);
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
 }
 
-.tiers li:last-child { border-bottom: 1px solid var(--border); }
+.packPicked {
+  background: var(--bg-card);
+  border-color: var(--accent);
+}
 
 .amount {
   font-family: var(--font-mono);
   font-size: 13.5px;
   color: var(--accent-light);
-  flex: 0 0 8.5rem;
-  padding-top: 2px;
+}
+
+.packTitle {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
 }
 
 .gets {
-  font-size: 15.5px;
+  margin: 0;
+  font-size: 15px;
   line-height: 1.6;
   color: var(--text-dim);
+}
+
+.shot {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+}
+
+.pick,
+.ghost {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 22px;
+  border-radius: 999px;
+  font-size: 15px;
+  white-space: nowrap;
+}
+
+.pick {
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-weight: 800;
+}
+
+.pick:hover { color: var(--accent-ink); }
+
+.ghost {
+  border: 1px solid var(--border);
+  color: var(--accent-light);
+  font-weight: 700;
+}
+
+.ghost:hover { border-color: var(--accent); color: var(--accent-hover); }
+
+.pick:focus-visible,
+.ghost:focus-visible {
+  outline: 3px solid var(--accent-hover);
+  outline-offset: 3px;
+}
+
+.once {
+  margin-top: 12px;
+  padding: 20px 24px;
+  border-radius: var(--radius-lg);
+  border: 1px dashed var(--border);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.onceText {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1 1 320px;
   min-width: 0;
 }
 
-.footnote {
-  margin: 20px 0 0;
-  font-size: 14.5px;
-  line-height: 1.7;
-  color: var(--text-dimmer);
-  max-width: 64ch;
-}
+.onceText .shot { max-width: 520px; margin-top: 8px; }
 
 .more {
   margin: 40px 0 0;
@@ -107,12 +186,11 @@
   .page { padding: 96px 16px 72px; }
   .cta { min-height: 68px; font-size: 22px; }
   .block { margin-top: 56px; }
-  .tiers li { flex-direction: column; gap: 4px; }
-  .amount { flex: none; padding-top: 0; }
 }
 
 /* Not links in running text: the base layer underlines every `a`. */
-.amount,
-.cta {
+.cta,
+.pick,
+.ghost {
   text-decoration: none;
 }
