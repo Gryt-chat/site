@@ -59,8 +59,7 @@ export function SponsorsPage() {
         <section className={styles.block}>
           <h2 className={styles.blockHeading}>Sponsored once</h2>
           <p className={styles.blockNote}>
-            A one-off payment instead of a subscription. Nobody here has
-            stopped sponsoring, because there was never anything to stop.
+            A one-off payment instead of a subscription.
           </p>
           <ul className={styles.cards}>
             {once.map((s) => card(s, formatSince(s.since)))}
