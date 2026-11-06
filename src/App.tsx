@@ -49,6 +49,7 @@ const EmojisPage = lazy(() => import("./pages/support/EmojisPage").then((m) => (
 const BackupPage = lazy(() => import("./pages/support/BackupPage").then((m) => ({ default: m.BackupPage })));
 const ChangelogIndex = lazy(() => import("./pages/ChangelogIndex").then((m) => ({ default: m.ChangelogIndex })));
 const ChangelogEntry = lazy(() => import("./pages/ChangelogEntry").then((m) => ({ default: m.ChangelogEntry })));
+const SponsorPage = lazy(() => import("./pages/SponsorPage").then((m) => ({ default: m.SponsorPage })));
 const SponsorsPage = lazy(() => import("./pages/SponsorsPage").then((m) => ({ default: m.SponsorsPage })));
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy").then((m) => ({ default: m.PrivacyPolicy })));
 const CommunityGuidelines = lazy(() => import("./pages/CommunityGuidelines").then((m) => ({ default: m.CommunityGuidelines })));
@@ -224,6 +225,7 @@ export default function App() {
           <Route path="/support/threads" element={<ThreadsPage />} />
           <Route path="/support/custom-emojis" element={<EmojisPage />} />
           <Route path="/support/back-up-a-server" element={<BackupPage />} />
+          <Route path="/sponsor" element={<SponsorPage />} />
           <Route path="/sponsors" element={<SponsorsPage />} />
           <Route path="/changelog" element={<ChangelogIndex />} />
           <Route path="/changelog/:version" element={<ChangelogEntry />} />

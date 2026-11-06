@@ -1,16 +1,11 @@
 import { useEffect } from "react";
-import { Button } from "@gryt/ui";
+import { Link } from "react-router-dom";
 import { PageHeader } from "../components/PageHeader";
-import { formatSince, sponsors } from "../data/sponsors";
+import { formatSince, sponsors, type Sponsor } from "../data/sponsors";
 import { pageTitle } from "../lib/title";
 import styles from "./SponsorsPage.module.css";
-import { SPONSOR_TIERS, SPONSOR_URL, sponsorUrl } from "../data/sponsorTiers";
 
-
-/**
- * Everyone who has sponsored Gryt, and what sponsoring pays for. The front page carries the
- * current names; the history lives here. The list does not animate — it is a list.
- */
+/** Everyone who has sponsored Gryt. How to join them is on /sponsor. */
 export function SponsorsPage() {
   useEffect(() => {
     document.title = pageTitle("Sponsors");
@@ -23,110 +18,62 @@ export function SponsorsPage() {
     .filter((s) => s.kind === "once")
     .sort((a, b) => b.since.localeCompare(a.since));
 
-  const name = (s: (typeof sponsors)[number]) =>
-    s.href ? (
-      <a href={s.href} target="_blank" rel="noreferrer">
-        {s.name}
-      </a>
-    ) : (
-      s.name
-    );
+  const card = (s: Sponsor, date: string) => (
+    <li key={`${s.name}-${s.since}`} className={styles.card}>
+      {s.logo ? (
+        <img className={styles.logo} src={s.logo} alt="" aria-hidden="true" />
+      ) : (
+        <span className={styles.mark} aria-hidden="true">{s.name.charAt(0)}</span>
+      )}
+      <span className={styles.text}>
+        <span className={styles.name}>
+          {s.href ? <a href={s.href} target="_blank" rel="noreferrer">{s.name}</a> : s.name}
+        </span>
+        <span className={styles.date}>{date}</span>
+      </span>
+    </li>
+  );
 
   return (
     <main className={styles.page}>
       <PageHeader
         eyebrow="Sponsors"
         title="People who have chipped in"
-        lede={
-          <>
-            It pays for a domain, the box the auth stack runs on, and the
-            Apple and Windows signing certificates that stop the installer
-            warning people off their own download. That's the whole list.
-            There's nothing to buy inside Gryt, and nothing held back for the
-            people who pay.
-          </>
-        }
+        lede={<>Everyone who's helped pay Gryt's bills. Nothing goes up here without asking first.</>}
       />
 
-      {sponsors.length === 0 ? (
-        <p className={styles.empty}>
-          Nobody yet. This is where the names go.
-        </p>
-      ) : (
-        <>
-          {recurring.length > 0 && (
-            <section className={styles.block}>
-              <h2 className={styles.blockHeading}>Sponsoring now</h2>
-              <ul className={styles.list}>
-                {recurring.map((s) => (
-                  <li key={s.name}>
-                    {s.logo && (
-                      <img className={styles.logo} src={s.logo} alt="" aria-hidden="true" />
-                    )}
-                    <span className={styles.name}>{name(s)}</span>
-                    <span className={styles.date}>since {formatSince(s.since)}</span>
-                  </li>
-                ))}
-              </ul>
-            </section>
-          )}
-
-          {once.length > 0 && (
-            <section className={styles.block}>
-              <h2 className={styles.blockHeading}>Sponsored once</h2>
-              <p className={styles.blockNote}>
-                A one-off payment instead of a subscription. Nobody here has
-                stopped sponsoring, because there was never anything to stop.
-              </p>
-              <ul className={styles.list}>
-                {once.map((s) => (
-                  <li key={`${s.name}-${s.since}`}>
-                    {s.logo && (
-                      <img className={styles.logo} src={s.logo} alt="" aria-hidden="true" />
-                    )}
-                    <span className={styles.name}>{name(s)}</span>
-                    <span className={styles.date}>{formatSince(s.since)}</span>
-                  </li>
-                ))}
-              </ul>
-            </section>
-          )}
-        </>
+      {sponsors.length === 0 && (
+        <p className={styles.empty}>Nobody yet. This is where the names go.</p>
       )}
 
-      <section className={styles.block}>
-        <h2 className={styles.blockHeading}>What you get</h2>
-        <ul className={styles.tiers}>
-          {/* The amount is the link where we know the tier's id, so choosing a
-              tier from the list it is described in goes straight to checkout.
-              Tiers whose id we do not have yet stay plain text rather than
-              linking to the tier list — a link that looks like the others and
-              lands somewhere else is worse than no link. */}
-          {SPONSOR_TIERS.map((t) => (
-            <li key={t.amount}>
-              {t.tierId ? (
-                <a className={styles.amount} href={sponsorUrl(t.tierId)} target="_blank" rel="noreferrer">
-                  {t.amount}
-                </a>
-              ) : (
-                <span className={styles.amount}>{t.amount}</span>
-              )}
-              <span className={styles.gets}>{t.gets}</span>
-            </li>
-          ))}
-        </ul>
-        <p className={styles.footnote}>
-          Money has also come in through Ko-fi and straight to me, which the
-          tiers don't cover. Anyone who sent something is listed here the same
-          way, and nothing goes up without asking first.
-        </p>
-        <Button
-          className={styles.button}
-          render={<a href={SPONSOR_URL} target="_blank" rel="noreferrer" />}
-          tone="ghost"
-        >
-          Sponsor Gryt
-        </Button>
+      {recurring.length > 0 && (
+        <section className={styles.block}>
+          <h2 className={styles.blockHeading}>Sponsoring now</h2>
+          <ul className={styles.cards}>
+            {recurring.map((s) => card(s, `since ${formatSince(s.since)}`))}
+          </ul>
+        </section>
+      )}
+
+      {once.length > 0 && (
+        <section className={styles.block}>
+          <h2 className={styles.blockHeading}>Sponsored once</h2>
+          <p className={styles.blockNote}>
+            A one-off payment instead of a subscription. Nobody here has
+            stopped sponsoring, because there was never anything to stop.
+          </p>
+          <ul className={styles.cards}>
+            {once.map((s) => card(s, formatSince(s.since)))}
+          </ul>
+        </section>
+      )}
+
+      <section className={styles.join}>
+        <span className={styles.joinText}>
+          <span className={styles.joinHeading}>Want your name here?</span>
+          <span className={styles.joinNote}>Monthly or once, through GitHub Sponsors.</span>
+        </span>
+        <Link className={styles.button} to="/sponsor">Sponsor Gryt</Link>
       </section>
     </main>
   );

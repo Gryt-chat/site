@@ -228,10 +228,14 @@ export const STATIC_PAGES: StaticPage[] = [
     description: "What changed in each release of Gryt.",
   },
   {
+    path: "sponsor",
+    title: "Sponsor Gryt",
+    description: "What sponsoring pays for, and what you get back.",
+  },
+  {
     path: "sponsors",
     title: "Sponsors",
-    description:
-      "Everyone who has chipped in, and what the money pays for.",
+    description: "Everyone who has chipped in to pay Gryt's bills.",
   },
   {
     path: "terms",
