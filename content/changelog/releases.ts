@@ -177,12 +177,12 @@ export const app: ReleaseLine[] = [
     version: "1.15.6-beta.2",
     date: "2026-11-06",
     channel: "beta",
-    line: "Beta: forum previews and search results show a mention as the person's name, a bug Leo from the community server found.",
+    line: "Beta: mentions in forum previews and search results show as names again, thanks to Leo from the community server.",
     changes: [
       {
         kind: "fixed",
         area: "chat",
-        text: "A forum topic's preview and a search result showed a mention as raw code, like [](mention:user_\u2026). They show @name now. Thanks to Leo from the community server for finding it!",
+        text: "A mention in a forum topic's preview or a search result showed up as a string of code instead of the person's name. Now it shows @name. Thanks to Leo from the community server for finding it!",
       },
     ],
   },
