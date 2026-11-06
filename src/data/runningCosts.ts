@@ -2,7 +2,7 @@
 export const RUNNING_COSTS: { what: string; usd: number }[] = [
   // Hetzner SX135 (€289/mo) + GEX45 (€214/mo) on 2026-11-06; a rental includes power.
   { what: "Server and electricity", usd: 7000 },
-  { what: "Test devices, spread over three years", usd: 3180 },
+  { what: "Test devices", usd: 3180 },
   { what: "Services, domains and developer accounts", usd: 1050 },
 ];
 
