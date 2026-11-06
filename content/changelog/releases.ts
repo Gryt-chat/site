@@ -174,6 +174,19 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.15.6-beta.2",
+    date: "2026-11-06",
+    channel: "beta",
+    line: "Beta: forum previews and search results show a mention as the person's name, a bug Leo from the community server found.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A forum topic's preview and a search result showed a mention as raw code, like [](mention:user_\u2026). They show @name now. Thanks to Leo from the community server for finding it!",
+      },
+    ],
+  },
+  {
     version: "1.15.6-beta.1",
     date: "2026-11-03",
     channel: "beta",
