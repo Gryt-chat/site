@@ -38,7 +38,7 @@ export const SPONSOR_TIERS: SponsorTier[] = [
   {
     amount: "$100 a month",
     title: "Your logo",
-    gets: "Your logo on gryt.chat, linked wherever you want, plus everything above.",
+    gets: "Your logo on gryt.chat, linking to your website, plus everything above.",
     example: {
       src: "/sponsor/logo-row.png",
       alt: "The sponsor row on gryt.chat's front page with a sponsor's logo in it",

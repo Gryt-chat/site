@@ -6,7 +6,7 @@
 export interface Sponsor {
   /** As they want to be shown. Not necessarily a GitHub handle. */
   name: string;
-  /** Theirs to choose. The tier says "linked wherever you want". */
+  /** Where their logo links to. Theirs to choose. */
   href?: string;
   /**
    * Path under `public/`, for the logo tiers. SVG or a 2x PNG that holds up on a dark
