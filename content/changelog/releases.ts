@@ -55,6 +55,8 @@ export interface Change {
   area?: Area;
   /** One sentence, same voice as `line`. */
   text: string;
+  /** Credit for whoever found or asked for it, shown under the change in italics. */
+  thanks?: string;
 }
 
 export interface ReleaseLine {
@@ -182,7 +184,8 @@ export const app: ReleaseLine[] = [
       {
         kind: "fixed",
         area: "chat",
-        text: "A mention in a forum topic's preview or a search result showed up as a string of code instead of the person's name. Now it shows @name. Thanks to Leo from the community server for finding it!",
+        text: "A mention in a forum topic's preview or a search result showed up as a string of code instead of the person's name. Now it shows @name.",
+        thanks: "Thanks to Leo from the community server for finding it!",
       },
     ],
   },
