@@ -49,8 +49,8 @@ export const SPONSOR_TIERS: SponsorTier[] = [
   },
   {
     amount: "$500 a month",
-    title: "Top of the list",
-    gets: "Your logo first, and your team's bug reports go to the front of the queue, plus everything above.",
+    title: "For companies",
+    gets: "Your logo first, your team's bug reports go to the front of the queue, and a direct line to me about running Gryt, plus everything above.",
     example: {
       src: "/sponsor/logo-first-row.png",
       alt: "The sponsor row on gryt.chat's front page with a larger logo first",
