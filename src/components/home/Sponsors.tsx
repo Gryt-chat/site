@@ -98,9 +98,9 @@ export function Sponsors() {
           </Button>
           <span className={styles.note}>
             Names go up from $25 a month and logos from $100, and one-off
-            payments are just as welcome. The tiers are written out on the{" "}
-            <Link to="/sponsors">sponsors page</Link>, along with everybody who
-            has.
+            payments are just as welcome. The tiers are written out on{" "}
+            <Link to="/sponsor">how to sponsor</Link>, and there's a{" "}
+            <Link to="/sponsors">list of everybody who has</Link>.
           </span>
         </motion.p>
       </motion.div>

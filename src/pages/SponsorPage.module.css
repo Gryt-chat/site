@@ -1,0 +1,118 @@
+.page {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 120px 24px 96px;
+}
+
+/* ── The button ───────────────────────────────────────── */
+
+.cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 80px;
+  padding: 16px 32px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-size: clamp(22px, 2.8vw, 28px);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+  text-decoration: none;
+  box-shadow: 0 0 0 1px var(--accent-light), 0 18px 60px var(--accent-glow);
+  transition: transform 0.16s ease-out, box-shadow 0.16s ease-out;
+}
+
+.cta svg { width: 1em; height: 1em; flex: none; }
+
+.cta:hover {
+  color: var(--accent-ink);
+  transform: translateY(-2px);
+  box-shadow: 0 0 0 1px var(--accent-hover), 0 24px 72px var(--accent-glow);
+}
+
+.cta:focus-visible {
+  outline: 3px solid var(--accent-hover);
+  outline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cta, .cta:hover { transition: none; transform: none; }
+}
+
+.ctaNote {
+  margin: 16px 0 0;
+  text-align: center;
+  font-size: 15px;
+  color: var(--text-dim);
+}
+
+/* ── Tiers ────────────────────────────────────────────── */
+
+.block { margin-top: 72px; }
+
+.blockHeading {
+  font-size: clamp(22px, 2.4vw, 30px);
+  font-weight: 800;
+  letter-spacing: -0.024em;
+  margin: 0;
+}
+
+.tiers {
+  margin: 22px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tiers li {
+  display: flex;
+  gap: 8px 20px;
+  padding: 12px 0;
+  border-top: 1px solid var(--border);
+}
+
+.tiers li:last-child { border-bottom: 1px solid var(--border); }
+
+.amount {
+  font-family: var(--font-mono);
+  font-size: 13.5px;
+  color: var(--accent-light);
+  flex: 0 0 8.5rem;
+  padding-top: 2px;
+}
+
+.gets {
+  font-size: 15.5px;
+  line-height: 1.6;
+  color: var(--text-dim);
+  min-width: 0;
+}
+
+.footnote {
+  margin: 20px 0 0;
+  font-size: 14.5px;
+  line-height: 1.7;
+  color: var(--text-dimmer);
+  max-width: 64ch;
+}
+
+.more {
+  margin: 40px 0 0;
+  font-size: 16px;
+}
+
+@media (max-width: 680px) {
+  .page { padding: 96px 16px 72px; }
+  .cta { min-height: 68px; font-size: 22px; }
+  .block { margin-top: 56px; }
+  .tiers li { flex-direction: column; gap: 4px; }
+  .amount { flex: none; padding-top: 0; }
+}
+
+/* Not links in running text: the base layer underlines every `a`. */
+.amount,
+.cta {
+  text-decoration: none;
+}
