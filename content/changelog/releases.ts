@@ -5112,6 +5112,23 @@ export const app: ReleaseLine[] = [
  */
 export const server: ReleaseLine[] = [
   {
+    version: "1.12.9",
+    date: "2026-11-09",
+    line: "When you link a new device, your old messages come across through your own server, never through Gryt.",
+    changes: [
+      {
+        kind: "new",
+        area: "self-hosting",
+        text: "A server now holds a linked device's message history while it moves across, locked so the server can't read it. It's kept for up to an hour, and each part is deleted once the new device has it. Before, that history went through Gryt's own relay.",
+      },
+      {
+        kind: "new",
+        area: "self-hosting",
+        text: "Server settings has a switch for it under Linking a new device. Turn it off and members' old messages stay on the device they link from, unless another of their servers carries them.",
+      },
+    ],
+  },
+  {
     version: "1.12.8",
     date: "2026-11-09",
     line: "Mentions show as names in forum previews and search, and a device asking for your DM key survives a server restart.",
