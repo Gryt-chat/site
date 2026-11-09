@@ -176,6 +176,79 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.15.6",
+    date: "2026-11-09",
+    line: "Sign in on a computer by scanning a code with your phone, linking a device shows every step, and What's new thanks whoever found a bug.",
+    changes: [
+      {
+        kind: "new",
+        area: "settings",
+        text: "The welcome screen and Settings → Account show a code you can scan with your phone's camera to sign in. Your account, servers and messages come over from the phone, so you don't have to join a server first.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "Settings → Your devices has Link a device for adding another one, and Link this device for setting up the one you're on. Before, a signed-in computer without your key had nowhere in Settings to start it.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "While a device links, both sides list each step from Approve to Done and ask you to keep Gryt open on both. The screen stays on until it's done.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "Linking finishes sooner. The new device is added on every server at once, and to several chats at a time.",
+      },
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "After linking a computer that was already signed in, its servers show up straight away instead of after a restart. When linking replaces a guest identity, Gryt restarts by itself once it's done.",
+      },
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "If your other device closes partway through linking, the new one says so instead of spinning forever.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "When somebody found a bug or asked for a change, What's new thanks them by name, in a line under the change.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "What's new shows all the betas of one version as a single entry, with each change under its area's heading.",
+      },
+      {
+        kind: "changed",
+        area: "notifications",
+        text: "Picking a sound plays it, and letting go of the volume slider plays it again at the new level. The ringtone keeps playing while you drag, so you hear the level change. The separate play button is gone.",
+      },
+      {
+        kind: "changed",
+        area: "notifications",
+        text: "The message sound follows its volume slider the same way the other sounds do. It used to play louder than the slider said, so its default is now 60%, about as loud as before.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A mention in a forum topic's preview or a search result showed up as a string of code instead of the person's name. Now it shows @name.",
+        thanks: "Thanks to Leo from the community server for finding it!",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A link preview whose server never answers stops showing as loading after a while and goes away, instead of staying a grey card.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "When you say no to a device asking for your DM key, only that device shows it, not every device on your account that's waiting.",
+      },
+    ],
+  },
+  {
     version: "1.15.6-beta.4",
     date: "2026-11-09",
     channel: "beta",
@@ -5038,6 +5111,24 @@ export const app: ReleaseLine[] = [
  * So a reader here is usually somebody deciding whether to pull a new image.
  */
 export const server: ReleaseLine[] = [
+  {
+    version: "1.12.8",
+    date: "2026-11-09",
+    line: "Mentions show as names in forum previews and search, and a device asking for your DM key survives a server restart.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A mention in a forum topic's preview or a search result showed up as a string of code instead of the person's name. Now it shows @name.",
+        thanks: "Thanks to Leo from the community server for finding it!",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A device asking for your DM key is kept in the server's database, so a restart doesn't lose the request. Saying no reaches only the device that asked.",
+      },
+    ],
+  },
   {
     version: "1.12.7",
     date: "2026-11-03",
