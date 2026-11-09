@@ -176,6 +176,44 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.15.6-beta.4",
+    date: "2026-11-09",
+    channel: "beta",
+    line: "Beta: sign in on a computer by scanning a code with your phone, and linking a device shows every step.",
+    changes: [
+      {
+        kind: "new",
+        area: "settings",
+        text: "The welcome screen and Settings → Account show a code you can scan with your phone's camera to sign in. Your account, servers and messages come over from the phone, so you don't have to join a server first.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "Settings → Your devices has Link a device for adding another one, and Link this device for setting up the one you're on. Before, a signed-in computer without your key had nowhere in Settings to start it.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "While a device links, both sides list each step from Approve to Done and ask you to keep Gryt open on both. The screen stays on until it's done.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "Linking finishes sooner. The new device is added on every server at once, and to several chats at a time.",
+      },
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "After linking a computer that was already signed in, its servers show up straight away instead of after a restart. When linking replaces a guest identity, Gryt restarts by itself once it's done.",
+      },
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "If your other device closes partway through linking, the new one says so instead of spinning forever.",
+      },
+    ],
+  },
+  {
     version: "1.15.6-beta.3",
     date: "2026-11-06",
     channel: "beta",
