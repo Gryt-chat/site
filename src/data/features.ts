@@ -64,6 +64,7 @@ export const featureLines: FeatureLine[] = [
   {
     version: '1.15',
     features: [
+      { area: 'you', month: 'Nov 2026', title: 'Sign in with your phone', text: 'The welcome screen shows a code. Scan it with your phone and your account, servers and messages come across, with every step shown on both screens.' },
       { area: 'voice', month: 'Nov 2026', title: 'Calls that ring', text: 'A call plays a ringtone until you answer, flashes the taskbar and shows a notification when Gryt is in the background.' },
       { area: 'you', month: 'Nov 2026', title: 'Your own sounds', text: 'Pick a ringtone and a message sound from the ones Gryt ships, or use your own file.' },
       { area: 'servers', month: 'Nov 2026', title: 'Bots ask before they get more', text: 'A bot that wants more permissions waits in Server settings until an admin approves the new ones.' },
