@@ -22,10 +22,11 @@ const selfHosting: SiteLink = { label: 'Self-hosting', href: '/self-hosting', ro
 const developers: SiteLink = { label: 'Developers', href: '/developers', route: true }
 const built: SiteLink = { label: 'Built with Gryt', href: '/built', route: true }
 const docs: SiteLink = { label: 'Docs', href: 'https://docs.gryt.chat/docs' }
-const roadmap: SiteLink = { label: 'Roadmap', href: 'https://docs.gryt.chat/docs/about/roadmap' }
 const whyGryt: SiteLink = { label: 'Why Gryt?', href: '/why-gryt', route: true }
 const compared: SiteLink = { label: 'Compared', href: '/compare', route: true }
 const features: SiteLink = { label: 'Features', href: '/features', route: true }
+const roadmapPage: SiteLink = { label: 'Roadmap', href: '/roadmap', route: true }
+const blog: SiteLink = { label: 'Blog', href: '/blog', route: true }
 
 /**
  * Do the thing. The two that matter most are lifted out as `actions` below, and
@@ -39,7 +40,7 @@ export const getGoing: SiteLink[] = [
   built,
   docs,
   { label: 'Support', href: '/support', route: true },
-  roadmap,
+  roadmapPage,
 ]
 
 /** Read about it. This is where Blog belongs, and where it was missing from. */
@@ -47,7 +48,7 @@ export const reading: SiteLink[] = [
   whyGryt,
   features,
   compared,
-  { label: 'Blog', href: '/blog', route: true },
+  blog,
   { label: 'Changelog', href: '/changelog', route: true },
   { label: 'Sponsors', href: '/sponsors', route: true },
 ]
@@ -85,11 +86,8 @@ export const legal: SiteLink[] = [
   { label: 'Business inquiries', href: 'mailto:business@gryt.chat' },
 ]
 
-/**
- * What the bar carries, as opposed to the sheet and the footer. Four, and at its limit.
- * "Compared" came out for the audience pages, and Docs for Features; both are in the sheet.
- */
-export const navBar: SiteLink[] = [whyGryt, features, developers, selfHosting]
+/** What the bar carries, as opposed to the sheet and the footer: v8 of the home page design. */
+export const navBar: SiteLink[] = [whyGryt, roadmapPage, blog, developers, selfHosting]
 
 /** The two the whole site is for. Buttons, never text links. */
 export const actions = {
