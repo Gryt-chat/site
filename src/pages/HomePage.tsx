@@ -1,35 +1,16 @@
-import { Download } from "../components/Download";
-import { Addons } from "../components/home/Addons";
-import { Bird } from "../components/home/Bird";
-import { Emoji } from "../components/home/Emoji";
+import { Involved, News, Releases, SponsorBar, Why } from "../components/home/Front";
 import { Hero } from "../components/home/Hero";
-import { Identity } from "../components/home/Identity";
-import { Lan } from "../components/home/Lan";
-import { Motivation } from "../components/home/Motivation";
-import { SelfHost } from "../components/home/SelfHost";
-import { Sponsors } from "../components/home/Sponsors";
-import { Themes } from "../components/home/Themes";
-import { Voice } from "../components/home/Voice";
 
-/**
- * One claim per section, each shown rather than argued. The middle alternates left and
- * right through `Showcase`, and the sequence lives here: Identity, Emoji, Themes, Lan.
- */
+/** v8 of the home page design: one video in the hero, then what is new, and how to take part. */
 export function HomePage() {
   return (
     <main>
       <Hero />
-      <Identity />
-      <Bird />
-      <Emoji />
-      <Voice />
-      <Themes />
-      <Lan />
-      <Addons />
-      <Motivation />
-      <SelfHost />
-      <Download />
-      <Sponsors />
+      <News />
+      <Releases />
+      <Why />
+      <Involved />
+      <SponsorBar />
     </main>
   );
 }
