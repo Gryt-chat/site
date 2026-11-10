@@ -41,7 +41,7 @@ export function Hero() {
   // Held until the preference is known, a render after hydration, so a reduced-motion visitor
   // gets the short fade rather than the timings the prerendered page was set up with.
   const arrive = prefers !== null;
-  const { version } = useLatestDownload();
+  const { os, osName, option, version } = useLatestDownload();
   const card = useRef<HTMLButtonElement>(null);
   const [watching, setWatching] = useState(false);
 
@@ -60,17 +60,26 @@ export function Hero() {
         </motion.p>
 
         <motion.div className={styles.actions} variants={rise(reduced)}>
-          <Link className={styles.download} to="/download">
-            <span className={styles.downloadLabel}>Download Gryt</span>
-            {version && <span className={styles.version}>{version.replace(/^v/, "")}</span>}
-          </Link>
+          {option ? (
+            <a className={styles.download} href={option.url} download>
+              <span className={styles.downloadLabel}>Download for {osName}</span>
+              {version && <span className={styles.version}>{version}</span>}
+            </a>
+          ) : (
+            <Link className={styles.download} to="/download">
+              <span className={styles.downloadLabel}>Download Gryt</span>
+              {version && <span className={styles.version}>{version}</span>}
+            </Link>
+          )}
           <Button className={styles.secondary} onClick={() => setWatching(true)} size="large" tone="ghost">
             Watch the video
           </Button>
         </motion.div>
 
         <motion.p className={styles.also} variants={rise(reduced)}>
-          Or <a href="https://app.gryt.chat" target="_blank" rel="noreferrer">try it in the browser</a>, or{" "}
+          {option && os === "macos" && <>{option.description}. </>}
+          Or <Link to="/download">get it for another system</Link>,{" "}
+          <a href="https://app.gryt.chat" target="_blank" rel="noreferrer">try it in the browser</a>, or{" "}
           <a href={SELF_HOST}>host it yourself</a>.
         </motion.p>
 

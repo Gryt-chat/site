@@ -50,10 +50,10 @@ const ANDROID_STEPS = [
 ];
 
 /** Pick your system, press the one button. Your system is picked already. */
-export function Download() {
+export function Download({ initial = null }: { initial?: Pick | null } = {}) {
   const [release, setRelease] = useState<Release | null>(null);
   const [error, setError] = useState(false);
-  const [chosen, setChosen] = useState<Pick | null>(null);
+  const [chosen, setChosen] = useState<Pick | null>(initial);
 
   /* Null until hydration is over, so the prerender and the first client render agree. */
   const detected = useDetectedOS();
