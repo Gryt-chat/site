@@ -176,6 +176,38 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.15.9",
+    date: "2026-11-10",
+    line: "An owl shows you around Gryt now, and a screen share tells you its quality and frame rate.",
+    changes: [
+      {
+        kind: "new",
+        area: "settings",
+        text: "Get a tour, on the welcome or in Settings › About, has Gryt's owl fly over to each thing worth knowing and tell you what it's for. It waves hello and goodbye, and you can go back a step.",
+      },
+      {
+        kind: "new",
+        area: "phone",
+        text: "The phone's tour has the owl too, after you join your first server.",
+      },
+      {
+        kind: "new",
+        area: "voice",
+        text: "A screen share you're watching shows its resolution and frame rate in its corner, like 1080p | 240 fps. Hover it for the codec, bitrate, packet loss and dropped frames.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "Clicking a video in the picture viewer plays or pauses it, instead of zooming in.",
+      },
+      {
+        kind: "fixed",
+        area: "servers",
+        text: "The BOT tag in the member list was dark on dark on a light member card. It takes its colour from the row now.",
+      },
+    ],
+  },
+  {
     version: "1.15.8",
     date: "2026-11-10",
     line: "Old messages you bring over when linking a phone and a computer now show up on the new device.",
