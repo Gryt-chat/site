@@ -176,6 +176,18 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.15.8",
+    date: "2026-11-10",
+    line: "Old messages you bring over when linking a phone and a computer now show up on the new device.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "Linking a phone from your computer, or a computer from your phone, said your old messages came across, but they didn't show in your chats. Now they do. Linking between two computers already worked.",
+      },
+    ],
+  },
+  {
     version: "1.15.7",
     date: "2026-11-10",
     line: "Old messages come across to a linked device through your own server, never through Gryt, and the welcome is just a hello again.",
