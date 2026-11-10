@@ -92,7 +92,7 @@ export function Download({ initial = null }: { initial?: Pick | null } = {}) {
     <section className={styles.section} id="download">
       <div className={styles.box} id="phone-test">
         <p className={styles.eyebrow}>Download</p>
-        <h2 className={styles.title}>Get Gryt</h2>
+        <h1 className={styles.title}>Get Gryt</h1>
 
         <div className={styles.picks} role="group" aria-label="Your system">
           {PICKS.map(({ id, name, icon: Icon }) => (
