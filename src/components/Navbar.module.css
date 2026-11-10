@@ -258,9 +258,7 @@
   width: 18px;
   box-sizing: border-box;
   border-radius: 12px 0 0 12px;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-right: 0;
+  background: var(--accent);
 }
 
 .thumb::after {
@@ -277,13 +275,13 @@
   width: 4px;
   height: 36px;
   border-radius: 2px;
-  background: var(--accent);
-  opacity: 0.85;
+  background: var(--gryt-on-accent, #0b0c10);
+  opacity: 0.55;
 }
 
 .thumb:focus-visible::after,
 .drawerThumb:focus-visible::after {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--gryt-accent-12, #fff);
   outline-offset: 2px;
 }
 

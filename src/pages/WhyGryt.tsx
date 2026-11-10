@@ -179,6 +179,10 @@ export function WhyGryt() {
           architecture.
         </p>
         <div className={styles.links}>
+          <Link to="/compare">
+            Gryt next to Discord and TeamSpeak
+            <span aria-hidden="true">→</span>
+          </Link>
           <a href={DOCS_WHY_GRYT_URL} target="_blank" rel="noreferrer">
             Why Gryt in the docs
             <span aria-hidden="true">→</span>

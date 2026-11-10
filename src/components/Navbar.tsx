@@ -2,36 +2,10 @@ import { useState, useCallback } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button, Dialog } from "@gryt/ui";
 import { GrytLogo } from "./GrytLogo";
-import { actions, community, getGoing, navBar, reading, type SiteLink } from "../data/siteLinks";
+import { actions, navBar, sheetExtras, type SiteLink } from "../data/siteLinks";
 import { usePathname } from "../lib/usePathname";
 import { useTravellingUnderline } from "./useTravellingUnderline";
 import styles from "./Navbar.module.css";
-
-/**
- * Both lists come out of `src/data/siteLinks.ts`. The bar carries four: six links plus two
- * buttons is a directory rather than a decision, so the rest wait in the sheet.
- */
-const navLinks = navBar.map((l) => ({
-  href: l.href,
-  label: l.label,
-  external: !l.route,
-  isRoute: !!l.route,
-}));
-
-/**
- * By label rather than by index. `getGoing[3]` would keep compiling and quietly point
- * somewhere else the day somebody reorders the list.
- */
-const pick = (from: SiteLink[], label: string): SiteLink | null => {
-  const hit = from.find((l) => l.label === label);
-  if (!hit) {
-    // Warn and drop, rather than throw. Throwing took the whole site down over one renamed
-    // footer link while `yarn build` stayed green, because it never renders a component.
-    console.warn(`siteLinks has no "${label}" — the navbar expected one and dropped it`);
-    return null;
-  }
-  return hit;
-};
 
 const asNav = (l: SiteLink) => ({
   href: l.href,
@@ -40,21 +14,14 @@ const asNav = (l: SiteLink) => ({
   isRoute: !!l.route,
 });
 
-/* The sheet keeps everything the bar dropped. There is no width argument on a
-   full-height sheet, so nothing has to lose. */
+const navLinks = navBar.map(asNav);
+
+/* The sheet keeps everything the bar dropped. */
 const sheetLinks = [
   ...navLinks,
-  ...[
-    pick(getGoing, "Docs"),
-    pick(reading, "Compared"),
-    pick(reading, "Changelog"),
-    pick(community, "Feedback"),
-  ]
-    .filter((l): l is SiteLink => l !== null)
-    .map(asNav),
+  ...sheetExtras.map(asNav),
   { href: "https://github.com/Gryt-chat/gryt", label: "GitHub", external: true, isRoute: false },
 ];
-
 
 /** The outline heart from the home page design (v8). */
 function HeartIcon({ size = 14 }: { size?: number }) {

@@ -2,41 +2,9 @@ import { Link } from "react-router-dom";
 import { PiButterfly, PiDiscordLogo, PiGithubLogo, PiMastodonLogo, PiRedditLogo } from "react-icons/pi";
 
 import { GrytLogo } from "./GrytLogo";
-import { legal, type SiteLink } from "../data/siteLinks";
+import { footerGroups, legal, type SiteLink } from "../data/siteLinks";
 import styles from "./Footer.module.css";
 
-/** v8 of the home page design: the brand and its socials, three columns, then the small print. */
-const groups: { title: string; links: SiteLink[] }[] = [
-  {
-    title: "Get Gryt",
-    links: [
-      { label: "Download", href: "/download", route: true },
-      { label: "Open in browser", href: "https://app.gryt.chat" },
-      { label: "Self-hosting", href: "/self-hosting", route: true },
-      { label: "Features", href: "/features", route: true },
-      { label: "Changelog", href: "/changelog", route: true },
-    ],
-  },
-  {
-    title: "Learn",
-    links: [
-      { label: "Why Gryt?", href: "/why-gryt", route: true },
-      { label: "Compared", href: "/compare", route: true },
-      { label: "Blog", href: "/blog", route: true },
-      { label: "Docs", href: "https://docs.gryt.chat/docs" },
-      { label: "Developers", href: "/developers", route: true },
-      { label: "Support", href: "/support", route: true },
-    ],
-  },
-  {
-    title: "Community",
-    links: [
-      { label: "Our Gryt server", href: "https://gryt.chat/community" },
-      { label: "Feedback", href: "https://feedback.gryt.chat" },
-      { label: "Sponsor Gryt", href: "/sponsor", route: true },
-    ],
-  },
-];
 
 const SOCIALS = [
   { label: "GitHub", href: "https://github.com/Gryt-chat", Icon: PiGithubLogo },
@@ -68,7 +36,7 @@ export function Footer() {
               ))}
             </div>
           </div>
-          {groups.map((g) => (
+          {footerGroups.map((g) => (
             <nav className={styles.group} key={g.title} aria-label={g.title}>
               <h2>{g.title}</h2>
               <ul>
