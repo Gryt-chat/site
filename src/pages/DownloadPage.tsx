@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { Button } from "@gryt/ui";
+import { Download } from "../components/Download";
 import { GrytLogo } from "../components/GrytLogo";
 import { StoreBadge } from "../components/StoreBadge";
 import { pageTitle } from "../lib/title";
@@ -83,6 +84,7 @@ export function DownloadPage() {
   const name = os ? OS_NAMES[os] : null;
 
   return (
+    <>
     <main className={styles.page}>
       <div className={styles.panel}>
         <GrytLogo size={44} className={styles.logo} />
@@ -159,7 +161,7 @@ export function DownloadPage() {
               <p className={styles.hint}>
                 If nothing happened, use the button. Other builds and other
                 platforms are on the{" "}
-                <Link to={`/#${FILE_ANCHOR}`}>download page</Link>.
+                <Link to={`#${FILE_ANCHOR}`}>download page</Link>.
               </p>
             </>
           )}
@@ -169,7 +171,7 @@ export function DownloadPage() {
               <h1 className={styles.title}>No {name} build yet</h1>
               <p className={styles.body}>
                 The latest release doesn't have a {name} build in it. The{" "}
-                <Link to={`/#${FILE_ANCHOR}`}>download page</Link> has what there is.
+                <Link to={`#${FILE_ANCHOR}`}>download page</Link> has what there is.
               </p>
             </>
           )}
@@ -182,7 +184,7 @@ export function DownloadPage() {
                 doesn&rsquo;t have the list yet.
               </p>
               <div className={styles.actions}>
-                <Button render={<Link to="/#download" />} size="large">
+                <Button render={<Link to="#download" />} size="large">
                   Go to the download page
                 </Button>
               </div>
@@ -202,5 +204,8 @@ export function DownloadPage() {
         </div>
       </div>
     </main>
+    {/* Every build, for when the one picked for you is the wrong one: an Intel Mac, a Linux format. */}
+    <Download />
+    </>
   );
 }
