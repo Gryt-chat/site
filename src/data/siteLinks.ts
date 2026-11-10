@@ -22,10 +22,10 @@ const selfHosting: SiteLink = { label: 'Self-hosting', href: '/self-hosting', ro
 const developers: SiteLink = { label: 'Developers', href: '/developers', route: true }
 const built: SiteLink = { label: 'Built with Gryt', href: '/built', route: true }
 const docs: SiteLink = { label: 'Docs', href: 'https://docs.gryt.chat/docs' }
+const roadmap: SiteLink = { label: 'Roadmap', href: 'https://docs.gryt.chat/docs/about/roadmap' }
 const whyGryt: SiteLink = { label: 'Why Gryt?', href: '/why-gryt', route: true }
 const compared: SiteLink = { label: 'Compared', href: '/compare', route: true }
 const features: SiteLink = { label: 'Features', href: '/features', route: true }
-const roadmapPage: SiteLink = { label: 'Roadmap', href: '/roadmap', route: true }
 const blog: SiteLink = { label: 'Blog', href: '/blog', route: true }
 
 /**
@@ -40,7 +40,7 @@ export const getGoing: SiteLink[] = [
   built,
   docs,
   { label: 'Support', href: '/support', route: true },
-  roadmapPage,
+  roadmap,
 ]
 
 /** Read about it. This is where Blog belongs, and where it was missing from. */
@@ -87,7 +87,7 @@ export const legal: SiteLink[] = [
 ]
 
 /** What the bar carries, as opposed to the sheet and the footer: v8 of the home page design. */
-export const navBar: SiteLink[] = [whyGryt, roadmapPage, blog, developers, selfHosting]
+export const navBar: SiteLink[] = [whyGryt, features, blog, developers, selfHosting]
 
 /** The two the whole site is for. Buttons, never text links. */
 export const actions = {

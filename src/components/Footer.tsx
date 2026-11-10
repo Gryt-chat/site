@@ -13,7 +13,7 @@ const groups: { title: string; links: SiteLink[] }[] = [
       { label: "Download", href: "/download", route: true },
       { label: "Open in browser", href: "https://app.gryt.chat" },
       { label: "Self-hosting", href: "/self-hosting", route: true },
-      { label: "Roadmap", href: "/roadmap", route: true },
+      { label: "Features", href: "/features", route: true },
       { label: "Changelog", href: "/changelog", route: true },
     ],
   },
