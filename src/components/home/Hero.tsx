@@ -41,7 +41,7 @@ export function Hero() {
   // Held until the preference is known, a render after hydration, so a reduced-motion visitor
   // gets the short fade rather than the timings the prerendered page was set up with.
   const arrive = prefers !== null;
-  const { os, osName, option, version } = useLatestDownload();
+  const { option, version } = useLatestDownload();
   const card = useRef<HTMLButtonElement>(null);
   const [watching, setWatching] = useState(false);
 
@@ -62,7 +62,7 @@ export function Hero() {
         <motion.div className={styles.actions} variants={rise(reduced)}>
           {option ? (
             <a className={styles.download} href={option.url} download>
-              <span className={styles.downloadLabel}>Download for {osName}</span>
+              <span className={styles.downloadLabel}>Download Gryt</span>
               {version && <span className={styles.version}>{version}</span>}
             </a>
           ) : (
@@ -77,9 +77,7 @@ export function Hero() {
         </motion.div>
 
         <motion.p className={styles.also} variants={rise(reduced)}>
-          {option && os === "macos" && <>{option.description}. </>}
-          Or <Link to="/download">get it for another system</Link>,{" "}
-          <a href="https://app.gryt.chat" target="_blank" rel="noreferrer">try it in the browser</a>, or{" "}
+          Or <a href="https://app.gryt.chat" target="_blank" rel="noreferrer">try it in the browser</a>, or{" "}
           <a href={SELF_HOST}>host it yourself</a>.
         </motion.p>
 
