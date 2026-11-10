@@ -176,6 +176,33 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.15.7",
+    date: "2026-11-10",
+    line: "Old messages come across to a linked device through your own server, never through Gryt, and the welcome is just a hello again.",
+    changes: [
+      {
+        kind: "changed",
+        area: "settings",
+        text: "When you link a new device, your old messages wait for it on one of your own servers, locked so the server can't read them. Before, they went through Gryt's relay.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "If none of your servers will carry them, both devices say your old messages stay on the one you linked from, instead of saying nothing.",
+      },
+      {
+        kind: "new",
+        area: "servers",
+        text: "Server settings has a switch under Linking a new device, for whether your server carries members' old messages to a device they link.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "The welcome message no longer shows a code to sign in with your phone. It's in Settings → Account.",
+      },
+    ],
+  },
+  {
     version: "1.15.6",
     date: "2026-11-09",
     line: "Sign in on a computer by scanning a code with your phone, linking a device shows every step, and What's new thanks whoever found a bug.",
