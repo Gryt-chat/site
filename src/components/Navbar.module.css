@@ -27,9 +27,8 @@
   display: flex;
   align-items: center;
   padding: 0 24px;
-  background: color-mix(in oklab, var(--bg) 82%, transparent);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  /* No backdrop-filter: Chrome drops it for a frame when a video scrolls under, and the bar flashes. */
+  background: color-mix(in oklab, var(--bg) 96%, transparent);
   border-bottom: 1px solid var(--border);
 }
 
