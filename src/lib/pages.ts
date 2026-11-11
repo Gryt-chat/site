@@ -211,6 +211,12 @@ export const STATIC_PAGES: StaticPage[] = [
     description: "Posts about building Gryt, written by the one person building it.",
   },
   {
+    path: "cloud",
+    title: "Gryt Cloud",
+    description:
+      "Your own Gryt server, always online, run by us. Join the waitlist for 50% off your first three months.",
+  },
+  {
     path: "features",
     title: "Features",
     description:
@@ -242,13 +248,13 @@ export const STATIC_PAGES: StaticPage[] = [
     title: "Terms of Use",
     description:
       "The terms covering the services we operate. Community servers set their own on top of these.",
-    updated: "2026-09-03",
+    updated: "2026-11-11",
   },
   {
     path: "privacy",
     title: "Privacy Policy",
     description: "How Gryt handles your data. We collect as little as we can get away with.",
-    updated: "2026-09-16",
+    updated: "2026-11-11",
   },
   {
     path: "community-guidelines",
