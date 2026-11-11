@@ -1,17 +1,37 @@
 import { useState, type FormEvent } from "react";
+import type { IconType } from "react-icons";
+import {
+  PiArrowsClockwiseDuotone,
+  PiChatsCircleDuotone,
+  PiGlobeDuotone,
+  PiLightningDuotone,
+  PiLockKeyDuotone,
+  PiUsersThreeDuotone,
+} from "react-icons/pi";
 import { Link } from "react-router-dom";
 
 import styles from "./CloudPage.module.css";
 
 const WAITLIST = "https://reports.gryt.chat/v1/waitlist";
 
-const BENEFITS = [
-  ["Always online", "It runs on our machines. Turn your computer off and everyone can still talk."],
-  ["Nothing to set up", "No ports to open, no router settings, no Docker. Pick a name and it's there."],
-  ["Updates handled", "New Gryt releases go on for you, so the server is never the old one."],
-  ["Notifications on phones", "Mentions and calls reach iPhone and Android, the same as on any Gryt server."],
-  ["Your own address", "Use ours, or your own domain like chat.yourdomain.com. Invites use it too."],
-  ["Help from the people who build it", "Something wrong? You write to us, and we're the ones who fix it."],
+const BENEFITS: [IconType, string, string][] = [
+  [PiUsersThreeDuotone, "Your friends, any time", "They can hang out, talk and play even when you're offline."],
+  [PiArrowsClockwiseDuotone, "Always up to date", "Every new Gryt release goes on for you. You never run an old version."],
+  [PiLightningDuotone, "Ready in a minute", "No ports to open, no router settings, no Docker. Pick a name and it's there."],
+  [PiLockKeyDuotone, "You decide who gets in", "Invite only, ask to join, or open to anyone. Change it whenever you like."],
+  [PiGlobeDuotone, "Your own domain", "Use the address we give you, or your own, like yourdomain.com. Invites use it too."],
+  [PiChatsCircleDuotone, "Help from the people who build it", "Something wrong? You write to us, and we're the ones who fix it."],
+];
+
+const COMPARE: [string, string, string][] = [
+  ["Where it runs", "On your own computer or server", "On ours"],
+  ["Online when you're not", "Only while your machine is on", "Always"],
+  ["Updates", "You install them", "Always up to date"],
+  ["Setting up", "Ports, router, maybe Docker", "Pick a name"],
+  ["Your own domain", "Yes", "Yes"],
+  ["Phone notifications", "Yes", "Yes"],
+  ["Help", "Docs and the community", "Straight from us"],
+  ["Cost", "Free, forever", "Monthly or yearly"],
 ];
 
 const COMPANY: [string, string, boolean][] = [
@@ -120,16 +140,47 @@ export function CloudPage() {
 
       <section className={styles.section}>
         <div className={styles.in}>
-          <p className={styles.eyebrow}>Why let us run it</p>
+          <p className={styles.eyebrow}>A better way to run a server</p>
           <h2 className={styles.h2}>Everything a server needs, done for you</h2>
-          <dl className={styles.two}>
-            {BENEFITS.map(([title, text]) => (
+          <dl className={styles.six}>
+            {BENEFITS.map(([Icon, title, text]) => (
               <div key={title}>
+                <span className={styles.icon} aria-hidden="true">
+                  <Icon size={20} />
+                </span>
                 <dt className={styles.h3}>{title}</dt>
                 <dd className={styles.text}>{text}</dd>
               </div>
             ))}
           </dl>
+        </div>
+      </section>
+
+      <section className={styles.section}>
+        <div className={styles.in} style={{ maxWidth: 900 }}>
+          <p className={styles.eyebrow}>Gryt Cloud or your own machine</p>
+          <h2 className={styles.h2}>Same Gryt, either way</h2>
+          <p className={styles.sub}>Running it yourself stays free. Gryt Cloud is for when you&rsquo;d rather not keep a machine on.</p>
+          <div className={styles.tableWrap}>
+            <table className={styles.compare}>
+              <thead>
+                <tr>
+                  <td />
+                  <th scope="col">Run it yourself</th>
+                  <th scope="col" className={styles.us}>Gryt Cloud</th>
+                </tr>
+              </thead>
+              <tbody>
+                {COMPARE.map(([row, self, cloud]) => (
+                  <tr key={row}>
+                    <th scope="row">{row}</th>
+                    <td>{self}</td>
+                    <td className={styles.us}>{cloud}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </section>
 
@@ -183,6 +234,8 @@ export function CloudPage() {
           <p className={styles.eyebrow}>Questions</p>
           <h2 className={styles.h2}>Before you sign up</h2>
           <dl className={styles.faq}>
+            <dt className={styles.h3}>Do my friends need to pay?</dt>
+            <dd className={styles.text}>No. Only the person who owns the server pays. Everyone else joins with an invite, the same as any Gryt server.</dd>
             <dt className={styles.h3}>When does it open?</dt>
             <dd className={styles.text}>When it&rsquo;s ready, and we don&rsquo;t have a date yet. You&rsquo;ll get an email when it does.</dd>
             <dt className={styles.h3}>What will it cost?</dt>
