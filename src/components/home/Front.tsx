@@ -25,7 +25,7 @@ export function News() {
   const [first, ...rest] = posts.slice(0, 4);
   if (!first) return null;
   return (
-    <section className={styles.section} style={{ borderTop: "none", paddingTop: 80 }}>
+    <section className={styles.section} style={{ borderTop: "none" }}>
       <div className={styles.in}>
         <Head eyebrow="Blog" title="Latest news" more={{ label: "All posts", to: "/blog" }} />
         <div className={styles.news}>
@@ -142,13 +142,20 @@ export function SponsorBar() {
         <div className={styles.sponsorText}>
           <p className={styles.eyebrow}>Sponsors</p>
           <h2 className={styles.h2}>Gryt is free, and sponsors keep it running</h2>
-          <div className={styles.goal}>
-            <span>Covered by monthly sponsors</span>
-            <span className={styles.goalAmount}>{usd(COVERED_BY_SPONSORS_USD)} of {usd(yearly)} a year</span>
-          </div>
-          <div className={styles.bar} aria-hidden="true"><span style={{ width: `${share}%` }} /></div>
+          {/* An empty bar reads as nobody cares; until someone sponsors monthly, say what it costs instead. */}
+          {COVERED_BY_SPONSORS_USD > 0 ? (
+            <>
+              <div className={styles.goal}>
+                <span>Covered by monthly sponsors</span>
+                <span className={styles.goalAmount}>{usd(COVERED_BY_SPONSORS_USD)} of {usd(yearly)} a year</span>
+              </div>
+              <div className={styles.bar} aria-hidden="true"><span style={{ width: `${share}%` }} /></div>
+            </>
+          ) : (
+            <p className={styles.sub}>Running Gryt costs about {usd(yearly)} a year. Nobody sponsors it monthly yet, so you&rsquo;d be the first.</p>
+          )}
         </div>
-        <Link className={styles.sponsorBtn} to="/sponsor">Sponsor Gryt</Link>
+        <Link className={styles.sponsorBtn} to="/sponsor">{COVERED_BY_SPONSORS_USD > 0 ? "Sponsor Gryt" : "Be the first sponsor"}</Link>
       </div>
     </section>
   );
