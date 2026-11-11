@@ -1,4 +1,4 @@
-import { Dialog } from "@gryt/ui";
+import { Dialog, Switch } from "@gryt/ui";
 import { useState, type FormEvent } from "react";
 import type { IconType } from "react-icons";
 import {
@@ -206,7 +206,7 @@ function Signup({ plan }: { plan?: string }) {
         list. <Link to="/privacy">Privacy</Link>
       </p>
       <label className={styles.check}>
-        <input type="checkbox" checked={news} onChange={(e) => setNews(e.target.checked)} />
+        <Switch checked={news} onCheckedChange={setNews} />
         Also send me Gryt&rsquo;s news, a few times a year
       </label>
     </form>
