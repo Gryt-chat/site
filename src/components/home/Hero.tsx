@@ -19,7 +19,7 @@ const PREVIEW: ClipSet = {
   av1: "/home/film-preview.av1.mp4",
   poster: "/home/film-preview.poster.webp",
 };
-const FILM = { kind: "video" as const, src: "/home/film.mp4", poster: "/home/film-preview.poster.webp", width: 1920, height: 1080, alt: "Gryt, the owl, sets up a server and calls his friends" };
+const FILM = { kind: "video" as const, src: "/home/film.mp4", poster: "/home/film-preview.poster.webp", width: 3840, height: 2160, alt: "Gryt, the owl, sets up a server and calls his friends" };
 
 const SHOWS =
   "Gryt the owl sets up a server, invites friends, chats with them and " +
@@ -100,7 +100,11 @@ export function Hero() {
         origin={() => card.current}
         thumbnails={false}
         renderVideo={(item, { active }) => (
-          <video src={item.src} poster={item.poster} aria-label={item.alt} controls autoPlay={active} playsInline style={{ width: "100%", height: "100%" }} />
+          <video poster={item.poster} aria-label={item.alt} controls autoPlay={active} playsInline style={{ width: "100%", height: "100%" }}>
+            <source src="/home/film-2160.av1.mp4" type="video/mp4; codecs=av01.0.13M.10" media="(min-width: 1800px), (min-width: 1200px) and (min-resolution: 2dppx)" />
+            <source src="/home/film-1440.av1.mp4" type="video/mp4; codecs=av01.0.12M.10" media="(min-width: 900px)" />
+            <source src={item.src} type="video/mp4" />
+          </video>
         )}
       />
     </section>
