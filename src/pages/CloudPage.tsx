@@ -5,11 +5,23 @@ import styles from "./CloudPage.module.css";
 
 const WAITLIST = "https://reports.gryt.chat/v1/waitlist";
 
-const FACTS = [
-  ["Always online", "It runs on our machines, not yours. Turn your computer off and the server keeps going."],
-  ["We keep it running", "Updates go on for you. If something breaks, it's our job to fix it, and you talk straight to the people who build Gryt."],
-  ["Your own address", "Use the one we give you, or your own domain, like chat.yourdomain.com. Invites use it too."],
+const BENEFITS = [
+  ["Always online", "It runs on our machines. Turn your computer off and everyone can still talk."],
+  ["Nothing to set up", "No ports to open, no router settings, no Docker. Pick a name and it's there."],
+  ["Updates handled", "New Gryt releases go on for you, so the server is never the old one."],
+  ["Notifications on phones", "Mentions and calls reach iPhone and Android, the same as on any Gryt server."],
+  ["Your own address", "Use ours, or your own domain like chat.yourdomain.com. Invites use it too."],
+  ["Help from the people who build it", "Something wrong? You write to us, and we're the ones who fix it."],
 ];
+
+const COMPANY: [string, string, boolean][] = [
+  ["Priority support", "Your reports go to the front of the queue, and you can reach us directly.", false],
+  ["Company sign-in", "Employees sign in with the account they already have, and directory groups become roles.", true],
+  ["Meetings with a link", "Send a link. Customers join in the browser with just a name and only see the call.", true],
+  ["Guests", "Invite customers into one channel without giving them the rest of the company.", true],
+];
+
+const MAIL = "mailto:business@gryt.chat";
 
 const STEPS = [
   "Pick a name and the region closest to your friends.",
@@ -89,24 +101,30 @@ export function CloudPage() {
   return (
     <main>
       <section className={styles.hero}>
-        <div className={styles.in}>
-          <p className={styles.eyebrow}>Gryt Cloud · coming soon</p>
-          <h1 className={styles.h1}>Your own Gryt server, always online</h1>
-          <p className={styles.sub} style={{ fontSize: 18 }}>
-            We run it for you. Your friends can hang out even when you&rsquo;re not on, and you never have to keep a
-            computer running.
-          </p>
-          <Signup />
+        <div className={`${styles.in} ${styles.heroGrid}`}>
+          <div>
+            <p className={styles.eyebrow}>Gryt Cloud · coming soon</p>
+            <h1 className={styles.h1}>Your own Gryt server, always online</h1>
+            <p className={styles.sub} style={{ fontSize: 18 }}>
+              We run it for you. Your friends can hang out even when you&rsquo;re not on, and you never have to keep a
+              computer running.
+            </p>
+            <Signup />
+          </div>
+          <figure className={styles.preview}>
+            <img src="/home/client-live.poster.webp" alt="The Gryt app with a voice channel in use" />
+            <figcaption>The same Gryt you know. The only difference is where the server runs.</figcaption>
+          </figure>
         </div>
       </section>
 
       <section className={styles.section}>
         <div className={styles.in}>
-          <p className={styles.eyebrow}>What you get</p>
-          <h2 className={styles.h2}>A server that&rsquo;s just there</h2>
-          <dl className={styles.three}>
-            {FACTS.map(([title, text]) => (
-              <div key={title} className={styles.stack}>
+          <p className={styles.eyebrow}>Why let us run it</p>
+          <h2 className={styles.h2}>Everything a server needs, done for you</h2>
+          <dl className={styles.two}>
+            {BENEFITS.map(([title, text]) => (
+              <div key={title}>
                 <dt className={styles.h3}>{title}</dt>
                 <dd className={styles.text}>{text}</dd>
               </div>
@@ -127,6 +145,36 @@ export function CloudPage() {
               </li>
             ))}
           </ol>
+        </div>
+      </section>
+
+      <section className={`${styles.section} ${styles.company}`}>
+        <div className={styles.in}>
+          <p className={styles.eyebrow}>For teams and companies</p>
+          <h2 className={styles.h2}>Gryt Cloud for your company</h2>
+          <p className={styles.sub}>
+            The same hosting, set up for a team: a server in your region, your company&rsquo;s name on it, and a direct
+            line to us. Tell us how many people and where they work, and we&rsquo;ll set it up with you.
+          </p>
+          <dl className={styles.two}>
+            {COMPANY.map(([title, text, soon]) => (
+              <div key={title}>
+                <dt className={styles.h3}>
+                  {title}
+                  {soon && <span className={styles.soon}>On the roadmap</span>}
+                </dt>
+                <dd className={styles.text}>{text}</dd>
+              </div>
+            ))}
+          </dl>
+          <div className={styles.contact}>
+            <a className={styles.primary} href={MAIL}>Talk to us</a>
+            <span className={styles.note}>business@gryt.chat</span>
+          </div>
+          <p className={styles.note} style={{ marginTop: 20 }}>
+            Already running Gryt yourself? Business push and support are available for your own server too.{" "}
+            <a href={`${MAIL}?subject=Business%20push%20and%20support`}>Ask about a plan</a>.
+          </p>
         </div>
       </section>
 
