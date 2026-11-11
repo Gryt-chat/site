@@ -20,15 +20,6 @@ const GITHUB_URL = "https://github.com/Gryt-chat/gryt";
 
 const isAt = (page: string, l: SiteLink) => !!l.route && page === l.href;
 
-/** The outline heart from the home page design (v8). */
-function HeartIcon({ size = 14 }: { size?: number }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M19.5 12.6 12 20l-7.5-7.4A4.8 4.8 0 0 1 12 6.3a4.8 4.8 0 0 1 7.5 6.3z" />
-    </svg>
-  );
-}
-
 export function Navbar() {
   const [open, setOpen] = useState(false);
   const location = useLocation();
@@ -110,13 +101,6 @@ export function Navbar() {
           </ul>
 
           <div className={styles.actionsRight}>
-            <Link to="/sponsor" className={styles.sponsor}>
-              <HeartIcon size={14} />
-              Sponsor
-            </Link>
-            <a href="https://app.gryt.chat" className={styles.openApp}>
-              {actions.openApp.label}
-            </a>
             <Button render={<Link to="/download" />} size="small">
               Download
             </Button>

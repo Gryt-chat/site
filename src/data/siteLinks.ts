@@ -44,8 +44,8 @@ export const legal: SiteLink[] = [
   { label: 'AI policy', href: 'https://docs.gryt.chat/docs/about/ai' },
 ]
 
-/** What the bar carries, as opposed to the sheet and the footer: v8 of the home page design. */
-export const navBar: SiteLink[] = [whyGryt, features, blog, developers, selfHosting]
+/** Four links and one button (Download). Everything else lives in the footer. */
+export const navBar: SiteLink[] = [whyGryt, features, blog, selfHosting]
 
 /** The two the whole site is for. Buttons, never text links. */
 export const actions = {

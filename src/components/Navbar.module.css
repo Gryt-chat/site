@@ -173,28 +173,6 @@
 
 .openApp:hover { color: var(--accent-hover) !important; }
 
-.sponsor {
-  flex-shrink: 0;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  min-height: 36px;
-  padding: 0 14px;
-  border-radius: 999px;
-  border: 1px solid var(--border);
-  color: var(--text);
-  font-size: 14px;
-  font-weight: 700;
-  text-decoration: none;
-  transition: border-color 0.16s ease-out;
-}
-
-.sponsor:hover { border-color: var(--accent); }
-
-@media (max-width: 900px) {
-  .sponsor { display: none; }
-}
-
 .openAppMobile {
   display: flex;
   align-items: center;
