@@ -181,7 +181,7 @@ export function FeaturesPage() {
       {lines.map((line) => (
         <details
           key={`${area}-${line.version}`}
-          open={area !== "all"}
+          open
           aria-labelledby={`line-${line.version}`}
           className={styles.line}
         >
