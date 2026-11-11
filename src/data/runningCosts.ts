@@ -1,14 +1,25 @@
 import sponsorGoal from "./sponsorGoal.json";
 
-/** What Gryt costs a year, in USD. The working is in GRYT-2030. */
-export const RUNNING_COSTS: { what: string; usd: number }[] = [
-  // Hetzner SX135 (€289/mo) + GEX45 (€214/mo) on 2026-11-06; a rental includes power.
-  { what: "Server and electricity", usd: 7000 },
-  { what: "Test devices", usd: 3180 },
-  { what: "Services, domains and developer accounts", usd: 1050 },
+/** What Gryt costs a year in money actually paid, in euros. Devices and rental prices aren't in it. */
+export const RUNNING_COSTS: { what: string; eur: number }[] = [
+  { what: "Power for the server", eur: 320 },
+  { what: "Cloudflare", eur: 250 },
+  { what: "Email (Postmark)", eur: 240 },
+  { what: "Domains", eur: 120 },
+  { what: "Code signing for Windows", eur: 100 },
+  { what: "Apple and Google developer accounts", eur: 90 },
+  { what: "A small VPS in front of the server", eur: 75 },
 ];
 
-/** What monthly sponsors pay in a year, from the GitHub Sponsors goal at build time. */
-export const COVERED_BY_SPONSORS_USD = Math.round(
-  (sponsorGoal.percent / 100) * sponsorGoal.monthlyGoalUsd * 12,
+/** The yearly total both pages show, rounded so it doesn't read as more precise than it is. */
+export const RUNNING_TOTAL_EUR = Math.round(RUNNING_COSTS.reduce((sum, c) => sum + c.eur, 0) / 100) * 100;
+
+/* GitHub Sponsors only charges in US dollars. A fixed rate, because "about" is all these figures claim. */
+export const EUR_PER_USD = 0.85;
+
+export const eur = (n: number) => "€" + String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+/** What monthly sponsors pay in a year, in euros, from the GitHub Sponsors goal at build time. */
+export const COVERED_BY_SPONSORS_EUR = Math.round(
+  (sponsorGoal.percent / 100) * sponsorGoal.monthlyGoalUsd * 12 * EUR_PER_USD,
 );
