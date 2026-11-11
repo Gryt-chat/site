@@ -155,7 +155,7 @@ function Signup({ plan }: { plan?: string }) {
       <div className={styles.signup} role="status">
         <p className={styles.h3}>You&rsquo;re on the list!</p>
         <p className={styles.text}>
-          You&rsquo;ll be the first to know when Gryt Cloud is live, and you&rsquo;ll get 50% off your first year. Check
+          You&rsquo;ll be the first to know when Gryt Cloud is live, and you&rsquo;ll get 50% off your first three months. Check
           your inbox for the email.
         </p>
       </div>
@@ -165,7 +165,7 @@ function Signup({ plan }: { plan?: string }) {
   return (
     <form id="signup" className={styles.signup} onSubmit={(e) => void submit(e)}>
       <span className={styles.offer}>
-        <b>50% off</b> your first year if you&rsquo;re on the list
+        <b>50% off</b> your first three months if you&rsquo;re on the list
       </span>
       <div className={styles.row}>
         <input
@@ -239,7 +239,7 @@ export function CloudPage() {
         <div className={styles.in}>
           <p className={styles.eyebrow}>Plans</p>
           <h2 className={styles.h2}>Pick the size that fits</h2>
-          <p className={styles.sub}>The plans are the same Gryt. Only the size changes. Your friends never pay, and the waitlist gets 50% off the first year.</p>
+          <p className={styles.sub}>The plans are the same Gryt. Only the size changes. Your friends never pay, and the waitlist gets 50% off the first three months.</p>
           <Plans />
         </div>
       </section>
@@ -327,7 +327,7 @@ export function CloudPage() {
             <dt className={styles.h3}>When does it open?</dt>
             <dd className={styles.text}>When it&rsquo;s ready, and we don&rsquo;t have a date yet. You&rsquo;ll get an email when it does.</dd>
             <dt className={styles.h3}>What will it cost?</dt>
-            <dd className={styles.text}>From €4.99 a month, and two months free on yearly billing. People on the list get 50% off their first year, on top of that.</dd>
+            <dd className={styles.text}>From €4.99 a month, and two months free on yearly billing. People on the list get 50% off their first three months.</dd>
             <dt className={styles.h3}>Can I still run it myself?</dt>
             <dd className={styles.text}>
               Yes, and that stays free. <Link to="/self-hosting">Self-hosting</Link> has the guide.
