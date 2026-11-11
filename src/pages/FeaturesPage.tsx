@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 import { app } from "../../content/changelog/releases";
 import { PageHeader } from "../components/PageHeader";
+import { Voice } from "../components/home/Voice";
 import { getPost } from "../lib/blog";
 import {
   FEATURE_AREAS,
@@ -14,6 +15,44 @@ import {
 import styles from "./FeaturesPage.module.css";
 
 type Filter = FeatureArea | "all";
+
+/** The big areas, shown off before the full list. Highlights are titles from featureLines. */
+const SHOWCASE: { area: FeatureArea; title: string; text: string; image: string; alt: string; picks: string[] }[] = [
+  {
+    area: "chat",
+    title: "Everything you expect from a chat",
+    text: "Threads, polls, search and your own emoji, in channels and in direct messages.",
+    image: "/features/threads.webp",
+    alt: "A thread open beside a channel in Gryt",
+    picks: ["Threads that fill the chat", "Polls", "Message search", "Your own emoji"],
+  },
+  {
+    area: "servers",
+    title: "Run it the way you want",
+    text: "Roles, moderation and bots, with permissions down to a single channel.",
+    image: "/features/roles.webp",
+    alt: "The roles screen in server settings",
+    picks: ["Roles and permissions", "Bots", "Plugins", "Spam filter"],
+  },
+  {
+    area: "privacy",
+    title: "Private by default",
+    text: "Direct messages are end-to-end encrypted, and an account is optional.",
+    image: "/features/encrypted-dm.webp",
+    alt: "An encrypted direct message in Gryt",
+    picks: ["Direct messages on MLS", "An account is optional", "Link a new device", "Your 24 words"],
+  },
+  {
+    area: "hosting",
+    title: "Your server, your rules",
+    text: "Run a server from inside the app or on your own machine, or soon on Gryt Cloud.",
+    image: "/home/create-server.poster.webp",
+    alt: "Creating a server in the Gryt app",
+    picks: ["A server inside the app", "LAN party mode", "Bring your Discord history", "Diagnostics for owners"],
+  },
+];
+
+const shipped = featureLines.flatMap((l) => l.features.map((f) => ({ ...f, version: l.version })));
 
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
@@ -88,6 +127,36 @@ export function FeaturesPage() {
         ))}
       </div>
 
+      {area === "all" && (
+        <div className={styles.showcase}>
+          <Voice />
+          {SHOWCASE.map((row, i) => (
+            <section key={row.area} className={i % 2 ? `${styles.show} ${styles.flip}` : styles.show}>
+              <div>
+                <p className={styles.showEyebrow}>{FEATURE_AREAS[row.area]}</p>
+                <h2 className={styles.showTitle}>{row.title}</h2>
+                <p className={styles.cardText}>{row.text}</p>
+                <ul className={styles.picks}>
+                  {row.picks.map((title) => {
+                    const f = shipped.find((x) => x.title === title);
+                    return f ? (
+                      <li key={title}>
+                        {title}
+                        <span>{f.version}</span>
+                      </li>
+                    ) : null;
+                  })}
+                </ul>
+                <button type="button" className={styles.showAll} onClick={() => setArea(row.area)}>
+                  All {shipped.filter((f) => f.area === row.area).length} {FEATURE_AREAS[row.area].toLowerCase()} features
+                </button>
+              </div>
+              <img className={styles.showShot} src={row.image} alt={row.alt} loading="lazy" decoding="async" />
+            </section>
+          ))}
+        </div>
+      )}
+
       {next.length > 0 && (
         <section aria-labelledby="next-title" className={styles.next}>
           <div>
@@ -110,16 +179,23 @@ export function FeaturesPage() {
       )}
 
       {lines.map((line) => (
-        <section key={line.version} aria-labelledby={`line-${line.version}`} className={styles.line}>
-          <div className={styles.lineHead}>
-            <h2 id={`line-${line.version}`} className={styles.lineTitle}>Added in {line.version}</h2>
+        <details
+          key={`${area}-${line.version}`}
+          open={area !== "all"}
+          aria-labelledby={`line-${line.version}`}
+          className={styles.line}
+        >
+          <summary className={styles.lineHead}>
+            <h2 id={`line-${line.version}`} className={styles.lineTitle}>
+              Added in {line.version} <span className={styles.count}>· {line.features.length} features</span>
+            </h2>
             {line.info && (
               <span className={styles.lineMeta}>
                 {line.info.dates} &middot;{" "}
                 <Link to={`/changelog/${line.info.first}`}>see the changelog</Link>
               </span>
             )}
-          </div>
+          </summary>
           <div className={styles.grid}>
             {line.features.map((f) => {
               const image = f.image ?? (f.post ? getPost(f.post)?.frontmatter.image : undefined);
@@ -141,7 +217,7 @@ export function FeaturesPage() {
               );
             })}
           </div>
-        </section>
+        </details>
       ))}
 
       {area === "all" && (
