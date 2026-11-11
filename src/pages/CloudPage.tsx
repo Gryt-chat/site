@@ -125,7 +125,7 @@ function Plans() {
       </div>
       <p className={styles.includes}>
         Every plan is always online and always up to date, with your own domain, notifications on phones, and you deciding
-        who gets in. The people count is a guide, and nobody gets turned away. Prices include VAT.
+        who gets in. The people count is a guide, and nobody gets turned away. Prices are in euros and include VAT.
       </p>
     </>
   );
