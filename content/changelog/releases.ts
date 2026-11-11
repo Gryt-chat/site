@@ -176,6 +176,23 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.15.11",
+    date: "2026-11-11",
+    line: "The drop hint goes away when you drop a file on the message box, and Minimize to tray works without an account.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "Dropping a file onto the message box left \"Drop files here\" on screen until you went to another page. It goes away as soon as the file lands now.",
+      },
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "With a local identity and no account, Minimize to tray on close quit Gryt instead of hiding it. It hides to the tray now, signed in or not.",
+      },
+    ],
+  },
+  {
     version: "1.15.10",
     date: "2026-11-11",
     line: "Add a server shows Gryt Cloud, the hosting we're working on, and a call you're not in is easier to spot.",
