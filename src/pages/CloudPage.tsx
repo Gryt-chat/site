@@ -44,7 +44,6 @@ const PLANS = [
   { name: "Friends", for: "For a group of friends", month: 4.99, year: 49.99, rows: ["Best for 15", "8", "1080p 60", "10 GB", "100 MB", "Email"] },
   { name: "Community", for: "For a server people find and join", month: 19.99, year: 199.99, rows: ["Best for 150", "30", "1080p 60", "100 GB", "500 MB", "Email"] },
   { name: "Large", for: "For big communities and events", month: 99.99, year: 999.99, rows: ["Best for 1,000", "100", "1440p 60", "500 GB", "2 GB", "Priority"] },
-  { name: "Company", for: "On a server of its own", month: 249, year: 2490, from: true, rows: ["As many as you need", "As you need", "4K 240", "As you need", "As you need", "Direct line"] },
 ];
 
 const euro = (n: number) => `€${(Number.isInteger(n) ? String(n) : n.toFixed(2)).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
@@ -77,7 +76,6 @@ function Plans() {
             <p className={styles.planName}>{p.name}</p>
             <p className={styles.planFor}>{p.for}</p>
             <p className={styles.price}>
-              {p.from && <small>From </small>}
               {euro(yearly ? Math.round((p.year / 12) * 100) / 100 : p.month)}
               <small> / month</small>
             </p>
@@ -92,19 +90,33 @@ function Plans() {
                 </div>
               ))}
             </dl>
-            {p.from ? (
-              <a className={styles.secondary} href={MAIL}>Talk to us</a>
-            ) : (
-              <button
-                type="button"
-                className={p.name === "Community" ? styles.primary : styles.secondary}
-                onClick={() => setJoining(p.name)}
-              >
-                Join the waitlist
-              </button>
-            )}
+            <button
+              type="button"
+              className={p.name === "Community" ? styles.primary : styles.secondary}
+              onClick={() => setJoining(p.name)}
+            >
+              Join the waitlist
+            </button>
           </div>
         ))}
+      </div>
+      <div className={styles.companyCard}>
+        <div>
+          <p className={styles.planName}>Company</p>
+          <p className={styles.h3}>A server of your own, sized for your team</p>
+          <p className={styles.text}>
+            As many people as you need, screen share up to 4K 240, a direct line to us, and company sign-in when it ships.{" "}
+            <a href="#company">What companies get</a>
+          </p>
+        </div>
+        <div className={styles.companyPrice}>
+          <p className={styles.price}>
+            <small>From </small>
+            {euro(yearly ? 207.5 : 249)}
+            <small> / month</small>
+          </p>
+          <a className={styles.secondary} href={MAIL}>Talk to us</a>
+        </div>
       </div>
       <p className={styles.includes}>
         Every plan is always online and always up to date, with your own domain, notifications on phones, and you deciding
@@ -287,7 +299,7 @@ export function CloudPage() {
         </div>
       </section>
 
-      <section className={`${styles.section} ${styles.company}`}>
+      <section id="company" className={`${styles.section} ${styles.company}`}>
         <div className={styles.in}>
           <p className={styles.eyebrow}>For teams and companies</p>
           <h2 className={styles.h2}>Gryt Cloud for your company</h2>
