@@ -31,8 +31,69 @@ const COMPARE: [string, string, string][] = [
   ["Your own domain", "Yes", "Yes"],
   ["Phone notifications", "Yes", "Yes"],
   ["Help", "Docs and the community", "Straight from us"],
-  ["Cost", "Free, forever", "Monthly or yearly"],
+  ["Cost", "Free, forever", "From €5 a month"],
 ];
+
+const MAIL = "mailto:business@gryt.chat";
+
+const ROWS = ["People", "In voice at once", "Screen share", "Storage", "Largest file", "Support"];
+
+/** Euros a month, VAT included. Yearly is ten months: two free. */
+const PLANS = [
+  { name: "Friends", for: "For a group of friends", eur: 5, rows: ["Best for 15", "8", "1080p 60", "10 GB", "100 MB", "Email"] },
+  { name: "Community", for: "For a server people find and join", eur: 19, rows: ["Best for 150", "30", "1080p 60", "100 GB", "500 MB", "Email"] },
+  { name: "Large", for: "For big communities and events", eur: 99, rows: ["Best for 1,000", "100", "1440p 60", "500 GB", "2 GB", "Priority"] },
+  { name: "Company", for: "On a server of its own", eur: 249, from: true, rows: ["As many as you need", "As you need", "4K 240", "As you need", "As you need", "Direct line"] },
+];
+
+const euro = (n: number) => `€${Number.isInteger(n) ? n : n.toFixed(2)}`;
+
+function Plans() {
+  const [yearly, setYearly] = useState(true);
+  return (
+    <>
+      <div className={styles.toggle} role="group" aria-label="Billing">
+        <button type="button" aria-pressed={!yearly} onClick={() => setYearly(false)}>Monthly</button>
+        <button type="button" aria-pressed={yearly} onClick={() => setYearly(true)}>
+          Yearly <span className={styles.free}>· 2 months free</span>
+        </button>
+      </div>
+      <div className={styles.plans}>
+        {PLANS.map((p) => (
+          <div key={p.name} className={p.name === "Community" ? `${styles.plan} ${styles.lead}` : styles.plan}>
+            <p className={styles.planName}>{p.name}</p>
+            <p className={styles.planFor}>{p.for}</p>
+            <p className={styles.price}>
+              {p.from && <small>From </small>}
+              {euro(yearly ? (p.eur * 10) / 12 : p.eur)}
+              <small> / month</small>
+            </p>
+            <p className={styles.billed}>
+              {yearly ? `${euro(p.eur * 10)} billed yearly · save ${euro(p.eur * 2)}` : "Billed monthly"}
+            </p>
+            <dl className={styles.planRows}>
+              {ROWS.map((r, i) => (
+                <div key={r}>
+                  <dt>{r}</dt>
+                  <dd>{p.rows[i]}</dd>
+                </div>
+              ))}
+            </dl>
+            {p.from ? (
+              <a className={styles.secondary} href={MAIL}>Talk to us</a>
+            ) : (
+              <a className={p.name === "Community" ? styles.primary : styles.secondary} href="#signup">Join the waitlist</a>
+            )}
+          </div>
+        ))}
+      </div>
+      <p className={styles.includes}>
+        Every plan is always online and always up to date, with your own domain, notifications on phones, and you deciding
+        who gets in. The people count is a guide: nobody gets turned away. Prices include VAT.
+      </p>
+    </>
+  );
+}
 
 const COMPANY: [string, string, boolean][] = [
   ["Priority support", "Your reports go to the front of the queue, and you can reach us directly.", false],
@@ -41,7 +102,6 @@ const COMPANY: [string, string, boolean][] = [
   ["Guests", "Invite customers into one channel without giving them the rest of the company.", true],
 ];
 
-const MAIL = "mailto:business@gryt.chat";
 
 const STEPS = [
   "Pick a name and the region closest to your friends.",
@@ -84,7 +144,7 @@ function Signup() {
   }
 
   return (
-    <form className={styles.signup} onSubmit={(e) => void submit(e)}>
+    <form id="signup" className={styles.signup} onSubmit={(e) => void submit(e)}>
       <span className={styles.offer}>
         <b>50% off</b> your first year if you&rsquo;re on the list
       </span>
@@ -153,6 +213,15 @@ export function CloudPage() {
               </div>
             ))}
           </dl>
+        </div>
+      </section>
+
+      <section className={styles.section}>
+        <div className={styles.in}>
+          <p className={styles.eyebrow}>Plans</p>
+          <h2 className={styles.h2}>Pick the size that fits</h2>
+          <p className={styles.sub}>The plans are the same Gryt. Only the size changes. Your friends never pay, and the waitlist gets 50% off the first year.</p>
+          <Plans />
         </div>
       </section>
 
@@ -239,7 +308,7 @@ export function CloudPage() {
             <dt className={styles.h3}>When does it open?</dt>
             <dd className={styles.text}>When it&rsquo;s ready, and we don&rsquo;t have a date yet. You&rsquo;ll get an email when it does.</dd>
             <dt className={styles.h3}>What will it cost?</dt>
-            <dd className={styles.text}>Prices aren&rsquo;t set yet. Whatever they end up being, people on the list get 50% off their first year.</dd>
+            <dd className={styles.text}>From €5 a month, and less on yearly billing. People on the list get 50% off their first year, on top of that.</dd>
             <dt className={styles.h3}>Can I still run it myself?</dt>
             <dd className={styles.text}>
               Yes, and that stays free. <Link to="/self-hosting">Self-hosting</Link> has the guide.
