@@ -176,6 +176,23 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.15.10",
+    date: "2026-11-11",
+    line: "Add a server shows Gryt Cloud, the hosting we're working on, and a call you're not in is easier to spot.",
+    changes: [
+      {
+        kind: "changed",
+        area: "voice",
+        text: "A voice channel with people in it has a faint outline around them in the sidebar, the same shape as the call you're in, so you can see who's talking together.",
+      },
+      {
+        kind: "new",
+        area: "servers",
+        text: "Add a server has a Gryt Cloud card: your own server, always online, and we run it for you. It isn't open yet, so the card takes you to the waitlist at gryt.chat/cloud.",
+      },
+    ],
+  },
+  {
     version: "1.15.9",
     date: "2026-11-10",
     line: "An owl shows you around Gryt now, and a screen share tells you its quality and frame rate.",
