@@ -11,9 +11,6 @@ export const RUNNING_COSTS: { what: string; eur: number }[] = [
   { what: "A small VPS in front of the server", eur: 75 },
 ];
 
-/** What the server cost to build (well over 200,000 kr). Shown apart from the yearly total. */
-export const SERVER_HARDWARE_EUR = 17000;
-
 /** The yearly total both pages show, rounded so it doesn't read as more precise than it is. */
 export const RUNNING_TOTAL_EUR = Math.round(RUNNING_COSTS.reduce((sum, c) => sum + c.eur, 0) / 100) * 100;
 

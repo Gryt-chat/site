@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { PageHeader } from "../components/PageHeader";
 import { pageTitle } from "../lib/title";
 import styles from "./SponsorPage.module.css";
-import { COVERED_BY_SPONSORS_EUR, EUR_PER_USD, RUNNING_COSTS, RUNNING_TOTAL_EUR, SERVER_HARDWARE_EUR, eur } from "../data/runningCosts";
+import { COVERED_BY_SPONSORS_EUR, EUR_PER_USD, RUNNING_COSTS, RUNNING_TOTAL_EUR, eur } from "../data/runningCosts";
 import { ONCE_TIER, SPONSOR_TIERS, SPONSOR_URL, sponsorUrl, type SponsorTier } from "../data/sponsorTiers";
 
 /** How to sponsor Gryt. The people who have are on /sponsors. */
@@ -56,10 +56,6 @@ export function SponsorPage() {
             <dd>{eur(total)}</dd>
           </div>
         </dl>
-        <p className={styles.ctaNote}>
-          Not in the total: the server itself, which cost more than {eur(SERVER_HARDWARE_EUR)} to build. Spread
-          over five years, that&rsquo;s at least {eur(SERVER_HARDWARE_EUR / 5)} a year on top.
-        </p>
         {COVERED_BY_SPONSORS_EUR > 0 ? (
           <>
             <div className={styles.covered}>
