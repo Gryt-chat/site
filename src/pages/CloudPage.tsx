@@ -76,6 +76,11 @@ function Plans() {
             <p className={styles.planName}>{p.name}</p>
             <p className={styles.planFor}>{p.for}</p>
             <p className={styles.price}>
+              {yearly && (
+                <s className={styles.was} aria-label={`instead of ${euro(p.month)} monthly`}>
+                  {euro(p.month)}
+                </s>
+              )}
               {euro(yearly ? p.perMonthYearly : p.month)}
               <small> / month</small>
             </p>

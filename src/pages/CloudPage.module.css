@@ -178,6 +178,8 @@
 .companyCard .text { margin: 0; }
 .companyPrice { display: flex; align-items: center; gap: 20px; }
 
+.was { margin-right: 10px; font-size: 20px; font-weight: 700; color: var(--text-dim); text-decoration-thickness: 2px; }
+
 @media (max-width: 820px) {
   .heroGrid,
   .two,
