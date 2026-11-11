@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { PageHeader } from "../components/PageHeader";
 import { pageTitle } from "../lib/title";
 import styles from "./SponsorPage.module.css";
-import { COVERED_BY_SPONSORS_USD, RUNNING_COSTS, RUNNING_TOTAL_USD, SERVER_HARDWARE_USD_PER_YEAR } from "../data/runningCosts";
+import { COVERED_BY_SPONSORS_EUR, EUR_PER_USD, RUNNING_COSTS, RUNNING_TOTAL_EUR, SERVER_HARDWARE_EUR_PER_YEAR, eur } from "../data/runningCosts";
 import { ONCE_TIER, SPONSOR_TIERS, SPONSOR_URL, sponsorUrl, type SponsorTier } from "../data/sponsorTiers";
 
 /** How to sponsor Gryt. The people who have are on /sponsors. */
@@ -12,7 +12,7 @@ export function SponsorPage() {
     document.title = pageTitle("Sponsor Gryt");
   }, []);
 
-  const total = RUNNING_TOTAL_USD;
+  const total = RUNNING_TOTAL_EUR;
 
   return (
     <main className={styles.page}>
@@ -41,31 +41,31 @@ export function SponsorPage() {
       <section className={styles.costs}>
         <h2 className={styles.blockHeading}>What it costs to run</h2>
         <p className={styles.costHead}>
-          <span>In US dollars</span>
+          <span>In euros</span>
           <span>Yearly</span>
         </p>
         <dl className={styles.costList}>
           {RUNNING_COSTS.map((c) => (
             <div key={c.what} className={styles.costRow}>
               <dt>{c.what}</dt>
-              <dd>{usd(c.usd)}</dd>
+              <dd>{eur(c.eur)}</dd>
             </div>
           ))}
           <div className={styles.costTotal}>
             <dt>About</dt>
-            <dd>{usd(total)}</dd>
+            <dd>{eur(total)}</dd>
           </div>
         </dl>
         <p className={styles.ctaNote}>
           Not in the total: the server itself. We bought it once, and over five years it works out to about{" "}
-          {usd(SERVER_HARDWARE_USD_PER_YEAR)} a year.
+          {eur(SERVER_HARDWARE_EUR_PER_YEAR)} a year.
         </p>
-        {COVERED_BY_SPONSORS_USD > 0 ? (
+        {COVERED_BY_SPONSORS_EUR > 0 ? (
           <>
             <div className={styles.covered}>
               <span>Covered by monthly sponsors</span>
               <span className={styles.coveredAmount}>
-                {usd(COVERED_BY_SPONSORS_USD)} of {usd(total)}
+                {eur(COVERED_BY_SPONSORS_EUR)} of {eur(total)}
               </span>
             </div>
             <div
@@ -74,9 +74,9 @@ export function SponsorPage() {
               aria-label="Share of yearly costs covered by monthly sponsors"
               aria-valuemin={0}
               aria-valuemax={total}
-              aria-valuenow={COVERED_BY_SPONSORS_USD}
+              aria-valuenow={COVERED_BY_SPONSORS_EUR}
             >
-              <div style={{ width: `${Math.min(100, (COVERED_BY_SPONSORS_USD / total) * 100)}%` }} />
+              <div style={{ width: `${Math.min(100, (COVERED_BY_SPONSORS_EUR / total) * 100)}%` }} />
             </div>
           </>
         ) : (
@@ -93,7 +93,7 @@ export function SponsorPage() {
         <ul className={styles.packs}>
           {SPONSOR_TIERS.map((t) => (
             <li key={t.amount} className={t.tierId ? styles.packPicked : styles.pack}>
-              <span className={styles.amount}>{t.amount}</span>
+              <span className={styles.amount}>{t.amount}<span className={styles.approx}>{aboutEur(t.amount)}</span></span>
               <h3 className={styles.packTitle}>{t.title}</h3>
               {t.example && <Example tier={t} />}
               <p className={styles.gets}>{t.gets}</p>
@@ -110,7 +110,7 @@ export function SponsorPage() {
         </ul>
         <div className={styles.once}>
           <div className={styles.onceText}>
-            <span className={styles.amount}>{ONCE_TIER.amount}</span>
+            <span className={styles.amount}>{ONCE_TIER.amount}<span className={styles.approx}>{aboutEur(ONCE_TIER.amount)}</span></span>
             <p className={styles.gets}>{ONCE_TIER.gets}</p>
             <Example tier={ONCE_TIER} />
           </div>
@@ -142,6 +142,8 @@ function Example({ tier }: { tier: SponsorTier }) {
   );
 }
 
-function usd(n: number) {
-  return "$" + String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+/** "$5 a month" stays what GitHub charges; the euro figure beside it is a guide. */
+function aboutEur(amount: string) {
+  const usd = Number(/\$(\d+)/.exec(amount)?.[1]);
+  return usd ? ` · about ${eur(usd * EUR_PER_USD)}` : "";
 }

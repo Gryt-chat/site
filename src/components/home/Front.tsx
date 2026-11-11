@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-import { COVERED_BY_SPONSORS_USD, RUNNING_TOTAL_USD } from "../../data/runningCosts";
+import { COVERED_BY_SPONSORS_EUR, RUNNING_TOTAL_EUR, eur } from "../../data/runningCosts";
 import { posts } from "../../lib/blog";
 import { listReleases } from "../../lib/changelog";
 import { dayMonthYear } from "../../lib/formatDate";
@@ -130,12 +130,11 @@ export function Involved() {
   );
 }
 
-const usd = (n: number) => "$" + String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
 /** On the page ground with a rule and no card fill, per design.md. */
 export function SponsorBar() {
-  const yearly = RUNNING_TOTAL_USD;
-  const share = Math.min(100, (COVERED_BY_SPONSORS_USD / yearly) * 100);
+  const yearly = RUNNING_TOTAL_EUR;
+  const share = Math.min(100, (COVERED_BY_SPONSORS_EUR / yearly) * 100);
   return (
     <section className={styles.section}>
       <div className={`${styles.in} ${styles.sponsorRow}`}>
@@ -143,19 +142,19 @@ export function SponsorBar() {
           <p className={styles.eyebrow}>Sponsors</p>
           <h2 className={styles.h2}>Gryt is free, and sponsors keep it running</h2>
           {/* An empty bar reads as nobody cares; until someone sponsors monthly, say what it costs instead. */}
-          {COVERED_BY_SPONSORS_USD > 0 ? (
+          {COVERED_BY_SPONSORS_EUR > 0 ? (
             <>
               <div className={styles.goal}>
                 <span>Covered by monthly sponsors</span>
-                <span className={styles.goalAmount}>{usd(COVERED_BY_SPONSORS_USD)} of {usd(yearly)} a year</span>
+                <span className={styles.goalAmount}>{eur(COVERED_BY_SPONSORS_EUR)} of {eur(yearly)} a year</span>
               </div>
               <div className={styles.bar} aria-hidden="true"><span style={{ width: `${share}%` }} /></div>
             </>
           ) : (
-            <p className={styles.sub}>Running Gryt costs about {usd(yearly)} a year. Nobody sponsors it monthly yet, so you&rsquo;d be the first.</p>
+            <p className={styles.sub}>Running Gryt costs about {eur(yearly)} a year. Nobody sponsors it monthly yet, so you&rsquo;d be the first.</p>
           )}
         </div>
-        <Link className={styles.sponsorBtn} to="/sponsor">{COVERED_BY_SPONSORS_USD > 0 ? "Sponsor Gryt" : "Be the first sponsor"}</Link>
+        <Link className={styles.sponsorBtn} to="/sponsor">{COVERED_BY_SPONSORS_EUR > 0 ? "Sponsor Gryt" : "Be the first sponsor"}</Link>
       </div>
     </section>
   );

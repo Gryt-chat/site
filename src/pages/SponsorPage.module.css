@@ -259,3 +259,5 @@
 .ghost {
   text-decoration: none;
 }
+
+.approx { margin-left: 6px; font-size: 0.6em; font-weight: 400; color: var(--text-dim); }
