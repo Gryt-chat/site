@@ -17,7 +17,7 @@ export interface SiteLink {
 const download: SiteLink = { label: 'Download', href: '/download', route: true }
 const openInBrowser: SiteLink = { label: 'Open in browser', href: 'https://app.gryt.chat' }
 const selfHosting: SiteLink = { label: 'Self-hosting', href: '/self-hosting', route: true }
-const cloud: SiteLink = { label: 'Gryt Cloud', href: '/business', route: true, tag: 'Soon' }
+const cloud: SiteLink = { label: 'Gryt Cloud', href: '/cloud', route: true, tag: 'Soon' }
 const whyGryt: SiteLink = { label: 'Why Gryt?', href: '/why-gryt', route: true }
 const features: SiteLink = { label: 'Features', href: '/features', route: true }
 const compared: SiteLink = { label: 'Compared', href: '/compare', route: true }
