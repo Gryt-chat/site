@@ -132,6 +132,7 @@ function Plans() {
       <p className={styles.includes}>
         Every plan is always online and always up to date, with your own domain, notifications on phones, and you deciding
         who gets in. The people count is a guide, and nobody gets turned away. Prices are in euros and include VAT.
+        They&rsquo;re the planned prices and can still change before launch. If they do, the waitlist hears first.
       </p>
     </>
   );
