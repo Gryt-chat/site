@@ -16,69 +16,76 @@ export function SponsorPage() {
 
   return (
     <main className={styles.page}>
-      <PageHeader
-        eyebrow="Sponsor"
-        title="Help pay for Gryt"
-        lede={
-          <>
-            Gryt runs on an enterprise-grade AMD EPYC server, with a handful of
-            paid services around it. Code-signing certificates keep Windows and
-            macOS from warning people off the installer. There's nothing to buy
-            inside Gryt, and nothing held back for the people who pay.
-          </>
-        }
-      />
+      <div className={styles.top}>
+        <div>
+          <PageHeader
+            eyebrow="Sponsor"
+            title="Help pay for Gryt"
+            lede={
+              <>
+                Gryt is free, there&rsquo;s nothing to buy inside it, and nothing is
+                held back for people who pay. Sponsoring pays the bills that keep it
+                running: the server&rsquo;s power, the services around it, and the
+                code signing that stops Windows and macOS warning people off the
+                installer.
+              </>
+            }
+          />
 
-      <a className={styles.cta} href={SPONSOR_URL} target="_blank" rel="noreferrer">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4"
-          strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-          <path d="M19.5 12.6 12 20l-7.5-7.4A4.8 4.8 0 0 1 12 6.3a4.8 4.8 0 0 1 7.5 6.3z" />
-        </svg>
-        Sponsor Gryt
-      </a>
-      <p className={styles.ctaNote}>On GitHub Sponsors. Monthly, or once.</p>
+          <a className={styles.cta} href={SPONSOR_URL} target="_blank" rel="noreferrer">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4"
+              strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M19.5 12.6 12 20l-7.5-7.4A4.8 4.8 0 0 1 12 6.3a4.8 4.8 0 0 1 7.5 6.3z" />
+            </svg>
+            Sponsor Gryt
+          </a>
+          <p className={styles.ctaNote}>On GitHub Sponsors. Monthly, or once.</p>
+          {COVERED_BY_SPONSORS_EUR === 0 && (
+            <p className={styles.first}>
+              Nobody sponsors Gryt monthly yet, so you&rsquo;d be the first. <Link to="/sponsors">See who has chipped in</Link>
+            </p>
+          )}
+        </div>
 
-      <section className={styles.costs}>
-        <h2 className={styles.blockHeading}>What it costs to run</h2>
-        <p className={styles.costHead}>
-          <span>In euros</span>
-          <span>Yearly</span>
-        </p>
-        <dl className={styles.costList}>
-          {RUNNING_COSTS.map((c) => (
-            <div key={c.what} className={styles.costRow}>
-              <dt>{c.what}</dt>
-              <dd>{eur(c.eur)}</dd>
+        <section className={styles.costs}>
+          <p className={styles.costHead}>
+            <span>What it costs a year</span>
+            <span>EUR</span>
+          </p>
+          <dl className={styles.costList}>
+            {RUNNING_COSTS.map((c) => (
+              <div key={c.what} className={styles.costRow}>
+                <dt>{c.what}</dt>
+                <dd>{eur(c.eur)}</dd>
+              </div>
+            ))}
+            <div className={styles.costTotal}>
+              <dt>About</dt>
+              <dd>{eur(total)}</dd>
             </div>
-          ))}
-          <div className={styles.costTotal}>
-            <dt>About</dt>
-            <dd>{eur(total)}</dd>
-          </div>
-        </dl>
-        {COVERED_BY_SPONSORS_EUR > 0 ? (
-          <>
-            <div className={styles.covered}>
-              <span>Covered by monthly sponsors</span>
-              <span className={styles.coveredAmount}>
-                {eur(COVERED_BY_SPONSORS_EUR)} of {eur(total)}
-              </span>
-            </div>
-            <div
-              className={styles.bar}
-              role="progressbar"
-              aria-label="Share of yearly costs covered by monthly sponsors"
-              aria-valuemin={0}
-              aria-valuemax={total}
-              aria-valuenow={COVERED_BY_SPONSORS_EUR}
-            >
-              <div style={{ width: `${Math.min(100, (COVERED_BY_SPONSORS_EUR / total) * 100)}%` }} />
-            </div>
-          </>
-        ) : (
-          <p className={styles.ctaNote}>Nobody sponsors Gryt monthly yet, so you&rsquo;d be the first.</p>
-        )}
-      </section>
+          </dl>
+          {COVERED_BY_SPONSORS_EUR > 0 ? (
+            <>
+              <div className={styles.covered}>
+                <span>Covered by monthly sponsors</span>
+                <span className={styles.coveredAmount}>
+                  {eur(COVERED_BY_SPONSORS_EUR)} of {eur(total)}
+                </span>
+              </div>
+              <div
+                className={styles.bar}
+                role="progressbar"
+                aria-label="Share of yearly costs covered by monthly sponsors"
+                aria-valuemin={0}
+                aria-valuemax={total}
+                aria-valuenow={COVERED_BY_SPONSORS_EUR}
+              >
+                <div style={{ width: `${Math.min(100, (COVERED_BY_SPONSORS_EUR / total) * 100)}%` }} />
+              </div>
+            </>
+          ) : null}
+        </section>
+      </div>
 
       <section className={styles.block}>
         <h2 className={styles.blockHeading}>What you get</h2>
