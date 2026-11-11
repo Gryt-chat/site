@@ -149,7 +149,8 @@ export function TermsOfUse() {
         <h2>The Gryt Cloud waitlist offer</h2>
         <p>
           If you join the Gryt Cloud waitlist on gryt.chat/cloud before Gryt Cloud
-          opens, you get 50% off the first three months of one Gryt Cloud server.
+          opens, you get 50% off the first three months of one Gryt Cloud server
+          on the Friends or Community plan. It doesn&rsquo;t apply to Large or Company.
           It applies to monthly and yearly billing: on yearly, the discount comes
           off the first three months of the year. We send you a code in the email
           when Gryt Cloud opens. One code per email address, and it can&rsquo;t be

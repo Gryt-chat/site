@@ -214,7 +214,7 @@ export const STATIC_PAGES: StaticPage[] = [
     path: "cloud",
     title: "Gryt Cloud",
     description:
-      "Your own Gryt server, always online, run by us. Join the waitlist for 50% off your first three months.",
+      "Your own Gryt server, always online, run by us. Join the waitlist for 50% off your first three months on Friends or Community.",
   },
   {
     path: "features",
