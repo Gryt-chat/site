@@ -178,8 +178,13 @@ export const app: ReleaseLine[] = [
   {
     version: "1.15.10",
     date: "2026-11-11",
-    line: "Add a server shows Gryt Cloud, the hosting we're working on.",
+    line: "Add a server shows Gryt Cloud, the hosting we're working on, and a call you're not in is easier to spot.",
     changes: [
+      {
+        kind: "changed",
+        area: "voice",
+        text: "A voice channel with people in it has a faint outline around them in the sidebar, the same shape as the call you're in, so you can see who's talking together.",
+      },
       {
         kind: "new",
         area: "servers",
