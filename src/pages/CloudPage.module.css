@@ -84,6 +84,8 @@
 }
 
 
+.heroActions { margin-top: 32px; display: flex; flex-wrap: wrap; gap: 12px; }
+#plans { scroll-margin-top: var(--nav-h, 72px); }
 .signup { margin-top: 32px; max-width: 560px; display: flex; flex-direction: column; gap: 14px; }
 .offer { align-self: flex-start; padding: 8px 14px; border: 1px solid var(--border); border-radius: 999px; font-size: 14.5px; }
 .offer b { color: var(--accent-light); }

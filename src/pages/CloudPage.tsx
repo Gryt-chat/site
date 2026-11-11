@@ -48,28 +48,34 @@ const PLANS = [
 
 const euro = (n: number) => `€${n}`;
 
+/** The plan someone clicked is stored with their address, so the list says which sizes people want. */
+function JoinDialog({ open, plan, onClose }: { open: boolean; plan?: string; onClose: () => void }) {
+  return (
+    <Dialog.Root open={open} onOpenChange={(o) => !o && onClose()}>
+      <Dialog.Portal>
+        <Dialog.Backdrop />
+        <Dialog.Popup className={styles.joinPopup}>
+          <div className={styles.joinHead}>
+            <Dialog.Title className={styles.h3}>{plan ? `Join the waitlist for ${plan}` : "Join the waitlist"}</Dialog.Title>
+            <Dialog.Close className={styles.joinClose} aria-label="Close">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" aria-hidden="true">
+                <path d="M6 6l12 12M18 6 6 18" />
+              </svg>
+            </Dialog.Close>
+          </div>
+          {open && <Signup plan={plan?.toLowerCase()} />}
+        </Dialog.Popup>
+      </Dialog.Portal>
+    </Dialog.Root>
+  );
+}
+
 function Plans() {
   const [yearly, setYearly] = useState(true);
   const [joining, setJoining] = useState<string | null>(null);
   return (
     <>
-      {/* The plan someone clicked is stored with their address, so the list says which sizes people want. */}
-      <Dialog.Root open={joining !== null} onOpenChange={(open) => !open && setJoining(null)}>
-        <Dialog.Portal>
-          <Dialog.Backdrop />
-          <Dialog.Popup className={styles.joinPopup}>
-            <div className={styles.joinHead}>
-              <Dialog.Title className={styles.h3}>Join the waitlist for {joining}</Dialog.Title>
-              <Dialog.Close className={styles.joinClose} aria-label="Close">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" aria-hidden="true">
-                  <path d="M6 6l12 12M18 6 6 18" />
-                </svg>
-              </Dialog.Close>
-            </div>
-            {joining && <Signup plan={joining.toLowerCase()} />}
-          </Dialog.Popup>
-        </Dialog.Portal>
-      </Dialog.Root>
+      <JoinDialog open={joining !== null} plan={joining ?? undefined} onClose={() => setJoining(null)} />
       <div className={styles.toggle} role="group" aria-label="Billing">
         <button type="button" aria-pressed={!yearly} onClick={() => setYearly(false)}>Monthly</button>
         <button type="button" aria-pressed={yearly} onClick={() => setYearly(true)}>
@@ -221,6 +227,7 @@ function Signup({ plan }: { plan?: string }) {
 }
 
 export function CloudPage() {
+  const [joining, setJoining] = useState(false);
   return (
     <main>
       <section className={styles.hero}>
@@ -232,7 +239,11 @@ export function CloudPage() {
               We run it for you. Your friends can hang out even when you&rsquo;re not on, and you never have to keep a
               computer running.
             </p>
-            <Signup />
+            <div className={styles.heroActions}>
+              <a className={styles.primary} href="#plans">See the plans</a>
+              <button type="button" className={styles.secondary} onClick={() => setJoining(true)}>Join the waitlist</button>
+            </div>
+            <JoinDialog open={joining} onClose={() => setJoining(false)} />
           </div>
           <figure className={styles.preview}>
             <img src="/home/client-live.poster.webp" alt="The Gryt app with a voice channel in use" />
@@ -259,7 +270,7 @@ export function CloudPage() {
         </div>
       </section>
 
-      <section className={styles.section}>
+      <section id="plans" className={styles.section}>
         <div className={styles.in}>
           <p className={styles.eyebrow}>Plans</p>
           <h2 className={styles.h2}>Pick the size that fits</h2>
