@@ -1,3 +1,4 @@
+import { Dialog } from "@gryt/ui";
 import { useState, type FormEvent } from "react";
 import type { IconType } from "react-icons";
 import {
@@ -50,8 +51,20 @@ const euro = (n: number) => `€${(Number.isInteger(n) ? String(n) : n.toFixed(2
 
 function Plans() {
   const [yearly, setYearly] = useState(true);
+  const [joining, setJoining] = useState<string | null>(null);
   return (
     <>
+      {/* The plan someone clicked is stored with their address, so the list says which sizes people want. */}
+      <Dialog.Root open={joining !== null} onOpenChange={(open) => !open && setJoining(null)}>
+        <Dialog.Portal>
+          <Dialog.Backdrop />
+          <Dialog.Popup className={styles.joinPopup}>
+            <Dialog.Title className={styles.h3}>Join the waitlist for {joining}</Dialog.Title>
+            {joining && <Signup plan={joining.toLowerCase()} />}
+            <Dialog.Close className={styles.joinClose}>Close</Dialog.Close>
+          </Dialog.Popup>
+        </Dialog.Portal>
+      </Dialog.Root>
       <div className={styles.toggle} role="group" aria-label="Billing">
         <button type="button" aria-pressed={!yearly} onClick={() => setYearly(false)}>Monthly</button>
         <button type="button" aria-pressed={yearly} onClick={() => setYearly(true)}>
@@ -82,7 +95,13 @@ function Plans() {
             {p.from ? (
               <a className={styles.secondary} href={MAIL}>Talk to us</a>
             ) : (
-              <a className={p.name === "Community" ? styles.primary : styles.secondary} href="#signup">Join the waitlist</a>
+              <button
+                type="button"
+                className={p.name === "Community" ? styles.primary : styles.secondary}
+                onClick={() => setJoining(p.name)}
+              >
+                Join the waitlist
+              </button>
             )}
           </div>
         ))}
@@ -111,7 +130,7 @@ const STEPS = [
 
 type State = "idle" | "sending" | "done" | "bad" | "failed";
 
-function Signup() {
+function Signup({ plan }: { plan?: string }) {
   const [email, setEmail] = useState("");
   const [news, setNews] = useState(false);
   const [state, setState] = useState<State>("idle");
@@ -123,7 +142,7 @@ function Signup() {
       const res = await fetch(WAITLIST, {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ email, news }),
+        body: JSON.stringify({ email, news, plan }),
       });
       setState(res.ok ? "done" : res.status === 400 ? "bad" : "failed");
     } catch {

@@ -139,7 +139,7 @@ export function PrivacyPolicy() {
         <h3>The Gryt Cloud waitlist</h3>
         <p>
           If you sign up on <strong>gryt.chat/cloud</strong>, your email address
-          goes to <strong>reports.gryt.chat</strong> along with whether you also
+          goes to <strong>reports.gryt.chat</strong> along with the plan you clicked, if any, whether you also
           want Gryt&rsquo;s news, and the day you signed up. Nothing else is
           stored: not your IP address and not your name. Your IP address is held in
           memory for an hour to limit how often one network can sign up, and

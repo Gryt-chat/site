@@ -167,6 +167,11 @@
 .secondary:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .includes { margin: 20px 0 0; max-width: 68ch; font-size: 14px; line-height: 1.6; color: var(--text-dim); }
 
+.joinPopup { width: min(520px, calc(100vw - 32px)); box-sizing: border-box; padding: 28px; }
+.joinPopup .signup { margin-top: 16px; }
+.joinClose { margin-top: 16px; min-height: 44px; padding: 0 16px; border: 0; background: none; color: var(--text-dim); font: inherit; font-size: 14px; cursor: pointer; }
+.secondary { cursor: pointer; background: none; font: inherit; font-size: 16px; font-weight: 700; }
+
 @media (max-width: 1000px) {
   .plans { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
