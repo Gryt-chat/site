@@ -362,7 +362,7 @@ export function CloudPage() {
             <dt className={styles.h3}>When does it open?</dt>
             <dd className={styles.text}>When it&rsquo;s ready, and we don&rsquo;t have a date yet. You&rsquo;ll get an email when it does.</dd>
             <dt className={styles.h3}>What will it cost?</dt>
-            <dd className={styles.text}>From €5 a month, or €4 a month billed yearly. People on the list get 50% off their first three months.</dd>
+            <dd className={styles.text}>From €5 a month, or €4 a month billed yearly. People on the list get 50% off their first three months, on either. Monthly, your first three payments are half price. Yearly, half of three months comes off your first bill, so Community&rsquo;s €192 becomes €168.</dd>
             <dt className={styles.h3}>Can I still run it myself?</dt>
             <dd className={styles.text}>
               Yes, and that stays free. <Link to="/self-hosting">Self-hosting</Link> has the guide.
