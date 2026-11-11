@@ -23,6 +23,7 @@ import {
 } from "../lib/releases";
 import { useDetectedArch } from "../lib/useDetectedArch";
 import { useDetectedOS } from "../lib/useDetectedOS";
+import { useHydrated } from "../lib/useHydrated";
 
 const LATEST_URL = "https://github.com/Gryt-chat/gryt/releases/latest";
 const RELEASES_URL = "https://github.com/Gryt-chat/gryt/releases";
@@ -66,7 +67,9 @@ export function Download({ initial = null }: { initial?: Pick | null } = {}) {
   /* Null until hydration is over, so the prerender and the first client render agree. */
   const detected = useDetectedOS();
   const arch = useDetectedArch();
-  const pick: Pick = chosen ?? detected ?? "windows";
+  // `?os=` is in `chosen` from the start, but the prerender never saw it: hold it until hydrated.
+  const hydrated = useHydrated();
+  const pick: Pick = (hydrated ? chosen : null) ?? detected ?? "windows";
   const os = pick !== "web" && isDesktop(pick) ? pick : null;
 
   /* The steps only render on a phone's pick, so the link has to open that pick. */
