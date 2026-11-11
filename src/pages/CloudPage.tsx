@@ -32,21 +32,21 @@ const COMPARE: [string, string, string][] = [
   ["Your own domain", "Yes", "Yes"],
   ["Phone notifications", "Yes", "Yes"],
   ["Help", "Docs and the community", "Straight from us"],
-  ["Cost", "Free, forever", "From €4.99 a month"],
+  ["Cost", "Free, forever", "From €4 a month"],
 ];
 
 const MAIL = "mailto:business@gryt.chat";
 
 const ROWS = ["People", "In voice at once", "Screen share", "Storage", "Largest file", "Support"];
 
-/** Euros, VAT included. Yearly is about ten months, rounded to .99: two free. */
+/** Whole euros, VAT included. Yearly is a lower monthly price, billed as twelve of it. */
 const PLANS = [
-  { name: "Friends", for: "For a group of friends", month: 4.99, year: 49.99, rows: ["Best for 15", "8", "1080p 60", "10 GB", "100 MB", "Email"] },
-  { name: "Community", for: "For a server people find and join", month: 19.99, year: 199.99, rows: ["Best for 150", "30", "1080p 60", "100 GB", "500 MB", "Email"] },
-  { name: "Large", for: "For big communities and events", month: 99.99, year: 999.99, rows: ["Best for 1,000", "100", "1440p 60", "500 GB", "2 GB", "Priority"] },
+  { name: "Friends", for: "For a group of friends", month: 5, perMonthYearly: 4, rows: ["Best for 15", "8", "1080p 60", "10 GB", "100 MB", "Email"] },
+  { name: "Community", for: "For a server people find and join", month: 19, perMonthYearly: 16, rows: ["Best for 150", "30", "1080p 60", "100 GB", "500 MB", "Email"] },
+  { name: "Large", for: "For big communities and events", month: 99, perMonthYearly: 80, rows: ["Best for 1,000", "100", "1440p 60", "500 GB", "2 GB", "Priority"] },
 ];
 
-const euro = (n: number) => `€${(Number.isInteger(n) ? String(n) : n.toFixed(2)).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
+const euro = (n: number) => `€${n}`;
 
 function Plans() {
   const [yearly, setYearly] = useState(true);
@@ -67,7 +67,7 @@ function Plans() {
       <div className={styles.toggle} role="group" aria-label="Billing">
         <button type="button" aria-pressed={!yearly} onClick={() => setYearly(false)}>Monthly</button>
         <button type="button" aria-pressed={yearly} onClick={() => setYearly(true)}>
-          Yearly <span className={styles.free}>· 2 months free</span>
+          Yearly <span className={styles.free}>· save up to 20%</span>
         </button>
       </div>
       <div className={styles.plans}>
@@ -76,11 +76,11 @@ function Plans() {
             <p className={styles.planName}>{p.name}</p>
             <p className={styles.planFor}>{p.for}</p>
             <p className={styles.price}>
-              {euro(yearly ? Math.round((p.year / 12) * 100) / 100 : p.month)}
+              {euro(yearly ? p.perMonthYearly : p.month)}
               <small> / month</small>
             </p>
             <p className={styles.billed}>
-              {yearly ? `${euro(p.year)} billed yearly` : "Billed monthly"}
+              {yearly ? `${euro(p.perMonthYearly * 12)} billed yearly` : "Billed monthly"}
             </p>
             <dl className={styles.planRows}>
               {ROWS.map((r, i) => (
@@ -339,7 +339,7 @@ export function CloudPage() {
             <dt className={styles.h3}>When does it open?</dt>
             <dd className={styles.text}>When it&rsquo;s ready, and we don&rsquo;t have a date yet. You&rsquo;ll get an email when it does.</dd>
             <dt className={styles.h3}>What will it cost?</dt>
-            <dd className={styles.text}>From €4.99 a month, and two months free on yearly billing. People on the list get 50% off their first three months.</dd>
+            <dd className={styles.text}>From €5 a month, or €4 a month billed yearly. People on the list get 50% off their first three months.</dd>
             <dt className={styles.h3}>Can I still run it myself?</dt>
             <dd className={styles.text}>
               Yes, and that stays free. <Link to="/self-hosting">Self-hosting</Link> has the guide.
