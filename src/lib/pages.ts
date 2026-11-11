@@ -211,10 +211,10 @@ export const STATIC_PAGES: StaticPage[] = [
     description: "Posts about building Gryt, written by the one person building it.",
   },
   {
-    path: "business",
-    title: "Gryt for businesses",
+    path: "cloud",
+    title: "Gryt Cloud",
     description:
-      "We host your company's Gryt server, keep it up to date, and you get support straight from us.",
+      "Your own Gryt server, always online, run by us. Join the waitlist for 50% off your first year.",
   },
   {
     path: "features",
