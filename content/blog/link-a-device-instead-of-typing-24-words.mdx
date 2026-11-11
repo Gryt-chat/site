@@ -1,0 +1,134 @@
+---
+title: Link a Device Instead of Typing 24 Words
+description: A new device gets your keys, servers and DM history from one you already use, once you check four emoji.
+author: Sivert
+date: 2026-09-29
+image: /blog/art-link-a-device.webp
+tags:
+  - encryption
+  - identity
+  - security
+---
+
+From 1.13.0 you can set up a new device from one you already use. You check that both
+screens show the same four emoji, tap Approve, and the new device has your keys, your
+servers and your encrypted DM history.
+
+## What went wrong before
+
+Your DM keys come from your 24 words. Until now there were two ways to get them onto a
+second device. You typed the words in, or you set a message password on the first device
+and entered it on the second.
+
+If you did neither, the second device made up its own 24 words. It was the same account
+with different keys, and for a while nothing said so. The people you talk to had already
+pinned your old key, so their app saw it change and stopped encrypting. Their banner said
+"This conversation isn't encrypted. Whoever runs this server can read it. Somebody here
+changed their key." Your banner still said encrypted, and their messages showed up red
+with a warning. That's what I saw in one of my own DMs. And on the new device, anything
+sent to the old one said "This message could not be opened."
+
+## How you link one
+
+On the new device, pick **Link with another device**. It's in Settings, Account, and on
+the welcome screen when you aren't signed in. On the phone it's **Link from another
+device**. It shows a QR code and an 8-character code like `7KQM-X4TD`.
+
+Then, on a device you already use:
+
+- **On the phone**, go to Preferences, Security, **Link a new device**, and scan the QR.
+  Or tap "Type a code instead".
+- **On the desktop**, go to Settings, Account & security, **Link a new device**, and type
+  the code. Most desktops don't have a camera to point at a phone. Lower case is fine,
+  and so is `O` for `0`.
+
+Both screens now show the same four emoji, with their names under them. The device
+you're approving from also shows what the new one says it is, and roughly where each of
+you is: "MacBook Air, Gryt desktop on macOS. Near Oslo, Norway. You're near Bergen,
+Norway." If the emoji match, tap Approve. On the phone that asks for Face ID, Touch ID or
+your passcode first.
+
+You get 60 seconds to approve. After that it runs out and the new device shows a fresh
+code. An unused code also gets swapped for a new one every five minutes.
+
+A server takes five devices per person at most. If the new one would be a sixth, the
+approval screen says which server and asks you to remove one first.
+
+After Approve there's nothing else to do. For an account, the new device signs in on its
+own, with no password and no browser. It joins your servers, and your other device adds
+it to every DM.
+
+## What gets sent, and who can read it
+
+Both devices make a one-off key for this link and work out a shared secret from the two.
+Everything after that is sealed with it, end to end. When you tap Approve, your device
+sends one sealed envelope with:
+
+- the seed your 24 words come from
+- which account you are, if you have one, so the new device can check it signed in as you
+- your servers, and the keys you've pinned for the people on them
+- a key for your message history
+
+Your sign-in isn't in it. The new device gets a session of its own, so signing out on one
+leaves the other signed in. Your MLS state isn't in it either. The new device makes its
+own and gets added to each DM as a separate device.
+
+In the middle is the relay, at id.gryt.chat. It passes along bytes it can't open. It
+keeps each link in memory, not on disk, and its logs have counts and durations but no
+addresses, codes or locations.
+
+Your history goes across in chunks, newest day first, sealed with the key from the
+envelope. The relay holds them on disk until the new device fetches them, and deletes
+them after an hour either way. The list of chunks, with a hash for each, goes over the
+sealed channel. So the relay can't drop, swap or replay a chunk without the new device
+seeing it.
+
+The relay does see both devices' IP addresses, when you linked, and how much history went
+across, which says roughly how many messages you have. For an account, Keycloak sees a
+sign-in at the same moment, so whoever runs both could tie the two together by time.
+That's me.
+
+## What the emoji are for
+
+To read the envelope, the relay would have to swap in keys of its own on both sides. The
+emoji come from both devices' keys, so a swapped key gives the two screens different
+emoji. It can't hunt for a swap that happens to match either. The new device commits to
+its key before it sees the other one, so the relay gets a single guess per link, a 1 in
+16.7 million chance. If the emoji differ, tap "They don't match" and nothing gets sent.
+
+The emoji can't help if somebody talks you into approving a device of theirs, since their
+screen shows the same emoji yours does. For that, the QR only works in Gryt's own scanner,
+so your phone's camera app can't open an approval screen. The approval screen says the
+device gets your messages, your keys and your account, and shows where it is. And Gryt
+never asks you to scan a code from somebody else's device or a website.
+
+If a device gets linked anyway, your other devices tell you. They show "New device linked"
+with its name, and a Remove button right there.
+
+## Guests too
+
+A guest's identity on each server is worked out from the seed. So the new device gets the
+seed and your server list, and each server sees the same guest it always did. Guests skip
+the sign-in step, and the relay can't tell whether you're one.
+
+## What it doesn't do yet
+
+- **Scanning with a webcam on the desktop.** You type the code there for now.
+- **Carrying on after a restart.** If either app closes while history is still copying,
+  the copy stops. Your keys and sign-in are done by then. Linking again from the same
+  device sends the rest, and nothing shows up twice.
+- **Backups.** Linking copies your history from one device to another. There's no backup
+  of it anywhere yet.
+
+No dates on any of those.
+
+---
+
+[1.13.0](/changelog/1.13.0) is the release this shipped in. The code is in
+[client](https://github.com/Gryt-chat/client),
+[mobile](https://github.com/Gryt-chat/mobile),
+[@gryt/core](https://github.com/Gryt-chat/core) and
+[auth](https://github.com/Gryt-chat/auth), which holds the relay. [The
+design](https://github.com/Gryt-chat/crypto/blob/main/docs/pairing-design.md) goes through
+every step, and [the security page](https://docs.gryt.chat/docs/about/security) has the
+rest.
