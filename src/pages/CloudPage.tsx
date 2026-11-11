@@ -112,7 +112,7 @@ function Plans() {
         <div className={styles.companyPrice}>
           <p className={styles.price}>
             <small>From </small>
-            {euro(yearly ? 207.5 : 249)}
+            €249
             <small> / month</small>
           </p>
           <a className={styles.secondary} href={MAIL}>Talk to us</a>
