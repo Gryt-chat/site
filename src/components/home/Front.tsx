@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-import { COVERED_BY_SPONSORS_USD, RUNNING_COSTS } from "../../data/runningCosts";
+import { COVERED_BY_SPONSORS_USD, RUNNING_TOTAL_USD } from "../../data/runningCosts";
 import { posts } from "../../lib/blog";
 import { listReleases } from "../../lib/changelog";
 import { dayMonthYear } from "../../lib/formatDate";
@@ -134,7 +134,7 @@ const usd = (n: number) => "$" + String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 
 /** On the page ground with a rule and no card fill, per design.md. */
 export function SponsorBar() {
-  const yearly = RUNNING_COSTS.reduce((sum, c) => sum + c.usd, 0);
+  const yearly = RUNNING_TOTAL_USD;
   const share = Math.min(100, (COVERED_BY_SPONSORS_USD / yearly) * 100);
   return (
     <section className={styles.section}>

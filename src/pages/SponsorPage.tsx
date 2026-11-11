@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { PageHeader } from "../components/PageHeader";
 import { pageTitle } from "../lib/title";
 import styles from "./SponsorPage.module.css";
-import { COVERED_BY_SPONSORS_USD, RUNNING_COSTS } from "../data/runningCosts";
+import { COVERED_BY_SPONSORS_USD, RUNNING_COSTS, RUNNING_TOTAL_USD, SERVER_HARDWARE_USD_PER_YEAR } from "../data/runningCosts";
 import { ONCE_TIER, SPONSOR_TIERS, SPONSOR_URL, sponsorUrl, type SponsorTier } from "../data/sponsorTiers";
 
 /** How to sponsor Gryt. The people who have are on /sponsors. */
@@ -12,7 +12,7 @@ export function SponsorPage() {
     document.title = pageTitle("Sponsor Gryt");
   }, []);
 
-  const total = Math.round(RUNNING_COSTS.reduce((sum, c) => sum + c.usd, 0) / 100) * 100;
+  const total = RUNNING_TOTAL_USD;
 
   return (
     <main className={styles.page}>
@@ -56,22 +56,32 @@ export function SponsorPage() {
             <dd>{usd(total)}</dd>
           </div>
         </dl>
-        <div className={styles.covered}>
-          <span>Covered by monthly sponsors</span>
-          <span className={styles.coveredAmount}>
-            {usd(COVERED_BY_SPONSORS_USD)} of {usd(total)}
-          </span>
-        </div>
-        <div
-          className={styles.bar}
-          role="progressbar"
-          aria-label="Share of yearly costs covered by monthly sponsors"
-          aria-valuemin={0}
-          aria-valuemax={total}
-          aria-valuenow={COVERED_BY_SPONSORS_USD}
-        >
-          <div style={{ width: `${Math.min(100, (COVERED_BY_SPONSORS_USD / total) * 100)}%` }} />
-        </div>
+        <p className={styles.ctaNote}>
+          Not in the total: the server itself. We bought it once, and over five years it works out to about{" "}
+          {usd(SERVER_HARDWARE_USD_PER_YEAR)} a year.
+        </p>
+        {COVERED_BY_SPONSORS_USD > 0 ? (
+          <>
+            <div className={styles.covered}>
+              <span>Covered by monthly sponsors</span>
+              <span className={styles.coveredAmount}>
+                {usd(COVERED_BY_SPONSORS_USD)} of {usd(total)}
+              </span>
+            </div>
+            <div
+              className={styles.bar}
+              role="progressbar"
+              aria-label="Share of yearly costs covered by monthly sponsors"
+              aria-valuemin={0}
+              aria-valuemax={total}
+              aria-valuenow={COVERED_BY_SPONSORS_USD}
+            >
+              <div style={{ width: `${Math.min(100, (COVERED_BY_SPONSORS_USD / total) * 100)}%` }} />
+            </div>
+          </>
+        ) : (
+          <p className={styles.ctaNote}>Nobody sponsors Gryt monthly yet, so you&rsquo;d be the first.</p>
+        )}
       </section>
 
       <section className={styles.block}>
