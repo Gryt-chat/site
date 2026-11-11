@@ -18,10 +18,10 @@ const WAITLIST = "https://reports.gryt.chat/v1/waitlist";
 const BENEFITS: [IconType, string, string][] = [
   [PiUsersThreeDuotone, "Your friends, any time", "They can hang out, talk and play even when you're offline."],
   [PiArrowsClockwiseDuotone, "Always up to date", "Every new Gryt release goes on for you. You never run an old version."],
-  [PiLightningDuotone, "Ready in a minute", "No ports to open, no router settings, no Docker. Pick a name and it's there."],
+  [PiLightningDuotone, "Nothing to set up", "No ports to open, no router settings, no Docker. You pick a name and the server is there."],
   [PiLockKeyDuotone, "You decide who gets in", "Invite only, ask to join, or open to anyone. Change it whenever you like."],
   [PiGlobeDuotone, "Your own domain", "Use the address we give you, or your own, like yourdomain.com. Invites use it too."],
-  [PiChatsCircleDuotone, "Help from the people who build it", "Something wrong? You write to us, and we're the ones who fix it."],
+  [PiChatsCircleDuotone, "Help from the people who build it", "If something breaks, you write to us and we fix it."],
 ];
 
 const COMPARE: [string, string, string][] = [
@@ -125,7 +125,7 @@ function Plans() {
       </div>
       <p className={styles.includes}>
         Every plan is always online and always up to date, with your own domain, notifications on phones, and you deciding
-        who gets in. The people count is a guide: nobody gets turned away. Prices include VAT.
+        who gets in. The people count is a guide, and nobody gets turned away. Prices include VAT.
       </p>
     </>
   );
@@ -292,7 +292,7 @@ export function CloudPage() {
       <section className={styles.section}>
         <div className={styles.in}>
           <p className={styles.eyebrow}>How it&rsquo;ll work</p>
-          <h2 className={styles.h2}>Three steps, about a minute</h2>
+          <h2 className={styles.h2}>Three steps</h2>
           <ol className={styles.steps}>
             {STEPS.map((text, i) => (
               <li key={text}>
@@ -328,7 +328,7 @@ export function CloudPage() {
             <span className={styles.note}>business@gryt.chat</span>
           </div>
           <p className={styles.note} style={{ marginTop: 20 }}>
-            Already running Gryt yourself? Business push and support are available for your own server too.{" "}
+            Running Gryt yourself? We also sell business push and support for your own server.{" "}
             <a href={`${MAIL}?subject=Business%20push%20and%20support`}>Ask about a plan</a>.
           </p>
         </div>

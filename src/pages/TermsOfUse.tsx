@@ -146,6 +146,20 @@ export function TermsOfUse() {
           content beyond what is necessary to operate the authentication service.
         </p>
 
+        <h2>The Gryt Cloud waitlist offer</h2>
+        <p>
+          If you join the Gryt Cloud waitlist on gryt.chat/cloud before Gryt Cloud
+          opens, you get 50% off the first three months of one Gryt Cloud server.
+          It applies to monthly and yearly billing: on yearly, the discount comes
+          off the first three months of the year. We send you a code in the email
+          when Gryt Cloud opens. One code per email address, and it can&rsquo;t be
+          exchanged for money.
+        </p>
+        <p>
+          Prices and plans can still change before launch. The discount is taken
+          from the price on the day you buy.
+        </p>
+
         <h2>Disclaimer of warranties</h2>
         <p>
           Our services are provided <strong>"as is"</strong> and{" "}
