@@ -117,6 +117,9 @@ export function Navbar() {
             <a href="https://app.gryt.chat" className={styles.openApp}>
               {actions.openApp.label}
             </a>
+            <Button render={<Link to="/download" />} size="small">
+              Download
+            </Button>
           </div>
         </div>
 

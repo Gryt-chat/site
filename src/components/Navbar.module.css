@@ -438,63 +438,6 @@
   .mobileDownload { display: inline-flex; margin-left: auto; }
 }
 
-/* The live download button.
-   The version used to sit after the platform and made the bar too wide, so it
-   is only the verb and the platform now. `nowrap` because a clickable label on
-   two lines reads as a styling bug. */
-.download span {
-  white-space: nowrap;
-}
-
-/* The badge or the file, then the arrow to the download section. */
-.downloadActions {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-/* 40px, past Microsoft's 32px floor, in a 68px bar. */
-.badge {
-  --badge-height: 40px;
-}
-
-.allPlatforms {
-  border: 1px solid var(--border);
-  background: var(--bg-card);
-  color: var(--text);
-}
-
-.allPlatforms:hover {
-  border-color: var(--text-dimmer);
-  background: var(--gryt-surface-hover, var(--bg-card));
-  color: var(--text);
-}
-
-/* The slot the button's width is animated on.
-
-   `clip` and not `hidden`: `hidden` makes a scroll container, and this sits
-   inside a `position: fixed` bar — the same reason index.css clips `html, body`
-   rather than hiding. The clip margin keeps the focus ring, which is 2px at 3px
-   offset, from being cut off with the overflow. */
-.downloadSlot {
-  overflow: clip;
-  overflow-clip-margin: 8px;
-  flex: none;
-}
-
-/* Only once a real width has been measured. The first commit writes the
-   starting width and must land without a transition, or the button grows out of
-   nothing on page load. */
-.downloadSlot[data-settled] {
-  transition: width 420ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-/* Measured here. It must never be the thing being animated, or the observer
-   would be watching its own output. */
-.downloadInner {
-  width: max-content;
-}
-
 /* @gryt/ui's tab indicator is `motion-reduce:transition-none`, and this is the
    same mark doing the same job. It still moves — it just arrives. */
 @media (prefers-reduced-motion: reduce) {
