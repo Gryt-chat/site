@@ -157,7 +157,7 @@ export function CloudPage() {
       </section>
 
       <section className={styles.section}>
-        <div className={styles.in} style={{ maxWidth: 900 }}>
+        <div className={styles.in}>
           <p className={styles.eyebrow}>Gryt Cloud or your own machine</p>
           <h2 className={styles.h2}>Same Gryt, either way</h2>
           <p className={styles.sub}>Running it yourself stays free. Gryt Cloud is for when you&rsquo;d rather not keep a machine on.</p>
@@ -185,7 +185,7 @@ export function CloudPage() {
       </section>
 
       <section className={styles.section}>
-        <div className={styles.in} style={{ maxWidth: 760 }}>
+        <div className={styles.in}>
           <p className={styles.eyebrow}>How it&rsquo;ll work</p>
           <h2 className={styles.h2}>Three steps, about a minute</h2>
           <ol className={styles.steps}>
@@ -230,7 +230,7 @@ export function CloudPage() {
       </section>
 
       <section className={styles.section}>
-        <div className={styles.in} style={{ maxWidth: 760 }}>
+        <div className={styles.in}>
           <p className={styles.eyebrow}>Questions</p>
           <h2 className={styles.h2}>Before you sign up</h2>
           <dl className={styles.faq}>

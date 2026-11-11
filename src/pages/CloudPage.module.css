@@ -1,4 +1,4 @@
-.hero { padding: 164px 24px 0; }
+.hero { padding: 164px 24px 100px; }
 .section { border-top: 1px solid var(--border); padding: 100px 24px; }
 .in { max-width: var(--max-w, 1100px); margin: 0 auto; }
 
@@ -78,7 +78,7 @@
 
 
 @media (max-width: 820px) {
-  .hero { padding: 116px 16px 0; }
+  .hero { padding: 116px 16px 68px; }
   .section { padding: 68px 16px; }
   .row { flex-direction: column; }
 }
@@ -149,3 +149,8 @@
   .compare td { padding: 12px 10px; font-size: 14.5px; }
   .heroGrid { gap: 36px; }
 }
+
+/* One left edge for every section; narrow sections narrow their content, not their container. */
+.steps,
+.faq { max-width: 760px; }
+.tableWrap { max-width: 900px; }
