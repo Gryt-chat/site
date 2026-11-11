@@ -172,9 +172,7 @@ export function FeaturesPage() {
         <h2 className={styles.missingTitle}>Missing something?</h2>
         <p className={styles.cardText}>
           Ask for it in the app under Give feedback, or on the{" "}
-          <a href="https://gryt.chat/community">community server</a>. The{" "}
-          <a href="https://docs.gryt.chat/docs/about/roadmap">roadmap in the docs</a> has the
-          full list of what&rsquo;s planned.
+          <a href="https://gryt.chat/community">community server</a>.
         </p>
       </section>
     </main>

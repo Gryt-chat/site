@@ -1,188 +1,35 @@
-import { useState, useCallback, useEffect, useLayoutEffect, useRef } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Button, Dialog, IconButton, Tooltip } from "@gryt/ui";
-import { MdArrowDownward } from "react-icons/md";
+import { useState, useCallback } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { Accordion, Button, Dialog } from "@gryt/ui";
 import { GrytLogo } from "./GrytLogo";
-import { StoreBadge } from "./StoreBadge";
-import { actions, community, getGoing, navBar, reading, type SiteLink } from "../data/siteLinks";
-import { STORES } from "../lib/releases";
-import { useDetectedOS } from "../lib/useDetectedOS";
-import { useLatestDownload } from "../lib/useLatestDownload";
+import { actions, footerGroups, legal, navBar, type SiteLink } from "../data/siteLinks";
 import { usePathname } from "../lib/usePathname";
 import { useTravellingUnderline } from "./useTravellingUnderline";
 import styles from "./Navbar.module.css";
 
-/**
- * Both lists come out of `src/data/siteLinks.ts`. The bar carries four: six links plus two
- * buttons is a directory rather than a decision, so the rest wait in the sheet.
- */
-const navLinks = navBar.map((l) => ({
-  href: l.href,
-  label: l.label,
-  external: !l.route,
-  isRoute: !!l.route,
-}));
-
-/**
- * By label rather than by index. `getGoing[3]` would keep compiling and quietly point
- * somewhere else the day somebody reorders the list.
- */
-const pick = (from: SiteLink[], label: string): SiteLink | null => {
-  const hit = from.find((l) => l.label === label);
-  if (!hit) {
-    // Warn and drop, rather than throw. Throwing took the whole site down over one renamed
-    // footer link while `yarn build` stayed green, because it never renders a component.
-    console.warn(`siteLinks has no "${label}" — the navbar expected one and dropped it`);
-    return null;
-  }
-  return hit;
-};
-
 const asNav = (l: SiteLink) => ({
   href: l.href,
   label: l.label,
+  tag: l.tag,
   external: !l.route,
   isRoute: !!l.route,
 });
 
-/* The sheet keeps everything the bar dropped. There is no width argument on a
-   full-height sheet, so nothing has to lose. */
-const sheetLinks = [
-  ...navLinks,
-  ...[
-    pick(getGoing, "Docs"),
-    pick(reading, "Compared"),
-    pick(reading, "Blog"),
-    pick(reading, "Changelog"),
-    pick(community, "Feedback"),
-  ]
-    .filter((l): l is SiteLink => l !== null)
-    .map(asNav),
-  { href: "https://github.com/Gryt-chat/gryt", label: "GitHub", external: true, isRoute: false },
-];
+const navLinks = navBar.map(asNav);
 
-/**
- * The store badge for your platform where that store is open, otherwise the file, and an arrow
- * to every other way. Until detection and the release call land, it says "Download" and scrolls.
- */
-function DownloadAction() {
-  const detected = useDetectedOS();
-  const { osName, option } = useLatestDownload();
-  const location = useLocation();
-  const navigate = useNavigate();
+const GITHUB_URL = "https://github.com/Gryt-chat/gryt";
 
-  const store = STORES.find((s) => s.os === detected && s.url) ?? null;
-  const file = detected && !store ? option : null;
-
-  /**
-   * The label grows when the release call lands, so the width is measured and transitioned
-   * in CSS — motion's rAF loop is throttled to nothing in a background tab.
-   */
-  const inner = useRef<HTMLDivElement>(null);
-  const measured = useRef(false);
-  const [width, setWidth] = useState<number | null>(null);
-  const [settled, setSettled] = useState(false);
-
-  /**
-   * On commit, synchronously, before the browser paints. A ResizeObserver is delivered as
-   * part of the rendering steps, so in a tab that is not rendering it never fires.
-   */
-  useLayoutEffect(() => {
-    const el = inner.current;
-    if (!el) return;
-    setWidth(el.offsetWidth);
-    setSettled(measured.current);
-    measured.current = true;
-  }, [store, file, osName]);
-
-  /**
-   * And then the reflows React cannot see: the variable font finishing loading and every
-   * label getting a pixel wider. Supplementary — everything above holds without it.
-   */
-  useEffect(() => {
-    const el = inner.current;
-    if (!el || typeof ResizeObserver === "undefined") return;
-    const ro = new ResizeObserver(() => setWidth(el.offsetWidth));
-    ro.observe(el);
-    return () => ro.disconnect();
-  }, []);
-
-  const toSection = (e: React.MouseEvent) => {
-    e.preventDefault();
-    if (location.pathname !== "/") {
-      navigate("/#download");
-      return;
-    }
-    // In the address bar too, so a reload or a shared link lands here.
-    navigate({ hash: "#download" }, { replace: true });
-    document.getElementById("download")?.scrollIntoView({ behavior: "smooth" });
-  };
-
-  return (
-    <div
-      className={styles.downloadSlot}
-      data-settled={settled ? "" : undefined}
-      style={width != null ? { width } : undefined}
-    >
-      <div className={styles.downloadInner} ref={inner}>
-        {store || file ? (
-          <div className={styles.downloadActions}>
-            {store && <StoreBadge store={store} className={styles.badge} />}
-            {file && (
-              <Button
-                render={<a href={file.url} download />}
-                size="small"
-                className={styles.download}
-              >
-                <MdArrowDownward size={15} aria-hidden="true" />
-                <span>Download for {osName}</span>
-              </Button>
-            )}
-            <Tooltip title="All platforms" side="bottom">
-              <IconButton
-                aria-label="All platforms"
-                className={styles.allPlatforms}
-                onClick={toSection}
-                render={<a href="#download" />}
-                size="small"
-              >
-                <MdArrowDownward size={18} aria-hidden="true" />
-              </IconButton>
-            </Tooltip>
-          </div>
-        ) : (
-          <Button onClick={toSection} render={<a href="#download" />} size="small">
-            Download
-          </Button>
-        )}
-      </div>
-    </div>
-  );
-}
+const isAt = (page: string, l: SiteLink) => !!l.route && page === l.href;
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
   const location = useLocation();
   const page = usePathname();
-  const navigate = useNavigate();
   const { listRef, at, settled } = useTravellingUnderline<HTMLUListElement>(
     location.pathname,
   );
 
   const close = useCallback(() => setOpen(false), []);
-
-  const scrollToDownload = useCallback(
-    (e: React.MouseEvent) => {
-      e.preventDefault();
-      if (location.pathname !== "/") {
-        navigate("/#download");
-        return;
-      }
-      navigate({ hash: "#download" }, { replace: true });
-      document.getElementById("download")?.scrollIntoView({ behavior: "smooth" });
-    },
-    [location.pathname, navigate],
-  );
 
   const handleBrandClick = useCallback(
     (e: React.MouseEvent) => {
@@ -198,7 +45,7 @@ export function Navbar() {
     <nav className={styles.nav}>
       <div className={styles.inner}>
         <Link to="/" className={styles.brand} onClick={handleBrandClick}>
-          <GrytLogo size={32} />
+          <GrytLogo size={30} />
           Gryt
         </Link>
 
@@ -219,6 +66,7 @@ export function Navbar() {
                     aria-current={page === link.href ? "page" : undefined}
                   >
                     {link.label}
+                    {link.tag && <span className={styles.tag}>{link.tag}</span>}
                   </Link>
                 ) : link.external ? (
                   <a
@@ -254,19 +102,10 @@ export function Navbar() {
             />
           </ul>
 
-          <span aria-hidden="true" className={styles.rule} />
-
-          <a href="https://app.gryt.chat" className={styles.openApp}>
-            {actions.openApp.label}
-          </a>
-
-          {/* shrink-0 on the wrapper, not the button: it is the flex item, and
-              a flex item squeezed below its content takes its children with
-              it. Gryt UI's small button is a shade wider than the hand-rolled
-              one it replaced, which was enough to tip the row over and clip
-              the label to "Downloa". */}
-          <div className="shrink-0">
-            <DownloadAction />
+          <div className={styles.actionsRight}>
+            <Button render={<Link to="/download" />} size="small">
+              Download
+            </Button>
           </div>
         </div>
 
@@ -274,8 +113,7 @@ export function Navbar() {
             is in the drawer, opened from the Thumb on the right edge (GRYT-1708). */}
         <Button
           className={styles.mobileDownload}
-          onClick={scrollToDownload}
-          render={<a href="#download" />}
+          render={<Link to="/download" />}
           size="small"
         >
           Download
@@ -301,41 +139,41 @@ export function Navbar() {
                 render={<button type="button" />}
               />
 
+              {/* The footer's groups. The one holding this page starts open, the rest show a count. */}
               <nav className={styles.sheetNav}>
-                {sheetLinks.map((link) => {
-                  const isActive =
-                    link.isRoute && page === link.href;
-                  return link.isRoute ? (
-                    <Link
-                      key={link.href}
-                      to={link.href}
-                      className={`${styles.sheetLink} ${isActive ? styles.active : ""}`}
-                      onClick={close}
-                    >
-                      {link.label}
-                    </Link>
-                  ) : link.external ? (
-                    <a
-                      key={link.href}
-                      href={link.href}
-                      target="_blank"
-                      rel="noreferrer"
-                      className={styles.sheetLink}
-                      onClick={close}
-                    >
-                      {link.label}
-                    </a>
-                  ) : (
-                    <a
-                      key={link.href}
-                      href={link.href}
-                      className={styles.sheetLink}
-                      onClick={close}
-                    >
-                      {link.label}
-                    </a>
-                  );
-                })}
+                <Accordion
+                  className={styles.sheetGroups}
+                  defaultValue={[
+                    (footerGroups.find((g) => g.links.some((l) => isAt(page, l))) ?? footerGroups[0]).title,
+                  ]}
+                >
+                  {footerGroups.map((group) => (
+                    <Accordion.Item key={group.title} value={group.title} className={styles.sheetGroup}>
+                      <Accordion.Trigger className={styles.sheetGroupTitle}>
+                        {group.title}
+                        <span className={styles.sheetCount}>{group.links.length}</span>
+                      </Accordion.Trigger>
+                      <Accordion.Panel>
+                        {group.links.map((link) =>
+                          link.route ? (
+                            <Link
+                              key={link.href}
+                              to={link.href}
+                              className={`${styles.sheetLink} ${isAt(page, link) ? styles.active : ""}`}
+                              onClick={close}
+                            >
+                              {link.label}
+                            </Link>
+                          ) : (
+                            <a key={link.href} href={link.href} className={styles.sheetLink} onClick={close}>
+                              {link.label}
+                            </a>
+                          ),
+                        )}
+                      </Accordion.Panel>
+                    </Accordion.Item>
+                  ))}
+                </Accordion>
               </nav>
 
               <div className={styles.sheetFooter}>
@@ -348,14 +186,21 @@ export function Navbar() {
                 </a>
                 <Button
                   className="w-full"
-                  onClick={(e) => {
-                    scrollToDownload(e);
-                    close();
-                  }}
-                  render={<a href="#download" />}
+                  onClick={close}
+                  render={<Link to="/download" />}
                 >
                   Download
                 </Button>
+                <p className={styles.sheetSmall}>
+                  {legal.slice(0, 2).map((l) => (
+                    <Link key={l.href} to={l.href} onClick={close}>
+                      {l.label}
+                    </Link>
+                  ))}
+                  <a href={GITHUB_URL} target="_blank" rel="noreferrer">
+                    GitHub
+                  </a>
+                </p>
               </div>
             </Dialog.Popup>
           </Dialog.Portal>

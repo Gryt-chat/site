@@ -22,7 +22,7 @@ const ROWS: RowItem[] = [
   {
     name: "The roadmap",
     detail: "What is planned, what is not, and roughly in what order.",
-    href: `${DOCS}/about/roadmap`,
+    href: "/features#next-title",
   },
   {
     name: "Feature requests",

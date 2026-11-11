@@ -1,6 +1,6 @@
 /**
- * Every destination the site chrome can point at, in one place. The nav and the footer had
- * their own copies and drifted; the groups sort by what somebody is trying to do.
+ * Every destination the site chrome can point at, in one place. The footer columns and the
+ * mobile sheet both come from `footerGroups`; the bar picks from the same links.
  */
 
 export interface SiteLink {
@@ -10,69 +10,31 @@ export interface SiteLink {
   route?: boolean
   /** `rel="me"` for identity verification. Mastodon needs it. */
   relMe?: boolean
+  /** A small pill after the label in the bar, e.g. "Soon". */
+  tag?: string
 }
 
-/**
- * The links two lists share, named rather than indexed. `navBar` was built as `reading[0]`
- * and `getGoing[3]`, so adding a link to the middle silently moved another one.
- */
-const openInBrowser: SiteLink = { label: 'Open in browser', href: 'https://app.gryt.chat' }
 const download: SiteLink = { label: 'Download', href: '/download', route: true }
+const openInBrowser: SiteLink = { label: 'Open in browser', href: 'https://app.gryt.chat' }
 const selfHosting: SiteLink = { label: 'Self-hosting', href: '/self-hosting', route: true }
-const developers: SiteLink = { label: 'Developers', href: '/developers', route: true }
-const built: SiteLink = { label: 'Built with Gryt', href: '/built', route: true }
-const docs: SiteLink = { label: 'Docs', href: 'https://docs.gryt.chat/docs' }
-const roadmap: SiteLink = { label: 'Roadmap', href: 'https://docs.gryt.chat/docs/about/roadmap' }
+const cloud: SiteLink = { label: 'Gryt Cloud', href: '/cloud', route: true, tag: 'Soon' }
 const whyGryt: SiteLink = { label: 'Why Gryt?', href: '/why-gryt', route: true }
-const compared: SiteLink = { label: 'Compared', href: '/compare', route: true }
 const features: SiteLink = { label: 'Features', href: '/features', route: true }
+const compared: SiteLink = { label: 'Compared', href: '/compare', route: true }
+const blog: SiteLink = { label: 'Blog', href: '/blog', route: true }
+const changelog: SiteLink = { label: 'Changelog', href: '/changelog', route: true }
+const support: SiteLink = { label: 'Support', href: '/support', route: true }
+const docs: SiteLink = { label: 'Docs', href: 'https://docs.gryt.chat/docs' }
+const developers: SiteLink = { label: 'Developers', href: '/developers', route: true }
+const ourServer: SiteLink = { label: 'Our Gryt server', href: 'https://gryt.chat/community' }
+const feedback: SiteLink = { label: 'Feedback', href: 'https://feedback.gryt.chat' }
+const sponsor: SiteLink = { label: 'Sponsor Gryt', href: '/sponsor', route: true }
 
-/**
- * Do the thing. The two that matter most are lifted out as `actions` below, and
- * "Self-host guide" goes to /self-hosting rather than straight to the quick-start.
- */
-export const getGoing: SiteLink[] = [
-  openInBrowser,
-  download,
-  selfHosting,
-  developers,
-  built,
-  docs,
-  { label: 'Support', href: '/support', route: true },
-  roadmap,
-]
-
-/** Read about it. This is where Blog belongs, and where it was missing from. */
-export const reading: SiteLink[] = [
-  whyGryt,
-  features,
-  compared,
-  { label: 'Blog', href: '/blog', route: true },
-  { label: 'Changelog', href: '/changelog', route: true },
-  { label: 'Sponsors', href: '/sponsors', route: true },
-]
-
-/** Talk to somebody. Our own server first; Discord stays as the fallback until GRYT-1289. */
-export const community: SiteLink[] = [
-  { label: 'Our Gryt server', href: 'https://gryt.chat/community' },
-  { label: 'Discord', href: 'https://gryt.chat/discord' },
-  { label: 'Mastodon', href: 'https://mastodon.social/@gryt', relMe: true },
-  { label: 'Bluesky', href: 'https://bsky.app/profile/gryt.chat' },
-  { label: 'Reddit', href: 'https://www.reddit.com/r/Gryt/' },
-  { label: 'Feedback', href: 'https://feedback.gryt.chat' },
-]
-
-/**
- * Read the thing. Named for what each one is rather than what the directory is called:
- * somebody who has never seen this project does not know what an SFU is.
- */
-export const source: SiteLink[] = [
-  { label: 'Everything', href: 'https://github.com/Gryt-chat/gryt' },
-  { label: 'The app', href: 'https://github.com/Gryt-chat/client' },
-  { label: 'The server', href: 'https://github.com/Gryt-chat/server' },
-  { label: 'Voice server', href: 'https://github.com/Gryt-chat/sfu' },
-  { label: 'Logins', href: 'https://github.com/Gryt-chat/auth' },
-  { label: 'Image handling', href: 'https://github.com/Gryt-chat/image-worker' },
+export const footerGroups: { title: string; links: SiteLink[] }[] = [
+  { title: 'Get Gryt', links: [download, openInBrowser, selfHosting, cloud] },
+  { title: 'Learn', links: [whyGryt, features, compared, blog, changelog] },
+  { title: 'Help', links: [support, docs, developers] },
+  { title: 'Community', links: [ourServer, feedback, sponsor] },
 ]
 
 /** The small print. Never in the nav, always at the very bottom. */
@@ -82,33 +44,13 @@ export const legal: SiteLink[] = [
   { label: 'Guidelines', href: '/community-guidelines', route: true },
   { label: 'Security', href: '/security', route: true },
   { label: 'AI policy', href: 'https://docs.gryt.chat/docs/about/ai' },
-  { label: 'Business inquiries', href: 'mailto:business@gryt.chat' },
 ]
 
-/**
- * What the bar carries, as opposed to the sheet and the footer. Four, and at its limit.
- * "Compared" came out for the audience pages, and Docs for Features; both are in the sheet.
- */
-export const navBar: SiteLink[] = [whyGryt, features, developers, selfHosting]
+/** Four links and one button (Download). Everything else lives in the footer. */
+export const navBar: SiteLink[] = [features, selfHosting, cloud, developers, blog]
 
 /** The two the whole site is for. Buttons, never text links. */
 export const actions = {
   openApp: { label: 'Open in browser', href: 'https://app.gryt.chat' } satisfies SiteLink,
   download: { label: 'Download', href: '#download' } satisfies SiteLink,
 }
-
-/**
- * The tagline the chrome carries. It used to say which shelf Gryt is on and nothing else;
- * the front page no longer opens that way and the footer should not either.
- */
-export const tagline =
-  'Voice, video and text chat that belongs to you. The app you download is also the server, and joining one asks nothing of you.'
-
-/** Flat, for anything that searches rather than groups. */
-export const allLinks: { group: string; links: SiteLink[] }[] = [
-  { group: 'Read', links: reading },
-  { group: 'Get going', links: getGoing },
-  { group: 'Source', links: source },
-  { group: 'Community', links: community },
-  { group: 'Legal', links: legal },
-]
