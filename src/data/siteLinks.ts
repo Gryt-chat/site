@@ -1,6 +1,6 @@
 /**
- * Every destination the site chrome can point at, in one place. The footer columns come
- * straight from `footerGroups`; the bar and the mobile sheet pick from the same links.
+ * Every destination the site chrome can point at, in one place. The footer columns and the
+ * mobile sheet both come from `footerGroups`; the bar picks from the same links.
  */
 
 export interface SiteLink {
@@ -34,9 +34,6 @@ export const footerGroups: { title: string; links: SiteLink[] }[] = [
   { title: 'Help', links: [support, docs, developers] },
   { title: 'Community', links: [ourServer, feedback, sponsor] },
 ]
-
-/** What the mobile sheet adds under the bar's links. */
-export const sheetExtras: SiteLink[] = [docs, compared, changelog, support, feedback]
 
 /** The small print. Never in the nav, always at the very bottom. */
 export const legal: SiteLink[] = [

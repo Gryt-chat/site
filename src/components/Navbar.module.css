@@ -302,7 +302,7 @@
   overflow: visible;
   gap: 0;
   z-index: 201;
-  width: min(62vw, 260px);
+  width: min(82vw, 300px);
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -344,9 +344,49 @@
   overflow-y: auto;
 }
 
+/* Doubled to beat Gryt UI's own border, fill and padding on the root. */
+.sheetGroups.sheetGroups {
+  gap: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+}
+
+.sheetGroup + .sheetGroup {
+  border-top: 1px solid var(--border);
+}
+
+.sheetGroupTitle.sheetGroupTitle {
+  min-height: 52px;
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.sheetCount {
+  margin-left: auto;
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--text-dim);
+}
+
+.sheetGroupTitle[data-panel-open] .sheetCount {
+  visibility: hidden;
+}
+
+.sheetSmall {
+  display: flex;
+  gap: 14px;
+  margin: 14px 4px 0;
+  font-size: 12.5px;
+}
+
+.sheetSmall a {
+  color: var(--text-dim) !important;
+}
+
 .sheetLink {
   display: block;
-  padding: 12px 16px;
+  padding: 11px 12px 11px 20px;
   font-size: 15px;
   font-weight: 500;
   color: var(--text-dim) !important;

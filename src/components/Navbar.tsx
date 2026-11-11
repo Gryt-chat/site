@@ -1,8 +1,8 @@
 import { useState, useCallback } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Button, Dialog } from "@gryt/ui";
+import { Accordion, Button, Dialog } from "@gryt/ui";
 import { GrytLogo } from "./GrytLogo";
-import { actions, navBar, sheetExtras, type SiteLink } from "../data/siteLinks";
+import { actions, footerGroups, legal, navBar, type SiteLink } from "../data/siteLinks";
 import { usePathname } from "../lib/usePathname";
 import { useTravellingUnderline } from "./useTravellingUnderline";
 import styles from "./Navbar.module.css";
@@ -16,12 +16,9 @@ const asNav = (l: SiteLink) => ({
 
 const navLinks = navBar.map(asNav);
 
-/* The sheet keeps everything the bar dropped. */
-const sheetLinks = [
-  ...navLinks,
-  ...sheetExtras.map(asNav),
-  { href: "https://github.com/Gryt-chat/gryt", label: "GitHub", external: true, isRoute: false },
-];
+const GITHUB_URL = "https://github.com/Gryt-chat/gryt";
+
+const isAt = (page: string, l: SiteLink) => !!l.route && page === l.href;
 
 /** The outline heart from the home page design (v8). */
 function HeartIcon({ size = 14 }: { size?: number }) {
@@ -153,41 +150,41 @@ export function Navbar() {
                 render={<button type="button" />}
               />
 
+              {/* The footer's groups. The one holding this page starts open, the rest show a count. */}
               <nav className={styles.sheetNav}>
-                {sheetLinks.map((link) => {
-                  const isActive =
-                    link.isRoute && page === link.href;
-                  return link.isRoute ? (
-                    <Link
-                      key={link.href}
-                      to={link.href}
-                      className={`${styles.sheetLink} ${isActive ? styles.active : ""}`}
-                      onClick={close}
-                    >
-                      {link.label}
-                    </Link>
-                  ) : link.external ? (
-                    <a
-                      key={link.href}
-                      href={link.href}
-                      target="_blank"
-                      rel="noreferrer"
-                      className={styles.sheetLink}
-                      onClick={close}
-                    >
-                      {link.label}
-                    </a>
-                  ) : (
-                    <a
-                      key={link.href}
-                      href={link.href}
-                      className={styles.sheetLink}
-                      onClick={close}
-                    >
-                      {link.label}
-                    </a>
-                  );
-                })}
+                <Accordion
+                  className={styles.sheetGroups}
+                  defaultValue={[
+                    (footerGroups.find((g) => g.links.some((l) => isAt(page, l))) ?? footerGroups[0]).title,
+                  ]}
+                >
+                  {footerGroups.map((group) => (
+                    <Accordion.Item key={group.title} value={group.title} className={styles.sheetGroup}>
+                      <Accordion.Trigger className={styles.sheetGroupTitle}>
+                        {group.title}
+                        <span className={styles.sheetCount}>{group.links.length}</span>
+                      </Accordion.Trigger>
+                      <Accordion.Panel>
+                        {group.links.map((link) =>
+                          link.route ? (
+                            <Link
+                              key={link.href}
+                              to={link.href}
+                              className={`${styles.sheetLink} ${isAt(page, link) ? styles.active : ""}`}
+                              onClick={close}
+                            >
+                              {link.label}
+                            </Link>
+                          ) : (
+                            <a key={link.href} href={link.href} className={styles.sheetLink} onClick={close}>
+                              {link.label}
+                            </a>
+                          ),
+                        )}
+                      </Accordion.Panel>
+                    </Accordion.Item>
+                  ))}
+                </Accordion>
               </nav>
 
               <div className={styles.sheetFooter}>
@@ -205,6 +202,16 @@ export function Navbar() {
                 >
                   Download
                 </Button>
+                <p className={styles.sheetSmall}>
+                  {legal.slice(0, 2).map((l) => (
+                    <Link key={l.href} to={l.href} onClick={close}>
+                      {l.label}
+                    </Link>
+                  ))}
+                  <a href={GITHUB_URL} target="_blank" rel="noreferrer">
+                    GitHub
+                  </a>
+                </p>
               </div>
             </Dialog.Popup>
           </Dialog.Portal>
