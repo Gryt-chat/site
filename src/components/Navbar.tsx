@@ -10,6 +10,7 @@ import styles from "./Navbar.module.css";
 const asNav = (l: SiteLink) => ({
   href: l.href,
   label: l.label,
+  tag: l.tag,
   external: !l.route,
   isRoute: !!l.route,
 });
@@ -65,6 +66,7 @@ export function Navbar() {
                     aria-current={page === link.href ? "page" : undefined}
                   >
                     {link.label}
+                    {link.tag && <span className={styles.tag}>{link.tag}</span>}
                   </Link>
                 ) : link.external ? (
                   <a

@@ -10,12 +10,14 @@ export interface SiteLink {
   route?: boolean
   /** `rel="me"` for identity verification. Mastodon needs it. */
   relMe?: boolean
+  /** A small pill after the label in the bar, e.g. "Soon". */
+  tag?: string
 }
 
 const download: SiteLink = { label: 'Download', href: '/download', route: true }
 const openInBrowser: SiteLink = { label: 'Open in browser', href: 'https://app.gryt.chat' }
 const selfHosting: SiteLink = { label: 'Self-hosting', href: '/self-hosting', route: true }
-const business: SiteLink = { label: 'For businesses', href: '/business', route: true }
+const cloud: SiteLink = { label: 'Gryt Cloud', href: '/business', route: true, tag: 'Soon' }
 const whyGryt: SiteLink = { label: 'Why Gryt?', href: '/why-gryt', route: true }
 const features: SiteLink = { label: 'Features', href: '/features', route: true }
 const compared: SiteLink = { label: 'Compared', href: '/compare', route: true }
@@ -29,7 +31,7 @@ const feedback: SiteLink = { label: 'Feedback', href: 'https://feedback.gryt.cha
 const sponsor: SiteLink = { label: 'Sponsor Gryt', href: '/sponsor', route: true }
 
 export const footerGroups: { title: string; links: SiteLink[] }[] = [
-  { title: 'Get Gryt', links: [download, openInBrowser, selfHosting, business] },
+  { title: 'Get Gryt', links: [download, openInBrowser, selfHosting, cloud] },
   { title: 'Learn', links: [whyGryt, features, compared, blog, changelog] },
   { title: 'Help', links: [support, docs, developers] },
   { title: 'Community', links: [ourServer, feedback, sponsor] },
@@ -45,7 +47,7 @@ export const legal: SiteLink[] = [
 ]
 
 /** Four links and one button (Download). Everything else lives in the footer. */
-export const navBar: SiteLink[] = [whyGryt, features, blog, selfHosting]
+export const navBar: SiteLink[] = [features, selfHosting, cloud, developers, blog]
 
 /** The two the whole site is for. Buttons, never text links. */
 export const actions = {
