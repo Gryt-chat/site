@@ -4,7 +4,18 @@ import { COVERED_BY_SPONSORS_EUR, RUNNING_TOTAL_EUR, eur } from "../../data/runn
 import { posts } from "../../lib/blog";
 import { listReleases } from "../../lib/changelog";
 import { dayMonthYear } from "../../lib/formatDate";
-import { PiBookOpenDuotone, PiBugDuotone, PiChatsCircleDuotone, PiGitBranchDuotone } from "react-icons/pi";
+import {
+  PiArrowSquareInDuotone,
+  PiBookOpenDuotone,
+  PiBugDuotone,
+  PiChatsCircleDuotone,
+  PiGitBranchDuotone,
+  PiPaletteDuotone,
+  PiPuzzlePieceDuotone,
+  PiSmileyDuotone,
+  PiUserCircleDuotone,
+  PiWifiHighDuotone,
+} from "react-icons/pi";
 import styles from "./Front.module.css";
 
 const DAY_MONTH = new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "long", timeZone: "UTC" });
@@ -95,6 +106,34 @@ export function Why() {
               <h3 className={styles.h3}>{title}</h3>
               <p className={styles.whyText}>{text}</p>
             </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+const FEATURES = [
+  { Icon: PiPaletteDuotone, title: "Themes", text: "Built-in themes, or build your own and share it as a link.", to: "/features" },
+  { Icon: PiSmileyDuotone, title: "Your own emoji", text: "Upload them, import a ZIP or pull a set from emoji.gg, animated ones too.", to: "/features" },
+  { Icon: PiWifiHighDuotone, title: "LAN party mode", text: "Find servers on your network and let people in without invite codes.", to: "/features" },
+  { Icon: PiUserCircleDuotone, title: "An account is optional", text: "Join with a guest identity that fits in a password manager.", to: "/why-gryt" },
+  { Icon: PiArrowSquareInDuotone, title: "Bring your Discord DMs", text: "Drop in Discord's data package and your side of a chat comes across, encrypted.", to: "/features" },
+  { Icon: PiPuzzlePieceDuotone, title: "Bots and addons", text: "Build on Gryt with bots, client addons and server plugins.", to: "/developers" },
+];
+
+export function Features() {
+  return (
+    <section className={styles.section}>
+      <div className={styles.in}>
+        <Head eyebrow="Features" title="What else is in it" more={{ label: "See every feature", to: "/features" }} />
+        <div className={styles.features}>
+          {FEATURES.map(({ Icon, title, text, to }) => (
+            <Link key={title} className={`${styles.card} ${styles.involve}`} to={to}>
+              <span className={styles.icon}><Icon size={22} /></span>
+              <span className={styles.involveTitle}>{title}</span>
+              <span className={styles.involveText}>{text}</span>
+            </Link>
           ))}
         </div>
       </div>

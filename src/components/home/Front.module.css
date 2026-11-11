@@ -1,4 +1,4 @@
-/* v8 of the home page design: news, releases, why, and how to get involved. */
+/* The home page after the hero: news, releases, why, features, and how to get involved. */
 
 .section {
   border-top: 1px solid var(--border);
@@ -199,6 +199,13 @@
   gap: 12px;
 }
 
+.features {
+  margin-top: 28px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
 .involve {
   padding: 20px;
   display: flex;
@@ -277,7 +284,8 @@
 
   .news,
   .why,
-  .involved {
+  .involved,
+  .features {
     grid-template-columns: minmax(0, 1fr);
   }
 
