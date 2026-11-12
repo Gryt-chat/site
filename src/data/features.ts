@@ -67,6 +67,8 @@ export const featureLines: FeatureLine[] = [
       { area: 'you', month: 'Nov 2026', title: 'A tour from the owl', text: 'Gryt’s owl flies over to each thing worth knowing and tells you what it’s for, on your computer and on your phone.' },
       { area: 'voice', month: 'Nov 2026', title: 'Quality on every share', text: 'A share you’re watching shows its resolution and frame rate, and hovering it shows the codec, bitrate and dropped frames.' },
       { area: 'you', month: 'Nov 2026', title: 'Sign in with your phone', text: 'The welcome screen shows a code. Scan it with your phone and your account, servers and messages come across, with every step shown on both screens.' },
+      { area: 'servers', month: 'Nov 2026', title: 'Old messages on a new device', text: 'Whoever runs the server decides whether it carries members’ old messages over to a device they link.' },
+      { area: 'chat', month: 'Nov 2026', title: 'Thanks in What’s new', text: 'When somebody reported a bug or asked for a change, What’s new names them under it.' },
       { area: 'voice', month: 'Nov 2026', title: 'Calls that ring', text: 'A call plays a ringtone until you answer, flashes the taskbar and shows a notification when Gryt is in the background.' },
       { area: 'you', month: 'Nov 2026', title: 'Your own sounds', text: 'Pick a ringtone and a message sound from the ones Gryt ships, or use your own file.' },
       { area: 'servers', month: 'Nov 2026', title: 'Bots ask before they get more', text: 'A bot that wants more permissions waits in Server settings until an admin approves the new ones.' },
