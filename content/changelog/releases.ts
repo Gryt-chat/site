@@ -5222,6 +5222,18 @@ export const app: ReleaseLine[] = [
  */
 export const server: ReleaseLine[] = [
   {
+    version: "1.12.10",
+    date: "2026-11-13",
+    line: "Someone whose connection to the server drops mid-call keeps their name in the call.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "voice",
+        text: "If your connection to the server dropped while your call kept going, everyone else still heard you, but the server forgot who you were. The phone showed you as \"Someone\". You now stay in the call under your own name until the call itself ends.",
+      },
+    ],
+  },
+  {
     version: "1.12.9",
     date: "2026-11-09",
     line: "When you link a new device, your old messages come across through your own server, never through Gryt.",
