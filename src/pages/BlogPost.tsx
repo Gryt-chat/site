@@ -9,6 +9,8 @@ import { pageTitle } from '../lib/title'
 import { PiArrowSquareOut } from 'react-icons/pi'
 import { LightboxImage } from '../components/Lightbox'
 import { PostNav } from '../components/PostNav'
+import { LatencyBars, LatencyPairs, LatencySpread } from '../components/LatencyChart'
+import { VoicePath } from '../components/VoicePath'
 import styles from './BlogPost.module.css'
 import type { ComponentPropsWithoutRef } from 'react'
 
@@ -49,7 +51,7 @@ function MermaidWrapper(props: { chart: string }) {
   )
 }
 
-const components = { a: MdxLink, img: MdxImage, Image: MdxImage, Mermaid: MermaidWrapper }
+const components = { a: MdxLink, img: MdxImage, Image: MdxImage, Mermaid: MermaidWrapper, LatencyBars, LatencyPairs, LatencySpread, VoicePath }
 
 export function BlogPost() {
   const { slug } = useParams<{ slug: string }>()
