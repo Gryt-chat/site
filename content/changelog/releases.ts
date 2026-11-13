@@ -176,6 +176,11 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.15.12",
+    date: "2026-11-13",
+    line: "Housekeeping only.",
+  },
+  {
     version: "1.15.11",
     date: "2026-11-11",
     line: "The drop hint goes away when you drop a file on the message box, and Minimize to tray works without an account.",
