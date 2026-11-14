@@ -176,6 +176,18 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.15.19",
+    date: "2026-11-14",
+    line: "When someone moves their key to a new device with their old one's approval, you no longer have to compare codes again.",
+    changes: [
+      {
+        kind: "changed",
+        area: "chat",
+        text: "A key change that the person's previous key signed, from linking a device or approving one, is trusted on its own. A reset or an admin wipe still asks you to compare codes.",
+      },
+    ],
+  },
+  {
     version: "1.15.18",
     date: "2026-11-14",
     line: "Member cards are tidier, and a call from someone whose key changed says so.",
@@ -5381,6 +5393,18 @@ export const app: ReleaseLine[] = [
  * So a reader here is usually somebody deciding whether to pull a new image.
  */
 export const server: ReleaseLine[] = [
+  {
+    version: "1.12.13",
+    date: "2026-11-14",
+    line: "Contacts can follow a key change your old device signed, without comparing codes.",
+    changes: [
+      {
+        kind: "changed",
+        area: "chat",
+        text: "The server keeps the note your old key signed when it handed over to a new one, and passes it to your contacts' apps so they can check it themselves.",
+      },
+    ],
+  },
   {
     version: "1.12.12",
     date: "2026-11-14",
