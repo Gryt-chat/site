@@ -176,6 +176,59 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.15.13",
+    date: "2026-11-14",
+    line: "Posts from X show properly, settings fit small windows, and a lot of small chat fixes.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A post from X showed up as a plain white box with the text in it. It shows as the real post now, in your light or dark theme.",
+        thanks: "Thanks to Harald for finding it!",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "Links you send yourself load their video or post straight away. Links from other people still ask first.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "In a narrow window, the \"Loads from youtube-nocookie.com\" box squeezed its text into one letter per line.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A custom emoji this server doesn't have, like :vance:, showed as its name in huge letters. It shows as a small \"?\" box now, with the name when you hover it.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "Reacting to a message no longer jumps the chat to the bottom.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "Reactions are spaced evenly with the heart centred, the add-reaction button only shows on hover, the buttons on a message have tooltips, and the emoji picker fits in a small window.",
+      },
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "Picking ringtones or message sounds one after another played them all on top of each other, and they kept playing after you closed settings.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "In a narrow window, settings and server settings open their list of pages from a menu button instead of squeezing it in.",
+      },
+      {
+        kind: "fixed",
+        area: "voice",
+        text: "In mini mode the call button was invisible, and the call slid in from the side before going up. You can see the button now, and the call slides up from the bottom across the full width.",
+      },
+    ],
+  },
+  {
     version: "1.15.12",
     date: "2026-11-13",
     line: "Housekeeping only.",
