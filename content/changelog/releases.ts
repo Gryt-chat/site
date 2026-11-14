@@ -176,6 +176,28 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.15.16",
+    date: "2026-11-14",
+    line: "QR codes look like the ones you're used to, and linking a device no longer leaves a server stuck on its old key.",
+    changes: [
+      {
+        kind: "changed",
+        area: "settings",
+        text: "QR codes for linking a device, signing in with your phone and your recovery words are dots with rounded corners and the owl in the middle.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "Linking a device that was set up before the one-key rule threw its old key away, and any server still using that key had to wait 30 days for a reset. It now hands those servers over to your account's key first.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "Custom emoji you'd reacted with before showed up as their names in the quick reaction row if the server didn't have them any more. They're left out now.",
+      },
+    ],
+  },
+  {
     version: "1.15.15",
     date: "2026-11-14",
     line: "A device waiting for its key to be approved tells you where to approve it, and the code to check.",
