@@ -176,6 +176,28 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.15.18",
+    date: "2026-11-14",
+    line: "Member cards are tidier, and a call from someone whose key changed says so.",
+    changes: [
+      {
+        kind: "changed",
+        area: "chat",
+        text: "Member cards no longer carry key codes and trust buttons. Comparing codes happens in the DM, and \"Send them your copy\" shows there after you trust a new key.",
+      },
+      {
+        kind: "new",
+        area: "voice",
+        text: "When someone whose key changed calls you, the ringing card tells you to compare codes on the call before you trust it's them.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "The line about a changed key now points at Compare codes instead of their card.",
+      },
+    ],
+  },
+  {
     version: "1.15.17",
     date: "2026-11-14",
     line: "Comparing codes with someone is one click from the chat, and a message waiting to send survives a restart.",
