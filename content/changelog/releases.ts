@@ -176,6 +176,48 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.15.19",
+    date: "2026-11-15",
+    line: "Friend requests pop up where you'll see them, every DM notice has a button that fixes it, and a device that's missing messages can ask the other person for their copy.",
+    changes: [
+      {
+        kind: "new",
+        area: "notifications",
+        text: "A friend request shows up as a toast with Accept and Decline, and as a system notification when Gryt isn't in front. The Messages button counts the requests waiting for you.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "If this device can't open some messages in a DM, or its older ones were cleared, \"Ask them for their copy\" sends the other person a request. Their app offers to send it, but only if they trust your key.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "Every DM notice now comes with a button that does something about it: Rejoin, Ask to be added again, Use my account's key, Remove unused devices, Compare codes, or Fix it on the key warning.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "When a message won't send, the error says what you can do about it.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "Ticking \"Include the app's recent log\" in a bug report attaches everything from the last five minutes, so the report shows what led up to the problem.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "Rejoin did nothing when this device had lost track of a DM. It now drops its broken copy and joins again.",
+      },
+      {
+        kind: "fixed",
+        area: "servers",
+        text: "A server's unread badge only counts channels set to Everything, so a channel on mentions only no longer bumps it.",
+      },
+    ],
+  },
+  {
     version: "1.15.18",
     date: "2026-11-14",
     line: "Moving your key to a new device no longer makes your contacts compare codes again, member cards are tidier, and a call from someone whose key changed says so.",
