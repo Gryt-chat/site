@@ -182,6 +182,11 @@ export const app: ReleaseLine[] = [
     changes: [
       {
         kind: "changed",
+        area: "servers",
+        text: "Permission settings show allow and deny as pills, and permissions that can hurt the server are marked with a red stripe on their row instead of a red fill.",
+      },
+      {
+        kind: "changed",
         area: "settings",
         text: "QR codes for linking a device, signing in with your phone and your recovery words are dots with rounded corners and the owl in the middle.",
       },
