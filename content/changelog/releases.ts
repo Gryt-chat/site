@@ -176,6 +176,23 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.15.17",
+    date: "2026-11-14",
+    line: "Comparing codes with someone is one click from the chat, and a message waiting to send survives a restart.",
+    changes: [
+      {
+        kind: "changed",
+        area: "chat",
+        text: "Compare codes from the DM itself: \"Show code\" or \"Compare codes\" sits in the line above the message box, and \"Encrypted\" in the header opens it too. It can start a call so you can read the numbers out loud.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A message waiting for this device to be added to a DM was lost if the app restarted. It now waits on disk and sends once the device is added.",
+      },
+    ],
+  },
+  {
     version: "1.15.16",
     date: "2026-11-14",
     line: "QR codes look like the ones you're used to, and linking a device no longer leaves a server stuck on its old key.",
