@@ -5429,6 +5429,18 @@ export const app: ReleaseLine[] = [
  */
 export const server: ReleaseLine[] = [
   {
+    version: "1.12.14",
+    date: "2026-11-14",
+    line: "A device that can't open some DM messages can ask the other person for their copy.",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "The server passes \"send me your copy\" between the people in a DM while they're online. It keeps nothing, and the other person's app decides whether to offer it.",
+      },
+    ],
+  },
+  {
     version: "1.12.13",
     date: "2026-11-14",
     line: "Contacts can follow a key change your old device signed, without comparing codes.",
