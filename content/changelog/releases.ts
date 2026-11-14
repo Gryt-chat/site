@@ -176,6 +176,18 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.15.19",
+    date: "2026-11-14",
+    line: "A bug report with the log ticked now carries the last five minutes of it, not just the last few lines.",
+    changes: [
+      {
+        kind: "changed",
+        area: "settings",
+        text: "Ticking \"Include the app's recent log\" in a bug report attaches everything from the last five minutes, so the report shows what led up to the problem.",
+      },
+    ],
+  },
+  {
     version: "1.15.18",
     date: "2026-11-14",
     line: "Moving your key to a new device no longer makes your contacts compare codes again, member cards are tidier, and a call from someone whose key changed says so.",
