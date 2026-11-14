@@ -176,22 +176,15 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
-    version: "1.15.19",
+    version: "1.15.18",
     date: "2026-11-14",
-    line: "When someone moves their key to a new device with their old one's approval, you no longer have to compare codes again.",
+    line: "Moving your key to a new device no longer makes your contacts compare codes again, member cards are tidier, and a call from someone whose key changed says so.",
     changes: [
       {
         kind: "changed",
         area: "chat",
         text: "A key change that the person's previous key signed, from linking a device or approving one, is trusted on its own. A reset or an admin wipe still asks you to compare codes.",
       },
-    ],
-  },
-  {
-    version: "1.15.18",
-    date: "2026-11-14",
-    line: "Member cards are tidier, and a call from someone whose key changed says so.",
-    changes: [
       {
         kind: "changed",
         area: "chat",
