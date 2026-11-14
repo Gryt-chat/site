@@ -5275,6 +5275,18 @@ export const app: ReleaseLine[] = [
  */
 export const server: ReleaseLine[] = [
   {
+    version: "1.12.11",
+    date: "2026-11-14",
+    line: "Pictures you paste or upload are ready several times faster.",
+    changes: [
+      {
+        kind: "changed",
+        area: "chat",
+        text: "Comes with media worker 1.5.2, which gets a pasted screenshot ready in a fraction of the time it used to take.",
+      },
+    ],
+  },
+  {
     version: "1.12.10",
     date: "2026-11-13",
     line: "Someone whose connection to the server drops mid-call keeps their name in the call.",
@@ -7292,6 +7304,18 @@ export const voice: ReleaseLine[] = [
  * dependency bump gets a line here and would not elsewhere.
  */
 export const images: ReleaseLine[] = [
+  {
+    version: "1.5.2",
+    date: "2026-11-14",
+    line: "Pictures you paste or upload are ready several times faster.",
+    changes: [
+      {
+        kind: "changed",
+        area: "chat",
+        text: "A pasted screenshot could take ten seconds or more before it showed. The worker now spends far less effort squeezing each picture, so it's ready in a fraction of the time. Files come out about 7% bigger.",
+      },
+    ],
+  },
   {
     version: "1.5.1",
     date: "2026-10-23",
