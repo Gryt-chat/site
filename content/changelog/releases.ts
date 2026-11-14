@@ -176,6 +176,23 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.15.15",
+    date: "2026-11-14",
+    line: "A device waiting for its key to be approved tells you where to approve it, and the code to check.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "After a reload, a device waiting for approval forgot which of your devices to approve it on, and the code to compare. It now shows both until it's approved.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "On a device set up before the one-key rule, \"Other ways\" in a DM now asks your other device to approve it, so you're not stuck with only a 30-day reset.",
+      },
+    ],
+  },
+  {
     version: "1.15.14",
     date: "2026-11-14",
     line: "Videos keep their picture when you press play, and Gryt works better with your own login service.",
@@ -5298,6 +5315,23 @@ export const app: ReleaseLine[] = [
  * So a reader here is usually somebody deciding whether to pull a new image.
  */
 export const server: ReleaseLine[] = [
+  {
+    version: "1.12.12",
+    date: "2026-11-14",
+    line: "Server owners can clear a member's DM key when none of their devices has it any more.",
+    changes: [
+      {
+        kind: "new",
+        area: "self-hosting",
+        text: "admin-resetDmKey.js clears one member's DM key, so the next device of theirs that connects sets a new one. Their contacts see the key change, like after a new phone.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A device waiting for its key to be approved gets its request back after a reload, with the device to approve it on.",
+      },
+    ],
+  },
   {
     version: "1.12.11",
     date: "2026-11-14",
