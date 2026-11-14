@@ -176,6 +176,30 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.15.14",
+    date: "2026-11-14",
+    line: "Videos keep their picture when you press play, and Gryt works better with your own login service.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "Pressing play on a video in chat turned it black and shrank it while it loaded. The picture now stays in place until the video starts.",
+      },
+      {
+        kind: "fixed",
+        area: "self-hosting",
+        text: "With your own login service, the desktop app no longer goes through gryt.chat to finish signing in. It hands the sign-in straight back to the app.",
+        thanks: "Thanks to Inferlopec for finding it!",
+      },
+      {
+        kind: "fixed",
+        area: "servers",
+        text: "Servers you joined before linking an account could disappear when you signed in, if that account already had servers of its own. Both lists are kept now.",
+        thanks: "Thanks to Inferlopec for finding it!",
+      },
+    ],
+  },
+  {
     version: "1.15.13",
     date: "2026-11-14",
     line: "Posts from X show properly, settings fit small windows, and a lot of small chat fixes.",
