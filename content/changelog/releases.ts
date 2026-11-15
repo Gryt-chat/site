@@ -213,7 +213,7 @@ export const app: ReleaseLine[] = [
       {
         kind: "fixed",
         area: "servers",
-        text: "A server's unread badge only counts channels set to Everything, so a channel on mentions only no longer bumps it.",
+        text: "A server's unread badge counts every message only from channels set to Everything. A channel on mentions only still lights it up when someone mentions you, just not for every message.",
       },
     ],
   },
