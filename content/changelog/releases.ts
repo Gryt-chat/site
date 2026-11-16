@@ -176,6 +176,34 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.15.20-beta.2",
+    date: "2026-11-16",
+    channel: "beta",
+    line: "All your devices share one key, a new device asks your other ones to approve it, and device names are encrypted.",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "When you sign in on a new device, your other devices ask whether to approve it. Approve opens Link a device, where you type the code the new device shows. Not me turns it away and helps you change your password.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "If your devices each had their own key, the first one to update keeps its key for your whole account. The others ask to be approved from it.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "Approve this device shows the code straight away, with steps for where to type it. The QR code is one click away, for when you approve from your phone.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "Your device's name is encrypted before it leaves the device, so only your own devices can read it.",
+      },
+    ],
+  },
+  {
     version: "1.15.20-beta.1",
     date: "2026-11-16",
     channel: "beta",
