@@ -176,6 +176,19 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.15.20-beta.5",
+    date: "2026-11-16",
+    channel: "beta",
+    line: "Approve this device shows up straight away instead of after you leave the chat.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "Right after Gryt started, a DM could show the old notice with two buttons instead of Approve this device, until you opened another chat and came back.",
+      },
+    ],
+  },
+  {
     version: "1.15.20-beta.4",
     date: "2026-11-16",
     channel: "beta",
