@@ -176,6 +176,29 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.15.20-beta.7",
+    date: "2026-11-16",
+    channel: "beta",
+    line: "Servers still on an old device's key switch to your account key by themselves, and an old device no longer blocks a chat.",
+    changes: [
+      {
+        kind: "changed",
+        area: "chat",
+        text: "A server that still has the key of an older device of yours switches to your account key by itself. No notice, and no other device has to approve it. People you talk to there compare codes with you once.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "If your account gets a key none of your devices made, your devices tell you once, with Change password.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A device still on someone's old key stopped every message in that chat with \"Someone in this chat has a key this device doesn't know\". It's taken out of the chat now, and messages go to their current devices.",
+      },
+    ],
+  },
+  {
     version: "1.15.20-beta.6",
     date: "2026-11-16",
     channel: "beta",
