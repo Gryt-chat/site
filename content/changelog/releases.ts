@@ -176,19 +176,45 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
-    version: "1.15.20",
+    version: "1.15.20-beta.1",
     date: "2026-11-16",
-    line: "Linking a device that had its own key works properly now, and a chat that's empty on a new device fills in from your other devices.",
+    channel: "beta",
+    line: "A mic that only uses one side is heard in both ears, voice can go up to 510 kbps, and you can report a bug straight from the crash screen.",
     changes: [
+      {
+        kind: "fixed",
+        area: "voice",
+        text: "A mono mic plugged into one input of a two-input device was heard in only one ear on the lowest latency preset. It's now sent in mono at full level, so everyone hears it in both ears.",
+      },
+      {
+        kind: "changed",
+        area: "voice",
+        text: "Voice quality on Gryt's own voice connection now goes up to 510 kbps, and that's the new default. If you moved the slider, your setting stays.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "Sound settings shows a left and a right output meter during a call, so you can see when someone's voice only reaches one side.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "When Gryt crashes, Report a bug is the first button, and it opens a bug report with the error already filled in.",
+      },
       {
         kind: "new",
         area: "chat",
-        text: "A DM that's empty on this device, or has messages it can't open, asks your other devices for their copy. One that's open sends it by itself.",
+        text: "When a DM opens empty on a new or wiped device, your other devices fill it in by themselves.",
       },
       {
         kind: "fixed",
         area: "chat",
-        text: "A device that had its own key and was then linked to your account couldn't send DMs (\"Somebody other than the two of you is in this group\"). It now leaves its old key behind and joins your chats again.",
+        text: "\"Send them your copy\" stays clickable while it's sending and tells you if your copy is already on its way. The approve-this-device dialog no longer tells a guest they're signed in.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A device that had its own key and was then linked to your account couldn't send DMs. It now leaves its old key behind and joins your chats again.",
       },
       {
         kind: "fixed",
@@ -204,11 +230,6 @@ export const app: ReleaseLine[] = [
         kind: "fixed",
         area: "settings",
         text: "Linking no longer shows \"has a different key for you\" for servers it has just moved to your account's key.",
-      },
-      {
-        kind: "changed",
-        area: "chat",
-        text: "\"Send them your copy\" stays clickable while it sends, and \"Approve this device\" no longer tells guests they're signed in.",
       },
     ],
   },
