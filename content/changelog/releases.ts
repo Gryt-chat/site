@@ -176,6 +176,24 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.15.20-beta.8",
+    date: "2026-11-16",
+    channel: "beta",
+    line: "Servers follow your account key now, so there's nothing left to approve or reset server by server.",
+    changes: [
+      {
+        kind: "changed",
+        area: "chat",
+        text: "A server no longer asks one of your devices to approve another, and there's no reset per server. You approve a new device, or say you've lost every device, once for your whole account.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "The \"Message key warnings\" switch is gone from Security, along with the warning it turned off. A server moves to your account key by itself, so there's nothing to warn about.",
+      },
+    ],
+  },
+  {
     version: "1.15.20-beta.7",
     date: "2026-11-16",
     channel: "beta",
