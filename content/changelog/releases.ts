@@ -176,6 +176,29 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.15.20-beta.4",
+    date: "2026-11-16",
+    channel: "beta",
+    line: "A server where DMs don't work yet on this device asks you to approve it, and says which device does that.",
+    changes: [
+      {
+        kind: "changed",
+        area: "chat",
+        text: "If a server still has an older device's key, the DM shows one button, Approve this device, and names the device that approves it. It shows the code to check while it waits, and offers the 30-day way if you don't have that device any more.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "The approve prompt on your other device says what's asking, shows the code, and has Approve and That's not mine.",
+      },
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "Support Gryt stays at the bottom of settings in a short window, and What it pays for opens the page with the tiers.",
+      },
+    ],
+  },
+  {
     version: "1.15.20-beta.3",
     date: "2026-11-16",
     channel: "beta",
