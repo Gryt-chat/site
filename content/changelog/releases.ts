@@ -176,6 +176,19 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.15.20-beta.6",
+    date: "2026-11-16",
+    channel: "beta",
+    line: "When a browser has to approve this device, Gryt says to open gryt.chat in it.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "If the device that has to approve is a browser, the notice says to open gryt.chat in it, not to open Gryt on it.",
+      },
+    ],
+  },
+  {
     version: "1.15.20-beta.5",
     date: "2026-11-16",
     channel: "beta",
