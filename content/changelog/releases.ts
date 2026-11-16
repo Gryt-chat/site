@@ -176,6 +176,19 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.15.20-beta.3",
+    date: "2026-11-16",
+    channel: "beta",
+    line: "A device that was signed in before the one-key change now asks to be approved when it starts.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A device that stayed signed in after the one-key change never asked to be approved, so its DMs failed with \"a key this device doesn't know\". It now asks when it starts, and your other devices show the prompt.",
+      },
+    ],
+  },
+  {
     version: "1.15.20-beta.2",
     date: "2026-11-16",
     channel: "beta",
