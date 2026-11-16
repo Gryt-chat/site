@@ -32,7 +32,7 @@ export function SponsorPage() {
             }
           />
 
-          <a className={styles.cta} href={SPONSOR_URL} target="_blank" rel="noreferrer">
+          <a className={styles.cta} href={`${SPONSOR_URL}?frequency=one-time`} target="_blank" rel="noreferrer">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4"
               strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <path d="M19.5 12.6 12 20l-7.5-7.4A4.8 4.8 0 0 1 12 6.3a4.8 4.8 0 0 1 7.5 6.3z" />
@@ -117,7 +117,7 @@ export function SponsorPage() {
             <p className={styles.gets}>{ONCE_TIER.gets}</p>
             <Example tier={ONCE_TIER} />
           </div>
-          <a className={styles.ghost} href={SPONSOR_URL} target="_blank" rel="noreferrer">
+          <a className={styles.ghost} href={`${SPONSOR_URL}?frequency=one-time`} target="_blank" rel="noreferrer">
             Sponsor once
           </a>
         </div>
