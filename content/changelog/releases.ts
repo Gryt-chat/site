@@ -176,6 +176,68 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.15.20",
+    date: "2026-11-16",
+    line: "All your devices share one key, a new device is approved by one you already use, and mono mics are heard in both ears.",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "Every device on your account uses the same key. When you sign in on a new device, your other devices ask whether to approve it. Approve opens Link a device, and Not me helps you change your password.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "If your account gets a key none of your devices made, your devices tell you once, with Change password.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "A server that still had an older device's key moves to your account key by itself, with nothing to approve. If that changes your key there, people you talk to compare codes with you once.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "Before a new avatar or banner uploads, you frame it by dragging its corners, with your card shown next to it.",
+      },
+      {
+        kind: "new",
+        area: "voice",
+        text: "Voice on Gryt's own voice connection goes up to 510 kbps, and that's the new default. Sound settings shows a left and a right meter during a call.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "When Gryt crashes, Report a bug is the first button, with the error already filled in.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "When a DM opens empty on a new or wiped device, your other devices fill it in by themselves.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "Your device's name is encrypted before it leaves the device. Support Gryt sits at the bottom of settings, and the Message key warnings switch is gone.",
+      },
+      {
+        kind: "fixed",
+        area: "voice",
+        text: "A mono mic on one input of a two-input device was heard in only one ear on the lowest latency preset. Everyone hears it in both ears now.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A device still on someone's old key stopped every message in that chat. It's taken out of the chat now, and messages go to their current devices.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A device linked after it had its own key couldn't send DMs, and moving history during a link gave up when a server restarted. Both work now, and \"Not sent.\" says why.",
+      },
+    ],
+  },
+  {
     version: "1.15.20-beta.8",
     date: "2026-11-16",
     channel: "beta",
@@ -5622,6 +5684,18 @@ export const app: ReleaseLine[] = [
  * So a reader here is usually somebody deciding whether to pull a new image.
  */
 export const server: ReleaseLine[] = [
+  {
+    version: "1.12.17",
+    date: "2026-11-16",
+    line: "A device waiting to be added to a DM is added as soon as someone in it opens Gryt.",
+    changes: [
+      {
+        kind: "changed",
+        area: "chat",
+        text: "When a device asks to be added to a DM, the server keeps the ask and hands it to the next app in that DM that connects, so it no longer waits for the device to ask again.",
+      },
+    ],
+  },
   {
     version: "1.12.16",
     date: "2026-11-16",
