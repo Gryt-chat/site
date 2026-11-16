@@ -5605,6 +5605,28 @@ export const app: ReleaseLine[] = [
  */
 export const server: ReleaseLine[] = [
   {
+    version: "1.12.16",
+    date: "2026-11-16",
+    line: "A server moves your DM key to your account's key by itself, with no old device asked to hand it over.",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "A device that proves it has your account's key takes over your DM key on a server. If that changes your key there, your contacts compare codes with you once.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "A device that's missing some DM history can ask your other devices for it, not only the other person.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "When a new device asks to be approved, all your other devices hear about it, and the ask names the one that can approve it.",
+      },
+    ],
+  },
+  {
     version: "1.12.14",
     date: "2026-11-14",
     line: "A device that can't open some DM messages can ask the other person for their copy.",
