@@ -176,6 +176,7 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+<<<<<<< HEAD
     version: "1.15.20-beta.1",
     date: "2026-11-16",
     channel: "beta",
@@ -210,6 +211,41 @@ export const app: ReleaseLine[] = [
         kind: "fixed",
         area: "chat",
         text: "\"Send them your copy\" stays clickable while it's sending and tells you if your copy is already on its way. The approve-this-device dialog no longer tells a guest they're signed in.",
+=======
+    version: "1.15.20",
+    date: "2026-11-16",
+    line: "Linking a device that had its own key works properly now, and a chat that's empty on a new device fills in from your other devices.",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "A DM that's empty on this device, or has messages it can't open, asks your other devices for their copy. One that's open sends it by itself.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A device that had its own key and was then linked to your account couldn't send DMs (\"Somebody other than the two of you is in this group\"). It now leaves its old key behind and joins your chats again.",
+      },
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "Moving your message history during a link no longer gives up when a server restarts halfway. If it does stop, it says why.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "\"Not sent.\" now says why, and that the message is back in the box to send again.",
+      },
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "Linking no longer shows \"has a different key for you\" for servers it has just moved to your account's key.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "\"Send them your copy\" stays clickable while it sends, and \"Approve this device\" no longer tells guests they're signed in.",
+>>>>>>> origin/main
       },
     ],
   },
