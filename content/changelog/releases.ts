@@ -176,6 +176,44 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.16.0-beta.3",
+    date: "2026-11-17",
+    channel: "beta",
+    line: "Beta: replace a server emoji in place, and people who are only on Discord show up in Gryt.",
+    changes: [
+      {
+        kind: "new",
+        area: "servers",
+        text: "Replace a custom emoji from Server settings › Emojis. You see the same message before and after, and once you replace it everyone gets the new picture, in old messages and reactions too.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A replaced emoji shows its new picture straight away. It used to keep the old one for up to a week.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A message that's only a typed smiley, like :D, is as big as one picked from the emoji menu.",
+      },
+      {
+        kind: "new",
+        area: "servers",
+        text: "People who are only on Discord get their own section in the member list, a Discord badge on their picture and a plain card.",
+      },
+      {
+        kind: "changed",
+        area: "servers",
+        text: "The Discord tab is a few short steps: which way messages go, which channels and people, then start. You can link a Discord person to a Gryt member from a list.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "A new device you sign in on gets the older messages in your encrypted DMs, not only the ones from after it joined.",
+      },
+    ],
+  },
+  {
     version: "1.16.0-beta.2",
     date: "2026-11-17",
     channel: "beta",
@@ -5805,6 +5843,29 @@ export const app: ReleaseLine[] = [
  * So a reader here is usually somebody deciding whether to pull a new image.
  */
 export const server: ReleaseLine[] = [
+  {
+    version: "1.13.0-beta.2",
+    date: "2026-11-17",
+    channel: "beta",
+    line: "Beta: choose what the Discord bridge syncs, and keep each Discord app to one Gryt server.",
+    changes: [
+      {
+        kind: "new",
+        area: "servers",
+        text: "The Discord bridge syncs only the channels you pick, can pick up new Discord channels by itself, and can be switched off per person.",
+      },
+      {
+        kind: "changed",
+        area: "servers",
+        text: "A Discord app can be bridged to one Gryt server at a time. Unlinking it frees it for another.",
+      },
+      {
+        kind: "changed",
+        area: "servers",
+        text: "Messages the bridge posts in Discord show the sender's Gryt picture.",
+      },
+    ],
+  },
   {
     version: "1.12.18",
     date: "2026-11-17",
