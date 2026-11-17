@@ -176,6 +176,29 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.15.21-beta.1",
+    date: "2026-11-17",
+    channel: "beta",
+    line: "A huge picture can't freeze the cropper, and the report form shows where a screenshot goes.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "Picking a very large picture for your avatar or banner is turned away before it's decoded, so the app doesn't freeze, and the crop handles stay inside the frame.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "The bug report and feedback forms say where a screenshot goes: a GitHub issue, which opens with what you wrote already filled in.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "The old per-server key handover is gone from the app. A contact's new key always asks you to compare codes, and there's no \"key is being reset\" line any more.",
+      },
+    ],
+  },
+  {
     version: "1.15.20",
     date: "2026-11-16",
     line: "All your devices share one key, a new device is approved by one you already use, and mono mics are heard in both ears.",
