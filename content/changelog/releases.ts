@@ -176,6 +176,29 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.16.0-beta.2",
+    date: "2026-11-17",
+    channel: "beta",
+    line: "Beta: look at your attachments full size before you send them, and pick what the Discord bridge syncs.",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "Click a picture or video waiting in the message box to open it full size before you send it. Arrow keys or a swipe move between them, and Escape closes it.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "Attachments waiting in the message box shrink along with it when you click away, and a video shows a frame from the clip.",
+      },
+      {
+        kind: "new",
+        area: "servers",
+        text: "Once the Discord bridge is running, the Discord tab lets you pick which channels sync, turn on syncing for new Discord channels, and switch syncing off per Discord person or per member.",
+      },
+    ],
+  },
+  {
     version: "1.16.0-beta.1",
     date: "2026-11-17",
     channel: "beta",
