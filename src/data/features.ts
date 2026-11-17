@@ -64,6 +64,8 @@ export const featureLines: FeatureLine[] = [
   {
     version: '1.15',
     features: [
+      { area: 'chat', month: 'Nov 2026', title: 'Mute a DM', text: 'Right-click a chat or open its panel to silence it. Messages still arrive, with no sound and no badge.' },
+      { area: 'you', month: 'Nov 2026', title: 'A banner behind your whole card', text: 'Let your banner fill the card instead of a strip across the top.' },
       { area: 'privacy', month: 'Nov 2026', title: 'One key on every device', text: 'All your devices use the same key. A new one is approved by a device you already have, and they tell you about a key none of them made.' },
       { area: 'you', month: 'Nov 2026', title: 'Frame your picture', text: 'Drag the corners to frame an avatar or banner before it uploads, with your card next to it.' },
       { area: 'you', month: 'Nov 2026', title: 'A tour from the owl', text: 'Gryt’s owl flies over to each thing worth knowing and tells you what it’s for, on your computer and on your phone.' },

@@ -176,6 +176,38 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.15.21",
+    date: "2026-11-17",
+    line: "Mute a DM, put your banner behind your whole card, and a huge picture can't freeze the cropper.",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "Mute a DM from its side panel, or right-click it in the list: Everything or Nothing, and Only mentions in a group. A muted DM shows a crossed-out bell and no badge, and its messages still arrive. Muting a server no longer silences its DMs.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "Your banner can fill your whole card instead of a strip across the top. Pick Whole card when you crop it.",
+      },
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "Picking a very large picture for your avatar or banner is turned away before it's decoded, so the app doesn't freeze, and the crop handles stay inside the frame.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "The bug report and feedback forms say where a screenshot goes: a GitHub issue, which opens with what you wrote already filled in.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "The old per-server key handover is gone from the app. A contact's new key always asks you to compare codes.",
+      },
+    ],
+  },
+  {
     version: "1.15.21-beta.1",
     date: "2026-11-17",
     channel: "beta",
