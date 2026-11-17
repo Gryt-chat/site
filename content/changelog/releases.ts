@@ -5708,23 +5708,6 @@ export const app: ReleaseLine[] = [
  */
 export const server: ReleaseLine[] = [
   {
-    version: "1.12.18",
-    date: "2026-11-17",
-    line: "The per-server key handover and reset are gone, and banners keep their shape.",
-    changes: [
-      {
-        kind: "changed",
-        area: "chat",
-        text: "A device that proves your account key moves a server to it. The per-server handover asks and the 30-day per-server reset are gone, since approving and resetting now happen once for your account.",
-      },
-      {
-        kind: "changed",
-        area: "settings",
-        text: "A banner keeps its shape. It's fitted inside 960×1260 instead of being cut to 960×492.",
-      },
-    ],
-  },
-  {
     version: "1.12.17",
     date: "2026-11-16",
     line: "A device waiting to be added to a DM is added as soon as someone in it opens Gryt.",
@@ -7829,18 +7812,6 @@ export const voice: ReleaseLine[] = [
  * dependency bump gets a line here and would not elsewhere.
  */
 export const images: ReleaseLine[] = [
-  {
-    version: "1.6.0",
-    date: "2026-11-17",
-    line: "A banner keeps its shape instead of being cut to a strip.",
-    changes: [
-      {
-        kind: "changed",
-        area: "settings",
-        text: "Banners are fitted inside 960×1260 and never enlarged, instead of being cut to 960×492.",
-      },
-    ],
-  },
   {
     version: "1.5.2",
     date: "2026-11-14",
