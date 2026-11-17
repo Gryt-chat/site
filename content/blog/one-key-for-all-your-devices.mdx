@@ -2,7 +2,7 @@
 title: One Key for All Your Devices
 description: My first plan for encrypted DMs worked on paper and fell apart on real devices. Here's what replaced it.
 author: Sivert
-date: 2026-10-26
+date: 2026-11-17
 image: /blog/one-key-for-all-your-devices/phone-ask.webp
 tags:
   - encryption
@@ -11,7 +11,7 @@ tags:
 ---
 
 **Title:** One key for all your devices\
-**Date:** 26 October 2026\
+**Date:** 17 November 2026\
 **Author:** Sivert Gullberg Hansen\
 **Keywords:** end-to-end encryption, MLS, device linking, key handover, iCloud Keychain
 
@@ -26,7 +26,7 @@ of your key sat on the server, where anyone with the database could keep guessin
 And one account could have a different key on each server. This post goes through
 what broke, what I tried, and the model Gryt uses now: one key per account, new
 devices approved by one you already have, and only your own devices can ever change
-that key. Nobody has to remember a password for it. It also shows the sketches I
+that key, apart from a slow reset they can stop. Nobody has to remember a password for it. It also shows the sketches I
 drew with Claude while working it out, because the screens are where most of the
 mistakes were.
 
@@ -111,25 +111,31 @@ The pictures are a check that you're approving the device in front of you, and n
 one somebody else started. A request also reaches your phone as a notification, so
 you don't have to go looking for it.
 
-### 4.3 Only your key can change your key
+### 4.3 Servers follow your account
 
-This is the rule that fixed 3.3. A server now refuses to change the key your account
-uses unless the current key signs off on it. When a server still has an older key
-for you, the device that holds it gets one question, "Your iPhone's key will take
-over on this server. Approve?", and signs a short note saying so. A note like that
-can only come from one of your devices, or from your 24 words.
+Your account's public key lives with the account service now, in a key book that
+lists every key the account has had and when it changed. A device only gets signed
+in as you if it can prove it holds that key, so a device without it can't quietly
+turn into a second you.
 
-Someone who only has your password can't make one, so they can't swap your key on a
-server you use. The worst they can do is sign in and ask, and your phone asks you
-first.
+When a server still has an older key for you, the next device that connects with
+your account's key moves that server over by itself. It signs the move with the
+account key, and the server checks the signature against the key your sign-in
+names. Nothing to approve, and no other device has to be online. Someone who only
+has your password can't do this, because they can't prove the key.
+
+People you talk to on that server see your key change once and compare codes with
+you. They can't look you up in the key book instead, and that's deliberate: a
+server doesn't learn which account you are, so nobody can follow you from one
+server to the next.
 
 ### 4.4 When you've lost everything
 
 If you've lost every device and your 24 words, there's still a way back, and it's
-slow on purpose. You ask for a reset, and your new key only takes over after 30
-days. Until then, every device of yours that's left is asked "Was this you?" and
-can stop it, and the people you talk to see that your key is being reset. Thirty
-days is long enough that a thief can't finish one while you're on holiday.
+slow on purpose. You ask for a reset on your account, and the new key only takes
+over after 30 days. Until then, any device of yours that's left can stop it. Thirty
+days is long enough that a thief can't finish one while you're on holiday. Once it
+goes through, the people you talk to compare codes with you once.
 
 ![A sketch of the "Lost your iPhone?" window, explaining what removing it does: it's signed out and taken out of every DM, your other devices carry on, and if you find it again you approve it like a new phone](/blog/one-key-for-all-your-devices/lost-phone.webp)
 
@@ -140,6 +146,13 @@ been added to it. It used to fail with "try again in a bit". Now the message wai
 says so, and sends itself once the device is in.
 
 ![A sketch of a DM with Pimby on a new Mac. The message "hey pimby" says "Sends when Pimby's app lets this Mac in", and a note explains the Mac is new to the chat and gets added by itself](/blog/one-key-for-all-your-devices/dm-waiting.webp)
+
+### 4.6 Your devices watch the key book
+
+Each of your devices checks the key book when it starts. If your account has a key
+that none of your devices made, they tell you once, with a button to change your
+password. That catches a reset you didn't ask for, or a key added by someone who
+shouldn't have been able to.
 
 ## 5 The sketches
 
@@ -162,20 +175,20 @@ read the whole diff myself.
 - **An unlocked phone in someone else's hand.** Approving asks for Face ID or your
   passcode, which helps, but it can't help if they have both.
 - **Whoever runs the server.** They can change rows in their own database. Your
-  contacts' apps still remember your old key and warn about the change, but they
-  only warn. The real fix is a public, append-only log of account keys
-  that every app checks, often called key transparency. That's next.
+  contacts' apps remember your key and warn when it changes, but they only warn,
+  because a server doesn't tell them which account you are. Letting contacts check
+  the key book would mean linking you across servers, and I'd rather not.
+- **The account service.** It holds your public key, never the private one. If
+  someone tampered with it, your own devices would see a key none of them made.
 - **A server you've never joined.** Someone with your password can still join a
-  server you're not on, as you. None of your contacts are there, and the key log
-  above covers this too.
+  server you're not on, as you. None of your contacts are there.
 
 ## 7 What's next
 
-All of this is in the beta now: app 1.15.0-beta.10, server 1.12.2-beta.6 and the
-latest phone builds. Once it's held up on real devices it goes to everyone. After
-that, the key log from section 6, and a way to keep your history in a locked box on
-a server you choose, so a new device can have everything even when your phone is
-off.
+All of this is out: app 1.15.20 and server 1.12.17 have it, and the next server
+release removes the old per-server handover for good. After that, a way to keep
+your history in a locked box on a server you choose, so a new device can have
+everything even when your phone is off.
 
 ## References
 
