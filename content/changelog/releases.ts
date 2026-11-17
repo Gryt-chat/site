@@ -176,6 +176,29 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.15.21-beta.1",
+    date: "2026-11-17",
+    channel: "beta",
+    line: "A huge picture can't freeze the cropper, and the report form shows where a screenshot goes.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "Picking a very large picture for your avatar or banner is turned away before it's decoded, so the app doesn't freeze, and the crop handles stay inside the frame.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "The bug report and feedback forms say where a screenshot goes: a GitHub issue, which opens with what you wrote already filled in.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "The old per-server key handover is gone from the app. A contact's new key always asks you to compare codes, and there's no \"key is being reset\" line any more.",
+      },
+    ],
+  },
+  {
     version: "1.15.20",
     date: "2026-11-16",
     line: "All your devices share one key, a new device is approved by one you already use, and mono mics are heard in both ears.",
@@ -5685,6 +5708,23 @@ export const app: ReleaseLine[] = [
  */
 export const server: ReleaseLine[] = [
   {
+    version: "1.12.18",
+    date: "2026-11-17",
+    line: "The per-server key handover and reset are gone, and banners keep their shape.",
+    changes: [
+      {
+        kind: "changed",
+        area: "chat",
+        text: "A device that proves your account key moves a server to it. The per-server handover asks and the 30-day per-server reset are gone, since approving and resetting now happen once for your account.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "A banner keeps its shape. It's fitted inside 960×1260 instead of being cut to 960×492.",
+      },
+    ],
+  },
+  {
     version: "1.12.17",
     date: "2026-11-16",
     line: "A device waiting to be added to a DM is added as soon as someone in it opens Gryt.",
@@ -7789,6 +7829,18 @@ export const voice: ReleaseLine[] = [
  * dependency bump gets a line here and would not elsewhere.
  */
 export const images: ReleaseLine[] = [
+  {
+    version: "1.6.0",
+    date: "2026-11-17",
+    line: "A banner keeps its shape instead of being cut to a strip.",
+    changes: [
+      {
+        kind: "changed",
+        area: "settings",
+        text: "Banners are fitted inside 960×1260 and never enlarged, instead of being cut to 960×492.",
+      },
+    ],
+  },
   {
     version: "1.5.2",
     date: "2026-11-14",
