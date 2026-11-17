@@ -75,8 +75,8 @@ export function Download({ initial = null }: { initial?: Pick | null } = {}) {
   /* The steps only render on a phone's pick, so the link has to open that pick. */
   useEffect(() => {
     if (window.location.hash !== "#phone-test") return;
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- the prerender has no hash, so it can't be initial state
     // On a computer there's no phone to detect: a Mac's owner most likely has an iPhone.
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- the prerender has no hash, so it can't be initial state
     setChosen((current) => current ?? (detected === "ios" || detected === "macos" ? "ios" : "android"));
   }, [detected]);
 
