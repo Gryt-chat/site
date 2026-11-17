@@ -76,7 +76,8 @@ export function Download({ initial = null }: { initial?: Pick | null } = {}) {
   useEffect(() => {
     if (window.location.hash !== "#phone-test") return;
     // eslint-disable-next-line react-hooks/set-state-in-effect -- the prerender has no hash, so it can't be initial state
-    setChosen((current) => current ?? (detected === "ios" ? "ios" : "android"));
+    // On a computer there's no phone to detect: a Mac's owner most likely has an iPhone.
+    setChosen((current) => current ?? (detected === "ios" || detected === "macos" ? "ios" : "android"));
   }, [detected]);
 
   useEffect(() => {
