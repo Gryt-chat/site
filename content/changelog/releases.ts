@@ -176,6 +176,49 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.16.0-beta.1",
+    date: "2026-11-17",
+    channel: "beta",
+    line: "Beta: bring a Discord server over to Gryt and keep the two in step.",
+    changes: [
+      {
+        kind: "new",
+        area: "servers",
+        text: "Server settings has a Discord tab for the owner. Make a Discord app, paste its ID and bot token, and invite the bot. Then every channel comes over with its history, files, threads, reactions, pins, roles and custom emoji, and new messages keep flowing one way or both. It needs a server on 1.13.0-beta.1 or newer.",
+      },
+      {
+        kind: "new",
+        area: "servers",
+        text: "On a server that already has channels, the Discord tab suggests where each Discord channel goes, and you can change any of them before the copy starts.",
+      },
+      {
+        kind: "new",
+        area: "servers",
+        text: "Link Discord in the server menu. Run /link on the bot in Discord, enter the code here, and your old Discord messages show under your name. The owner can also link people from the Discord tab.",
+      },
+      {
+        kind: "new",
+        area: "servers",
+        text: "A new server with no messages yet asks its owner, inside the first channel, whether they run a Discord server already.",
+      },
+      {
+        kind: "changed",
+        area: "servers",
+        text: "A server with every channel deleted says \"No channels yet\", with a Create channel button for people who can make one, instead of loading forever.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "Edit my card shows your row in the member list under the card preview, the way the list draws it.",
+      },
+      {
+        kind: "new",
+        area: "voice",
+        text: "Each voice preset has its own icon in the dropdown: a sparkle, a lightning bolt, a crosshair and faders.",
+      },
+    ],
+  },
+  {
     version: "1.15.21",
     date: "2026-11-17",
     line: "Mute a DM, put your banner behind your whole card, and a huge picture can't freeze the cropper.",
