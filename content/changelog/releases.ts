@@ -176,6 +176,24 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.16.0-beta.6",
+    date: "2026-11-18",
+    channel: "beta",
+    line: "Beta: see what takes space on your server, and delete files to free it.",
+    changes: [
+      {
+        kind: "new",
+        area: "servers",
+        text: "Server settings › Storage shows how much space your server uses, its biggest channels and files, and every file people have posted. You can sort them, open one in the lightbox, jump to its message, and delete one or many. Free up space deletes old or big files in one go. It shows on servers running 1.13.0-beta.6 or newer.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "When a file is deleted, its message stays and shows the file's name struck through with Deleted, so the conversation still makes sense.",
+      },
+    ],
+  },
+  {
     version: "1.16.0-beta.5",
     date: "2026-11-18",
     channel: "beta",
