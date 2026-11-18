@@ -4,6 +4,7 @@ import mdx from '@mdx-js/rollup'
 import remarkFrontmatter from 'remark-frontmatter'
 import remarkMdxFrontmatter from 'remark-mdx-frontmatter'
 import remarkGfm from 'remark-gfm'
+import rehypeCitations from './scripts/rehype-citations.ts'
 import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
@@ -21,6 +22,7 @@ export default defineConfig({
     tailwindcss(),
     mdx({
       remarkPlugins: [remarkGfm, remarkFrontmatter, remarkMdxFrontmatter],
+      rehypePlugins: [rehypeCitations],
     }),
     react(),
   ],
