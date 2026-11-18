@@ -10,19 +10,43 @@ tags:
   - security
 ---
 
+**Title:** The server can't read your direct messages\
+**Date:** 9 September 2026\
+**Author:** Sivert Gullberg Hansen\
+**Keywords:** end-to-end encryption, ECDSA, key verification, direct messages, @noble/curves
+
+## Abstract
+
+Direct messages shipped in 1.7 unencrypted, with a line above every conversation
+saying the server could read it. About two weeks later they were encrypted on your
+machine before they left it: every message gets its own key, wrapped for each person
+in the conversation, and attachments are encrypted before upload. Getting there
+turned up three ways encryption could fail without anything on screen saying so.
+About half of all signatures would have been rejected at random. Members who joined
+before the feature shipped never published a key. And an account on two devices
+looked like a swapped key. All three are fixed, and the tests that missed them now
+can't. A short code you compare in person covers what remembering a key can't: that
+the first key was ever theirs. Channels aren't encrypted, and don't claim to be.
+
+## 1 Introduction
+
 Your server can't read your direct messages. It doesn't have the key. Messages are
 encrypted on your machine before they leave it, and what the server stores is
 something it has no way to open. There's no setting for this and no way to turn it
 off.
 
-That wasn't true when direct messages shipped in 1.7. Every conversation had a line
-above it then, saying the server could read what was in it. That line was honest, and
-it took about two weeks to make it unnecessary.
+That wasn't true when direct messages shipped in 1.7 [1]. Every conversation had a
+line above it then, saying the server could read what was in it. That line was
+honest, and it took about two weeks to make it unnecessary. This post answers three
+questions:
 
-Twice along the way, encryption stopped working for whole groups of people and
-nothing on screen said so.
+1. **How are direct messages encrypted?**
+2. **How did encryption fail without anyone noticing**, and how is that caught now?
+3. **How do you know a key really belongs to the person** you're talking to?
 
-## How it works
+## 2 Design
+
+### 2.1 A key per message
 
 Every message gets its own key. That key is then encrypted separately for each person
 in the conversation, using the public key they published, and those encrypted copies
@@ -33,33 +57,47 @@ made, and be served to anyone with the link, so a private conversation could hav
 public photographs in it. Now the file is encrypted before it's uploaded and its key
 sits inside the message.
 
+### 2.2 Everyone or nobody
+
 Gryt only encrypts when everyone in the conversation has published a key it will
 accept. Encrypting for four people out of five leaves the fifth staring at a
 conversation they can't read while everyone else sees it working, which is worse than
 not encrypting at all. When it can't encrypt, the line above the messages comes back
 and says why.
 
-## Half of every signature would have been rejected
+### 2.3 One crypto library on both apps
 
-The desktop app used the browser's built-in crypto. The phone can't: `crypto.subtle`
-doesn't exist in React Native, so mobile was already using `@noble/curves`. Running
-two implementations of the same format is how you get two apps that can't read each
-other's messages, with each sender seeing their own text just fine. So the desktop
-moved to noble as well.
+The desktop app used the browser's built-in crypto [2]. The phone can't:
+`crypto.subtle` doesn't exist in React Native, so mobile was already using
+`@noble/curves` [3]. Running two implementations of the same format is how you get two
+apps that can't read each other's messages, with each sender seeing their own text
+just fine. So the desktop moved to noble as well. Nothing about the message format
+changed.
 
-Nothing about the message format changed, so this should have been invisible. The
-test vectors failed anyway.
+## 3 Results: three silent failures
 
-ECDSA has two valid signatures for every message: `s`, and `order - s`. Noble rejects
-the high one by default. That's a sensible default for a blockchain, where a
-signature you can rewrite and keep valid means a transaction you can replay under a
-second id. Gryt doesn't identify anything by its signature, so the default is wrong
-here.
+Table 1 lists what we found. None of them showed an error.
 
-The browser's crypto doesn't normalise, and neither does JOSE. So about **half of all
-ES256 signatures come out high**. Leaving noble's default on would have rejected
-roughly half of every client's published keys, at random, with "the signature does not
-check out". The other half would have worked perfectly.
+**Table 1:** Ways encryption stopped working without saying so.
+
+| Failure | Who it hit | What it looked like |
+|---|---|---|
+| High-`s` signatures rejected | About half of all clients, at random | "The signature does not check out" |
+| Existing members never published a key | Everyone who joined before the feature shipped | "They haven't published a key yet" |
+| Each device made its own signing key | Anyone signed in on two devices | A key that kept changing, so others stopped encrypting |
+
+### 3.1 Half of every signature would have been rejected
+
+After the move to noble the test vectors failed. ECDSA has two valid signatures for
+every message: `s`, and `order - s`. Noble rejects the high one by default. That's a
+sensible default for a blockchain, where a signature you can rewrite and keep valid
+means a transaction you can replay under a second id [4]. Gryt doesn't identify
+anything by its signature, so the default is wrong here.
+
+The browser's crypto doesn't normalise, and neither does JOSE [5]. So about **half of
+all ES256 signatures come out high**. Leaving noble's default on would have rejected
+roughly half of every client's published keys, at random. The other half would have
+worked perfectly.
 
 A bug like that survives a lot of testing. It would have turned up months later as
 "encryption sometimes doesn't work", with nothing anyone could reproduce. It only
@@ -67,22 +105,27 @@ came out now because the one test vector happened to have a high `s`, which was 
 The check signs 24 of them now and fails unless at least one comes out high, so a
 future run can't pass on a lucky sample.
 
-## Twice, encryption silently stopped working
+### 3.2 Nobody who was already a member published a key
 
-**Nobody who was already a member ever published a key.** Publishing ran from the code
-that handles joining a server. A client that already has a token never joins again.
-It reconnects instead, and reconnecting runs different code. So encryption worked for
-anyone who joined a server after the feature shipped, and for nobody who was already
-in one.
+Publishing ran from the code that handles joining a server. A client that already has
+a token never joins again. It reconnects instead, and reconnecting runs different
+code. So encryption worked for anyone who joined a server after the feature shipped,
+and for nobody who was already in one.
 
 Nothing failed. No key left the device, nothing errored, and the message box said the
 other person hadn't published a key yet, which was true. That made it look like their
 problem rather than a bug.
 
-**An account signed in on two devices had it switched off as well.** Your client
-remembers two things about everyone you talk to: their message key, and a fingerprint
-of the key that vouched for it. If either changes, your client stops encrypting,
-because a key that changed is what a swapped key looks like.
+There was a test meant to catch this. It checked that both code paths called the
+publish function, and both of them did. The function returned early before sending
+anything. The test reads the function itself now, and fails if anything can return
+before the key goes out.
+
+### 3.3 Two devices looked like a swapped key
+
+Your client remembers two things about everyone you talk to: their message key, and a
+fingerprint of the key that vouched for it. If either changes, your client stops
+encrypting, because a key that changed is what a swapped key looks like.
 
 Your message key comes from your seed, so every device you own produces the same one.
 The signing key didn't work that way. Each device generated its own, so a laptop and
@@ -92,19 +135,28 @@ the fingerprint flip back and forth. Their clients refused to encrypt, which is
 exactly what they should have done. The people most likely to own two devices were
 the ones it was off for.
 
-There was a test meant to catch the first one. It checked that both code paths called
-the publish function, and both of them did. The function returned early before
-sending anything. The test reads the function itself now, and fails if anything can
-return before the key goes out.
+### 3.4 A warning that was almost always wrong
 
-## Comparing a code in person
+For a while, joining a server could tell you it was showing a message key that wasn't
+yours, and that you should treat your direct messages as readable by it.
+
+It went off because of timing. Your client publishes its key when it joins, and the
+first member list usually arrives before that has landed, so for about a second the
+key genuinely doesn't match. The warning had no dismiss button and no expiry, so that
+one second stayed on screen for the rest of the session. It also pointed at the wrong
+thing. A hostile server can cause this. What actually caused it, nearly every time,
+was signing in on a second device.
+
+It waits five seconds now, disappears as soon as the keys agree, and mentions the
+second device first.
+
+## 4 Comparing a code in person
 
 Remembering someone's key catches that key changing later. It can't tell you the
 first one was ever theirs, because the server is what introduced the two of you, and
-anything you check through the server has the same problem.
-
-The only way around it is for the two of you to compare a short code somewhere the
-server isn't: on the phone, or standing in the same room.
+anything you check through the server has the same problem. The only way around it is
+for the two of you to compare a short code somewhere the server isn't: on the phone,
+or standing in the same room.
 
 The code is built from all four values involved, both message keys and both
 fingerprints. Change any one of them and the two codes come out different, and the
@@ -112,8 +164,6 @@ server can't do anything about that, because it never sees you compare. The four
 sorted before they're hashed, so both of you get the same code without having to
 agree who counts as first. Two honest people reading out codes that didn't match
 would conclude they were being attacked, which is worse than not checking at all.
-
-<Image src="/blog/server-identities.webp" alt="Gryt's Server identities settings, listing one known server at 127.0.0.1:5003, trusted since 9 September 2026, with the six groups of its identity fingerprint underneath" width="2880" height="1514" />
 
 The code is digits rather than words. Your identity backup is already 24 words, and
 eight more words next to them would read as a second recovery phrase: something to
@@ -126,36 +176,50 @@ have checked for you. The mark disappears the moment either key changes. If you
 compared a code last year and their key has changed since, that comparison tells you
 nothing.
 
-## A warning that was almost always wrong
+Servers have a fingerprint of their own, shown in settings (Figure 1).
 
-For a while, joining a server could tell you it was showing a message key that wasn't
-yours, and that you should treat your direct messages as readable by it.
+<Image src="/blog/server-identities.webp" alt="Gryt's Server identities settings, listing one known server at 127.0.0.1:5003, trusted since 9 September 2026, with the six groups of its identity fingerprint underneath" width="2880" height="1514" />
 
-It went off because of timing. Your client publishes its key when it joins, and the
-first member list usually arrives before that has landed, so for about a second the
-key genuinely doesn't match. The warning had no dismiss button and no expiry, so that
-one second stayed on screen for the rest of the session.
+**Figure 1:** Server identities in settings: one known server, when it was first
+trusted, and its fingerprint.
 
-It also pointed at the wrong thing. A hostile server can cause this. What actually
-caused it, nearly every time, was signing in on a second device.
+## 5 Discussion
 
-It waits five seconds now, disappears as soon as the keys agree, and mentions the
-second device first. That doesn't fix the cause. The cause was that a second device
-made a whole new identity, and the message password in [1.9](/changelog/1.9.0) is
-what fixes that.
+### 5.1 Limitations
 
-## Channels are not encrypted
+- **Channels aren't encrypted**, and don't claim to be. A direct message is between
+  two people who picked each other. A channel is a room someone administers: people
+  join it, leave it and get removed from it, and the server has to hand the history
+  to whoever turned up yesterday. That's a different problem and this doesn't solve
+  it. So if you're hosting: your server can read what's said in its channels. It
+  can't read a direct message between two of its members.
+- **The first key is taken on trust** unless you compare a code (Section 4).
+- **The softer warning doesn't fix the cause.** The cause was that a second device made
+  a whole new identity, and the message password in 1.9 [6] is what fixes that.
 
-Channels aren't encrypted, and don't claim to be. A direct message is between two
-people who picked each other. A channel is a room someone administers: people join
-it, leave it and get removed from it, and the server has to hand the history to
-whoever turned up yesterday. That's a different problem and this doesn't solve it.
+## 6 Conclusion
 
-So if you're hosting: your server can read what's said in its channels. It can't read a direct message between two of its members.
+**How are direct messages encrypted?** A key per message, wrapped for each person in
+the conversation, with attachments encrypted before upload. Only when everyone has a
+key, and never for some people and not others.
 
----
+**How did it fail without anyone noticing?** Three ways: high signatures rejected at
+random, existing members never publishing, and two devices looking like a swapped
+key. Each failure looked like somebody else's problem. The tests that missed them
+now check the actual signatures and the function that sends the key.
 
-[1.7.0](/changelog/1.7.0) is the release this shipped in, and the code is in
-[client](https://github.com/Gryt-chat/client) and
-[@gryt/crypto](https://github.com/Gryt-chat/crypto) if you want to read it rather
-than take my word for it.
+**How do you know a key is theirs?** Only by comparing a code with them somewhere the
+server isn't.
+
+The code is in [client](https://github.com/Gryt-chat/client) and
+[@gryt/crypto](https://github.com/Gryt-chat/crypto) if you want to read it rather than
+take my word for it.
+
+## References
+
+1. Gryt changelog. [1.7.0](/changelog/1.7.0).
+2. W3C. *Web Cryptography API.* https://www.w3.org/TR/WebCryptoAPI/
+3. Miller, P. *noble-curves.* https://github.com/paulmillr/noble-curves
+4. Wuille, P. *BIP 62: Dealing with malleability.* https://github.com/bitcoin/bips/blob/master/bip-0062.mediawiki
+5. Jones, M. *JSON Web Algorithms (JWA)*, ES256. RFC 7518. https://www.rfc-editor.org/rfc/rfc7518
+6. Gryt changelog. [1.9.0](/changelog/1.9.0).

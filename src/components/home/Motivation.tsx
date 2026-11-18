@@ -16,7 +16,7 @@ const MONOREPO = "https://github.com/Gryt-chat/gryt";
 const FIGURES = [
   { value: 4, suffix: "+", label: "years, since May 2022" },
   { value: 2, suffix: "", label: "of them spent on WebRTC before writing the media server" },
-  // Read at build time by scripts/fetch-github-stats.mjs, which counts the organisation's
+  // Read at build time by scripts/fetch-github-stats.ts, which counts the organisation's
   // repositories minus the archived ones. It was 13 by hand and had been 19 for a while.
   { value: githubStats.publicRepos, suffix: "", label: "repositories, all public" },
   { value: 1, suffix: "", label: "person" },

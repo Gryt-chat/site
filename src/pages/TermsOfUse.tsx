@@ -1,6 +1,6 @@
 import { PageHeader } from "../components/PageHeader";
 import { monthDayYear } from "../lib/formatDate";
-import { lastUpdated } from "../lib/pages.mjs";
+import { lastUpdated } from "../lib/pages";
 import styles from "../styles/document.module.css";
 
 const LAST_UPDATED = monthDayYear(lastUpdated("terms"));
@@ -144,6 +144,21 @@ export function TermsOfUse() {
           . You retain ownership of any content you create or upload through the
           service. By using the service, you do not grant us any rights to your
           content beyond what is necessary to operate the authentication service.
+        </p>
+
+        <h2>The Gryt Cloud waitlist offer</h2>
+        <p>
+          If you join the Gryt Cloud waitlist on gryt.chat/cloud before Gryt Cloud
+          opens, you get 50% off the first three months of one Gryt Cloud server
+          on the Friends or Community plan. It doesn&rsquo;t apply to Large or Company.
+          It applies to monthly and yearly billing: on yearly, the discount comes
+          off the first three months of the year. We send you a code in the email
+          when Gryt Cloud opens. One code per email address, and it can&rsquo;t be
+          exchanged for money.
+        </p>
+        <p>
+          Prices and plans can still change before launch. The discount is taken
+          from the price on the day you buy.
         </p>
 
         <h2>Disclaimer of warranties</h2>

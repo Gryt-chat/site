@@ -99,7 +99,7 @@ const HELP: DevCard[] = [
     detail:
       "The roadmap, and where a feature request goes so it lands somewhere it will be read.",
     go: "Roadmap",
-    href: `${DOCS}/about/roadmap`,
+    href: "/features#next-title",
   },
   {
     icon: PiSparkleFill,

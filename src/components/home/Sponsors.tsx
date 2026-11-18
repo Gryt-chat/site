@@ -34,13 +34,12 @@ export function Sponsors() {
           Sponsors
         </motion.p>
         <motion.h2 className={styles.heading} variants={rise(reduced)}>
-          Gryt is free, and it isn't asking you for money.
+          Gryt is free, and sponsors keep it running.
         </motion.h2>
         <motion.p className={styles.sub} variants={rise(reduced)}>
-          There's nothing to buy in it and nothing behind a subscription. You
-          can chip in if you want to. It pays for a domain, the box the auth
-          stack runs on, and the Apple and Windows signing certificates. None of
-          this depends on it.
+          There's nothing to buy in it and nothing behind a subscription. Running
+          it isn't cheap, though: a server, test devices, signing certificates and
+          the services around them. Sponsors help pay for that.
         </motion.p>
 
         <motion.ul className={styles.logos} variants={rise(reduced)}>
@@ -98,9 +97,9 @@ export function Sponsors() {
           </Button>
           <span className={styles.note}>
             Names go up from $25 a month and logos from $100, and one-off
-            payments are just as welcome. The tiers are written out on the{" "}
-            <Link to="/sponsors">sponsors page</Link>, along with everybody who
-            has.
+            payments are just as welcome. The tiers are written out on{" "}
+            <Link to="/sponsor">how to sponsor</Link>, and there's a{" "}
+            <Link to="/sponsors">list of everybody who has</Link>.
           </span>
         </motion.p>
       </motion.div>

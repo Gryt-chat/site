@@ -9,7 +9,7 @@ import tailwindcss from "@tailwindcss/vite";
 export default defineConfig({
   build: {
     sourcemap: true,
-    /* So `scripts/routeStyles.mjs` can tell which stylesheet each route needs
+    /* So `scripts/routeStyles.ts` can tell which stylesheet each route needs
        and the prerendered HTML can ask for it in the head (GRYT-959).
 
        Without this every prerendered page shipped only the global stylesheet

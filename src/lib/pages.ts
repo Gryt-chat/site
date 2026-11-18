@@ -1,0 +1,307 @@
+/**
+ * The one list of static pages. It existed in three places and drifted, which is how
+ * /changelog advertised an og:image that 404'd. Node imports it with types stripped.
+ */
+
+export interface StaticPage {
+  /** Path without a leading slash, e.g. "why-gryt". */
+  path: string;
+  title: string;
+  description: string;
+  /** The page's "Last updated" date, YYYY-MM-DD. The sitemap's lastmod too. */
+  updated?: string;
+  /** Kept out of search and out of the sitemap, like /invite. */
+  noindex?: boolean;
+}
+
+export interface AliasPage {
+  path: string;
+  /** The `path` of the StaticPage this one stands in for. */
+  of: string;
+}
+
+// Bumped whenever a card's design changes, so Discord's cache (keyed by URL) fetches
+// the new image instead of the old one. index.html carries the same number by hand.
+export const OG_IMAGE_VERSION = '2';
+
+export const STATIC_PAGES: StaticPage[] = [
+  {
+    path: "why-gryt",
+    title: "Why Gryt?",
+    description: "The questions people ask before they trust a chat app, answered straight.",
+  },
+  {
+    path: "developers",
+    title: "For developers",
+    description:
+      "Gryt's packages on npm, the bot SDK, the APIs, the voice engine and the design system.",
+  },
+  {
+    path: "developers/bots",
+    title: "Bots",
+    description:
+      "A bot joins a Gryt server the way any other client does. The handshake, the SDK, and running one in a container.",
+  },
+  {
+    path: "developers/addons",
+    title: "Client addons",
+    description:
+      "A theme is CSS. A plugin runs in a worker of its own, and what it can call is what you granted it.",
+  },
+  {
+    path: "developers/plugins",
+    title: "Server plugins",
+    description:
+      "JavaScript that runs inside a Gryt server, with the database and the filesystem, and why that is a bigger decision than a theme.",
+  },
+  {
+    path: "developers/apis",
+    title: "The APIs",
+    description:
+      "Every REST endpoint and socket event a Gryt server answers, the SFU protocol, and how identity is checked.",
+  },
+  {
+    path: "developers/voice",
+    title: "The voice engine",
+    description:
+      "@gryt/voice is the calling half of Gryt on its own: signalling, ICE, tracks and audio behind React hooks.",
+  },
+  {
+    path: "developers/design-system",
+    title: "The design system",
+    description:
+      "One set of tokens, two renderers, and a generator that turns a palette into a link. Four packages, all MIT.",
+  },
+  {
+    path: "developers/contributing",
+    title: "Contributing",
+    description:
+      "How a change gets into Gryt, what pull requests are wanted for, and which paths always get a human read.",
+  },
+  {
+    path: "built",
+    title: "Built with Gryt",
+    description:
+      "Bots, client addons and server plugins people have made, each a folder you can read before you run it.",
+  },
+  {
+    path: "self-hosting",
+    title: "Self-hosting",
+    description:
+      "How to run a Gryt server, from the app on your desk to a Helm chart, and what you get to decide once it is up.",
+  },
+  {
+    path: "support",
+    title: "Support",
+    description: "Stuck on something in Gryt? Search the docs, check the common problems, or ask a person.",
+  },
+  {
+    path: "support/invite-a-friend",
+    title: "I can't invite a friend",
+    description: "Your invite link might only work on your own network. Here's how to fix it, and what to do if a code gets refused.",
+  },
+  {
+    path: "support/nobody-can-hear-anyone",
+    title: "Nobody can hear anyone",
+    description: "Chat works but voice doesn't. It's usually a closed port, and whoever runs the server can fix it.",
+  },
+  {
+    path: "support/microphone",
+    title: "My mic doesn't work",
+    description: "Work through mute, your input device, permissions and the noise gate.",
+  },
+  {
+    path: "support/cant-connect",
+    title: "I can't connect to a server",
+    description: "Check the address, then what the error message says.",
+  },
+  {
+    path: "support/install",
+    title: "The app won't install or open",
+    description: "Warnings on Windows and macOS, and Linux AppImages that won't start.",
+  },
+  {
+    path: "support/voice-wont-start",
+    title: "Joining voice hangs, then blames my network",
+    description: "You click a voice channel, nothing happens for 15 seconds, then a network message. It's usually DNS filtering.",
+  },
+  {
+    path: "support/sound-problems",
+    title: "Voice sounds bad",
+    description: "Echo, words cut off, volume going up and down, or audio dropping out. Here's what each one usually means.",
+  },
+  {
+    path: "support/screen-share-echo",
+    title: "People hear themselves when I share my screen",
+    description: "Your screen share is picking up Gryt's own audio. Here's the fix for each computer.",
+  },
+  {
+    path: "support/server-clock",
+    title: "It says the server's clock is wrong",
+    description: "The server's clock is off by more than a minute. Whoever runs the server can fix it in a couple of commands.",
+  },
+  {
+    path: "support/server-identity",
+    title: "It says Server identity not recognised",
+    description: "The server has a different key than when you first joined. Check before you trust it.",
+  },
+  {
+    path: "support/after-server-restart",
+    title: "The server restarted and things look odd",
+    description: "A short reconnect message and a blip in voice is normal. Here's what to expect when a server restarts.",
+  },
+  {
+    path: "support/my-server-wont-start",
+    title: "My own server won't start or nobody can reach it",
+    description: "Commands to check a Gryt server running in Docker or Kubernetes, and what each failure usually means.",
+  },
+  {
+    path: "support/app-updates",
+    title: "The app won't update or forgets my profile",
+    description: "Old Windows versions can't update themselves, and an old install can reset your profile. Both take one fresh install.",
+  },
+  {
+    path: "support/host-a-server",
+    title: "Host a server from the app",
+    description: "The app you downloaded is also a server. Make one in under a minute, then let friends in.",
+  },
+  {
+    path: "support/join-a-server",
+    title: "Join a server",
+    description: "Open an invite link or add a server by its address. You don't need an account for many servers.",
+  },
+  {
+    path: "support/make-an-invite",
+    title: "Make an invite",
+    description: "Create an invite link, choose how many people can use it, and let people on your network in without one.",
+  },
+  {
+    path: "support/account-or-guest",
+    title: "Do I need an account?",
+    description: "No, not to try Gryt. Here's what a guest can do, what an account adds, and how to choose.",
+  },
+  {
+    path: "support/voice-basics",
+    title: "Use voice and push-to-talk",
+    description: "Join a voice channel, mute or deafen yourself, set up push-to-talk, and share your screen.",
+  },
+  {
+    path: "support/roles",
+    title: "Set up roles",
+    description: "Decide who can talk, moderate and read on your server, and promote regulars automatically.",
+  },
+  {
+    path: "support/threads",
+    title: "Use threads",
+    description: "Keep a long conversation out of the main channel, see what's new, and mark a question as solved.",
+  },
+  {
+    path: "support/custom-emojis",
+    title: "Add custom emojis",
+    description: "Upload your own images, name them, and use them in chat on your server.",
+  },
+  {
+    path: "support/back-up-a-server",
+    title: "Back up your server",
+    description: "Everything lives in one folder. Here's the one trap that makes a copy worthless.",
+  },
+  {
+    path: "blog",
+    title: "Blog",
+    description: "Posts about building Gryt, written by the one person building it.",
+  },
+  {
+    path: "cloud",
+    title: "Gryt Cloud",
+    description:
+      "Your own Gryt server, always online, run by us. Join the waitlist for 50% off your first three months on Friends or Community.",
+  },
+  {
+    path: "features",
+    title: "Features",
+    description:
+      "Everything in Gryt and the release it came in, from what we're building now back to 2022.",
+  },
+  {
+    path: "compare",
+    title: "Gryt vs Discord and TeamSpeak",
+    description:
+      "What the same features cost on Discord and TeamSpeak, including the rows where Gryt loses.",
+  },
+  {
+    path: "changelog",
+    title: "Changelog",
+    description: "What changed in each release of Gryt.",
+  },
+  {
+    path: "sponsor",
+    title: "Sponsor Gryt",
+    description: "What sponsoring pays for, and what you get back.",
+  },
+  {
+    path: "sponsors",
+    title: "Sponsors",
+    description: "Everyone who has chipped in to pay Gryt's bills.",
+  },
+  {
+    path: "terms",
+    title: "Terms of Use",
+    description:
+      "The terms covering the services we operate. Community servers set their own on top of these.",
+    updated: "2026-11-11",
+  },
+  {
+    path: "privacy",
+    title: "Privacy Policy",
+    description: "How Gryt handles your data. We collect as little as we can get away with.",
+    updated: "2026-11-11",
+  },
+  {
+    path: "community-guidelines",
+    title: "Community Guidelines",
+    description: "Rules and expectations for the Gryt community.",
+    updated: "2026-08-31",
+  },
+  {
+    path: "security",
+    title: "Reporting a security problem",
+    description:
+      "How to report a vulnerability in Gryt, what is in scope, and what we can honestly promise back.",
+    updated: "2026-08-31",
+  },
+  {
+    path: "invite",
+    title: "Invite",
+    description: "Join a Gryt server with an invite link.",
+    noindex: true,
+  },
+  {
+    path: "download",
+    title: "Download",
+    description: "Download Gryt for Windows, macOS or Linux.",
+  },
+];
+
+/**
+ * Routes that render an existing page under a second URL: their own directory so nginx can
+ * serve them without an SPA catch-all, with a canonical pointing at the primary.
+ */
+export const ALIAS_PAGES: AliasPage[] = [
+  { path: "privacy-policy", of: "privacy" },
+  { path: "terms-of-use", of: "terms" },
+  { path: "guidelines", of: "community-guidelines" },
+  { path: "security-policy", of: "security" },
+];
+
+/** A page's "Last updated" date, which the page prints and the sitemap gives as lastmod. */
+export function lastUpdated(path: string): string {
+  const updated = STATIC_PAGES.find((p) => p.path === path)?.updated;
+  if (!updated) throw new Error(`no updated date for /${path} in pages.ts`);
+  return updated;
+}
+
+/** The primary page an alias stands in for, or undefined if it is not an alias. */
+export function primaryFor(path: string): StaticPage | undefined {
+  const alias = ALIAS_PAGES.find((a) => a.path === path);
+  return alias ? STATIC_PAGES.find((p) => p.path === alias.of) : undefined;
+}
