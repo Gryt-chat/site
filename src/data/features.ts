@@ -53,7 +53,7 @@ export const upcoming: UpcomingFeature[] = [
   { area: 'servers', status: 'In progress', title: 'Move from Discord', text: 'A bot that imports a server for you, and a bridge so both sides can talk while a community moves.' },
   { area: 'privacy', status: 'Planned', title: 'Encrypted private channels', text: 'The same encryption as direct messages, for small private groups.' },
   { area: 'servers', status: 'Planned', title: 'Events', text: 'Schedule a game night and let people say they’re coming.' },
-  { area: 'hosting', status: 'Planned', title: 'Official hosting partners', text: 'Rent a Gryt server from a host we know, if you’d rather not run one.' },
+  { area: 'hosting', status: 'Planned', title: 'Gryt Cloud', text: 'Your own server, always online. We run it for you, if you’d rather not run one.' },
   { area: 'servers', status: 'Planned', title: 'A plugin store', text: 'Browse plugins from the app, see what each one asks to do, and install one on your server without a restart.' },
   { area: 'you', status: 'Planned', title: 'Now Playing', text: 'Show what you’re listening to, from your computer or by connecting Spotify.' },
   { area: 'servers', status: 'Planned', title: 'Bots in their own list', text: 'Bots sit in a section of their own at the bottom of the member list, online or offline.' },
@@ -61,6 +61,39 @@ export const upcoming: UpcomingFeature[] = [
 
 /** Newest line first. 1.4 and 1.8 never had a stable release, so they aren't here. */
 export const featureLines: FeatureLine[] = [
+  {
+    version: '1.15',
+    features: [
+      { area: 'chat', month: 'Nov 2026', title: 'Mute a DM', text: 'Right-click a chat or open its panel to silence it. Messages still arrive, with no sound and no badge.' },
+      { area: 'you', month: 'Nov 2026', title: 'A banner behind your whole card', text: 'Let your banner fill the card instead of a strip across the top.' },
+      { area: 'privacy', month: 'Nov 2026', title: 'One key on every device', text: 'All your devices use the same key. A new one is approved by a device you already have, and they tell you about a key none of them made.' },
+      { area: 'you', month: 'Nov 2026', title: 'Frame your picture', text: 'Drag the corners to frame an avatar or banner before it uploads, with your card next to it.' },
+      { area: 'you', month: 'Nov 2026', title: 'A tour from the owl', text: 'Gryt’s owl flies over to each thing worth knowing and tells you what it’s for, on your computer and on your phone.' },
+      { area: 'voice', month: 'Nov 2026', title: 'Quality on every share', text: 'A share you’re watching shows its resolution and frame rate, and hovering it shows the codec, bitrate and dropped frames.' },
+      { area: 'you', month: 'Nov 2026', title: 'Sign in with your phone', text: 'The welcome screen shows a code. Scan it with your phone and your account, servers and messages come across, with every step shown on both screens.' },
+      { area: 'servers', month: 'Nov 2026', title: 'Old messages on a new device', text: 'Whoever runs the server decides whether it carries members’ old messages over to a device they link.' },
+      { area: 'chat', month: 'Nov 2026', title: 'Thanks in What’s new', text: 'When somebody reported a bug or asked for a change, What’s new names them under it.' },
+      { area: 'voice', month: 'Nov 2026', title: 'Calls that ring', text: 'A call plays a ringtone until you answer, flashes the taskbar and shows a notification when Gryt is in the background.' },
+      { area: 'you', month: 'Nov 2026', title: 'Your own sounds', text: 'Pick a ringtone and a message sound from the ones Gryt ships, or use your own file.' },
+      { area: 'servers', month: 'Nov 2026', title: 'Bots ask before they get more', text: 'A bot that wants more permissions waits in Server settings until an admin approves the new ones.' },
+      { area: 'hosting', month: 'Nov 2026', title: 'Diagnostics for owners', text: 'See who’s in voice, their latency and the voice server’s numbers, or hand that to a bot so an AI can help debug.' },
+      { area: 'servers', month: 'Nov 2026', title: 'Home server, away from home', text: 'A server saved by its LAN address offers its public one when you’re somewhere else.' },
+      { area: 'chat', month: 'Nov 2026', title: 'Thread replies reach the thread', text: 'A reply wakes the phones of the people who wrote in that thread, and nobody else.' },
+      { area: 'chat', month: 'Nov 2026', title: 'Threads that fill the chat', text: 'Expand a thread from its panel to the whole chat area. Each channel remembers the one you had open.' },
+      { area: 'voice', month: 'Oct 2026', title: 'The call beside your chat', text: 'Clicking a voice channel opens the call next to what you were reading, and a grip sizes it.' },
+      { area: 'voice', month: 'Oct 2026', title: 'Share several windows', text: 'Each window gets its own quality, sound and Watch tile.' },
+      { area: 'voice', month: 'Oct 2026', title: 'Pop-out and fullscreen', text: 'Put the call in a small window that can stay on top of a game, or fill the screen.' },
+      { area: 'voice', month: 'Oct 2026', title: 'Bubbles on the tile', text: 'Messages in the call’s chat pop up on the sender’s tile, ready to reply to.' },
+      { area: 'chat', month: 'Oct 2026', title: 'Bring your Discord DMs', text: 'Drop in Discord’s data package and your side of a chat comes across encrypted, with its files and dates.' },
+      { area: 'chat', month: 'Nov 2026', title: 'Unread channels off screen', text: 'A pill at the top or bottom of the channel list shows when something new is scrolled out of view, and takes you there.' },
+      { area: 'chat', month: 'Oct 2026', title: 'Formatting as you type', text: 'The message box shows bold, lists, quotes and code as they’ll be sent, pasted or typed, with a format bar.' },
+      { area: 'chat', month: 'Oct 2026', title: 'A check before @everyone', text: 'Gryt says how many people a ping will notify and waits for you.' },
+      { area: 'chat', month: 'Oct 2026', title: 'Unread that follows you', text: 'Unread counts survive a restart and carry over to your other devices.' },
+      { area: 'you', month: 'Oct 2026', title: 'Approve a device with a scan', text: 'Point your phone at the code on a new computer, check four pictures match and tap Approve.' },
+      { area: 'you', month: 'Oct 2026', title: 'Your key in iCloud Keychain', text: 'A Mac on your Apple ID gets your key from iCloud Keychain, like your iPhone does.' },
+      { area: 'privacy', month: 'Oct 2026', title: 'No more message password', text: 'The server no longer keeps a password-locked copy of your key, so nobody can sit and guess it.' },
+    ],
+  },
   {
     version: '1.14',
     features: [
@@ -98,16 +131,16 @@ export const featureLines: FeatureLine[] = [
     version: '1.12',
     features: [
       { area: 'phone', month: 'Sep 2026', title: 'Most of the desktop on a phone', text: 'Threads, forums, friends, themes, unread counts and server settings, on iPhone and Android.' },
-      { area: 'privacy', month: 'Sep 2026', title: 'Direct messages on MLS', text: 'A key that leaks later can’t open messages from before it leaked.', post: 'direct-messages-now-run-on-mls' },
+      { area: 'privacy', month: 'Sep 2026', title: 'One-to-one messages on MLS', text: 'A key that leaks later can’t open messages from before it leaked. Group messages keep the older encryption for now.', post: 'direct-messages-now-run-on-mls' },
       { area: 'phone', month: 'Sep 2026', title: 'Volume and push to talk on the phone', text: 'Turn one person up or down in a call. With push to talk on, you hold the mute button to talk.' },
-      { area: 'hosting', month: 'Sep 2026', title: 'Bring your Discord history', text: 'Import a DiscordChatExporter export, with channels, threads, replies, reactions, emoji and files, and the original dates.' },
+      { area: 'hosting', month: 'Sep 2026', title: 'Bring your Discord history', text: 'Whoever runs the server can import a DiscordChatExporter export through the server’s API, with channels, threads, replies, reactions, emoji, files and the original dates. There’s no screen for it yet.' },
     ],
   },
   {
     version: '1.11',
     features: [
       { area: 'privacy', month: 'Sep 2026', title: 'Who can message or call you', text: 'Anyone on the server, friends, or nobody, for messages and calls apart, and the server holds to it too.' },
-      { area: 'privacy', month: 'Sep 2026', title: 'Your 24 words', text: 'They get you back into your direct messages if you lose every device. Find them under Settings, Security, and keep them in a password manager.' },
+      { area: 'privacy', month: 'Sep 2026', title: 'Your 24 words', text: 'They get you back into your direct messages if you lose every device. Find them under Settings, Account & security, and keep them in a password manager.' },
       { area: 'you', month: 'Sep 2026', title: 'Friends', text: 'Add friends on a server, accept or decline requests, and see who’s online.', image: '/features/friends.webp' },
       { area: 'chat', month: 'Sep 2026', title: 'Mentions for everyone, roles and channels', text: 'Ping @everyone, @here, a role or a #channel. A server can turn the big pings off.', image: '/features/mentions.webp' },
       { area: 'servers', month: 'Sep 2026', title: 'Spam filter', text: 'Turn it on and set how sensitive it is.', image: '/features/spam-filter.webp' },
@@ -147,7 +180,7 @@ export const featureLines: FeatureLine[] = [
   {
     version: '1.7',
     features: [
-      { area: 'privacy', month: 'Aug 2026', title: 'Encrypted direct messages', text: 'Messages and their files are encrypted before they leave, so the server stores what it can’t read.', post: 'the-server-cant-read-your-direct-messages', image: '/features/encrypted-dm.webp' },
+      { area: 'privacy', month: 'Aug 2026', title: 'Encrypted direct messages', text: 'Messages and their files are encrypted before they leave, so the server stores what it can’t read. If someone in the chat has no key yet, Gryt asks before sending in the clear.', post: 'the-server-cant-read-your-direct-messages', image: '/features/encrypted-dm.webp' },
     ],
   },
   {
@@ -200,6 +233,7 @@ export const featureLines: FeatureLine[] = [
     version: '1.0',
     features: [
       { area: 'hosting', month: 'Mar 2026', title: 'The first public release', text: 'Desktop apps for Windows, Mac and Linux, the web client, and a server you can run with Docker or a Windows .exe. The server already capped how fast anyone could send messages.', post: 'windows-server-is-here' },
+      { area: 'you', month: 'Mar 2026', title: 'Updates itself', text: 'The desktop app downloads updates in the background and installs them when you quit. You can turn it off in settings.' },
     ],
   },
 ]

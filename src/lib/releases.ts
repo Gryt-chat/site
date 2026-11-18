@@ -66,8 +66,8 @@ export interface Store {
   name: string;
   badge: Badge;
   url?: string;
-  /** One line on why the store beats the file, shown under its badge. */
-  why?: string;
+  /** Why the store beats the file, as short chips under its badge. */
+  perks?: string[];
   /** The file label that stands in until the store opens, when the release has one. */
   standIn?: string;
 }
@@ -78,7 +78,7 @@ export const STORES: Store[] = [
     os: "windows",
     name: "Microsoft Store",
     url: MS_STORE_URL,
-    why: "No security warning, and it updates itself.",
+    perks: ["Signed"],
     /* The light one from apps.microsoft.com/badge, which says light on dark. Its dark
        badge is #202020 with a 10% black edge, and that disappears on --bg-raised. */
     badge: {
@@ -92,7 +92,7 @@ export const STORES: Store[] = [
     os: "linux",
     name: "Snap Store",
     url: SNAP_STORE_URL,
-    why: "Installs in one step and updates itself.",
+    perks: ["One step"],
     /* Canonical's black badge, CC BY-ND 2.0 UK, as snapcraft.io/static/images/badges/en
        serves it. The licence is in github.com/snapcore/snap-store-badges. */
     badge: {
@@ -182,8 +182,7 @@ export const PACKAGE_MANAGERS: PackageManager[] = [
   },
   { os: "linux", name: "snap", label: "snap · Linux", command: "sudo snap install gryt-chat" },
   { os: "linux", name: "AUR", label: "AUR · Arch Linux", command: "yay -S gryt-chat-bin" },
-  /* Gryt.GrytChat is still an open submission to winget-pkgs. */
-  { os: "windows", name: "winget", label: "winget · Windows" },
+  { os: "windows", name: "winget", label: "winget · Windows", command: "winget install Gryt.GrytChat" },
   /* Neither is started. GRYT-961 tracks every store and package manager. */
   { os: "windows", name: "Scoop", label: "Scoop · Windows" },
   { os: "windows", name: "Chocolatey", label: "Chocolatey · Windows" },

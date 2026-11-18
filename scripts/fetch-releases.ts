@@ -14,7 +14,7 @@ const REPOS = {
 
 async function releasesOf(repo: string) {
   const pages: { draft: boolean; tag_name: string; published_at: string; prerelease: boolean }[] = [];
-  for (let page = 1; page <= 3; page++) {
+  for (let page = 1; page <= 20; page++) {
     const response = await fetch(
       `https://api.github.com/repos/${repo}/releases?per_page=100&page=${page}`,
       { headers: { accept: "application/vnd.github+json" } },
