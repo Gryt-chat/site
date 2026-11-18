@@ -176,6 +176,19 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.16.0-beta.7",
+    date: "2026-11-18",
+    channel: "beta",
+    line: "Beta: beta.6 for the Mac, which didn't build the first time.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "1.16.0-beta.6 came out for Windows and Linux only, because a file the Mac build needs was missing from a package. This beta has the same changes, the storage overview included, on every system.",
+      },
+    ],
+  },
+  {
     version: "1.16.0-beta.6",
     date: "2026-11-18",
     channel: "beta",
