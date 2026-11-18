@@ -176,6 +176,19 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.16.0-beta.4",
+    date: "2026-11-18",
+    channel: "beta",
+    line: "Beta: choose how videos posted in chat are stored on your server.",
+    changes: [
+      {
+        kind: "new",
+        area: "settings",
+        text: "Server settings › Uploads has a Videos in chat choice: original quality, up to 1080p at 60 fps, or 720p at 30 fps. It shows on servers running 1.13.0-beta.3 or newer.",
+      },
+    ],
+  },
+  {
     version: "1.16.0-beta.3",
     date: "2026-11-17",
     channel: "beta",
@@ -5844,6 +5857,24 @@ export const app: ReleaseLine[] = [
  */
 export const server: ReleaseLine[] = [
   {
+    version: "1.13.0-beta.3",
+    date: "2026-11-18",
+    channel: "beta",
+    line: "Beta: videos posted in chat keep their quality, and a new device's request to open your messages waits for you.",
+    changes: [
+      {
+        kind: "changed",
+        area: "chat",
+        text: "Videos posted in chat aren't shrunk to 720p any more. By default a video everyone's devices can play is kept as sent, and others are converted at full size. Owners can pick 1080p at 60 fps or 720p at 30 fps instead. It needs Media Worker 1.6.0-beta.1.",
+      },
+      {
+        kind: "fixed",
+        area: "notifications",
+        text: "A new device asking to open your messages stays waiting for ten minutes, and tapping its notification on the phone opens the request instead of your DMs.",
+      },
+    ],
+  },
+  {
     version: "1.13.0-beta.2",
     date: "2026-11-17",
     channel: "beta",
@@ -7765,6 +7796,12 @@ export const server: ReleaseLine[] = [
  */
 export const voice: ReleaseLine[] = [
   {
+    version: "1.1.0-beta.1",
+    date: "2026-11-18",
+    channel: "beta",
+    line: "Beta: the voice server can carry people from a linked Discord voice channel and takes screen shares up to 4K at 240 fps. It also has an experimental video connection of its own, which stays off unless VIDEO_TRANSPORT=true is set.",
+  },
+  {
     version: "1.0.77",
     date: "2026-10-27",
     line: "Someone sharing several windows at once gets a separate screen stream for each, so the people watching can pick which ones to watch.",
@@ -7988,6 +8025,19 @@ export const voice: ReleaseLine[] = [
  * dependency bump gets a line here and would not elsewhere.
  */
 export const images: ReleaseLine[] = [
+  {
+    version: "1.6.0-beta.1",
+    date: "2026-11-18",
+    channel: "beta",
+    line: "Beta: chat videos follow the server's Video uploads setting instead of always being shrunk to 720p at 30 fps.",
+    changes: [
+      {
+        kind: "changed",
+        area: "chat",
+        text: "A chat video your viewers can play is kept as sent, with its location and other hidden data removed. Others are converted to AV1 at up to 2560 px and 60 fps, or smaller if the owner picks it.",
+      },
+    ],
+  },
   {
     version: "1.5.3",
     date: "2026-11-17",
