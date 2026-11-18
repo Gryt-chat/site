@@ -34,7 +34,7 @@
   "dependencies": {
     "@gryt/owl": "^0.7.0",
     "@gryt/theme": "^0.13.0",
-    "@gryt/ui": "^0.46.0",
+    "@gryt/ui": "^0.50.1",
     "@mdx-js/rollup": "^3.1.1",
     "@noble/curves": "^2.3.0",
     "@noble/hashes": "^2.3.0",
