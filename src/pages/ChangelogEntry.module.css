@@ -198,6 +198,7 @@
 
 .prose img {
   cursor: zoom-in;
+  margin: 0 auto;
 }
 
 /* A clip is never drawn larger than it was recorded, even though the pictures
@@ -275,6 +276,12 @@
   font-size: 16px;
   line-height: 1.7;
   color: var(--text);
+}
+
+.kinds dd p.thanks {
+  margin-top: 6px;
+  font-style: italic;
+  color: var(--text-dim);
 }
 
 /* Every area shares one gutter, so the chips line up down the page whichever

@@ -35,12 +35,14 @@
    band whatever was in it — a wide diagram lost both ends. Natural ratio, with
    a ceiling so a tall image cannot push the title off the screen. */
 .heroImage {
-  width: 100%;
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: auto;
   max-height: 420px;
-  object-fit: contain;
-  object-position: left;
   border-radius: var(--radius-md);
-  margin-bottom: 32px;
+  margin: 0 auto 32px;
+  cursor: zoom-in;
 }
 
 .title {
@@ -82,7 +84,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin-top: 12px;
+  margin-bottom: 12px;
 }
 
 
@@ -199,9 +201,14 @@
   margin: 48px 0;
 }
 
+.externalIcon {
+  display: inline-block;
+  margin-left: 3px;
+  vertical-align: -0.125em;
+}
+
 .prose img {
   border-radius: var(--radius-sm);
-  margin: 24px 0;
 }
 
 @media (max-width: 768px) {
@@ -209,8 +216,6 @@
     padding: 100px 16px 60px;
   }
 
-  /* max-height, not height: the rule above is object-fit: contain, and a fixed
-     height on a contained image just adds letterboxing. */
   .heroImage {
     max-height: 240px;
   }
