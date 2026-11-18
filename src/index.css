@@ -186,3 +186,8 @@ body {
 }
 .border-top { border-top: 1px solid var(--border); }
 
+
+/* Ingy's drawings are white paper, far too bright on a dark page. */
+img[src*='/blog/ingy/'] {
+  filter: brightness(0.82) sepia(0.35) hue-rotate(205deg) saturate(1.8);
+}

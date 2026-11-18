@@ -1,4 +1,5 @@
-import { Link } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
+import { Chip } from '@gryt/ui'
 import { posts } from '../lib/blog'
 import { dayMonthYear, yearOf } from '../lib/formatDate'
 import styles from './BlogIndex.module.css'
@@ -15,10 +16,28 @@ function byYear(list: typeof posts) {
   return [...groups.entries()]
 }
 
+/* Topics group the free-text tags, so a new tag only needs adding here to be filterable. */
+const TOPICS = [
+  { id: 'announcements', label: 'Announcements', tags: ['announcement'] },
+  { id: 'releases', label: 'Releases', tags: ['releases', 'update', 'beta'] },
+  { id: 'security', label: 'Security and privacy', tags: ['security', 'privacy', 'encryption', 'identity'] },
+  { id: 'voice', label: 'Voice and video', tags: ['voice', 'webrtc', 'screen-sharing'] },
+  { id: 'messages', label: 'Messages', tags: ['direct-messages', 'discord', 'threads'] },
+  { id: 'servers', label: 'Servers', tags: ['permissions', 'roles', 'moderation', 'plugins'] },
+  { id: 'phone', label: 'Phone', tags: ['mobile'] },
+  { id: 'design', label: 'Design', tags: ['design', 'themes'] },
+  { id: 'hosting', label: 'Self-hosting', tags: ['self-hosting', 'infrastructure', 'database', 'windows'] },
+  { id: 'story', label: 'The story', tags: ['history', 'community', 'personal', 'open-source', 'licensing', 'ai'] },
+]
+
 export function BlogIndex() {
-  const years = byYear(posts)
-  const newest = years[0]?.[0]
-  const oldest = years[years.length - 1]?.[0]
+  const [params, setParams] = useSearchParams()
+  const topic = TOPICS.find((t) => t.id === params.get('topic'))
+  const shown = topic ? posts.filter((p) => p.frontmatter.tags?.some((tag) => topic.tags.includes(tag))) : posts
+  const years = byYear(shown)
+  const all = byYear(posts)
+  const newest = all[0]?.[0]
+  const oldest = all[all.length - 1]?.[0]
   /* Every post is from the same year at the moment, and "2026 to 2026" reads as
      a bug rather than as a range. */
   const span = newest === oldest ? newest : `${oldest} to ${newest}`
@@ -32,6 +51,23 @@ export function BlogIndex() {
         </p>
       </header>
 
+      <div className={styles.topics} role="group" aria-label="Filter posts by topic">
+        <button type="button" className={styles.topic} aria-pressed={!topic} onClick={() => setParams({})}>
+          All
+        </button>
+        {TOPICS.map((t) => (
+          <button
+            key={t.id}
+            type="button"
+            className={styles.topic}
+            aria-pressed={topic?.id === t.id}
+            onClick={() => setParams({ topic: t.id })}
+          >
+            {t.label}
+          </button>
+        ))}
+      </div>
+
       {years.map(([year, group]) => (
         <section key={year} className={styles.year}>
           <h2 className={styles.yearLabel}>{year}</h2>
@@ -41,6 +77,7 @@ export function BlogIndex() {
               /* A post with no picture yet gets its own first tag on the same
                  mat, at the same size, rather than a blank panel. */
               const label = tags?.[0] ?? 'writing'
+              const topics = TOPICS.filter((t) => tags?.some((tag) => t.tags.includes(tag))).slice(0, 2)
               return (
                 <li key={post.slug}>
                   <Link to={`/blog/${post.slug}`} className={styles.card}>
@@ -51,6 +88,13 @@ export function BlogIndex() {
                         <span className={styles.matLabel}>{label}</span>
                       )}
                     </span>
+                    {topics.length > 0 && (
+                      <span className={styles.cardTopics}>
+                        {topics.map((t) => (
+                          <Chip key={t.id} tone="primary">{t.label}</Chip>
+                        ))}
+                      </span>
+                    )}
                     <span className={styles.meta}>
                       <span className={styles.cardTitle}>{title}</span>
                       <time

@@ -144,7 +144,7 @@ test("only commands that install a current build are offered", () => {
   const names = (os: OS) => liveCommands(os).map((p) => p.name);
   assert.deepEqual(names("linux"), ["snap", "AUR"]);
   assert.deepEqual(names("macos"), ["Homebrew"]);
-  assert.deepEqual(names("windows"), []);
+  assert.deepEqual(names("windows"), ["winget"]);
 });
 
 /* No faded badges: a store that isn't open is a name on the "Coming later" line and nothing else. */
@@ -152,7 +152,7 @@ test("everything not open yet is named once, and everything open says why", () =
   const closed = [...STORES.filter((s) => !s.url), ...PACKAGE_MANAGERS.filter((p) => !p.command)];
   assert.deepEqual(comingLater(), closed.map((x) => x.name));
   assert.equal(new Set(comingLater()).size, comingLater().length);
-  for (const store of STORES.filter((s) => s.url)) assert.ok(store.why, `${store.name} has no why`);
+  for (const store of STORES.filter((s) => s.url)) assert.ok(store.perks?.length, `${store.name} has no perks`);
 });
 
 /* width and height size the img before it loads, so a wrong pair stretches the badge until then. */

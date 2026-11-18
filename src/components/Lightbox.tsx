@@ -11,6 +11,7 @@ function picturesAround(img: HTMLImageElement): HTMLImageElement[] {
 export function LightboxImage({
   src,
   alt,
+  className,
   ...rest
 }: ComponentPropsWithoutRef<'img'>) {
   const thumb = useRef<HTMLImageElement>(null)
@@ -31,13 +32,15 @@ export function LightboxImage({
 
   return (
     <>
+      {/* Spans, because markdown puts an image inside a paragraph, and a figure can't go there. */}
+      <span className={className ? undefined : styles.figure}>
       <img
         {...rest}
         ref={thumb}
         src={src}
         alt={alt}
         data-lightbox=""
-        className={styles.thumbnail}
+        className={className ?? styles.thumbnail}
         role="button"
         tabIndex={0}
         onClick={show}
@@ -48,6 +51,8 @@ export function LightboxImage({
           }
         }}
       />
+      {alt && !className && <span className={styles.caption}>{alt}</span>}
+      </span>
       {items.length > 0 && (
         <Lightbox
           className={styles.lightbox}
