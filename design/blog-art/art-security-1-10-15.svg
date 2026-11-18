@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="896" viewBox="0 0 1600 896">
+<style>
+  .tile{fill:#232834;stroke:#333949;stroke-width:6;vector-effect:non-scaling-stroke}
+  .tile-accent{fill:#232834;stroke:#978FF8;stroke-width:6;vector-effect:non-scaling-stroke}
+  .deep{fill:#15161C}
+  .bar{fill:#333949}
+  .muted{fill:#565A6B}
+  .accent{fill:#978FF8}
+  .accent-deep{fill:#6157D8}
+  .line{fill:none;stroke:#333949;stroke-width:6;stroke-linecap:round;vector-effect:non-scaling-stroke}
+  .line-muted{fill:none;stroke:#565A6B;stroke-width:6;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+  .line-accent{fill:none;stroke:#978FF8;stroke-width:8;stroke-linecap:round;stroke-linejoin:round}
+  .dash{stroke-dasharray:2 18}
+</style>
+<g transform="translate(800 448) scale(1.27) translate(-749 -446)">
+<rect class="tile" x="230" y="378" width="200" height="120" rx="24"/>
+<rect class="bar" x="262" y="414" width="136" height="16" rx="8"/>
+<rect class="bar" x="262" y="446" width="92" height="16" rx="8"/>
+<path class="line" d="M436 438 H630"/>
+<path class="tile" d="M800 236 L960 292 V446 C960 566 890 634 800 670 C710 634 640 566 640 446 V292 Z"/>
+<path d="M736 456 L786 506 L870 410" fill="none" stroke="#978FF8" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"/>
+<circle class="tile" cx="1224" cy="254" r="44"/>
+<path class="line-accent" d="M970 438 C1060 438 1080 382 1176 382"/>
+<circle cx="1224" cy="382" r="44" fill="#232834" stroke="#978FF8" stroke-width="8"/>
+<path class="line-accent" d="M970 438 C1060 438 1080 510 1176 510"/>
+<circle cx="1224" cy="510" r="44" fill="#232834" stroke="#978FF8" stroke-width="8"/>
+<circle class="tile" cx="1224" cy="638" r="44"/>
+</g>
+</svg>

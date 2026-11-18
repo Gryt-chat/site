@@ -1,5 +1,6 @@
 import { Fragment, Suspense, useEffect } from 'react'
-import { useParams, Link, Navigate } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
+import { NotFound } from './NotFound'
 import { MdChevronLeft } from 'react-icons/md'
 import {
   PiBellFill,
@@ -91,7 +92,7 @@ export function ChangelogEntry() {
 
   /* Every note is compiled in and every line is imported, so a version that is
      neither is not one that was released. */
-  if (!release) return <Navigate to="/changelog" replace />
+  if (!release) return <NotFound />
 
   const { frontmatter } = release
 
@@ -130,6 +131,7 @@ export function ChangelogEntry() {
 
 /** A chip for each kind, with that kind's changes beside it. */
 function Kinds({ changes }: { changes: Change[] }) {
+  const thanks = new Map(changes.map((c) => [c.text, c.thanks]))
   return (
     <dl className={styles.kinds}>
       {groupChanges(changes).map(([kind, items]) => (
@@ -139,7 +141,10 @@ function Kinds({ changes }: { changes: Change[] }) {
           </dt>
           <dd>
             {items.map((text) => (
-              <p key={text}>{text}</p>
+              <Fragment key={text}>
+                <p>{text}</p>
+                {thanks.get(text) && <p className={styles.thanks}>{thanks.get(text)}</p>}
+              </Fragment>
             ))}
           </dd>
         </Fragment>

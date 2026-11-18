@@ -55,6 +55,8 @@ export interface Change {
   area?: Area;
   /** One sentence, same voice as `line`. */
   text: string;
+  /** Credit for whoever found or asked for it, shown under the change in italics. */
+  thanks?: string;
 }
 
 export interface ReleaseLine {
@@ -83,6 +85,9 @@ export interface ReleaseLine {
   changes?: Change[];
   /** Slug of the blog post telling this release's story, where there is one. */
   post?: string;
+  /** A picture for the app's What's new, under public/. Defaults to the post's image. The modal
+      is about 414px wide, so crop to the one feature rather than a whole window. */
+  image?: string;
 }
 
 /**
@@ -105,6 +110,14 @@ export interface SecurityNotice {
 
 /** Newest first. emit-changelog-json.mjs checks each one, and a bad one fails the build. */
 export const securityNotices: SecurityNotice[] = [
+  {
+    id: "gryt-server-1.12.1-node-brotli",
+    surface: "server",
+    fixedIn: "1.12.1",
+    title: "Link previews could hand the server a hostile Brotli body",
+    url: "https://gryt.chat/blog/security-update-gryt-server-1-12-1",
+    published: "2026-10-23",
+  },
   {
     id: "gryt-server-1.10.19-voice-join",
     surface: "server",
@@ -162,6 +175,3668 @@ export const securityNotices: SecurityNotice[] = [
  * releases list comes back in.
  */
 export const app: ReleaseLine[] = [
+  {
+    version: "1.16.0-beta.5",
+    date: "2026-11-18",
+    channel: "beta",
+    line: "Beta: a new server owner gets a short tour of their server settings.",
+    changes: [
+      {
+        kind: "new",
+        area: "servers",
+        text: "The first time you own a server, the guide owl shows you where its name, who can join, roles and uploads are. Show me around in Server settings › Overview plays it again.",
+      },
+    ],
+  },
+  {
+    version: "1.16.0-beta.4",
+    date: "2026-11-18",
+    channel: "beta",
+    line: "Beta: choose how videos posted in chat are stored on your server.",
+    changes: [
+      {
+        kind: "new",
+        area: "settings",
+        text: "Server settings › Uploads has a Videos in chat choice: original quality, up to 1080p at 60 fps, or 720p at 30 fps. It shows on servers running 1.13.0-beta.3 or newer.",
+      },
+    ],
+  },
+  {
+    version: "1.16.0-beta.3",
+    date: "2026-11-17",
+    channel: "beta",
+    line: "Beta: replace a server emoji in place, and people who are only on Discord show up in Gryt.",
+    changes: [
+      {
+        kind: "new",
+        area: "servers",
+        text: "Replace a custom emoji from Server settings › Emojis. You see the same message before and after, and once you replace it everyone gets the new picture, in old messages and reactions too.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A replaced emoji shows its new picture straight away. It used to keep the old one for up to a week.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A message that's only a typed smiley, like :D, is as big as one picked from the emoji menu.",
+      },
+      {
+        kind: "new",
+        area: "servers",
+        text: "People who are only on Discord get their own section in the member list, a Discord badge on their picture and a plain card.",
+      },
+      {
+        kind: "changed",
+        area: "servers",
+        text: "The Discord tab is a few short steps: which way messages go, which channels and people, then start. You can link a Discord person to a Gryt member from a list.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "A new device you sign in on gets the older messages in your encrypted DMs, not only the ones from after it joined.",
+      },
+    ],
+  },
+  {
+    version: "1.16.0-beta.2",
+    date: "2026-11-17",
+    channel: "beta",
+    line: "Beta: look at your attachments full size before you send them, and pick what the Discord bridge syncs.",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "Click a picture or video waiting in the message box to open it full size before you send it. Arrow keys or a swipe move between them, and Escape closes it.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "Attachments waiting in the message box shrink along with it when you click away, and a video shows a frame from the clip.",
+      },
+      {
+        kind: "new",
+        area: "servers",
+        text: "Once the Discord bridge is running, the Discord tab lets you pick which channels sync, turn on syncing for new Discord channels, and switch syncing off per Discord person or per member.",
+      },
+    ],
+  },
+  {
+    version: "1.16.0-beta.1",
+    date: "2026-11-17",
+    channel: "beta",
+    line: "Beta: bring a Discord server over to Gryt and keep the two in step.",
+    changes: [
+      {
+        kind: "new",
+        area: "servers",
+        text: "Server settings has a Discord tab for the owner. Make a Discord app, paste its ID and bot token, and invite the bot. Then every channel comes over with its history, files, threads, reactions, pins, roles and custom emoji, and new messages keep flowing one way or both. It needs a server on 1.13.0-beta.1 or newer.",
+      },
+      {
+        kind: "new",
+        area: "servers",
+        text: "On a server that already has channels, the Discord tab suggests where each Discord channel goes, and you can change any of them before the copy starts.",
+      },
+      {
+        kind: "new",
+        area: "servers",
+        text: "Link Discord in the server menu. Run /link on the bot in Discord, enter the code here, and your old Discord messages show under your name. The owner can also link people from the Discord tab.",
+      },
+      {
+        kind: "new",
+        area: "servers",
+        text: "A new server with no messages yet asks its owner, inside the first channel, whether they run a Discord server already.",
+      },
+      {
+        kind: "changed",
+        area: "servers",
+        text: "A server with every channel deleted says \"No channels yet\", with a Create channel button for people who can make one, instead of loading forever.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "Edit my card shows your row in the member list under the card preview, the way the list draws it.",
+      },
+      {
+        kind: "new",
+        area: "voice",
+        text: "Each voice preset has its own icon in the dropdown: a sparkle, a lightning bolt, a crosshair and faders.",
+      },
+    ],
+  },
+  {
+    version: "1.15.21",
+    date: "2026-11-17",
+    line: "Mute a DM, put your banner behind your whole card, and a huge picture can't freeze the cropper.",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "Mute a DM from its side panel, or right-click it in the list: Everything or Nothing, and Only mentions in a group. A muted DM shows a crossed-out bell and no badge, and its messages still arrive. Muting a server no longer silences its DMs.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "Your banner can fill your whole card instead of a strip across the top. Pick Whole card when you crop it.",
+      },
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "Picking a very large picture for your avatar or banner is turned away before it's decoded, so the app doesn't freeze, and the crop handles stay inside the frame.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "The bug report and feedback forms say where a screenshot goes: a GitHub issue, which opens with what you wrote already filled in.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "The old per-server key handover is gone from the app. A contact's new key always asks you to compare codes.",
+      },
+    ],
+  },
+  {
+    version: "1.15.21-beta.1",
+    date: "2026-11-17",
+    channel: "beta",
+    line: "A huge picture can't freeze the cropper, and the report form shows where a screenshot goes.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "Picking a very large picture for your avatar or banner is turned away before it's decoded, so the app doesn't freeze, and the crop handles stay inside the frame.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "The bug report and feedback forms say where a screenshot goes: a GitHub issue, which opens with what you wrote already filled in.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "The old per-server key handover is gone from the app. A contact's new key always asks you to compare codes, and there's no \"key is being reset\" line any more.",
+      },
+    ],
+  },
+  {
+    version: "1.15.20",
+    date: "2026-11-16",
+    line: "All your devices share one key, a new device is approved by one you already use, and mono mics are heard in both ears.",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "Every device on your account uses the same key. When you sign in on a new device, your other devices ask whether to approve it. Approve opens Link a device, and Not me helps you change your password.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "If your account gets a key none of your devices made, your devices tell you once, with Change password.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "A server that still had an older device's key moves to your account key by itself, with nothing to approve. If that changes your key there, people you talk to compare codes with you once.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "Before a new avatar or banner uploads, you frame it by dragging its corners, with your card shown next to it.",
+      },
+      {
+        kind: "new",
+        area: "voice",
+        text: "Voice on Gryt's own voice connection goes up to 510 kbps, and that's the new default. Sound settings shows a left and a right meter during a call.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "When Gryt crashes, Report a bug is the first button, with the error already filled in.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "When a DM opens empty on a new or wiped device, your other devices fill it in by themselves.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "Your device's name is encrypted before it leaves the device. Support Gryt sits at the bottom of settings, and the Message key warnings switch is gone.",
+      },
+      {
+        kind: "fixed",
+        area: "voice",
+        text: "A mono mic on one input of a two-input device was heard in only one ear on the lowest latency preset. Everyone hears it in both ears now.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A device still on someone's old key stopped every message in that chat. It's taken out of the chat now, and messages go to their current devices.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A device linked after it had its own key couldn't send DMs, and moving history during a link gave up when a server restarted. Both work now, and \"Not sent.\" says why.",
+      },
+    ],
+  },
+  {
+    version: "1.15.20-beta.8",
+    date: "2026-11-16",
+    channel: "beta",
+    line: "Servers follow your account key now, so there's nothing left to approve or reset server by server.",
+    changes: [
+      {
+        kind: "changed",
+        area: "chat",
+        text: "A server no longer asks one of your devices to approve another, and there's no reset per server. You approve a new device, or say you've lost every device, once for your whole account.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "The \"Message key warnings\" switch is gone from Security, along with the warning it turned off. A server moves to your account key by itself, so there's nothing to warn about.",
+      },
+    ],
+  },
+  {
+    version: "1.15.20-beta.7",
+    date: "2026-11-16",
+    channel: "beta",
+    line: "Servers still on an old device's key switch to your account key by themselves, and an old device no longer blocks a chat.",
+    changes: [
+      {
+        kind: "changed",
+        area: "chat",
+        text: "A server that still has the key of an older device of yours switches to your account key by itself. No notice, and no other device has to approve it. People you talk to there compare codes with you once.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "If your account gets a key none of your devices made, your devices tell you once, with Change password.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A device still on someone's old key stopped every message in that chat with \"Someone in this chat has a key this device doesn't know\". It's taken out of the chat now, and messages go to their current devices.",
+      },
+    ],
+  },
+  {
+    version: "1.15.20-beta.6",
+    date: "2026-11-16",
+    channel: "beta",
+    line: "After another device approves this one, DMs work right away, and a browser that has to approve is named as one.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "After another of your devices approved this one for a server, DMs there only started working after a restart. They work right away now.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "If the device that has to approve is a browser, the notice says to open gryt.chat in it, not to open Gryt on it.",
+      },
+    ],
+  },
+  {
+    version: "1.15.20-beta.5",
+    date: "2026-11-16",
+    channel: "beta",
+    line: "Approve this device shows up straight away instead of after you leave the chat.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "Right after Gryt started, a DM could show the old notice with two buttons instead of Approve this device, until you opened another chat and came back.",
+      },
+    ],
+  },
+  {
+    version: "1.15.20-beta.4",
+    date: "2026-11-16",
+    channel: "beta",
+    line: "A server where DMs don't work yet on this device asks you to approve it, and says which device does that.",
+    changes: [
+      {
+        kind: "changed",
+        area: "chat",
+        text: "If a server still has an older device's key, the DM shows one button, Approve this device, and names the device that approves it. It shows the code to check while it waits, and offers the 30-day way if you don't have that device any more.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "The approve prompt on your other device says what's asking, shows the code, and has Approve and That's not mine.",
+      },
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "Support Gryt stays at the bottom of settings in a short window, and What it pays for opens the page with the tiers.",
+      },
+    ],
+  },
+  {
+    version: "1.15.20-beta.3",
+    date: "2026-11-16",
+    channel: "beta",
+    line: "A device that was signed in before the one-key change now asks to be approved when it starts.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A device that stayed signed in after the one-key change never asked to be approved, so its DMs failed with \"a key this device doesn't know\". It now asks when it starts, and your other devices show the prompt.",
+      },
+    ],
+  },
+  {
+    version: "1.15.20-beta.2",
+    date: "2026-11-16",
+    channel: "beta",
+    line: "All your devices share one key, a new device asks your other ones to approve it, and device names are encrypted.",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "When you sign in on a new device, your other devices ask whether to approve it. Approve opens Link a device, where you type the code the new device shows. Not me turns it away and helps you change your password.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "If your devices each had their own key, the first one to update keeps its key for your whole account. The others ask to be approved from it.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "Approve this device shows the code straight away, with steps for where to type it. The QR code is one click away, for when you approve from your phone.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "Your device's name is encrypted before it leaves the device, so only your own devices can read it.",
+      },
+    ],
+  },
+  {
+    version: "1.15.20-beta.1",
+    date: "2026-11-16",
+    channel: "beta",
+    line: "A mic that only uses one side is heard in both ears, voice can go up to 510 kbps, and you can report a bug straight from the crash screen.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "voice",
+        text: "A mono mic plugged into one input of a two-input device was heard in only one ear on the lowest latency preset. It's now sent in mono at full level, so everyone hears it in both ears.",
+      },
+      {
+        kind: "changed",
+        area: "voice",
+        text: "Voice quality on Gryt's own voice connection now goes up to 510 kbps, and that's the new default. If you moved the slider, your setting stays.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "Sound settings shows a left and a right output meter during a call, so you can see when someone's voice only reaches one side.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "When Gryt crashes, Report a bug is the first button, and it opens a bug report with the error already filled in.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "When a DM opens empty on a new or wiped device, your other devices fill it in by themselves.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "\"Send them your copy\" stays clickable while it's sending and tells you if your copy is already on its way. The approve-this-device dialog no longer tells a guest they're signed in.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A device that had its own key and was then linked to your account couldn't send DMs. It now leaves its old key behind and joins your chats again.",
+      },
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "Moving your message history during a link no longer gives up when a server restarts halfway. If it does stop, it says why.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "\"Not sent.\" now says why, and that the message is back in the box to send again.",
+      },
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "Linking no longer shows \"has a different key for you\" for servers it has just moved to your account's key.",
+      },
+    ],
+  },
+  {
+    version: "1.15.19",
+    date: "2026-11-15",
+    line: "Friend requests pop up where you'll see them, every DM notice has a button that fixes it, and a device that's missing messages can ask the other person for their copy.",
+    changes: [
+      {
+        kind: "new",
+        area: "notifications",
+        text: "A friend request shows up as a toast with Accept and Decline, and as a system notification when Gryt isn't in front. The Messages button counts the requests waiting for you.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "If this device can't open some messages in a DM, or its older ones were cleared, \"Ask them for their copy\" sends the other person a request. Their app offers to send it, but only if they trust your key.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "Every DM notice now comes with a button that does something about it: Rejoin, Ask to be added again, Use my account's key, Remove unused devices, Compare codes, or Fix it on the key warning.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "When a message won't send, the error says what you can do about it.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "Ticking \"Include the app's recent log\" in a bug report attaches everything from the last five minutes, so the report shows what led up to the problem.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "Rejoin did nothing when this device had lost track of a DM. It now drops its broken copy and joins again.",
+      },
+      {
+        kind: "fixed",
+        area: "servers",
+        text: "A server's unread badge counts every message only from channels set to Everything. A channel on mentions only still lights it up when someone mentions you, just not for every message.",
+      },
+    ],
+  },
+  {
+    version: "1.15.18",
+    date: "2026-11-14",
+    line: "Moving your key to a new device no longer makes your contacts compare codes again, member cards are tidier, and a call from someone whose key changed says so.",
+    changes: [
+      {
+        kind: "changed",
+        area: "chat",
+        text: "A key change that the person's previous key signed, from linking a device or approving one, is trusted on its own. A reset or an admin wipe still asks you to compare codes.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "Member cards no longer carry key codes and trust buttons. Comparing codes happens in the DM, and \"Send them your copy\" shows there after you trust a new key.",
+      },
+      {
+        kind: "new",
+        area: "voice",
+        text: "When someone whose key changed calls you, the ringing card tells you to compare codes on the call before you trust it's them.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "The line about a changed key now points at Compare codes instead of their card.",
+      },
+    ],
+  },
+  {
+    version: "1.15.17",
+    date: "2026-11-14",
+    line: "Comparing codes with someone is one click from the chat, and a message waiting to send survives a restart.",
+    changes: [
+      {
+        kind: "changed",
+        area: "chat",
+        text: "Compare codes from the DM itself: \"Show code\" or \"Compare codes\" sits in the line above the message box, and \"Encrypted\" in the header opens it too. It can start a call so you can read the numbers out loud.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A message waiting for this device to be added to a DM was lost if the app restarted. It now waits on disk and sends once the device is added.",
+      },
+    ],
+  },
+  {
+    version: "1.15.16",
+    date: "2026-11-14",
+    line: "QR codes look like the ones you're used to, and linking a device no longer leaves a server stuck on its old key.",
+    changes: [
+      {
+        kind: "changed",
+        area: "servers",
+        text: "Permission settings show allow and deny as pills, and permissions that can hurt the server are marked with a red stripe on their row instead of a red fill.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "QR codes for linking a device, signing in with your phone and your recovery words are dots with rounded corners and the owl in the middle.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "Linking a device that was set up before the one-key rule threw its old key away, and any server still using that key had to wait 30 days for a reset. It now hands those servers over to your account's key first.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "Custom emoji you'd reacted with before showed up as their names in the quick reaction row if the server didn't have them any more. They're left out now.",
+      },
+    ],
+  },
+  {
+    version: "1.15.15",
+    date: "2026-11-14",
+    line: "A device waiting for its key to be approved tells you where to approve it, and the code to check.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "After a reload, a device waiting for approval forgot which of your devices to approve it on, and the code to compare. It now shows both until it's approved.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "On a device set up before the one-key rule, \"Other ways\" in a DM now asks your other device to approve it, so you're not stuck with only a 30-day reset.",
+      },
+    ],
+  },
+  {
+    version: "1.15.14",
+    date: "2026-11-14",
+    line: "Videos keep their picture when you press play, and Gryt works better with your own login service.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "Pressing play on a video in chat turned it black and shrank it while it loaded. The picture now stays in place until the video starts.",
+      },
+      {
+        kind: "fixed",
+        area: "self-hosting",
+        text: "With your own login service, the desktop app no longer goes through gryt.chat to finish signing in. It hands the sign-in straight back to the app.",
+        thanks: "Thanks to Inferlopec for finding it!",
+      },
+      {
+        kind: "fixed",
+        area: "servers",
+        text: "Servers you joined before linking an account could disappear when you signed in, if that account already had servers of its own. Both lists are kept now.",
+        thanks: "Thanks to Inferlopec for finding it!",
+      },
+    ],
+  },
+  {
+    version: "1.15.13",
+    date: "2026-11-14",
+    line: "Posts from X show properly, settings fit small windows, and a lot of small chat fixes.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A post from X showed up as a plain white box with the text in it. It shows as the real post now, in your light or dark theme.",
+        thanks: "Thanks to Harald for finding it!",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "Links you send yourself load their video or post straight away. Links from other people still ask first.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "In a narrow window, the \"Loads from youtube-nocookie.com\" box squeezed its text into one letter per line.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A custom emoji this server doesn't have, like :vance:, showed as its name in huge letters. It shows as a small \"?\" box now, with the name when you hover it.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "Reacting to a message no longer jumps the chat to the bottom.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "Reactions are spaced evenly with the heart centred, the add-reaction button only shows on hover, the buttons on a message have tooltips, and the emoji picker fits in a small window.",
+      },
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "Picking ringtones or message sounds one after another played them all on top of each other, and they kept playing after you closed settings.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "In a narrow window, settings and server settings open their list of pages from a menu button instead of squeezing it in.",
+      },
+      {
+        kind: "fixed",
+        area: "voice",
+        text: "In mini mode the call button was invisible, and the call slid in from the side before going up. You can see the button now, and the call slides up from the bottom across the full width.",
+      },
+    ],
+  },
+  {
+    version: "1.15.12",
+    date: "2026-11-13",
+    line: "Housekeeping only.",
+  },
+  {
+    version: "1.15.11",
+    date: "2026-11-11",
+    line: "The drop hint goes away when you drop a file on the message box, and Minimize to tray works without an account.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "Dropping a file onto the message box left \"Drop files here\" on screen until you went to another page. It goes away as soon as the file lands now.",
+      },
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "With a local identity and no account, Minimize to tray on close quit Gryt instead of hiding it. It hides to the tray now, signed in or not.",
+      },
+    ],
+  },
+  {
+    version: "1.15.10",
+    date: "2026-11-11",
+    line: "Add a server shows Gryt Cloud, the hosting we're working on, and a call you're not in is easier to spot.",
+    changes: [
+      {
+        kind: "changed",
+        area: "voice",
+        text: "A voice channel with people in it has a faint outline around them in the sidebar, the same shape as the call you're in, so you can see who's talking together.",
+      },
+      {
+        kind: "new",
+        area: "servers",
+        text: "Add a server has a Gryt Cloud card: your own server, always online, and we run it for you. It isn't open yet, so the card takes you to the waitlist at gryt.chat/cloud.",
+      },
+    ],
+  },
+  {
+    version: "1.15.9",
+    date: "2026-11-10",
+    line: "An owl shows you around Gryt now, and a screen share tells you its quality and frame rate.",
+    changes: [
+      {
+        kind: "new",
+        area: "settings",
+        text: "Get a tour, on the welcome or in Settings › About, has Gryt's owl fly over to each thing worth knowing and tell you what it's for. It waves hello and goodbye, and you can go back a step.",
+      },
+      {
+        kind: "new",
+        area: "phone",
+        text: "The phone's tour has the owl too, after you join your first server.",
+      },
+      {
+        kind: "new",
+        area: "voice",
+        text: "A screen share you're watching shows its resolution and frame rate in its corner, like 1080p | 240 fps. Hover it for the codec, bitrate, packet loss and dropped frames.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "Clicking a video in the picture viewer plays or pauses it, instead of zooming in.",
+      },
+      {
+        kind: "fixed",
+        area: "servers",
+        text: "The BOT tag in the member list was dark on dark on a light member card. It takes its colour from the row now.",
+      },
+    ],
+  },
+  {
+    version: "1.15.8",
+    date: "2026-11-10",
+    line: "Old messages you bring over when linking a phone and a computer now show up on the new device.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "Linking a phone from your computer, or a computer from your phone, said your old messages came across, but they didn't show in your chats. Now they do. Linking between two computers already worked.",
+      },
+    ],
+  },
+  {
+    version: "1.15.7",
+    date: "2026-11-10",
+    line: "Old messages come across to a linked device through your own server, never through Gryt, and the welcome is just a hello again.",
+    changes: [
+      {
+        kind: "changed",
+        area: "settings",
+        text: "When you link a new device, your old messages wait for it on one of your own servers, locked so the server can't read them. Before, they went through Gryt's relay.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "If none of your servers will carry them, both devices say your old messages stay on the one you linked from, instead of saying nothing.",
+      },
+      {
+        kind: "new",
+        area: "servers",
+        text: "Server settings has a switch under Linking a new device, for whether your server carries members' old messages to a device they link.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "The welcome message no longer shows a code to sign in with your phone. It's in Settings → Account.",
+      },
+    ],
+  },
+  {
+    version: "1.15.6",
+    date: "2026-11-09",
+    line: "Sign in on a computer by scanning a code with your phone, linking a device shows every step, and What's new thanks whoever found a bug.",
+    changes: [
+      {
+        kind: "new",
+        area: "settings",
+        text: "The welcome screen and Settings → Account show a code you can scan with your phone's camera to sign in. Your account, servers and messages come over from the phone, so you don't have to join a server first.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "Settings → Your devices has Link a device for adding another one, and Link this device for setting up the one you're on. Before, a signed-in computer without your key had nowhere in Settings to start it.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "While a device links, both sides list each step from Approve to Done and ask you to keep Gryt open on both. The screen stays on until it's done.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "Linking finishes sooner. The new device is added on every server at once, and to several chats at a time.",
+      },
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "After linking a computer that was already signed in, its servers show up straight away instead of after a restart. When linking replaces a guest identity, Gryt restarts by itself once it's done.",
+      },
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "If your other device closes partway through linking, the new one says so instead of spinning forever.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "When somebody found a bug or asked for a change, What's new thanks them by name, in a line under the change.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "What's new shows all the betas of one version as a single entry, with each change under its area's heading.",
+      },
+      {
+        kind: "changed",
+        area: "notifications",
+        text: "Picking a sound plays it, and letting go of the volume slider plays it again at the new level. The ringtone keeps playing while you drag, so you hear the level change. The separate play button is gone.",
+      },
+      {
+        kind: "changed",
+        area: "notifications",
+        text: "The message sound follows its volume slider the same way the other sounds do. It used to play louder than the slider said, so its default is now 60%, about as loud as before.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A mention in a forum topic's preview or a search result showed up as a string of code instead of the person's name. Now it shows @name.",
+        thanks: "Thanks to Leo from the community server for finding it!",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A link preview whose server never answers stops showing as loading after a while and goes away, instead of staying a grey card.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "When you say no to a device asking for your DM key, only that device shows it, not every device on your account that's waiting.",
+      },
+    ],
+  },
+  {
+    version: "1.15.6-beta.4",
+    date: "2026-11-09",
+    channel: "beta",
+    line: "Beta: sign in on a computer by scanning a code with your phone, and linking a device shows every step.",
+    changes: [
+      {
+        kind: "new",
+        area: "settings",
+        text: "The welcome screen and Settings → Account show a code you can scan with your phone's camera to sign in. Your account, servers and messages come over from the phone, so you don't have to join a server first.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "Settings → Your devices has Link a device for adding another one, and Link this device for setting up the one you're on. Before, a signed-in computer without your key had nowhere in Settings to start it.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "While a device links, both sides list each step from Approve to Done and ask you to keep Gryt open on both. The screen stays on until it's done.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "Linking finishes sooner. The new device is added on every server at once, and to several chats at a time.",
+      },
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "After linking a computer that was already signed in, its servers show up straight away instead of after a restart. When linking replaces a guest identity, Gryt restarts by itself once it's done.",
+      },
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "If your other device closes partway through linking, the new one says so instead of spinning forever.",
+      },
+    ],
+  },
+  {
+    version: "1.15.6-beta.3",
+    date: "2026-11-06",
+    channel: "beta",
+    line: "Beta: What's new groups a version's betas into one entry and thanks whoever found a bug, and stuck link previews give up.",
+    changes: [
+      {
+        kind: "changed",
+        area: "settings",
+        text: "What's new shows all the betas of one version as a single entry, with each change under its area's heading.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "When somebody found a bug or asked for a change, What's new thanks them by name, in a line under the change.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A link preview whose server never answers stops showing as loading after a while and goes away, instead of staying a grey card.",
+      },
+    ],
+  },
+  {
+    version: "1.15.6-beta.2",
+    date: "2026-11-06",
+    channel: "beta",
+    line: "Beta: mentions in forum previews and search results show as names again, thanks to Leo from the community server.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A mention in a forum topic's preview or a search result showed up as a string of code instead of the person's name. Now it shows @name.",
+        thanks: "Thanks to Leo from the community server for finding it!",
+      },
+    ],
+  },
+  {
+    version: "1.15.6-beta.1",
+    date: "2026-11-03",
+    channel: "beta",
+    line: "Beta: sound previews play at the volume you set, and the ringtone changes live as you drag.",
+    changes: [
+      {
+        kind: "changed",
+        area: "notifications",
+        text: "Picking a sound plays it, and letting go of the volume slider plays it again at the new level. The ringtone keeps playing while you drag, so you hear the level change. The separate play button is gone.",
+      },
+      {
+        kind: "changed",
+        area: "notifications",
+        text: "The message sound follows its volume slider the same way the other sounds do. It used to play louder than the slider said, so its default is now 60%, about as loud as before.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "When you say no to a device asking for your DM key, only that device shows it, not every device on your account that's waiting.",
+      },
+    ],
+  },
+  {
+    version: "1.15.5",
+    date: "2026-11-03",
+    line: "Calls ring, you can pick your own sounds, and bots are easier to manage.",
+    changes: [
+      {
+        kind: "new",
+        area: "voice",
+        text: "When somebody calls you, Gryt plays a ringtone until you answer or decline, flashes in the taskbar, and shows a notification if the app isn't in front.",
+      },
+      {
+        kind: "new",
+        area: "notifications",
+        text: "Settings \u2192 Notifications has a ringtone and a sound picker: six ringtones and seven message sounds, or your own file. Picking one plays it.",
+      },
+      {
+        kind: "new",
+        area: "servers",
+        text: "A bot that's already in can ask for more permissions. It shows up in Server settings \u2192 Bots with what it has and the new ones to approve, and the red count on Server settings includes bots waiting for an answer.",
+      },
+      {
+        kind: "changed",
+        area: "servers",
+        text: "A bot waiting in Server settings \u2192 Bots has Approve and Decline buttons, and each answered bot shows the start of its id and when it knocked, so two bots with the same name can be told apart.",
+      },
+      {
+        kind: "new",
+        area: "servers",
+        text: "The role editor has a See diagnostics permission, for who's in voice, their latency and the voice server's numbers. Only the owner has it to begin with.",
+      },
+      {
+        kind: "new",
+        area: "servers",
+        text: "If you saved a server by its home network address and it isn't answering, Gryt offers to connect through its public address, when the server has one.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "A device waiting to be approved for DMs says which of your devices has the key, when you last used it, and the date it takes over by itself if nobody answers. If none of your devices with the key has been on that server for 30 days, it takes over right away.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "When you sign in, the app proves it holds your account's key, and Gryt writes down that it did. Later, a new device signing in with only a password will need approval from one of your devices or your 24 words.",
+      },
+      {
+        kind: "changed",
+        area: "voice",
+        text: "A DM has one call button. Turn the camera on once you're in the call.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "The buttons on a DM key problem match what the line says, and \"Check their key\" opens the pictures to compare.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "The person card in a DM's info panel scrolls instead of being cut off, the BOT tag is readable on every card colour, and the typing line shows #2 when two people share a name.",
+      },
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "Searching settings finds the advanced ones too, like the overlay.",
+      },
+      {
+        kind: "fixed",
+        area: "servers",
+        text: "The number on the Discover badge sits in the middle of it.",
+      },
+    ],
+  },
+  {
+    version: "1.15.5-beta.4",
+    date: "2026-11-03",
+    channel: "beta",
+    line: "Beta: the app proves it holds your key when you sign in, the first step toward sign-ins that need one of your own devices.",
+    changes: [
+      {
+        kind: "changed",
+        area: "settings",
+        text: "When you sign in, the app now proves it holds your account's key, and Gryt writes down that it did. Later, a new device signing in with only a password will need approval from one of your devices or your 24 words.",
+      },
+    ],
+  },
+  {
+    version: "1.15.5-beta.3",
+    date: "2026-11-03",
+    channel: "beta",
+    line: "Beta: a device waiting for your key says which device it's waiting for, and when you last used it.",
+    changes: [
+      {
+        kind: "changed",
+        area: "chat",
+        text: "A device waiting to be approved for DMs says which of your devices has the key, when you last used it, and the date it takes over by itself if nobody answers.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "If none of your devices with the key has been on that server for 30 days, the new one takes over right away. People you message are still asked to check it's you.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "The buttons on a DM key problem now match what the line says, and \"Check their key\" opens the pictures to compare instead of a page of details.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "Picking a sound plays it, and the play button sits next to the picker.",
+      },
+      {
+        kind: "changed",
+        area: "voice",
+        text: "A DM has one call button. Turn the camera on once you're in the call.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "The person card in a DM's info panel scrolls instead of being cut off.",
+      },
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "Searching settings finds the advanced ones too, like the overlay.",
+      },
+    ],
+  },
+  {
+    version: "1.15.5-beta.2",
+    date: "2026-11-03",
+    channel: "beta",
+    line: "Beta: calls ring, and you can pick your message sound and ringtone.",
+    changes: [
+      {
+        kind: "new",
+        area: "voice",
+        text: "When somebody calls you, Gryt plays a ringtone until you answer or decline, flashes in the taskbar, and shows a notification if the app isn't in front.",
+      },
+      {
+        kind: "new",
+        area: "notifications",
+        text: "Settings → Notifications has a ringtone and a sound picker: six ringtones and seven message sounds to choose from, or your own file.",
+      },
+      {
+        kind: "new",
+        area: "servers",
+        text: "A bot that's already in can ask for more permissions. It shows up in Server settings → Bots with what it has ticked and greyed out, and the new ones to approve.",
+      },
+      {
+        kind: "new",
+        area: "servers",
+        text: "The red count on Server settings includes bots waiting for an answer, not just reports.",
+      },
+      {
+        kind: "new",
+        area: "servers",
+        text: "If you saved a server by its home network address and it isn't answering, Gryt offers to connect through its public address, when the server has one.",
+      },
+      {
+        kind: "fixed",
+        area: "servers",
+        text: "The number on the Discover badge sits in the middle of it.",
+      },
+    ],
+  },
+  {
+    version: "1.15.5-beta.1",
+    date: "2026-11-03",
+    channel: "beta",
+    line: "Beta: bots are easier to tell apart, and approving one says Approve.",
+    changes: [
+      {
+        kind: "changed",
+        area: "servers",
+        text: "A bot waiting in Server settings → Bots has Approve and Decline buttons instead of \"Let it in with 5\" and \"Turn away\".",
+      },
+      {
+        kind: "changed",
+        area: "servers",
+        text: "Each answered bot shows the start of its id and when it knocked and was answered, so two bots with the same name can be told apart.",
+      },
+      {
+        kind: "new",
+        area: "servers",
+        text: "The role editor has a See diagnostics permission, for who's in voice, their latency and the voice server's numbers. Only the owner has it to begin with.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "The BOT tag on a member card was almost invisible on some card colours. It's readable on all of them now.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "When two people share a name, the typing line shows which one with their #2.",
+      },
+    ],
+  },
+  {
+    version: "1.15.4",
+    date: "2026-11-02",
+    line: "A thread can fill the whole chat area, and you can start one from the message hover bar.",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "Threads open in a side panel and can expand to fill the chat area. Each channel remembers the thread you had open.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "The hover bar on a message has a button that starts a thread.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "A thread with no replies yet doesn't show a replies line under its message.",
+      },
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "The sidebar no longer shows your full email address, so it won't end up on a stream.",
+      },
+    ],
+  },
+  {
+    version: "1.15.3",
+    date: "2026-11-01",
+    line: "A pill points at unread channels you've scrolled past, and Cancel takes one click while editing.",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "When a channel with something new is scrolled out of the list, a pill at the top or bottom says so and takes you there.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "Cancelling an edit takes one click. The message box used to shrink under the press and the click missed.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "Sent messages are spaced the way the message box draws them, two or more link previews sit side by side when there's room, and the box grows and shrinks more slowly.",
+      },
+    ],
+  },
+  {
+    version: "1.15.2",
+    date: "2026-11-01",
+    line: "Paste a draft into the message box and it shows the way it'll send.",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "Pasted Markdown shows formatted right away: numbered and nested lists, bold, quotes and code. A paste inside a code block stays as it is.",
+      },
+    ],
+  },
+  {
+    version: "1.15.1",
+    date: "2026-11-01",
+    line: "Numbered lists and nested lists in the message box, and a keyboard way out of it.",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "The format bar has a numbered list button. In a list, Tab makes a second level and Shift+Tab takes it back out.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "Typing ->, <- or => turns into an arrow as you type.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "Tab and Escape now leave the message box. Tab used to put you straight back in it.",
+      },
+    ],
+  },
+  {
+    version: "1.15.0",
+    date: "2026-10-31",
+    line: "The call sits beside your chat, you can share several windows at once, and you can bring your Discord DMs over.",
+    post: "gryt-1-15-the-call-beside-your-chat",
+    changes: [
+      {
+        kind: "new",
+        area: "voice",
+        text: "Clicking a voice channel opens the call beside the chat you were reading. A grip between them sizes the call, from one camera wide to the whole middle or hidden, and tiles fill the space with shares first, then cameras, then everyone else.",
+      },
+      {
+        kind: "new",
+        area: "voice",
+        text: "Share several windows at once. Each one gets its own quality and sound, a shared window only sends its own sound, and viewers get a Watch tile for each with its name and volume. Nothing is sent to them until they press Watch.",
+      },
+      {
+        kind: "new",
+        area: "voice",
+        text: "Mic, headset and camera have a small arrow beside them for picking devices, and the camera shows you a preview first. Camera quality adds Native and Custom.",
+      },
+      {
+        kind: "new",
+        area: "voice",
+        text: "Messages in the call's chat pop up as bubbles on the sender's tile. Hover one to reply, react or open it in the chat.",
+      },
+      {
+        kind: "new",
+        area: "voice",
+        text: "A fullscreen button, and a pop-out that puts the call in a small window of its own, which can stay on top of a game. With the call hidden, its controls sit in the rail and cameras show as small live dots in the channel list.",
+      },
+      {
+        kind: "new",
+        area: "voice",
+        text: "Your camera can center your face when it starts and keep checking every few seconds.",
+      },
+      {
+        kind: "new",
+        area: "voice",
+        text: "The experimental voice connection switch works right away, sends your voice once when everyone in the call is on it, and has a quality slider from 96 to 192 kbps. It needs server 1.12.2 or newer.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "Import your Discord DMs in a DM's side panel. Ask Discord for your data, drop the .zip in and pick the chat. Your side comes across encrypted with its files and original dates, and a receipt lists any files that didn't make it, so you can try them again.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "Hover the time on an imported message to see when the server received it. Its date is what your package says.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "Bold, italics, headings, lists, quotes and code show in the message box as you type, with a format bar when you select text. Web and email addresses turn into links.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "Before a message with @everyone or @here goes out, Gryt tells you how many people it'll notify and waits for you to confirm.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "Unread counts survive a restart and follow you to another device. It needs server 1.12.2 or newer.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "In a DM, the side panel uses the card the other person made as its background, with search right under them.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "A new computer shows a code to scan. Point your phone's camera at it, check that four pictures match and tap Approve. The phone also gets a notification when a device asks.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "On a Mac, Gryt keeps your key in iCloud Keychain, so a Mac on the same Apple ID as your iPhone gets it when you install Gryt.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "Your devices has its own page in Settings. Your 24 words can be saved as a file or shown as a code to scan, and a device set up from them can bring your messages over from another of your devices.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "When someone's key changes and you've checked it's really them, you can send them your copy of your conversation. Their app shows those messages as shared by you. A changed key also has \"It's not them\", and you can undo trusting one.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "The message password is gone. Gryt no longer keeps a password-locked copy of your key on your account, since anyone who got hold of the server's database could keep guessing that password. A device that has your key removes the old copy by itself.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "Only one of your own devices can change the key your account uses on a server. \"Start fresh\" is now \"Lost everything?\". Your new key takes over after 30 days, and until then any of your devices can stop it.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "A device of yours joins an encrypted DM by itself, even with your other devices closed, and a DM takes up to 100 of your devices instead of 5. A message you write before it's in waits and sends itself.",
+      },
+      {
+        kind: "changed",
+        area: "servers",
+        text: "Click the server's name to open its menu, with invites, notifications, channels, settings and leaving in groups of their own.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "In a narrow window the member list folds to small faces, the channel list folds to icons, and below 820px the call is either full or hidden.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "Pictures in a message are a square grid again, and the lightbox shows them at their own size.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "Encrypted DMs that got stuck after a device was removed, or after every device in them was gone, work again.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "The buttons for reacting and replying sit above a message again, so they don't cover its text or links.",
+      },
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "You stay signed in if the sign-in service is down when Gryt starts, and the Microsoft Store version no longer offers betas it can't install.",
+      },
+      {
+        kind: "fixed",
+        area: "servers",
+        text: "Error toasts say what happened in plain words, and joining tries once more by itself when the server's join challenge has gone stale.",
+      },
+    ],
+  },
+  {
+    version: "1.15.0-beta.19",
+    date: "2026-10-31",
+    channel: "beta",
+    line: "Beta: bring your Discord DMs over. Your side of a chat comes across encrypted, with its files and original dates, from Discord's own data package.",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "Import from Discord in a DM's side panel. Ask Discord for your data, drop the .zip in, and pick the chat. It's still a beta, so please report anything that looks wrong.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "Hover the time on an imported message to see when the server received it. Its date is what your package says.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "When an import finishes, a receipt lists any files that didn't come over and why, and you can try those again.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "Old unencrypted DM messages no longer move onto encryption by themselves. It's off until we're sure it's safe. Anything already moved stays as it is.",
+      },
+    ],
+  },
+  {
+    version: "1.15.0-beta.18",
+    date: "2026-10-31",
+    channel: "beta",
+    line: "Beta: your old unencrypted DM messages now move onto encryption by themselves, once the DM's key has shown it works.",
+    changes: [
+      {
+        kind: "changed",
+        area: "chat",
+        text: "Once a message from the other person has opened on your device, your old text messages in that DM get sent again encrypted, and the unencrypted copies come off the server. Whoever runs the server may already have read or backed up the old ones. Messages with files, polls or pins stay as they are.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "Hover the time on a moved message to see when it says it was sent and when the server received this copy.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "Hovering the red dot on an unencrypted message now shows what it means.",
+      },
+    ],
+  },
+  {
+    version: "1.15.0-beta.17",
+    date: "2026-10-30",
+    channel: "beta",
+    line: "Beta: a DM's side panel shows the person's own card behind them, and you stay signed in if auth is down when Gryt starts.",
+    changes: [
+      {
+        kind: "changed",
+        area: "chat",
+        text: "In a DM, the side panel uses the card the other person made as its background, and their avatar moves if it's animated.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "The card editor can suggest colours from your avatar, and its pattern tiles have names.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "Icons on cards and in the Mention menu are rounder and match the voice controls.",
+      },
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "You stay signed in if the sign-in service is down when Gryt starts.",
+      },
+    ],
+  },
+  {
+    version: "1.15.0-beta.16",
+    date: "2026-10-29",
+    channel: "beta",
+    line: "Beta: the server's name opens its menu, and a DM's side panel shows the person in one row with search right under it.",
+    changes: [
+      {
+        kind: "changed",
+        area: "servers",
+        text: "Click the server's name to open its menu. Invites, notifications, creating channels and settings, and leaving are in groups of their own, and the + and ⋮ next to the name are gone.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "In a DM, the side panel shows the other person in one row, with Full card for the rest. Search in this chat sits right under it.",
+      },
+    ],
+  },
+  {
+    version: "1.15.0-beta.15",
+    date: "2026-10-28",
+    channel: "beta",
+    line: "Beta: a picture opens out of its thumbnail again, instead of flying in from the bottom of the screen.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "Opening a picture in chat showed it huge and low on the screen, then shrank it into place. It opens out of its thumbnail again.",
+      },
+    ],
+  },
+  {
+    version: "1.15.0-beta.14",
+    date: "2026-10-27",
+    channel: "beta",
+    line: "Beta: the pop-out can be moved, and its ✕ puts the call back.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "voice",
+        text: "You can drag the pop-out around by its title bar, and its ✕ closes it and puts the call back.",
+      },
+    ],
+  },
+  {
+    version: "1.15.0-beta.13",
+    date: "2026-10-27",
+    channel: "beta",
+    line: "Beta: unread counts survive a restart, and a round of fixes for sharing windows and the camera.",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "The server remembers how far you've read in each channel, so unread counts survive a restart and follow you to another device. It needs server 1.12.2-beta.8 or newer.",
+      },
+      {
+        kind: "new",
+        area: "voice",
+        text: "Camera quality has two more choices: Native sends what your camera gives, and Custom lets you pick the size and frame rate yourself.",
+      },
+      {
+        kind: "changed",
+        area: "voice",
+        text: "Tiles stay between 16:9 and 9:16, so a share or camera isn't stretched into a thin strip. The grip settles on the nearest size when you let go of it.",
+      },
+      {
+        kind: "changed",
+        area: "voice",
+        text: "Face centering glides to your face instead of jumping.",
+      },
+      {
+        kind: "changed",
+        area: "voice",
+        text: "The last line of the mic and headset menus is now Open audio settings, and it looks like a link.",
+      },
+      {
+        kind: "fixed",
+        area: "voice",
+        text: "A shared window only ever sends its own sound, never the rest of your computer's, and Gryt's own windows share with no sound so they don't echo.",
+      },
+      {
+        kind: "fixed",
+        area: "voice",
+        text: "Stopping your first shared window keeps the others running, and you can turn sound on for a window you shared without it.",
+      },
+      {
+        kind: "fixed",
+        area: "voice",
+        text: "The quality you pick for one shared window no longer changes your default, and the sound badge on your share follows the sound switch.",
+      },
+      {
+        kind: "fixed",
+        area: "voice",
+        text: "The share picker names each screen with its number and size, instead of the same name for all of them.",
+      },
+      {
+        kind: "fixed",
+        area: "voice",
+        text: "The camera you picked is still picked after a restart, and the camera list shows one you plug in while it's open.",
+      },
+      {
+        kind: "fixed",
+        area: "voice",
+        text: "The camera preview and menu open above the camera button, and the preview runs at the frame rate you'll send.",
+      },
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "A mic, speaker or camera with no name shows as Microphone 1, Speaker 1 or Camera 1 instead of a string of letters and numbers.",
+      },
+      {
+        kind: "fixed",
+        area: "servers",
+        text: "Linking a new device shows one New device linked notice, however many servers you're on.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "When a voice channel's chat can't be reached, you get one notice about it instead of three.",
+      },
+    ],
+  },
+  {
+    version: "1.15.0-beta.12",
+    date: "2026-10-27",
+    channel: "beta",
+    line: "Beta: the new voice view. The call sits beside the chat, you size it with a grip, and you can share several windows at once.",
+    changes: [
+      {
+        kind: "new",
+        area: "voice",
+        text: "Clicking a voice channel opens the call beside the chat you were reading, so joining never takes you away from it. A grip between them sizes the call: one camera wide, about two thirds, the whole middle, or hidden. Click it to step through, or drag it, and it snaps to each size.",
+      },
+      {
+        kind: "new",
+        area: "voice",
+        text: "Tiles fill the call with no empty space. Screen shares get the most room, then cameras, then everyone else.",
+      },
+      {
+        kind: "new",
+        area: "voice",
+        text: "Mic, headset and camera have a small arrow beside them. The mic's picks your microphone and noise suppression, the headset's picks your speakers, and the camera's picks the camera, quality and centering. The camera shows you a preview before anyone else sees you.",
+      },
+      {
+        kind: "new",
+        area: "voice",
+        text: "Share several windows at once. The picker shows every window, and each one you pick gets its own quality and sound. While you share, the share button opens a list where you can change or stop each window, or add another.",
+      },
+      {
+        kind: "new",
+        area: "voice",
+        text: "Someone else's share shows up as a Watch tile with the window's name, and nothing is sent to you until you press Watch. A share you watch has its own volume, Stop watching and fullscreen.",
+      },
+      {
+        kind: "new",
+        area: "voice",
+        text: "Messages in the call's chat pop up as bubbles on the sender's tile. Hover one to reply, react or open it in the chat. With the call hidden, they peek out from the person's row in the channel list instead.",
+      },
+      {
+        kind: "new",
+        area: "voice",
+        text: "With the call hidden, people's cameras show as small live dots in the channel list. Hover one for a bigger look.",
+      },
+      {
+        kind: "new",
+        area: "voice",
+        text: "A fullscreen button in the corner of the call, and a pop-out that puts the call in a small window of its own, which can stay on top of a game.",
+      },
+      {
+        kind: "changed",
+        area: "voice",
+        text: "With the call hidden, its controls sit in the rail on the left as plain toggles. The voice channel you're in gets a tinted card, and the chat you're reading keeps the accent.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "In a narrow window the member list folds to small faces, then the channel list folds to icons, and below 820px the call is either full or hidden. Widen the window and everything comes back.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "Screen share quality, frame rate, codec and bitrate are in Settings, and the picker remembers the quality you chose for each app.",
+      },
+      {
+        kind: "changed",
+        area: "voice",
+        text: "Your camera centers your face when it starts, and checks every few seconds after that.",
+      },
+      {
+        kind: "fixed",
+        area: "voice",
+        text: "Your own mirrored camera tile is framed on the right side.",
+      },
+      {
+        kind: "fixed",
+        area: "servers",
+        text: "Error toasts say what happened in plain words, and joining tries once more by itself when the server's join challenge has gone stale.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "Pictures in a message are a square grid again, and the lightbox shows them at their own size.",
+      },
+    ],
+  },
+  {
+    version: "1.15.0-beta.11",
+    date: "2026-10-26",
+    channel: "beta",
+    line: "Beta: the Microsoft Store version stops offering betas, and the key warning says what's actually going on.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "The Microsoft Store version could say a new beta was out, which the Store can't install. Store versions now only hear about stable releases.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "The warning about a server having a different key for you no longer says each device makes its own key, which stopped being true. It says to approve this device from one that has your key.",
+      },
+    ],
+  },
+  {
+    version: "1.15.0-beta.10",
+    date: "2026-10-25",
+    channel: "beta",
+    line: "Beta: approve a new device with one scan from your phone, and only your own devices can change your key.",
+    changes: [
+      {
+        kind: "new",
+        area: "settings",
+        text: "A new computer shows a code to scan. Point your phone's camera at it, Gryt opens and asks \"Is this your computer?\", and you check four pictures match before you tap Approve. The phone also gets a notification when a device asks, so you don't have to go looking.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "Only one of your own devices can change the key your account uses on a server. If a server still has an older key for you, the device that holds it is asked to hand over to the key your other servers use. Someone who only has your password can't swap your key anymore.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "\"Start fresh\" is now \"Lost everything?\", for when you've lost every device and your 24 words. Your new key takes over after 30 days, and until then any of your devices is asked \"Was this you?\" and can stop it. The people you message see that your key is being reset.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "Your devices has its own page in Settings, with the device list, Link a device and your 24 words. The device that makes your key asks you once to save the 24 words.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "A message you write in a DM before this device has been added to it now waits and sends itself once it's in, instead of failing. The lines above the message box say what's going on and what to do, rather than just that something isn't set up.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "Clicking a friend request notification opens their card, with Accept and Decline right there.",
+      },
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "Linking a fresh install no longer warns that you've already used Gryt on this device.",
+      },
+    ],
+  },
+  {
+    version: "1.15.0-beta.9",
+    date: "2026-10-24",
+    channel: "beta",
+    line: "Beta: a Mac gets your key from iCloud Keychain, like your iPhone does.",
+    changes: [
+      {
+        kind: "new",
+        area: "settings",
+        text: "On a Mac, Gryt keeps your key in iCloud Keychain, the same place the iPhone app keeps it. So a Mac signed in to the same Apple ID as your iPhone gets your key when you install Gryt, without approving it from another device or typing your 24 words.",
+      },
+    ],
+  },
+  {
+    version: "1.15.0-beta.8",
+    date: "2026-10-24",
+    channel: "beta",
+    line: "Beta: no more message password, your 24 words as a file or a code, and old messages can come back.",
+    changes: [
+      {
+        kind: "changed",
+        area: "settings",
+        text: "The message password is gone. Gryt no longer keeps a password-locked copy of your key on your account, since anyone who got hold of the server's database could keep guessing that password. A device that has your key removes the old copy by itself. Your devices and your 24 words are how a new device gets your key now.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "Your 24 words can be saved as a file, or shown as a code you scan with the phone when you set it up.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "When someone's key changes and you've checked it's really them, you can send them your copy of your conversation. Their app shows those messages as shared by you.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "A device you set up from your 24 words can bring your messages over from one of your other devices, under Settings.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "A changed key on someone's card now has \"It's not them\" as well, and you can undo trusting a new key.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "New devices are named after the computer they're on, so your device list says \"Sivert's MacBook Pro\" instead of \"Mac\".",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "An encrypted DM where every device that was in it is gone gets started over, so it works again instead of waiting for someone who'll never come back.",
+      },
+    ],
+  },
+  {
+    version: "1.15.0-beta.7",
+    date: "2026-10-24",
+    channel: "beta",
+    line: "Beta: encrypted DMs that got stuck work again, and a new device asks once to be approved.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "An encrypted DM could get stuck for everyone in it when somebody's new device joined after all their other devices had been removed from it. Sending then failed for good. That device now asks to be added instead. And a device whose copy of a DM got stuck drops it and joins again, so DMs that broke this way start working.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "Some encrypted DMs turned away every new device after one of your old devices had been removed from them. New devices get in now.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "A new device whose key isn't your account's asks once, in one window, to be approved from another of your devices. Before, every encrypted DM showed its own notice about it.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "Setting up a message password now says what the password is for. It no longer says your messages are locked for good.",
+      },
+    ],
+  },
+  {
+    version: "1.15.0-beta.6",
+    date: "2026-10-23",
+    channel: "beta",
+    line: "Beta: a device of yours gets into an encrypted DM by itself, even with your other devices closed.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A device that isn't in one of your encrypted DMs yet now joins it by itself, using what your other devices left on the server for that. Before, it had to wait until you or the other person opened Gryt on a device that was already in. It only asks to be added if it can't join this way.",
+      },
+    ],
+  },
+  {
+    version: "1.15.0-beta.5",
+    date: "2026-10-23",
+    channel: "beta",
+    line: "Beta: encrypted DMs say when one of your devices is left out, and how to fix it.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A device that isn't in an encrypted DM yet asks the other side's apps to add it, and says so above the message box with an Ask again button. Before, its messages failed and the other person's never showed up.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A device that made its own encryption key, instead of being linked to your other devices, now says so in every encrypted DM. It offers Link this device, or Use this device's key instead if you can't link it. Before, people's apps could trust one of your devices and quietly turn away the rest.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "Encrypted DMs take up to 100 of your devices instead of 5. If you ever reach the limit, the DM tells you to remove an old device in Settings.",
+      },
+    ],
+  },
+  {
+    version: "1.15.0-beta.4",
+    date: "2026-10-23",
+    channel: "beta",
+    line: "Beta: the picture gallery in messages runs on the same code as Gryt's lightbox.",
+    changes: [
+      {
+        kind: "changed",
+        area: "chat",
+        text: "The gallery you swipe through in a message with several pictures now uses the lightbox package's own gallery, instead of a copy of it inside Gryt. It should look and feel the same. If swiping feels off, tell us.",
+      },
+    ],
+  },
+  {
+    version: "1.15.0-beta.3",
+    date: "2026-10-23",
+    channel: "beta",
+    line: "Beta: the experimental voice connection switch works right away, no restart needed.",
+    changes: [
+      {
+        kind: "changed",
+        area: "voice",
+        text: "Turning the experimental voice connection on or off in Advanced settings takes effect straight away. If you're in a call, Gryt rejoins it on the new connection, with a short drop like a reconnect.",
+      },
+    ],
+  },
+  {
+    version: "1.15.0-beta.2",
+    date: "2026-10-23",
+    channel: "beta",
+    line: "Beta: the experimental voice connection stops sending your voice twice when everyone in the call is on it.",
+    changes: [
+      {
+        kind: "changed",
+        area: "voice",
+        text: "On the experimental voice connection, your voice also went out over WebRTC so people without it could hear you. Now that copy only goes while someone in the call needs it, so your voice goes up once instead of twice. It needs a server on 1.12.2-beta.1 or newer.",
+      },
+      {
+        kind: "changed",
+        area: "voice",
+        text: "A channel's max bitrate now caps the experimental voice connection too. You send whichever is lower, your voice quality setting or the channel's limit, but never below 96 kbps.",
+      },
+    ],
+  },
+  {
+    version: "1.15.0-beta.1",
+    date: "2026-10-23",
+    channel: "beta",
+    line: "Beta: formatting shows in the message box as you type, and Gryt asks before you ping everyone.",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "Bold, italics, headings, lists, quotes and code look the way they'll be sent while you're still typing them. Select some text and a format bar comes up with a button for each, plus links.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "Before a message with @everyone or @here goes out, Gryt tells you how many people it'll notify and waits for you to confirm.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "Web and email addresses turn into links as you type them.",
+      },
+      {
+        kind: "new",
+        area: "voice",
+        text: "With the experimental voice connection on, Advanced settings has a voice quality slider from 96 to 192 kbps. Turn it down on phone data or weak Wi-Fi.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "The buttons for reacting and replying sit above a message again, so they don't cover its text or links. They only show while you're pointing at the message.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "In a message with several pictures, the ones peeking in at the sides stay filled while a picture slides across.",
+      },
+    ],
+  },
+  {
+    version: "1.14.0",
+    date: "2026-10-23",
+    line: "Direct messages get their own space, and Ctrl+K searches your messages and files.",
+    post: "direct-messages-redrawn",
+    changes: [
+      {
+        kind: "security",
+        area: "settings",
+        text: "A server you host from the desktop app now runs server 1.12.1, which refuses Brotli when it fetches link previews. Electron doesn't have Node's October Brotli fix yet, and this keeps that bug out of reach.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "Messages sits above your servers and holds every conversation from every server in one list, newest first. Pin the people you talk to most and drag them into order. Pins stay on this device.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "The panel beside a conversation shows the person's own card, with what's pinned and shared underneath. Groups show their members there, and New message and New group share one dialog.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "Ctrl+K, or the magnifier in a channel's header, searches messages and file names beside the chat. Type from:, in:, has:, before: or after: to narrow it down. It needs the server on 1.12 or newer.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "Two or more pictures in a message sit in a small gallery. The picture viewer is new too: it opens out of the picture you clicked, and you can swipe, zoom, copy or save, and swipe down to close it.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "Each channel and DM keeps its own unsent message, pictures included. Channel drafts also survive closing the app.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "Link previews show their picture and site icon even with automatic link embeds turned off. Your server fetches them, so the linked site never sees your IP address. This needs the server on 1.12 or newer.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "When someone adds a person to a group, everyone in it sees who added whom, and what the new person can read from before.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "A message that went out unencrypted gets a small red dot. Click Not encrypted in the header to see why and what you can do.",
+      },
+      {
+        kind: "security",
+        area: "chat",
+        text: "When someone's key changes, their card shows the new code, and you're asked to check it before sending. Compare it with them somewhere other than Gryt, and if it matches, trust it and the conversation is encrypted again.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "Who can send you messages is Friends by default now, like calls. Until you have a friend on a server, anyone you've written to one-to-one there still counts. If you already picked something in Settings › Privacy, it stays.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "New message and a group's Add people leave out anyone who wouldn't take a direct message from you.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "New icons, messages fade in as they arrive, and a line break leaves a small gap so short lines don't run together.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "Search in Messages finds what this device has opened in groups and older direct messages, and a message deleted while Gryt was closed leaves search the next time you open its conversation.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "Pinned messages no longer says Loading… forever on a server that doesn't answer, and typing @ shows someone's owl instead of a broken picture.",
+      },
+      {
+        kind: "changed",
+        area: "servers",
+        text: "Server settings has everything for running a server, under General, People, Channels, Moderation, Integrations and Hosting. Reports moved in from their own window.",
+      },
+      {
+        kind: "changed",
+        area: "servers",
+        text: "A server that can't be reached keeps its header and says Can't reach it, with Try now and Check the connection.",
+      },
+      {
+        kind: "fixed",
+        area: "servers",
+        text: "The question about whether you used to be a guest on a server only comes up after you've actually joined as one.",
+      },
+      {
+        kind: "new",
+        area: "notifications",
+        text: "The server menu has the same Notifications choices as a server's right-click, and Settings › Notifications lists every channel and folder you've set differently.",
+      },
+      {
+        kind: "changed",
+        area: "voice",
+        text: "Settings › Audio starts with a voice preset: Best quality, Low latency or eSports, each with what it costs in delay. With every voice effect off, your microphone skips the audio processing, which is about 15 ms quicker.",
+      },
+      {
+        kind: "fixed",
+        area: "voice",
+        text: "eSports mode really turns the compressor, limiter and clipper off now, and sends voice in 10 ms pieces. That's about 30 ms quicker.",
+      },
+      {
+        kind: "fixed",
+        area: "voice",
+        text: "After a reconnect your voice no longer reaches everyone 5 to 40 ms later than before.",
+      },
+      {
+        kind: "new",
+        area: "voice",
+        text: "Settings › General › Advanced has a switch for Gryt's new voice connection, which skips WebRTC and on a Mac uses the phone's voice engine. It's experimental and off by default, and the connection part needs a server that supports it.",
+      },
+      {
+        kind: "changed",
+        area: "voice",
+        text: "In a call with someone, your chat with them stays open beside the call. Open another conversation and the call moves to the green button in the rail.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "Settings is grouped under You, App and Servers. The profile menu shows which account you're signed in with and has Use another account, and settings search copes with words like ptt and small typos.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "Your devices have names and say when they were last used, and \"Remove devices not used in 30 days\" clears out old ones on every server at once.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "Your name and picture follow the first server in your sidebar, so every server you join starts out with the same profile.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "What's new can show a picture of what a release changed, you can take the welcome tour again from Settings › About, and the Microsoft Store version says when there's an update.",
+      },
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "Addons load from manifest.json, as the docs say, and dialogs and menus keep clear of the desktop title bar.",
+      },
+    ],
+  },
+  {
+    version: "1.14.0-beta.17",
+    date: "2026-10-21",
+    channel: "beta",
+    line: "Beta: swipe down to close the picture viewer.",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "Swipe a picture down to close the viewer, the way you would on a phone. Its buttons and keys also wait until a picture has finished opening or closing.",
+      },
+    ],
+  },
+  {
+    version: "1.14.0-beta.16",
+    date: "2026-10-21",
+    channel: "beta",
+    line: "Beta: a picture in a message gallery opens out of the message into the viewer.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "Pictures in a message gallery now fill their box, and clicking one opens the viewer out of exactly what you clicked. Before, a picture of a different shape sat between empty bands and the viewer seemed to appear from nowhere.",
+      },
+    ],
+  },
+  {
+    version: "1.14.0-beta.15",
+    date: "2026-10-21",
+    channel: "beta",
+    line: "Beta: several pictures in a message show one at a time, and each channel keeps what you were typing.",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "Two or more pictures in a message now sit in a small gallery instead of a grid. Swipe or use the arrows to move through them, and click one to open it full size.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "Each channel and DM keeps its own unsent message, pictures included. Switch away and it's still there when you come back. Channel drafts also survive closing the app.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "The picture viewer is new. It opens out of the picture you clicked, and you can swipe, zoom with the wheel or two fingers, and copy or save with the buttons at the top.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "Link previews now show their picture and site icon even with automatic link embeds turned off. Your server fetches them, so the linked site never sees your IP address. This needs a server on 1.12.0-beta.7 or newer.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "Your name and picture follow the first server in your sidebar, so every server you join starts out with the same profile.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "A line break in a message leaves a small gap, so short lines don't run together.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "Typing @ no longer shows a broken image for someone whose picture won't load. You see their owl instead.",
+      },
+      {
+        kind: "fixed",
+        area: "servers",
+        text: "The question about whether you used to be a guest on a server only comes up after you've actually joined as one.",
+      },
+    ],
+  },
+  {
+    version: "1.14.0-beta.14",
+    date: "2026-10-21",
+    channel: "beta",
+    line: "Beta: on a Mac, voice runs on the phone's engine, and calls show measured round trips.",
+    changes: [
+      {
+        kind: "new",
+        area: "voice",
+        text: "On a Mac, voice now runs in a small program of its own, on the same engine as the phone, instead of inside the app's browser engine. Your audio skips Chromium completely, and Mac speakers get Apple's echo cancellation. Windows and Linux still use the browser path for now.",
+      },
+      {
+        kind: "new",
+        area: "voice",
+        text: "On the new voice connection, each person's tile shows the round trip to them through the server, measured by a tiny ping inside the voice stream. Hover it to see how much of their audio is waiting to play on your side.",
+      },
+      {
+        kind: "changed",
+        area: "voice",
+        text: "Beta now defaults to the Low latency voice preset, with noise reduction, the compressor and the gate off. If you've never changed those settings, that includes you. Pick Best quality in Sound & video if background noise gets through.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "The profile menu shows which account you're signed in with, and has Use another account. It signs you out and asks for a login, even when your browser is still signed in.",
+      },
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "Settings search finds things by the words people actually type, like keycloak, ptt or dark mode, and copes with small typos.",
+      },
+    ],
+  },
+  {
+    version: "1.14.0-beta.13",
+    date: "2026-10-20",
+    channel: "beta",
+    line: "Beta: the new voice connection works where WebTransport doesn't.",
+    changes: [
+      {
+        kind: "new",
+        area: "voice",
+        text: "If your browser doesn't have WebTransport, or your network blocks the UDP it needs, voice now goes over a normal web connection to the server instead of falling back to WebRTC. It can add a little delay on a bad network, but you stay on the same voice as everyone else.",
+      },
+    ],
+  },
+  {
+    version: "1.14.0-beta.12",
+    date: "2026-10-20",
+    channel: "beta",
+    line: "Beta: voice goes over Gryt's own connection instead of WebRTC, and gets there sooner.",
+    changes: [
+      {
+        kind: "new",
+        area: "voice",
+        text: "When the server supports it, your voice now travels over Gryt's own voice connection instead of WebRTC. In our tests it reached the other person 20 to 30 ms sooner, and it sounds clearer: 192 kbps, or 256 in stereo when your mic really is stereo. It's experimental. Where the server doesn't offer it, the call stays on WebRTC like before.",
+      },
+      {
+        kind: "new",
+        area: "voice",
+        text: "People still on WebRTC keep hearing you, and you keep hearing them.",
+      },
+      {
+        kind: "fixed",
+        area: "voice",
+        text: "People on the new connection get the speaking ring and the glow behind their picture, and the volume you set for someone applies to them too.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "Settings › Audio starts with a voice preset: Best quality, Low latency or eSports, each with what it costs in delay. The compressor, auto gain, the limiter and the volume slider say what they cost too.",
+      },
+    ],
+  },
+  {
+    version: "1.14.0-beta.11",
+    date: "2026-10-20",
+    channel: "beta",
+    line: "Beta: with every voice effect off, your voice skips the audio processing entirely.",
+    changes: [
+      {
+        kind: "changed",
+        area: "voice",
+        text: "If noise suppression, auto gain and the compressor are off, the gate is at 0 or you use push-to-talk, and mic volume is at 100%, your microphone goes out as it is. That's about 15 ms quicker. Turn any of them back on and they work as before.",
+      },
+    ],
+  },
+  {
+    version: "1.14.0-beta.10",
+    date: "2026-10-20",
+    channel: "beta",
+    line: "Beta: voice no longer gets slower after a reconnect.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "voice",
+        text: "After a reconnect, from a server restart, a network blip or a laptop waking up, your voice reached everyone 5 to 40 ms later than before, and stayed that way until you left the call. Each connection now starts fresh.",
+      },
+    ],
+  },
+  {
+    version: "1.14.0-beta.9",
+    date: "2026-10-20",
+    channel: "beta",
+    line: "Beta: eSports mode gets about 30 ms quicker.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "voice",
+        text: "eSports mode said it turned off all audio processing, but the compressor, limiter and clipper kept running and added about 20 ms. They're off now.",
+      },
+      {
+        kind: "fixed",
+        area: "voice",
+        text: "eSports mode now sends voice in 10 ms pieces instead of 20, as it was meant to. That's about 9 ms less delay, for a bit more bandwidth.",
+      },
+    ],
+  },
+  {
+    version: "1.14.0-beta.8",
+    date: "2026-10-19",
+    channel: "beta",
+    line: "Beta: only friends can start a direct message with you, and pickers skip people who'd say no.",
+    changes: [
+      {
+        kind: "changed",
+        area: "settings",
+        text: "Who can send you messages is Friends by default now, like calls. Until you have a friend on a server, anyone you've written to one-to-one there still counts. If you already picked something in Settings › Privacy, it stays.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "New message and a group's Add people leave out anyone who wouldn't take a direct message from you, so you don't find out after picking them. It needs the server on 1.12.0-beta.4 or newer.",
+      },
+    ],
+  },
+  {
+    version: "1.14.0-beta.7",
+    date: "2026-10-16",
+    channel: "beta",
+    line: "Beta: server admin in one place, Settings in three groups, and new icons.",
+    changes: [
+      {
+        kind: "changed",
+        area: "servers",
+        text: "Server settings has everything for running a server: its pages sit under General, People, Channels, Moderation, Integrations and Hosting. Reports moved in from their own window, and a server this app runs gets a Hosting page with its start, stop and address controls. The server menu shows the waiting reports on Server settings.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "Settings is grouped under You, App and Servers, and Profile opens on your name and picture again.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "Channels have a search button in their header, like direct messages. It starts in that channel, and removing the chip searches the whole server.",
+      },
+      {
+        kind: "new",
+        area: "notifications",
+        text: "The server menu has the same Notifications choices as a server's right-click, and Settings › Notifications lists every channel and folder you've set differently.",
+      },
+      {
+        kind: "changed",
+        area: "servers",
+        text: "Hide channels sits next to Hide members in a channel's ⋯ menu, \"What this server runs\" is called Plugins, and a new folder asks for its name before it's made.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "New icons: a teardrop for chats and direct messages, its own icon for pinned messages, and a dozen others. Leaving a voice channel looks like leaving, and only a call shows a phone to hang up.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "Every message fades in as it arrives, your own included, and yours no longer dims while it sends.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A direct message to somebody whose key changed failed with \"Their keys couldn't be checked\". You're now told their key changed, and asked to check it on their card before sending.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "Pinned messages no longer says Loading… forever on a server that doesn't answer.",
+      },
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "Addons load from manifest.json, as the docs and examples say. They only loaded from addon.json before, which still works.",
+      },
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "Dialogs, tooltips and menus keep clear of the desktop title bar, and text on purple buttons is dark enough to read.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "You can take the welcome tour again from Settings › About, and it ends on our official server.",
+      },
+    ],
+  },
+  {
+    version: "1.14.0-beta.6",
+    date: "2026-10-15",
+    channel: "beta",
+    line: "Beta: your devices have names, and the Microsoft Store version says when there's an update.",
+    changes: [
+      {
+        kind: "changed",
+        area: "settings",
+        text: "A new device names itself, like \"Gryt beta on Windows PC\" or \"Chrome on macOS\", and on a server running 1.12.0-beta.3 or newer the others show their names too. One install on three servers is one \"New device linked\", not three.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "Each device says when it was last used, and \"Remove devices not used in 30 days\" clears out old ones on every server at once.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "The Microsoft Store version tells you when an update is out, with a button that opens Gryt in the Store. The Store can take a day or two to have it.",
+      },
+    ],
+  },
+  {
+    version: "1.14.0-beta.5",
+    date: "2026-10-15",
+    channel: "beta",
+    line: "Beta: search finds messages in every conversation you've read, not only the newest kind of direct message.",
+    image: "/whats-new/dm-space.webp",
+    changes: [
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "Search in Messages found nothing in groups, or in a direct message that isn't on the newest encryption yet. It now finds what this device has opened there, kept encrypted on the device.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A message deleted while Gryt was closed leaves search and the list's preview the next time you open its conversation.",
+      },
+    ],
+  },
+  {
+    version: "1.14.0-beta.4",
+    date: "2026-10-15",
+    channel: "beta",
+    line: "Beta: What's new lays out its list properly again, and the hide buttons in Messages work.",
+    image: "/whats-new/dm-space.webp",
+    changes: [
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "In beta.3 every change in What's new sat in a tall box of its own. They're plain rows again.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "The button beside Messages hides the list straight away, even with the pointer still on it. Hide channels in a server does too.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "The panel beside a conversation slides shut and open instead of vanishing, and Hide conversation asks first.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "A message you open from search, a pin or a reply keeps a steady outline for five seconds instead of flashing. Opening the next one moves it.",
+      },
+      {
+        kind: "fixed",
+        area: "voice",
+        text: "In a call with someone, your chat with them stays open beside the call. The info panel steps aside while the call lasts.",
+      },
+      {
+        kind: "changed",
+        area: "voice",
+        text: "Open another conversation during a call and the call moves to the green button in the rail. Open its conversation again to bring it back.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "Leave group asks first, and Pinned only shows in a conversation that has pins.",
+      },
+    ],
+  },
+  {
+    version: "1.14.0-beta.3",
+    date: "2026-10-15",
+    channel: "beta",
+    line: "Beta: What's new shows a picture of what a release changed.",
+    image: "/whats-new/dm-space.webp",
+    changes: [
+      {
+        kind: "new",
+        area: "settings",
+        text: "When a release has a picture, What's new shows it under the greeting. Click it to read the blog post, if the release has one.",
+      },
+    ],
+  },
+  {
+    version: "1.14.0-beta.2",
+    date: "2026-10-15",
+    channel: "beta",
+    line: "Beta: direct messages get their own space, redrawn from top to bottom.",
+    image: "/whats-new/dm-space.webp",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "Messages sits above your servers and holds every conversation from every server in one list, newest first. Pin the people you talk to most and drag them into order. Pins stay on this device.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "The panel beside a conversation shows the person's own card, with what's pinned and shared underneath. Groups show their members there, and New message and New group share one dialog.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "A message that went out unencrypted gets a small red dot. Click Not encrypted in the header to see why and what you can do, ask them to update, or stop marking messages in that conversation.",
+      },
+      {
+        kind: "security",
+        area: "chat",
+        text: "When someone's key changes, their card shows the new code. Compare it with them somewhere other than Gryt, and if it matches, trust it and the conversation is encrypted again.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "When someone adds a person to a group, everyone in it sees who added whom, and what the new person can read from before. It needs the server on 1.12.0-beta.2 or newer.",
+      },
+      {
+        kind: "changed",
+        area: "servers",
+        text: "A server that can't be reached keeps its header and says Can't reach it, with Try now and Check the connection. It opens anyway, and short drops no longer pop up a message each time.",
+      },
+    ],
+  },
+  {
+    version: "1.14.0-beta.1",
+    date: "2026-10-14",
+    channel: "beta",
+    line: "Beta: search messages and file names with Ctrl+K.",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "Ctrl+K, or the magnifier in the channel header, opens search beside the chat. Pick a result and the chat opens at that message, and the results stay open so you can go through several.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "Type from:, in:, has:, before: or after: to narrow it down, and switch between Messages and Files. It needs the server to be on 1.12 or newer.",
+      },
+    ],
+  },  {
+    version: "1.13.36",
+    date: "2026-10-14",
+    line: "Pointing at a reaction shows who reacted straight away.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "Pointing at the emoji in a reaction showed only the emoji's name, and who reacted turned up only once you moved off it a little. It shows who reacted right away now, under the emoji itself instead of its :code: name.",
+      },
+    ],
+  },
+  {
+    version: "1.13.35",
+    date: "2026-10-14",
+    line: "Compact in the mini window gives the text the whole width, and join lines line up with the messages.",
+    changes: [
+      {
+        kind: "changed",
+        area: "chat",
+        text: "In the mini window, Compact puts the time and name at the start of the first line and lets the text wrap back under them, so a long message no longer runs down a narrow column on the right. A bigger window keeps the column of times.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "In Compact, a line like \"joined the server\" lines up with the messages around it, with its time in the same column, and it no longer wraps onto two lines in a narrow window.",
+      },
+    ],
+  },
+  {
+    version: "1.13.34",
+    date: "2026-10-13",
+    line: "In Compact, the time in front of each message is always shown.",
+    changes: [
+      {
+        kind: "changed",
+        area: "chat",
+        text: "Compact kept a column in front of each name for a time you only saw when you pointed at the message. The time now always shows there, and the column is only as wide as your clock needs.",
+      },
+    ],
+  },
+  {
+    version: "1.13.33",
+    date: "2026-10-13",
+    line: "The reaction bar and the right-click menu offer the same emojis.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "The bar you get when pointing at a message and the menu you get from right-clicking it both show the four reactions you use most, in the same order. The menu used to show the four you used last.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "The menu from the bar's ... button skips the row of emojis, since the bar already showed them.",
+      },
+    ],
+  },
+  {
+    version: "1.13.32",
+    date: "2026-10-13",
+    line: "A message's corners follow the picture or card inside it, with the same edge all the way round.",
+    changes: [
+      {
+        kind: "changed",
+        area: "chat",
+        text: "The background behind a message has the same padding on every side, and its corners are rounded to match whatever sits in them, so a picture or card gets an even edge.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A webhook card no longer has extra space on its right, and a message that starts with a picture has no gap above it.",
+      },
+    ],
+  },
+  {
+    version: "1.13.31",
+    date: "2026-10-13",
+    line: "The reaction bar sits right above the message you point at, in every style.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "In Lines and Compact the bar for reacting and replying sat at the far edge of the chat, a long way from a short message. It now sits just above the message's end, like it does in Bubbles.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A message with one big picture lights up only as wide as the picture, and messages get the same padding on every side.",
+      },
+    ],
+  },
+  {
+    version: "1.13.30",
+    date: "2026-10-13",
+    line: "Click a picture and the lightbox opens on it with the rest of that message beside it, with zoom and a darker backdrop.",
+    changes: [
+      {
+        kind: "changed",
+        area: "chat",
+        text: "The lightbox shows every picture and video in the message. The arrows, the left and right keys, or the strip of thumbnails along the bottom move between them, and the top bar says who sent it and when.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "Zoom a picture up to 800% with the buttons, the + and - keys, the scroll wheel or a double click, and drag to look around. 0 fits it back.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "The backdrop behind the lightbox is darker and blurred, so the chat gets out of the way.",
+      },
+    ],
+  },
+  {
+    version: "1.13.29",
+    date: "2026-10-13",
+    line: "Webhook cards read properly in Compact, and the reaction bar opens only from the message itself.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "In Compact, a webhook card like Gryt Git's squeezed down to a few letters wide. It gets its full width again.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "The bar for reacting and replying opens when you point at the message itself, not at the empty space beside it.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "Opening a channel with lots of reactions no longer leaves you just above the bottom.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "A message this version can't show, like something a newer Gryt or a plugin sent, says so instead of showing nothing.",
+      },
+    ],
+  },
+  {
+    version: "1.13.28",
+    date: "2026-10-13",
+    line: "Pictures sit in squares that fill the width, and the reaction bar stays in one place.",
+    changes: [
+      {
+        kind: "changed",
+        area: "chat",
+        text: "Two or more pictures show as equal squares, as many across as there's room for, each cropped to fill. Three pictures no longer come out at three different sizes.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "In Cozy and Compact, the bar for reacting and replying always sits just above the message at the edge of the chat, instead of moving beside short messages.",
+      },
+    ],
+  },
+  {
+    version: "1.13.27",
+    date: "2026-10-13",
+    line: "Polls, made from the + next to the message box.",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "Make a poll from + then Poll: up to ten options you can drag into order, one answer or several, anonymous or not, which roles can answer, and when it ends. Click an option to vote or change your vote, and point at one to see who picked it. Needs a server on 1.11.0.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "With Rich Presence on, a game Gryt has no name for gets one the next day. Gryt sends us only its app number, and the game list picks the name up from there.",
+      },
+    ],
+  },
+  {
+    version: "1.13.27-beta.1",
+    date: "2026-10-13",
+    channel: "beta",
+    line: "Beta: polls, made from the + next to the message box.",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "Make a poll from + then Poll: up to ten options you can drag into order, one answer or several, anonymous or not, which roles can answer, and when it ends. Click an option to vote or change your vote, and point at one to see who picked it. Needs a server on 1.11.0, which is on the beta channel.",
+      },
+    ],
+  },
+  {
+    version: "1.13.26",
+    date: "2026-10-13",
+    line: "Pictures go out as a grid, and you can drag files into order before sending.",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "Two or more pictures in a message show as a grid, with a +N tile when there are more than four. Files sit two to a row underneath.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "Drag the files waiting in the message box left and right to change the order they're sent in.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "The message box has a round + button with one Attach files item, and the emoji button sits on the right.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "In Cozy the hover bar sits at the top right of a message instead of covering the text or a link preview. Compact puts it in the corner too, and only shows the time while you point at the message.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A reply's quote shows emoji, custom emoji and smileys like :D the way the message does.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "When a picture or file can't be uploaded, the unsent message goes away instead of hanging around, and the error says what to tell whoever runs the server.",
+      },
+    ],
+  },
+  {
+    version: "1.13.25",
+    date: "2026-10-13",
+    line: "Pointing at someone in the member list shows their card behind their name.",
+    changes: [
+      {
+        kind: "changed",
+        area: "servers",
+        text: "Hovering someone in the member list fills their row with their card, its banner, colours and pattern, in place of the grey highlight. The list itself stays plain.",
+      },
+    ],
+  },
+  {
+    version: "1.13.24",
+    date: "2026-10-13",
+    line: "A bigger emoji picker with proper category icons, and a hover bar that's easier to hit.",
+    changes: [
+      {
+        kind: "changed",
+        area: "chat",
+        text: "The emoji picker is bigger, with larger emoji, a row of category icons down the side, and the name of whatever you're pointing at along the bottom. Press Enter in the search to pick the first match.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "The emoji picker's categories showed as dots. They show icons now.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "The bar that shows up when you hover a message has bigger buttons, and the highlight behind a message is only as wide as its text.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "Messages sat right against the scrollbar, and on a short bubble the hover bar ran off the left of the chat. Both have room now.",
+      },
+    ],
+  },
+  {
+    version: "1.13.23",
+    date: "2026-10-13",
+    line: "Messages come in three styles now, and yours can sit on the right.",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "You can pick how messages look under Appearance → Messages in settings. Cozy is how they've always looked, Compact puts each one on a single line, and Bubbles gives each its own bubble.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "Your own messages can sit on the right, like they do in most phone chat apps.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "The bar that shows up when you hover a message sits at its top corner and stays off the text. It has four quick reactions, more reactions, reply and a ⋯ button. Threads, pin, edit, copy, report and delete moved into the ⋯ menu, the same one a right-click opens.",
+      },
+    ],
+  },
+  {
+    version: "1.13.22",
+    date: "2026-10-08",
+    line: "The quote above a reply shows names instead of the code behind a mention.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A reply to a message that mentioned someone quoted it as [@Name](mention:…). It reads @Name now, and a channel link reads #channel.",
+      },
+    ],
+  },
+  {
+    version: "1.13.21",
+    date: "2026-10-08",
+    line: "Channels show what they're for next to their name, and editing a channel no longer deletes its description.",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "A channel's description shows beside its name at the top of the chat. Server admins can write or change it in the channel's settings.",
+      },
+      {
+        kind: "fixed",
+        area: "servers",
+        text: "Saving a channel's settings, even just renaming it, deleted the description it was created with.",
+      },
+      {
+        kind: "changed",
+        area: "self-hosting",
+        text: "The server that comes with the desktop app is now 1.10.58, so a server hosted from the app can wake phones too.",
+      },
+    ],
+  },
+  {
+    version: "1.13.20",
+    date: "2026-10-07",
+    line: "An open desktop no longer keeps your phone quiet once you've stepped away, and new devices pick from 668 names instead of 152.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "notifications",
+        text: "Leaving the desktop app open kept your phone from getting notifications, all day. Now the phone gets them once the Gryt window has been in the background for a minute, or you haven't touched it for five.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "A new device picks its starting name from 668 instead of 152, so two people on one server rarely end up with the same one.",
+      },
+    ],
+  },
+  {
+    version: "1.13.19",
+    date: "2026-10-07",
+    line: "Jump to present from wherever you've scrolled, with a count of what's new and a line showing where it starts.",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "Scroll more than two screens up and a Jump to present button floats over the chat. If messages come in while you're up there, it shows how many.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "Messages that arrive while you're scrolled up get a New line above them. It goes a few seconds after you're back at the bottom.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "Scrolling far back keeps 300 messages loaded at most, so getting back to the present loads one page instead of everything in between.",
+      },
+    ],
+  },
+  {
+    version: "1.13.18",
+    date: "2026-10-07",
+    line: "Pin messages and jump to any old one, screen shares wait for a click, a loud mic can't clip, and the chat glides down to new messages.",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "Pin a message from its right-click menu, and open a conversation's pins from the button in its header. In a channel you need Manage messages; in a DM either of you can.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "Clicking a pin or a reply's quote takes you to that message, however far back it is. Scroll down to read on, or press Jump to present.",
+      },
+      {
+        kind: "changed",
+        area: "voice",
+        text: "When someone shares their screen, you see a tile with a Watch stream button instead of the stream. Hover a stream to stop watching it.",
+      },
+      {
+        kind: "fixed",
+        area: "voice",
+        text: "A hot mic, like one coming through a mixer, could clip on loud words. Your mic now always stays below full scale, and auto gain is off unless you turned it on yourself.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A long message or a picture arriving could leave the chat short of the bottom. The chat now glides down to new messages, and your own message no longer flickers as it sends.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "The owl designer has a Copy link button, and the link previews as your owl when you paste it into a chat.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "Bug reports with logs included now carry a call's connection numbers, so lag that has already passed still shows up.",
+      },
+    ],
+  },
+  {
+    version: "1.13.18-beta.4",
+    date: "2026-10-07",
+    channel: "beta",
+    line: "Beta: the chat glides down to new messages, and your own message no longer flickers as it sends.",
+    changes: [
+      {
+        kind: "changed",
+        area: "chat",
+        text: "When a new message arrives while you're at the bottom, the chat slides down to it instead of jumping a whole line at once.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "Your own message faded in twice and the chat wobbled slightly as it went from sending to sent.",
+      },
+    ],
+  },
+  {
+    version: "1.13.18-beta.3",
+    date: "2026-10-06",
+    channel: "beta",
+    line: "Beta: jump straight to any old pin or reply, and new messages keep you at the bottom.",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "Clicking an old pin or reply opens the history right at that message, however far back it is. Scroll down to read on, or press Jump to present. It needs server 1.10.57-beta.1. Older servers still search back up to 1,000 messages.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A long message or a picture arriving could leave the chat short of the bottom. It now keeps you there whenever you were at, or just above, the bottom.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "New messages slide in quicker and more smoothly.",
+      },
+    ],
+  },
+  {
+    version: "1.13.18-beta.2",
+    date: "2026-10-06",
+    channel: "beta",
+    line: "Beta: clicking an old pin or reply now takes you to it, even when it's far up the history.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "Clicking a pin, or the quote on a reply, did nothing when the message was older than what had loaded. The app now loads older messages until it finds it, up to 1,000 back.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "Loading older messages while you were at the bottom of a channel could pull the view back down.",
+      },
+    ],
+  },
+  {
+    version: "1.13.18-beta.1",
+    date: "2026-10-06",
+    channel: "beta",
+    line: "Beta: screen shares wait until you click Watch, a loud mic no longer clips, and you can pin messages.",
+    changes: [
+      {
+        kind: "changed",
+        area: "voice",
+        text: "When someone shares their screen, you see a tile with a Watch stream button instead of the stream. Hover a stream you're watching to stop watching it.",
+      },
+      {
+        kind: "fixed",
+        area: "voice",
+        text: "A hot mic, like one coming through a mixer, could clip on loud words. Your mic now always stays below full scale, and auto gain is off unless you turned it on yourself.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "Pin and unpin a message from its right-click menu, and open the pinned list from the header. It needs server 1.10.56-beta.2.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "The owl designer has a Copy link button, and the link previews as your owl when you paste it into a chat.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "Bug reports with logs included now carry a call's connection numbers, one line a second, so lag that has passed still shows up.",
+      },
+    ],
+  },
+  {
+    version: "1.13.17",
+    date: "2026-10-06",
+    line: "Member cards show a shared name's number, and a card's emoji pattern no longer leaves the banner empty.",
+    changes: [
+      {
+        kind: "changed",
+        area: "chat",
+        text: "When someone shares a name with another member, their card shows the number beside it too, like Gold #2.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A card whose emoji pattern used an emoji this server doesn't have showed an empty banner. It shows ✨ instead now.",
+      },
+    ],
+  },
+  {
+    version: "1.13.16",
+    date: "2026-10-06",
+    line: "Deleting one custom emoji asks first, like deleting them all already did.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "servers",
+        text: "In Server settings, the trash button on a single emoji deleted it right away, with no undo. It asks first now.",
+      },
+    ],
+  },
+  {
+    version: "1.13.15",
+    date: "2026-10-06",
+    line: "Members who share a name are numbered by who joined first, and a game's card no longer drops when the presence helper starts late.",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "When two members on a server share a name, each gets a number after it by who joined first, so the original is Gold #1 and the next is Gold #2. It shows in the member list, the @ picker, mentions and message headers, and @ pings the one you picked.",
+      },
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "With the presence helper on, a game that started alongside Gryt could lose its connection, and its card never came back. Gryt waits for the helper now.",
+      },
+    ],
+  },
+  {
+    version: "1.13.14",
+    date: "2026-10-05",
+    line: "Pictures linked from other sites wait until you load them, one message key warning instead of a stack, and Gryt can open at login on a Mac.",
+    changes: [
+      {
+        kind: "security",
+        area: "chat",
+        text: "Pictures, videos and audio linked from other sites, and the pictures on link previews, wait for you to press Load, like players already did. Always load from a site trusts it on this device, and Settings → Chat lists the sites you trust.",
+      },
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "Signing in on another device showed a message key warning for every server you're on. It's one warning now, naming the servers, with Don't warn me again if your direct messages don't need to be private from the server.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "On a Mac, Desktop settings have Open at login.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "A card's status line no longer sits in a coloured band. Only a game gets one.",
+      },
+    ],
+  },
+  {
+    version: "1.13.13",
+    date: "2026-10-05",
+    line: "Pictures in messages only load from the server you're on, and you can tell Gryt when it spotted the wrong game.",
+    changes: [
+      {
+        kind: "security",
+        area: "chat",
+        text: "A picture in a message only loads if it comes from the server you're on. One linked from anywhere else shows as a link, so that site can't see who read the message.",
+      },
+      {
+        kind: "new",
+        area: "servers",
+        text: "Server owners can let members use custom emoji from their other servers. It's off unless the owner turns it on, and needs a server that has the setting.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "When Gryt asks whether to show a game it spotted, Wrong game? hides it and opens the feedback form so you can say what you're actually playing.",
+      },
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "Signing back in no longer asks to move a guest to your account on servers where it's already been moved.",
+      },
+    ],
+  },
+  {
+    version: "1.13.12",
+    date: "2026-10-05",
+    line: "Frame a banner before it goes up, get old cards back with their banners, and make a banner short.",
+    changes: [
+      {
+        kind: "new",
+        area: "settings",
+        text: "Picking a picture for your card's banner opens a crop box. Drag and zoom it, and what's in the box is what your card shows.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "The cards under Used before keep the banner they had, on this device, and picking one brings both back.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "The card editor has a Banner height choice. A short banner stays short even with a picture or a pattern. Your server needs 1.10.55 to keep it.",
+      },
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "Copying a video avatar to your other servers sends the video to the ones that take it, instead of a still.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "Pictures and videos in a thread panel swap in once the server has checked them, like they do in the channel.",
+      },
+    ],
+  },
+  {
+    version: "1.13.11",
+    date: "2026-10-05",
+    line: "Pictures and videos in chat show a loader while the server checks them, and hovering a server shows who's in voice.",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "A picture or video the server is still checking shows a loader in its place, and swaps in when it's ready. If it can't be used, the message says so instead.",
+      },
+      {
+        kind: "new",
+        area: "servers",
+        text: "Hovering a server in the sidebar lists who's in its voice channels. Calls in direct messages aren't shown.",
+      },
+      {
+        kind: "security",
+        area: "self-hosting",
+        text: "On a server hosted from the app, chat videos are converted inside its sandbox too, keeping their sound.",
+      },
+    ],
+  },
+  {
+    version: "1.13.10",
+    date: "2026-10-05",
+    line: "Server owners can see how uploads are handled and switch video avatars off, and you're told when an avatar couldn't be used.",
+    changes: [
+      {
+        kind: "new",
+        area: "servers",
+        text: "Server settings have an Uploads section. It says whether new pictures and videos are checked in a sandbox on this server, and has a switch for video avatars and banners, greyed out with the reason where the server can't convert video.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "The avatar and banner pickers only offer video where one of your servers takes it, and a video only goes to those servers. The others keep what you had.",
+      },
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "If an avatar or banner can't be processed, you're told, and your old one stays. Before, it just never showed up.",
+      },
+    ],
+  },
+  {
+    version: "1.13.9",
+    date: "2026-10-05",
+    line: "A server you host from the app checks uploads in a sandbox before anyone sees them, and the Microsoft Store version no longer offers a beta switch it can't use.",
+    changes: [
+      {
+        kind: "security",
+        area: "self-hosting",
+        text: "On a server hosted from the app, new avatars, banners and chat pictures are decoded and written out fresh inside a locked-down window with no network or file access, and only that copy is served. Banner and avatar videos become short silent clips there too. Chat-video previews are made the same way, rather than with a video tool installed on your computer.",
+      },
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "In the Microsoft Store version, turning on beta releases restarted Gryt and did nothing. The Store keeps it up to date, so the switch is gone, and Settings says how to get betas instead.",
+      },
+    ],
+  },
+  {
+    version: "1.13.8",
+    date: "2026-10-05",
+    line: "You can pick a short video as your avatar, on servers that convert video.",
+    changes: [
+      {
+        kind: "new",
+        area: "settings",
+        text: "The avatar picker in your profile takes MP4, WebM and MOV. The server turns the video into a silent clip of up to ten seconds, and it plays on your card. A server that can't convert video says so, and you can pick a picture instead.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "Each start now writes which copy of Gryt started to the log file, so it's easier to tell a Store copy and a downloaded copy apart.",
+      },
+    ],
+  },
+  {
+    version: "1.13.7",
+    date: "2026-10-05",
+    line: "A new emoji picker in chat that lists the server's own emoji first, and cards can play a video banner or avatar.",
+    changes: [
+      {
+        kind: "changed",
+        area: "chat",
+        text: "Chat uses the same emoji picker as the card editor now. It's quicker to scroll, jumps between categories, and lists this server's own emoji first, then the ones you've used lately.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "With more than one server open, the picker could offer another server's custom emoji. Each server keeps its own list now.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "If a member has a video banner or avatar, it plays on their card, muted and on a loop. The member list and voice tiles show a still frame from it.",
+      },
+    ],
+  },
+  {
+    version: "1.13.6",
+    date: "2026-10-05",
+    line: "The card editor is smooth again, and small text on a light card can be read.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "The card editor kept redrawing its pattern previews over and over, which made it slow to use. It only redraws when something changes now.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "On a card coloured all over, \"Playing\" and other small text are drawn in the card's own ink again. On a light card they had nearly disappeared.",
+      },
+    ],
+  },
+  {
+    version: "1.13.5",
+    date: "2026-10-02",
+    line: "Member cards can use any Phosphor icon, Unicode emoji, or emoji from the current server as a pattern.",
+    changes: [
+      {
+        kind: "new",
+        area: "settings",
+        text: "The card editor can search every Phosphor icon and choose Unicode or current-server emoji for scattered patterns.",
+      },
+    ],
+  },
+  {
+    version: "1.13.4",
+    date: "2026-10-01",
+    line: "Thick card outlines follow the card colour cleanly, and banner-only colours can use every fade.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "Thick outlines use the card colour, stay rounded, and keep a faint inner highlight.",
+      },
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "The banner fade control stays available when colour fills only the banner, and copied links remember the choice.",
+      },
+    ],
+  },
+  {
+    version: "1.13.3",
+    date: "2026-09-30",
+    line: "Thick card outlines keep banners rounded, and running games stay on your profile when Gryt restarts.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "Card banners follow the rounded corners inside thick outlines.",
+      },
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "A game that is already running stays on your profile after Gryt restarts.",
+      },
+    ],
+  },
+  {
+    version: "1.13.2",
+    date: "2026-09-30",
+    line: "Banner changes preview on your card and wait for Save, and server roles can control who may upload one.",
+    changes: [
+      {
+        kind: "changed",
+        area: "settings",
+        text: "Choosing or removing a banner updates the card preview first. The file is sent to your servers only when you save the card.",
+      },
+      {
+        kind: "new",
+        area: "servers",
+        text: "The role editor has a separate permission for uploading member-card banners.",
+      },
+    ],
+  },
+  {
+    version: "1.13.1",
+    date: "2026-09-30",
+    line: "Member cards get a cleaner game activity section and steadier controls, and the card builder starts with a new design on every visit.",
+    changes: [
+      {
+        kind: "changed",
+        area: "settings",
+        text: "Game activity no longer has its own background on member cards.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "The card builder opens with a random design, and its colour choices now use sliding tabs without moving the Surprise me button.",
+      },
+    ],
+  },
+  {
+    version: "1.13.0-beta.14",
+    date: "2026-09-30",
+    channel: "beta",
+    line: "Beta: the card's banner can have no fade, and a thick outline no longer leaves a gap at the corners.",
+    changes: [
+      {
+        kind: "new",
+        area: "settings",
+        text: "\"No fade\" is a third choice for the banner on your card, for a hard edge. It needs server 1.10.47.",
+      },
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "A thick outline on your card no longer leaves a gap at the banner's top corners.",
+      },
+    ],
+  },
+  {
+    version: "1.13.0-beta.13",
+    date: "2026-09-30",
+    channel: "beta",
+    line: "Beta: click somebody to open their card, everyone has a card from the start, and cards and owls can be shared by link.",
+    changes: [
+      {
+        kind: "changed",
+        area: "chat",
+        text: "Clicking a member, or an avatar in chat, opens their card. Message is a button on the card, and clicking their picture opens it large.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "Everyone has a card from the start: until you make your own, it's worked out from your name, like your owl.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "The card editor can paste a card link, keeps the cards you used before on this device, and has Surprise me on every tab. The Styles tab is gone.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "\"Use in Gryt\" on the card builder opens the card in the app, where you see it before you save it.",
+      },
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "A portrait photo as your avatar stays round on your card. It used to stretch into an oval.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "Support Gryt in settings links to GitHub Sponsors.",
+      },
+    ],
+  },
+  {
+    version: "1.13.0-beta.12",
+    date: "2026-09-30",
+    channel: "beta",
+    line: "Beta: the card editor offers colours from your banner, and a pattern can sit over the banner, with its own line weight and an outline for the card.",
+    changes: [
+      {
+        kind: "new",
+        area: "settings",
+        text: "With a banner, the card editor offers the banner's colours for the card, the bottom edge first, so the picture runs into the card.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "A pattern can sit in front of your banner picture or behind it, and still cover the whole card.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "Line patterns have a line weight, and the card has an outline you can make thicker or remove. These need server 1.10.45.",
+      },
+    ],
+  },
+  {
+    version: "1.13.0-beta.11",
+    date: "2026-09-30",
+    channel: "beta",
+    line: "Beta: Surprise me rolls every part of a card, game art is gone from cards, and \"Online\" stays readable on a coloured card.",
+    changes: [
+      {
+        kind: "changed",
+        area: "settings",
+        text: "Surprise me in the card editor rolls every field, including where the colour fills, the fades, and the pattern's colour and strength.",
+      },
+      {
+        kind: "changed",
+        area: "servers",
+        text: "Cards no longer draw game art behind the band, and the server setting for clearing cached art is gone with it.",
+      },
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "The status word on a card coloured in the banner and band takes the card's text colour, so \"Online\" can be read on a green or teal card.",
+      },
+    ],
+  },
+  {
+    version: "1.13.0-beta.10",
+    date: "2026-09-30",
+    channel: "beta",
+    line: "Beta: newly added games and apps get their name the same day, so Modrinth no longer shows as \"A game\".",
+    changes: [
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "A newly added game or app could show its icon with \"A game\" under it for up to a day. Gryt now reads the game list from GitHub first, so the name arrives with the icon.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "The game list that ships with the app is refreshed, so a fresh install knows Modrinth and the other recently added apps straight away.",
+      },
+    ],
+  },
+  {
+    version: "1.13.0-beta.9",
+    date: "2026-09-30",
+    channel: "beta",
+    line: "Beta: the card editor has tabs and a Save button, everyone starts with a random card, and server owners can clear cached game art.",
+    changes: [
+      {
+        kind: "changed",
+        area: "settings",
+        text: "The card editor is in tabs with your card beside it, so there's little to scroll. Changes wait for Save, and Undo changes puts back what you had.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "Copy link in the card editor copies a link to the card builder on ui.gryt.chat. The style-code box is gone.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "If you haven't styled your card, you get a random style once. A card you've already picked is left alone.",
+      },
+      {
+        kind: "fixed",
+        area: "settings",
+        text: "A pattern set to cover the whole card now shows on a solid colour.",
+      },
+      {
+        kind: "new",
+        area: "servers",
+        text: "Server settings show how much game art the server keeps, with a button to clear it.",
+      },
+    ],
+  },
+  {
+    version: "1.13.0-beta.8",
+    date: "2026-09-30",
+    channel: "beta",
+    line: "Beta: the game list comes in Gryt's own format, and spotted games can be removed.",
+    changes: [
+      {
+        kind: "changed",
+        area: "settings",
+        text: "The game list comes in one file in Gryt's own format, with names and program names together, so it downloads once.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "Remove a game from the list of games Gryt has spotted. Gryt asks again the next time it sees it.",
+      },
+    ],
+  },
+  {
+    version: "1.13.0-beta.7",
+    date: "2026-09-29",
+    channel: "beta",
+    line: "Beta: Gryt can spot games and apps you're running, asking once for each, and member cards come from Gryt UI with a card builder you can share from.",
+    changes: [
+      {
+        kind: "new",
+        area: "settings",
+        text: "Spot games and apps: Gryt recognises about 10,000 games and some apps by their program and asks once before showing each, with a toast that waits for your answer. Apps read \"Using Figma\". A game that reports through Rich Presence still wins.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "Name a game that no list knows, like a private Minecraft server, and suggest it for everyone.",
+      },
+      {
+        kind: "new",
+        area: "servers",
+        text: "Member cards show the game's art faintly behind the game band, served by your server so nobody's address goes to Steam or Discord.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "Edit my card opens in its own window with your card beside the controls, has Surprise me, and takes card links from the new builder at ui.gryt.chat/card.",
+      },
+      {
+        kind: "changed",
+        area: "servers",
+        text: "A card with no picture and no pattern has a shorter banner, so there's no empty block above the name.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "Addons can ask to see what's playing and to put a card on your profile, and every addon now shows how risky its permissions are. The first one is Now Playing.",
+      },
+    ],
+  },
+  {
+    version: "1.13.0-beta.6",
+    date: "2026-09-29",
+    channel: "beta",
+    line: "Beta: Settings shows what games send to Gryt, so you can tell whether Rich Presence is working.",
+    changes: [
+      {
+        kind: "new",
+        area: "settings",
+        text: "\"What Gryt receives\" under Rich Presence lists what games have sent, live, and says when a game like CS2 doesn't use Rich Presence at all.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "The long explanations under Rich Presence, the Gryt helper and Programs you add are folded away under \"How this works\".",
+      },
+    ],
+  },
+  {
+    version: "1.13.0-beta.5",
+    date: "2026-09-29",
+    channel: "beta",
+    line: "Beta: Rich Presence and the programs you add now sit together under one heading in Settings.",
+    changes: [
+      {
+        kind: "changed",
+        area: "settings",
+        text: "Settings → Profile has one \"What you're playing\" heading, with Rich Presence first and \"Programs you add\" under it.",
+      },
+    ],
+  },
+  {
+    version: "1.13.0-beta.4",
+    date: "2026-09-29",
+    channel: "beta",
+    line: "Beta: member cards are redone in your own colours, with hundreds of patterns to make one yours, and Rich Presence recognizes far more games.",
+    changes: [
+      {
+        kind: "new",
+        area: "servers",
+        text: "Member cards are redesigned in the member's own colours, with a banner, a game band, and actions like message, add friend, mention, report and block.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "Edit my card in Settings: colour, pattern, banner, pronouns, bio and a status line, with a live preview. It saves itself and reaches every server you're on.",
+      },
+      {
+        kind: "new",
+        area: "servers",
+        text: "Hundreds of patterns for a card, from tile designs to scattered owls and icons, each tunable for size, rotation, strength, fade and colour.",
+      },
+      {
+        kind: "new",
+        area: "servers",
+        text: "A member's Rich Presence card shows the game's icon, when the game reports one.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "Rich Presence now names games from Discord's full detectable-apps list, not just the smaller list Gryt curated itself.",
+      },
+    ],
+  },
+  {
+    version: "1.13.0-beta.3",
+    date: "2026-09-29",
+    channel: "beta",
+    line: "Beta: an optional helper can hold Discord's Rich Presence connection so Gryt and Discord both get to show what you're playing.",
+    changes: [
+      {
+        kind: "new",
+        area: "settings",
+        text: "Turn on the Gryt helper in Settings and it holds the Rich Presence connection games talk to, starting at login. It's off by default. If Discord already has that connection, the warning now offers a \"Turn on the Gryt helper\" button instead of asking you to quit Discord.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "Gryt falls back to its own Rich Presence listener whenever the helper isn't running, so turning it off doesn't lose game activity. Uninstalling Gryt removes the helper too.",
+      },
+      {
+        kind: "changed",
+        area: "self-hosting",
+        text: "The helper ships built, signed and notarized into the Mac, Windows and Linux packages. It isn't in the Mac App Store, Microsoft Store or portable Windows build.",
+      },
+    ],
+  },
+  {
+    version: "1.13.0-beta.2",
+    date: "2026-09-29",
+    channel: "beta",
+    line: "Beta: games that talk to Discord can show what you're playing in Gryt instead, and links to pictures and files no longer carry a long-lived key.",
+    changes: [
+      {
+        kind: "new",
+        area: "settings",
+        text: "Game activity: turn it on in Settings and games that report to Discord report to Gryt instead, with details like the mode, a timer and party size. Gryt only listens on that connection, it doesn't read your running programs. If Discord already holds it, Settings says so and Gryt takes over a few seconds after Discord quits.",
+      },
+      {
+        kind: "new",
+        area: "servers",
+        text: "A member's card shows the game they're playing, with what they're doing and for how long.",
+      },
+      {
+        kind: "security",
+        area: "servers",
+        text: "Links to pictures and files are signed for one file and last a few minutes, instead of carrying a token that could open everything you can see for 12 hours.",
+      },
+      {
+        kind: "fixed",
+        area: "self-hosting",
+        text: "The Linux AppImage builds again.",
+      },
+    ],
+  },
+  {
+    version: "1.13.0-beta.1",
+    date: "2026-09-29",
+    channel: "beta",
+    line: "Beta: link a new device from one you already use, by QR code or a short code, and it gets your keys, your servers and your encrypted DM history.",
+    changes: [
+      {
+        kind: "new",
+        area: "settings",
+        text: "Link a device: the new device shows a QR code and a short code. Scan it with your phone or type the code on a signed-in computer, check the emoji match, and approve. The new device signs in with the same keys, joins your servers and gets your encrypted DM history.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "Your other devices tell you when a new one is linked, with Remove right there. Linking warns you first if a server already has five of your devices.",
+      },
+      {
+        kind: "new",
+        area: "settings",
+        text: "Settings > Security lists your devices for encrypted DMs on each server. A device you remove stays removed.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "An encrypted DM sent while the server restarts waits and goes out once, instead of failing or arriving twice.",
+      },
+    ],
+  },
   {
     version: "1.12.1",
     date: "2026-09-28",
@@ -2195,6 +5870,989 @@ export const app: ReleaseLine[] = [
  */
 export const server: ReleaseLine[] = [
   {
+    version: "1.13.0-beta.3",
+    date: "2026-11-18",
+    channel: "beta",
+    line: "Beta: videos posted in chat keep their quality, and a new device's request to open your messages waits for you.",
+    changes: [
+      {
+        kind: "changed",
+        area: "chat",
+        text: "Videos posted in chat aren't shrunk to 720p any more. By default a video everyone's devices can play is kept as sent, and others are converted at full size. Owners can pick 1080p at 60 fps or 720p at 30 fps instead. It needs Media Worker 1.6.0-beta.1.",
+      },
+      {
+        kind: "fixed",
+        area: "notifications",
+        text: "A new device asking to open your messages stays waiting for ten minutes, and tapping its notification on the phone opens the request instead of your DMs.",
+      },
+    ],
+  },
+  {
+    version: "1.13.0-beta.2",
+    date: "2026-11-17",
+    channel: "beta",
+    line: "Beta: choose what the Discord bridge syncs, and keep each Discord app to one Gryt server.",
+    changes: [
+      {
+        kind: "new",
+        area: "servers",
+        text: "The Discord bridge syncs only the channels you pick, can pick up new Discord channels by itself, and can be switched off per person.",
+      },
+      {
+        kind: "changed",
+        area: "servers",
+        text: "A Discord app can be bridged to one Gryt server at a time. Unlinking it frees it for another.",
+      },
+      {
+        kind: "changed",
+        area: "servers",
+        text: "Messages the bridge posts in Discord show the sender's Gryt picture.",
+      },
+    ],
+  },
+  {
+    version: "1.12.18",
+    date: "2026-11-17",
+    line: "The per-server key handover and reset are gone, and banners keep their shape.",
+    changes: [
+      {
+        kind: "changed",
+        area: "chat",
+        text: "A device that proves your account key moves a server to it. The per-server handover asks and the 30-day per-server reset are gone, since approving and resetting now happen once for your account.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "A banner keeps its shape. It's fitted inside 960×1260 instead of being cut to 960×492.",
+      },
+    ],
+  },
+  {
+    version: "1.12.17",
+    date: "2026-11-16",
+    line: "A device waiting to be added to a DM is added as soon as someone in it opens Gryt.",
+    changes: [
+      {
+        kind: "changed",
+        area: "chat",
+        text: "When a device asks to be added to a DM, the server keeps the ask and hands it to the next app in that DM that connects, so it no longer waits for the device to ask again.",
+      },
+    ],
+  },
+  {
+    version: "1.12.16",
+    date: "2026-11-16",
+    line: "A server moves your DM key to your account's key by itself, with no old device asked to hand it over.",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "A device that proves it has your account's key takes over your DM key on a server. If that changes your key there, your contacts compare codes with you once.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "A device that's missing some DM history can ask your other devices for it, not only the other person.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "When a new device asks to be approved, all your other devices hear about it, and the ask names the one that can approve it.",
+      },
+    ],
+  },
+  {
+    version: "1.12.14",
+    date: "2026-11-14",
+    line: "A device that can't open some DM messages can ask the other person for their copy.",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "The server passes \"send me your copy\" between the people in a DM while they're online. It keeps nothing, and the other person's app decides whether to offer it.",
+      },
+    ],
+  },
+  {
+    version: "1.12.13",
+    date: "2026-11-14",
+    line: "Contacts can follow a key change your old device signed, without comparing codes.",
+    changes: [
+      {
+        kind: "changed",
+        area: "chat",
+        text: "The server keeps the note your old key signed when it handed over to a new one, and passes it to your contacts' apps so they can check it themselves.",
+      },
+    ],
+  },
+  {
+    version: "1.12.12",
+    date: "2026-11-14",
+    line: "Server owners can clear a member's DM key when none of their devices has it any more.",
+    changes: [
+      {
+        kind: "new",
+        area: "self-hosting",
+        text: "admin-resetDmKey.js clears one member's DM key, so the next device of theirs that connects sets a new one. Their contacts see the key change, like after a new phone.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A device waiting for its key to be approved gets its request back after a reload, with the device to approve it on.",
+      },
+    ],
+  },
+  {
+    version: "1.12.11",
+    date: "2026-11-14",
+    line: "Pictures you paste or upload are ready several times faster.",
+    changes: [
+      {
+        kind: "changed",
+        area: "chat",
+        text: "Comes with media worker 1.5.2, which gets a pasted screenshot ready in a fraction of the time it used to take.",
+      },
+    ],
+  },
+  {
+    version: "1.12.10",
+    date: "2026-11-13",
+    line: "Someone whose connection to the server drops mid-call keeps their name in the call.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "voice",
+        text: "If your connection to the server dropped while your call kept going, everyone else still heard you, but the server forgot who you were. The phone showed you as \"Someone\". You now stay in the call under your own name until the call itself ends.",
+      },
+    ],
+  },
+  {
+    version: "1.12.9",
+    date: "2026-11-09",
+    line: "When you link a new device, your old messages come across through your own server, never through Gryt.",
+    changes: [
+      {
+        kind: "new",
+        area: "self-hosting",
+        text: "A server now holds a linked device's message history while it moves across, locked so the server can't read it. It's kept for up to an hour, and each part is deleted once the new device has it. Before, that history went through Gryt's own relay.",
+      },
+      {
+        kind: "new",
+        area: "self-hosting",
+        text: "Server settings has a switch for it under Linking a new device. Turn it off and members' old messages stay on the device they link from, unless another of their servers carries them.",
+      },
+    ],
+  },
+  {
+    version: "1.12.8",
+    date: "2026-11-09",
+    line: "Mentions show as names in forum previews and search, and a device asking for your DM key survives a server restart.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A mention in a forum topic's preview or a search result showed up as a string of code instead of the person's name. Now it shows @name.",
+        thanks: "Thanks to Leo from the community server for finding it!",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A device asking for your DM key is kept in the server's database, so a restart doesn't lose the request. Saying no reaches only the device that asked.",
+      },
+    ],
+  },
+  {
+    version: "1.12.7",
+    date: "2026-11-03",
+    line: "Owners can see voice diagnostics, thread replies reach the people in the thread, and a bot can ask for more.",
+    changes: [
+      {
+        kind: "new",
+        area: "self-hosting",
+        text: "A new owner-only permission, See diagnostics, shows who's in each voice channel, whether they're muted, their latency and jitter, and the voice server's live numbers. Owners can give it to a bot, which is how gryt-mcp lets an AI help debug a server.",
+      },
+      {
+        kind: "new",
+        area: "self-hosting",
+        text: "SFU_METRICS_URL tells the server where the voice server's metrics are. Without it, the server looks on port 9091 of the host in SFU_WS_HOST, so a normal Docker setup needs no extra config.",
+      },
+      {
+        kind: "new",
+        area: "notifications",
+        text: "A reply in a thread wakes the phones of everyone who wrote in that thread, and nobody else.",
+      },
+      {
+        kind: "new",
+        area: "servers",
+        text: "A bot that's already in can ask for more permissions. It keeps what it has, and the new ones wait in Server settings \u2192 Bots until an admin answers.",
+      },
+      {
+        kind: "new",
+        area: "self-hosting",
+        text: "A server with EXTERNAL_HOST set tells its members that address, so the app can offer it when someone saved the server by its LAN address and is away from home.",
+      },
+      {
+        kind: "changed",
+        area: "chat",
+        text: "A device asking for your DM key is remembered even when it goes offline. If none of your devices with the key has been on the server for 30 days, the new one takes over right away.",
+      },
+    ],
+  },
+  {
+    version: "1.12.7-beta.1",
+    date: "2026-11-03",
+    channel: "beta",
+    line: "Beta: thread replies reach the people in the thread, and a bot can ask for more.",
+    changes: [
+      {
+        kind: "new",
+        area: "notifications",
+        text: "A reply in a thread wakes the phones of everyone who wrote in that thread, and nobody else, so starting a support thread doesn't ping the whole server.",
+      },
+      {
+        kind: "new",
+        area: "servers",
+        text: "A bot that's already in can ask for more permissions. It keeps what it has, and the new ones wait in Server settings → Bots until an admin answers.",
+      },
+      {
+        kind: "changed",
+        area: "self-hosting",
+        text: "Without SFU_METRICS_URL, the server looks for the voice server's numbers on port 9091 of the host in SFU_WS_HOST, so a normal Docker setup needs no extra config.",
+      },
+      {
+        kind: "new",
+        area: "self-hosting",
+        text: "A server with EXTERNAL_HOST set tells its members that address, so the app can offer it when someone saved the server by its LAN address and is away from home.",
+      },
+    ],
+  },
+  {
+    version: "1.12.6-beta.1",
+    date: "2026-11-03",
+    channel: "beta",
+    line: "Beta: owners can see who's in voice, their latency and the voice server's numbers, and let an AI read them.",
+    changes: [
+      {
+        kind: "new",
+        area: "self-hosting",
+        text: "A new owner-only permission, See diagnostics, shows who's in each voice channel, whether they're muted, their latency and jitter, and the voice server's live numbers. Owners can give it to a bot, which is how gryt-mcp lets an AI help debug a server.",
+      },
+      {
+        kind: "new",
+        area: "self-hosting",
+        text: "SFU_METRICS_URL tells the server where the voice server's metrics are. The self-hosted bundle sets it for you.",
+      },
+    ],
+  },
+  {
+    version: "1.12.5",
+    date: "2026-11-02",
+    line: "The server keeps running when mDNS can't send.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "self-hosting",
+        text: "A failed mDNS send used to crash the server. Now it stays up.",
+      },
+    ],
+  },
+  {
+    version: "1.12.4",
+    date: "2026-11-01",
+    line: "The friend list now includes each person's picture.",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "Friends and friend requests come with the person's picture, so the phone can show it for someone on another server.",
+      },
+    ],
+  },
+  {
+    version: "1.12.3",
+    date: "2026-11-01",
+    line: "Join lines no longer count as unread.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "self-hosting",
+        text: "Since 1.12.2, a channel showed an unread badge for \"joined the server\" lines, including your own, even when nobody had written anything.",
+      },
+    ],
+  },
+  {
+    version: "1.12.2",
+    date: "2026-10-31",
+    line: "The server remembers where you've read up to, new voice channels get their own chat, and the device and key rules the 1.15 app needs are in.",
+    changes: [
+      {
+        kind: "new",
+        area: "self-hosting",
+        text: "The server remembers how far each person has read in a conversation, and counts unread in channels they haven't opened from when they joined.",
+      },
+      {
+        kind: "new",
+        area: "self-hosting",
+        text: "New voice channels get their own text chat by default, and a voice client can announce several shared windows, each with its name.",
+      },
+      {
+        kind: "new",
+        area: "self-hosting",
+        text: "Threads say who replied last and which reply solved a topic.",
+      },
+      {
+        kind: "changed",
+        area: "self-hosting",
+        text: "Encrypted DMs take up to 100 devices per person. Devices not seen within the retention window expire, and a DM with nobody left in it starts over.",
+      },
+      {
+        kind: "changed",
+        area: "self-hosting",
+        text: "Only your current key can move a server to another key. Resetting a key with no device and no words takes 30 days, and a phone gets a push when a device asks to be approved.",
+      },
+      {
+        kind: "changed",
+        area: "self-hosting",
+        text: "Chat uploads go up to 300 a minute per person, so a big Discord import doesn't sit waiting on the limit.",
+      },
+      {
+        kind: "changed",
+        area: "self-hosting",
+        text: "Avatars are encoded at AVIF quality 75 instead of 50, and the encrypted preview in a push says which conversation and message it's for.",
+      },
+      {
+        kind: "fixed",
+        area: "self-hosting",
+        text: "The member list goes out again when someone's voice stream changes.",
+      },
+    ],
+  },
+  {
+    version: "1.12.1",
+    date: "2026-10-23",
+    line: "Link previews refuse Brotli, so Node's October Brotli bug can't reach a server hosted from the desktop app.",
+    changes: [
+      {
+        kind: "security",
+        area: "self-hosting",
+        text: "When it fetches a link preview, a picture or webhook media, the server only accepts gzip or deflate and refuses a Brotli body. Node's October security release fixed a way to run code through Brotli decompression, and a server hosted from the desktop app runs on Electron's Node, which doesn't have that fix yet.",
+      },
+    ],
+  },
+  {
+    version: "1.12.0",
+    date: "2026-10-23",
+    line: "The October Node.js security fixes, plus search, friends-only direct messages and link preview pictures from your server.",
+    changes: [
+      {
+        kind: "security",
+        area: "self-hosting",
+        text: "The Docker image runs on Node.js 22.23.4, which fixes the ten issues in Node's October security release, one of them a way to run code on the server through Brotli decompression. Pull the new image and restart.",
+      },
+      {
+        kind: "new",
+        text: "The server can search the messages in every text channel you can read, with or without accents, so skal finds skål. It also searches file names, and narrows results by who sent them, the channel, the date, or whether they have a picture, a link or a file.",
+      },
+      {
+        kind: "changed",
+        area: "self-hosting",
+        text: "The first start after updating builds a search index over every message once, so a big server takes a little longer to come up that one time.",
+      },
+      {
+        kind: "changed",
+        text: "Who can start a direct message with you is Friends by default now, like calls. Until you have a friend on a server, anyone you've written to one-to-one there still counts. If you already picked something in Settings › Privacy, it stays.",
+      },
+      {
+        kind: "new",
+        text: "The server fetches a link preview's picture and the site's icon itself and hands them to the app, so the linked site only ever sees the server.",
+      },
+      {
+        kind: "new",
+        text: "Adding someone to a group posts a line everyone in it can see, naming who added whom.",
+      },
+      {
+        kind: "changed",
+        text: "A message can carry up to 50 files, up from 10. Each file still has its own size limit.",
+      },
+      {
+        kind: "fixed",
+        text: "A HEIC photo from an iPhone is refused with \"HEIC photos aren't supported yet. Send it as a JPEG or PNG.\" instead of being called corrupt.",
+      },
+      {
+        kind: "fixed",
+        text: "Coming back to the phone app could show \"You do not have permission to read this channel\" when you had it. The server now tells the app to try again a moment later.",
+      },
+    ],
+  },
+  {
+    version: "1.12.0-beta.8",
+    date: "2026-10-21",
+    channel: "beta",
+    line: "Beta: a message can carry 50 files, and an iPhone photo gets a clear answer.",
+    changes: [
+      {
+        kind: "changed",
+        area: "chat",
+        text: "A message can carry up to 50 files, up from 10. Each file still has its own size limit.",
+      },
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A HEIC photo from an iPhone is refused with \"HEIC photos aren't supported yet. Send it as a JPEG or PNG.\" instead of being called corrupt. The phone app now sends library photos as JPEG anyway.",
+      },
+      {
+        kind: "fixed",
+        area: "phone",
+        text: "Coming back to the phone app could show \"You do not have permission to read this channel\" when you had it. The server now tells the app to try again a moment later, and the app does.",
+      },
+    ],
+  },
+  {
+    version: "1.12.0-beta.7",
+    date: "2026-10-21",
+    channel: "beta",
+    line: "Beta: link previews get their picture and icon from your server.",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "The server now fetches a link preview's picture and the site's icon itself and hands them to the app. The linked site only ever sees the server, so the app shows them without asking, and nobody can collect your IP address by posting a link to a site they run. Players like YouTube and Spotify still load from their own sites, behind Load link embeds automatically.",
+      },
+    ],
+  },
+  {
+    version: "1.12.0-beta.4",
+    date: "2026-10-19",
+    channel: "beta",
+    line: "Beta: only friends can start a direct message with you, unless you change it.",
+    changes: [
+      {
+        kind: "changed",
+        area: "chat",
+        text: "Who can start a direct message with you is Friends by default now, like calls. Until you have a friend on a server, anyone you've written to one-to-one there still counts. If you already picked something in Settings › Privacy, it stays. An app from before this sends its own old default, so it lets anyone through until it updates.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "The server tells the app who'd take a new direct message or group add from you, so it can leave everybody else out of the list when you pick people.",
+      },
+    ],
+  },
+  {
+    version: "1.12.0-beta.2",
+    date: "2026-10-15",
+    channel: "beta",
+    line: "Beta: a group says who added whom.",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "Adding someone to a group posts a line everyone in it can see, naming who added whom.",
+      },
+    ],
+  },
+  {
+    version: "1.12.0-beta.1",
+    date: "2026-10-14",
+    channel: "beta",
+    line: "Beta: channel messages and file names can be searched.",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "The server can search the messages in every text channel you can read, with or without accents, so skal finds skål. Direct messages and voice-channel text aren't searched.",
+      },
+      {
+        kind: "new",
+        area: "chat",
+        text: "It also searches file names, and narrows results by who sent them, the channel, the date, or whether they have a picture, a link or a file.",
+      },
+      {
+        kind: "changed",
+        area: "self-hosting",
+        text: "The first start after updating builds a search index over every message once, so a big server takes a little longer to come up that one time.",
+      },
+    ],
+  },  {
+    version: "1.11.2",
+    date: "2026-10-14",
+    line: "The last S3 leftovers are gone from how the server stores uploads.",
+    changes: [
+      {
+        kind: "changed",
+        area: "self-hosting",
+        text: "Uploads, emoji and the server icon all use one folder under DATA_DIR, called gryt unless S3_BUCKET names it. A server that came over from S3 keeps its old bucket's name as the folder, so nothing moves.",
+      },
+    ],
+  },
+  {
+    version: "1.11.2-beta.1",
+    date: "2026-10-14",
+    channel: "beta",
+    line: "Beta: the last S3 leftovers are gone from how the server stores uploads.",
+    changes: [
+      {
+        kind: "changed",
+        area: "self-hosting",
+        text: "Uploads, emoji and the server icon all use one folder under DATA_DIR, called gryt unless S3_BUCKET names it. A server that came over from S3 keeps its old bucket's name as the folder, so nothing moves.",
+      },
+    ],
+  },
+  {
+    version: "1.11.1",
+    date: "2026-10-13",
+    line: "Older apps now show a poll's question and a line asking to update Gryt.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "On a desktop app from 1.11.19 to 1.13.26, or a phone build from before polls, a poll showed up as an empty message. Those apps now get the question and a line saying to update Gryt to see it and vote, and that includes polls that are already saved.",
+      },
+    ],
+  },
+  {
+    version: "1.11.0",
+    date: "2026-10-13",
+    line: "Polls, and uploads kept on the server's own disk with no S3 or MinIO left.",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "Polls in channels: a question with up to ten options, one answer or several, anonymous or not, an end time, and optionally only some roles allowed to answer. Totals update live, and you can change or take back your vote.",
+      },
+      {
+        kind: "changed",
+        area: "self-hosting",
+        text: "Uploads are stored on disk under DATA_DIR and nowhere else. A server still set up for S3 or MinIO copies its bucket over on its first start, checks every file, and leaves the bucket as it was. If the copy fails, it doesn't start.",
+      },
+      {
+        kind: "fixed",
+        area: "self-hosting",
+        text: "A server with no storage settings at all takes uploads on disk instead of refusing them, and a failed upload says what to tell whoever runs the server.",
+      },
+    ],
+  },
+  {
+    version: "1.11.0-beta.1",
+    date: "2026-10-13",
+    channel: "beta",
+    line: "Beta: polls, and uploads stored on the server's own disk with no S3 or MinIO left.",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "Polls in channels: a question with up to ten options, one answer or several, anonymous or not, an end time, and optionally only some roles allowed to answer. Totals update live, and you can change or take back your vote.",
+      },
+      {
+        kind: "changed",
+        area: "self-hosting",
+        text: "Uploads are stored on disk under DATA_DIR and nowhere else. A server that was still set up for S3 or MinIO copies its bucket over on its first start, checks every file, and leaves the bucket as it was. If the copy fails, it doesn't start.",
+      },
+      {
+        kind: "fixed",
+        area: "self-hosting",
+        text: "A server with no storage settings at all takes uploads on disk instead of refusing them, and a failed upload says what to tell whoever runs the server.",
+      },
+    ],
+  },
+  {
+    version: "1.10.59",
+    date: "2026-10-13",
+    line: "A bot's messages show the BOT tag as soon as they arrive, not only after a reload.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "chat",
+        text: "A bot's new messages, edits and forum posts arrived without the BOT tag next to its name. The tag only showed after a reload.",
+      },
+    ],
+  },
+  {
+    version: "1.10.58",
+    date: "2026-10-08",
+    line: "Servers can wake phones, following each person's notification settings, and the notification shows who wrote and the first line without the push service seeing it.",
+    post: "seven-weeks-of-gryt-on-a-phone",
+    changes: [
+      {
+        kind: "new",
+        area: "notifications",
+        text: "If you turned on notifications for a server in the phone app, it wakes your phone the way the desktop would notify you: every message in channels at All messages, mentions in channels at Only mentions, and direct messages. @everyone and @here count unless you suppressed them. Nothing comes while you're active at a screen.",
+      },
+      {
+        kind: "new",
+        area: "notifications",
+        text: "On iPhone, the notification shows who wrote, where, and the first line. The server locks that text with a key only your phone has, so the push service, Apple and Google can't read it. Encrypted direct messages still say New direct message, because the server can't read those either.",
+      },
+      {
+        kind: "new",
+        area: "self-hosting",
+        text: "Pushes go through push.gryt.chat, which sees a random ID per phone and the locked preview, never who sent it or what it says. Set GRYT_PUSH_RELAY_URL=off to turn pushes off.",
+      },
+    ],
+  },
+  {
+    version: "1.10.58-beta.2",
+    date: "2026-10-07",
+    channel: "beta",
+    line: "Beta: phone notifications follow your notification settings, so a channel set to All messages wakes your phone for every message.",
+    changes: [
+      {
+        kind: "changed",
+        area: "notifications",
+        text: "A channel you have at All messages on the phone now wakes it for every message, as the desktop notifies. @everyone and @here wake it too, unless you suppress them for that server. Channels at Only mentions still wake it for mentions only.",
+      },
+    ],
+  },
+  {
+    version: "1.10.58-beta.1",
+    date: "2026-10-07",
+    channel: "beta",
+    line: "Servers can wake phones for mentions and direct messages.",
+    changes: [
+      {
+        kind: "new",
+        area: "notifications",
+        text: "If you turned notifications on for a server in the phone app, it can wake your phone when someone mentions you or sends you a direct message, unless you're at a screen. Channels you muted on the phone are skipped.",
+      },
+      {
+        kind: "new",
+        area: "self-hosting",
+        text: "Pushes go through push.gryt.chat, which gets a random ID and the word mention or dm, never who sent it or what it says. Set GRYT_PUSH_RELAY_URL=off to turn them off.",
+      },
+    ],
+  },
+  {
+    version: "1.10.57",
+    date: "2026-10-07",
+    line: "The apps can open a conversation's history at any message, so an old pin or reply opens right where it is.",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "History can be fetched around a message and paged towards the present, so clicking an old pin or reply opens right there instead of loading everything in between.",
+      },
+    ],
+  },
+  {
+    version: "1.10.56",
+    date: "2026-10-06",
+    line: "Messages can be pinned, and owners can let members use custom emoji from their other servers.",
+    changes: [
+      {
+        kind: "new",
+        area: "chat",
+        text: "Pin messages in a channel, or in a DM. In a channel you need Manage messages. In a DM either of you can. The app lists a conversation's pins from a button in its header.",
+      },
+      {
+        kind: "new",
+        area: "servers",
+        text: "A server setting, off by default, that lets messages here show custom emoji from members' other Gryt servers. Those load from the other server, which sees who read them.",
+      },
+    ],
+  },
+  {
+    version: "1.10.56-beta.1",
+    date: "2026-10-05",
+    channel: "beta",
+    line: "Beta: owners can let members use custom emoji from their other servers.",
+    changes: [
+      {
+        kind: "new",
+        area: "servers",
+        text: "A server setting, off by default, that lets messages here show custom emoji from members' other Gryt servers. Those load from the other server, which sees who read them.",
+      },
+    ],
+  },
+  {
+    version: "1.10.55",
+    date: "2026-10-05",
+    line: "Cards keep the short banner choice.",
+    changes: [
+      {
+        kind: "new",
+        area: "settings",
+        text: "A card set to a short banner in app 1.13.12 stays that way when it's saved.",
+      },
+    ],
+  },
+  {
+    version: "1.10.54",
+    date: "2026-10-05",
+    line: "Emoji, server and group icons, and pictures sent by webhooks are checked by the image worker too, so the server never decodes an upload itself.",
+    changes: [
+      {
+        kind: "security",
+        area: "self-hosting",
+        text: "Emoji, server icons, group pictures, webhook avatars and pictures webhooks link to now go through the image worker's locked-down process, like every other upload. Link previews read a picture's size from its first bytes instead of opening it. Servers without the image worker work as before. Needs image worker 1.4.1.",
+      },
+    ],
+  },
+  {
+    version: "1.10.53",
+    date: "2026-10-05",
+    line: "Every picture and video sent in chat is checked and written out again before anyone sees it.",
+    changes: [
+      {
+        kind: "security",
+        area: "chat",
+        text: "Chat videos now go through the image worker like pictures do, and come out as a fresh file with their sound kept. A picture or video sent with the wrong file type is recognised by its contents and checked too. Other files are still downloads, as before. Needs image worker 1.4.0.",
+      },
+    ],
+  },
+  {
+    version: "1.10.52",
+    date: "2026-10-05",
+    line: "A new avatar or banner only replaces your old one once it has been checked, so a file that fails the check no longer leaves you with a broken picture.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "servers",
+        text: "If an uploaded avatar or banner couldn't be processed, it still became yours and showed as broken, and the old one was gone. Now you keep the old one until the new one is ready, and a file that fails is thrown away.",
+      },
+      {
+        kind: "new",
+        area: "servers",
+        text: "When an avatar or banner can't be processed, the person who uploaded it is told, with app 1.13.10 or later.",
+      },
+      {
+        kind: "new",
+        area: "self-hosting",
+        text: "Server settings say whether uploads are checked in a sandbox on this server, and have a switch for video avatars and banners. It's on by default, and greyed out with the reason where the server can't convert video.",
+      },
+    ],
+  },
+  {
+    version: "1.10.51",
+    date: "2026-10-05",
+    line: "The server half of video banners and avatars. Nothing changes until a new image worker is out.",
+    changes: [
+      {
+        kind: "changed",
+        area: "self-hosting",
+        text: "Once the image worker supports it, new avatars, banners and chat images are held back until the worker has redrawn them, and only the redrawn copy is ever served. The image worker you're running now doesn't, so uploads work as before.",
+      },
+      {
+        kind: "new",
+        area: "servers",
+        text: "Once the image worker can convert video, members can use a short video as their banner or avatar. The worker turns it into a silent clip of up to ten seconds, at a fixed size, before anyone sees it.",
+      },
+    ],
+  },
+  {
+    version: "1.10.50",
+    date: "2026-10-05",
+    line: "A card's banner is stored in the card's own shape, so it looks the same after saving as it did in the editor.",
+    changes: [
+      {
+        kind: "fixed",
+        area: "servers",
+        text: "Banners were stored wider than the card shows them, so the card cropped and enlarged them a second time. New banners are stored at 960 by 492, the card's own shape. Banners already uploaded change when they're uploaded again.",
+      },
+    ],
+  },
+  {
+    version: "1.10.49",
+    date: "2026-10-02",
+    line: "Member cards can remember a chosen Unicode or server emoji as their pattern.",
+    changes: [
+      {
+        kind: "new",
+        area: "servers",
+        text: "Card styles keep the selected emoji while filtering invalid or oversized identifiers.",
+      },
+    ],
+  },
+  {
+    version: "1.10.48",
+    date: "2026-09-30",
+    line: "Roles can allow member-card banner uploads separately from avatar-image uploads.",
+    changes: [
+      {
+        kind: "new",
+        area: "servers",
+        text: "Banner uploads have their own role permission. Existing roles keep the access they had until an admin changes it.",
+      },
+    ],
+  },
+  {
+    version: "1.10.47",
+    date: "2026-09-30",
+    line: "The banner on a member card can have no fade.",
+    changes: [
+      {
+        kind: "new",
+        area: "servers",
+        text: "A card style can ask for no fade between the banner and the card. Older apps draw the usual fade.",
+      },
+    ],
+  },
+  {
+    version: "1.10.46",
+    date: "2026-09-30",
+    line: "A member can keep the plain card as a choice, now that apps draw a generated card for anyone without one.",
+    changes: [
+      {
+        kind: "new",
+        area: "servers",
+        text: "The plain card can be stored as a choice. With no style at all, newer apps draw a card worked out from the member's name.",
+      },
+    ],
+  },
+  {
+    version: "1.10.45",
+    date: "2026-09-30",
+    line: "Member cards can carry a line weight, an outline and a pattern over the banner, and the server no longer fetches game art.",
+    changes: [
+      {
+        kind: "new",
+        area: "servers",
+        text: "A card style can set a line pattern's weight, the card's outline, and whether the pattern sits in front of a banner picture. Older apps draw the card as before.",
+      },
+      {
+        kind: "changed",
+        area: "servers",
+        text: "The server no longer fetches or serves game art. The app stopped drawing it, and the art an earlier version cached is cleared on start.",
+      },
+    ],
+  },
+  {
+    version: "1.10.44",
+    date: "2026-09-30",
+    line: "Member cards can show the game's art behind the band, and a card can say \"Using\" for an app like Figma.",
+    changes: [
+      {
+        kind: "new",
+        area: "servers",
+        text: "The server fetches a game's art from Steam once, keeps it on disk and serves it for member cards, so nobody's app loads it from Steam directly.",
+      },
+      {
+        kind: "new",
+        area: "servers",
+        text: "Cached art is checked for a newer picture once a day, and people who manage the server can see how much is cached and clear it.",
+      },
+      {
+        kind: "new",
+        area: "servers",
+        text: "Rich Presence cards can be of the \"using\" kind, for apps rather than games. Older apps show them as playing.",
+      },
+    ],
+  },
+  {
+    version: "1.10.44-beta.4",
+    date: "2026-09-30",
+    channel: "beta",
+    line: "Beta: game art is checked for a newer picture once a day, and server owners can clear it.",
+    changes: [
+      {
+        kind: "changed",
+        area: "servers",
+        text: "Cached game art is checked against Steam once a day and replaced when there's a newer picture. A check with no change downloads nothing.",
+      },
+      {
+        kind: "new",
+        area: "servers",
+        text: "People who manage the server can see how much game art is cached and clear it.",
+      },
+    ],
+  },
+  {
+    version: "1.10.44-beta.3",
+    date: "2026-09-30",
+    channel: "beta",
+    line: "Beta: game art comes from Steam only.",
+    changes: [
+      {
+        kind: "changed",
+        area: "servers",
+        text: "Game art for member cards comes from Steam only. Gryt servers don't contact Discord, so a game with no Steam page has no art.",
+      },
+    ],
+  },
+  {
+    version: "1.10.44-beta.2",
+    date: "2026-09-29",
+    channel: "beta",
+    line: "Beta: the server fetches each game's art once and serves it for member cards.",
+    changes: [
+      {
+        kind: "new",
+        area: "servers",
+        text: "Game art for member cards comes from the server, fetched once from Steam or Discord and kept on disk, so members' viewers never load it from either.",
+      },
+    ],
+  },
+  {
+    version: "1.10.44-beta.1",
+    date: "2026-09-29",
+    channel: "beta",
+    line: "Beta: a card can say \"Using Figma\" for an app, rather than \"Playing\".",
+    changes: [
+      {
+        kind: "new",
+        area: "servers",
+        text: "Rich Presence cards can be of the \"using\" kind, for apps like Figma or VS Code that Gryt spots running. Older apps show them as playing.",
+      },
+    ],
+  },
+  {
+    version: "1.10.43",
+    date: "2026-09-29",
+    line: "A server owner can import a Discord server's history from a DiscordChatExporter export.",
+    changes: [
+      {
+        kind: "new",
+        area: "servers",
+        text: "The owner can import a DiscordChatExporter export: channels, threads, forum posts, replies, reactions, emoji and files, with the original dates and who wrote each message on Discord.",
+      },
+      {
+        kind: "new",
+        area: "servers",
+        text: "Running the same export again adds nothing, and an import cut off by a restart starts over.",
+      },
+    ],
+  },
+  {
+    version: "1.10.42",
+    date: "2026-09-29",
+    line: "Members can style their card and add a bio, pronouns, a status line and, if they're allowed to upload, a banner.",
+    changes: [
+      {
+        kind: "new",
+        area: "servers",
+        text: "Members can add a card style, a bio, pronouns and a status line, checked the same way as the rest of their profile.",
+      },
+      {
+        kind: "new",
+        area: "servers",
+        text: "A member who may upload can add a banner to their card.",
+      },
+    ],
+  },
+  {
+    version: "1.10.41",
+    date: "2026-09-29",
+    line: "A Rich Presence card can now carry the game's Discord application id, so other members can show its icon.",
+    changes: [
+      {
+        kind: "new",
+        area: "servers",
+        text: "Rich Presence activities accept an optional application id, checked the same way as the rest of the card, so an app that sends one can show a game icon on other members' cards.",
+      },
+    ],
+  },
+  {
+    version: "1.10.40",
+    date: "2026-09-29",
+    line: "The server can carry what game someone is playing in more detail: what they're doing, a timer and party size, for apps that send it.",
+    changes: [
+      {
+        kind: "new",
+        area: "servers",
+        text: "A member's activity can now carry details, a state line, elapsed time, party size and up to two link buttons, with length limits and the same checks links in messages get. Older apps keep seeing the plain status line.",
+      },
+    ],
+  },
+  {
     version: "1.10.39",
     date: "2026-09-29",
     line: "Links to pictures and files no longer carry a long-lived key, and it ships SFU 1.0.75, which fixes a screen share that could freeze for good after your upload slowed down. Update if you run a server.",
@@ -3151,6 +7809,22 @@ export const server: ReleaseLine[] = [
  */
 export const voice: ReleaseLine[] = [
   {
+    version: "1.1.0-beta.1",
+    date: "2026-11-18",
+    channel: "beta",
+    line: "Beta: the voice server can carry people from a linked Discord voice channel and takes screen shares up to 4K at 240 fps. It also has an experimental video connection of its own, which stays off unless VIDEO_TRANSPORT=true is set.",
+  },
+  {
+    version: "1.0.77",
+    date: "2026-10-27",
+    line: "Someone sharing several windows at once gets a separate screen stream for each, so the people watching can pick which ones to watch.",
+  },
+  {
+    version: "1.0.76",
+    date: "2026-10-23",
+    line: "The voice server can offer Gryt's experimental new voice connection, which skips WebRTC for voice. Apps with it switched on use it, over UDP or over a WebSocket when UDP doesn't get through, and everyone else stays on WebRTC. If you host your own, it needs ICE_ADVERTISE_IP, and UDP 4433 open for the fast path; with the port closed it uses the WebSocket. AUDIO_TRANSPORT_PORT changes the port, and 0 turns it off.",
+  },
+  {
     version: "1.0.75",
     date: "2026-09-29",
     line: "A screen share that started while your upload was fast and then slowed down could stay frozen for good. The SFU was throwing away resent video packets as if they were replays. It keeps them now, so the share recovers.",
@@ -3364,6 +8038,135 @@ export const voice: ReleaseLine[] = [
  * dependency bump gets a line here and would not elsewhere.
  */
 export const images: ReleaseLine[] = [
+  {
+    version: "1.6.0-beta.1",
+    date: "2026-11-18",
+    channel: "beta",
+    line: "Beta: chat videos follow the server's Video uploads setting instead of always being shrunk to 720p at 30 fps.",
+    changes: [
+      {
+        kind: "changed",
+        area: "chat",
+        text: "A chat video your viewers can play is kept as sent, with its location and other hidden data removed. Others are converted to AV1 at up to 2560 px and 60 fps, or smaller if the owner picks it.",
+      },
+    ],
+  },
+  {
+    version: "1.5.3",
+    date: "2026-11-17",
+    line: "A banner keeps its shape instead of being cut to a strip.",
+    changes: [
+      {
+        kind: "changed",
+        area: "settings",
+        text: "Banners are fitted inside 960×1260 and never enlarged, instead of being cut to 960×492.",
+      },
+    ],
+  },
+  {
+    version: "1.5.2",
+    date: "2026-11-14",
+    line: "Pictures you paste or upload are ready several times faster.",
+    changes: [
+      {
+        kind: "changed",
+        area: "chat",
+        text: "A pasted screenshot could take ten seconds or more before it showed. The worker now spends far less effort squeezing each picture, so it's ready in a fraction of the time. Files come out about 7% bigger.",
+      },
+    ],
+  },
+  {
+    version: "1.5.1",
+    date: "2026-10-23",
+    line: "The media worker runs on Node.js 22.23.4, with the October security fixes.",
+    changes: [
+      {
+        kind: "security",
+        area: "self-hosting",
+        text: "The Docker image runs on Node.js 22.23.4, which fixes the ten issues in Node's October security release. Pull the new image and restart.",
+      },
+    ],
+  },
+  {
+    version: "1.5.0",
+    date: "2026-10-13",
+    line: "The media worker reads and writes uploads on disk only, like the server.",
+    changes: [
+      {
+        kind: "changed",
+        text: "S3 support is gone. A worker that still has S3 settings ignores them and uses the server's data folder, where server 1.11.0 copies the old bucket.",
+      },
+    ],
+  },
+  {
+    version: "1.5.0-beta.1",
+    date: "2026-10-13",
+    channel: "beta",
+    line: "Beta: the media worker reads and writes uploads on disk only, like the server.",
+    changes: [
+      {
+        kind: "changed",
+        text: "S3 support is gone. A worker that still has S3 settings ignores them and uses the server's data folder, where server 1.11.0 copies the old bucket.",
+      },
+    ],
+  },
+  {
+    version: "1.4.1",
+    date: "2026-10-05",
+    line: "Emoji keep their shape when the worker draws them: 128 pixels tall, up to 512 wide.",
+    changes: [
+      {
+        kind: "changed",
+        text: "A wide emoji stays wide. It's drawn 128 pixels tall at any width up to 512, the same as the server drew it before emoji moved to the worker.",
+      },
+    ],
+  },
+  {
+    version: "1.4.0",
+    date: "2026-10-05",
+    line: "Chat videos are converted to a fresh file with their sound kept, and nothing else from the upload.",
+    changes: [
+      {
+        kind: "security",
+        text: "A video sent in chat is decoded in the locked-down ffmpeg and written out again: AV1 with AAC sound, at most 1280 pixels on the long side and 30 frames a second. Only the picture and the first sound track are kept. Needs server 1.10.53.",
+      },
+    ],
+  },
+  {
+    version: "1.3.1",
+    date: "2026-10-05",
+    line: "Outside Docker, the worker no longer runs whatever ffmpeg it finds on your machine.",
+    changes: [
+      {
+        kind: "security",
+        area: "self-hosting",
+        text: "Run in production without Docker, the worker used the system's ffmpeg to make chat-video previews, as your own user. It doesn't anymore, so those videos get no preview. They still play. Set GRYT_ALLOW_HOST_FFMPEG=1 if you want the old behaviour back. Docker and servers hosted from the app are unchanged.",
+      },
+    ],
+  },
+  {
+    version: "1.3.0",
+    date: "2026-10-05",
+    line: "Avatars, banners and chat pictures are redrawn before anyone sees them, banners and avatars can be short videos, and video posters work again.",
+    changes: [
+      {
+        kind: "security",
+        text: "A new avatar, banner, emoji or chat picture is held back until the worker has decoded it and written a fresh copy, and only that copy is ever served. The decoding happens in its own locked-down process with no access to the server's files or keys. Needs server 1.10.51 or later.",
+      },
+      {
+        kind: "new",
+        text: "A banner or avatar can be a video. The worker turns it into a silent AV1 clip of at most ten seconds, at the card's own size, with a still frame for places that show a picture.",
+      },
+      {
+        kind: "fixed",
+        text: "Since 1.2.9 the locked-down ffmpeg couldn't start on some Linux hosts, so uploaded videos got no poster frame. It starts everywhere now, and the worker checks it at startup and logs the result.",
+      },
+      {
+        kind: "changed",
+        text: "Animated pictures keep their first 300 frames. A very long GIF used to come out as an avatar of several megabytes that every member had to download.",
+      },
+    ],
+  },
   {
     version: "1.2.9",
     date: "2026-09-25",

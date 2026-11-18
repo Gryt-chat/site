@@ -185,6 +185,7 @@ the front page's rhythm. Recorded here so the next run does not re-pick blind:
 | `/developers` | Routing hub — one diagram, three card groups | it is a front door onto seven pages and four destinations elsewhere; see below |
 | `/developers/*` | Index-First, with worked examples | each one is a worked example and then grouped rows that leave for the docs |
 | `/self-hosting` | Index-First, with worked examples | the tail is grouped rows that leave for the docs; the top half runs and installs things |
+| `/support` | Bento Grid, search first | somebody arrives stuck and picks the closest match; the one card budget here shows a real invite link |
 | `/sponsors` | Index-First | the page is a list of people |
 | `/privacy`, `/terms`, `/community-guidelines` | Long Document | they are documents |
 | `/invite` | none, component-scope | an app screen with states, not a page |
@@ -243,6 +244,27 @@ What the pass changed, and what to keep doing:
 `Motivation` was barely touched. It is Sivert writing in the first person about
 why he built this, it already sounds like him, and it only needed its
 contractions putting back.
+
+## Technical blog posts are short papers
+
+Decided 2026-10-23. A post about how something was built, measured or fixed is
+written as a short paper, IMRaD, the way Sivert's master's and bachelor's theses
+are laid out. Personal posts, roundups and security advisories stay as they are.
+
+- **Front:** a metadata block (Title, Date, Author: Sivert Gullberg Hansen,
+  Keywords), then an **Abstract**: the problem, how it was found or measured,
+  the result in numbers, what's left. Someone who reads only that gets the post.
+- **Sections are numbered.** 1 Introduction, ending in the questions the post
+  answers. 2 Background when the reader needs it. 3 Method (or Design, for a
+  post with nothing measured). 4 Results. 5 Discussion, with Limitations and
+  Future work. 6 Conclusion, answering the questions from the introduction in order.
+- **Figures** carry "Figure N:" in a caption below. **Tables** carry "Table N:"
+  above. The text names every one of them before it appears.
+- **References** are numbered, cited as [1] in the text, with a link. Our own PRs
+  count. Raw data and long procedures go in lettered appendices.
+- **The voice above still applies.** The structure is a paper's; the sentences
+  are still plain and spoken. Every number, version and caveat survives a
+  restructure unchanged.
 
 ## What the content pages must share
 
@@ -573,10 +595,14 @@ not grow back here.
 there used to cover embedded, Compose, Helm, LAN discovery and tunnels, which is
 a deployment guide inside a trust page. It is a paragraph and a link now.
 
-The navbar carries **Why Gryt? · Developers · Self-hosting · Docs** plus the two
-buttons, and that is its limit. `Compared` moved to the sheet and the footer to
-make room: it is a page you read once while weighing Gryt against something
-else, and the two audience pages are where a whole kind of visitor should land.
+The navbar carries **Why Gryt? · Features · Developers · Self-hosting** plus the
+two buttons, and that is its limit. `Compared` moved to the sheet and the footer to
+make room: it is a page you read once while weighing Gryt against something else,
+and the two audience pages are where a whole kind of visitor should land. Features
+took Docs' place on 2026-10-12 (GRYT-1720). Five links didn't fit next to
+"Download for macOS" at 1024px, and Docs is another site anyway, so it lives in
+the sheet and the footer now. The Thumb takes over below 1000px, up from 900,
+because the four links and "Open in browser" wrapped at 901.
 
 ## Drawings where a capture will go
 
@@ -701,7 +727,7 @@ the repository still claim eleven and twelve presets.
 left, the four links and the two actions on the right, and the whole middle
 empty.
 
-68px tall, 60 under 900px, on a blurred `--bg` at 82% with a hairline under it,
+68px tall, 60 under 1000px, on a blurred `--bg` at 82% with a hairline under it,
 **from the first pixel**. There is no scroll state and no scroll listener.
 
 **The surface runs the viewport; the contents sit on `--max-w` and a 24px
@@ -720,6 +746,18 @@ Two shapes came before all of that: the most-copied nav on the web, and then a
 floating pill that fixed the sameness and was transparent until 24px of scroll —
 nearly invisible at the top of the page, which is the only place a first-time
 visitor sees it. Nav archetype N9, picked from five candidates on 2026-08-28.
+
+**On a phone, the bar's links go behind the Thumb.** That's Sivert's name for
+it, and it's the name in the code too (`.thumb`, `.drawerThumb`). It's a small
+tab stuck to the right edge of the screen, 18px drawn with a 4×36 accent grip,
+inside a 44×96 tap area. It sits halfway down, or 300px up from the bottom on a
+phone tall enough that halfway is out of reach, in `svh` so it holds still while
+Safari's bars move.
+
+A tap opens the drawer, never a swipe, because a swipe from the edge is the
+phone's own back gesture. The drawer comes in from the right with its links at
+the bottom, where your thumb already is, and the same tab sits on its edge to
+close it. The top bar keeps only the wordmark and Download. Added in GRYT-1708.
 
 **One underline for the row, not one per link.** It parks under the page you
 are on, travels to whatever you hover or tab to, and returns when you leave —
@@ -771,31 +809,37 @@ underline and this width are written by React on commit and animated by CSS:
 rendering steps, so in a tab that is not being painted neither of them runs.
 That was a real bug in the underline before it was a rule.
 
-**`Download` gives one answer.** It works out which system you're on and leads with
-that system's store, if Gryt is in one. That's the Microsoft Store on Windows and the
-Snap Store on Linux. Each badge gets one line on why it beats the file. On Windows
-there's no security warning, on Linux it's one step to install, and both update
-themselves. The file sits beside it under Or download the file, as the second choice.
+**`Download` is pick your system, then press one button.** Six pills with each
+system's own logo (Windows, macOS, Linux, iPhone, Android, Browser), and yours is
+picked already. Under them, the one answer for that pick:
 
-A Mac has no store open yet, so there the file leads as the accent button, and Homebrew
-sits beside it. On Linux the release's `.flatpak` goes under the Snap Store badge until
-Flathub opens, with the command that installs it.
+- A computer with an open store (Windows, Linux) gets the store badge as the lead,
+  with its perk as a green chip (Signed, or One step for snap), then one line: "or download
+  the installer (96 MB)". The store is signed, so it skips the security warning the
+  file gets. A Mac has no store yet, so it gets Download for macOS as the accent
+  button, with the chip and size on the line under it.
+- Under that, two folded sections: Other files (the built-in server build and every
+  other format, one row each with its size; Portable and the Flatpak file say they don't update themselves) and Install from the terminal (the
+  package-manager commands that work today). Then one line: version, date, All files
+  on GitHub.
+- iPhone gets the TestFlight button. Android gets the three test steps as numbered
+  cards, each with its own button. `#phone-test` opens whichever phone you're on and
+  scrolls to it, and the #testing posts link there.
+- Browser gets Open app.gryt.chat.
 
-Under that, More ways on Windows (or Linux, or macOS) lists the other files and any
-commands that didn't make the top two. Then a row of buttons for the other systems,
-the browser and the phone, which swap the whole answer. Then one line naming
-everything that isn't out yet, and a link to the GitHub release page with GitHub's
-icon next to it.
+Store badges, Coming later and the Flatpak stand-in went in the A2 redesign
+(2026-10-28), on "simple is best". The other files and the commands came back the same
+day as two quiet lines, because the arch and the format are what people need to see.
+The badges came back later that day as the lead (T1), with the files and commands
+folded, because the store is the signed build and the section had become text heavy.
 
 **Nothing that isn't out gets a badge.** Until September 2026 every store got its badge,
 and the closed ones were faded to 40% with Coming very soon under them. Eight were
-closed, so most of the section was faded. Now a closed store or package manager is a
-name on the Coming later line and nothing else. `StoreBadge` draws nothing for a store
-without a `url`. To open a store, give it a `url` and a `why` in `STORES` in
-`src/lib/releases.ts`. A package manager gets a `command` in `PACKAGE_MANAGERS`. Either
-one moves off the line and into the section by itself.
+closed, so most of the section was faded. `StoreBadge` draws nothing for a store
+without a `url`. To open
+a store, give it a `url` and its `perks` in `STORES` in `src/lib/releases.ts`.
 
-The badges are the stores' own files in `public/badges`. They're 56px tall where they
+The badges are the stores' own files in `public/badges`. They're 64px tall where they
 lead and 40px in the navbar. Nothing recolours, stretches or animates them.
 
 They're black, like the mockups, apart from Microsoft's. Microsoft's dark badge is
@@ -804,12 +848,11 @@ ends. Microsoft also says to use its light badge on a dark page. Apple asks for 
 black badge whenever another store's badge sits next to it. Google's, Flathub's and
 F-Droid's badges are black.
 
-The build with the server in it is a link under the file, with its size. Stores and
-package managers always ship that build, and the link says so when a store leads.
+The build with the server in it is the second button, With built-in server. Its size
+is on the facts line. Stores and package managers always ship that build.
 
-`/download` sends you to `/#download-file` for other builds, which lands on the file. A
-phone or a tablet never gets a file. It gets app.gryt.chat and a line saying the phone
-app is in testing, and `/#download-file` lands on the top of the section.
+`/download` sends you to `/#download-file` for other builds, which lands on the answer
+under the pills.
 
 **The fold is mostly air.** `Hero` opens on 152px of padding — 84px of clear
 space under the bar — and puts 108px between the buttons and the clip, because

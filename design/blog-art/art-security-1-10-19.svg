@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="896" viewBox="0 0 1600 896">
+<style>
+  .tile{fill:#232834;stroke:#333949;stroke-width:6;vector-effect:non-scaling-stroke}
+  .tile-accent{fill:#232834;stroke:#978FF8;stroke-width:6;vector-effect:non-scaling-stroke}
+  .deep{fill:#15161C}
+  .bar{fill:#333949}
+  .muted{fill:#565A6B}
+  .accent{fill:#978FF8}
+  .accent-deep{fill:#6157D8}
+  .line{fill:none;stroke:#333949;stroke-width:6;stroke-linecap:round;vector-effect:non-scaling-stroke}
+  .line-muted{fill:none;stroke:#565A6B;stroke-width:6;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+  .line-accent{fill:none;stroke:#978FF8;stroke-width:8;stroke-linecap:round;stroke-linejoin:round}
+  .dash{stroke-dasharray:2 18}
+</style>
+<g transform="translate(800 448) scale(1.27) translate(-802 -448)">
+<g transform="translate(-36 0)">
+<rect class="tile" x="420" y="200" width="600" height="496" rx="28"/>
+<path class="muted" d="M460 236 h34 l10 10 h26 v38 h-70 Z"/>
+<rect class="muted" x="552" y="244" width="200" height="18" rx="9"/>
+<rect class="bar" x="500" y="326" width="30" height="30" rx="8"/>
+<rect class="bar" x="552" y="332" width="240" height="18" rx="9"/>
+<rect class="bar" x="500" y="410" width="30" height="30" rx="8"/>
+<rect class="bar" x="552" y="416" width="190" height="18" rx="9"/>
+<rect class="accent" x="500" y="494" width="30" height="30" rx="8"/>
+<rect class="bar" x="552" y="500" width="300" height="18" rx="9"/>
+<rect class="bar" x="500" y="578" width="30" height="30" rx="8"/>
+<rect class="bar" x="552" y="584" width="240" height="18" rx="9"/>
+<rect x="476" y="472" width="520" height="72" rx="16" fill="none" stroke="#978FF8" stroke-width="6" vector-effect="non-scaling-stroke"/>
+<path d="M1106 470 V420 A58 58 0 0 1 1222 420 V470" fill="none" stroke="#978FF8" stroke-width="18" stroke-linecap="round"/>
+<rect class="tile" x="1072" y="462" width="184" height="150" rx="26"/>
+<circle class="accent" cx="1164" cy="524" r="18"/>
+<rect class="accent" x="1156" y="530" width="16" height="44" rx="8"/>
+</g>
+</g>
+</svg>

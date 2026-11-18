@@ -4,7 +4,7 @@ import { usePrefersReducedMotion } from "../lib/usePrefersReducedMotion";
 import styles from "./Clip.module.css";
 
 /**
- * The three files `scripts/encode-clips.mjs` writes, as one value. A section waiting on a
+ * The three files `scripts/encode-clips.ts` writes, as one value. A section waiting on a
  * capture holds one as `null`, so the day a clip lands the change is the constant.
  */
 export interface ClipSet {

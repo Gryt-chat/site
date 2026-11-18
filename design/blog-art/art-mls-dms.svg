@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="896" viewBox="0 0 1600 896">
+<style>
+  .tile{fill:#232834;stroke:#333949;stroke-width:6;vector-effect:non-scaling-stroke}
+  .tile-accent{fill:#232834;stroke:#978FF8;stroke-width:6;vector-effect:non-scaling-stroke}
+  .deep{fill:#15161C}
+  .bar{fill:#333949}
+  .muted{fill:#565A6B}
+  .accent{fill:#978FF8}
+  .accent-deep{fill:#6157D8}
+  .line{fill:none;stroke:#333949;stroke-width:6;stroke-linecap:round;vector-effect:non-scaling-stroke}
+  .line-muted{fill:none;stroke:#565A6B;stroke-width:6;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+  .line-accent{fill:none;stroke:#978FF8;stroke-width:8;stroke-linecap:round;stroke-linejoin:round}
+  .dash{stroke-dasharray:2 18}
+</style>
+<g transform="translate(800 448) scale(1.15) translate(-800 -447)">
+<path class="line dash" d="M420 400 H1180"/>
+<rect class="tile" x="690" y="250" width="220" height="300" rx="24"/>
+<rect class="bar" x="716" y="282" width="168" height="64" rx="12"/>
+<circle class="muted" cx="744" cy="314" r="8"/>
+<rect class="muted" x="766" y="309" width="72" height="10" rx="5"/>
+<rect class="bar" x="716" y="368" width="168" height="64" rx="12"/>
+<circle class="muted" cx="744" cy="400" r="8"/>
+<rect class="muted" x="766" y="395" width="58" height="10" rx="5"/>
+<rect class="bar" x="716" y="454" width="168" height="64" rx="12"/>
+<circle class="muted" cx="744" cy="486" r="8"/>
+<rect class="muted" x="766" y="481" width="44" height="10" rx="5"/>
+<rect class="tile" x="220" y="210" width="200" height="380" rx="36"/><rect class="bar" x="290.0" y="560" width="60" height="8" rx="4"/><rect class="bar" x="248" y="258" width="120" height="30" rx="15"/><rect class="bar" x="248" y="306" width="90" height="30" rx="15"/><rect class="accent" x="302" y="370" width="94" height="30" rx="15"/>
+<rect class="tile" x="1180" y="210" width="200" height="380" rx="36"/><rect class="bar" x="1250.0" y="560" width="60" height="8" rx="4"/><rect class="bar" x="1208" y="258" width="104" height="30" rx="15"/><rect class="bar" x="1208" y="370" width="120" height="30" rx="15"/><rect class="accent" x="1262" y="306" width="94" height="30" rx="15"/>
+<rect class="tile" x="491.0" y="356.0" width="128" height="88" rx="14"/><path class="line-muted" d="M505.0 370.0 L555 408 L605.0 370.0"/><circle class="accent" cx="555" cy="408" r="15"/>
+<rect class="tile" x="981.0" y="356.0" width="128" height="88" rx="14"/><path class="line-muted" d="M995.0 370.0 L1045 408 L1095.0 370.0"/><circle class="accent" cx="1045" cy="408" r="15"/>
+<rect x="563" y="663" width="54" height="18" rx="9" fill="none" stroke="#333949" stroke-width="6" vector-effect="non-scaling-stroke"/>
+<rect x="647" y="663" width="54" height="18" rx="9" fill="none" stroke="#333949" stroke-width="6" vector-effect="non-scaling-stroke"/>
+<rect x="731" y="663" width="54" height="18" rx="9" fill="none" stroke="#333949" stroke-width="6" vector-effect="non-scaling-stroke"/>
+<rect x="815" y="663" width="54" height="18" rx="9" fill="none" stroke="#333949" stroke-width="6" vector-effect="non-scaling-stroke"/>
+<rect x="899" y="663" width="54" height="18" rx="9" fill="none" stroke="#333949" stroke-width="6" vector-effect="non-scaling-stroke"/>
+<rect class="accent" x="980" y="660" width="60" height="24" rx="12"/>
+</g>
+</svg>

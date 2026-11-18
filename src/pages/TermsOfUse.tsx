@@ -1,6 +1,6 @@
 import { PageHeader } from "../components/PageHeader";
 import { monthDayYear } from "../lib/formatDate";
-import { lastUpdated } from "../lib/pages.mjs";
+import { lastUpdated } from "../lib/pages";
 import styles from "../styles/document.module.css";
 
 const LAST_UPDATED = monthDayYear(lastUpdated("terms"));
@@ -44,20 +44,13 @@ export function TermsOfUse() {
           or use our services. If you are under 18, you confirm that a parent or
           guardian has reviewed and agrees to these Terms on your behalf.
         </p>
-        <p>
-          Sixteen is the age the GDPR sets for agreeing to a service like this
-          one on your own. Some countries lower it, and Norway, where Gryt is run
-          from, allows 13. The limit is different across Europe and Gryt does not
-          ask where you are, so it uses the higher number everywhere.
-        </p>
 
         <h2>What the service is</h2>
         <p>
           Gryt Chat provides authentication and a web client that lets you
-          connect to <strong>Gryt servers</strong>. Almost every server is
-          self-hosted and run by somebody else; the content, moderation, and
-          policies of those servers are the responsibility of their operators,
-          not ours.
+          connect to <strong>Gryt servers</strong>. Each server is run by
+          whoever hosts it, and its content, moderation and policies are their
+          responsibility.
         </p>
         <p>
           We run one server ourselves, at{" "}
@@ -151,6 +144,21 @@ export function TermsOfUse() {
           . You retain ownership of any content you create or upload through the
           service. By using the service, you do not grant us any rights to your
           content beyond what is necessary to operate the authentication service.
+        </p>
+
+        <h2>The Gryt Cloud waitlist offer</h2>
+        <p>
+          If you join the Gryt Cloud waitlist on gryt.chat/cloud before Gryt Cloud
+          opens, you get 50% off the first three months of one Gryt Cloud server
+          on the Friends or Community plan. It doesn&rsquo;t apply to Large or Company.
+          It applies to monthly and yearly billing: on yearly, the discount comes
+          off the first three months of the year. We send you a code in the email
+          when Gryt Cloud opens. One code per email address, and it can&rsquo;t be
+          exchanged for money.
+        </p>
+        <p>
+          Prices and plans can still change before launch. The discount is taken
+          from the price on the day you buy.
         </p>
 
         <h2>Disclaimer of warranties</h2>

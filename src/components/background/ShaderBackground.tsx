@@ -76,8 +76,13 @@ export function ShaderBackground() {
 
       const uResolution = gl.getUniformLocation(program, "resolution");
       const uTime = gl.getUniformLocation(program, "time");
-      gl.uniform3fv(gl.getUniformLocation(program, "paper"), readColor("--gryt-bg", [0.067, 0.075, 0.094]));
-      gl.uniform3fv(gl.getUniformLocation(program, "accent"), readColor("--gryt-accent-9", [0.588, 0.561, 0.973]));
+      const uPaper = gl.getUniformLocation(program, "paper");
+      const uAccent = gl.getUniformLocation(program, "accent");
+      const readColors = () => {
+        gl.uniform3fv(uPaper, readColor("--gryt-bg", [0.067, 0.075, 0.094]));
+        gl.uniform3fv(uAccent, readColor("--gryt-accent-9", [0.588, 0.561, 0.973]));
+      };
+      readColors();
       gl.uniform3fv(gl.getUniformLocation(program, "accent2"), SKY);
       gl.uniform1f(gl.getUniformLocation(program, "strength"), STRENGTH);
 
@@ -130,6 +135,13 @@ export function ShaderBackground() {
       });
       sizeObserver.observe(canvas);
 
+      // A theme picked on the front page repaints these variables on <html>, so read them again.
+      const themeObserver = new MutationObserver(() => {
+        readColors();
+        if (!frame) draw(lastTime);
+      });
+      themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ["style", "class", "data-theme"] });
+
       run();
       canvas.style.opacity = "1";
       reducedMotion.addEventListener("change", run);
@@ -138,6 +150,7 @@ export function ShaderBackground() {
       cleanup = () => {
         stop();
         sizeObserver.disconnect();
+        themeObserver.disconnect();
         reducedMotion.removeEventListener("change", run);
         document.removeEventListener("visibilitychange", onVisibility);
         gl.deleteProgram(program);

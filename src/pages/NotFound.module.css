@@ -19,6 +19,11 @@
   min-width: 0;
 }
 
+.owl {
+  display: block;
+  margin-bottom: 20px;
+}
+
 .code {
   font-family: var(--font-mono);
   font-size: 12px;

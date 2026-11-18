@@ -6,13 +6,15 @@ import { Footer } from "./components/Footer";
 import { ShaderBackground } from "./components/background/ShaderBackground";
 import { HomePage } from "./pages/HomePage";
 import { HOME_TITLE, pageTitle } from "./lib/title";
-import { STATIC_PAGES, ALIAS_PAGES } from "./lib/pages.mjs";
+import { STATIC_PAGES, ALIAS_PAGES } from "./lib/pages";
 import { usePathname } from "./lib/usePathname";
 
 const AuthCallbackPage = lazy(() => import("./pages/AuthCallbackPage").then((m) => ({ default: m.AuthCallbackPage })));
 const BlogIndex = lazy(() => import("./pages/BlogIndex").then((m) => ({ default: m.BlogIndex })));
 const BlogPost = lazy(() => import("./pages/BlogPost").then((m) => ({ default: m.BlogPost })));
 const BuiltPage = lazy(() => import("./pages/BuiltPage").then((m) => ({ default: m.BuiltPage })));
+const CloudPage = lazy(() => import("./pages/CloudPage").then((m) => ({ default: m.CloudPage })));
+const FeaturesPage = lazy(() => import("./pages/FeaturesPage").then((m) => ({ default: m.FeaturesPage })));
 const ComparePage = lazy(() => import("./pages/ComparePage").then((m) => ({ default: m.ComparePage })));
 const BotsPage = lazy(() => import("./pages/developers/BotsPage").then((m) => ({ default: m.BotsPage })));
 const AddonsPage = lazy(() => import("./pages/developers/AddonsPage").then((m) => ({ default: m.AddonsPage })));
@@ -23,8 +25,32 @@ const DesignSystemPage = lazy(() => import("./pages/developers/DesignSystemPage"
 const ContributingPage = lazy(() => import("./pages/developers/ContributingPage").then((m) => ({ default: m.ContributingPage })));
 const DevelopersPage = lazy(() => import("./pages/DevelopersPage").then((m) => ({ default: m.DevelopersPage })));
 const SelfHostingPage = lazy(() => import("./pages/SelfHostingPage").then((m) => ({ default: m.SelfHostingPage })));
+const SupportPage = lazy(() => import("./pages/SupportPage").then((m) => ({ default: m.SupportPage })));
+const InviteFriendPage = lazy(() => import("./pages/support/InviteFriendPage").then((m) => ({ default: m.InviteFriendPage })));
+const NoVoicePage = lazy(() => import("./pages/support/NoVoicePage").then((m) => ({ default: m.NoVoicePage })));
+const MicrophonePage = lazy(() => import("./pages/support/MicrophonePage").then((m) => ({ default: m.MicrophonePage })));
+const CantConnectPage = lazy(() => import("./pages/support/CantConnectPage").then((m) => ({ default: m.CantConnectPage })));
+const InstallPage = lazy(() => import("./pages/support/InstallPage").then((m) => ({ default: m.InstallPage })));
+const VoiceWontStartPage = lazy(() => import("./pages/support/VoiceWontStartPage").then((m) => ({ default: m.VoiceWontStartPage })));
+const SoundProblemsPage = lazy(() => import("./pages/support/SoundProblemsPage").then((m) => ({ default: m.SoundProblemsPage })));
+const ScreenShareEchoPage = lazy(() => import("./pages/support/ScreenShareEchoPage").then((m) => ({ default: m.ScreenShareEchoPage })));
+const ServerClockPage = lazy(() => import("./pages/support/ServerClockPage").then((m) => ({ default: m.ServerClockPage })));
+const ServerIdentityPage = lazy(() => import("./pages/support/ServerIdentityPage").then((m) => ({ default: m.ServerIdentityPage })));
+const ServerRestartPage = lazy(() => import("./pages/support/ServerRestartPage").then((m) => ({ default: m.ServerRestartPage })));
+const ServerWontStartPage = lazy(() => import("./pages/support/ServerWontStartPage").then((m) => ({ default: m.ServerWontStartPage })));
+const AppUpdatesPage = lazy(() => import("./pages/support/AppUpdatesPage").then((m) => ({ default: m.AppUpdatesPage })));
+const HostServerPage = lazy(() => import("./pages/support/HostServerPage").then((m) => ({ default: m.HostServerPage })));
+const JoinServerPage = lazy(() => import("./pages/support/JoinServerPage").then((m) => ({ default: m.JoinServerPage })));
+const MakeInvitePage = lazy(() => import("./pages/support/MakeInvitePage").then((m) => ({ default: m.MakeInvitePage })));
+const AccountOrGuestPage = lazy(() => import("./pages/support/AccountOrGuestPage").then((m) => ({ default: m.AccountOrGuestPage })));
+const VoiceBasicsPage = lazy(() => import("./pages/support/VoiceBasicsPage").then((m) => ({ default: m.VoiceBasicsPage })));
+const RolesPage = lazy(() => import("./pages/support/RolesPage").then((m) => ({ default: m.RolesPage })));
+const ThreadsPage = lazy(() => import("./pages/support/ThreadsPage").then((m) => ({ default: m.ThreadsPage })));
+const EmojisPage = lazy(() => import("./pages/support/EmojisPage").then((m) => ({ default: m.EmojisPage })));
+const BackupPage = lazy(() => import("./pages/support/BackupPage").then((m) => ({ default: m.BackupPage })));
 const ChangelogIndex = lazy(() => import("./pages/ChangelogIndex").then((m) => ({ default: m.ChangelogIndex })));
 const ChangelogEntry = lazy(() => import("./pages/ChangelogEntry").then((m) => ({ default: m.ChangelogEntry })));
+const SponsorPage = lazy(() => import("./pages/SponsorPage").then((m) => ({ default: m.SponsorPage })));
 const SponsorsPage = lazy(() => import("./pages/SponsorsPage").then((m) => ({ default: m.SponsorsPage })));
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy").then((m) => ({ default: m.PrivacyPolicy })));
 const CommunityGuidelines = lazy(() => import("./pages/CommunityGuidelines").then((m) => ({ default: m.CommunityGuidelines })));
@@ -165,6 +191,8 @@ export default function App() {
           <Route path="/why-gryt" element={<WhyGryt />} />
           <Route path="/blog" element={<BlogIndex />} />
           <Route path="/blog/:slug" element={<BlogPost />} />
+          <Route path="/features" element={<FeaturesPage />} />
+          <Route path="/cloud" element={<CloudPage />} />
           <Route path="/compare" element={<ComparePage />} />
           <Route path="/developers" element={<DevelopersPage />} />
           <Route path="/developers/bots" element={<BotsPage />} />
@@ -176,6 +204,30 @@ export default function App() {
           <Route path="/developers/contributing" element={<ContributingPage />} />
           <Route path="/built" element={<BuiltPage />} />
           <Route path="/self-hosting" element={<SelfHostingPage />} />
+          <Route path="/support" element={<SupportPage />} />
+          <Route path="/support/invite-a-friend" element={<InviteFriendPage />} />
+          <Route path="/support/nobody-can-hear-anyone" element={<NoVoicePage />} />
+          <Route path="/support/microphone" element={<MicrophonePage />} />
+          <Route path="/support/cant-connect" element={<CantConnectPage />} />
+          <Route path="/support/install" element={<InstallPage />} />
+          <Route path="/support/voice-wont-start" element={<VoiceWontStartPage />} />
+          <Route path="/support/sound-problems" element={<SoundProblemsPage />} />
+          <Route path="/support/screen-share-echo" element={<ScreenShareEchoPage />} />
+          <Route path="/support/server-clock" element={<ServerClockPage />} />
+          <Route path="/support/server-identity" element={<ServerIdentityPage />} />
+          <Route path="/support/after-server-restart" element={<ServerRestartPage />} />
+          <Route path="/support/my-server-wont-start" element={<ServerWontStartPage />} />
+          <Route path="/support/app-updates" element={<AppUpdatesPage />} />
+          <Route path="/support/host-a-server" element={<HostServerPage />} />
+          <Route path="/support/join-a-server" element={<JoinServerPage />} />
+          <Route path="/support/make-an-invite" element={<MakeInvitePage />} />
+          <Route path="/support/account-or-guest" element={<AccountOrGuestPage />} />
+          <Route path="/support/voice-basics" element={<VoiceBasicsPage />} />
+          <Route path="/support/roles" element={<RolesPage />} />
+          <Route path="/support/threads" element={<ThreadsPage />} />
+          <Route path="/support/custom-emojis" element={<EmojisPage />} />
+          <Route path="/support/back-up-a-server" element={<BackupPage />} />
+          <Route path="/sponsor" element={<SponsorPage />} />
           <Route path="/sponsors" element={<SponsorsPage />} />
           <Route path="/changelog" element={<ChangelogIndex />} />
           <Route path="/changelog/:version" element={<ChangelogEntry />} />
