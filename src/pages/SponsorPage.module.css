@@ -1,0 +1,291 @@
+.page {
+  max-width: calc(var(--max-w, 1100px) + 48px);
+  margin: 0 auto;
+  padding: 120px 24px 96px;
+  box-sizing: border-box;
+}
+
+/* The ask and what it pays for side by side, so the costs answer "for what?" where it's asked. */
+.top {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 440px);
+  gap: 56px;
+  align-items: start;
+}
+
+/* ── The button ───────────────────────────────────────── */
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 28px;
+  min-height: 56px;
+  padding: 0 30px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+  text-decoration: none;
+  box-shadow: 0 0 0 1px var(--accent-light), 0 18px 60px var(--accent-glow);
+  transition: transform 0.16s ease-out, box-shadow 0.16s ease-out;
+}
+
+.cta svg { width: 1em; height: 1em; flex: none; }
+
+.cta:hover {
+  color: var(--accent-ink);
+  transform: translateY(-2px);
+  box-shadow: 0 0 0 1px var(--accent-hover), 0 24px 72px var(--accent-glow);
+}
+
+.cta:focus-visible {
+  outline: 3px solid var(--accent-hover);
+  outline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cta, .cta:hover { transition: none; transform: none; }
+}
+
+.ctaNote {
+  margin: 12px 0 0;
+  font-size: 15px;
+  color: var(--text-dim);
+}
+
+/* ── Tiers ────────────────────────────────────────────── */
+
+.block { margin-top: 96px; }
+
+/* ── Costs ────────────────────────────────────────────── */
+
+.costs {
+  margin-top: 8px;
+  padding: 24px;
+  border-radius: var(--radius-lg);
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+}
+
+.costHead {
+  margin: 0;
+  font-weight: 700;
+  font-size: 13px !important;
+  text-transform: uppercase;
+  letter-spacing: 1.3px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--text-dim);
+}
+
+.costList { margin: 12px 0 0; font-size: 15.5px; }
+
+.costRow,
+.costTotal {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 11px 0;
+  border-top: 1px solid var(--border);
+}
+
+.costTotal { border-bottom: 1px solid var(--border); font-weight: 800; }
+
+.costList dd {
+  margin: 0;
+  font-family: var(--font-mono);
+  color: var(--accent-light);
+  white-space: nowrap;
+}
+
+.costTotal dd { color: var(--text); }
+
+.covered {
+  margin-top: 24px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  font-size: 14.5px;
+  color: var(--text-dim);
+}
+
+.coveredAmount { font-family: var(--font-mono); color: var(--accent-light); white-space: nowrap; }
+
+.bar {
+  margin-top: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--border);
+  overflow: hidden;
+}
+
+.bar > div { height: 100%; background: var(--accent); }
+
+
+.blockHeading {
+  font-size: clamp(22px, 2.4vw, 30px);
+  font-weight: 800;
+  letter-spacing: -0.024em;
+  margin: 0;
+}
+
+.blockNote {
+  margin: 10px 0 0;
+  max-width: 60ch;
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--text-dim);
+}
+
+.packs {
+  margin: 24px 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.pack,
+.packPicked {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 24px;
+  border-radius: var(--radius-lg);
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+}
+
+.packPicked {
+  background: var(--bg-card);
+  border-color: var(--accent);
+}
+
+.amount {
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+.packTitle {
+  margin: 0;
+  font-size: 17.5px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.gets {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text-dim);
+}
+
+.shot {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+}
+
+.pick,
+.ghost {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 22px;
+  border-radius: 999px;
+  font-size: 15px;
+  white-space: nowrap;
+}
+
+.pick {
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-weight: 800;
+}
+
+.pick:hover { color: var(--accent-ink); }
+
+.ghost {
+  border: 1px solid var(--border);
+  color: var(--accent-light);
+  font-weight: 700;
+}
+
+.ghost:hover { border-color: var(--accent); color: var(--accent-hover); }
+
+.pick:focus-visible,
+.ghost:focus-visible {
+  outline: 3px solid var(--accent-hover);
+  outline-offset: 3px;
+}
+
+.once {
+  margin-top: 12px;
+  padding: 20px 24px;
+  border-radius: var(--radius-lg);
+  border: 1px dashed var(--border);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.onceText {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1 1 320px;
+  min-width: 0;
+}
+
+.onceText .shot { max-width: 520px; margin-top: 8px; }
+
+.first { margin: 20px 0 0; font-size: 14.5px; color: var(--text-dim); }
+
+.pack .gets,
+.packPicked .gets { flex: 1; }
+
+@media (max-width: 1000px) {
+  .packs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 860px) {
+  .top { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+}
+
+.more {
+  margin: 40px 0 0;
+  font-size: 16px;
+}
+
+@media (max-width: 680px) {
+  .packs { grid-template-columns: minmax(0, 1fr); }
+  .page { padding: 96px 16px 72px; }
+  .cta { width: 100%; box-sizing: border-box; }
+  .block { margin-top: 56px; }
+  .costs { padding: 20px; }
+}
+
+/* Not links in running text: the base layer underlines every `a`. */
+.cta,
+.pick,
+.ghost {
+  text-decoration: none;
+}
+
+.approx { display: block; margin-top: 2px; font-size: 13.5px; font-weight: 400; letter-spacing: 0; color: var(--text-dim); }

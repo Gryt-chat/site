@@ -60,6 +60,8 @@ jobs:
       # check runs inside `yarn build` below.
       - run: yarn test:sitemap
       - run: yarn test:citations
+      - run: yarn test:sponsor-goal
+      - run: yarn test:support-search
 
       # tsc -b, the image optimiser, vite build, the blog prerender and the meta check. The
       # last fails the build on a page missing its metadata, so this is more than a compile.

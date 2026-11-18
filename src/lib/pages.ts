@@ -91,9 +91,130 @@ export const STATIC_PAGES: StaticPage[] = [
       "How to run a Gryt server, from the app on your desk to a Helm chart, and what you get to decide once it is up.",
   },
   {
+    path: "support",
+    title: "Support",
+    description: "Stuck on something in Gryt? Search the docs, check the common problems, or ask a person.",
+  },
+  {
+    path: "support/invite-a-friend",
+    title: "I can't invite a friend",
+    description: "Your invite link might only work on your own network. Here's how to fix it, and what to do if a code gets refused.",
+  },
+  {
+    path: "support/nobody-can-hear-anyone",
+    title: "Nobody can hear anyone",
+    description: "Chat works but voice doesn't. It's usually a closed port, and whoever runs the server can fix it.",
+  },
+  {
+    path: "support/microphone",
+    title: "My mic doesn't work",
+    description: "Work through mute, your input device, permissions and the noise gate.",
+  },
+  {
+    path: "support/cant-connect",
+    title: "I can't connect to a server",
+    description: "Check the address, then what the error message says.",
+  },
+  {
+    path: "support/install",
+    title: "The app won't install or open",
+    description: "Warnings on Windows and macOS, and Linux AppImages that won't start.",
+  },
+  {
+    path: "support/voice-wont-start",
+    title: "Joining voice hangs, then blames my network",
+    description: "You click a voice channel, nothing happens for 15 seconds, then a network message. It's usually DNS filtering.",
+  },
+  {
+    path: "support/sound-problems",
+    title: "Voice sounds bad",
+    description: "Echo, words cut off, volume going up and down, or audio dropping out. Here's what each one usually means.",
+  },
+  {
+    path: "support/screen-share-echo",
+    title: "People hear themselves when I share my screen",
+    description: "Your screen share is picking up Gryt's own audio. Here's the fix for each computer.",
+  },
+  {
+    path: "support/server-clock",
+    title: "It says the server's clock is wrong",
+    description: "The server's clock is off by more than a minute. Whoever runs the server can fix it in a couple of commands.",
+  },
+  {
+    path: "support/server-identity",
+    title: "It says Server identity not recognised",
+    description: "The server has a different key than when you first joined. Check before you trust it.",
+  },
+  {
+    path: "support/after-server-restart",
+    title: "The server restarted and things look odd",
+    description: "A short reconnect message and a blip in voice is normal. Here's what to expect when a server restarts.",
+  },
+  {
+    path: "support/my-server-wont-start",
+    title: "My own server won't start or nobody can reach it",
+    description: "Commands to check a Gryt server running in Docker or Kubernetes, and what each failure usually means.",
+  },
+  {
+    path: "support/app-updates",
+    title: "The app won't update or forgets my profile",
+    description: "Old Windows versions can't update themselves, and an old install can reset your profile. Both take one fresh install.",
+  },
+  {
+    path: "support/host-a-server",
+    title: "Host a server from the app",
+    description: "The app you downloaded is also a server. Make one in under a minute, then let friends in.",
+  },
+  {
+    path: "support/join-a-server",
+    title: "Join a server",
+    description: "Open an invite link or add a server by its address. You don't need an account for many servers.",
+  },
+  {
+    path: "support/make-an-invite",
+    title: "Make an invite",
+    description: "Create an invite link, choose how many people can use it, and let people on your network in without one.",
+  },
+  {
+    path: "support/account-or-guest",
+    title: "Do I need an account?",
+    description: "No, not to try Gryt. Here's what a guest can do, what an account adds, and how to choose.",
+  },
+  {
+    path: "support/voice-basics",
+    title: "Use voice and push-to-talk",
+    description: "Join a voice channel, mute or deafen yourself, set up push-to-talk, and share your screen.",
+  },
+  {
+    path: "support/roles",
+    title: "Set up roles",
+    description: "Decide who can talk, moderate and read on your server, and promote regulars automatically.",
+  },
+  {
+    path: "support/threads",
+    title: "Use threads",
+    description: "Keep a long conversation out of the main channel, see what's new, and mark a question as solved.",
+  },
+  {
+    path: "support/custom-emojis",
+    title: "Add custom emojis",
+    description: "Upload your own images, name them, and use them in chat on your server.",
+  },
+  {
+    path: "support/back-up-a-server",
+    title: "Back up your server",
+    description: "Everything lives in one folder. Here's the one trap that makes a copy worthless.",
+  },
+  {
     path: "blog",
     title: "Blog",
     description: "Posts about building Gryt, written by the one person building it.",
+  },
+  {
+    path: "cloud",
+    title: "Gryt Cloud",
+    description:
+      "Your own Gryt server, always online, run by us. Join the waitlist for 50% off your first three months on Friends or Community.",
   },
   {
     path: "features",
@@ -113,23 +234,27 @@ export const STATIC_PAGES: StaticPage[] = [
     description: "What changed in each release of Gryt.",
   },
   {
+    path: "sponsor",
+    title: "Sponsor Gryt",
+    description: "What sponsoring pays for, and what you get back.",
+  },
+  {
     path: "sponsors",
     title: "Sponsors",
-    description:
-      "Everyone who has chipped in, and what the money pays for.",
+    description: "Everyone who has chipped in to pay Gryt's bills.",
   },
   {
     path: "terms",
     title: "Terms of Use",
     description:
       "The terms covering the services we operate. Community servers set their own on top of these.",
-    updated: "2026-09-03",
+    updated: "2026-11-11",
   },
   {
     path: "privacy",
     title: "Privacy Policy",
     description: "How Gryt handles your data. We collect as little as we can get away with.",
-    updated: "2026-09-16",
+    updated: "2026-11-11",
   },
   {
     path: "community-guidelines",

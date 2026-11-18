@@ -1,35 +1,19 @@
-import { Download } from "../components/Download";
-import { Addons } from "../components/home/Addons";
-import { Bird } from "../components/home/Bird";
-import { Emoji } from "../components/home/Emoji";
+import { Features, Involved, News, Releases, SponsorBar, Why } from "../components/home/Front";
 import { Hero } from "../components/home/Hero";
-import { Identity } from "../components/home/Identity";
-import { Lan } from "../components/home/Lan";
 import { Motivation } from "../components/home/Motivation";
-import { SelfHost } from "../components/home/SelfHost";
-import { Sponsors } from "../components/home/Sponsors";
-import { Themes } from "../components/home/Themes";
-import { Voice } from "../components/home/Voice";
 
-/**
- * One claim per section, each shown rather than argued. The middle alternates left and
- * right through `Showcase`, and the sequence lives here: Identity, Emoji, Themes, Lan.
- */
+/** One video in the hero, what is new, what Gryt is, why it exists, then how to take part. */
 export function HomePage() {
   return (
     <main>
       <Hero />
-      <Identity />
-      <Bird />
-      <Emoji />
-      <Voice />
-      <Themes />
-      <Lan />
-      <Addons />
+      <News />
+      <Releases />
+      <Why />
+      <Features />
       <Motivation />
-      <SelfHost />
-      <Download />
-      <Sponsors />
+      <Involved />
+      <SponsorBar />
     </main>
   );
 }
