@@ -1,7 +1,7 @@
 // Turns "[3]" in a paper-style post into a link to item 3 under its "References" heading.
 // Posts without that heading are left alone, so a literal [1] elsewhere stays text.
 
-interface Node {
+export interface Node {
   type: string
   tagName?: string
   value?: string

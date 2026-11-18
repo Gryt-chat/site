@@ -1,13 +1,13 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import rehypeCitations from "./rehype-citations.ts";
+import rehypeCitations, { type Node } from "./rehype-citations.ts";
 
-const t = (value: string) => ({ type: "text", value });
-const el = (tagName: string, ...children: object[]) => ({ type: "element", tagName, properties: {}, children });
+const t = (value: string): Node => ({ type: "text", value });
+const el = (tagName: string, ...children: Node[]): Node => ({ type: "element", tagName, properties: {}, children });
 
 test("links [n] in the text to the matching reference", () => {
-  const tree = {
+  const tree: Node & { children: Node[] } = {
     type: "root",
     children: [
       el("p", t("Opus [1] and QUIC [2], not [9]."), el("code", t("a[1]"))),
@@ -27,7 +27,7 @@ test("links [n] in the text to the matching reference", () => {
 });
 
 test("a post without a References heading is untouched", () => {
-  const tree = { type: "root", children: [el("p", t("array[1]"))] };
+  const tree: Node & { children: Node[] } = { type: "root", children: [el("p", t("array[1]"))] };
   rehypeCitations()(tree);
-  assert.deepEqual(tree.children[0].children, [t("array[1]")]);
+  assert.deepEqual(tree.children[0]?.children, [t("array[1]")]);
 });
