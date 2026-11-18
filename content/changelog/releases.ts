@@ -176,6 +176,19 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.16.0-beta.5",
+    date: "2026-11-18",
+    channel: "beta",
+    line: "Beta: a new server owner gets a short tour of their server settings.",
+    changes: [
+      {
+        kind: "new",
+        area: "servers",
+        text: "The first time you own a server, the guide owl shows you where its name, who can join, roles and uploads are. Show me around in Server settings › Overview plays it again.",
+      },
+    ],
+  },
+  {
     version: "1.16.0-beta.4",
     date: "2026-11-18",
     channel: "beta",
