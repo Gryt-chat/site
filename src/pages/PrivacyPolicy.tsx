@@ -94,6 +94,49 @@ export function PrivacyPolicy() {
           </li>
         </ul>
 
+        <h3>Signing in with Google or Apple</h3>
+        <p>
+          You can sign in with your Google or Apple account instead of a
+          password. When you do, Google or Apple tells{" "}
+          <strong>auth.gryt.chat</strong> who you are. We only ask for the
+          basics: your name, your email address, whether they&rsquo;ve verified
+          it, and an ID for your account with them.
+        </p>
+        <ul>
+          <li>
+            We keep your email address and that ID. The ID is how we know
+            it&rsquo;s you next time.
+          </li>
+          <li>
+            We don&rsquo;t keep your name. A Gryt account only has a username
+            and an email address.
+          </li>
+          <li>
+            We don&rsquo;t ask for anything else, like your contacts, files or
+            calendar. We don&rsquo;t keep the tokens Google or Apple give us
+            once you&rsquo;re signed in.
+          </li>
+          <li>
+            If you use Apple&rsquo;s Hide My Email, we only see the relay
+            address Apple gives us.
+          </li>
+          <li>
+            If a Gryt account already uses the same email, we ask you to
+            confirm it&rsquo;s yours, with its password or a link we email you,
+            before we link the two.
+          </li>
+        </ul>
+        <p>
+          We use this to sign you in and nothing else. We don&rsquo;t sell it
+          or use it for ads. Gryt&rsquo;s use of information received from
+          Google APIs follows the{" "}
+          <a href="https://developers.google.com/terms/api-services-user-data-policy">
+            Google API Services User Data Policy
+          </a>
+          , including the Limited Use requirements. You can remove Gryt&rsquo;s
+          access at any time from your Google or Apple account settings.
+        </p>
+
         <h3>Identity certificates</h3>
         <p>
           When you sign in, the Gryt client generates a cryptographic keypair on
