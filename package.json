@@ -32,9 +32,9 @@
     "generate:banners": "node scripts/generate-repo-banners.ts"
   },
   "dependencies": {
-    "@gryt/owl": "^0.7.0",
+    "@gryt/owl": "^0.8.0",
     "@gryt/theme": "^0.13.0",
-    "@gryt/ui": "^0.50.1",
+    "@gryt/ui": "^0.53.0",
     "@mdx-js/rollup": "^3.1.1",
     "@noble/curves": "^2.3.0",
     "@noble/hashes": "^2.3.0",

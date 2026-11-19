@@ -451,23 +451,23 @@
   resolved "https://registry.yarnpkg.com/@floating-ui/utils/-/utils-0.2.12.tgz#afefe785949f16ac4cdd1e695935a321572dd56a"
   integrity sha512-HpCo8tmWzLVad5s2d19EhAz5zqrrQ6s69qd6moPMQvkOuSwDT1YgRfWSVuc4ennqrgv3OHppiOGMQ7oC13yIww==
 
-"@gryt/owl@^0.7.0":
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/@gryt/owl/-/owl-0.7.0.tgz#730a4f9fc3b355dd3629e1bce1d8af71e765ff75"
-  integrity sha512-Bi+xkPjEnvdjGvqV+nYGLYCtlEG5ZkeUZNmGA1KK7U5Gu350mGrpCB5k+h+hss8BbHt5kfX15PDoNHKVoUOevA==
+"@gryt/owl@^0.8.0":
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/@gryt/owl/-/owl-0.8.0.tgz#ee3c0ee94d6ff49ea4e9f13e6847e512b02766c0"
+  integrity sha512-lG7AjDiTQtPJ7RQmF+g82uENRTnUU5PVxcnF56l83oALfLnksI5kV9Dl1knlT9eecD1aHIZfAsfaqXsDtjFbvw==
 
 "@gryt/theme@^0.13.0":
   version "0.13.0"
   resolved "https://registry.yarnpkg.com/@gryt/theme/-/theme-0.13.0.tgz#640f3049b53cfe427f0067cfc5faeffbd04d36aa"
   integrity sha512-7CW/wBKZFL1bfk5xQcJtvdoD+rbCvmHeA0U2uTQMQ9gfXAvIbPx7GL+TjMYYouTtLdJ/OKFARK+NXuS0RaBveg==
 
-"@gryt/ui@^0.50.1":
-  version "0.50.1"
-  resolved "https://registry.yarnpkg.com/@gryt/ui/-/ui-0.50.1.tgz#3d498f5238005792db2b9914f8065eb843995afc"
-  integrity sha512-MRfvTaaQqDcEjBs07PGKGjz/GRj3NpLYcSys7ePm5IyTUmCCTE5Fr3b944v2iqA0xIg+5S71NmGtRoxIKbNVuw==
+"@gryt/ui@^0.53.0":
+  version "0.53.0"
+  resolved "https://registry.yarnpkg.com/@gryt/ui/-/ui-0.53.0.tgz#3652f14a8595a8bdebdd694f49874bfc1161ee7d"
+  integrity sha512-owZKhahz7cPdBY6tOF1kFgLWt5Ie0CofiEO1l//vu49y9U71s7fYJqnn6KVmiTLhR+GmZbp1bAi+7EoMZkLXtw==
   dependencies:
     "@base-ui/react" "^1.7.0"
-    "@gryt/owl" "^0.7.0"
+    "@gryt/owl" "^0.8.0"
     "@gryt/theme" "^0.13.0"
     "@phosphor-icons/react" "^2.1.10"
     "@tanstack/react-virtual" "^3.13.12"
