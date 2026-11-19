@@ -176,6 +176,34 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.16.0-beta.8",
+    date: "2026-11-19",
+    channel: "beta",
+    line: "Beta: server settings in nine tabs with an Overview first, and Gryt Cloud owners go straight into their server.",
+    changes: [
+      {
+        kind: "changed",
+        area: "servers",
+        text: "Server settings has nine tabs instead of seventeen. Overview comes first: the server's name and address, members, messages and who's online, how full it is, Invite a friend, and anything waiting for you. Requests moved into Members, channel permissions into Roles, Reports, Bans and the audit log into Moderation, bots, webhooks and Discord into Integrations, and Storage into Hosting.",
+      },
+      {
+        kind: "new",
+        area: "servers",
+        text: "Open in Gryt from Gryt Cloud takes the owner straight into their server, with no invite code to type. The app also adds the Gryt Cloud servers your account owns when you sign in.",
+      },
+      {
+        kind: "new",
+        area: "servers",
+        text: "A Gryt Cloud server's owner sees its plan, storage and transfer this month under Server settings › Hosting.",
+      },
+      {
+        kind: "fixed",
+        area: "servers",
+        text: "Joining your first server opens that server instead of your last direct message.",
+      },
+    ],
+  },
+  {
     version: "1.16.0-beta.7",
     date: "2026-11-18",
     channel: "beta",
