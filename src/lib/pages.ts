@@ -259,7 +259,7 @@ export const STATIC_PAGES: StaticPage[] = [
     path: "privacy",
     title: "Privacy Policy",
     description: "How Gryt handles your data. We collect as little as we can get away with.",
-    updated: "2026-11-11",
+    updated: "2026-11-19",
   },
   {
     path: "community-guidelines",
