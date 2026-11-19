@@ -5929,6 +5929,19 @@ export const app: ReleaseLine[] = [
  */
 export const server: ReleaseLine[] = [
   {
+    version: "1.13.0-beta.8",
+    date: "2026-11-19",
+    channel: "beta",
+    line: "Beta: a Gryt Cloud server starts with the picture its owner picked.",
+    changes: [
+      {
+        kind: "new",
+        area: "servers",
+        text: "A Gryt Cloud server starts with the picture picked at checkout, so it isn't the generated one on day one. You can still change it in Server settings.",
+      },
+    ],
+  },
+  {
     version: "1.13.0-beta.7",
     date: "2026-11-19",
     channel: "beta",
