@@ -1,0 +1,204 @@
+/* Hallmark · macrostructure: Catalogue · theme: Gryt tokens (project-locked, design.md) · enrichment: none */
+
+.page {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 120px 24px 96px;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: -12px 0 0;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding-top: 48px;
+  margin-top: 48px;
+  border-top: 1px solid var(--border);
+}
+
+/* The page header's own rule already sits above the buttons. */
+.actions + .section {
+  padding-top: 0;
+  border-top: 0;
+}
+
+.head {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.heading {
+  font-size: clamp(22px, 2.4vw, 30px);
+  font-weight: 800;
+  letter-spacing: -0.024em;
+  line-height: 1.15;
+  text-wrap: balance;
+}
+
+.lede {
+  max-width: 62ch;
+  color: var(--text-dim);
+}
+
+.grid,
+.gridWide,
+.gridBanners {
+  display: grid;
+  gap: 28px 24px;
+}
+
+.grid { grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr)); }
+.gridWide { grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr)); }
+.gridBanners { grid-template-columns: repeat(auto-fill, minmax(min(100%, 420px), 1fr)); }
+
+.item {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+
+.well {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+/* The grounds each logo file is drawn for, shown as specimens rather than page colour. */
+.well[data-ground="night"] { background: var(--bg-raised); }
+.well[data-ground="indigo"] { background: #2e2d5f; }
+.well[data-ground="paper"] { background: #f5f4fb; }
+.well[data-ground="accent"] { background: var(--accent); }
+
+.landscape { aspect-ratio: 16 / 9; }
+.square { aspect-ratio: 1; }
+
+.art { width: 42%; height: auto; }
+.wideArt { width: 46%; height: auto; }
+.roundArt { width: 64%; height: auto; border-radius: 50%; }
+.square .art { width: 64%; }
+
+.picture {
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.caption {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.name {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.note {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text-dim);
+}
+
+.meta {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--text-dimmer);
+}
+
+.downloads {
+  display: flex;
+  gap: 12px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.walls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 28px 24px;
+}
+
+.desktop { flex: 1 1 320px; }
+.phone { flex: 0 1 200px; }
+
+.split {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
+  gap: 48px;
+}
+
+.colours {
+  display: flex;
+  flex-direction: column;
+  margin-top: 8px;
+}
+
+.colour {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.colour dt { flex: 1; font-size: 15px; }
+.colour dd { font-size: 14px; }
+
+.swatch {
+  width: 28px;
+  height: 28px;
+  flex: none;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+
+.typeSample {
+  font-size: clamp(30px, 4vw, 44px);
+  font-weight: 800;
+  letter-spacing: -0.028em;
+  line-height: 1.1;
+  overflow-wrap: anywhere;
+}
+
+.monoSample {
+  font-family: var(--font-mono);
+  font-size: 22px;
+  overflow-wrap: anywhere;
+}
+
+.donts {
+  max-width: 62ch;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  list-style: disc;
+}
+
+@media (max-width: 680px) {
+  .page { padding: 96px 16px 72px; }
+}

@@ -52,6 +52,7 @@ const ChangelogIndex = lazy(() => import("./pages/ChangelogIndex").then((m) => (
 const ChangelogEntry = lazy(() => import("./pages/ChangelogEntry").then((m) => ({ default: m.ChangelogEntry })));
 const SponsorPage = lazy(() => import("./pages/SponsorPage").then((m) => ({ default: m.SponsorPage })));
 const SponsorsPage = lazy(() => import("./pages/SponsorsPage").then((m) => ({ default: m.SponsorsPage })));
+const PressPage = lazy(() => import("./pages/PressPage").then((m) => ({ default: m.PressPage })));
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy").then((m) => ({ default: m.PrivacyPolicy })));
 const CommunityGuidelines = lazy(() => import("./pages/CommunityGuidelines").then((m) => ({ default: m.CommunityGuidelines })));
 const SecurityPolicy = lazy(() => import("./pages/SecurityPolicy").then((m) => ({ default: m.SecurityPolicy })));
@@ -229,6 +230,7 @@ export default function App() {
           <Route path="/support/back-up-a-server" element={<BackupPage />} />
           <Route path="/sponsor" element={<SponsorPage />} />
           <Route path="/sponsors" element={<SponsorsPage />} />
+          <Route path="/press" element={<PressPage />} />
           <Route path="/changelog" element={<ChangelogIndex />} />
           <Route path="/changelog/:version" element={<ChangelogEntry />} />
           <Route path="/privacy" element={<PrivacyPolicy />} />
