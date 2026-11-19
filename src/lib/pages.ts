@@ -244,6 +244,11 @@ export const STATIC_PAGES: StaticPage[] = [
     description: "Everyone who has chipped in to pay Gryt's bills.",
   },
   {
+    path: "press",
+    title: "Press",
+    description: "Gryt's name, owl, banners and wallpapers. Free to use, as long as you say where they came from.",
+  },
+  {
     path: "terms",
     title: "Terms of Use",
     description:

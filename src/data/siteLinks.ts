@@ -29,12 +29,13 @@ const developers: SiteLink = { label: 'Developers', href: '/developers', route: 
 const ourServer: SiteLink = { label: 'Our Gryt server', href: 'https://gryt.chat/community' }
 const feedback: SiteLink = { label: 'Feedback', href: 'https://feedback.gryt.chat' }
 const sponsor: SiteLink = { label: 'Sponsor Gryt', href: '/sponsor', route: true }
+const press: SiteLink = { label: 'Press', href: '/press', route: true }
 
 export const footerGroups: { title: string; links: SiteLink[] }[] = [
   { title: 'Get Gryt', links: [download, openInBrowser, selfHosting, cloud] },
   { title: 'Learn', links: [whyGryt, features, compared, blog, changelog] },
   { title: 'Help', links: [support, docs, developers] },
-  { title: 'Community', links: [ourServer, feedback, sponsor] },
+  { title: 'Community', links: [ourServer, feedback, sponsor, press] },
 ]
 
 /** The small print. Never in the nav, always at the very bottom. */
