@@ -5901,6 +5901,29 @@ export const app: ReleaseLine[] = [
  */
 export const server: ReleaseLine[] = [
   {
+    version: "1.13.0-beta.7",
+    date: "2026-11-19",
+    channel: "beta",
+    line: "Beta: Gryt Cloud servers start with the name their owner picked, and the owner sees how many messages the server holds.",
+    changes: [
+      {
+        kind: "new",
+        area: "servers",
+        text: "A Gryt Cloud server starts with the name picked at checkout instead of \"Unknown Server\". You can still rename it in Server settings.",
+      },
+      {
+        kind: "new",
+        area: "servers",
+        text: "The new Server settings Overview shows the owner how many messages the server's channels hold. Direct messages aren't counted.",
+      },
+      {
+        kind: "new",
+        area: "servers",
+        text: "When a Gryt Cloud plan lapses, the server knows when it turns read-only, pauses and is deleted, so the app can show members those dates.",
+      },
+    ],
+  },
+  {
     version: "1.13.0-beta.3",
     date: "2026-11-18",
     channel: "beta",
