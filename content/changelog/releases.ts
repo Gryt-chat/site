@@ -176,6 +176,39 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.16.0-beta.9",
+    date: "2026-11-20",
+    channel: "beta",
+    line: "Beta: Replace with another account moves into each member's menu, and Link Discord only shows when it can work.",
+    changes: [
+      {
+        kind: "changed",
+        area: "servers",
+        text: "Replace with another account is in each member's menu now, next to Kick and Ban. It used to be a view of its own under Members.",
+      },
+      {
+        kind: "fixed",
+        area: "servers",
+        text: "Link Discord in the server menu only shows while that server's Discord bridge is connected. Before, every member saw it on every server, even where it couldn't work.",
+      },
+      {
+        kind: "changed",
+        area: "servers",
+        text: "The whole server name card at the top of the channel list opens the server menu, not just the name.",
+      },
+      {
+        kind: "changed",
+        area: "servers",
+        text: "A paused Gryt Cloud server's Renew button shows the price, and the dialog that explains why says which payment didn't go through and when.",
+      },
+      {
+        kind: "changed",
+        area: "servers",
+        text: "Gryt Cloud's banners, the paused and storage-full screens and the welcome card have bigger buttons and clearer rows.",
+      },
+    ],
+  },
+  {
     version: "1.16.0-beta.8",
     date: "2026-11-19",
     channel: "beta",
