@@ -176,6 +176,34 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.16.0-beta.10",
+    date: "2026-11-20",
+    channel: "beta",
+    line: "Beta: Server settings lists each tab's pages in the sidebar, and Settings is split into four.",
+    changes: [
+      {
+        kind: "changed",
+        area: "servers",
+        text: "In Server settings, the tab you're in lists its pages in the sidebar, like your own settings do. Members, Roles, Moderation and Integrations no longer have a switch or a list of rows inside the page.",
+      },
+      {
+        kind: "changed",
+        area: "servers",
+        text: "The server's Settings tab is split into Profile, Uploads, Chat and Joining.",
+      },
+      {
+        kind: "changed",
+        area: "settings",
+        text: "A dialog opened on top of another one blurs and darkens the one underneath, so it's clear which one you're in.",
+      },
+      {
+        kind: "fixed",
+        area: "servers",
+        text: "Free up space's Delete button always works. When no files match, it tells you instead of sitting greyed out.",
+      },
+    ],
+  },
+  {
     version: "1.16.0-beta.9",
     date: "2026-11-20",
     channel: "beta",
