@@ -176,6 +176,32 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.16.0-beta.11",
+    date: "2026-11-23",
+    channel: "beta",
+    line: "Beta: push to mute, sounds when people join or leave, and screen shares that reach 60 fps.",
+    changes: [
+      { kind: "new", area: "voice", text: "Push to mute. Hold a key or mouse button and your mic goes quiet until you let go. Set it under Hotkeys while you're on voice activity." },
+      { kind: "new", area: "voice", text: "A short sound plays when someone joins or leaves your voice channel. The join and leave sounds are clearer and louder, and there's a sound when a call can't connect." },
+      { kind: "new", area: "chat", text: "Paste a Twitch channel link into emoji import to get that channel's BetterTTV emotes." },
+      { kind: "new", area: "settings", text: "Quit Gryt is in the account menu in the desktop app, for when there's no tray to quit from." },
+      { kind: "changed", area: "servers", text: "Add a server asks first whether you're joining one or making your own." },
+      { kind: "changed", area: "servers", text: "When a Gryt Cloud server doesn't answer, Gryt says whether it was closed, paused or is down." },
+      { kind: "changed", area: "voice", text: "The noise gate starts at 50 for anyone who hasn't moved it, so background noise doesn't open the mic." },
+      { kind: "changed", area: "chat", text: "Link embeds and pictures get bigger in windows 1500 px wide and up, which includes a 1080p screen at 125%." },
+      { kind: "fixed", area: "voice", text: "A screen share picked at 60 fps is sent at 60. The first shared window was held to 30." },
+      { kind: "fixed", area: "voice", text: "Turning experimental voice off during a call no longer leaves you hearing nobody." },
+      { kind: "fixed", area: "voice", text: "On experimental voice, people who are connected no longer show the connecting spinner, and quiet people no longer look like their mic is live." },
+      { kind: "fixed", area: "voice", text: "Someone who rejoined while you were looking at another server is no longer heard twice." },
+      { kind: "fixed", area: "voice", text: "Changing the voice preset no longer crashes the app." },
+      { kind: "fixed", area: "voice", text: "The computer doesn't go to sleep during a voice call." },
+      { kind: "fixed", area: "chat", text: "Right-clicking the message box opens Cut, Copy and Paste in the desktop app." },
+      { kind: "fixed", area: "chat", text: "The emoji button closes the picker it opened, and it sits centred in the message box." },
+      { kind: "fixed", area: "servers", text: "Leaving a server takes it off the sidebar straight away, and a Gryt Cloud server you own shows up without restarting." },
+      { kind: "fixed", area: "settings", text: "Signing in through your own identity service goes straight back to the desktop app." },
+    ],
+  },
+  {
     version: "1.16.0-beta.10",
     date: "2026-11-20",
     channel: "beta",
