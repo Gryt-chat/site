@@ -8060,6 +8060,14 @@ export const server: ReleaseLine[] = [
  */
 export const voice: ReleaseLine[] = [
   {
+    version: "1.1.1",
+    date: "2026-11-23",
+    line: "Watching a screen share no longer crashes the voice server built into the Windows desktop app.",
+    changes: [
+      { kind: "fixed", area: "voice", text: "The voice server is built with Go 1.26.1. The copy inside the Windows desktop app was built with 1.26.0, which crashed it as soon as someone started watching a screen share." },
+    ],
+  },
+  {
     version: "1.1.0",
     date: "2026-11-23",
     line: "The voice server can carry people from a linked Discord voice channel and takes screen shares up to 4K at 240 fps. Every new option is off unless you set it, so upgrading changes nothing for you.",
