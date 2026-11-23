@@ -199,6 +199,7 @@ export const app: ReleaseLine[] = [
       { kind: "fixed", area: "chat", text: "The emoji button closes the picker it opened, and it sits centred in the message box." },
       { kind: "fixed", area: "servers", text: "Leaving a server takes it off the sidebar straight away, and a Gryt Cloud server you own shows up without restarting." },
       { kind: "fixed", area: "settings", text: "Signing in through your own identity service goes straight back to the desktop app." },
+      { kind: "fixed", area: "servers", text: "On a device with no servers yet, your first Gryt Cloud server opens instead of an empty list of DMs." },
     ],
   },
   {
