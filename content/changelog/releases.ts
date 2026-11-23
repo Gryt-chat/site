@@ -176,6 +176,21 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.16.0-beta.12",
+    date: "2026-11-23",
+    channel: "beta",
+    line: "Beta: hiding a DM is one click, video avatars show next to messages, and the Gryt Cloud welcome turns up.",
+    changes: [
+      { kind: "changed", area: "chat", text: "Hiding a direct message takes it out of the list straight away, with Undo in case it was a slip. There's no Hidden list: message them again, or wait for them to write, and it's back." },
+      { kind: "changed", area: "settings", text: "The account menu shows your whole email address, so you can tell two accounts apart." },
+      { kind: "changed", area: "settings", text: "Quit Gryt in the account menu only shows on Linux. Windows and macOS have it in the tray and the dock." },
+      { kind: "changed", area: "settings", text: "A bug report includes the last two minutes of the call before the current one, since that's usually the one that went wrong." },
+      { kind: "fixed", area: "chat", text: "A video avatar shows next to your messages. It showed your first letter there." },
+      { kind: "fixed", area: "servers", text: "Open in Gryt on a server you already have opens it, rather than an invite saying you're already a member." },
+      { kind: "fixed", area: "servers", text: "The welcome for a new Gryt Cloud server shows up when you open it from the console." },
+    ],
+  },
+  {
     version: "1.16.0-beta.11",
     date: "2026-11-23",
     channel: "beta",
