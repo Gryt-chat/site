@@ -176,6 +176,43 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.16.0",
+    date: "2026-11-23",
+    line: "Bring a Discord server over to Gryt and keep the two in step, see what takes space on your server, and mute with a key in voice.",
+    changes: [
+      { kind: "new", area: "servers", text: "Server settings has a Discord tab for the owner. Make a Discord app, paste its ID and bot token, and invite the bot. Then every channel comes over with its history, files, threads, reactions, pins, roles and custom emoji, and new messages keep flowing one way or both. You pick which channels and people sync. It needs a server on 1.13.0 or newer." },
+      { kind: "new", area: "servers", text: "On a server that already has channels, the Discord tab suggests where each Discord channel goes, and you can change any of them before the copy starts." },
+      { kind: "new", area: "servers", text: "Link Discord in the server menu connects your Discord account, so your old Discord messages show under your name. It only shows while that server's bridge is connected. People who are only on Discord get their own section in the member list." },
+      { kind: "new", area: "servers", text: "Server settings › Storage shows how much space your server uses, its biggest channels and files, and every file people have posted. You can sort them, open one in the lightbox, jump to its message, and delete one or many. Free up space deletes old or big files in one go. It needs a server on 1.13.0 or newer." },
+      { kind: "new", area: "chat", text: "A file that was deleted leaves its message in place, with the file's name struck through and Deleted next to it." },
+      { kind: "new", area: "servers", text: "Server settings › Uploads has a Videos in chat choice: original quality, up to 1080p at 60 fps, or 720p at 30 fps. It needs a server on 1.13.0 or newer." },
+      { kind: "new", area: "servers", text: "The first time you own a server, the guide owl shows you where its name, who can join, roles and uploads are. Show me around in Server settings › Overview plays it again." },
+      { kind: "new", area: "servers", text: "Replace a custom emoji from Server settings › Emojis. Everyone gets the new picture straight away, in old messages and reactions too." },
+      { kind: "changed", area: "servers", text: "Server settings has nine tabs instead of seventeen, and Overview comes first. The tab you're in lists its pages in the sidebar, Replace with another account is in each member's menu, and Settings is split into Profile, Uploads, Chat and Joining." },
+      { kind: "changed", area: "servers", text: "Add a server asks first whether you're joining one or making your own." },
+      { kind: "new", area: "voice", text: "Push to mute. Hold a key or mouse button and your mic goes quiet until you let go. Set it under Hotkeys while you're on voice activity." },
+      { kind: "new", area: "voice", text: "A short sound plays when someone joins or leaves your voice channel. The join and leave sounds are clearer and louder, and there's a sound when a call can't connect." },
+      { kind: "changed", area: "voice", text: "The noise gate starts at 50 for anyone who hasn't moved it, so background noise doesn't open the mic." },
+      { kind: "changed", area: "settings", text: "The Experimental voice connection setting says it plainly: it's Gryt's own voice layer instead of WebRTC, and it's experimental." },
+      { kind: "fixed", area: "voice", text: "A screen share picked at 60 fps is sent at 60. The first shared window was held to 30." },
+      { kind: "fixed", area: "voice", text: "On experimental voice, turning it off during a call no longer leaves you hearing nobody, connected people no longer show the connecting spinner, and someone who rejoined while you were on another server is no longer heard twice." },
+      { kind: "fixed", area: "voice", text: "Changing the voice preset no longer crashes the app, and the computer doesn't go to sleep during a voice call." },
+      { kind: "new", area: "chat", text: "Click a picture or video waiting in the message box to open it full size before you send it. Arrow keys or a swipe move between them, and Escape closes it." },
+      { kind: "new", area: "chat", text: "Paste a Twitch channel link into emoji import to get that channel's BetterTTV emotes." },
+      { kind: "changed", area: "chat", text: "Hiding a direct message takes it out of the list straight away, with Undo in case it was a slip. Message them again, or wait for them to write, and it's back." },
+      { kind: "changed", area: "chat", text: "A new device you sign in on gets the older messages in your encrypted DMs, not only the ones from after it joined." },
+      { kind: "changed", area: "chat", text: "Link embeds and pictures get bigger in windows 1500 px wide and up, which includes a 1080p screen at 125%." },
+      { kind: "fixed", area: "chat", text: "A video avatar shows next to your messages. It showed your first letter there." },
+      { kind: "fixed", area: "chat", text: "Right-clicking the message box opens Cut, Copy and Paste in the desktop app, and the emoji button closes the picker it opened." },
+      { kind: "fixed", area: "chat", text: "A message that's only a typed smiley, like :D, is as big as one picked from the emoji menu." },
+      { kind: "new", area: "settings", text: "Quit Gryt is in the account menu on Linux, where there's no tray to quit from. The menu also shows your whole email address." },
+      { kind: "new", area: "settings", text: "Edit my card shows your row in the member list under the card preview, the way the list draws it." },
+      { kind: "changed", area: "settings", text: "A bug report includes the last two minutes of the call before the current one, since that's usually the one that went wrong." },
+      { kind: "fixed", area: "settings", text: "Signing in through your own identity service goes straight back to the desktop app." },
+      { kind: "fixed", area: "servers", text: "Open in Gryt on a server you already have opens it, rather than an invite saying you're already a member. Leaving a server takes it off the sidebar straight away, and joining your first server opens that server instead of your last direct message." },
+    ],
+  },
+  {
     version: "1.16.0-beta.12",
     date: "2026-11-23",
     channel: "beta",
@@ -6032,6 +6069,22 @@ export const app: ReleaseLine[] = [
  */
 export const server: ReleaseLine[] = [
   {
+    version: "1.13.0",
+    date: "2026-11-23",
+    line: "The server can copy a Discord server over and keep both sides in step, owners can see what takes space and delete files, and chat videos keep their quality. Upgrading needs no config changes.",
+    changes: [
+      { kind: "new", area: "servers", text: "A Discord bridge. Link a Discord app and the server copies its channels, history, threads, roles and emoji, then keeps both sides in step: messages, edits, deletes, pins and reactions go both ways. People in a linked Discord voice channel and a Gryt voice channel can hear each other, which needs voice server 1.1.0. One Discord app links to one Gryt server." },
+      { kind: "new", area: "servers", text: "Owners choose which channels and people sync. Members connect their own Discord account with /link on the bot, and /forget-me takes it back." },
+      { kind: "new", area: "servers", text: "Owners can see what takes space: the biggest channels and files, and every file posted. They can delete one or many, or free up space in one go. The owner also sees how many messages the channels hold." },
+      { kind: "changed", area: "chat", text: "Videos posted in chat aren't shrunk to 720p any more. A video everyone's devices can play is kept as sent, and others are converted at full size. Owners can pick 1080p at 60 fps or 720p at 30 fps instead. It needs Media Worker 1.6.0." },
+      { kind: "new", area: "chat", text: "Emoji import takes a Twitch channel and brings in its BetterTTV emotes." },
+      { kind: "fixed", area: "chat", text: "Deleting a channel deletes its messages, threads and read markers too. Before, they stayed behind, and the old messages came back if every channel was deleted." },
+      { kind: "fixed", area: "notifications", text: "A new device asking to open your messages stays waiting for ten minutes, and tapping its notification on the phone opens the request instead of your DMs." },
+      { kind: "new", area: "self-hosting", text: "A host can export a whole server (database, identity key and uploads) to one file and import it into an empty data folder, to move it or bring one in." },
+      { kind: "changed", area: "self-hosting", text: "Nothing to change when you upgrade. The database only gains new tables and columns, nothing is removed, and no new setting is required." },
+    ],
+  },
+  {
     version: "1.13.0-beta.8",
     date: "2026-11-19",
     channel: "beta",
@@ -8007,6 +8060,20 @@ export const server: ReleaseLine[] = [
  */
 export const voice: ReleaseLine[] = [
   {
+    version: "1.1.0",
+    date: "2026-11-23",
+    line: "The voice server can carry people from a linked Discord voice channel and takes screen shares up to 4K at 240 fps. Every new option is off unless you set it, so upgrading changes nothing for you.",
+    changes: [
+      { kind: "new", area: "voice", text: "The Gryt server can add voice members it speaks for, such as people in a linked Discord voice channel. They hear the room, and the people on Discord don't hear each other." },
+      { kind: "changed", area: "voice", text: "Video caps are raised for screen shares up to 4K at 240 fps, and the UDP socket has room for a whole keyframe, which stops lost pieces on Windows." },
+      { kind: "new", area: "self-hosting", text: "VIDEO_TRANSPORT=true turns on an experimental video connection of Gryt's own, next to the voice one. It's off by default." },
+      { kind: "new", area: "self-hosting", text: "SFU_SERVERS_FILE names a file of server IDs and secrets. When it's set, only those servers may register, which helps an SFU shared by several servers. Unset, any server can register as before." },
+      { kind: "new", area: "self-hosting", text: "Two metrics count the media in and out per server, for sharing one SFU between several." },
+      { kind: "fixed", area: "voice", text: "A viewer who never got the offer for a share, because it came right after a renegotiation, gets it again after five seconds instead of never seeing the share." },
+      { kind: "fixed", area: "self-hosting", text: "With ICE_ADVERTISE_IP set, an SFU in a container on several Docker networks answers on one socket, so calls connect there." },
+    ],
+  },
+  {
     version: "1.1.0-beta.1",
     date: "2026-11-18",
     channel: "beta",
@@ -8236,6 +8303,14 @@ export const voice: ReleaseLine[] = [
  * dependency bump gets a line here and would not elsewhere.
  */
 export const images: ReleaseLine[] = [
+  {
+    version: "1.6.0",
+    date: "2026-11-23",
+    line: "Chat videos follow the server's Video uploads setting instead of always being shrunk to 720p at 30 fps.",
+    changes: [
+      { kind: "changed", area: "chat", text: "A chat video your viewers can play is kept as sent, with its location and other hidden data removed. Others are converted to AV1 at up to 2560 px and 60 fps, or smaller if the owner picks it. It needs server 1.13.0." },
+    ],
+  },
   {
     version: "1.6.0-beta.1",
     date: "2026-11-18",
