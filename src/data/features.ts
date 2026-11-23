@@ -50,7 +50,6 @@ export interface Milestone {
 /** In progress first, then planned. No dates, on purpose. */
 export const upcoming: UpcomingFeature[] = [
   { area: 'phone', status: 'In progress', title: 'Phone apps in the stores', text: 'Public on the App Store and Google Play, not just for testers.' },
-  { area: 'servers', status: 'In progress', title: 'Move from Discord', text: 'A bot that imports a server for you, and a bridge so both sides can talk while a community moves.' },
   { area: 'privacy', status: 'Planned', title: 'Encrypted private channels', text: 'The same encryption as direct messages, for small private groups.' },
   { area: 'servers', status: 'Planned', title: 'Events', text: 'Schedule a game night and let people say they’re coming.' },
   { area: 'hosting', status: 'Planned', title: 'Gryt Cloud', text: 'Your own server, always online. We run it for you, if you’d rather not run one.' },
@@ -61,6 +60,19 @@ export const upcoming: UpcomingFeature[] = [
 
 /** Newest line first. 1.4 and 1.8 never had a stable release, so they aren't here. */
 export const featureLines: FeatureLine[] = [
+  {
+    version: '1.16',
+    features: [
+      { area: 'servers', month: 'Nov 2026', title: 'Move from Discord', text: 'Link a Discord server and its channels, history, threads, roles and emoji come over. Both sides keep talking while the community moves, voice included.' },
+      { area: 'hosting', month: 'Nov 2026', title: 'See what takes space', text: 'Owners see the biggest channels and files, sort every file posted, and delete one or many to free up space.' },
+      { area: 'hosting', month: 'Nov 2026', title: 'Chat videos at the quality you choose', text: 'A server keeps videos as sent, or holds them to 1080p at 60 fps or 720p at 30 fps.' },
+      { area: 'voice', month: 'Nov 2026', title: 'Push to mute', text: 'Hold a key or mouse button and your mic goes quiet until you let go.' },
+      { area: 'voice', month: 'Nov 2026', title: 'Sounds for joining and leaving', text: 'A short sound plays when someone joins or leaves your voice channel, and when a call can’t connect.' },
+      { area: 'chat', month: 'Nov 2026', title: 'Look before you send', text: 'Click a picture or video waiting in the message box to see it full size, and move between them with the arrow keys.' },
+      { area: 'chat', month: 'Nov 2026', title: 'Twitch emotes', text: 'Paste a Twitch channel link into emoji import to get that channel’s BetterTTV emotes.' },
+      { area: 'servers', month: 'Nov 2026', title: 'Replace an emoji', text: 'Swap a custom emoji’s picture in place, and old messages and reactions show the new one.' },
+    ],
+  },
   {
     version: '1.15',
     features: [
