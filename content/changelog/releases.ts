@@ -176,6 +176,14 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.16.1",
+    date: "2026-11-23",
+    line: "Watching a screen share no longer crashes a server you host from the Windows desktop app.",
+    changes: [
+      { kind: "fixed", area: "voice", text: "A server hosted from the Windows desktop app dropped everyone from voice as soon as someone started watching a screen share. It now ships voice server 1.1.1, which fixes that." },
+    ],
+  },
+  {
     version: "1.16.0",
     date: "2026-11-23",
     line: "Bring a Discord server over to Gryt and keep the two in step, see what takes space on your server, and mute with a key in voice.",
