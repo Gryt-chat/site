@@ -176,6 +176,17 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.16.2-beta.1",
+    date: "2026-11-24",
+    channel: "beta",
+    line: "Beta: pick a picture for a new server before you create it, and stuck DMs can start over.",
+    changes: [
+      { kind: "new", area: "servers", text: "When you create a server on this computer, click its picture to pick one and frame it before you hit Create." },
+      { kind: "changed", area: "servers", text: "Add a server has its back button in the top left. In the desktop app, Join no longer offers the community server, since it's already on the start screen." },
+      { kind: "fixed", area: "chat", text: "A direct message where every device that was in it has since been removed can start over, so you can write in it again. The server needs 1.13.1-beta.1 or newer." },
+    ],
+  },
+  {
     version: "1.16.1",
     date: "2026-11-23",
     line: "Watching a screen share no longer crashes a server you host from the Windows desktop app.",
