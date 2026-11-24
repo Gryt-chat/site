@@ -176,6 +176,16 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.16.2",
+    date: "2026-11-24",
+    line: "Pick a picture for a new server before you create it, and stuck DMs can start over.",
+    changes: [
+      { kind: "new", area: "servers", text: "When you create a server on this computer, click its picture to pick one and frame it before you hit Create." },
+      { kind: "changed", area: "servers", text: "Add a server has its back button in the top left. In the desktop app, Join no longer offers the community server, since it's already on the start screen." },
+      { kind: "fixed", area: "chat", text: "A direct message where every device that was in it has since been removed can start over, so you can write in it again. The server needs 1.13.1 or newer." },
+    ],
+  },
+  {
     version: "1.16.2-beta.1",
     date: "2026-11-24",
     channel: "beta",
@@ -6087,6 +6097,14 @@ export const app: ReleaseLine[] = [
  * So a reader here is usually somebody deciding whether to pull a new image.
  */
 export const server: ReleaseLine[] = [
+  {
+    version: "1.13.1",
+    date: "2026-11-24",
+    line: "A direct message nobody could write in any more can start over. Upgrading needs no config changes.",
+    changes: [
+      { kind: "fixed", area: "chat", text: "When every device that was in a direct message had been removed, nobody could add a new one, so the DM was stuck for good. The server now lets the app start it over, including DMs from before mid-November. It needs app 1.16.2." },
+    ],
+  },
   {
     version: "1.13.0",
     date: "2026-11-23",
