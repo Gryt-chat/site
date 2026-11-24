@@ -176,6 +176,16 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.16.3",
+    date: "2026-11-24",
+    line: "Phones can show the first line of a direct message, and the server name in a DM opens that server.",
+    changes: [
+      { kind: "new", area: "notifications", text: "A direct message you send now carries its first line, sealed on your computer to the other person's phone, so their notification can show it. The server never sees it. Their phone needs the newest Gryt, and the server needs 1.13.2 or newer." },
+      { kind: "changed", area: "chat", text: "Click the server name next to a direct message's title to open that server." },
+      { kind: "fixed", area: "servers", text: "When a server you run on this computer crashes, the error says why, and Server logs shows even while it's stopped. The logs are also saved to a file in the app's logs folder." },
+    ],
+  },
+  {
     version: "1.16.3-beta.1",
     date: "2026-11-24",
     channel: "beta",
