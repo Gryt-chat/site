@@ -176,6 +176,14 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.16.4",
+    date: "2026-11-24",
+    line: "Direct messages show their first line on the other person's phone after you restart Gryt too.",
+    changes: [
+      { kind: "fixed", area: "notifications", text: "After Gryt was restarted, a direct message you sent went out without its first line, so the other person's phone only said \"New direct message\". It carries the line again." },
+    ],
+  },
+  {
     version: "1.16.3",
     date: "2026-11-24",
     line: "Phones can show the first line of a direct message, and the server name in a DM opens that server.",
