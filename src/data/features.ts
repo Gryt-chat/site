@@ -64,6 +64,7 @@ export const featureLines: FeatureLine[] = [
     version: '1.16',
     features: [
       { area: 'servers', month: 'Nov 2026', title: 'Move from Discord', text: 'Link a Discord server and its channels, history, threads, roles and emoji come over. Both sides keep talking while the community moves, voice included.' },
+      { area: 'hosting', month: 'Nov 2026', title: 'A picture for your new server', text: 'Pick and frame a picture while you create a server on your computer, before it starts.' },
       { area: 'hosting', month: 'Nov 2026', title: 'See what takes space', text: 'Owners see the biggest channels and files, sort every file posted, and delete one or many to free up space.' },
       { area: 'hosting', month: 'Nov 2026', title: 'Chat videos at the quality you choose', text: 'A server keeps videos as sent, or holds them to 1080p at 60 fps or 720p at 30 fps.' },
       { area: 'voice', month: 'Nov 2026', title: 'Push to mute', text: 'Hold a key or mouse button and your mic goes quiet until you let go.' },
