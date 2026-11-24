@@ -176,6 +176,16 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.16.3-beta.1",
+    date: "2026-11-24",
+    channel: "beta",
+    line: "Beta: phones can show the first line of a direct message, and the server name in a DM opens that server.",
+    changes: [
+      { kind: "new", area: "notifications", text: "A direct message you send now carries its first line, sealed on your computer to the other person's phone, so their notification can show it. The server never sees it. Their phone needs the newest Gryt, and the server needs 1.13.2-beta.1 or newer." },
+      { kind: "changed", area: "chat", text: "Click the server name next to a direct message's title to open that server." },
+    ],
+  },
+  {
     version: "1.16.2",
     date: "2026-11-24",
     line: "Pick a picture for a new server before you create it, and stuck DMs can start over.",
