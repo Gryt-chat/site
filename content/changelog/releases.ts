@@ -6108,6 +6108,15 @@ export const app: ReleaseLine[] = [
  */
 export const server: ReleaseLine[] = [
   {
+    version: "1.13.2",
+    date: "2026-11-24",
+    line: "Phone notifications for direct messages can show the message's first line. Upgrading needs no config changes.",
+    changes: [
+      { kind: "new", area: "notifications", text: "The server passes on a direct message's first line to the other person's phone, so the notification can show it. The sender's app seals it to that phone, and the server can't read it. It needs app 1.16.3, in beta now, on the sending side and the newest Gryt on the phone." },
+      { kind: "changed", area: "self-hosting", text: "Nothing to change when you upgrade. The database only gains three columns." },
+    ],
+  },
+  {
     version: "1.13.1",
     date: "2026-11-24",
     line: "A direct message nobody could write in any more can start over. Upgrading needs no config changes.",
