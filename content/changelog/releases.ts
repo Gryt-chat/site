@@ -181,6 +181,7 @@ export const app: ReleaseLine[] = [
     channel: "beta",
     line: "Beta: a channel's poster folds into the header as you scroll, and audio gets its own player.",
     changes: [
+      { kind: "new", area: "chat", text: "In a DM's info panel, click a picture or video under Shared files to go through every one in the conversation in the lightbox. Each opens on this device as you get to it." },
       { kind: "new", area: "chat", text: "Audio in chat plays in Gryt's own player instead of the browser's. It has the video player's seek bar and volume, plus Download, playback speed and Loop under the three dots. Starting one pauses any other." },
       { kind: "changed", area: "chat", text: "The poster and the header strip don't show at once anymore. While the poster is on screen the header is plain, and as you scroll past it the strip rises in from its bottom edge." },
       { kind: "changed", area: "chat", text: "The chat panel and member list have rounder corners, and the header, its pills and the poster nest inside them." },
