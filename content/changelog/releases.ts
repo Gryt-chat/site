@@ -176,6 +176,16 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.16.5",
+    date: "2026-11-26",
+    line: "Notifications show up on Windows, and a shared picture in a DM opens full size.",
+    changes: [
+      { kind: "fixed", area: "notifications", text: "On Windows the taskbar flashed for a new message, but no notification showed up, because Gryt never told Windows its app ID. It does now, which is what Windows needs before it shows one." },
+      { kind: "changed", area: "chat", text: "Click a picture under Shared files in a DM to open it full size. Any other file takes you to the message it came in, and right-click has Go to message." },
+      { kind: "fixed", area: "settings", text: "A theme font from Google Fonts that comes in only one weight, like Lobster, loads now. Before, it also stopped the theme's other fonts from loading." },
+    ],
+  },
+  {
     version: "1.16.4",
     date: "2026-11-24",
     line: "Direct messages show their first line on the other person's phone after you restart Gryt too.",
