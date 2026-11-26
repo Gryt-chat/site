@@ -176,6 +176,20 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.16.6-beta.1",
+    date: "2026-11-26",
+    channel: "beta",
+    line: "Beta: channels can have a poster and a colour, and with no servers yet you can join or create one right from the start screen.",
+    changes: [
+      { kind: "new", area: "chat", text: "Anyone who can manage channels can give a channel a poster and a colour. The poster shows behind the channel's header and at the start of its history, and the colour tints its icon. The server needs 1.13.3-beta.1 or newer." },
+      { kind: "new", area: "servers", text: "With no servers yet, the start screen says Welcome to Gryt and lets you paste an invite, create a server on this computer or on Gryt Cloud, or join the community server, without opening a dialog first." },
+      { kind: "changed", area: "servers", text: "Creating a server on this computer says which step it's on. On Windows, if it takes a while, it reminds you to allow Gryt when Windows asks about network access." },
+      { kind: "changed", area: "servers", text: "The server you have open gets a ring around it in the server list." },
+      { kind: "changed", area: "settings", text: "Settings opens faster. It only loads the page you land on, not every page at once." },
+      { kind: "fixed", area: "chat", text: "On Windows the thread panel's close button sat right under the window's own, so it looked like there were two. The panel now sits inside the chat panel with a border." },
+    ],
+  },
+  {
     version: "1.16.5",
     date: "2026-11-26",
     line: "Notifications show up on Windows, and a shared picture in a DM opens full size.",
