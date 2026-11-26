@@ -176,6 +176,15 @@ export const securityNotices: SecurityNotice[] = [
  */
 export const app: ReleaseLine[] = [
   {
+    version: "1.16.6-beta.3",
+    date: "2026-11-26",
+    channel: "beta",
+    line: "Beta: Edit channel opens as a full dialog with a sidebar, like Settings.",
+    changes: [
+      { kind: "changed", area: "servers", text: "Edit channel got too long and narrow, so it's now the same size as Settings, with pages in a sidebar: Overview, Look, Voice, Notifications and Permissions. Look shows the poster big, with the patterns in their own column. Everything still saves as you change it." },
+    ],
+  },
+  {
     version: "1.16.6-beta.2",
     date: "2026-11-26",
     channel: "beta",
